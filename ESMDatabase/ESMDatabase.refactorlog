@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="31159cc4-4a2f-4175-9cf0-5cd87bbed7f6" ChangeDateTime="01/30/2023 05:41:28">
+    <Property Name="ElementName" Value="[dbo].[ACCOUNT].[CreateDate]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ACCOUNT]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CreatedDate" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f223feda-16df-418c-9f87-bbf23b7613cd" ChangeDateTime="01/30/2023 05:58:10">
+    <Property Name="ElementName" Value="[dbo].[CART].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[CART]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AuthUserID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e673152b-cc53-42e0-99e5-2c7c9eb33c97" ChangeDateTime="01/30/2023 15:28:40">
+    <Property Name="ElementName" Value="[dbo].[ORDER].[Cashier]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ORDER]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Cash" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="032a2cb9-8b03-4742-8fe3-9be223035482" ChangeDateTime="02/02/2023 07:15:54">
+    <Property Name="ElementName" Value="[dbo].[ACCOUNT].[AuthUserId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ACCOUNT]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Username" />
+  </Operation>
+</Operations>
