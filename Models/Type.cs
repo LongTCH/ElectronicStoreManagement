@@ -6,15 +6,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Models;
 
-[Table("ATTRIBUTE")]
-public partial class Attribute
+[Table("TYPE")]
+public partial class Type
 {
     [Key]
     public int Id { get; set; }
 
     [StringLength(50)]
-    public string Name { get; set; } = null!;
+    public string TypeName { get; set; } = null!;
 
-    [InverseProperty("Attribute")]
-    public virtual ICollection<ProductAttribute> ProductAttributes { get; } = new List<ProductAttribute>();
+    [InverseProperty("Type")]
+    public virtual ICollection<Product> Products { get; } = new List<Product>();
 }

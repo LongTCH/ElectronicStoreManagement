@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Identity.Client;
 using Models;
-using Models.DbContexts;
-using Models.Services;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -26,7 +24,7 @@ namespace StartUps
         public App()
         {
             IServiceCollection services = new ServiceCollection();
-            services.AddSingleton<EsmdatabaseDbContextFactory>();
+            services.AddSingleton<ESMDbContext>();
             services.AddScoped<MainViewModel>();
             services.AddSingleton<AccountStore>();
             //services.AddSingleton<PeopleStore>();

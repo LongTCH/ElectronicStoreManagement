@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [dbo].[PRODUCT]
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY(-2147483648, 1), 
+    [TypeID] INT NOT NULL,
     [Name] NVARCHAR(100) NOT NULL, 
     [Price] MONEY NOT NULL, 
     [Discount] MONEY NULL, 
@@ -9,5 +10,6 @@
     [Image_Path] NVARCHAR(200) NULL, 
     [Series] NVARCHAR(50) NULL, 
     [Company] NVARCHAR(50) NOT NULL, 
-    [Need] NVARCHAR(50) NULL
+    [Need] NVARCHAR(50) NULL, 
+    CONSTRAINT [FK_PRODUCT_TYPE] FOREIGN KEY ([TypeID]) REFERENCES [TYPE]([Id])
 )
