@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="PublishLocations\ESMDatabase.publish.xml" />
+    <None Include="Script1.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\ACCOUNT.sql" />

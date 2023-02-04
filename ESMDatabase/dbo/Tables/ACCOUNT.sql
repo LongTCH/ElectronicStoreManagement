@@ -18,3 +18,7 @@
     CONSTRAINT [PK_ACCOUNT] PRIMARY KEY ([Id]) 
     
 )
+
+GO
+
+CREATE INDEX [IX_ACCOUNT_Username] ON [dbo].[ACCOUNT] ([Username])

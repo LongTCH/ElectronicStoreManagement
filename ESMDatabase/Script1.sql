@@ -1,0 +1,1 @@
+﻿Scaffold-DbContext "Data Source =.\sqlexpress; Initial Catalog = ESMDatabase; Integrated Security = True; TrustServerCertificate = True" Microsoft.EntityFrameworkCore.SqlServer -OutputDir . -Context "ESMDbContext" -DataAnnotations -Force

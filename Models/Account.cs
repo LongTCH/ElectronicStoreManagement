@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Models;
 
 [Table("ACCOUNT")]
+[Index("Username", Name = "IX_ACCOUNT_Username")]
 public partial class Account
 {
     [Key]
