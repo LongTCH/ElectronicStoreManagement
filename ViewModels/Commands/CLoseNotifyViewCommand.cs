@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,11 +8,11 @@ using ViewModels.Services;
 
 namespace ViewModels.Commands;
 
-public class NavigateCommand : CommandBase
+public class CLoseNotifyViewCommand : CommandBase
 {
     private readonly INavigationService _navigationService;
 
-    public NavigateCommand(INavigationService navigationService)
+    public CLoseNotifyViewCommand(INavigationService navigationService)
     {
         _navigationService = navigationService;
     }

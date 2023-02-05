@@ -6,24 +6,19 @@ using System.Threading.Tasks;
 
 namespace ViewModels.Stores.Navigations;
 
-public class NavigationStore
+public class NavigationStore : IStore
 {
-    private ViewModelBase _currentViewModel;
-    public ViewModelBase CurrentViewModel
+    private ViewModelBase? _currentViewModel;
+    public ViewModelBase? CurrentViewModel
     {
         get => _currentViewModel;
         set
         {
             _currentViewModel?.Dispose();
             _currentViewModel = value;
-            OnCurrentViewModelChanged();
+            CurrentStoreChanged?.Invoke();
         }
     }
 
-    public event Action CurrentViewModelChanged;
-
-    private void OnCurrentViewModelChanged()
-    {
-        CurrentViewModelChanged?.Invoke();
-    }
+    public event Action? CurrentStoreChanged;
 }

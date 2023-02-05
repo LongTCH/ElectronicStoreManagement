@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ViewModels.Stores.Accounts;
 
-public class AccountStore : IAccountStore
+public class AccountStore : IStore
 {
     private Account? _currentAccount;
     public Account? CurrentAccount
@@ -16,14 +16,13 @@ public class AccountStore : IAccountStore
         set
         {
             _currentAccount = value;
-            CurrentAccountChanged?.Invoke();
+            CurrentStoreChanged?.Invoke();
         }
     }
 
     public bool IsLoggedIn => CurrentAccount != null;
 
-    public event Action CurrentAccountChanged;
-
+    public event Action? CurrentStoreChanged;
     public void Logout()
     {
         CurrentAccount = null;

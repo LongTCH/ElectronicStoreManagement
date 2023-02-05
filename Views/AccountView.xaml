@@ -6,9 +6,12 @@
              xmlns:local="clr-namespace:Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <StackPanel>
         <TextBlock Text="AccountView"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center" />
-    </Grid>
+        <TextBlock Text="{Binding Username}" />
+        <TextBlock Text="{Binding FirstName}" />
+        <TextBlock Text="{Binding LastName}" />
+    </StackPanel>
 </UserControl>

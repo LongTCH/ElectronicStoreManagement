@@ -22,8 +22,8 @@ public class MainViewModel : ViewModelBase
         _navigationStore = navigationStore;
         _modalNavigationStore = modalNavigationStore;
 
-        _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
-        _modalNavigationStore.CurrentViewModelChanged += OnCurrentModalViewModelChanged;
+        _navigationStore.CurrentStoreChanged += OnCurrentViewModelChanged;
+        _modalNavigationStore.CurrentStoreChanged += OnCurrentModalViewModelChanged;
     }
 
     private void OnCurrentViewModelChanged()

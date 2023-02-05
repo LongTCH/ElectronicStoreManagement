@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using ViewModels.Commands;
 using ViewModels.Services;
 using ViewModels.Stores.Accounts;
@@ -14,8 +9,9 @@ public class AccountViewModel : ViewModelBase
 {
     private readonly AccountStore _accountStore;
 
-    public string Username => _accountStore.CurrentAccount?.Username;
-    //public string Email => _accountStore.CurrentAccount?.Email;
+    public string? Username => _accountStore.CurrentAccount?.Username;
+    public string? FirstName => _accountStore.CurrentAccount?.FirstName;
+    public string? LastName => _accountStore.CurrentAccount?.LastName;
 
     public ICommand NavigateHomeCommand { get; }
 
@@ -25,7 +21,7 @@ public class AccountViewModel : ViewModelBase
 
         NavigateHomeCommand = new NavigateCommand(homeNavigationService);
 
-        _accountStore.CurrentAccountChanged += OnCurrentAccountChanged;
+        _accountStore.CurrentStoreChanged += OnCurrentAccountChanged;
     }
 
     private void OnCurrentAccountChanged()
@@ -36,7 +32,7 @@ public class AccountViewModel : ViewModelBase
 
     public override void Dispose()
     {
-        _accountStore.CurrentAccountChanged -= OnCurrentAccountChanged;
+        _accountStore.CurrentStoreChanged -= OnCurrentAccountChanged;
 
         base.Dispose();
     }

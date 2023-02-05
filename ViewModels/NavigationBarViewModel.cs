@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Models;
 using System.Windows.Input;
 using ViewModels.Commands;
 using ViewModels.Services;
@@ -13,16 +9,16 @@ namespace ViewModels;
 public class NavigationBarViewModel : ViewModelBase
 {
     private readonly AccountStore _accountStore;
-
+    private readonly ESMDbContext _eSMDbContext;
     public ICommand NavigateLoginCommand { get; }
     public bool IsLoggedIn => _accountStore.IsLoggedIn;
-    public NavigationBarViewModel(AccountStore accountStore,
+    public NavigationBarViewModel(ESMDbContext eSMDbContext, AccountStore accountStore,
             INavigationService loginNavigationService)
     {
+        _eSMDbContext = eSMDbContext;
         _accountStore = accountStore;
         NavigateLoginCommand = new NavigateCommand(loginNavigationService);
-
-        _accountStore.CurrentAccountChanged += OnCurrentAccountChanged;
+        _accountStore.CurrentStoreChanged += OnCurrentAccountChanged;
     }
     private void OnCurrentAccountChanged()
     {
@@ -31,7 +27,7 @@ public class NavigationBarViewModel : ViewModelBase
 
     public override void Dispose()
     {
-        _accountStore.CurrentAccountChanged -= OnCurrentAccountChanged;
+        _accountStore.CurrentStoreChanged -= OnCurrentAccountChanged;
 
         base.Dispose();
     }

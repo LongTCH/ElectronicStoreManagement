@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ViewModels.Stores.Navigations;
 
-public class ModalNavigationStore
+public class ModalNavigationStore : IStore
 {
     private ViewModelBase? _currentViewModel;
     public ViewModelBase? CurrentViewModel
@@ -16,21 +16,16 @@ public class ModalNavigationStore
         {
             _currentViewModel?.Dispose();
             _currentViewModel = value;
-            OnCurrentViewModelChanged();
+            CurrentStoreChanged?.Invoke();
         }
     }
 
     public bool IsOpen => CurrentViewModel != null;
 
-    public event Action? CurrentViewModelChanged;
+    public event Action? CurrentStoreChanged;
 
     public void Close()
     {
         CurrentViewModel = null;
-    }
-
-    private void OnCurrentViewModelChanged()
-    {
-        CurrentViewModelChanged?.Invoke();
     }
 }

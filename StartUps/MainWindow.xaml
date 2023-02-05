@@ -8,6 +8,7 @@
         xmlns:viewmodels="clr-namespace:ViewModels;assembly=ViewModels"
         xmlns:controls="clr-namespace:Views.Controls;assembly=Views"
         xmlns:modalcontrol="clr-namespace:ModalControl;assembly=ModalControl"
+        xmlns:notifycontrols="clr-namespace:Views.NotifyControls;assembly=Views"
         mc:Ignorable="d"
         WindowState="Maximized"
         Title="MainWindow"
@@ -26,6 +27,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewmodels:AccountViewModel}">
                 <views:AccountView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:ErrorViewModel}">
+                <notifycontrols:ErrorView />
             </DataTemplate>
         </Grid.Resources>
         <modalcontrol:Modal Panel.ZIndex="1"

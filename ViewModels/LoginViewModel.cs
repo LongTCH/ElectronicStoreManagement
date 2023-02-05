@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Models;
 using System.Windows.Input;
 using ViewModels.Commands;
 using ViewModels.Services;
@@ -42,8 +38,8 @@ public class LoginViewModel : ViewModelBase
 
     public ICommand LoginCommand { get; }
 
-    public LoginViewModel(AccountStore accountStore, INavigationService loginNavigationService)
+    public LoginViewModel(ESMDbContext eSMDbContext, AccountStore accountStore, INavigationService loginNavigationService, INavigationService openNotifyView)
     {
-        LoginCommand = new LoginCommand(this, accountStore, loginNavigationService);
+        LoginCommand = new LoginCommand(eSMDbContext, this, accountStore, loginNavigationService, openNotifyView);
     }
 }
