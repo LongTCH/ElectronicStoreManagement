@@ -8,20 +8,25 @@ namespace ViewModels;
 
 public class LayoutViewModel : ViewModelBase
 {
-    public NavigationBarViewModel NavigationBarViewModel { get; }
-    public ViewModelBase ContentViewModel { get; }
-
-    public LayoutViewModel(NavigationBarViewModel navigationBarViewModel, ViewModelBase contentViewModel)
+    public LayoutViewModel(ControlBarViewModel controlBarViewModel, 
+        NavigationBarViewModel navigationBarViewModel, 
+        ViewModelBase contentViewModel)
     {
+        ControlBarViewModel = controlBarViewModel;
         NavigationBarViewModel = navigationBarViewModel;
         ContentViewModel = contentViewModel;
     }
+
+    public ControlBarViewModel ControlBarViewModel { get; }
+    public NavigationBarViewModel NavigationBarViewModel { get; }
+    public ViewModelBase ContentViewModel { get; }
+
 
     public override void Dispose()
     {
         NavigationBarViewModel.Dispose();
         ContentViewModel.Dispose();
-
+        ControlBarViewModel.Dispose();
         base.Dispose();
     }
 }

@@ -9,11 +9,14 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <local:NavigationBar Grid.Row="0"
+        <local:ControlBar Grid.Row="0" 
+                          DataContext="{Binding ControlBarViewModel}"/>
+        <local:NavigationBar Grid.Row="1"
                              DataContext="{Binding NavigationBarViewModel}" />
-        <ContentControl Grid.Row="1"
+        <ContentControl Grid.Row="2"
                         MaxWidth="1000"
                         Margin="20"
                         Content="{Binding ContentViewModel}" />

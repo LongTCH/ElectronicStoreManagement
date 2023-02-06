@@ -34,7 +34,8 @@ public partial class App : Application
         return new LayoutNavigationService<HomeViewModel>(
             serviceProvider.GetRequiredService<NavigationStore>(),
             () => serviceProvider.GetRequiredService<HomeViewModel>(),
-            () => serviceProvider.GetRequiredService<NavigationBarViewModel>());
+            () => serviceProvider.GetRequiredService<NavigationBarViewModel>(),
+            ()=>serviceProvider.GetRequiredService<ControlBarViewModel>());
     }
 
     private INavigationService CreateLoginNavigationService(IServiceProvider serviceProvider)
@@ -45,7 +46,8 @@ public partial class App : Application
         return new LayoutNavigationService<LoginViewModel>(
             serviceProvider.GetRequiredService<NavigationStore>(),
             () => serviceProvider.GetRequiredService<LoginViewModel>(),
-            () => serviceProvider.GetRequiredService<NavigationBarViewModel>());
+            () => serviceProvider.GetRequiredService<NavigationBarViewModel>(),
+            () => serviceProvider.GetRequiredService<ControlBarViewModel>());
     }
 
     private INavigationService CreateAccountNavigationService(IServiceProvider serviceProvider)
@@ -53,7 +55,8 @@ public partial class App : Application
         return new LayoutNavigationService<AccountViewModel>(
             serviceProvider.GetRequiredService<NavigationStore>(),
             () => serviceProvider.GetRequiredService<AccountViewModel>(),
-            () => serviceProvider.GetRequiredService<NavigationBarViewModel>());
+            () => serviceProvider.GetRequiredService<NavigationBarViewModel>(),
+            () => serviceProvider.GetRequiredService<ControlBarViewModel>());
     }
     private INavigationService CreateLoginFailNavigationService(IServiceProvider serviceProvider)
     {
@@ -61,4 +64,5 @@ public partial class App : Application
             serviceProvider.GetRequiredService<ModalNavigationStore>(),
             () => serviceProvider.GetRequiredService<ErrorViewModel>());
     }
+    
 }

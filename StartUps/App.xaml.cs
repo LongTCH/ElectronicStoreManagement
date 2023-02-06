@@ -31,6 +31,7 @@ public partial class App : Application
             s.GetRequiredService<AccountStore>(),
             CreateHomeNavigationService(s)));
         services.AddTransient<LoginViewModel>(CreateLoginViewModel);
+        services.AddTransient<ControlBarViewModel>();
         services.AddTransient<NavigationBarViewModel>(CreateNavigationBarViewModel);
         services.AddTransient<HomeViewModel>(s => new HomeViewModel(CreateLoginNavigationService(s)));
         services.AddSingleton<ErrorViewModel>();
@@ -50,6 +51,8 @@ public partial class App : Application
 
         _serviceProvider = services.BuildServiceProvider();
     }
+
+
     protected override void OnStartup(StartupEventArgs e)
     {
         INavigationService initialNavigationService = _serviceProvider.GetRequiredService<INavigationService>();

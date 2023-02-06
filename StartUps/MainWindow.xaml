@@ -11,12 +11,12 @@
         xmlns:notifycontrols="clr-namespace:Views.NotifyControls;assembly=Views"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        WindowState="Maximized"
+        WindowState="Normal"
         Title="MainWindow"
-        Height="1080"
-        Width="1920"
+        Height="450"
+        Width="800"
         WindowStyle="None"
-        Background="Transparent">
+        Background="White">
     <Grid>
         <Grid.Resources>
             <DataTemplate DataType="{x:Type viewmodels:HomeViewModel}">
@@ -36,10 +36,9 @@
             </DataTemplate>
         </Grid.Resources>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*" />
-            <RowDefinition Height="25*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <local:ControlBar Grid.Row="0" />
         <modalcontrol:Modal Panel.ZIndex="1"
                             IsOpen="{Binding IsOpen}">
             <ContentControl Content="{Binding CurrentModalViewModel}" />

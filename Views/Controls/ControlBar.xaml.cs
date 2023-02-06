@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace StartUps
+namespace Views.Controls
 {
     /// <summary>
     /// Interaction logic for ControlBar.xaml
@@ -58,7 +58,7 @@ namespace StartUps
                 window = (FrameworkElement)window.Parent;
             }
             Window w = (Window)window;
-            if (w.WindowState == WindowState.Normal) 
+            if (w.WindowState == WindowState.Normal)
                 w.WindowState = WindowState.Maximized;
             else w.WindowState = WindowState.Normal;
         }

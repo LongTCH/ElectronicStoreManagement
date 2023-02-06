@@ -30,8 +30,4 @@ public partial class App : Application
             serviceProvider.GetRequiredService<AccountStore>(),
             CreateLoginNavigationService(serviceProvider));
     }
-    //private LoginFailViewModel CreateLoginFailViewModel(IServiceProvider serviceProvider)
-    //{
-    //    return new LoginFailViewModel(serviceProvider.GetRequiredService<CloseModalNavigationService>());
-    //}
 }
