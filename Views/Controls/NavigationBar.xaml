@@ -4,105 +4,134 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Views.Controls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:core="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d"
              d:DesignHeight="450"
-             d:DesignWidth="800">
-    <UserControl.Resources>
-        <Style TargetType="Button">
-            <Setter Property="Background"
-                    Value="Transparent" />
-            <Setter Property="Foreground"
-                    Value="White" />
-            <Setter Property="BorderThickness"
-                    Value="0" />
-            <Setter Property="Cursor"
-                    Value="Hand" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <TextBlock Text="{TemplateBinding Content}"
-                                   VerticalAlignment="Center"
-                                   Foreground="Black"
-                                   FontWeight="Bold" />
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver"
-                         Value="True">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="Button">
-                                <TextBlock Text="{TemplateBinding Content}"
-                                           TextDecorations="Underline"
-                                           Foreground="Red" />
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </UserControl.Resources>
+             d:DesignWidth="800"
+             Background="White">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0"
-              Background="Green">
-            <TextBlock Text="Electronic Store"
-                       FontSize="60"
-                       FontFamily="Algerian"
-                       HorizontalAlignment="Center" />
-        </Grid>
-        <Grid Grid.Row="1"
-              Background="LightGreen">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="5*" />
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
-            </Grid.ColumnDefinitions>
-            <Button Grid.Column="0"
-                    Margin="30,0,0,0"
-                    Content="Home" />
-            <Grid Grid.Column="1">
-                <TextBox VerticalAlignment="Center"
-                         HorizontalAlignment="Stretch"
-                         x:Name="SearchTermTextBox"
-                         Margin="5" />
-                <TextBlock IsHitTestVisible="False"
-                           Text="Enter Search Term Here"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Left"
-                           Margin="10,0,0,0"
-                           Foreground="DarkGray">
-                    <TextBlock.Style>
-                        <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="Visibility"
-                                    Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Text, ElementName=SearchTermTextBox}"
-                                             Value="">
-                                    <Setter Property="Visibility"
-                                            Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style></TextBlock>
-            </Grid>
-            <Button Grid.Column="2"
-                    HorizontalContentAlignment="Left"
-                    Content="Search" />
-            <Button Grid.Column="3"
-                    Content="Login"
-                    Command="{Binding NavigateLoginCommand}" />
-            <Button Grid.Column="4"
-                    Content="Notify" />
-            <Button Grid.Column="5"
-                    Content="Cart" />
-        </Grid>
+        <ListView>
+            <ListViewItem x:Name="listViewItem"
+                          Height="60"
+                          RenderTransformOrigin="0.5,0.5">
+                <ListViewItem.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform />
+                        <SkewTransform />
+                        <RotateTransform />
+                        <TranslateTransform />
+                    </TransformGroup>
+                </ListViewItem.RenderTransform>
+                <StackPanel Orientation="Horizontal"
+                            Margin="10 0">
+                    <materialDesign:PackIcon Kind="Home"
+                                             Width="30"
+                                             Height="30"
+                                             VerticalAlignment="Center"
+                                             Margin="5" />
+                    <TextBlock Text="Home"
+                               Margin="10"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+            </ListViewItem>
+            <ListViewItem x:Name="listViewItem1"
+                          Height="60"
+                          RenderTransformOrigin="0.5,0.5">
+                <ListViewItem.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform />
+                        <SkewTransform />
+                        <RotateTransform />
+                        <TranslateTransform />
+                    </TransformGroup>
+                </ListViewItem.RenderTransform>
+                <StackPanel Orientation="Horizontal"
+                            Margin="10 0">
+                    <materialDesign:PackIcon Kind="AccountSearch"
+                                             Width="30"
+                                             Height="30"
+                                             VerticalAlignment="Center"
+                                             Margin="5" />
+                    <TextBlock Text="Search"
+                               Margin="10"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+            </ListViewItem>
+            <ListViewItem x:Name="listViewItem2"
+                          Height="60"
+                          RenderTransformOrigin="0.5,0.5">
+                <ListViewItem.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform />
+                        <SkewTransform />
+                        <RotateTransform />
+                        <TranslateTransform />
+                    </TransformGroup>
+                </ListViewItem.RenderTransform>
+                <StackPanel Orientation="Horizontal"
+                            Margin="10 0">
+                    <core:Interaction.Triggers>
+                        <core:EventTrigger EventName="MouseLeftButtonDown">
+                            <core:InvokeCommandAction Command="{Binding NavigateLoginCommand}" />
+                        </core:EventTrigger>
+                    </core:Interaction.Triggers>
+                    <materialDesign:PackIcon Kind="Login"
+                                             Width="30"
+                                             Height="30"
+                                             VerticalAlignment="Center"
+                                             Margin="5" />
+                    <TextBlock Text="Login"
+                               Margin="10"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+            </ListViewItem>
+            <ListViewItem x:Name="listViewItem3"
+                          Height="60"
+                          RenderTransformOrigin="0.5,0.5">
+                <ListViewItem.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform />
+                        <SkewTransform />
+                        <RotateTransform />
+                        <TranslateTransform />
+                    </TransformGroup>
+                </ListViewItem.RenderTransform>
+                <StackPanel Orientation="Horizontal"
+                            Margin="10 0">
+                    <materialDesign:PackIcon Kind="Twitter"
+                                             Width="30"
+                                             Height="30"
+                                             VerticalAlignment="Center"
+                                             Margin="5" />
+                    <TextBlock Text="Twitter"
+                               Margin="10"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+            </ListViewItem>
+            <ListViewItem x:Name="listViewItem4"
+                          Height="60"
+                          RenderTransformOrigin="0.5,0.5">
+                <ListViewItem.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform />
+                        <SkewTransform />
+                        <RotateTransform />
+                        <TranslateTransform />
+                    </TransformGroup>
+                </ListViewItem.RenderTransform>
+                <StackPanel Orientation="Horizontal"
+                            Margin="10 0">
+                    <materialDesign:PackIcon Kind="Skype"
+                                             Width="30"
+                                             Height="30"
+                                             VerticalAlignment="Center"
+                                             Margin="5" />
+                    <TextBlock Text="Skype"
+                               Margin="10"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+            </ListViewItem>
+        </ListView>
     </Grid>
 </UserControl>

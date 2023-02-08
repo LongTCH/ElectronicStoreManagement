@@ -4,10 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             
              xmlns:core="http://schemas.microsoft.com/xaml/behaviors"
              FontFamily="Segoe UI Emoji"
              mc:Ignorable="d"
              Height="auto"
+             MaxHeight="350"
              Width="350">
     <materialDesign:Card>
         <Grid VerticalAlignment="Top"
@@ -41,8 +43,12 @@
                     </core:Interaction.Triggers>
                 </PasswordBox>
                 <Button Width="150"
+                        materialDesign:ButtonAssist.CornerRadius="10"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        ToolTip="Enter username and password to access your account"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Bottom"
+                        Background="DodgerBlue"
                         Margin="0,40"
                         IsDefault="True"
                         Content="LOGIN"
