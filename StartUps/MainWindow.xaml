@@ -13,9 +13,10 @@
         mc:Ignorable="d"
         WindowState="Normal"
         Title="MainWindow"
-        Height="450"
-        Width="800"
+        Height="540"
+        Width="960"
         WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
         Background="White">
     <Grid>
         <Grid.Resources>
@@ -35,15 +36,14 @@
                 <notifycontrols:ErrorView />
             </DataTemplate>
         </Grid.Resources>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
         <modalcontrol:Modal Panel.ZIndex="1"
                             IsOpen="{Binding IsOpen}">
             <ContentControl Content="{Binding CurrentModalViewModel}" />
         </modalcontrol:Modal>
-        <ContentControl Grid.Row="1"
-                        Content="{Binding CurrentViewModel}" />
+        <modalcontrol:Modal Panel.ZIndex="2"
+                            IsOpen="{Binding IsSecondOpen}">
+            <ContentControl Content="{Binding CurrentSecondModalViewModel}" />
+        </modalcontrol:Modal>
+        <ContentControl Content="{Binding CurrentViewModel}" />
     </Grid>
 </Window>

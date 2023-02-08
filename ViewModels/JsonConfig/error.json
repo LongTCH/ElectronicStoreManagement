@@ -1,6 +1,6 @@
 {
   "loginfail": {
-    "ErrorMessage": "Login Fail",
-    "ErrorTitle" : "Can not find your acount!"
+    "ErrorMessage": "Can not find your acount!",
+    "ErrorTitle": "Login Fail"
   }
 }

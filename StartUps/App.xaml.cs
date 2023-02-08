@@ -21,7 +21,7 @@ public partial class App : Application
     {
         IServiceCollection services = new ServiceCollection();
         services.AddSingleton<ESMDbContext>();
-        services.AddScoped<MainViewModel>();
+        services.AddSingleton<MainViewModel>();
         services.AddSingleton<AccountStore>();
         services.AddSingleton<NavigationStore>();
         services.AddSingleton<ModalNavigationStore>();

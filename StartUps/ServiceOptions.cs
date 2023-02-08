@@ -28,6 +28,10 @@ public partial class App : Application
         catch { }
         configurationBuilder.AddJsonFile(filename);
         return configurationBuilder;
+        //}
+        //catch { }
+        //configurationBuilder.AddJsonFile(filename);
+
     }
     private INavigationService CreateHomeNavigationService(IServiceProvider serviceProvider)
     {
@@ -35,7 +39,7 @@ public partial class App : Application
             serviceProvider.GetRequiredService<NavigationStore>(),
             () => serviceProvider.GetRequiredService<HomeViewModel>(),
             () => serviceProvider.GetRequiredService<NavigationBarViewModel>(),
-            ()=>serviceProvider.GetRequiredService<ControlBarViewModel>());
+            () => serviceProvider.GetRequiredService<ControlBarViewModel>());
     }
 
     private INavigationService CreateLoginNavigationService(IServiceProvider serviceProvider)
@@ -64,5 +68,5 @@ public partial class App : Application
             serviceProvider.GetRequiredService<ModalNavigationStore>(),
             () => serviceProvider.GetRequiredService<ErrorViewModel>());
     }
-    
+
 }
