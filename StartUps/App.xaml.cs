@@ -6,9 +6,7 @@ using ViewModels;
 using ViewModels.Services;
 using ViewModels.Stores.Navigations;
 using ViewModels.Stores.Accounts;
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Configuration;
-
 namespace StartUps;
 
 /// <summary>
@@ -20,7 +18,7 @@ public partial class App : Application
     public App()
     {
         IServiceCollection services = new ServiceCollection();
-        services.AddSingleton<ESMDbContext>();
+        services.AddDbContext<ESMDbContext>();
         services.AddSingleton<MainViewModel>();
         services.AddSingleton<AccountStore>();
         services.AddSingleton<NavigationStore>();
@@ -35,6 +33,8 @@ public partial class App : Application
         services.AddTransient<NavigationBarViewModel>(CreateNavigationBarViewModel);
         services.AddTransient<HomeViewModel>(s => new HomeViewModel(CreateLoginNavigationService(s)));
         services.AddSingleton<ErrorViewModel>();
+        services.AddSingleton<RegisterViewModel>();
+        services.AddSingleton<ForgotPasswordViewModel>();
 
         services.AddSingleton<INavigationService>(s => CreateHomeNavigationService(s));
         services.AddSingleton<CloseModalNavigationService>();
@@ -52,19 +52,19 @@ public partial class App : Application
         _serviceProvider = services.BuildServiceProvider();
     }
 
-
     protected override void OnStartup(StartupEventArgs e)
     {
         INavigationService initialNavigationService = _serviceProvider.GetRequiredService<INavigationService>();
         initialNavigationService.Navigate();
 
         MainWindow = _serviceProvider.GetRequiredService<MainWindow>();
+
         MainWindow.Show();
 
         base.OnStartup(e);
     }
-    
-    
-    
+
+
+
 }
 

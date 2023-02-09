@@ -10,128 +10,400 @@
              d:DesignHeight="450"
              d:DesignWidth="800"
              Background="White">
-    <Grid>
-        <ListView>
-            <ListViewItem x:Name="listViewItem"
-                          Height="60"
-                          RenderTransformOrigin="0.5,0.5">
-                <ListViewItem.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform />
-                        <SkewTransform />
-                        <RotateTransform />
-                        <TranslateTransform />
-                    </TransformGroup>
-                </ListViewItem.RenderTransform>
-                <StackPanel Orientation="Horizontal"
-                            Margin="10 0">
-                    <materialDesign:PackIcon Kind="Home"
-                                             Width="30"
-                                             Height="30"
-                                             VerticalAlignment="Center"
-                                             Margin="5" />
-                    <TextBlock Text="Home"
-                               Margin="10"
-                               VerticalAlignment="Center" />
-                </StackPanel>
-            </ListViewItem>
-            <ListViewItem x:Name="listViewItem1"
-                          Height="60"
-                          RenderTransformOrigin="0.5,0.5">
-                <ListViewItem.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform />
-                        <SkewTransform />
-                        <RotateTransform />
-                        <TranslateTransform />
-                    </TransformGroup>
-                </ListViewItem.RenderTransform>
-                <StackPanel Orientation="Horizontal"
-                            Margin="10 0">
-                    <materialDesign:PackIcon Kind="AccountSearch"
-                                             Width="30"
-                                             Height="30"
-                                             VerticalAlignment="Center"
-                                             Margin="5" />
-                    <TextBlock Text="Search"
-                               Margin="10"
-                               VerticalAlignment="Center" />
-                </StackPanel>
-            </ListViewItem>
-            <ListViewItem x:Name="listViewItem2"
-                          Height="60"
-                          RenderTransformOrigin="0.5,0.5">
-                <ListViewItem.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform />
-                        <SkewTransform />
-                        <RotateTransform />
-                        <TranslateTransform />
-                    </TransformGroup>
-                </ListViewItem.RenderTransform>
-                <StackPanel Orientation="Horizontal"
-                            Margin="10 0">
-                    <core:Interaction.Triggers>
-                        <core:EventTrigger EventName="MouseLeftButtonDown">
-                            <core:InvokeCommandAction Command="{Binding NavigateLoginCommand}" />
-                        </core:EventTrigger>
-                    </core:Interaction.Triggers>
-                    <materialDesign:PackIcon Kind="Login"
-                                             Width="30"
-                                             Height="30"
-                                             VerticalAlignment="Center"
-                                             Margin="5" />
-                    <TextBlock Text="Login"
-                               Margin="10"
-                               VerticalAlignment="Center" />
-                </StackPanel>
-            </ListViewItem>
-            <ListViewItem x:Name="listViewItem3"
-                          Height="60"
-                          RenderTransformOrigin="0.5,0.5">
-                <ListViewItem.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform />
-                        <SkewTransform />
-                        <RotateTransform />
-                        <TranslateTransform />
-                    </TransformGroup>
-                </ListViewItem.RenderTransform>
-                <StackPanel Orientation="Horizontal"
-                            Margin="10 0">
-                    <materialDesign:PackIcon Kind="Twitter"
-                                             Width="30"
-                                             Height="30"
-                                             VerticalAlignment="Center"
-                                             Margin="5" />
-                    <TextBlock Text="Twitter"
-                               Margin="10"
-                               VerticalAlignment="Center" />
-                </StackPanel>
-            </ListViewItem>
-            <ListViewItem x:Name="listViewItem4"
-                          Height="60"
-                          RenderTransformOrigin="0.5,0.5">
-                <ListViewItem.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform />
-                        <SkewTransform />
-                        <RotateTransform />
-                        <TranslateTransform />
-                    </TransformGroup>
-                </ListViewItem.RenderTransform>
-                <StackPanel Orientation="Horizontal"
-                            Margin="10 0">
-                    <materialDesign:PackIcon Kind="Skype"
-                                             Width="30"
-                                             Height="30"
-                                             VerticalAlignment="Center"
-                                             Margin="5" />
-                    <TextBlock Text="Skype"
-                               Margin="10"
-                               VerticalAlignment="Center" />
-                </StackPanel>
-            </ListViewItem>
-        </ListView>
-    </Grid>
+    <StackPanel>
+        <StackPanel.Resources>
+            <Style TargetType="materialDesign:PackIcon">
+                <Setter Property="Foreground"
+                        Value="Black" />
+                <Setter Property="Width"
+                        Value="30" />
+                <Setter Property="Height"
+                        Value="30" />
+                <Setter Property="VerticalAlignment"
+                        Value="Center" />
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="BorderThickness"
+                        Value="0" />
+                <Setter Property="Background"
+                        Value="Transparent" />
+                <Setter Property="Width"
+                        Value="60" />
+            </Style>
+            <Style TargetType="Grid">
+                <Setter Property="Height"
+                        Value="60" />
+            </Style>
+        </StackPanel.Resources>
+        <Grid>
+            <Button ToolTip="Home"
+                    Command="{Binding NavigateLoginCommand}">
+                <materialDesign:PackIcon Kind="Home"
+                                         VerticalAlignment="Center" />
+            </Button>
+        </Grid>
+        <Grid>
+            <Button Command="{Binding NavigateLoginCommand}"
+                    ToolTip="Search">
+                <materialDesign:PackIcon Kind="AccountSearch"
+                                         VerticalAlignment="Center" />
+            </Button >
+        </Grid>
+        <Grid>
+            <Button ToolTip="Notify"
+                    Command="{Binding NavigateLoginCommand}">
+                <materialDesign:PackIcon Kind="Notifications" />
+            </Button>
+        </Grid>
+        <Grid>
+            <Button ToolTip="Cart"
+                    Command="{Binding NavigateLoginCommand}">
+                <materialDesign:PackIcon Kind="Cart" />
+            </Button>
+        </Grid>
+    </StackPanel>
+    <!--<Grid.Resources>
+            <ImageBrush x:Key="tb_mouse_over"
+                        ImageSource="/Views;component/Images/logo.png" />
+            <Style TargetType="ToolTip"
+                   x:Key="tt_style">
+                <Setter Property="Placement"
+                        Value="Right" />
+                <Setter Property="Height"
+                        Value="40" />
+                <Setter Property="Width"
+                        Value="100" />
+                <Setter Property="Margin"
+                        Value="20,0,0,0" />
+                <Setter Property="Background"
+                        Value="#4A5668" />
+                <Setter Property="BorderBrush"
+                        Value="Transparent" />
+                <Setter Property="Foreground"
+                        Value="White" />
+                <Setter Property="FontFamily"
+                        Value="Fonts/Roboto-Light.ttf #Roboto" />
+                <Setter Property="FontSize"
+                        Value="16" />
+                <Setter Property="PlacementRectangle"
+                        Value="60,0,0,0" />
+                <Setter Property="HorizontalOffset"
+                        Value="15" />
+                <Setter Property="VerticalOffset"
+                        Value="6" />
+                <Setter Property="HasDropShadow"
+                        Value="True" />
+                <Setter Property="HorizontalContentAlignment"
+                        Value="Center" />
+            </Style>
+            <Style x:Key="tb_style"
+                   TargetType="{x:Type ToggleButton}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                            <Border  x:Name="border"
+                                     BorderThickness="{TemplateBinding BorderThickness}"
+                                     Background="{TemplateBinding Background}"
+                                     SnapsToDevicePixels="True"></Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver"
+                                         Value="true">
+                                    <Setter Property="Background"
+                                            TargetName="border"
+                                            Value="{StaticResource tb_mouse_over}" />
+                                    <Setter Property="BorderBrush"
+                                            TargetName="border"
+                                            Value="{StaticResource tb_mouse_over}" />
+                                </Trigger>
+                                <Trigger Property="IsChecked"
+                                         Value="true">
+                                    <Setter Property="Background"
+                                            TargetName="border"
+                                            Value="{StaticResource tb_mouse_over}" />
+                                    <Setter Property="BorderBrush"
+                                            TargetName="border"
+                                            Value="{StaticResource tb_mouse_over}" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Grid.Resources>
+        <StackPanel x:Name="st_pnl">
+            -->
+    <!--// Grid for the Menu Toggle Button //-->
+    <!--
+            <Grid Height="90">
+                -->
+    <!--// Menu title text //-->
+    <!--
+                <TextBlock  Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="73,-20,0,0"
+                            Text="M E N U"
+                            Foreground="White"
+                            FontSize="22"
+                            Background="Transparent"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource MaterialDesignBody1TextBlock}">
+                            
+                            -->
+    <!--// Shadow Effect //-->
+    <!--
+                    <TextBlock.Effect>
+                        <DropShadowEffect  BlurRadius="10"
+                                           ShadowDepth="1"
+                                           Direction="-90"
+                                           Color="White" />
+                    </TextBlock.Effect></TextBlock>
+                -->
+    <!--// Toggle Button //-->
+    <!--
+                <ToggleButton x:Name="Tg_Btn"
+                              Grid.Column="0"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Left"
+                              Margin="18,-20,0,0"
+                              
+                              
+                              BorderThickness="0"
+                              Style="{StaticResource MaterialDesignActionAccentToggleButton}"
+                              >
+                    -->
+    <!--// Toggle button default background image //-->
+    <!--
+                    <ToggleButton.Background>
+                        <ImageBrush ImageSource="/Views;component/Images/logo.png"
+                                    Stretch="None" />
+                    </ToggleButton.Background>
+                    -->
+    <!--// Toggle Button - Checked, Unchecked events //-->
+    <!--
+                    <ToggleButton.Triggers>
+                        <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                            <BeginStoryboard>
+                                <Storyboard x:Name="HideStackPanel">
+                                    <DoubleAnimation Storyboard.TargetName="nav_pnl"
+                                                     Storyboard.TargetProperty="Width"
+                                                     BeginTime="0:0:0"
+                                                     From="230"
+                                                     To="65"
+                                                     Duration="0:0:0.2"></DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="ToggleButton.Checked">
+                            <BeginStoryboard>
+                                <Storyboard x:Name="ShowStackPanel">
+                                    <DoubleAnimation Storyboard.TargetName="nav_pnl"
+                                                     Storyboard.TargetProperty="Width"
+                                                     BeginTime="0:0:0"
+                                                     From="65"
+                                                     To="230"
+                                                     Duration="0:0:0.3"></DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </ToggleButton.Triggers>
+                </ToggleButton>
+            </Grid>
+            -->
+    <!--// ListView with menu list items //-->
+    <!--
+            <ListView  x:Name="LV"
+                       Background="Transparent"
+                       BorderBrush="Transparent"
+                       ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                -->
+    <!--// Home //-->
+    <!--
+                <ListViewItem HorizontalAlignment="Left"
+                              Margin="0,0,0,15"
+                              MouseEnter="ListViewItem_MouseEnter">
+                    <StackPanel Orientation="Horizontal"
+                                Width="230">
+                        <materialDesign:PackIcon Kind="Home"
+                                Height="40" Width="40"
+                               Margin="12,0,0,0" />
+                        <TextBlock Text="Home"
+                                   Margin="25,0,0,0"
+                                   Style="{StaticResource MaterialDesignBody1TextBlock}" />
+                    </StackPanel>
+                    -->
+    <!--// Tooltip //-->
+    <!--
+                    <ListViewItem.ToolTip>
+                        <ToolTip x:Name="tt_home"
+                                 Content="Home"
+                                 Style="{StaticResource MaterialDesignToolTip}" />
+                    </ListViewItem.ToolTip>
+                </ListViewItem>
+                -->
+    <!--// Contacts //-->
+    <!--
+                <ListViewItem HorizontalAlignment="Left"
+                              Margin="0,0,0,15"
+                              MouseEnter="ListViewItem_MouseEnter">
+                    <StackPanel Orientation="Horizontal"
+                                Width="230">
+                        <core:Interaction.Triggers>
+                            <core:EventTrigger EventName="MouseLeftButtonDown">
+                                <core:InvokeCommandAction Command="{Binding NavigateLoginCommand}" />
+                            </core:EventTrigger>
+                        </core:Interaction.Triggers>
+                        <materialDesign:PackIcon Kind="Login"
+                                                 Height="40"
+                                                 Width="40"
+                                                 Margin="12,0,0,0" />
+                        <TextBlock Text="Contacts"
+                                   Margin="25,0,0,0"
+                                   Style="{StaticResource MaterialDesignBody1TextBlock}" />
+                    </StackPanel>
+                    -->
+    <!--// Tooltip //-->
+    <!--
+                    <ListViewItem.ToolTip>
+                        <ToolTip x:Name="tt_contacts"
+                                 Content="Contacts"
+                                 Style="{StaticResource MaterialDesignToolTip}" />
+                    </ListViewItem.ToolTip>
+                </ListViewItem>
+                -->
+    <!--// Messages //-->
+    <!--
+                <ListViewItem HorizontalAlignment="Left"
+                              Margin="0,0,0,15"
+                              MouseEnter="ListViewItem_MouseEnter">
+                    <StackPanel Orientation="Horizontal"
+                                Width="230">
+                        <Image Source="/Views;component/Images/logo.png"
+                               Stretch="None"
+                               Margin="12,0,0,0" />
+                        <TextBlock Text="Messages"
+                                   Margin="25,0,0,0"
+                                   Style="{StaticResource MaterialDesignBody1TextBlock}" />
+                    </StackPanel>
+                    -->
+    <!--// Tooltip //-->
+    <!--
+                    <ListViewItem.ToolTip>
+                        <ToolTip x:Name="tt_messages"
+                                 Content="Messages"
+                                 Style="{StaticResource MaterialDesignToolTip}" />
+                    </ListViewItem.ToolTip>
+                </ListViewItem>
+                -->
+    <!--// Maps //-->
+    <!--
+                <ListViewItem HorizontalAlignment="Left"
+                              Margin="0,0,0,15"
+                              MouseEnter="ListViewItem_MouseEnter">
+                    <StackPanel Orientation="Horizontal"
+                                Width="230">
+                        <Image Source="/Views;component/Images/logo.png"
+                               Stretch="None"
+                               Margin="12,0,0,0" />
+                        <TextBlock Text="Maps"
+                                   Margin="25,0,0,0"
+                                   Style="{StaticResource MaterialDesignBody1TextBlock}" />
+                    </StackPanel>
+                    -->
+    <!--// Tooltip //-->
+    <!--
+                    <ListViewItem.ToolTip>
+                        <ToolTip x:Name="tt_maps"
+                                 Content="Maps"
+                                 Style="{StaticResource MaterialDesignToolTip}" />
+                    </ListViewItem.ToolTip>
+                </ListViewItem>
+                -->
+    <!--// Settings //-->
+    <!--
+                <ListViewItem HorizontalAlignment="Left"
+                              Margin="0,0,0,15"
+                              MouseEnter="ListViewItem_MouseEnter">
+                    <StackPanel Orientation="Horizontal"
+                                Width="230">
+                        <Image Source="/Views;component/Images/logo.png"
+                               Stretch="None"
+                               Margin="12,0,0,0" />
+                        <TextBlock Text="Settings"
+                                   Margin="25,0,0,0"
+                                   Style="{StaticResource MaterialDesignBody1TextBlock}" />
+                    </StackPanel>
+                    -->
+    <!--// Tooltip //-->
+    <!--
+                    <ListViewItem.ToolTip>
+                        <ToolTip x:Name="tt_settings"
+                                 Content="Settings"
+                                 Style="{StaticResource MaterialDesignToolTip}" />
+                    </ListViewItem.ToolTip>
+                </ListViewItem>
+                -->
+    <!--// Sign Out //-->
+    <!--
+                <ListViewItem HorizontalAlignment="Left"
+                              Margin="0,0,0,15"
+                              MouseEnter="ListViewItem_MouseEnter">
+                    <StackPanel Orientation="Horizontal"
+                                Width="230">
+                        <Image Source="/Views;component/Images/logo.png"
+                               Stretch="None"
+                               Margin="12,0,0,0" />
+                        <TextBlock Text="Sign Out"
+                                   Margin="25,0,0,0"
+                                   Style="{StaticResource MaterialDesignBody1TextBlock}" />
+                    </StackPanel>
+                    -->
+    <!--// Tooltip //-->
+    <!--
+                    <ListViewItem.ToolTip>
+                        <ToolTip x:Name="tt_signout"
+                                 Content="Sign Out"
+                                 Style="{StaticResource MaterialDesignToolTip}" />
+                    </ListViewItem.ToolTip>
+                </ListViewItem>
+                -->
+    <!--// Listview items style template //-->
+    <!--
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                    <Border x:Name="Bd"
+                                            Height="50"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            Background="{TemplateBinding Background}"
+                                            Padding="{TemplateBinding Padding}"
+                                            SnapsToDevicePixels="True">
+                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsMouseOver"
+                                                           Value="True" />
+                                            </MultiTrigger.Conditions>
+                                            <Setter Property="Background"
+                                                    TargetName="Bd"
+                                                    Value="AliceBlue" />
+                                            <Setter Property="BorderBrush"
+                                                    TargetName="Bd"
+                                                    Value="AliceBlue" />
+                                        </MultiTrigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+        </StackPanel>-->
 </UserControl>

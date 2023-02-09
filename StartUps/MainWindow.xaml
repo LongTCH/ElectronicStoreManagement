@@ -35,14 +35,16 @@
             <DataTemplate DataType="{x:Type viewmodels:ErrorViewModel}">
                 <notifycontrols:ErrorView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:ForgotPasswordViewModel}">
+                <views:ForgotPasswordView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:RegisterViewModel}">
+                <views:RegisterView />
+            </DataTemplate>
         </Grid.Resources>
         <modalcontrol:Modal Panel.ZIndex="1"
                             IsOpen="{Binding IsOpen}">
             <ContentControl Content="{Binding CurrentModalViewModel}" />
-        </modalcontrol:Modal>
-        <modalcontrol:Modal Panel.ZIndex="2"
-                            IsOpen="{Binding IsSecondOpen}">
-            <ContentControl Content="{Binding CurrentSecondModalViewModel}" />
         </modalcontrol:Modal>
         <ContentControl Content="{Binding CurrentViewModel}" />
     </Grid>

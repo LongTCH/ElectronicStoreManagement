@@ -1,16 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using ViewModels.Services;
 using ViewModels.Stores.Navigations;
 using ViewModels;
 using Microsoft.Extensions.Configuration;
 using System.IO;
-using System.Reflection;
 
 namespace StartUps;
 
@@ -68,5 +63,20 @@ public partial class App : Application
             serviceProvider.GetRequiredService<ModalNavigationStore>(),
             () => serviceProvider.GetRequiredService<ErrorViewModel>());
     }
-
+    private INavigationService CreateRegisterNavigationService(IServiceProvider serviceProvider)
+    {
+        return new LayoutNavigationService<RegisterViewModel>(
+            serviceProvider.GetRequiredService<NavigationStore>(),
+            ()=>serviceProvider.GetRequiredService<RegisterViewModel>(),
+            ()=>serviceProvider.GetRequiredService<NavigationBarViewModel>(),
+            ()=>serviceProvider.GetRequiredService<ControlBarViewModel>());
+    }
+    private INavigationService CreateForgotPasswordNavigationService(IServiceProvider serviceProvider)
+    {
+        return new LayoutNavigationService<ForgotPasswordViewModel>(
+            serviceProvider.GetRequiredService<NavigationStore>(),
+            () => serviceProvider.GetRequiredService<ForgotPasswordViewModel>(),
+            () => serviceProvider.GetRequiredService<NavigationBarViewModel>(),
+            () => serviceProvider.GetRequiredService<ControlBarViewModel>());
+    }
 }

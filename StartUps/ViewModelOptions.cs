@@ -20,7 +20,9 @@ public partial class App : Application
             serviceProvider.GetRequiredService<ESMDbContext>(),
             serviceProvider.GetRequiredService<AccountStore>(),
             navigationService,
-            CreateLoginFailNavigationService(serviceProvider));
+            CreateLoginFailNavigationService(serviceProvider),
+            CreateRegisterNavigationService(serviceProvider),
+            CreateForgotPasswordNavigationService(serviceProvider));
     }
 
     private NavigationBarViewModel CreateNavigationBarViewModel(IServiceProvider serviceProvider)

@@ -7,9 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Images\close.png" />
-    <None Remove="Images\Email.png" />
-    <None Remove="Images\facebook.png" />
+    <None Remove="Images\logo.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,14 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\close.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Content Include="Images\Email.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Resource Include="Images\facebook.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <Resource Include="Images\logo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
 

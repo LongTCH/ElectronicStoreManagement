@@ -1,4 +1,5 @@
-﻿using Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Models;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,6 +16,9 @@ public class LoginViewModel : ViewModelBase
     private readonly AccountStore _accountStore;
     private readonly INavigationService _navigationService;
     private readonly INavigationService _openNotifyView;
+    private readonly INavigationService _registerNavigationService;
+    private readonly INavigationService _forgotPasswordNavigationService;
+
     private string _username;
     public string Username
     {
@@ -38,28 +42,38 @@ public class LoginViewModel : ViewModelBase
     }
     public ICommand PasswordChangedCommand { get; }
     public ICommand LoginCommand { get; }
-    public LoginViewModel(ESMDbContext eSMDbContext, AccountStore accountStore, INavigationService loginNavigationService, INavigationService openNotifyView)
+    public ICommand RegisterNavigationCommand { get; }
+    public ICommand ForgotPasswordNavigationCommand { get; }
+    public LoginViewModel(ESMDbContext eSMDbContext,
+        AccountStore accountStore,
+        INavigationService loginNavigationService,
+        INavigationService openNotifyView,
+        INavigationService registerNavigationService,
+        INavigationService forgotPasswordNavigationService)
     {
         _esmDbContext = eSMDbContext;
         _accountStore = accountStore;
         _navigationService = loginNavigationService;
         _openNotifyView = openNotifyView;
-        //LoginCommand = new LoginCommand(eSMDbContext, this, accountStore, loginNavigationService, openNotifyView);
-        LoginCommand = new RelayCommand<UserControl>(loginCommand);
+        _registerNavigationService = registerNavigationService;
+        _forgotPasswordNavigationService= forgotPasswordNavigationService;
+
+        LoginCommand = new RelayCommand<object>(loginCommand);
         PasswordChangedCommand = new RelayCommand<PasswordBox>((p) => Password = p.Password);
+        RegisterNavigationCommand = new NavigateCommand(registerNavigationService);
+        ForgotPasswordNavigationCommand = new NavigateCommand(forgotPasswordNavigationService);
     }
-    private void loginCommand(UserControl userControl)
+    private async void loginCommand(object obj)
     {
-        Account? account = _esmDbContext.Accounts
+        Account? account = await _esmDbContext.Accounts
             .Where(s => s.Username == Username && s.PasswordHash == Password)
-            .FirstOrDefault();
+            .FirstOrDefaultAsync();
         if (account == null)
         {
             _openNotifyView.Navigate();
             return;
         }
         _accountStore.CurrentAccount = account;
-
         _navigationService.Navigate();
     }
 }
