@@ -12,6 +12,7 @@ public class NavigationBarViewModel : ViewModelBase
     private readonly ESMDbContext _eSMDbContext;
     public ICommand NavigateLoginCommand { get; }
     public bool IsLoggedIn => _accountStore.IsLoggedIn;
+    public bool IsLoginShow => !_accountStore.IsLoggedIn;
     public NavigationBarViewModel(ESMDbContext eSMDbContext, AccountStore accountStore,
             INavigationService loginNavigationService)
     {

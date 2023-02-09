@@ -42,10 +42,17 @@
                                          VerticalAlignment="Center" />
             </Button>
         </Grid>
-        <Grid>
+        <Grid Visibility="{Binding IsLoginShow, Converter={StaticResource BoolToVis}, FallbackValue=Visable}">
             <Button Command="{Binding NavigateLoginCommand}"
-                    ToolTip="Search">
-                <materialDesign:PackIcon Kind="AccountSearch"
+                    ToolTip="Login">
+                <materialDesign:PackIcon Kind="Login"
+                                         VerticalAlignment="Center" />
+            </Button >
+        </Grid>
+        <Grid Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVis}, FallbackValue=Visable}">
+            <Button Command="{Binding NavigateLoginCommand}"
+                    ToolTip="Account">
+                <materialDesign:PackIcon Kind="Account"
                                          VerticalAlignment="Center" />
             </Button >
         </Grid>

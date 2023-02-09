@@ -24,7 +24,7 @@ public class RegisterViewModel : ViewModelBase
             OnPropertyChanged(nameof(Username));
         }
     }
-
+    
     private string? _password;
     public string? Password
     {

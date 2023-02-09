@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="Views.Admins.CompanyNeedView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Views.Admins"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:core="http://schemas.microsoft.com/xaml/behaviors"
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             Background="White">
+    <UserControl.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize"
+                    Value="20" />
+            <Setter Property="HorizontalAlignment"
+                    Value="Center" />
+            <Setter Property="VerticalAlignment"
+                    Value="Center" />
+            <Setter Property="FontWeight"
+                    Value="ExtraBold" />
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="5*" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0"
+                   Grid.Column="0"
+                   Text="Nhập tên hãng" />
+        <TextBlock Grid.Row="0"
+                   Grid.Column="1"
+                   Text="Nhập nhu cầu" />
+        <Grid Grid.Row="1"
+              Grid.Column="0">
+            <DataGrid x:Name="dtgCompany"
+                      Background="Transparent"
+                      ItemsSource="{Binding List, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+                      Height="250"
+                      VerticalAlignment="Top"
+                      AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox Text="{Binding Id,UpdateSourceTrigger=LostFocus, Mode=TwoWay}" Width="50" />
+                                    <Button>My button</Button>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button Content="Add"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Margin="50"
+                    Command="{Binding AddNew}" />
+        </Grid>
+    </Grid>
+</UserControl>

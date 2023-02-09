@@ -10,9 +10,6 @@
              Height="auto"
              MaxHeight="800"
              Width="400">
-    <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="BoolToVis" />
-    </UserControl.Resources>
     <materialDesign:Card>
         <Grid>
             <StackPanel Margin="20"
