@@ -11,23 +11,6 @@ namespace StartUps;
 
 public partial class App : Application
 {
-    private ConfigurationBuilder CreateConfigurationBuilder(string filename)
-    {
-        ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
-        try
-        {
-            configurationBuilder.SetBasePath(Directory.GetParent(
-            Directory.GetCurrentDirectory())!.Parent!.Parent!.Parent
-            + "\\ViewModels\\JsonConfig");
-        }
-        catch { }
-        configurationBuilder.AddJsonFile(filename);
-        return configurationBuilder;
-        //}
-        //catch { }
-        //configurationBuilder.AddJsonFile(filename);
-
-    }
     private INavigationService CreateHomeNavigationService(IServiceProvider serviceProvider)
     {
         return new LayoutNavigationService<HomeViewModel>(
@@ -59,9 +42,9 @@ public partial class App : Application
     }
     private INavigationService CreateLoginFailNavigationService(IServiceProvider serviceProvider)
     {
-        return new ModalNavigationService<ErrorViewModel>(
+        return new ModalNavigationService<ErrorNotifyViewModel>(
             serviceProvider.GetRequiredService<ModalNavigationStore>(),
-            () => serviceProvider.GetRequiredService<ErrorViewModel>());
+            () => serviceProvider.GetRequiredService<ErrorNotifyViewModel>());
     }
     private INavigationService CreateRegisterNavigationService(IServiceProvider serviceProvider)
     {

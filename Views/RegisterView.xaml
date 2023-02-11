@@ -3,132 +3,200 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:Views"
+             xmlns:helper="clr-namespace:Views.Helper"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:core="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d"
-             Height="auto"
-             MaxHeight="800"
-             Width="400">
-    <materialDesign:Card>
-        <Grid>
-            <StackPanel Margin="20"
-                        VerticalAlignment="Center">
-                <Image Source="/Views;component/Images/logo.png"
-                       Height="50" />
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <materialDesign:PackIcon Grid.Column="0"
-                                             VerticalAlignment="Bottom"
-                                             Margin="0,0,0,20"
+             MinWidth="800"
+             Background="White">
+    <ScrollViewer VerticalScrollBarVisibility="auto"
+                  HorizontalAlignment="Stretch">
+        <StackPanel Margin="20"
+                    VerticalAlignment="Center">
+            <Image Source="/Views;component/Images/logo.png"
+                   Height="50" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <DockPanel Grid.Column="0">
+                    <materialDesign:PackIcon VerticalAlignment="Bottom"
+                                             Margin="0,0,0,10"
+                                             Height="30"
+                                             Width="30"
+                                             Kind="Rename" />
+                    <TextBox Margin="20,10"
+                             materialDesign:HintAssist.Hint="First name"
+                             Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             FontFamily="Champagne &amp; Limousines"
+                             FontSize="18" />
+                </DockPanel>
+                <DockPanel Grid.Column="1">
+                    <materialDesign:PackIcon VerticalAlignment="Bottom"
+                                             Margin="0,0,0,10"
+                                             Height="30"
+                                             Width="30"
+                                             Kind="RenameBox" />
+                    <TextBox Margin="20,10"
+                             materialDesign:HintAssist.Hint="Last name"
+                             Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             FontFamily="Champagne &amp; Limousines"
+                             FontSize="18" />
+                </DockPanel>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <DockPanel Grid.Column="0">
+                    <materialDesign:PackIcon VerticalAlignment="Bottom"
+                                             Margin="0,0,0,10"
                                              Height="30"
                                              Width="30"
                                              Kind="Email" />
-                    <TextBox Grid.Column="1"
-                             Margin="20,10"
+                    <TextBox Margin="20,10"
                              materialDesign:HintAssist.Hint="Email"
-                             Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"
+                             Text="{Binding Email, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              FontFamily="Champagne &amp; Limousines"
                              FontSize="18" />
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <materialDesign:PackIcon Grid.Column="0"
+                </DockPanel>
+                <DockPanel Grid.Column="1">
+                    <materialDesign:PackIcon Kind="Phone"
                                              VerticalAlignment="Bottom"
                                              Margin="0,0,0,20"
                                              Height="30"
-                                             Width="30"
-                                             Kind="Account" />
-                    <TextBox Grid.Column="1"
-                             Margin="20,10"
-                             materialDesign:HintAssist.Hint="Username"
-                             Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
+                                             Width="30" />
+                    <TextBox Margin="20,10"
+                             materialDesign:HintAssist.Hint="Phone"
+                             Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              FontFamily="Champagne &amp; Limousines"
                              FontSize="18" />
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <materialDesign:PackIcon Grid.Column="0"
-                                             VerticalAlignment="Bottom"
+                </DockPanel>
+            </Grid>
+            <TextBlock Text="ADDRESS"
+                       FontSize="20"
+                       HorizontalAlignment="Center"
+                       Margin="10"
+                       FontWeight="Bold"
+                       FontStretch="Expanded" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <DockPanel Grid.Column="0"
+                           LastChildFill="True">
+                    <materialDesign:PackIcon VerticalAlignment="Bottom"
                                              Margin="0,0,0,10"
                                              Height="30"
                                              Width="30"
-                                             Kind="Key" />
-                    <PasswordBox Grid.Column="1"
-                                 x:Name="passwordBox"
-                                 Margin="20,10"
-                                 materialDesign:HintAssist.Hint="Password"
-                                 materialDesign:TextFieldAssist.HasClearButton="True"
-                                 IsEnabled="{Binding ElementName=RevealPasswordOutlinedEnabled, Path=IsChecked}"
-                                 Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
-                                 FontFamily="Champagne &amp; Limousines"
-                                 FontSize="18">
+                                             Kind="City" />
+                    <ComboBox materialDesign:HintAssist.FontFamily="Verdana"
+                              Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                              materialDesign:HintAssist.Hint="City"
+                              BorderThickness="0"
+                              Margin="20,10"
+                              IsTextSearchEnabled="True"
+                              ItemsSource="{Binding Cities}"
+                              FontSize="18"
+                              x:Name="cmbCity">
                         <core:Interaction.Triggers>
-                            <core:EventTrigger EventName="PasswordChanged">
-                                <core:InvokeCommandAction Command="{Binding PasswordChangedCommand}"
-                                                          CommandParameter="{Binding ElementName=passwordBox}" />
+                            <core:EventTrigger EventName="SelectionChanged">
+                                <core:InvokeCommandAction Command="{Binding GetDistricts}"
+                                                          CommandParameter="{Binding ElementName=cmbCity,Path=SelectedItem}" />
                             </core:EventTrigger>
                         </core:Interaction.Triggers>
-                    </PasswordBox>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <materialDesign:PackIcon Grid.Column="0"
-                                             VerticalAlignment="Bottom"
+                    </ComboBox>
+                </DockPanel>
+                <DockPanel Grid.Column="1"
+                           LastChildFill="True">
+                    <materialDesign:PackIcon VerticalAlignment="Bottom"
                                              Margin="0,0,0,10"
                                              Height="30"
                                              Width="30"
-                                             Kind="KeyVariant" />
-                    <PasswordBox Grid.Column="1"
-                                 x:Name="retypepasswordBox"
-                                 Margin="20,10"
-                                 materialDesign:HintAssist.Hint="Re-type password"
-                                 materialDesign:TextFieldAssist.HasClearButton="True"
-                                 IsEnabled="{Binding ElementName=RevealPasswordOutlinedEnabled, Path=IsChecked}"
-                                 Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
-                                 FontFamily="Champagne &amp; Limousines"
-                                 FontSize="18">
+                                             Kind="TownHall" />
+                    <ComboBox materialDesign:HintAssist.FontFamily="Verdana"
+                              Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                              materialDesign:HintAssist.Hint="District"
+                              BorderThickness="0"
+                              Margin="20,10"
+                              IsEditable="True"
+                              FontSize="18"
+                              x:Name="cmbDistrict"
+                              ItemsSource="{Binding Districts}">
                         <core:Interaction.Triggers>
-                            <core:EventTrigger EventName="PasswordChanged">
-                                <core:InvokeCommandAction Command="{Binding RetypePasswordChangedCommand}"
-                                                          CommandParameter="{Binding ElementName=retypepasswordBox}" />
+                            <core:EventTrigger EventName="SelectionChanged">
+                                <core:InvokeCommandAction Command="{Binding GetSub_districts}"
+                                                          CommandParameter="{Binding ElementName=cmbDistrict,Path=SelectedItem}" />
                             </core:EventTrigger>
                         </core:Interaction.Triggers>
-                    </PasswordBox>
-                </Grid>
-                <Grid Margin="30,0,0,0" Visibility="{Binding IsWrongRetype, Converter={StaticResource BoolToVis}, FallbackValue=Hidden}">
-                    <StackPanel  Orientation="Horizontal" >
-                        <materialDesign:PackIcon Kind="Warning"
-                                                 Foreground="SandyBrown" />
-                        <TextBlock Margin="5,0,0,0" Text="Password does not match!" Foreground="PaleVioletRed"/>
-                    </StackPanel>
-                </Grid>
-                <Button Width="150"
-                        BorderThickness="0"
-                        materialDesign:ButtonAssist.CornerRadius="10"
-                        Style="{StaticResource MaterialDesignRaisedButton}"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Bottom"
-                        Background="DodgerBlue"
-                        Margin="0,40,0,10"
-                        IsDefault="True"
-                        Content="SIGN UP"
-                        Command="{Binding SignUpCommand}" />
-            </StackPanel>
-        </Grid>
-    </materialDesign:Card>
+                    </ComboBox>
+                </DockPanel>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="79*" />
+                    <ColumnDefinition Width="301*" />
+                    <ColumnDefinition Width="380*" />
+                </Grid.ColumnDefinitions>
+                <DockPanel Grid.Column="0"
+                           LastChildFill="True"
+                           Grid.ColumnSpan="2">
+                    <materialDesign:PackIcon VerticalAlignment="Bottom"
+                                             Margin="0,0,0,10"
+                                             Height="30"
+                                             Width="30"
+                                             Kind="LandFields" />
+                    <ComboBox materialDesign:HintAssist.FontFamily="Verdana"
+                              Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                              materialDesign:HintAssist.Hint="Sub_district"
+                              BorderThickness="0"
+                              Margin="20,10"
+                              IsEditable="True"
+                              FontSize="18"
+                              x:Name="cmbSub"
+                              ItemsSource="{Binding Sub_districts}">
+                        <core:Interaction.Triggers>
+                            <core:EventTrigger EventName="SelectionChanged">
+                                <core:InvokeCommandAction Command="{Binding Sub_districtChanged}"
+                                                          CommandParameter="{Binding ElementName=cmbSub,Path=SelectedItem}" />
+                            </core:EventTrigger>
+                        </core:Interaction.Triggers>
+                    </ComboBox>
+                </DockPanel>
+                <DockPanel Grid.Column="2"
+                           LastChildFill="True">
+                    <materialDesign:PackIcon VerticalAlignment="Bottom"
+                                             Margin="0,0,0,10"
+                                             Height="30"
+                                             Width="30"
+                                             Kind="Road" />
+                    <TextBox Margin="20,10"
+                             materialDesign:HintAssist.Hint="Street"
+                             Text="{Binding Street, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             FontFamily="Champagne &amp; Limousines"
+                             FontSize="18" />
+                </DockPanel>
+            </Grid>
+            <Button Width="150"
+                    BorderThickness="0"
+                    materialDesign:ButtonAssist.CornerRadius="10"
+                    Style="{StaticResource MaterialDesignRaisedButton}"
+                    IsEnabled="{Binding CanClick}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Background="DodgerBlue"
+                    Margin="0,40,0,10"
+                    IsDefault="True"
+                    Content="SAVE"
+                    Command="{Binding SignUpCommand}" />
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

@@ -19,14 +19,14 @@ public class AccountViewModel : ViewModelBase
     {
         _accountStore = accountStore;
 
-        NavigateHomeCommand = new NavigateCommand(homeNavigationService);
+        NavigateHomeCommand = new RelayCommand<object>((o) => homeNavigationService.Navigate());
 
         _accountStore.CurrentStoreChanged += OnCurrentAccountChanged;
     }
 
     private void OnCurrentAccountChanged()
     {
-        //OnPropertyChanged(nameof(Email));
+        
         OnPropertyChanged(nameof(Username));
     }
 

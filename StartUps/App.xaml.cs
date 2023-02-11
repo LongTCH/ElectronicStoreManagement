@@ -32,14 +32,13 @@ public partial class App : Application
         services.AddTransient<ControlBarViewModel>();
         services.AddTransient<NavigationBarViewModel>(CreateNavigationBarViewModel);
         services.AddTransient<HomeViewModel>(s => new HomeViewModel(CreateLoginNavigationService(s)));
-        services.AddSingleton<ErrorViewModel>();
+        services.AddSingleton<ErrorNotifyViewModel>();
         services.AddSingleton<RegisterViewModel>();
         services.AddSingleton<ForgotPasswordViewModel>();
 
         services.AddSingleton<INavigationService>(s => CreateHomeNavigationService(s));
         services.AddSingleton<CloseModalNavigationService>();
 
-        services.AddTransient<IConfigurationRoot>(s => CreateConfigurationBuilder("error.json").Build());
 
 
         services.AddSingleton<MainViewModel>();

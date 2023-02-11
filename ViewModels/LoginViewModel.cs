@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Models;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -18,7 +21,6 @@ public class LoginViewModel : ViewModelBase
     private readonly INavigationService _openNotifyView;
     private readonly INavigationService _registerNavigationService;
     private readonly INavigationService _forgotPasswordNavigationService;
-
     private string _username;
     public string Username
     {
@@ -58,12 +60,12 @@ public class LoginViewModel : ViewModelBase
         _registerNavigationService = registerNavigationService;
         _forgotPasswordNavigationService= forgotPasswordNavigationService;
 
-        LoginCommand = new RelayCommand<object>(loginCommand);
+        LoginCommand = new AsyncRelayCommand(loginCommand);
         PasswordChangedCommand = new RelayCommand<PasswordBox>((p) => Password = p.Password);
-        RegisterNavigationCommand = new NavigateCommand(registerNavigationService);
-        ForgotPasswordNavigationCommand = new NavigateCommand(forgotPasswordNavigationService);
+        RegisterNavigationCommand = new RelayCommand<object>((o)=>registerNavigationService.Navigate());
+        ForgotPasswordNavigationCommand = new RelayCommand<object>((o) => forgotPasswordNavigationService.Navigate());
     }
-    private async void loginCommand(object obj)
+    private async Task loginCommand()
     {
         Account? account = await _esmDbContext.Accounts
             .Where(s => s.Username == Username && s.PasswordHash == Password)
@@ -71,6 +73,7 @@ public class LoginViewModel : ViewModelBase
         if (account == null)
         {
             _openNotifyView.Navigate();
+            
             return;
         }
         _accountStore.CurrentAccount = account;

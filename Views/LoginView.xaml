@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:core="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:helper="clr-namespace:Views.Helper"
              FontFamily="Segoe UI Emoji"
              mc:Ignorable="d"
              Height="auto"
@@ -30,7 +31,7 @@
                     <TextBox Grid.Column="1"
                              Margin="20,20"
                              materialDesign:HintAssist.Hint="Username"
-                             Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
+                             Text="{Binding Username, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              FontFamily="Champagne &amp; Limousines"
                              FontSize="18" />
@@ -54,14 +55,9 @@
                                  IsEnabled="{Binding ElementName=RevealPasswordOutlinedEnabled, Path=IsChecked}"
                                  Style="{StaticResource MaterialDesignFloatingHintRevealPasswordBox}"
                                  FontFamily="Champagne &amp; Limousines"
-                                 FontSize="18">
-                        <core:Interaction.Triggers>
-                            <core:EventTrigger EventName="PasswordChanged">
-                                <core:InvokeCommandAction Command="{Binding PasswordChangedCommand}"
-                                                          CommandParameter="{Binding ElementName=passwordBox}" />
-                            </core:EventTrigger>
-                        </core:Interaction.Triggers>
-                    </PasswordBox>
+                                 FontSize="18" 
+                                 helper:PasswordBoxAssistant.BindPassword="True"
+                                 helper:PasswordBoxAssistant.BoundPassword="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
                 <Button Width="150"
                         BorderThickness="0"

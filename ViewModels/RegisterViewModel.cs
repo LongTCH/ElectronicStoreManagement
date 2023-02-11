@@ -1,10 +1,14 @@
 ﻿using Models;
-using System.Windows.Controls;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.IO;
+using System.Linq;
 using System.Windows.Input;
-using ViewModels;
 using ViewModels.Commands;
 using ViewModels.Services;
 using ViewModels.Stores.Accounts;
+using ViewModels.Stores.Address;
 
 namespace ViewModels;
 
@@ -14,49 +18,118 @@ public class RegisterViewModel : ViewModelBase
     private readonly AccountStore? _accountStore;
     private readonly INavigationService _navigationService;
     private readonly INavigationService _openNotifyView;
-    private string? _username;
-    public string? Username
+    private HashSet<string> _error = new HashSet<string>() { nameof(FirstName), nameof(LastName), nameof(Email), nameof(Phone) };
+
+    public List<City> Cities { get; set; }
+    public IEnumerable<District> Districts { get; set; }
+    public IEnumerable<Sub_district> Sub_districts { get; set; }
+
+    private string _firstName;
+    [Required]
+    public string FirstName
     {
-        get => _username;
+        get => _firstName;
         set
         {
-            _username = value;
-            OnPropertyChanged(nameof(Username));
+            _firstName = value;
+            _error.Add(nameof(FirstName));
+            OnPropertyChanged(nameof(CanClick));
+            ValidateProperty(value, nameof(FirstName));
+            OnPropertyChanged(nameof(FirstName));
+            _error.Remove(nameof(FirstName));
+            OnPropertyChanged(nameof(CanClick));
         }
     }
-    
-    private string? _password;
-    public string? Password
+    private string _lastName;
+    [Required]
+    public string LastName
     {
-        get => _password;
+        get => _lastName;
         set
         {
-            _password = value;
-            OnPropertyChanged(nameof(Password));
+            _lastName = value;
+            _error.Add(nameof(LastName));
+            OnPropertyChanged(nameof(CanClick));
+            ValidateProperty(value, nameof(LastName));
+            OnPropertyChanged(nameof(LastName));
+            _error.Remove(nameof(LastName));
+            OnPropertyChanged(nameof(CanClick));
         }
     }
-    public bool isWrongRetype;
-    public bool IsWrongRetype
+
+    private string _email;
+    [RegularExpression("^[a-z0-9_\\+-]+(\\.[a-z0-9_\\+-]+)*@[a-z0-9-]+(\\.[a-z0-9]+)*\\.([a-z]{2,4})$", ErrorMessage = "Invalid email format.")]
+    [EmailAddress]
+    public string Email
     {
-        get => isWrongRetype;
+        get => _email;
         set
         {
-            isWrongRetype = value;
-            OnPropertyChanged(nameof(IsWrongRetype));
+            _email = value;
+            _error.Add(nameof(Email));
+            OnPropertyChanged(nameof(CanClick));
+            ValidateProperty(value, nameof(Email));
+            OnPropertyChanged(nameof(Email));
+            _error.Remove(nameof(Email));
+            OnPropertyChanged(nameof(CanClick));
         }
     }
-    private string? _retypePassword;
-    public string? RetypePassword
+    private string _phone;
+    [Phone]
+    public string Phone
     {
-        get => _retypePassword;
+        get => _phone;
         set
         {
-            _retypePassword = value;
-            OnPropertyChanged(nameof(RetypePassword));
+            _phone = value;
+            _error.Add(nameof(Phone));
+            OnPropertyChanged(nameof(CanClick));
+            ValidateProperty(value, nameof(Phone));
+            OnPropertyChanged(nameof(Phone));
+            _error.Remove(nameof(Phone));
+            OnPropertyChanged(nameof(CanClick));
         }
     }
-    public ICommand PasswordChangedCommand { get; } = null!;
-    public ICommand RetypePasswordChangedCommand { get; } = null!;
+    private City _selectedCity;
+    [Required]
+    private City SelectedCity
+    {
+        get => _selectedCity;
+        set
+        {
+            _selectedCity = value;
+            OnPropertyChanged(nameof(Districts));
+        }
+    }
+    private District _selectedDistrict;
+    [Required]
+    public District SelectedDistrict
+    {
+        get => _selectedDistrict;
+        set
+        {
+            _selectedDistrict = value;
+            OnPropertyChanged(nameof(Sub_districts));
+        }
+    }
+    private Sub_district _selectedSubDistrict;
+    [Required]
+    private Sub_district SelectedSub_district
+    {
+        get => _selectedSubDistrict;
+        set
+        {
+            _selectedSubDistrict = value;
+
+        }
+    }
+    [Required]
+    public string Street { get; set; }
+    public bool CanClick => _error.Count == 0;
+    public ICommand GetDistricts { get; }
+    public ICommand GetSub_districts { get; }
+    public ICommand Sub_districtChanged { get; }
+
     public ICommand SignUpCommand { get; } = null!;
     public RegisterViewModel(ESMDbContext esmDbContext,
         AccountStore? accountStore,
@@ -68,17 +141,16 @@ public class RegisterViewModel : ViewModelBase
         _navigationService = navigationService;
         _openNotifyView = openNotifyView;
 
-        PasswordChangedCommand = new RelayCommand<PasswordBox>((p) => Password = p.Password);
-        RetypePasswordChangedCommand = new RelayCommand<PasswordBox>(retypePasswordChangedCommand);
+        Cities = new CitiesSortCommand(new GetCitiesCommand().GetCitiesList().ToList<City>()).GetSortedCities();
+        GetDistricts = new RelayCommand<City>(p => { if (p != null) { Districts = p.level2s; SelectedCity = p; } });
+        GetSub_districts = new RelayCommand<District>(p => { if (p != null) { Sub_districts = p.level3s; SelectedDistrict = p; } });
+        Sub_districtChanged = new RelayCommand<Sub_district>(p => { if (p != null) SelectedSub_district = p; });
     }
-    private void retypePasswordChangedCommand(PasswordBox p)
+    private void ValidateProperty<T>(T value, string name)
     {
-        RetypePassword = p.Password;
-        if (RetypePassword == null) return;
-        if (Password == null || RetypePassword!.Length >= Password!.Length && !RetypePassword.Equals(Password))
+        Validator.ValidateProperty(value, new ValidationContext(this, null, null)
         {
-            IsWrongRetype = true;
-        }
-        else IsWrongRetype = false;
+            MemberName = name
+        });
     }
 }

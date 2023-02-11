@@ -12,6 +12,6 @@ public class HomeViewModel : ViewModelBase
 
     public HomeViewModel(INavigationService loginNavigationService)
     {
-        NavigateLoginCommand = new NavigateCommand(loginNavigationService);
+        NavigateLoginCommand = new RelayCommand<object>((obj) => loginNavigationService.Navigate());
     }
 }

@@ -9,6 +9,8 @@ namespace ViewModels.Commands;
 
 public abstract class AsyncCommandBase : ICommand
 {
+    private readonly Action<Exception> _onException;
+
     private bool _isExecuting;
     public bool IsExecuting
     {
@@ -19,13 +21,22 @@ public abstract class AsyncCommandBase : ICommand
         set
         {
             _isExecuting = value;
-            OnCanExecuteChanged();
+            CanExecuteChanged?.Invoke(this, new EventArgs());
         }
     }
 
     public event EventHandler CanExecuteChanged;
 
-    public virtual bool CanExecute(object parameter)
+    public AsyncCommandBase(Action<Exception> onException)
+    {
+        _onException = onException;
+    }
+
+    protected AsyncCommandBase()
+    {
+    }
+
+    public bool CanExecute(object parameter)
     {
         return !IsExecuting;
     }
@@ -34,15 +45,17 @@ public abstract class AsyncCommandBase : ICommand
     {
         IsExecuting = true;
 
-        await ExecuteAsync(parameter);
+        try
+        {
+            await ExecuteAsync(parameter);
+        }
+        catch (Exception ex)
+        {
+            _onException?.Invoke(ex);
+        }
 
         IsExecuting = false;
     }
 
-    public abstract Task ExecuteAsync(object parameter);
-
-    protected void OnCanExecuteChanged()
-    {
-        CanExecuteChanged?.Invoke(this, new EventArgs());
-    }
+    protected abstract Task ExecuteAsync(object parameter);
 }

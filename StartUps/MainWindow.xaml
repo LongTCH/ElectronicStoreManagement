@@ -32,8 +32,8 @@
             <DataTemplate DataType="{x:Type viewmodels:AccountViewModel}">
                 <views:AccountView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type viewmodels:ErrorViewModel}">
-                <notifycontrols:ErrorView />
+            <DataTemplate DataType="{x:Type viewmodels:ErrorNotifyViewModel}">
+                <notifycontrols:ErrorNotifyView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewmodels:ForgotPasswordViewModel}">
                 <views:ForgotPasswordView />

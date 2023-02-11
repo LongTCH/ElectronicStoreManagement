@@ -18,7 +18,7 @@ public class NavigationBarViewModel : ViewModelBase
     {
         _eSMDbContext = eSMDbContext;
         _accountStore = accountStore;
-        NavigateLoginCommand = new NavigateCommand(loginNavigationService);
+        NavigateLoginCommand = new RelayCommand<object>((o) => loginNavigationService.Navigate());
         _accountStore.CurrentStoreChanged += OnCurrentAccountChanged;
     }
     private void OnCurrentAccountChanged()

@@ -37,11 +37,19 @@ public partial class Product
     [StringLength(50)]
     public string? Series { get; set; }
 
-    [StringLength(50)]
-    public string Company { get; set; } = null!;
+    [Column("CompanyID")]
+    public int CompanyId { get; set; }
 
-    [StringLength(50)]
-    public string? Need { get; set; }
+    [Column("NeedID")]
+    public int? NeedId { get; set; }
+
+    [ForeignKey("CompanyId")]
+    [InverseProperty("Products")]
+    public virtual Company Company { get; set; } = null!;
+
+    [ForeignKey("NeedId")]
+    [InverseProperty("Products")]
+    public virtual Need? Need { get; set; }
 
     [InverseProperty("Product")]
     public virtual ICollection<OrderProduct> OrderProducts { get; } = new List<OrderProduct>();

@@ -19,6 +19,10 @@ public partial class ESMDbContext : DbContext
 
     public virtual DbSet<Attribute> Attributes { get; set; }
 
+    public virtual DbSet<Company> Companies { get; set; }
+
+    public virtual DbSet<Need> Needs { get; set; }
+
     public virtual DbSet<Order> Orders { get; set; }
 
     public virtual DbSet<OrderProduct> OrderProducts { get; set; }
@@ -63,6 +67,20 @@ public partial class ESMDbContext : DbContext
             entity.HasKey(e => e.Id).HasName("PK__ATTRIBUT__3214EC074CEB49B6");
         });
 
+        modelBuilder.Entity<Company>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__COMPANY__3214EC07D6C8675E");
+
+            entity.Property(e => e.Id).ValueGeneratedNever();
+        });
+
+        modelBuilder.Entity<Need>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__NEED__3214EC07D781739A");
+
+            entity.Property(e => e.Id).ValueGeneratedNever();
+        });
+
         modelBuilder.Entity<Order>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__ORDER__3214EC07F09B3388");
@@ -84,6 +102,12 @@ public partial class ESMDbContext : DbContext
         modelBuilder.Entity<Product>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__PRODUCT__3214EC07B1639778");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.Products)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PRODUCT_COMPANY");
+
+            entity.HasOne(d => d.Need).WithMany(p => p.Products).HasConstraintName("FK_PRODUCT_NEED");
 
             entity.HasOne(d => d.Type).WithMany(p => p.Products)
                 .OnDelete(DeleteBehavior.ClientSetNull)
