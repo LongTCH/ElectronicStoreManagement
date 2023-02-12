@@ -1,6 +1,7 @@
 ﻿using Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
@@ -17,11 +18,11 @@ public class RegisterViewModel : ViewModelBase
     private readonly AccountStore? _accountStore;
     private readonly INavigationService _navigationService;
     private readonly INavigationService _openNotifyView;
-    private HashSet<string> _error = new HashSet<string>() { nameof(FirstName), nameof(LastName), nameof(Email), nameof(Phone) };
-
+    private ObservableCollection<string> _error = new ObservableCollection<string>() { nameof(FirstName), nameof(LastName), nameof(Email), nameof(Phone) };
+    
     public List<City> Cities { get; set; }
-    public IEnumerable<District> Districts { get; set; }
-    public IEnumerable<Sub_district> Sub_districts { get; set; }
+    public IEnumerable<District>? Districts { get; set; }
+    public IEnumerable<Sub_district>? Sub_districts { get; set; }
 
     private string _firstName;
     [Required]
@@ -31,12 +32,10 @@ public class RegisterViewModel : ViewModelBase
         set
         {
             _firstName = value;
-            _error.Add(nameof(FirstName));
-            OnPropertyChanged(nameof(CanClick));
+            if (!_error.Contains(nameof(FirstName)))
+                _error.Add(nameof(FirstName));
             ValidateProperty(value, nameof(FirstName));
-            OnPropertyChanged(nameof(FirstName));
             _error.Remove(nameof(FirstName));
-            OnPropertyChanged(nameof(CanClick));
         }
     }
     private string _lastName;
@@ -47,12 +46,10 @@ public class RegisterViewModel : ViewModelBase
         set
         {
             _lastName = value;
-            _error.Add(nameof(LastName));
-            OnPropertyChanged(nameof(CanClick));
+            if (!_error.Contains(nameof(LastName))) 
+                _error.Add(nameof(LastName));
             ValidateProperty(value, nameof(LastName));
-            OnPropertyChanged(nameof(LastName));
             _error.Remove(nameof(LastName));
-            OnPropertyChanged(nameof(CanClick));
         }
     }
 
@@ -65,12 +62,10 @@ public class RegisterViewModel : ViewModelBase
         set
         {
             _email = value;
-            _error.Add(nameof(Email));
-            OnPropertyChanged(nameof(CanClick));
+            if (!_error.Contains(nameof(Email))) 
+                _error.Add(nameof(Email));
             ValidateProperty(value, nameof(Email));
-            OnPropertyChanged(nameof(Email));
             _error.Remove(nameof(Email));
-            OnPropertyChanged(nameof(CanClick));
         }
     }
     private string _phone;
@@ -81,46 +76,15 @@ public class RegisterViewModel : ViewModelBase
         set
         {
             _phone = value;
-            _error.Add(nameof(Phone));
-            OnPropertyChanged(nameof(CanClick));
+            if (!_error.Contains(nameof(Phone)))
+                _error.Add(nameof(Phone));
             ValidateProperty(value, nameof(Phone));
-            OnPropertyChanged(nameof(Phone));
             _error.Remove(nameof(Phone));
-            OnPropertyChanged(nameof(CanClick));
         }
     }
-    private City? _selectedCity;
-    private City? SelectedCity
-    {
-        get => _selectedCity;
-        set
-        {
-            _selectedCity = value;
-            OnPropertyChanged(nameof(Districts));
-            SelectedDistrict = null;
-        }
-    }
-    private District? _selectedDistrict;
-    public District? SelectedDistrict
-    {
-        get => _selectedDistrict;
-        set
-        {
-            _selectedDistrict = value;
-            OnPropertyChanged(nameof(Sub_districts));
-            SelectedSub_district = null;
-        }
-    }
-    private Sub_district? _selectedSubDistrict;
-    private Sub_district? SelectedSub_district
-    {
-        get => _selectedSubDistrict;
-        set
-        {
-            _selectedSubDistrict = value;
-
-        }
-    }
+    private City? SelectedCity { get; set; }
+    public District? SelectedDistrict { get; set; }
+    private Sub_district? SelectedSub_district { get; set; }
     public string Street { get; set; }
     public bool CanClick => _error.Count == 0;
     public ICommand GetDistricts { get; }
@@ -136,10 +100,32 @@ public class RegisterViewModel : ViewModelBase
         _navigationService = navigationService;
         _openNotifyView = openNotifyView;
 
-        Cities = new CitiesSortCommand(new GetCitiesCommand().GetCitiesList().ToList<City>()).GetSortedCities();
-        GetDistricts = new RelayCommand<City>(p => { if (p != null) { Districts = p.level2s; } SelectedCity = p; });
-        GetSub_districts = new RelayCommand<District>(p => { if (p != null) { Sub_districts = p.level3s; } SelectedDistrict = p; });
-        Sub_districtChanged = new RelayCommand<Sub_district>(p => { if (p != null) SelectedSub_district = p; });
+        Cities = new CitiesSortCommand(new GetCitiesCommand().GetCitiesList().ToList()).GetSortedCities();
+        GetDistricts = new RelayCommand<City>(getDistricts);
+        GetSub_districts = new RelayCommand<District>(getSubDistricts);
+        Sub_districtChanged = new RelayCommand<Sub_district>(p => SelectedSub_district = p);
+
+        _error.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler((_,_) => OnPropertyChanged(nameof(CanClick)));
+    }
+    private void getDistricts(City p)
+    {
+        if (p != null)
+        { Districts = p.level2s; }
+        else
+        {
+            Districts = null;
+        }
+        Sub_districts = null;
+        OnPropertyChanged(nameof(Districts));
+        OnPropertyChanged(nameof(Sub_districts));
+        SelectedCity = p;
+    }
+    private void getSubDistricts(District p)
+    {
+        if (p != null) { Sub_districts = p.level3s; }
+        else Sub_districts = null;
+        OnPropertyChanged(nameof(Sub_districts));
+        SelectedDistrict = p;
     }
     private void ValidateProperty<T>(T value, string name)
     {

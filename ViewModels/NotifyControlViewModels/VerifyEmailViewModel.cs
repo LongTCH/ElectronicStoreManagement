@@ -21,7 +21,7 @@ public class VerifyEmailViewModel : ViewModelBase
     public VerifyEmailViewModel(EmailStore emailStore, CloseModalNavigationService closeModalNavigationService)
     {
         _emailStore = emailStore;
-        CloseCommand = new RelayCommand<object>(p => closeModalNavigationService.Navigate());
+        CloseCommand = new RelayCommand<object>(_ => closeModalNavigationService.Navigate());
     }
     private string _verifyCode;
     public string VerifyCode

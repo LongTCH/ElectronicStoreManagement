@@ -22,6 +22,36 @@
                         Value="30" />
                 <Setter Property="VerticalAlignment"
                         Value="Center" />
+                <Style.Triggers>
+                    <EventTrigger RoutedEvent="MouseEnter">
+                        <EventTrigger.Actions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Duration="0:0:0.300"
+                                                     Storyboard.TargetProperty="Height"
+                                                     To="40" />
+                                    <DoubleAnimation Duration="0:0:0.300"
+                                                     Storyboard.TargetProperty="Width"
+                                                     To="40" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="MouseLeave">
+                        <EventTrigger.Actions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Duration="0:0:0.300"
+                                                     Storyboard.TargetProperty="Height"
+                                                     To="40" />
+                                    <DoubleAnimation Duration="0:0:0.300"
+                                                     Storyboard.TargetProperty="Width"
+                                                     To="30" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                </Style.Triggers>
             </Style>
             <Style TargetType="Button">
                 <Setter Property="BorderThickness"
@@ -30,6 +60,15 @@
                         Value="Transparent" />
                 <Setter Property="Width"
                         Value="60" />
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver"
+                             Value="True">
+                        <Setter Property="Foreground"
+                                Value="LightSkyBlue" />
+                        <Setter Property="Cursor"
+                                Value="Hand" />
+                    </Trigger>
+                </Style.Triggers>
             </Style>
             <Style TargetType="Grid">
                 <Setter Property="Height"
@@ -37,13 +76,27 @@
             </Style>
         </StackPanel.Resources>
         <Grid>
-            <Button ToolTip="Home"
-                    x:Name="btnHome"
+            <Button ToolTip="Category"
                     Command="{Binding PopupCommand}">
+                <Grid>
+                    <materialDesign:PackIcon Kind="Menu"
+                                             VerticalAlignment="Center"
+                                             HorizontalAlignment="Center"
+                                             Foreground="DeepSkyBlue"
+                                             Visibility="{Binding IsMenuOpen, Converter={StaticResource BoolToVis}}" />
+                    <materialDesign:PackIcon Kind="HamburgerMenuBack"
+                                             VerticalAlignment="Center"
+                                             HorizontalAlignment="Center"
+                                             Foreground="DeepSkyBlue"
+                                             Visibility="{Binding IsMenuBackOpen, Converter={StaticResource BoolToVis}}" />
+                </Grid>
+            </Button>
+        </Grid>
+        <Grid>
+            <Button ToolTip="Home"
+                    Command="{Binding NavigateHomeCommand}">
                 <materialDesign:PackIcon Kind="Home"
-                                         VerticalAlignment="Center"
-                                         HorizontalAlignment="Center"
-                                         Foreground="DeepSkyBlue" />
+                                         Foreground="MediumPurple" />
             </Button>
         </Grid>
         <Grid Visibility="{Binding IsLoginShow, Converter={StaticResource BoolToVis}, FallbackValue=Visable}">
@@ -55,9 +108,9 @@
             </Button >
         </Grid>
         <Grid Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVis}, FallbackValue=Visable}">
-            <Button Command="{Binding NavigateLoginCommand}"
+            <Button Command="{Binding NavigateAccountCommand}"
                     ToolTip="Account">
-                <materialDesign:PackIcon Kind="Account"
+                <materialDesign:PackIcon Kind="User"
                                          VerticalAlignment="Center"
                                          Foreground="DimGray" />
             </Button >

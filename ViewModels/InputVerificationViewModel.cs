@@ -33,7 +33,7 @@ public class InputVerificationViewModel : ViewModelBase
     {
         CanClick = false;
         _emailStore = emailStore;
-        VerifyCommand = new RelayCommand<object>(o => { _emailStore.Email = Email; verifyNavigationService.Navigate(); });
+        VerifyCommand = new RelayCommand<object>(_ => { _emailStore.Email = Email; verifyNavigationService.Navigate(); });
     }
 
     private void ValidateProperty<T>(T value, string name)

@@ -11,6 +11,8 @@
         xmlns:notifycontrols="clr-namespace:Views.NotifyControls;assembly=Views"
         xmlns:controlviewmodels="clr-namespace:ViewModels.ControlViewModels;assembly=ViewModels"
         xmlns:notifyviewmodels="clr-namespace:ViewModels.NotifyControlViewModels;assembly=ViewModels"
+        xmlns:products="clr-namespace:Views.Products;assembly=Views"
+        xmlns:productviewmodels="clr-namespace:ViewModels.ProductViewModels;assembly=ViewModels"
         mc:Ignorable="d"
         WindowState="Normal"
         Title="MainWindow"
@@ -45,8 +47,29 @@
             <DataTemplate DataType="{x:Type notifyviewmodels:VerifyEmailViewModel}">
                 <notifycontrols:VerifyEmailView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type controlviewmodels:PopupListItem}">
+            <DataTemplate DataType="{x:Type controlviewmodels:PopupListItemViewModel}">
                 <controls:PopupListItem />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type productviewmodels:LaptopViewModel}">
+                <products:LaptopView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type productviewmodels:MonitorViewModel}">
+                <products:MonitorView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type productviewmodels:PCCPUViewModel}">
+                <products:PCCPUView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type productviewmodels:PCViewModel}">
+                <products:PCView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type productviewmodels:PCHarddiskViewModel}">
+                <products:PCHarddiskView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type productviewmodels:VGAViewModel}">
+                <products:VGAView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type productviewmodels:SmartPhoneViewModel}">
+                <products:SmartPhoneView />
             </DataTemplate>
         </Grid.Resources>
         <modalcontrol:Modal Panel.ZIndex="1"

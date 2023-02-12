@@ -14,7 +14,7 @@ public class ErrorNotifyViewModel : ViewModelBase
 
     public ErrorNotifyViewModel(CloseModalNavigationService closeNotifyView)
     {
-        CloseNotifyView = new RelayCommand<object>((o) => closeNotifyView.Navigate());
+        CloseNotifyView = new RelayCommand<object>(_ => closeNotifyView.Navigate());
         ConfigurationBuilder configurationBuilder = new();
         try
         {

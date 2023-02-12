@@ -10,6 +10,8 @@ using ViewModels.Stores.Accounts;
 using ViewModels.Stores;
 using ViewModels.ControlViewModels;
 using ViewModels.NotifyControlViewModels;
+using Views.Products;
+using ViewModels.ProductViewModels;
 
 namespace StartUps;
 
@@ -17,9 +19,9 @@ public partial class App : Application
 {
     private INavigationService CreateListBoxItemNavigationService(IServiceProvider serviceProvider)
     {
-        return new FloatingNavigationService<PopupListItem>(
+        return new FloatingNavigationService<PopupListItemViewModel>(
             serviceProvider.GetRequiredService<FloatingNavigationStore>(),
-            serviceProvider.GetRequiredService<PopupListItem>);
+            serviceProvider.GetRequiredService<PopupListItemViewModel>);
     }
     private INavigationService CreateHomeNavigationService(IServiceProvider serviceProvider)
     {
@@ -80,7 +82,63 @@ public partial class App : Application
         return new EmailVerificationService(
             serviceProvider.GetRequiredService<EmailStore>(),
             new ModalNavigationService<VerifyEmailViewModel>(
-                serviceProvider.GetRequiredService<ModalNavigationStore>(),
-                serviceProvider.GetRequiredService<VerifyEmailViewModel>));
+            serviceProvider.GetRequiredService<ModalNavigationStore>(),
+            serviceProvider.GetRequiredService<VerifyEmailViewModel>));
+    }
+    private INavigationService CreateLaptopNavigationService(IServiceProvider serviceProvider)
+    {
+        return new LayoutNavigationService<LaptopViewModel>(
+            serviceProvider.GetRequiredService<NavigationStore>(),
+            serviceProvider.GetRequiredService<LaptopViewModel>,
+            serviceProvider.GetRequiredService<NavigationBarViewModel>,
+            serviceProvider.GetRequiredService<ControlBarViewModel>);
+    }
+    private INavigationService CreateMonitorNavigationService(IServiceProvider serviceProvider)
+    {
+        return new LayoutNavigationService<MonitorViewModel>(
+            serviceProvider.GetRequiredService<NavigationStore>(),
+            serviceProvider.GetRequiredService<MonitorViewModel>,
+            serviceProvider.GetRequiredService<NavigationBarViewModel>,
+            serviceProvider.GetRequiredService<ControlBarViewModel>);
+    }
+    private INavigationService CreatePCNavigationService(IServiceProvider serviceProvider)
+    {
+        return new LayoutNavigationService<PCViewModel>(
+            serviceProvider.GetRequiredService<NavigationStore>(),
+            serviceProvider.GetRequiredService<PCViewModel>,
+            serviceProvider.GetRequiredService<NavigationBarViewModel>,
+            serviceProvider.GetRequiredService<ControlBarViewModel>);
+    }
+    private INavigationService CreatePCCPUNavigationService(IServiceProvider serviceProvider)
+    {
+        return new LayoutNavigationService<PCCPUViewModel>(
+            serviceProvider.GetRequiredService<NavigationStore>(),
+            serviceProvider.GetRequiredService<PCCPUViewModel>,
+            serviceProvider.GetRequiredService<NavigationBarViewModel>,
+            serviceProvider.GetRequiredService<ControlBarViewModel>);
+    }
+    private INavigationService CreatePCHardDiskNavigationService(IServiceProvider serviceProvider)
+    {
+        return new LayoutNavigationService<PCHarddiskViewModel>(
+            serviceProvider.GetRequiredService<NavigationStore>(),
+            serviceProvider.GetRequiredService<PCHarddiskViewModel>,
+            serviceProvider.GetRequiredService<NavigationBarViewModel>,
+            serviceProvider.GetRequiredService<ControlBarViewModel>);
+    }
+    private INavigationService CreateVGANavigationService(IServiceProvider serviceProvider)
+    {
+        return new LayoutNavigationService<VGAViewModel>(
+            serviceProvider.GetRequiredService<NavigationStore>(),
+            serviceProvider.GetRequiredService<VGAViewModel>,
+            serviceProvider.GetRequiredService<NavigationBarViewModel>,
+            serviceProvider.GetRequiredService<ControlBarViewModel>);
+    }
+    private INavigationService CreateSmartPhoneNavigationService(IServiceProvider serviceProvider)
+    {
+        return new LayoutNavigationService<SmartPhoneViewModel>(
+            serviceProvider.GetRequiredService<NavigationStore>(),
+            serviceProvider.GetRequiredService<SmartPhoneViewModel>,
+            serviceProvider.GetRequiredService<NavigationBarViewModel>,
+            serviceProvider.GetRequiredService<ControlBarViewModel>);
     }
 }

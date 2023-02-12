@@ -8,6 +8,8 @@ using ViewModels.Stores.Accounts;
 using ViewModels.Stores;
 using ViewModels.ControlViewModels;
 using ViewModels.NotifyControlViewModels;
+using Models;
+using ViewModels.ProductViewModels;
 
 namespace StartUps;
 
@@ -20,6 +22,9 @@ public partial class App : Application
     public App()
     {
         IServiceCollection services = new ServiceCollection();
+
+        services.AddSingleton<ESMDbContext>();
+        services.AddSingleton<DataProvider>(s=> new DataProvider(s.GetRequiredService<ESMDbContext>()));
 
         services.AddSingleton<MainViewModel>();
         services.AddSingleton<AccountStore>();
@@ -35,14 +40,22 @@ public partial class App : Application
         services.AddTransient<LoginViewModel>(CreateLoginViewModel);
         services.AddSingleton<ControlBarViewModel>();
         services.AddTransient<NavigationBarViewModel>(CreateNavigationBarViewModel);
-        services.AddSingleton<HomeViewModel>(s => new HomeViewModel(CreateLoginNavigationService(s)));
+        services.AddSingleton<HomeViewModel>(CreateHomeViewModel);
         services.AddSingleton<ErrorNotifyViewModel>();
         services.AddTransient<RegisterViewModel>();
         services.AddTransient<InputVerificationViewModel>(CreateInputEmailViewModel);
         services.AddTransient<VerifyEmailViewModel>();
-        services.AddSingleton<PopupListItem>();
+        services.AddSingleton<PopupListItemViewModel>(CreatePopupListItemViewModel);
 
-        services.AddSingleton<INavigationService>(s => CreateHomeNavigationService(s));
+        services.AddTransient<LaptopViewModel>();
+        services.AddTransient<PCViewModel>();
+        services.AddTransient<PCCPUViewModel>();
+        services.AddTransient<PCHarddiskViewModel>();
+        services.AddTransient<MonitorViewModel>();
+        services.AddTransient<VGAViewModel>();
+        services.AddTransient<SmartPhoneViewModel>();
+
+        services.AddSingleton<INavigationService>(CreateHomeNavigationService);
         services.AddSingleton<CloseModalNavigationService>(); 
         services.AddSingleton<CloseFloatNavigationService>();
 

@@ -19,7 +19,7 @@ public class AccountViewModel : ViewModelBase
     {
         _accountStore = accountStore;
 
-        NavigateHomeCommand = new RelayCommand<object>((o) => homeNavigationService.Navigate());
+        NavigateHomeCommand = new RelayCommand<object>((_) => homeNavigationService.Navigate());
 
         _accountStore.CurrentStoreChanged += OnCurrentAccountChanged;
     }

@@ -10,18 +10,9 @@ namespace Models;
 public class DataProvider
 {
     private readonly ESMDbContext _context;
-    private static DataProvider instance;
-    public static DataProvider Instance
+    public DataProvider(ESMDbContext dbContext)
     {
-        get
-        {
-            instance ??= new DataProvider();
-            return instance;
-        }
-    }
-    private DataProvider()
-    {
-        _context = new ESMDbContext();
+        _context = dbContext;
     }
     public Account? GetAcount(string username, string password)
         => _context.Accounts

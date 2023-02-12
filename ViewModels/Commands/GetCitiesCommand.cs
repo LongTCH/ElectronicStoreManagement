@@ -17,5 +17,5 @@ public class GetCitiesCommand
     public GetCitiesCommand()
     {
     }
-    public IEnumerable<City> GetCitiesList() => JsonConvert.DeserializeObject<IEnumerable<City>>(File.ReadAllText(json));
+    public IEnumerable<City> GetCitiesList() => JsonConvert.DeserializeObject<IEnumerable<City>>(File.ReadAllText(json))!;
 }

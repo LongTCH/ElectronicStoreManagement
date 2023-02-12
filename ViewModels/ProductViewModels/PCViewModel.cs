@@ -4,8 +4,4 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ViewModels.ControlViewModels;
-
-public class PopupListItem : ViewModelBase
-{
-}
+namespace ViewModels.ProductViewModels; public class PCViewModel : ViewModelBase { }

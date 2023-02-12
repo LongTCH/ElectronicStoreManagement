@@ -27,7 +27,7 @@ public class ControlBarViewModel : ViewModelBase
     private void dragMoveCommand(UserControl userControl)
     {
         Window window = Application.Current.MainWindow;
-        WindowInteropHelper helper = new WindowInteropHelper((Window)window);
+        WindowInteropHelper helper = new(window);
         SendMessage(helper.Handle, 161, 2, 0);
     }
     private void closeCommand(UserControl userControl)

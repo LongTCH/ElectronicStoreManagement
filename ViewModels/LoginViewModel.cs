@@ -15,6 +15,7 @@ namespace ViewModels;
 
 public class LoginViewModel : ViewModelBase
 {
+    private readonly DataProvider _dataProvider;
     private readonly AccountStore _accountStore;
     private readonly INavigationService _navigationService;
     private readonly INavigationService _openNotifyView;
@@ -45,26 +46,28 @@ public class LoginViewModel : ViewModelBase
     public ICommand LoginCommand { get; }
     public ICommand RegisterNavigationCommand { get; }
     public ICommand ForgotPasswordNavigationCommand { get; }
-    public LoginViewModel(AccountStore accountStore,
+    public LoginViewModel(DataProvider dataProvider,
+        AccountStore accountStore,
         INavigationService loginNavigationService,
         INavigationService openNotifyView,
         INavigationService registerNavigationService,
         INavigationService forgotPasswordNavigationService)
     {
+        _dataProvider = dataProvider;
         _accountStore = accountStore;
         _navigationService = loginNavigationService;
         _openNotifyView = openNotifyView;
         _registerNavigationService = registerNavigationService;
         _forgotPasswordNavigationService = forgotPasswordNavigationService;
 
-        LoginCommand = new RelayCommand<object>(async(o) => await loginCommandAsync());
+        LoginCommand = new RelayCommand<object>(async(_) => await loginCommandAsync());
         PasswordChangedCommand = new RelayCommand<PasswordBox>((p) => Password = p.Password);
-        RegisterNavigationCommand = new RelayCommand<object>((o) => registerNavigationService.Navigate());
-        ForgotPasswordNavigationCommand = new RelayCommand<object>((o) => forgotPasswordNavigationService.Navigate());
+        RegisterNavigationCommand = new RelayCommand<object>(_ => registerNavigationService.Navigate());
+        ForgotPasswordNavigationCommand = new RelayCommand<object>(_ => forgotPasswordNavigationService.Navigate());
     }
     private async Task loginCommandAsync()
     {
-        Task<Account?> t = new Task<Account?>(() => DataProvider.Instance.GetAcount(Username, Password));
+        Task<Account?> t = new(() => _dataProvider.GetAcount(Username, Password));
         t.Start();
         Account? account = await t;
         if (account == null)
