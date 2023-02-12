@@ -15,7 +15,6 @@ namespace ViewModels;
 
 public class LoginViewModel : ViewModelBase
 {
-    private readonly ESMDbContext _esmDbContext;
     private readonly AccountStore _accountStore;
     private readonly INavigationService _navigationService;
     private readonly INavigationService _openNotifyView;
@@ -46,37 +45,35 @@ public class LoginViewModel : ViewModelBase
     public ICommand LoginCommand { get; }
     public ICommand RegisterNavigationCommand { get; }
     public ICommand ForgotPasswordNavigationCommand { get; }
-    public LoginViewModel(ESMDbContext eSMDbContext,
-        AccountStore accountStore,
+    public LoginViewModel(AccountStore accountStore,
         INavigationService loginNavigationService,
         INavigationService openNotifyView,
         INavigationService registerNavigationService,
         INavigationService forgotPasswordNavigationService)
     {
-        _esmDbContext = eSMDbContext;
         _accountStore = accountStore;
         _navigationService = loginNavigationService;
         _openNotifyView = openNotifyView;
         _registerNavigationService = registerNavigationService;
-        _forgotPasswordNavigationService= forgotPasswordNavigationService;
+        _forgotPasswordNavigationService = forgotPasswordNavigationService;
 
-        LoginCommand = new AsyncRelayCommand(loginCommand);
+        LoginCommand = new RelayCommand<object>(async(o) => await loginCommandAsync());
         PasswordChangedCommand = new RelayCommand<PasswordBox>((p) => Password = p.Password);
-        RegisterNavigationCommand = new RelayCommand<object>((o)=>registerNavigationService.Navigate());
+        RegisterNavigationCommand = new RelayCommand<object>((o) => registerNavigationService.Navigate());
         ForgotPasswordNavigationCommand = new RelayCommand<object>((o) => forgotPasswordNavigationService.Navigate());
     }
-    private async Task loginCommand()
+    private async Task loginCommandAsync()
     {
-        Account? account = await _esmDbContext.Accounts
-            .Where(s => s.Username == Username && s.PasswordHash == Password)
-            .FirstOrDefaultAsync();
+        Task<Account?> t = new Task<Account?>(() => DataProvider.Instance.GetAcount(Username, Password));
+        t.Start();
+        Account? account = await t;
         if (account == null)
         {
             _openNotifyView.Navigate();
-            
             return;
         }
-        _accountStore.CurrentAccount = account;
         _navigationService.Navigate();
+        _accountStore.CurrentAccount = account;
+        
     }
 }

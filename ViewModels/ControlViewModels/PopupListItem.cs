@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ViewModels;
+namespace ViewModels.ControlViewModels;
 
-public class ForgotPasswordViewModel : ViewModelBase
+public class PopupListItem : ViewModelBase
 {
 }

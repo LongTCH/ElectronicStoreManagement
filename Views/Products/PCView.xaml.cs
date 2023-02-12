@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Views
+namespace Views.Products
 {
     /// <summary>
-    /// Interaction logic for ForgotPasswordView.xaml
+    /// Interaction logic for PCView.xaml
     /// </summary>
-    public partial class ForgotPasswordView : UserControl
+    public partial class PCView : UserControl
     {
-        public ForgotPasswordView()
+        public PCView()
         {
             InitializeComponent();
         }

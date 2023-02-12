@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="Views.NotifyControls.VerifyEmailView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Views.NotifyControls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800">
+    <StackPanel HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Margin="20">
+        <Button HorizontalAlignment="Right"
+                Style="{StaticResource MaterialDesignIconButton}"
+                Foreground="IndianRed"
+                Command="{Binding CloseCommand}">
+            <materialDesign:PackIcon Kind="CloseCircle" />
+        </Button>
+        <TextBlock Text="Enter verify code sent by email"
+                   FontSize="20" />
+        <TextBox materialDesign:HintAssist.FloatingScale="0.50"
+                 materialDesign:TextFieldAssist.TextBoxViewMargin="1 0 1 0"
+                 FontSize="34"
+                 MinWidth="110"
+                 HorizontalAlignment="Center"
+                 MaxLength="{Binding MaxLengthCode}"
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                 Text="{Binding VerifyCode, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" />
+    </StackPanel>
+</UserControl>

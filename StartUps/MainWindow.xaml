@@ -9,7 +9,8 @@
         xmlns:controls="clr-namespace:Views.Controls;assembly=Views"
         xmlns:modalcontrol="clr-namespace:ModalControl;assembly=ModalControl"
         xmlns:notifycontrols="clr-namespace:Views.NotifyControls;assembly=Views"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:controlviewmodels="clr-namespace:ViewModels.ControlViewModels;assembly=ViewModels"
+        xmlns:notifyviewmodels="clr-namespace:ViewModels.NotifyControlViewModels;assembly=ViewModels"
         mc:Ignorable="d"
         WindowState="Normal"
         Title="MainWindow"
@@ -17,7 +18,7 @@
         Width="960"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
-        Background="White">
+        Background="WhiteSmoke">
     <Grid>
         <Grid.Resources>
             <DataTemplate DataType="{x:Type viewmodels:HomeViewModel}">
@@ -26,20 +27,26 @@
             <DataTemplate DataType="{x:Type viewmodels:LoginViewModel}">
                 <views:LoginView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type viewmodels:LayoutViewModel}">
+            <DataTemplate DataType="{x:Type controlviewmodels:LayoutViewModel}">
                 <controls:Layout />
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewmodels:AccountViewModel}">
                 <views:AccountView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type viewmodels:ErrorNotifyViewModel}">
+            <DataTemplate DataType="{x:Type notifyviewmodels:ErrorNotifyViewModel}">
                 <notifycontrols:ErrorNotifyView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type viewmodels:ForgotPasswordViewModel}">
-                <views:ForgotPasswordView />
+            <DataTemplate DataType="{x:Type viewmodels:InputVerificationViewModel}">
+                <views:InputVerificationView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewmodels:RegisterViewModel}">
                 <views:RegisterView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type notifyviewmodels:VerifyEmailViewModel}">
+                <notifycontrols:VerifyEmailView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type controlviewmodels:PopupListItem}">
+                <controls:PopupListItem />
             </DataTemplate>
         </Grid.Resources>
         <modalcontrol:Modal Panel.ZIndex="1"
@@ -47,5 +54,9 @@
             <ContentControl Content="{Binding CurrentModalViewModel}" />
         </modalcontrol:Modal>
         <ContentControl Content="{Binding CurrentViewModel}" />
+        <ContentControl HorizontalAlignment="Left"
+                        Margin="60,0,0,0"
+                        Visibility="{Binding IsFloatOpen, Converter={StaticResource BoolToVis}}"
+                        Content="{Binding FloatViewModel}" />
     </Grid>
 </Window>

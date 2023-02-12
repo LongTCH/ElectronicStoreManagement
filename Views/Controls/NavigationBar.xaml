@@ -10,8 +10,7 @@
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800"
-             Background="Transparent">
-
+             Background="WhiteSmoke">
     <StackPanel>
         <StackPanel.Resources>
             <Style TargetType="materialDesign:PackIcon">
@@ -39,138 +38,43 @@
         </StackPanel.Resources>
         <Grid>
             <Button ToolTip="Home"
-                    Command="{Binding NavigateLoginCommand}">
+                    x:Name="btnHome"
+                    Command="{Binding PopupCommand}">
                 <materialDesign:PackIcon Kind="Home"
-                                         VerticalAlignment="Center" />
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Center"
+                                         Foreground="DeepSkyBlue" />
             </Button>
         </Grid>
         <Grid Visibility="{Binding IsLoginShow, Converter={StaticResource BoolToVis}, FallbackValue=Visable}">
             <Button Command="{Binding NavigateLoginCommand}"
                     ToolTip="Login">
                 <materialDesign:PackIcon Kind="Login"
-                                         VerticalAlignment="Center" />
+                                         VerticalAlignment="Center"
+                                         Foreground="DarkSeaGreen" />
             </Button >
         </Grid>
         <Grid Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVis}, FallbackValue=Visable}">
             <Button Command="{Binding NavigateLoginCommand}"
                     ToolTip="Account">
                 <materialDesign:PackIcon Kind="Account"
-                                         VerticalAlignment="Center" />
+                                         VerticalAlignment="Center"
+                                         Foreground="DimGray" />
             </Button >
         </Grid>
         <Grid>
             <Button ToolTip="Notify"
                     Command="{Binding NavigateLoginCommand}">
-                <materialDesign:PackIcon Kind="Notifications" />
+                <materialDesign:PackIcon Kind="Notifications"
+                                         Foreground="SandyBrown" />
             </Button>
         </Grid>
         <Grid>
             <Button ToolTip="Cart"
                     Command="{Binding NavigateLoginCommand}">
-                <materialDesign:PackIcon Kind="Cart" />
+                <materialDesign:PackIcon Kind="Cart"
+                                         Foreground="CadetBlue" />
             </Button>
         </Grid>
     </StackPanel>
-    <!--<Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Border Grid.Row="0"
-                Padding="20"
-                Background="Transparent">
-            <CheckBox x:Name="cbToggleMenu"
-                      HorizontalAlignment="Left">
-                <CheckBox.Template>
-                    <ControlTemplate TargetType="CheckBox">
-                        <Grid Background="Transparent">
-                            <Viewbox Width="20"
-                                     Height="20">
-                                <Path Data="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
-                                      Fill="Black"
-                                      Stretch="Fill" />
-                            </Viewbox>
-                        </Grid>
-                    </ControlTemplate>
-                </CheckBox.Template>
-            </CheckBox>
-        </Border>
-        <Grid HorizontalAlignment="Left"
-              Grid.Row="1">
-            <custom:HamburgerMenu Background="Transparent"
-                                  BorderBrush="Transparent"
-                                  BorderThickness="0 0 1 0"
-                                  FallbackOpenWidth="300"
-                                  IsOpen="{Binding IsChecked, ElementName=cbToggleMenu}"
-                                  OpenCloseDuration="0:0:0.25">
-                <custom:HamburgerMenu.Resources>
-                    <Style TargetType="custom:HamburgerMenuItem">
-                        <Setter Property="Padding"
-                                Value="20 10" />
-                        <Setter Property="FontSize"
-                                Value="16" />
-                        <Setter Property="Background"
-                                Value="Transparent" />
-                        <Setter Property="Foreground"
-                                Value="#444" />
-                        <Style.Triggers>
-                            <EventTrigger RoutedEvent="MouseEnter">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)"
-                                                        To="AliceBlue"
-                                                        Duration="0:0:0.1" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                            <EventTrigger RoutedEvent="MouseLeave">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <ColorAnimation Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)"
-                                                        To="Transparent"
-                                                        Duration="0:0:0.1" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                            <Trigger Property="IsMouseOver"
-                                     Value="True">
-                                <Setter Property="Foreground"
-                                        Value="DarkBlue" />
-                            </Trigger>
-                            <Trigger Property="IsChecked"
-                                     Value="True">
-                                <Setter Property="Foreground"
-                                        Value="DarkBlue" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </custom:HamburgerMenu.Resources>
-                <custom:HamburgerMenu.Content>
-                    <StackPanel Margin="0 10">
-                        <custom:HamburgerMenuItem>
-                            <TextBlock Text="Introduction" />
-                        </custom:HamburgerMenuItem>
-                        <custom:HamburgerMenuItem>
-                            <Grid Visibility="{Binding IsLoginShow, Converter={StaticResource BoolToVis}, FallbackValue=Visable}">
-                                <Button Command="{Binding NavigateLoginCommand}"
-                                        ToolTip="Login">
-                                    <materialDesign:PackIcon Kind="Login"
-                                                             VerticalAlignment="Center" />
-                                </Button >
-                            </Grid>
-                        </custom:HamburgerMenuItem>
-                        <custom:HamburgerMenuItem>
-                            <TextBlock Text="Developer Guides" />
-                        </custom:HamburgerMenuItem>
-                        <custom:HamburgerMenuItem>
-                            <TextBlock Text="Tutorials" />
-                        </custom:HamburgerMenuItem>
-                        <custom:HamburgerMenuItem>
-                            <TextBlock Text="Reference" />
-                        </custom:HamburgerMenuItem>
-                    </StackPanel>
-                </custom:HamburgerMenu.Content>
-            </custom:HamburgerMenu>
-        </Grid>
-    </Grid>-->
 </UserControl>

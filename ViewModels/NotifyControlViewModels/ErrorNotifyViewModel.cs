@@ -4,7 +4,7 @@ using System.Windows.Input;
 using ViewModels.Commands;
 using ViewModels.Services;
 
-namespace ViewModels;
+namespace ViewModels.NotifyControlViewModels;
 
 public class ErrorNotifyViewModel : ViewModelBase
 {

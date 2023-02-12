@@ -14,7 +14,6 @@ namespace ViewModels;
 
 public class RegisterViewModel : ViewModelBase
 {
-    private readonly ESMDbContext _esmDbContext;
     private readonly AccountStore? _accountStore;
     private readonly INavigationService _navigationService;
     private readonly INavigationService _openNotifyView;
@@ -90,31 +89,30 @@ public class RegisterViewModel : ViewModelBase
             OnPropertyChanged(nameof(CanClick));
         }
     }
-    private City _selectedCity;
-    [Required]
-    private City SelectedCity
+    private City? _selectedCity;
+    private City? SelectedCity
     {
         get => _selectedCity;
         set
         {
             _selectedCity = value;
             OnPropertyChanged(nameof(Districts));
+            SelectedDistrict = null;
         }
     }
-    private District _selectedDistrict;
-    [Required]
-    public District SelectedDistrict
+    private District? _selectedDistrict;
+    public District? SelectedDistrict
     {
         get => _selectedDistrict;
         set
         {
             _selectedDistrict = value;
             OnPropertyChanged(nameof(Sub_districts));
+            SelectedSub_district = null;
         }
     }
-    private Sub_district _selectedSubDistrict;
-    [Required]
-    private Sub_district SelectedSub_district
+    private Sub_district? _selectedSubDistrict;
+    private Sub_district? SelectedSub_district
     {
         get => _selectedSubDistrict;
         set
@@ -123,7 +121,6 @@ public class RegisterViewModel : ViewModelBase
 
         }
     }
-    [Required]
     public string Street { get; set; }
     public bool CanClick => _error.Count == 0;
     public ICommand GetDistricts { get; }
@@ -131,19 +128,17 @@ public class RegisterViewModel : ViewModelBase
     public ICommand Sub_districtChanged { get; }
 
     public ICommand SignUpCommand { get; } = null!;
-    public RegisterViewModel(ESMDbContext esmDbContext,
-        AccountStore? accountStore,
+    public RegisterViewModel(AccountStore? accountStore,
         INavigationService navigationService,
         INavigationService openNotifyView)
     {
-        _esmDbContext = esmDbContext;
         _accountStore = accountStore;
         _navigationService = navigationService;
         _openNotifyView = openNotifyView;
 
         Cities = new CitiesSortCommand(new GetCitiesCommand().GetCitiesList().ToList<City>()).GetSortedCities();
-        GetDistricts = new RelayCommand<City>(p => { if (p != null) { Districts = p.level2s; SelectedCity = p; } });
-        GetSub_districts = new RelayCommand<District>(p => { if (p != null) { Sub_districts = p.level3s; SelectedDistrict = p; } });
+        GetDistricts = new RelayCommand<City>(p => { if (p != null) { Districts = p.level2s; } SelectedCity = p; });
+        GetSub_districts = new RelayCommand<District>(p => { if (p != null) { Sub_districts = p.level3s; } SelectedDistrict = p; });
         Sub_districtChanged = new RelayCommand<Sub_district>(p => { if (p != null) SelectedSub_district = p; });
     }
     private void ValidateProperty<T>(T value, string name)

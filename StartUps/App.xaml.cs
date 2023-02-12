@@ -1,12 +1,14 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Models;
 using System;
 using System.Windows;
 using ViewModels;
 using ViewModels.Services;
 using ViewModels.Stores.Navigations;
 using ViewModels.Stores.Accounts;
-using Microsoft.Extensions.Configuration;
+using ViewModels.Stores;
+using ViewModels.ControlViewModels;
+using ViewModels.NotifyControlViewModels;
+
 namespace StartUps;
 
 /// <summary>
@@ -18,27 +20,31 @@ public partial class App : Application
     public App()
     {
         IServiceCollection services = new ServiceCollection();
-        services.AddDbContext<ESMDbContext>();
+
         services.AddSingleton<MainViewModel>();
         services.AddSingleton<AccountStore>();
         services.AddSingleton<NavigationStore>();
         services.AddSingleton<ModalNavigationStore>();
+        services.AddSingleton<FloatingNavigationStore>();
+        services.AddSingleton<EmailStore>();
 
 
         services.AddTransient<AccountViewModel>(s => new AccountViewModel(
             s.GetRequiredService<AccountStore>(),
             CreateHomeNavigationService(s)));
         services.AddTransient<LoginViewModel>(CreateLoginViewModel);
-        services.AddTransient<ControlBarViewModel>();
+        services.AddSingleton<ControlBarViewModel>();
         services.AddTransient<NavigationBarViewModel>(CreateNavigationBarViewModel);
-        services.AddTransient<HomeViewModel>(s => new HomeViewModel(CreateLoginNavigationService(s)));
+        services.AddSingleton<HomeViewModel>(s => new HomeViewModel(CreateLoginNavigationService(s)));
         services.AddSingleton<ErrorNotifyViewModel>();
-        services.AddSingleton<RegisterViewModel>();
-        services.AddSingleton<ForgotPasswordViewModel>();
+        services.AddTransient<RegisterViewModel>();
+        services.AddTransient<InputVerificationViewModel>(CreateInputEmailViewModel);
+        services.AddTransient<VerifyEmailViewModel>();
+        services.AddSingleton<PopupListItem>();
 
         services.AddSingleton<INavigationService>(s => CreateHomeNavigationService(s));
-        services.AddSingleton<CloseModalNavigationService>();
-
+        services.AddSingleton<CloseModalNavigationService>(); 
+        services.AddSingleton<CloseFloatNavigationService>();
 
 
         services.AddSingleton<MainViewModel>();

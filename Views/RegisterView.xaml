@@ -102,7 +102,7 @@
                               materialDesign:HintAssist.Hint="City"
                               BorderThickness="0"
                               Margin="20,10"
-                              IsTextSearchEnabled="True"
+                              IsEditable="True"
                               ItemsSource="{Binding Cities}"
                               FontSize="18"
                               x:Name="cmbCity">
@@ -126,7 +126,6 @@
                               materialDesign:HintAssist.Hint="District"
                               BorderThickness="0"
                               Margin="20,10"
-                              IsEditable="True"
                               FontSize="18"
                               x:Name="cmbDistrict"
                               ItemsSource="{Binding Districts}">
@@ -158,7 +157,6 @@
                               materialDesign:HintAssist.Hint="Sub_district"
                               BorderThickness="0"
                               Margin="20,10"
-                              IsEditable="True"
                               FontSize="18"
                               x:Name="cmbSub"
                               ItemsSource="{Binding Sub_districts}">
