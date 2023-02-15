@@ -13,6 +13,8 @@
         xmlns:notifyviewmodels="clr-namespace:ViewModels.NotifyControlViewModels;assembly=ViewModels"
         xmlns:products="clr-namespace:Views.Products;assembly=Views"
         xmlns:productviewmodels="clr-namespace:ViewModels.ProductViewModels;assembly=ViewModels"
+        xmlns:messview="clr-namespace:Views.MyMessageBox;assembly=Views"
+        xmlns:messviewmodel="clr-namespace:ViewModels.MyMessageBox;assembly=ViewModels"
         mc:Ignorable="d"
         WindowState="Normal"
         Title="MainWindow"
@@ -35,8 +37,8 @@
             <DataTemplate DataType="{x:Type viewmodels:AccountViewModel}">
                 <views:AccountView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type notifyviewmodels:ErrorNotifyViewModel}">
-                <notifycontrols:ErrorNotifyView />
+            <DataTemplate DataType="{x:Type messviewmodel:ErrorNotifyViewModel}">
+                <messview:ErrorNotifyView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewmodels:InputVerificationViewModel}">
                 <views:InputVerificationView />
@@ -71,10 +73,17 @@
             <DataTemplate DataType="{x:Type productviewmodels:SmartPhoneViewModel}">
                 <products:SmartPhoneView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:ResetPasswordViewModel}">
+                <views:ResetPasswordView />
+            </DataTemplate>
         </Grid.Resources>
         <modalcontrol:Modal Panel.ZIndex="1"
                             IsOpen="{Binding IsOpen}">
             <ContentControl Content="{Binding CurrentModalViewModel}" />
+        </modalcontrol:Modal>
+        <modalcontrol:Modal Panel.ZIndex="2"
+                            IsOpen="{Binding IsTopLevelOpen}">
+            <ContentControl Content="{Binding CurrentTopLevelViewModel}" />
         </modalcontrol:Modal>
         <ContentControl Content="{Binding CurrentViewModel}" />
         <ContentControl HorizontalAlignment="Left"

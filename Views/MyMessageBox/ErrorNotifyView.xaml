@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Views.NotifyControls.ErrorNotifyView"
+﻿<UserControl x:Class="Views.MyMessageBox.ErrorNotifyView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -7,7 +7,8 @@
              xmlns:local="clr-namespace:Views.NotifyControls"
              mc:Ignorable="d"
              Height="150"
-             Width="300">
+             Width="300"
+             Background="White">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
@@ -19,7 +20,7 @@
             <materialDesign:PackIcon Kind="Alert"
                                      HorizontalAlignment="Left"
                                      VerticalAlignment="Center"
-                                     Margin="10,0,0,0"/>
+                                     Margin="10,0,0,0" />
             <TextBlock Text="{Binding ErrorTitle}"
                        FontWeight="ExtraBold"
                        Foreground="Red"
@@ -42,7 +43,7 @@
                     FontSize="10"
                     Foreground="Black"
                     Background="LightBlue"
-                    Command="{Binding CloseNotifyView}" />
+                    Command="{Binding CloseCommand}" />
         </StackPanel>
     </Grid>
 </UserControl>

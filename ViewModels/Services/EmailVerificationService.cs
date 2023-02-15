@@ -1,25 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Mail;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using ViewModels.Stores;
-using ViewModels.Stores.Navigations;
 using ViewModels.NotifyControlViewModels;
+using Models;
+using ViewModels.MyMessageBox;
 
 namespace ViewModels.Services;
 
 public class EmailVerificationService : INavigationService
 {
     private readonly ModalNavigationService<VerifyEmailViewModel> _navigationService;
-    private readonly EmailStore _emailStore;
-    public EmailVerificationService(EmailStore emailStore, ModalNavigationService<VerifyEmailViewModel> navigationService)
+    private readonly VerificationStore _store;
+    private readonly DataProvider _dataProvider;
+    public EmailVerificationService(VerificationStore Store, 
+        ModalNavigationService<VerifyEmailViewModel> navigationService,
+        DataProvider dataProvider)
     {
         _navigationService = navigationService;
-        _emailStore = emailStore;
+        _store = Store;
+        _dataProvider = dataProvider;
     }
 
     public void Navigate()
@@ -34,12 +35,20 @@ public class EmailVerificationService : INavigationService
         Random rnd = new Random();
         int ran = rnd.Next(100_000, 999_999);
         string _randomVerifyCode = ran.ToString();
+        // Check Valid
+        var account = _dataProvider.GetAcountByID(_store.Id);
+        if (account == null)
+        {
+            ErrorNotifyViewModel.Instance.Show("Can not find your account");
+            return;
+        }
         //Connect Email Here
         string from = "inbaicualong@gmail.com";
         string pass = "ccxwnfnfgoysqreu";
         MailMessage mess = new MailMessage();
+        mess.Subject = "Reset Password";
         mess.From = new MailAddress(from);
-        mess.To.Add(_emailStore.Email);
+        mess.To.Add(account.EmailAddress);
         mess.Body = "From : Electronic Store" + "<br>Your verification code : " + _randomVerifyCode;
         mess.IsBodyHtml = true;
         SmtpClient client = new SmtpClient("smtp.gmail.com");
@@ -54,9 +63,9 @@ public class EmailVerificationService : INavigationService
         }
         catch (Exception ex)
         {
-            MessageBox.Show(ex.Message);
+            ErrorNotifyViewModel.Instance.Show(ex.Message, "Failed");
         }
-        _emailStore.VerificationCode = _randomVerifyCode;
+        _store.VerificationCode = _randomVerifyCode;
     }
 
 }

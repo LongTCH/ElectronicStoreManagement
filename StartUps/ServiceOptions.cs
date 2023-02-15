@@ -12,11 +12,20 @@ using ViewModels.ControlViewModels;
 using ViewModels.NotifyControlViewModels;
 using Views.Products;
 using ViewModels.ProductViewModels;
+using Models;
 
 namespace StartUps;
 
 public partial class App : Application
 {
+    private INavigationService CreateResetPasswordNavigationService(IServiceProvider serviceProvider)
+    {
+        return new LayoutNavigationService<ResetPasswordViewModel>(
+            serviceProvider.GetRequiredService<NavigationStore>(),
+            serviceProvider.GetRequiredService<ResetPasswordViewModel>,
+            serviceProvider.GetRequiredService<NavigationBarViewModel>,
+            serviceProvider.GetRequiredService<ControlBarViewModel>);
+    }
     private INavigationService CreateListBoxItemNavigationService(IServiceProvider serviceProvider)
     {
         return new FloatingNavigationService<PopupListItemViewModel>(
@@ -55,12 +64,6 @@ public partial class App : Application
             serviceProvider.GetRequiredService<NavigationBarViewModel>,
             serviceProvider.GetRequiredService<ControlBarViewModel>);
     }
-    private INavigationService CreateLoginFailNavigationService(IServiceProvider serviceProvider)
-    {
-        return new ModalNavigationService<ErrorNotifyViewModel>(
-            serviceProvider.GetRequiredService<ModalNavigationStore>(),
-            serviceProvider.GetRequiredService<ErrorNotifyViewModel>);
-    }
     private INavigationService CreateRegisterNavigationService(IServiceProvider serviceProvider)
     {
         return new LayoutNavigationService<RegisterViewModel>(
@@ -80,10 +83,11 @@ public partial class App : Application
     private INavigationService CreateEmailVerificattionService(IServiceProvider serviceProvider)
     {
         return new EmailVerificationService(
-            serviceProvider.GetRequiredService<EmailStore>(),
+            serviceProvider.GetRequiredService<VerificationStore>(),
             new ModalNavigationService<VerifyEmailViewModel>(
             serviceProvider.GetRequiredService<ModalNavigationStore>(),
-            serviceProvider.GetRequiredService<VerifyEmailViewModel>));
+            serviceProvider.GetRequiredService<VerifyEmailViewModel>),
+            serviceProvider.GetRequiredService<DataProvider>());
     }
     private INavigationService CreateLaptopNavigationService(IServiceProvider serviceProvider)
     {

@@ -16,15 +16,17 @@ public partial class OrderProduct
 
     [Key]
     [Column("ProductID")]
-    public int ProductId { get; set; }
+    [StringLength(9)]
+    [Unicode(false)]
+    public string ProductId { get; set; } = null!;
 
     public int Number { get; set; }
+
+    [Column("Warranty: nvarchar(50)")]
+    [StringLength(50)]
+    public string? WarrantyNvarchar50 { get; set; }
 
     [ForeignKey("OrderId")]
     [InverseProperty("OrderProducts")]
     public virtual Order Order { get; set; } = null!;
-
-    [ForeignKey("ProductId")]
-    [InverseProperty("OrderProducts")]
-    public virtual Product Product { get; set; } = null!;
 }

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace ViewModels.Stores;
 
-public class EmailStore
+public class VerificationStore
 {
-    public string Email { get; set; }
+    public string Id { get; set; }
     public string VerificationCode { get; set; }
 }

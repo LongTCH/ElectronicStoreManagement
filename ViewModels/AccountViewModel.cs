@@ -9,9 +9,14 @@ public class AccountViewModel : ViewModelBase
 {
     private readonly AccountStore _accountStore;
 
-    public string? Username => _accountStore.CurrentAccount?.Username;
     public string? FirstName => _accountStore.CurrentAccount?.FirstName;
     public string? LastName => _accountStore.CurrentAccount?.LastName;
+    public string? Email => _accountStore.CurrentAccount?.EmailAddress;
+    public string? Phone => _accountStore.CurrentAccount?.Phone;
+    public string? City => _accountStore.CurrentAccount?.City;
+    public string? District => _accountStore.CurrentAccount?.District;
+    public string? SubDistrict => _accountStore.CurrentAccount?.SubDistrict;
+    public string? Street => _accountStore.CurrentAccount?.Street;
 
     public ICommand NavigateHomeCommand { get; }
 
@@ -27,7 +32,7 @@ public class AccountViewModel : ViewModelBase
     private void OnCurrentAccountChanged()
     {
         
-        OnPropertyChanged(nameof(Username));
+        
     }
 
     public override void Dispose()

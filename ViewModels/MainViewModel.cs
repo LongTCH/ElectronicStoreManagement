@@ -17,8 +17,10 @@ public class MainViewModel : ViewModelBase
     public ViewModelBase CurrentViewModel => _navigationStore.CurrentViewModel!;
     public ViewModelBase? CurrentModalViewModel => _modalNavigationStore.CurrentViewModel;
     public ViewModelBase? FloatViewModel => _floatingNavigationStore.CurrentViewModel;
+    public ViewModelBase? CurrentTopLevelViewModel => TopLevelStore.Instance!.CurrentViewModel;
     public bool IsOpen => _modalNavigationStore.IsOpen;
     public bool IsFloatOpen => _floatingNavigationStore.IsOpen;
+    public bool IsTopLevelOpen => TopLevelStore.Instance!.IsOpen;
     public MainViewModel(NavigationStore navigationStore, 
         ModalNavigationStore modalNavigationStore,
         FloatingNavigationStore floatingNavigationStore)
@@ -29,6 +31,7 @@ public class MainViewModel : ViewModelBase
         _navigationStore.CurrentStoreChanged += OnCurrentViewModelChanged;
         _modalNavigationStore.CurrentStoreChanged += OnCurrentModalViewModelChanged;
         _floatingNavigationStore.CurrentStoreChanged += OnFloatViewModelChanged;
+        TopLevelStore.Instance!.CurrentStoreChanged += OnTopLevelViewModelChanged;
     }
 
     private void OnCurrentViewModelChanged()
@@ -45,5 +48,10 @@ public class MainViewModel : ViewModelBase
     {
         OnPropertyChanged(nameof(FloatViewModel));
         OnPropertyChanged(nameof(IsFloatOpen));
+    }
+    private void OnTopLevelViewModelChanged()
+    {
+        OnPropertyChanged(nameof(CurrentTopLevelViewModel));
+        OnPropertyChanged(nameof(IsTopLevelOpen));
     }
 }

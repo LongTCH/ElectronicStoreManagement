@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Views.NotifyControls
+namespace Views.MyMessageBox
 {
     /// <summary>
     /// Interaction logic for LoginFailView.xaml

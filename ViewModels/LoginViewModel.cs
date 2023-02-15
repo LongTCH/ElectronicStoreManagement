@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ViewModels.Commands;
+using ViewModels.MyMessageBox;
 using ViewModels.Services;
 using ViewModels.Stores.Accounts;
 
@@ -18,17 +19,16 @@ public class LoginViewModel : ViewModelBase
     private readonly DataProvider _dataProvider;
     private readonly AccountStore _accountStore;
     private readonly INavigationService _navigationService;
-    private readonly INavigationService _openNotifyView;
     private readonly INavigationService _registerNavigationService;
     private readonly INavigationService _forgotPasswordNavigationService;
-    private string _username;
-    public string Username
+    private string _id;
+    public string Id
     {
-        get => _username;
+        get => _id;
         set
         {
-            _username = value;
-            OnPropertyChanged(nameof(Username));
+            _id = value;
+            OnPropertyChanged(nameof(Id));
         }
     }
 
@@ -49,14 +49,12 @@ public class LoginViewModel : ViewModelBase
     public LoginViewModel(DataProvider dataProvider,
         AccountStore accountStore,
         INavigationService loginNavigationService,
-        INavigationService openNotifyView,
         INavigationService registerNavigationService,
         INavigationService forgotPasswordNavigationService)
     {
         _dataProvider = dataProvider;
         _accountStore = accountStore;
         _navigationService = loginNavigationService;
-        _openNotifyView = openNotifyView;
         _registerNavigationService = registerNavigationService;
         _forgotPasswordNavigationService = forgotPasswordNavigationService;
 
@@ -67,12 +65,12 @@ public class LoginViewModel : ViewModelBase
     }
     private async Task loginCommandAsync()
     {
-        Task<Account?> t = new(() => _dataProvider.GetAcount(Username, Password));
+        Task<Account?> t = new(() => _dataProvider.GetAcount(Id, Password));
         t.Start();
         Account? account = await t;
         if (account == null)
         {
-            _openNotifyView.Navigate();
+            ErrorNotifyViewModel.Instance!.Show("Can not find you account", "Login failed");
             return;
         }
         _navigationService.Navigate();

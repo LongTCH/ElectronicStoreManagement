@@ -1,12 +1,12 @@
 ﻿CREATE TABLE [dbo].[ORDER]
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY(-2147483648, 1), 
-    [CustomerName] NVARCHAR(50) NOT NULL, 
-    [Phone nvarchar(30)] NCHAR(10) NOT NULL, 
-    [ReceivedCity] NVARCHAR(50) NOT NULL, 
-    [ReceivedDistrict] NVARCHAR(50) NOT NULL, 
-    [ReceivedSub_district] NVARCHAR(50) NOT NULL, 
-    [ReceivedDate] DATETIME2 NOT NULL, 
-    [Cash] MONEY NOT NULL, 
-    [Status] BIT NOT NULL DEFAULT 0
+    [StaffID] CHAR(9) NOT NULL,
+    [CustomerName] NVARCHAR(50) NULL, 
+    [Phone nvarchar(30)] NCHAR(10) NULL, 
+    [City] NVARCHAR(50) NULL, 
+    [District] NVARCHAR(50) NULL, 
+    [Sub_district] NVARCHAR(50) NULL, 
+    [Street] NVARCHAR(100) NULL, 
+    [PurchasedTime] DATETIME2(3) NOT NULL DEFAULT getutcdate()
 )

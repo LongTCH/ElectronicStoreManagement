@@ -31,7 +31,7 @@ public partial class App : Application
         services.AddSingleton<NavigationStore>();
         services.AddSingleton<ModalNavigationStore>();
         services.AddSingleton<FloatingNavigationStore>();
-        services.AddSingleton<EmailStore>();
+        services.AddSingleton<VerificationStore>();
 
 
         services.AddTransient<AccountViewModel>(s => new AccountViewModel(
@@ -41,13 +41,13 @@ public partial class App : Application
         services.AddSingleton<ControlBarViewModel>();
         services.AddTransient<NavigationBarViewModel>(CreateNavigationBarViewModel);
         services.AddSingleton<HomeViewModel>(CreateHomeViewModel);
-        services.AddSingleton<ErrorNotifyViewModel>();
         services.AddTransient<RegisterViewModel>();
         services.AddTransient<InputVerificationViewModel>(CreateInputEmailViewModel);
-        services.AddTransient<VerifyEmailViewModel>();
+        services.AddTransient<VerifyEmailViewModel>(CreateVerifyEmailViewModel);
         services.AddSingleton<PopupListItemViewModel>(CreatePopupListItemViewModel);
+        services.AddTransient<ResetPasswordViewModel>(CreateResetPasswordViewModel);
 
-        services.AddTransient<LaptopViewModel>();
+        services.AddTransient<LaptopViewModel>(CreateLaptopViewModel);
         services.AddTransient<PCViewModel>();
         services.AddTransient<PCCPUViewModel>();
         services.AddTransient<PCHarddiskViewModel>();

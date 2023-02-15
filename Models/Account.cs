@@ -7,14 +7,13 @@ using Microsoft.EntityFrameworkCore;
 namespace Models;
 
 [Table("ACCOUNT")]
-[Index("Username", Name = "IX_ACCOUNT_Username")]
+[Index("Id", Name = "IX_ACCOUNT_Id")]
 public partial class Account
 {
     [Key]
-    public int Id { get; set; }
-
-    [StringLength(128)]
-    public string Username { get; set; } = null!;
+    [StringLength(9)]
+    [Unicode(false)]
+    public string Id { get; set; } = null!;
 
     [StringLength(128)]
     public string PasswordHash { get; set; } = null!;
@@ -25,38 +24,31 @@ public partial class Account
     [StringLength(50)]
     public string LastName { get; set; } = null!;
 
-    [StringLength(10)]
-    public string? Sex { get; set; }
+    public bool Sex { get; set; }
 
     [StringLength(256)]
     public string EmailAddress { get; set; } = null!;
 
-    public DateTime CreatedDate { get; set; }
+    [Column(TypeName = "date")]
+    public DateTime Birthday { get; set; }
 
     [StringLength(50)]
-    public string? City { get; set; }
+    public string City { get; set; } = null!;
 
     [StringLength(50)]
-    public string? District { get; set; }
+    public string District { get; set; } = null!;
 
     [Column("Sub-district")]
     [StringLength(50)]
-    public string? SubDistrict { get; set; }
+    public string SubDistrict { get; set; } = null!;
 
     [StringLength(100)]
-    public string? Street { get; set; }
+    public string Street { get; set; } = null!;
 
     [StringLength(30)]
-    public string? Phone { get; set; }
-
-    [StringLength(50)]
-    public string Role { get; set; } = null!;
+    public string Phone { get; set; } = null!;
 
     [Column("Avatar_Path")]
     [StringLength(200)]
     public string? AvatarPath { get; set; }
-
-    [ForeignKey("AccountId")]
-    [InverseProperty("Accounts")]
-    public virtual ICollection<Product> Products { get; } = new List<Product>();
 }

@@ -1,10 +1,4 @@
-﻿using Microsoft.Win32;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using System.Net;
-using System.Net.Mail;
-using System.Windows;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Windows.Input;
 using ViewModels.Commands;
 using ViewModels.Services;
@@ -14,13 +8,17 @@ namespace ViewModels.NotifyControlViewModels;
 
 public class VerifyEmailViewModel : ViewModelBase
 {
-    private readonly EmailStore _emailStore;
+    private readonly INavigationService _resetPasswordNavigate;
+    private readonly VerificationStore _store;
     
     public ICommand CloseCommand { get; }
     public int MaxLengthCode { get; init; } = 6;
-    public VerifyEmailViewModel(EmailStore emailStore, CloseModalNavigationService closeModalNavigationService)
+    public VerifyEmailViewModel(VerificationStore Store, 
+        CloseModalNavigationService closeModalNavigationService,
+        INavigationService resetPasswordNavigate)
     {
-        _emailStore = emailStore;
+        _store = Store;
+        _resetPasswordNavigate = resetPasswordNavigate;
         CloseCommand = new RelayCommand<object>(_ => closeModalNavigationService.Navigate());
     }
     private string _verifyCode;
@@ -30,9 +28,9 @@ public class VerifyEmailViewModel : ViewModelBase
         set
         {
             _verifyCode = value;
-            if (VerifyCode != _emailStore.VerificationCode) throw new ValidationException("Verify Failed");
-            MessageBox.Show("Verifed");
-            CloseCommand.Execute(new {});
+            if (VerifyCode != _store.VerificationCode) throw new ValidationException("Verify Failed");
+            CloseCommand.Execute(null);
+            _resetPasswordNavigate.Navigate();
         }
     }
 }

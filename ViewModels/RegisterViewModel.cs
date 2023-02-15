@@ -18,8 +18,10 @@ public class RegisterViewModel : ViewModelBase
     private readonly AccountStore? _accountStore;
     private readonly INavigationService _navigationService;
     private readonly INavigationService _openNotifyView;
-    private ObservableCollection<string> _error = new ObservableCollection<string>() { nameof(FirstName), nameof(LastName), nameof(Email), nameof(Phone) };
-    
+    private ObservableCollection<string> _error = new ObservableCollection<string>() {
+        nameof(FirstName), nameof(LastName), nameof(Email), nameof(Phone),
+        nameof(SelectedCity), nameof(SelectedDistrict), nameof(SelectedSub_district), nameof(Street)};
+
     public List<City> Cities { get; set; }
     public IEnumerable<District>? Districts { get; set; }
     public IEnumerable<Sub_district>? Sub_districts { get; set; }
@@ -46,7 +48,7 @@ public class RegisterViewModel : ViewModelBase
         set
         {
             _lastName = value;
-            if (!_error.Contains(nameof(LastName))) 
+            if (!_error.Contains(nameof(LastName)))
                 _error.Add(nameof(LastName));
             ValidateProperty(value, nameof(LastName));
             _error.Remove(nameof(LastName));
@@ -62,7 +64,7 @@ public class RegisterViewModel : ViewModelBase
         set
         {
             _email = value;
-            if (!_error.Contains(nameof(Email))) 
+            if (!_error.Contains(nameof(Email)))
                 _error.Add(nameof(Email));
             ValidateProperty(value, nameof(Email));
             _error.Remove(nameof(Email));
@@ -105,7 +107,7 @@ public class RegisterViewModel : ViewModelBase
         GetSub_districts = new RelayCommand<District>(getSubDistricts);
         Sub_districtChanged = new RelayCommand<Sub_district>(p => SelectedSub_district = p);
 
-        _error.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler((_,_) => OnPropertyChanged(nameof(CanClick)));
+        _error.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler((_, _) => OnPropertyChanged(nameof(CanClick)));
     }
     private void getDistricts(City p)
     {

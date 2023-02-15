@@ -8,11 +8,31 @@ using ViewModels.Stores;
 using ViewModels.Stores.Navigations;
 using ViewModels.ControlViewModels;
 using Models;
+using ViewModels.ProductViewModels;
+using ViewModels.NotifyControlViewModels;
 
 namespace StartUps;
 
 public partial class App : Application
 {
+    private VerifyEmailViewModel CreateVerifyEmailViewModel(IServiceProvider serviceProvider)
+    {
+        return new VerifyEmailViewModel(
+            serviceProvider.GetRequiredService<VerificationStore>(),
+            serviceProvider.GetRequiredService<CloseModalNavigationService>(),
+            CreateResetPasswordNavigationService(serviceProvider));
+    }
+    private ResetPasswordViewModel CreateResetPasswordViewModel(IServiceProvider serviceProvider)
+    {
+        return new ResetPasswordViewModel(
+            serviceProvider.GetRequiredService<DataProvider>(),
+            serviceProvider.GetRequiredService<AccountStore>(),
+            CreateLoginNavigationService(serviceProvider));
+    }
+    private LaptopViewModel CreateLaptopViewModel(IServiceProvider serviceProvider)
+    {
+        return new LaptopViewModel(serviceProvider.GetRequiredService<DataProvider>());
+    }
     private HomeViewModel CreateHomeViewModel(IServiceProvider serviceProvider)
     {
         return new HomeViewModel(CreateLoginNavigationService(serviceProvider));
@@ -23,7 +43,6 @@ public partial class App : Application
             serviceProvider.GetRequiredService<DataProvider>(),
             serviceProvider.GetRequiredService<AccountStore>(),
             CreateAccountNavigationService(serviceProvider),
-            CreateLoginFailNavigationService(serviceProvider),
             CreateRegisterNavigationService(serviceProvider),
             CreateForgotPasswordNavigationService(serviceProvider));
     }
@@ -41,7 +60,7 @@ public partial class App : Application
     }
     public InputVerificationViewModel CreateInputEmailViewModel(IServiceProvider serviceProvider)
     {
-        return new InputVerificationViewModel(serviceProvider.GetRequiredService<EmailStore>(),
+        return new InputVerificationViewModel(serviceProvider.GetRequiredService<VerificationStore>(),
             CreateEmailVerificattionService(serviceProvider));
     }
     public PopupListItemViewModel CreatePopupListItemViewModel(IServiceProvider serviceProvider)

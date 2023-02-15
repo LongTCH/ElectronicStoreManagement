@@ -1,9 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using Models.DTOs;
+using Scrypt;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Models;
 
@@ -14,8 +12,34 @@ public class DataProvider
     {
         _context = dbContext;
     }
-    public Account? GetAcount(string username, string password)
-        => _context.Accounts
-            .Where(s => s.Username == username && s.PasswordHash == password)
-            .FirstOrDefault();
+    public Account? GetAcount(string id, string password)
+    {
+        ScryptEncoder encoder = new ScryptEncoder();
+        var list = _context.Accounts.AsEnumerable();
+        foreach(var account in list)
+        {
+            if (account.Id == id && encoder.Compare(password, account.PasswordHash))
+                return account;
+        }
+        return null;
+    }
+    public Account? GetAcountByID(string id)
+    {
+        var list = _context.Accounts.AsEnumerable();
+        foreach (var account in list)
+        {
+            if (account.Id == id)
+                return account;
+        }
+        return null;
+    }
+    public IEnumerable<LaptopDTO> GetLaptopList()
+    {
+        return from laptop in _context.Laptops
+               select new LaptopDTO()
+               {
+                   Name = laptop.Name,
+                   Image_Path = @laptop.ImagePath
+               };
+    }
 }

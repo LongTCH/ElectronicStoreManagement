@@ -17,21 +17,23 @@ public partial class ESMDbContext : DbContext
 
     public virtual DbSet<Account> Accounts { get; set; }
 
-    public virtual DbSet<Attribute> Attributes { get; set; }
+    public virtual DbSet<Laptop> Laptops { get; set; }
 
-    public virtual DbSet<Company> Companies { get; set; }
-
-    public virtual DbSet<Need> Needs { get; set; }
+    public virtual DbSet<Monitor> Monitors { get; set; }
 
     public virtual DbSet<Order> Orders { get; set; }
 
     public virtual DbSet<OrderProduct> OrderProducts { get; set; }
 
-    public virtual DbSet<Product> Products { get; set; }
+    public virtual DbSet<Pc> Pcs { get; set; }
 
-    public virtual DbSet<ProductAttribute> ProductAttributes { get; set; }
+    public virtual DbSet<Pccpu> Pccpus { get; set; }
 
-    public virtual DbSet<Type> Types { get; set; }
+    public virtual DbSet<Pcharddisk> Pcharddisks { get; set; }
+
+    public virtual DbSet<Smartphone> Smartphones { get; set; }
+
+    public virtual DbSet<Vga> Vgas { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -41,93 +43,45 @@ public partial class ESMDbContext : DbContext
     {
         modelBuilder.Entity<Account>(entity =>
         {
-            entity.Property(e => e.CreatedDate).HasDefaultValueSql("(getutcdate())");
-            entity.Property(e => e.Role).HasDefaultValueSql("('Customer')");
-
-            entity.HasMany(d => d.Products).WithMany(p => p.Accounts)
-                .UsingEntity<Dictionary<string, object>>(
-                    "Cart",
-                    r => r.HasOne<Product>().WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_CART_PRODUCT"),
-                    l => l.HasOne<Account>().WithMany()
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_CART_ACCOUNT"),
-                    j =>
-                    {
-                        j.HasKey("AccountId", "ProductId");
-                        j.ToTable("CART");
-                    });
-        });
-
-        modelBuilder.Entity<Attribute>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__ATTRIBUT__3214EC074CEB49B6");
-        });
-
-        modelBuilder.Entity<Company>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__COMPANY__3214EC07D6C8675E");
-
-            entity.Property(e => e.Id).ValueGeneratedNever();
-        });
-
-        modelBuilder.Entity<Need>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__NEED__3214EC07D781739A");
-
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).IsFixedLength();
         });
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ORDER__3214EC07F09B3388");
+            entity.HasKey(e => e.Id).HasName("PK__ORDER__3214EC07887C71B7");
 
             entity.Property(e => e.PhoneNvarchar30).IsFixedLength();
+            entity.Property(e => e.PurchasedTime).HasDefaultValueSql("(getutcdate())");
+            entity.Property(e => e.StaffId).IsFixedLength();
         });
 
         modelBuilder.Entity<OrderProduct>(entity =>
         {
+            entity.Property(e => e.ProductId).IsFixedLength();
+
             entity.HasOne(d => d.Order).WithMany(p => p.OrderProducts)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_ORDER_PRODUCT_ORDER");
-
-            entity.HasOne(d => d.Product).WithMany(p => p.OrderProducts)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ORDER_PRODUCT_PRODUCT");
         });
 
-        modelBuilder.Entity<Product>(entity =>
+        modelBuilder.Entity<Pc>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__PRODUCT__3214EC07B1639778");
-
-            entity.HasOne(d => d.Company).WithMany(p => p.Products)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_PRODUCT_COMPANY");
-
-            entity.HasOne(d => d.Need).WithMany(p => p.Products).HasConstraintName("FK_PRODUCT_NEED");
-
-            entity.HasOne(d => d.Type).WithMany(p => p.Products)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_PRODUCT_TYPE");
+            entity.HasKey(e => e.Id).HasName("PK__PC__3214EC077CFC82BD");
         });
 
-        modelBuilder.Entity<ProductAttribute>(entity =>
+        modelBuilder.Entity<Pccpu>(entity =>
         {
-            entity.HasOne(d => d.Attribute).WithMany(p => p.ProductAttributes)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_PRODUCT_ATTRIBUTE_ATTRIBUTE");
-
-            entity.HasOne(d => d.Product).WithMany(p => p.ProductAttributes)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_PRODUCT_ATTRIBUTE_PRODUCT");
+            entity.Property(e => e.Id).ValueGeneratedNever();
         });
 
-        modelBuilder.Entity<Type>(entity =>
+        modelBuilder.Entity<Smartphone>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__TYPE__3214EC076EE2AFF1");
+            entity.Property(e => e.Id).ValueGeneratedNever();
+        });
+
+        modelBuilder.Entity<Vga>(entity =>
+        {
+            entity.Property(e => e.Id).ValueGeneratedNever();
         });
 
         OnModelCreatingPartial(modelBuilder);
