@@ -1,4 +1,6 @@
 ﻿using Models;
+using Models.DTOs;
+using Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +11,8 @@ namespace ViewModels.Stores.Accounts;
 
 public class AccountStore : IStore
 {
-    private Account? _currentAccount;
-    public Account? CurrentAccount
+    private AccountDTO? _currentAccount;
+    public AccountDTO? CurrentAccount
     {
         get => _currentAccount;
         set

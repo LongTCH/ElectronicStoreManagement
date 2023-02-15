@@ -1,4 +1,7 @@
-﻿using Models;
+﻿using Microsoft.IdentityModel.Tokens;
+using Microsoft.Win32;
+using Models;
+using Models.DTOs;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -7,6 +10,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Markup;
 using ViewModels.Commands;
@@ -19,17 +23,32 @@ namespace ViewModels;
 
 public class RegisterViewModel : ViewModelBase
 {
-    private readonly AccountStore? _accountStore;
-    private readonly INavigationService _navigationService;
-    private readonly INavigationService _openNotifyView;
+    private readonly DataProvider _dataProvider;
     private ObservableCollection<string> _error = new ObservableCollection<string>() {
-        nameof(FirstName), nameof(LastName), nameof(Email), nameof(Phone)};
+        nameof(Id), nameof(FirstName), nameof(LastName), nameof(Email), nameof(Phone)};
 
     public List<City> Cities { get; set; }
     public IEnumerable<District>? Districts { get; set; }
     public IEnumerable<Sub_district>? Sub_districts { get; set; }
     public List<string> Gender { get; } = new() { "Nam", "Nữ" };
 
+    public string? Avatar_Path { get; set; } = null;
+    private string? _id;
+    [Required]
+    [RegularExpression(@"\d{9}", ErrorMessage = "ID must contain 9 digital characters")]
+    public string? Id
+    {
+        get => _id;
+        set
+        {
+            _id = value;
+            if (!_error.Contains(nameof(Id)))
+                _error.Add(nameof(Id));
+            ValidateProperty(value, nameof(Id));
+            _error.Remove(nameof(Id)); 
+        }
+    }
+    public string SuggestID => "1" + DateTime.UtcNow.Year.ToString() + _dataProvider.GetSeuggestAccountIdCounter();
     private string? _firstName;
     [Required]
     public string? FirstName
@@ -60,7 +79,7 @@ public class RegisterViewModel : ViewModelBase
     }
 
     private string? _email;
-    [RegularExpression("^[a-z0-9_\\+-]+(\\.[a-z0-9_\\+-]+)*@[a-z0-9-]+(\\.[a-z0-9]+)*\\.([a-z]{2,4})$", ErrorMessage = "Invalid email format.")]
+    [RegularExpression(@"^[a-z0-9_\+-]+(\.[a-z0-9_\+-]+)*@[a-z0-9-]+(\.[a-z0-9]+)*\.([a-z]{2,4})$", ErrorMessage = "Invalid email format.")]
     [EmailAddress]
     public string? Email
     {
@@ -97,19 +116,17 @@ public class RegisterViewModel : ViewModelBase
     public string DateFormat => CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;
     public XmlLanguage Language => XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag);
     public bool CanClick => _error.Count == 0;
+    public bool IsDefault => Avatar_Path.IsNullOrEmpty();
     public ICommand GetDistricts { get; }
     public ICommand GetSub_districts { get; }
     public ICommand Sub_districtChanged { get; }
     public ICommand GenderChanged { get; }
-
+    public ICommand SuggestCommand { get; }
+    public ICommand AddAvatarCommand { get; }
     public ICommand SignUpCommand { get; } = null!;
-    public RegisterViewModel(AccountStore? accountStore,
-        INavigationService navigationService,
-        INavigationService openNotifyView)
+    public RegisterViewModel(DataProvider dataProvider)
     {
-        _accountStore = accountStore;
-        _navigationService = navigationService;
-        _openNotifyView = openNotifyView;
+        _dataProvider = dataProvider;
 
         Cities = new CitiesSortCommand(new GetCitiesCommand().GetCitiesList().ToList()).GetSortedCities();
         GetDistricts = new RelayCommand<City>(getDistricts);
@@ -117,6 +134,8 @@ public class RegisterViewModel : ViewModelBase
         Sub_districtChanged = new RelayCommand<Sub_district>(p => SelectedSub_district = p);
         GenderChanged = new RelayCommand<string>(p => SelectedGender = p);
         SignUpCommand = new RelayCommand<object>(_ => signUp());
+        SuggestCommand = new RelayCommand<object>(_ => OnPropertyChanged(nameof(SuggestID)));
+        AddAvatarCommand = new RelayCommand<object>(_ => addAvatarCommand());
 
         _error.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler((_, _) => OnPropertyChanged(nameof(CanClick)));
     }
@@ -151,7 +170,35 @@ public class RegisterViewModel : ViewModelBase
             ErrorNotifyViewModel.Instance!.Show("Choose your gender", "Warning");
         if (BirthDay == null)
             ErrorNotifyViewModel.Instance!.Show("Choose your birthday", "Warning");
-
+        AccountDTO accountDTO = new AccountDTO()
+        {
+            Id = Id!,
+            PasswordHash="00000000000000000",
+            FirstName = FirstName!,
+            LastName = LastName!,
+            EmailAddress = Email!,
+            Phone = Phone!,
+            Sex = (SelectedGender!.Equals(Gender.ElementAt(0))!) ? true : false,
+            Birthday = (DateTime)BirthDay,
+            City = SelectedCity!.ToString(),
+            District = SelectedDistrict!.ToString(),
+            SubDistrict = SelectedDistrict!.ToString(),
+            Street = Street!.ToString(),
+            AvatarPath = Avatar_Path
+        };
+        _dataProvider.AddUser(accountDTO);
+    }
+    private void addAvatarCommand()
+    {
+        OpenFileDialog openFileDialog = new();
+        openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;...";
+        openFileDialog.Title = "Direct to your avartar";
+        if (openFileDialog.ShowDialog() == true)
+        {
+            Avatar_Path = openFileDialog.FileName;
+            OnPropertyChanged(nameof(IsDefault));
+            OnPropertyChanged(nameof(Avatar_Path));
+        }
     }
     private void ValidateProperty<T>(T value, string name)
     {

@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Models;
+using Models.DTOs;
+using Models.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -65,9 +67,9 @@ public class LoginViewModel : ViewModelBase
     }
     private async Task loginCommandAsync()
     {
-        Task<Account?> t = new(() => _dataProvider.GetAcount(Id, Password));
+        Task<AccountDTO?> t = new(() => _dataProvider.GetAcount(Id, Password));
         t.Start();
-        Account? account = await t;
+        AccountDTO? account = await t;
         if (account == null)
         {
             ErrorNotifyViewModel.Instance!.Show("Can not find you account", "Login failed");

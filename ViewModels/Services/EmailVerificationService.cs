@@ -27,7 +27,7 @@ public class EmailVerificationService : INavigationService
 
     public void Navigate()
     {
-        var account = _dataProvider.GetAcountByID(_store.Id);
+        var account = _dataProvider.GetAcount(_store.Id);
         if (account == null)
         {
             ErrorNotifyViewModel.Instance!.Show("Can not find your account");

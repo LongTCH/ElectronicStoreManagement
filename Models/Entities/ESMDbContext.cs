@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Models;
+namespace Models.Entities;
 
 public partial class ESMDbContext : DbContext
 {
@@ -46,6 +46,16 @@ public partial class ESMDbContext : DbContext
             entity.Property(e => e.Id).IsFixedLength();
         });
 
+        modelBuilder.Entity<Laptop>(entity =>
+        {
+            entity.Property(e => e.Id).IsFixedLength();
+        });
+
+        modelBuilder.Entity<Monitor>(entity =>
+        {
+            entity.Property(e => e.Id).IsFixedLength();
+        });
+
         modelBuilder.Entity<Order>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__ORDER__3214EC07887C71B7");
@@ -71,17 +81,22 @@ public partial class ESMDbContext : DbContext
 
         modelBuilder.Entity<Pccpu>(entity =>
         {
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).IsFixedLength();
+        });
+
+        modelBuilder.Entity<Pcharddisk>(entity =>
+        {
+            entity.Property(e => e.Id).IsFixedLength();
         });
 
         modelBuilder.Entity<Smartphone>(entity =>
         {
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).IsFixedLength();
         });
 
         modelBuilder.Entity<Vga>(entity =>
         {
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).IsFixedLength();
         });
 
         OnModelCreatingPartial(modelBuilder);

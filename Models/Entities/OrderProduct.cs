@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace Models;
+namespace Models.Entities;
 
 [PrimaryKey("OrderId", "ProductId")]
 [Table("ORDER_PRODUCT")]

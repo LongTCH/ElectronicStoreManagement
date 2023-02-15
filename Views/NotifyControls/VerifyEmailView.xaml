@@ -40,7 +40,7 @@
                 <TextBox materialDesign:HintAssist.FloatingScale="0.50"
                          materialDesign:TextFieldAssist.TextBoxViewMargin="1 0 1 0"
                          FontSize="34"
-                         MinWidth="110"
+                         MinWidth="115"
                          HorizontalAlignment="Center"
                          MaxLength="{Binding MaxLengthCode}"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"

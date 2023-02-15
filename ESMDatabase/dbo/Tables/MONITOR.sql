@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[MONITOR]
 (
-	[Id] INT NOT NULL IDENTITY, 
+	[Id] CHAR(9) NOT NULL, 
     [Name] NVARCHAR(100) NOT NULL, 
     [Size] VARCHAR(50) NOT NULL, 
     [Panel] VARCHAR(50) NOT NULL, 

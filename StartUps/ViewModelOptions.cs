@@ -15,6 +15,16 @@ namespace StartUps;
 
 public partial class App : Application
 {
+    private RegisterViewModel CreateRegisterViewModel(IServiceProvider serviceProvider)
+    {
+        return new RegisterViewModel(serviceProvider.GetRequiredService<DataProvider>());
+    }
+    private AccountViewModel CreateAccountViewModel(IServiceProvider serviceProvider)
+    {
+        return new AccountViewModel(
+            serviceProvider.GetRequiredService<AccountStore>(),
+            CreateHomeNavigationService(serviceProvider));
+    }
     private VerifyEmailViewModel CreateVerifyEmailViewModel(IServiceProvider serviceProvider)
     {
         return new VerifyEmailViewModel(

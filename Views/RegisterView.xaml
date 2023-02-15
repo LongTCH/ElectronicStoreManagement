@@ -14,8 +14,79 @@
                   HorizontalAlignment="Stretch">
         <StackPanel Margin="20"
                     VerticalAlignment="Center">
-            <Image Source="pack://application:,,,/Views;component/Images/logo.png"
-                   Height="50" />
+            <DockPanel>
+                <Button Height="220"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Style="{StaticResource MaterialDesignFlatLightButton}"
+                        Command="{Binding AddAvatarCommand}">
+                    <Button.Content>
+                        <Grid>
+                            <Image Source="pack://application:,,,/Views;component/Images/adduser.png"
+                                   Height="200"
+                                   Visibility="{Binding IsDefault, Converter={StaticResource BoolToVis}}"
+                                   HorizontalAlignment="Left" />
+                            <Image Source="{Binding Avatar_Path}"
+                                   Height="150"
+                                   HorizontalAlignment="Left">
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Setter Property="Visibility"
+                                                Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsDefault}"
+                                                         Value="False">
+                                                <Setter Property="Visibility"
+                                                        Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                        </Grid>
+                    </Button.Content>
+                </Button>
+                <Grid Margin="200,0,100,0"
+                      DockPanel.Dock="Right"
+                      VerticalAlignment="Top">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <DockPanel Grid.Row="1">
+                        <materialDesign:PackIcon VerticalAlignment="Bottom"
+                                                 Margin="0,0,0,10"
+                                                 Height="30"
+                                                 Width="30"
+                                                 Kind="Identifier" />
+                        <TextBox Margin="20,10"
+                                 materialDesign:HintAssist.Hint="ID"
+                                 Text="{Binding Id, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 FontFamily="Champagne &amp; Limousines"
+                                 FontSize="18" />
+                    </DockPanel>
+                    <DockPanel Grid.Row="0">
+                        <materialDesign:PackIcon VerticalAlignment="Bottom"
+                                                 Margin="0,0,0,10"
+                                                 Height="30"
+                                                 Width="30"
+                                                 Kind="MarkerTick" />
+                        <TextBox Margin="20,10"
+                                 materialDesign:HintAssist.Hint="Suggested ID"
+                                 Text="{Binding SuggestID,Mode=OneWay}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 FontFamily="Champagne &amp; Limousines"
+                                 FontSize="18">
+                            <core:Interaction.Triggers>
+                                <core:EventTrigger EventName="LostFocus">
+                                    <core:InvokeCommandAction Command="{Binding SuggestCommand}" />
+                                </core:EventTrigger>
+                            </core:Interaction.Triggers>
+                        </TextBox>
+                    </DockPanel>
+                </Grid>
+            </DockPanel>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />

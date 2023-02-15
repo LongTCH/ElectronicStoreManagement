@@ -10,6 +10,7 @@ using ViewModels.ControlViewModels;
 using ViewModels.NotifyControlViewModels;
 using Models;
 using ViewModels.ProductViewModels;
+using Models.Entities;
 
 namespace StartUps;
 
@@ -33,15 +34,13 @@ public partial class App : Application
         services.AddSingleton<FloatingNavigationStore>();
         services.AddSingleton<VerificationStore>();
 
-
-        services.AddTransient<AccountViewModel>(s => new AccountViewModel(
-            s.GetRequiredService<AccountStore>(),
-            CreateHomeNavigationService(s)));
+        services.AddSingleton<MainViewModel>();
+        services.AddTransient<AccountViewModel>(CreateAccountViewModel);
         services.AddTransient<LoginViewModel>(CreateLoginViewModel);
         services.AddSingleton<ControlBarViewModel>();
         services.AddTransient<NavigationBarViewModel>(CreateNavigationBarViewModel);
         services.AddSingleton<HomeViewModel>(CreateHomeViewModel);
-        services.AddTransient<RegisterViewModel>();
+        services.AddTransient<RegisterViewModel>(CreateRegisterViewModel);
         services.AddTransient<InputVerificationViewModel>(CreateInputEmailViewModel);
         services.AddTransient<VerifyEmailViewModel>(CreateVerifyEmailViewModel);
         services.AddSingleton<PopupListItemViewModel>(CreatePopupListItemViewModel);
@@ -59,9 +58,6 @@ public partial class App : Application
         services.AddSingleton<CloseModalNavigationService>(); 
         services.AddSingleton<CloseFloatNavigationService>();
 
-
-        services.AddSingleton<MainViewModel>();
-
         services.AddSingleton<MainWindow>(s => new MainWindow()
         {
             DataContext = s.GetRequiredService<MainViewModel>()
@@ -74,11 +70,8 @@ public partial class App : Application
     {
         INavigationService initialNavigationService = _serviceProvider.GetRequiredService<INavigationService>();
         initialNavigationService.Navigate();
-
         MainWindow = _serviceProvider.GetRequiredService<MainWindow>();
-
         MainWindow.Show();
-
         base.OnStartup(e);
     }
 
