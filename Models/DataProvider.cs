@@ -39,7 +39,17 @@ public class DataProvider
                select new LaptopDTO()
                {
                    Name = laptop.Name,
-                   Image_Path = @laptop.ImagePath
+                   Image_Path = @laptop.ImagePath,
+                   Price = laptop.Price
                };
+    }
+    public void ResetPassword(string ID, string newPassword)
+    {
+        var account = (from a in _context.Accounts
+                       where a.Id == ID
+                       select a).First();
+        ScryptEncoder encoder = new ScryptEncoder();
+        account.PasswordHash = encoder.Encode(newPassword);
+        _context.SaveChanges();
     }
 }

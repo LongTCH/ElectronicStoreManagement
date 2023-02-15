@@ -1,9 +1,12 @@
-﻿namespace ViewModels.MyMessageBox;
+﻿using System.Windows.Input;
+
+namespace ViewModels.MyMessageBox;
 
 public interface IErrorNotifyViewModel
 {
-    string? ErrorMessage { get; set; }
-    string? ErrorTitle { get; set; }
+    string? Message { get; set; }
+    string? Title { get; set; }
 
-    public abstract void Show(string? message, string? title);
+    public ICommand CloseCommand { get; }
+    public abstract void Show(string? message, string? title = null);
 }

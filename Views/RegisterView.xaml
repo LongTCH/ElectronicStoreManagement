@@ -6,6 +6,7 @@
              xmlns:helper="clr-namespace:Views.Helper"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:core="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local="clr-namespace:Views"
              mc:Ignorable="d"
              MinWidth="800"
              Background="White">
@@ -13,7 +14,7 @@
                   HorizontalAlignment="Stretch">
         <StackPanel Margin="20"
                     VerticalAlignment="Center">
-            <Image Source="/Views;component/Images/logo.png"
+            <Image Source="pack://application:,,,/Views;component/Images/logo.png"
                    Height="50" />
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -77,6 +78,46 @@
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              FontFamily="Champagne &amp; Limousines"
                              FontSize="18" />
+                </DockPanel>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <DockPanel Grid.Column="0">
+                    <materialDesign:PackIcon VerticalAlignment="Bottom"
+                                             Margin="0,0,0,10"
+                                             Height="30"
+                                             Width="30"
+                                             Kind="GenderMaleFemale" />
+                    <ComboBox materialDesign:HintAssist.FontFamily="Verdana"
+                              Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                              materialDesign:HintAssist.Hint="Gender"
+                              BorderThickness="0"
+                              Margin="20,10"
+                              FontSize="18"
+                              x:Name="cmbGen"
+                              ItemsSource="{Binding Gender}">
+                        <core:Interaction.Triggers>
+                            <core:EventTrigger EventName="SelectionChanged">
+                                <core:InvokeCommandAction Command="{Binding GenderChanged}"
+                                                          CommandParameter="{Binding ElementName=cmbGen,Path=SelectedItem}" />
+                            </core:EventTrigger>
+                        </core:Interaction.Triggers>
+                    </ComboBox>
+                </DockPanel>
+                <DockPanel Grid.Column="1">
+                    <materialDesign:PackIcon Kind="BirthdayCake"
+                                             VerticalAlignment="Bottom"
+                                             Margin="0,0,0,20"
+                                             Height="30"
+                                             Width="30" />
+                    <DatePicker FontSize="18"
+                                Margin="20,10"
+                                helper:DatePickerDateFormat.DateFormat="{Binding DateFormat}"
+                                Language="{Binding Language, Mode=OneWay}"
+                                SelectedDate="{Binding BirthDay, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" />
                 </DockPanel>
             </Grid>
             <TextBlock Text="ADDRESS"

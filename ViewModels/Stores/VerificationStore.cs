@@ -9,6 +9,7 @@ namespace ViewModels.Stores;
 
 public class VerificationStore
 {
-    public string Id { get; set; }
-    public string VerificationCode { get; set; }
+    public string? Id { get; set; }
+    public string? VerificationCode { get; set; }
+    public string? EmailMark { get; set; }
 }

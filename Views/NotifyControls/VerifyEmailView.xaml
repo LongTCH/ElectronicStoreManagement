@@ -6,26 +6,46 @@
              xmlns:local="clr-namespace:Views.NotifyControls"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
-             d:DesignHeight="450"
-             d:DesignWidth="800">
-    <StackPanel HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Margin="20">
-        <Button HorizontalAlignment="Right"
-                Style="{StaticResource MaterialDesignIconButton}"
-                Foreground="IndianRed"
-                Command="{Binding CloseCommand}">
-            <materialDesign:PackIcon Kind="CloseCircle" />
-        </Button>
-        <TextBlock Text="Enter verify code sent by email"
-                   FontSize="20" />
-        <TextBox materialDesign:HintAssist.FloatingScale="0.50"
-                 materialDesign:TextFieldAssist.TextBoxViewMargin="1 0 1 0"
-                 FontSize="34"
-                 MinWidth="110"
-                 HorizontalAlignment="Center"
-                 MaxLength="{Binding MaxLengthCode}"
-                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                 Text="{Binding VerifyCode, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" />
-    </StackPanel>
+             Background="LightBlue">
+    <Grid>
+        <Image Source="pack://application:,,,/Views;component/Images/email.png"
+               Height="50"
+               Panel.ZIndex="1"
+               VerticalAlignment="Top" />
+        <materialDesign:Card Margin="0,25,0,0">
+            <StackPanel Margin="20"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <Grid>
+                    <StackPanel>
+                        <TextBlock Text="We sent an email to"
+                                   HorizontalAlignment="Left"
+                                   FontSize="16"
+                                   Foreground="Silver"
+                                   Style="{StaticResource MaterialDesignHeadline1TextBlock}" />
+                        <TextBlock Text="{Binding EmailMark}"
+                                   HorizontalAlignment="Left"
+                                   Foreground="Silver"
+                                   FontSize="16" />
+                    </StackPanel>
+                    <Button HorizontalAlignment="Right"
+                            Style="{StaticResource MaterialDesignIconButton}"
+                            Foreground="IndianRed"
+                            Command="{Binding CloseCommand}">
+                        <materialDesign:PackIcon Kind="CloseCircle" />
+                    </Button>
+                </Grid>
+                <TextBlock Text="Enter verify code sent by email"
+                           FontSize="20" />
+                <TextBox materialDesign:HintAssist.FloatingScale="0.50"
+                         materialDesign:TextFieldAssist.TextBoxViewMargin="1 0 1 0"
+                         FontSize="34"
+                         MinWidth="110"
+                         HorizontalAlignment="Center"
+                         MaxLength="{Binding MaxLengthCode}"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         Text="{Binding VerifyCode, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" />
+            </StackPanel>
+        </materialDesign:Card>
+    </Grid>
 </UserControl>

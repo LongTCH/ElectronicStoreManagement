@@ -21,8 +21,8 @@ public class LoginViewModel : ViewModelBase
     private readonly INavigationService _navigationService;
     private readonly INavigationService _registerNavigationService;
     private readonly INavigationService _forgotPasswordNavigationService;
-    private string _id;
-    public string Id
+    private string? _id;
+    public string? Id
     {
         get => _id;
         set
@@ -32,8 +32,8 @@ public class LoginViewModel : ViewModelBase
         }
     }
 
-    private string _password;
-    public string Password
+    private string? _password;
+    public string? Password
     {
         get => _password;
         set

@@ -13,7 +13,7 @@
     <materialDesign:Card>
         <StackPanel Margin="20"
                     VerticalAlignment="Center">
-            <Image Source="/Views;component/Images/logo.png"
+            <Image Source="pack://application:,,,/Views;component/Images/logo.png"
                    Height="50" />
             <Grid>
                 <Grid.ColumnDefinitions>

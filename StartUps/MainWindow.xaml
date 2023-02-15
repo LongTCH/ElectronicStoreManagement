@@ -40,6 +40,9 @@
             <DataTemplate DataType="{x:Type messviewmodel:ErrorNotifyViewModel}">
                 <messview:ErrorNotifyView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type messviewmodel:InformationViewModel}">
+                <messview:InformationView />
+            </DataTemplate>
             <DataTemplate DataType="{x:Type viewmodels:InputVerificationViewModel}">
                 <views:InputVerificationView />
             </DataTemplate>

@@ -1,12 +1,16 @@
 ﻿using Models;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
+using System.Windows.Markup;
 using ViewModels.Commands;
+using ViewModels.MyMessageBox;
 using ViewModels.Services;
 using ViewModels.Stores.Accounts;
 using ViewModels.Stores.Address;
@@ -19,16 +23,16 @@ public class RegisterViewModel : ViewModelBase
     private readonly INavigationService _navigationService;
     private readonly INavigationService _openNotifyView;
     private ObservableCollection<string> _error = new ObservableCollection<string>() {
-        nameof(FirstName), nameof(LastName), nameof(Email), nameof(Phone),
-        nameof(SelectedCity), nameof(SelectedDistrict), nameof(SelectedSub_district), nameof(Street)};
+        nameof(FirstName), nameof(LastName), nameof(Email), nameof(Phone)};
 
     public List<City> Cities { get; set; }
     public IEnumerable<District>? Districts { get; set; }
     public IEnumerable<Sub_district>? Sub_districts { get; set; }
+    public List<string> Gender { get; } = new() { "Nam", "Nữ" };
 
-    private string _firstName;
+    private string? _firstName;
     [Required]
-    public string FirstName
+    public string? FirstName
     {
         get => _firstName;
         set
@@ -40,9 +44,9 @@ public class RegisterViewModel : ViewModelBase
             _error.Remove(nameof(FirstName));
         }
     }
-    private string _lastName;
+    private string? _lastName;
     [Required]
-    public string LastName
+    public string? LastName
     {
         get => _lastName;
         set
@@ -55,10 +59,10 @@ public class RegisterViewModel : ViewModelBase
         }
     }
 
-    private string _email;
+    private string? _email;
     [RegularExpression("^[a-z0-9_\\+-]+(\\.[a-z0-9_\\+-]+)*@[a-z0-9-]+(\\.[a-z0-9]+)*\\.([a-z]{2,4})$", ErrorMessage = "Invalid email format.")]
     [EmailAddress]
-    public string Email
+    public string? Email
     {
         get => _email;
         set
@@ -70,9 +74,9 @@ public class RegisterViewModel : ViewModelBase
             _error.Remove(nameof(Email));
         }
     }
-    private string _phone;
+    private string? _phone;
     [Phone]
-    public string Phone
+    public string? Phone
     {
         get => _phone;
         set
@@ -87,11 +91,16 @@ public class RegisterViewModel : ViewModelBase
     private City? SelectedCity { get; set; }
     public District? SelectedDistrict { get; set; }
     private Sub_district? SelectedSub_district { get; set; }
-    public string Street { get; set; }
+    public string? Street { get; set; }
+    private string? SelectedGender { get; set; }
+    public DateTime? BirthDay { get; set; }
+    public string DateFormat => CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;
+    public XmlLanguage Language => XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag);
     public bool CanClick => _error.Count == 0;
     public ICommand GetDistricts { get; }
     public ICommand GetSub_districts { get; }
     public ICommand Sub_districtChanged { get; }
+    public ICommand GenderChanged { get; }
 
     public ICommand SignUpCommand { get; } = null!;
     public RegisterViewModel(AccountStore? accountStore,
@@ -106,6 +115,8 @@ public class RegisterViewModel : ViewModelBase
         GetDistricts = new RelayCommand<City>(getDistricts);
         GetSub_districts = new RelayCommand<District>(getSubDistricts);
         Sub_districtChanged = new RelayCommand<Sub_district>(p => SelectedSub_district = p);
+        GenderChanged = new RelayCommand<string>(p => SelectedGender = p);
+        SignUpCommand = new RelayCommand<object>(_ => signUp());
 
         _error.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler((_, _) => OnPropertyChanged(nameof(CanClick)));
     }
@@ -128,6 +139,19 @@ public class RegisterViewModel : ViewModelBase
         else Sub_districts = null;
         OnPropertyChanged(nameof(Sub_districts));
         SelectedDistrict = p;
+    }
+    private void signUp()
+    {
+        if (SelectedCity == null || SelectedDistrict == null || SelectedSub_district == null || Street == null)
+        {
+            ErrorNotifyViewModel.Instance!.Show("Enter full address", "Warning");
+            return;
+        }
+        if (SelectedGender == null)
+            ErrorNotifyViewModel.Instance!.Show("Choose your gender", "Warning");
+        if (BirthDay == null)
+            ErrorNotifyViewModel.Instance!.Show("Choose your birthday", "Warning");
+
     }
     private void ValidateProperty<T>(T value, string name)
     {

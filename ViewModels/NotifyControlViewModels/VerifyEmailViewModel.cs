@@ -12,6 +12,7 @@ public class VerifyEmailViewModel : ViewModelBase
     private readonly VerificationStore _store;
     
     public ICommand CloseCommand { get; }
+    public string EmailMark => _store.EmailMark!;
     public int MaxLengthCode { get; init; } = 6;
     public VerifyEmailViewModel(VerificationStore Store, 
         CloseModalNavigationService closeModalNavigationService,

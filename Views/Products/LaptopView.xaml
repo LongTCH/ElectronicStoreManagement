@@ -22,6 +22,11 @@
                                 <Image Source="{Binding Image_Path}"
                                        Height="50" />
                                 <TextBlock Text="{Binding Name}" />
+                                <DockPanel LastChildFill="True">
+                                    <TextBlock Text="Price :" />
+                                    <TextBlock Text="{Binding Price, StringFormat={}{0:0.#}}"
+                                               HorizontalAlignment="Right" />
+                                </DockPanel>
                             </StackPanel>
                         </Button.Content>
                     </Button>

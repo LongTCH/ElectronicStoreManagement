@@ -1,16 +1,23 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using ViewModels.Commands;
 using ViewModels.Stores.Navigations;
 
 namespace ViewModels.MyMessageBox;
 
-public class ErrorNotifyViewModel : ViewModelBase, IErrorNotifyViewModel
+public class InformationViewModel : ViewModelBase, IErrorNotifyViewModel
 {
-    private static ErrorNotifyViewModel? _instance = new();
-    internal static ErrorNotifyViewModel? Instance => _instance;
+    private static InformationViewModel? _instance = new();
+    internal static InformationViewModel? Instance => _instance;
     public string? Message { get; set; }
     public string? Title { get; set; }
-    private ErrorNotifyViewModel()
+
+    public ICommand CloseCommand { get; }
+    private InformationViewModel()
     {
         CloseCommand = new RelayCommand<object>(_ => TopLevelStore.Instance!.Close());
     }
@@ -20,5 +27,4 @@ public class ErrorNotifyViewModel : ViewModelBase, IErrorNotifyViewModel
         Title = title;
         TopLevelStore.Instance!.CurrentViewModel = this;
     }
-    public ICommand CloseCommand { get; }
 }

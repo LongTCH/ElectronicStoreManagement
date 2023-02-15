@@ -7,7 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\email.png" />
+    <None Remove="Images\error.png" />
     <None Remove="Images\logo.png" />
+    <None Remove="Images\success.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,7 +25,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\email.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\error.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\logo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\success.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

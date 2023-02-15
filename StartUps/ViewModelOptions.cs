@@ -27,6 +27,7 @@ public partial class App : Application
         return new ResetPasswordViewModel(
             serviceProvider.GetRequiredService<DataProvider>(),
             serviceProvider.GetRequiredService<AccountStore>(),
+            serviceProvider.GetRequiredService<VerificationStore>(),
             CreateLoginNavigationService(serviceProvider));
     }
     private LaptopViewModel CreateLaptopViewModel(IServiceProvider serviceProvider)

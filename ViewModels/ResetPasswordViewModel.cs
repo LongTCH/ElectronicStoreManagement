@@ -1,9 +1,12 @@
 ﻿using Models;
 using Scrypt;
+using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using ViewModels.Commands;
 using ViewModels.MyMessageBox;
 using ViewModels.Services;
+using ViewModels.Stores;
 using ViewModels.Stores.Accounts;
 
 namespace ViewModels;
@@ -11,12 +14,17 @@ namespace ViewModels;
 public class ResetPasswordViewModel : ViewModelBase
 {
     private readonly AccountStore _accountStore;
+    private readonly VerificationStore _verificationStore;
     private readonly DataProvider _dataProvider;
     private readonly INavigationService _loginNavigate;
-    public ResetPasswordViewModel(DataProvider dataProvider, AccountStore accountStore, INavigationService loginNavigate)
+    public ResetPasswordViewModel(DataProvider dataProvider,
+        AccountStore accountStore,
+        VerificationStore verificationStore,
+        INavigationService loginNavigate)
     {
         _dataProvider = dataProvider;
         _accountStore = accountStore;
+        _verificationStore = verificationStore;
         _loginNavigate = loginNavigate;
         if (accountStore.CurrentAccount != null) IsOldPasswordType = true;
         ResetCommand = new RelayCommand<object>(_ => reset());
@@ -31,7 +39,7 @@ public class ResetPasswordViewModel : ViewModelBase
         if (IsOldPasswordType)
         {
             ScryptEncoder encoder = new ScryptEncoder();
-            if (encoder.Compare(OldPassword, _accountStore.CurrentAccount.PasswordHash) == false)
+            if (encoder.Compare(OldPassword, _accountStore.CurrentAccount!.PasswordHash) == false)
             {
                 ErrorNotifyViewModel.Instance!.Show("Wrong Password", "Failed");
                 return;
@@ -41,7 +49,6 @@ public class ResetPasswordViewModel : ViewModelBase
                 ErrorNotifyViewModel.Instance!.Show("New Password Invalid", "Failed");
                 return;
             }
-            // code hera
         }
         else
         {
@@ -50,7 +57,21 @@ public class ResetPasswordViewModel : ViewModelBase
                 ErrorNotifyViewModel.Instance!.Show("New Password Invalid", "Failed");
                 return;
             }
-            // code hera
+        }
+        _loginNavigate.Navigate();
+        Task task = new Task(resetAsync);
+        task.Start();
+    }
+    private void resetAsync()
+    {
+        try
+        {
+            InformationViewModel.Instance!.Show("Please log in your account", "Success");
+            _dataProvider.ResetPassword(_verificationStore.Id!, NewPassword!);
+        }
+        catch (Exception ex)
+        {
+            ErrorNotifyViewModel.Instance!.Show(ex.Message);
         }
     }
 }
