@@ -11,6 +11,7 @@ using ViewModels.NotifyControlViewModels;
 using Models;
 using ViewModels.ProductViewModels;
 using Models.Entities;
+using ViewModels.Admins;
 
 namespace StartUps;
 
@@ -45,6 +46,7 @@ public partial class App : Application
         services.AddTransient<VerifyEmailViewModel>(CreateVerifyEmailViewModel);
         services.AddSingleton<PopupListItemViewModel>(CreatePopupListItemViewModel);
         services.AddTransient<ResetPasswordViewModel>(CreateResetPasswordViewModel);
+        services.AddTransient<ChangeAccountInfoViewModel>(CreateChangeAccountInfoViewModel);
 
         services.AddTransient<LaptopViewModel>(CreateLaptopViewModel);
         services.AddTransient<PCViewModel>();

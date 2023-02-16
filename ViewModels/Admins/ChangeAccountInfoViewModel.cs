@@ -1,8 +1,8 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Win32;
 using Models;
 using Models.DTOs;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,28 +10,29 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Windows;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Markup;
 using ViewModels.Commands;
 using ViewModels.MyMessageBox;
 using ViewModels.Services;
-using ViewModels.Stores.Accounts;
 using ViewModels.Stores.Address;
 
-namespace ViewModels;
+namespace ViewModels.Admins;
 
-public class RegisterViewModel : ViewModelBase
+public class ChangeAccountInfoViewModel : ViewModelBase
 {
     private readonly DataProvider _dataProvider;
-    private ObservableCollection<string> _error = new ObservableCollection<string>() {
-        nameof(Id), nameof(FirstName), nameof(LastName), nameof(Email), nameof(Phone)};
+    private readonly INavigationService _navigationService;
+
+    private ObservableCollection<string> _error = new ObservableCollection<string>();
 
     public List<City> Cities { get; set; }
     public IEnumerable<District>? Districts { get; set; }
     public IEnumerable<Sub_district>? Sub_districts { get; set; }
     public List<string> Gender { get; } = new GetGenderListCommand().Execute();
-
+    private bool UpdateAddress = false;
     public string? Avatar_Path { get; set; } = null;
     private string? _id;
     [Required]
@@ -45,10 +46,9 @@ public class RegisterViewModel : ViewModelBase
             if (!_error.Contains(nameof(Id)))
                 _error.Add(nameof(Id));
             ValidateProperty(value, nameof(Id));
-            _error.Remove(nameof(Id)); 
+            _error.Remove(nameof(Id));
         }
     }
-    public string SuggestID => "1" + DateTime.UtcNow.Year.ToString() + _dataProvider.GetSeuggestAccountIdCounter();
     private string? _firstName;
     [Required]
     public string? FirstName
@@ -116,54 +116,58 @@ public class RegisterViewModel : ViewModelBase
     public string DateFormat => CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;
     public XmlLanguage Language => XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag);
     public bool CanClick => _error.Count == 0;
-    public bool IsDefault => Avatar_Path.IsNullOrEmpty();
+    public bool IsDefault => !File.Exists(Avatar_Path);
     public ICommand GetDistricts { get; }
     public ICommand GetSub_districts { get; }
-    public ICommand Sub_districtChanged { get; }
-    public ICommand GenderChanged { get; }
-    public ICommand SuggestCommand { get; }
     public ICommand AddAvatarCommand { get; }
     public ICommand SignUpCommand { get; } = null!;
-    public RegisterViewModel(DataProvider dataProvider)
+    public ICommand FindAccountCommand { get; }
+    public ChangeAccountInfoViewModel(DataProvider dataProvider, INavigationService navigationSerVice)
     {
         _dataProvider = dataProvider;
+        _navigationService = navigationSerVice;
 
         Cities = new CitiesSortCommand(new GetCitiesCommand().GetCitiesList().ToList()).GetSortedCities();
         GetDistricts = new RelayCommand<City>(getDistricts);
         GetSub_districts = new RelayCommand<District>(getSubDistricts);
-        Sub_districtChanged = new RelayCommand<Sub_district>(p => SelectedSub_district = p);
-        GenderChanged = new RelayCommand<string>(p => SelectedGender = p);
         SignUpCommand = new RelayCommand<object>(_ => signUp());
-        SuggestCommand = new RelayCommand<object>(_ => OnPropertyChanged(nameof(SuggestID)));
         AddAvatarCommand = new RelayCommand<object>(_ => addAvatarCommand());
+        FindAccountCommand = new RelayCommand<object>(_ => findAccountCommand());
 
         _error.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler((_, _) => OnPropertyChanged(nameof(CanClick)));
     }
     private void getDistricts(City p)
     {
+        if (UpdateAddress == false) return;
         if (p != null)
-        { Districts = p.level2s; }
-        else
         {
-            Districts = null;
+            Districts = p.level2s;
+            SelectedCity = p;
         }
-        Sub_districts = null;
+        else Districts = null;
+        SelectedDistrict = null;
         OnPropertyChanged(nameof(Districts));
-        OnPropertyChanged(nameof(Sub_districts));
-        SelectedCity = p;
+        OnPropertyChanged(nameof(SelectedDistrict));
+
     }
     private void getSubDistricts(District p)
     {
-        if (p != null) { Sub_districts = p.level3s; }
+        if (UpdateAddress == false) return;
+        if (p != null)
+        {
+            Sub_districts = p.level3s;
+            SelectedDistrict = p;
+        }
         else Sub_districts = null;
+        SelectedSub_district = null;
         OnPropertyChanged(nameof(Sub_districts));
-        SelectedDistrict = p;
+        OnPropertyChanged(nameof(SelectedSub_district));
     }
     private void signUp()
     {
-        if(_dataProvider.GetAcount(Id) != null)
+        if (_dataProvider.GetAcount(Id) == null)
         {
-            ErrorNotifyViewModel.Instance!.Show("ID has existed", "Error");
+            ErrorNotifyViewModel.Instance!.Show("ID does not exist", "Error");
             return;
         }
         if (SelectedCity == null || SelectedDistrict == null || SelectedSub_district == null || Street == null)
@@ -178,12 +182,12 @@ public class RegisterViewModel : ViewModelBase
         AccountDTO accountDTO = new AccountDTO()
         {
             Id = Id!,
-            PasswordHash="00000000000000000",
+            PasswordHash = "00000000000000000",
             FirstName = FirstName!,
             LastName = LastName!,
             EmailAddress = Email!,
             Phone = Phone!,
-            Sex = (SelectedGender!.Equals(Gender.ElementAt(0))!) ? true : false,
+            Sex = SelectedGender!.Equals(Gender.ElementAt(0))!,
             Birthday = (DateTime)BirthDay!,
             City = SelectedCity!.ToString(),
             District = SelectedDistrict!.ToString(),
@@ -191,7 +195,14 @@ public class RegisterViewModel : ViewModelBase
             Street = Street!.ToString(),
             AvatarPath = Avatar_Path
         };
-        _dataProvider.AddUser(accountDTO);
+        Task task = new(() => changeUser(accountDTO));
+        task.Start();
+    }
+    private void changeUser(AccountDTO accountDTO)
+    {
+        _dataProvider.ChangeUser(accountDTO);
+        InformationViewModel.Instance!.Show("Saved change", "Success");
+        _navigationService.Navigate();
     }
     private void addAvatarCommand()
     {
@@ -204,6 +215,50 @@ public class RegisterViewModel : ViewModelBase
             OnPropertyChanged(nameof(IsDefault));
             OnPropertyChanged(nameof(Avatar_Path));
         }
+    }
+    private void findAccountCommand()
+    {
+        AccountDTO? accountDTO = _dataProvider.GetAcount(Id);
+        if (accountDTO == null)
+        {
+            ErrorNotifyViewModel.Instance!.Show("ID does not exist", "Error");
+            return;
+        }
+        FirstName = accountDTO.FirstName;
+        LastName = accountDTO.LastName;
+        Email = accountDTO.EmailAddress;
+        Phone = accountDTO.Phone;
+        SelectedGender = (accountDTO.Sex) ? Gender.ElementAt(0) : Gender.ElementAt(1);
+        BirthDay = accountDTO.Birthday;
+        try
+        {
+            SelectedCity = Cities.FirstOrDefault(s => s.name == accountDTO.City);
+            Districts = SelectedCity.level2s;
+            SelectedDistrict = SelectedCity.level2s.FirstOrDefault(s => s.name == accountDTO.District);
+            Sub_districts = SelectedDistrict.level3s;
+            SelectedSub_district = SelectedDistrict.level3s.FirstOrDefault(s => s.name == accountDTO.SubDistrict);
+        }
+        catch (Exception)
+        {
+
+        }
+        Street = accountDTO.Street;
+        Avatar_Path = accountDTO.AvatarPath;
+        OnPropertyChanged(nameof(FirstName));
+        OnPropertyChanged(nameof(LastName));
+        OnPropertyChanged(nameof(Email));
+        OnPropertyChanged(nameof(Phone));
+        OnPropertyChanged(nameof(SelectedGender));
+        OnPropertyChanged(nameof(BirthDay));
+        OnPropertyChanged(nameof(SelectedCity));
+        OnPropertyChanged(nameof(SelectedDistrict));
+        OnPropertyChanged(nameof(SelectedSub_district));
+        OnPropertyChanged(nameof(Street));
+        OnPropertyChanged(nameof(IsDefault));
+        OnPropertyChanged(nameof(Avatar_Path));
+        OnPropertyChanged(nameof(Districts));
+        OnPropertyChanged(nameof(Sub_districts));
+        UpdateAddress = true;
     }
     private void ValidateProperty<T>(T value, string name)
     {

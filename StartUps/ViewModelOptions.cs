@@ -10,11 +10,18 @@ using ViewModels.ControlViewModels;
 using Models;
 using ViewModels.ProductViewModels;
 using ViewModels.NotifyControlViewModels;
+using ViewModels.Admins;
 
 namespace StartUps;
 
 public partial class App : Application
 {
+    public ChangeAccountInfoViewModel CreateChangeAccountInfoViewModel(IServiceProvider serviceProvider)
+    {
+        return new ChangeAccountInfoViewModel(
+            serviceProvider.GetRequiredService<DataProvider>(),
+            CreateChangeAccountInfoNavigationService(serviceProvider));
+    }
     private RegisterViewModel CreateRegisterViewModel(IServiceProvider serviceProvider)
     {
         return new RegisterViewModel(serviceProvider.GetRequiredService<DataProvider>());
@@ -67,7 +74,8 @@ public partial class App : Application
             CreateListBoxItemNavigationService(serviceProvider),
             CreateHomeNavigationService(serviceProvider),
             CreateAccountNavigationService(serviceProvider),
-            serviceProvider.GetRequiredService<CloseFloatNavigationService>());
+            serviceProvider.GetRequiredService<CloseFloatNavigationService>(),
+            CreateChangeAccountInfoNavigationService(serviceProvider));
     }
     public InputVerificationViewModel CreateInputEmailViewModel(IServiceProvider serviceProvider)
     {

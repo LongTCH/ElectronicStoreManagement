@@ -11,183 +11,193 @@
              d:DesignHeight="450"
              d:DesignWidth="800"
              Background="WhiteSmoke">
-    <StackPanel>
-        <StackPanel.Resources>
-            <Style TargetType="materialDesign:PackIcon">
-                <Setter Property="Width"
-                        Value="30" />
-                <Setter Property="Height"
-                        Value="30" />
-                <Setter Property="VerticalAlignment"
-                        Value="Center" />
-                <Style.Triggers>
-                    <EventTrigger RoutedEvent="MouseEnter">
-                        <EventTrigger.Actions>
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation Duration="0:0:0.300"
-                                                     Storyboard.TargetProperty="Height"
-                                                     To="40" />
-                                    <DoubleAnimation Duration="0:0:0.300"
-                                                     Storyboard.TargetProperty="Width"
-                                                     To="40" />
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger.Actions>
-                    </EventTrigger>
-                    <EventTrigger RoutedEvent="MouseLeave">
-                        <EventTrigger.Actions>
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation Duration="0:0:0.300"
-                                                     Storyboard.TargetProperty="Height"
-                                                     To="40" />
-                                    <DoubleAnimation Duration="0:0:0.300"
-                                                     Storyboard.TargetProperty="Width"
-                                                     To="30" />
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger.Actions>
-                    </EventTrigger>
-                </Style.Triggers>
-            </Style>
-            <Style TargetType="Button">
-                <Setter Property="BorderThickness"
-                        Value="0" />
-                <Setter Property="Background"
-                        Value="Transparent" />
-                <Setter Property="Width"
-                        Value="60" />
-                <Style.Triggers>
-                    <Trigger Property="IsMouseOver"
-                             Value="True">
-                        <Setter Property="Foreground"
-                                Value="LightSkyBlue" />
-                        <Setter Property="Cursor"
-                                Value="Hand" />
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-            <Style TargetType="Grid">
-                <Setter Property="Height"
-                        Value="60" />
-            </Style>
-        </StackPanel.Resources>
-        <Grid>
-            <Button ToolTip="Category"
-                    Command="{Binding PopupCommand}">
-                <Grid>
-                    <materialDesign:PackIcon Kind="HamburgerMenuBack"
-                                             VerticalAlignment="Center"
-                                             HorizontalAlignment="Center"
-                                             Foreground="DeepSkyBlue">
-                        <materialDesign:PackIcon.Style>
-                            <Style TargetType="materialDesign:PackIcon">
-                                <Setter Property="Visibility"
-                                        Value="Visible" />
-                                <Setter Property="Width"
-                                        Value="30" />
-                                <Setter Property="Height"
-                                        Value="30" />
-                                <Setter Property="VerticalAlignment"
-                                        Value="Center" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsMenuOpen}"
-                                                 Value="True">
-                                        <Setter Property="Visibility"
-                                                Value="Collapsed" />
-                                    </DataTrigger>
-                                    <EventTrigger RoutedEvent="MouseEnter">
-                                        <EventTrigger.Actions>
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <DoubleAnimation Duration="0:0:0.300"
-                                                                     Storyboard.TargetProperty="Height"
-                                                                     To="40" />
-                                                    <DoubleAnimation Duration="0:0:0.300"
-                                                                     Storyboard.TargetProperty="Width"
-                                                                     To="40" />
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </EventTrigger.Actions>
-                                    </EventTrigger>
-                                    <EventTrigger RoutedEvent="MouseLeave">
-                                        <EventTrigger.Actions>
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <DoubleAnimation Duration="0:0:0.300"
-                                                                     Storyboard.TargetProperty="Height"
-                                                                     To="40" />
-                                                    <DoubleAnimation Duration="0:0:0.300"
-                                                                     Storyboard.TargetProperty="Width"
-                                                                     To="30" />
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </EventTrigger.Actions>
-                                    </EventTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </materialDesign:PackIcon.Style>
-                    </materialDesign:PackIcon>
-                    <materialDesign:PackIcon Kind="Menu"
-                                             VerticalAlignment="Center"
-                                             HorizontalAlignment="Center"
-                                             Foreground="DeepSkyBlue"
-                                             Visibility="{Binding IsMenuOpen, Converter={StaticResource BoolToVis}}" />
-                </Grid>
-            </Button>
-        </Grid>
-        <Grid>
-            <Button ToolTip="Home"
-                    Command="{Binding NavigateHomeCommand}">
-                <materialDesign:PackIcon Kind="Home"
-                                         Foreground="MediumPurple" />
-            </Button>
-        </Grid>
-        <Grid>
-            <Grid.Style>
-                <Style TargetType="Grid">
-                    <Setter Property="Visibility"
-                            Value="Visible" />
+    <ScrollViewer VerticalScrollBarVisibility="auto"
+                  HorizontalAlignment="Stretch">
+        <StackPanel>
+            <StackPanel.Resources>
+                <Style TargetType="materialDesign:PackIcon">
+                    <Setter Property="Width"
+                            Value="30" />
                     <Setter Property="Height"
-                            Value="60" />
+                            Value="30" />
+                    <Setter Property="VerticalAlignment"
+                            Value="Center" />
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsLoggedIn}"
-                                     Value="True">
-                            <Setter Property="Visibility"
-                                    Value="Collapsed" />
-                        </DataTrigger>
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:0:0.300"
+                                                         Storyboard.TargetProperty="Height"
+                                                         To="40" />
+                                        <DoubleAnimation Duration="0:0:0.300"
+                                                         Storyboard.TargetProperty="Width"
+                                                         To="40" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:0:0.300"
+                                                         Storyboard.TargetProperty="Height"
+                                                         To="40" />
+                                        <DoubleAnimation Duration="0:0:0.300"
+                                                         Storyboard.TargetProperty="Width"
+                                                         To="30" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
                     </Style.Triggers>
                 </Style>
-            </Grid.Style>
-            <Button  Command="{Binding NavigateLoginCommand}"
-                     ToolTip="Login">
-                <materialDesign:PackIcon Kind="Login"
-                                         VerticalAlignment="Center"
-                                         Foreground="DarkSeaGreen" />
-            </Button >
-        </Grid>
-        <Grid Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVis}}">
-            <Button Command="{Binding NavigateAccountCommand}"
-                    ToolTip="Account">
-                <materialDesign:PackIcon Kind="User"
-                                         VerticalAlignment="Center"
-                                         Foreground="DimGray" />
-            </Button >
-        </Grid>
-        <Grid>
-            <Button ToolTip="Notify"
-                    Command="{Binding NavigateLoginCommand}">
-                <materialDesign:PackIcon Kind="Notifications"
-                                         Foreground="SandyBrown" />
-            </Button>
-        </Grid>
-        <Grid Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVis}}">
-            <Button ToolTip="Logout"
-                    Command="{Binding LogoutCommand}">
-                <materialDesign:PackIcon Kind="Logout"
-                                         Foreground="CadetBlue" />
-            </Button>
-        </Grid>
-    </StackPanel>
+                <Style TargetType="Button">
+                    <Setter Property="BorderThickness"
+                            Value="0" />
+                    <Setter Property="Background"
+                            Value="Transparent" />
+                    <Setter Property="Width"
+                            Value="60" />
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter Property="Foreground"
+                                    Value="LightSkyBlue" />
+                            <Setter Property="Cursor"
+                                    Value="Hand" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Height"
+                            Value="60" />
+                </Style>
+            </StackPanel.Resources>
+            <Grid>
+                <Button ToolTip="Category"
+                        Command="{Binding PopupCommand}">
+                    <Grid>
+                        <materialDesign:PackIcon Kind="HamburgerMenuBack"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center"
+                                                 Foreground="DeepSkyBlue">
+                            <materialDesign:PackIcon.Style>
+                                <Style TargetType="materialDesign:PackIcon">
+                                    <Setter Property="Visibility"
+                                            Value="Visible" />
+                                    <Setter Property="Width"
+                                            Value="30" />
+                                    <Setter Property="Height"
+                                            Value="30" />
+                                    <Setter Property="VerticalAlignment"
+                                            Value="Center" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMenuOpen}"
+                                                     Value="True">
+                                            <Setter Property="Visibility"
+                                                    Value="Collapsed" />
+                                        </DataTrigger>
+                                        <EventTrigger RoutedEvent="MouseEnter">
+                                            <EventTrigger.Actions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation Duration="0:0:0.300"
+                                                                         Storyboard.TargetProperty="Height"
+                                                                         To="40" />
+                                                        <DoubleAnimation Duration="0:0:0.300"
+                                                                         Storyboard.TargetProperty="Width"
+                                                                         To="40" />
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger.Actions>
+                                        </EventTrigger>
+                                        <EventTrigger RoutedEvent="MouseLeave">
+                                            <EventTrigger.Actions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation Duration="0:0:0.300"
+                                                                         Storyboard.TargetProperty="Height"
+                                                                         To="40" />
+                                                        <DoubleAnimation Duration="0:0:0.300"
+                                                                         Storyboard.TargetProperty="Width"
+                                                                         To="30" />
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger.Actions>
+                                        </EventTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </materialDesign:PackIcon.Style>
+                        </materialDesign:PackIcon>
+                        <materialDesign:PackIcon Kind="Menu"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center"
+                                                 Foreground="DeepSkyBlue"
+                                                 Visibility="{Binding IsMenuOpen, Converter={StaticResource BoolToVis}}" />
+                    </Grid>
+                </Button>
+            </Grid>
+            <Grid>
+                <Button ToolTip="Home"
+                        Command="{Binding NavigateHomeCommand}">
+                    <materialDesign:PackIcon Kind="Home"
+                                             Foreground="MediumPurple" />
+                </Button>
+            </Grid>
+            <Grid>
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility"
+                                Value="Visible" />
+                        <Setter Property="Height"
+                                Value="60" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsLoggedIn}"
+                                         Value="True">
+                                <Setter Property="Visibility"
+                                        Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <Button  Command="{Binding NavigateLoginCommand}"
+                         ToolTip="Login">
+                    <materialDesign:PackIcon Kind="Login"
+                                             VerticalAlignment="Center"
+                                             Foreground="DarkGreen" />
+                </Button >
+            </Grid>
+            <Grid Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVis}}">
+                <Button Command="{Binding NavigateAccountCommand}"
+                        ToolTip="Account">
+                    <materialDesign:PackIcon Kind="User"
+                                             VerticalAlignment="Center"
+                                             Foreground="DimGray" />
+                </Button >
+            </Grid>
+            <Grid>
+                <Button ToolTip="Notify"
+                        Command="{Binding NavigateLoginCommand}">
+                    <materialDesign:PackIcon Kind="Notifications"
+                                             Foreground="SandyBrown" />
+                </Button>
+            </Grid>
+            <Grid Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVis}}">
+                <Button ToolTip="Logout"
+                        Command="{Binding LogoutCommand}">
+                    <materialDesign:PackIcon Kind="Logout"
+                                             Foreground="YellowGreen" />
+                </Button>
+            </Grid>
+            <Grid>
+                <Button ToolTip="ChangeAccountInfo"
+                        Command="{Binding ChangeAccountInfoCommand}">
+                    <materialDesign:PackIcon Kind="FindReplace"
+                                             Foreground="PaleVioletRed" />
+                </Button>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

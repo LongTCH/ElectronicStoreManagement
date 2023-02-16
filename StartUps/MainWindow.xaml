@@ -15,11 +15,15 @@
         xmlns:productviewmodels="clr-namespace:ViewModels.ProductViewModels;assembly=ViewModels"
         xmlns:messview="clr-namespace:Views.MyMessageBox;assembly=Views"
         xmlns:messviewmodel="clr-namespace:ViewModels.MyMessageBox;assembly=ViewModels"
+        xmlns:adminview="clr-namespace:Views.Admins;assembly=Views"
+        xmlns:adminviewmodel="clr-namespace:ViewModels.Admins;assembly=ViewModels"
         mc:Ignorable="d"
         WindowState="Normal"
         Title="MainWindow"
         Height="540"
         Width="960"
+        MinWidth="200"
+        MinHeight="100"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         Background="WhiteSmoke">
@@ -78,6 +82,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewmodels:ResetPasswordViewModel}">
                 <views:ResetPasswordView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type adminviewmodel:ChangeAccountInfoViewModel}">
+                <adminview:ChangeAccountInfoView />
             </DataTemplate>
         </Grid.Resources>
         <modalcontrol:Modal Panel.ZIndex="1"

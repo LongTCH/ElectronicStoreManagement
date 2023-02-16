@@ -13,11 +13,20 @@ using ViewModels.NotifyControlViewModels;
 using Views.Products;
 using ViewModels.ProductViewModels;
 using Models;
+using ViewModels.Admins;
 
 namespace StartUps;
 
 public partial class App : Application
 {
+    private INavigationService CreateChangeAccountInfoNavigationService(IServiceProvider serviceProvider)
+    {
+        return new LayoutNavigationService<ChangeAccountInfoViewModel>(
+            serviceProvider.GetRequiredService<NavigationStore>(),
+            serviceProvider.GetRequiredService<ChangeAccountInfoViewModel>,
+            serviceProvider.GetRequiredService<NavigationBarViewModel>,
+            serviceProvider.GetRequiredService<ControlBarViewModel>);
+    }
     private INavigationService CreateResetPasswordNavigationService(IServiceProvider serviceProvider)
     {
         return new LayoutNavigationService<ResetPasswordViewModel>(

@@ -14,6 +14,24 @@ public class DataProvider
     {
         _context = dbContext;
     }
+    public void ChangeUser(AccountDTO accountDTO)
+    {
+        var account = (from ac in _context.Accounts
+                       where ac.Id == accountDTO.Id
+                       select ac).First();
+        account.FirstName = accountDTO.FirstName;
+        account.LastName = accountDTO.LastName;
+        account.EmailAddress = accountDTO.EmailAddress;
+        account.Phone = accountDTO.Phone;
+        account.AvatarPath = accountDTO.AvatarPath;
+        account.Birthday = accountDTO.Birthday;
+        account.City = accountDTO.City;
+        account.SubDistrict = accountDTO.SubDistrict;
+        account.District = accountDTO.District;
+        account.Street = accountDTO.Street;
+        account.Sex = accountDTO.Sex;
+        _context.SaveChanges();
+    }
     public AccountDTO? GetAcount(string? id, string? password = null)
     {
         ScryptEncoder encoder = new ScryptEncoder();
@@ -45,13 +63,24 @@ public class DataProvider
     }
     public IEnumerable<LaptopDTO>? GetLaptopList()
     {
-        return from laptop in _context.Laptops
+        return (from laptop in _context.Laptops
                select new LaptopDTO()
                {
                    Name = laptop.Name,
-                   Image_Path = @laptop.ImagePath,
-                   Price = laptop.Price
-               };
+                   ImagePath = @laptop.ImagePath,
+                   Price = laptop.Price,
+                   Company = laptop.Company,
+                   Cpu = laptop.Cpu,
+                   DetailPath = @laptop.DetailPath,
+                   Discount = laptop.Discount,
+                   Graphic = laptop.Graphic,
+                   Id = laptop.Id,
+                   Need = laptop.Need,
+                   Ram = laptop.Ram,
+                   Remain = laptop.Remain,
+                   Series = laptop.Series,
+                   Storage = laptop.Storage
+               }).ToList();
     }
     public void ResetPassword(string ID, string newPassword)
     {
