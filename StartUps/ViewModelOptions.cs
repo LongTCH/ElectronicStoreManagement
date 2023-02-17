@@ -16,7 +16,13 @@ namespace StartUps;
 
 public partial class App : Application
 {
-    public ChangeAccountInfoViewModel CreateChangeAccountInfoViewModel(IServiceProvider serviceProvider)
+    private ProductDetailViewModel CreateProductDetailViewModel(IServiceProvider serviceProvider)
+    {
+        return new ProductDetailViewModel(
+            serviceProvider.GetRequiredService<ProductDetailStore>(),
+            serviceProvider.GetRequiredService<CloseModalNavigationService>());
+    }
+    private ChangeAccountInfoViewModel CreateChangeAccountInfoViewModel(IServiceProvider serviceProvider)
     {
         return new ChangeAccountInfoViewModel(
             serviceProvider.GetRequiredService<DataProvider>(),
@@ -49,7 +55,52 @@ public partial class App : Application
     }
     private LaptopViewModel CreateLaptopViewModel(IServiceProvider serviceProvider)
     {
-        return new LaptopViewModel(serviceProvider.GetRequiredService<DataProvider>());
+        return new LaptopViewModel(
+            serviceProvider.GetRequiredService<DataProvider>(),
+            serviceProvider.GetRequiredService<ProductDetailStore>(),
+            CreateProductDetailNavigationService(serviceProvider));
+    }
+    private MonitorViewModel CreateMonitorViewModel(IServiceProvider serviceProvider)
+    {
+        return new MonitorViewModel(
+            serviceProvider.GetRequiredService<DataProvider>(),
+            serviceProvider.GetRequiredService<ProductDetailStore>(),
+            CreateProductDetailNavigationService(serviceProvider));
+    }
+    private PCViewModel CreatePCViewModel(IServiceProvider serviceProvider)
+    {
+        return new PCViewModel(
+            serviceProvider.GetRequiredService<DataProvider>(),
+            serviceProvider.GetRequiredService<ProductDetailStore>(),
+            CreateProductDetailNavigationService(serviceProvider));
+    }
+    private PCCPUViewModel CreatePCCPUViewModel(IServiceProvider serviceProvider)
+    {
+        return new PCCPUViewModel(
+            serviceProvider.GetRequiredService<DataProvider>(),
+            serviceProvider.GetRequiredService<ProductDetailStore>(),
+            CreateProductDetailNavigationService(serviceProvider));
+    }
+    private PCHarddiskViewModel CreatePCHardDiskViewModel(IServiceProvider serviceProvider)
+    {
+        return new PCHarddiskViewModel(
+            serviceProvider.GetRequiredService<DataProvider>(),
+            serviceProvider.GetRequiredService<ProductDetailStore>(),
+            CreateProductDetailNavigationService(serviceProvider));
+    }
+    private SmartPhoneViewModel CreateSmartPhoneViewModel(IServiceProvider serviceProvider)
+    {
+        return new SmartPhoneViewModel(
+            serviceProvider.GetRequiredService<DataProvider>(),
+            serviceProvider.GetRequiredService<ProductDetailStore>(),
+            CreateProductDetailNavigationService(serviceProvider));
+    }
+    private VGAViewModel CreateVGAViewModel(IServiceProvider serviceProvider)
+    {
+        return new VGAViewModel(
+            serviceProvider.GetRequiredService<DataProvider>(),
+            serviceProvider.GetRequiredService<ProductDetailStore>(),
+            CreateProductDetailNavigationService(serviceProvider));
     }
     private HomeViewModel CreateHomeViewModel(IServiceProvider serviceProvider)
     {
@@ -77,12 +128,12 @@ public partial class App : Application
             serviceProvider.GetRequiredService<CloseFloatNavigationService>(),
             CreateChangeAccountInfoNavigationService(serviceProvider));
     }
-    public InputVerificationViewModel CreateInputEmailViewModel(IServiceProvider serviceProvider)
+    private InputVerificationViewModel CreateInputEmailViewModel(IServiceProvider serviceProvider)
     {
         return new InputVerificationViewModel(serviceProvider.GetRequiredService<VerificationStore>(),
             CreateEmailVerificattionService(serviceProvider));
     }
-    public PopupListItemViewModel CreatePopupListItemViewModel(IServiceProvider serviceProvider)
+    private PopupListItemViewModel CreatePopupListItemViewModel(IServiceProvider serviceProvider)
     {
         return new PopupListItemViewModel(
             serviceProvider.GetRequiredService<CloseFloatNavigationService>(),

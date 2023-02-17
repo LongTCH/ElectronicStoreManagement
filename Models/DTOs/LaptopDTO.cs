@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Models.DTOs;
 
-public class LaptopDTO
+public class LaptopDTO : IProductDTO
 {
     public string Id { get; set; } = null!;
     public string Name { get; set; } = null!;
@@ -18,19 +18,11 @@ public class LaptopDTO
     public string Storage { get; set; } = null!;
     public string Graphic { get; set; } = null!;
     public decimal Price { get; set; }
-    public decimal? Discount { get; set; }
+    public double? Discount { get; set; }
     public short Remain { get; set; }
     public string? DetailPath { get; set; }
     public string? ImagePath { get; set; }
     public string? Series { get; set; }
     public string Company { get; set; } = null!;
     public string? Need { get; set; }
-    public override int GetHashCode()
-    {
-        return Id.GetHashCode();
-    }
-    public override bool Equals(object? obj)
-    {
-        return Id == (obj as LaptopDTO)?.Id;
-    }
 }

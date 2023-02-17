@@ -12,7 +12,8 @@
              Background="White">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" MaxWidth="300"/>
+            <ColumnDefinition Width="1*"
+                              MaxWidth="300" />
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
         <ScrollViewer VerticalScrollBarVisibility="auto"
@@ -24,9 +25,11 @@
                         <Setter Property="FontSize"
                                 Value="14" />
                         <Setter Property="Foreground"
-                                Value="Blue" />
+                                Value="BlueViolet" />
                         <Setter Property="Padding"
                                 Value="10,0,0,0" />
+                        <Setter Property="FontWeight"
+                                Value="Bold" />
                     </Style>
                 </Grid.Resources>
                 <Grid.RowDefinitions>
@@ -46,8 +49,8 @@
                             <DataTemplate>
                                 <CheckBox Content="{Binding Name}"
                                           IsChecked="{Binding IsChecked}"
-                                          Style="{StaticResource MaterialDesignUserForegroundCheckBox}" 
-                                          Foreground="DeepSkyBlue"/>
+                                          Style="{StaticResource MaterialDesignUserForegroundCheckBox}"
+                                          Foreground="DeepSkyBlue" />
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                         <ListBox.ItemsPanel>
@@ -113,21 +116,30 @@
                 </StackPanel>
             </Grid>
         </ScrollViewer>
-        <ListBox Grid.Column="1"
+        <ListBox x:Name="lboxLaptop"
+                 Grid.Column="1"
                  ItemsSource="{Binding LaptopList}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Button Style="{StaticResource MaterialDesignFlatButton}"
-                            Height="100">
+                    <Button Background="Transparent"
+                            BorderThickness="1"
+                            BorderBrush="Silver"
+                            Height="100"
+                            Command="{Binding DataContext.ProductDetailNavigateCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
+                            CommandParameter="{Binding}">
                         <Button.Content>
                             <StackPanel Width="150">
                                 <Image Source="{Binding ImagePath}"
                                        Height="50" />
-                                <TextBlock Text="{Binding Name}" TextWrapping="NoWrap"/>
+                                <TextBlock Text="{Binding Name}"
+                                           TextWrapping="NoWrap"
+                                           Foreground="Black" />
                                 <DockPanel LastChildFill="True">
-                                    <TextBlock Text="Price :" />
+                                    <TextBlock Text="Price :"
+                                               Foreground="Black" />
                                     <TextBlock Text="{Binding Price, StringFormat={}{0:0.#}}"
-                                               HorizontalAlignment="Right" />
+                                               HorizontalAlignment="Right"
+                                               Foreground="Black" />
                                 </DockPanel>
                             </StackPanel>
                         </Button.Content>

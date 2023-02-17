@@ -112,7 +112,7 @@ public class RegisterViewModel : ViewModelBase
     public Sub_district? SelectedSub_district { get; set; }
     public string? Street { get; set; }
     public string? SelectedGender { get; set; }
-    public DateTime? BirthDay { get; set; }
+    public DateTime BirthDay { get; set; } = DateTime.Today;
     public string DateFormat => CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;
     public XmlLanguage Language => XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag);
     public bool CanClick => _error.Count == 0;
@@ -172,9 +172,15 @@ public class RegisterViewModel : ViewModelBase
             return;
         }
         if (SelectedGender == null)
+        {
             ErrorNotifyViewModel.Instance!.Show("Choose your gender", "Warning");
-        if (BirthDay == null)
-            ErrorNotifyViewModel.Instance!.Show("Choose your birthday", "Warning");
+            return;
+        }
+        if (DateTime.Compare(BirthDay!, DateTime.Today) >= 0)
+        {
+            ErrorNotifyViewModel.Instance!.Show("Must be earlier than current day", "Birthday Invalid");
+            return;
+        }
         AccountDTO accountDTO = new AccountDTO()
         {
             Id = Id!,
@@ -183,8 +189,8 @@ public class RegisterViewModel : ViewModelBase
             LastName = LastName!,
             EmailAddress = Email!,
             Phone = Phone!,
-            Sex = (SelectedGender!.Equals(Gender.ElementAt(0))!) ? true : false,
-            Birthday = (DateTime)BirthDay!,
+            Sex = SelectedGender!.Equals(Gender.ElementAt(0))!,
+            Birthday = DateTime.SpecifyKind(BirthDay, DateTimeKind.Utc),
             City = SelectedCity!.ToString(),
             District = SelectedDistrict!.ToString(),
             SubDistrict = SelectedSub_district!.ToString(),

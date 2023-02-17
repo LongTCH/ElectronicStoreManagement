@@ -10,7 +10,9 @@ namespace Models.Entities;
 public partial class Pc
 {
     [Key]
-    public int Id { get; set; }
+    [StringLength(9)]
+    [Unicode(false)]
+    public string Id { get; set; } = null!;
 
     [StringLength(100)]
     public string Name { get; set; } = null!;
@@ -24,19 +26,10 @@ public partial class Pc
     [Unicode(false)]
     public string? Ram { get; set; }
 
-    [StringLength(50)]
-    [Unicode(false)]
-    public string? Storage { get; set; }
-
-    [StringLength(50)]
-    [Unicode(false)]
-    public string? Graphic { get; set; }
-
     [Column(TypeName = "money")]
     public decimal Price { get; set; }
 
-    [Column(TypeName = "money")]
-    public decimal? Discount { get; set; }
+    public double? Discount { get; set; }
 
     public short Remain { get; set; }
 

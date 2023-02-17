@@ -112,7 +112,7 @@ public class ChangeAccountInfoViewModel : ViewModelBase
     public Sub_district? SelectedSub_district { get; set; }
     public string? Street { get; set; }
     public string? SelectedGender { get; set; }
-    public DateTime? BirthDay { get; set; }
+    public DateTime BirthDay { get; set; }
     public string DateFormat => CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;
     public XmlLanguage Language => XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag);
     public bool CanClick => _error.Count == 0;
@@ -176,9 +176,15 @@ public class ChangeAccountInfoViewModel : ViewModelBase
             return;
         }
         if (SelectedGender == null)
+        {
             ErrorNotifyViewModel.Instance!.Show("Choose your gender", "Warning");
-        if (BirthDay == null)
-            ErrorNotifyViewModel.Instance!.Show("Choose your birthday", "Warning");
+            return;
+        }
+        if (DateTime.Compare(BirthDay, DateTime.Today) >= 0)
+        {
+            ErrorNotifyViewModel.Instance!.Show("Must be earlier than current day", "Birthday Invalid");
+            return;
+        }
         AccountDTO accountDTO = new AccountDTO()
         {
             Id = Id!,
@@ -188,7 +194,7 @@ public class ChangeAccountInfoViewModel : ViewModelBase
             EmailAddress = Email!,
             Phone = Phone!,
             Sex = SelectedGender!.Equals(Gender.ElementAt(0))!,
-            Birthday = (DateTime)BirthDay!,
+            Birthday = DateTime.SpecifyKind(BirthDay, DateTimeKind.Utc),
             City = SelectedCity!.ToString(),
             District = SelectedDistrict!.ToString(),
             SubDistrict = SelectedSub_district!.ToString(),
@@ -229,7 +235,7 @@ public class ChangeAccountInfoViewModel : ViewModelBase
         Email = accountDTO.EmailAddress;
         Phone = accountDTO.Phone;
         SelectedGender = (accountDTO.Sex) ? Gender.ElementAt(0) : Gender.ElementAt(1);
-        BirthDay = accountDTO.Birthday;
+        BirthDay = DateTime.SpecifyKind(accountDTO.Birthday, DateTimeKind.Local);
         try
         {
             SelectedCity = Cities.FirstOrDefault(s => s.name == accountDTO.City);

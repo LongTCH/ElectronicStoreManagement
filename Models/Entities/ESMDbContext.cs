@@ -58,7 +58,7 @@ public partial class ESMDbContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ORDER__3214EC07887C71B7");
+            entity.HasKey(e => e.Id).HasName("PK__ORDER__3214EC0776889B5F");
 
             entity.Property(e => e.PhoneNvarchar30).IsFixedLength();
             entity.Property(e => e.PurchasedTime).HasDefaultValueSql("(getutcdate())");
@@ -76,7 +76,7 @@ public partial class ESMDbContext : DbContext
 
         modelBuilder.Entity<Pc>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__PC__3214EC077CFC82BD");
+            entity.Property(e => e.Id).IsFixedLength();
         });
 
         modelBuilder.Entity<Pccpu>(entity =>

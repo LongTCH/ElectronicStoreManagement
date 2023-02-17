@@ -86,6 +86,9 @@
             <DataTemplate DataType="{x:Type adminviewmodel:ChangeAccountInfoViewModel}">
                 <adminview:ChangeAccountInfoView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type notifyviewmodels:ProductDetailViewModel}">
+                <notifycontrols:ProductDetailView />
+            </DataTemplate>
         </Grid.Resources>
         <modalcontrol:Modal Panel.ZIndex="1"
                             IsOpen="{Binding IsOpen}">

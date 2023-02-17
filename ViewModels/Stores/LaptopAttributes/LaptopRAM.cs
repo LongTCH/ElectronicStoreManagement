@@ -27,6 +27,6 @@ public class LaptopRAM : IStore
     }
     public override bool Equals(object? obj)
     {
-        return Name == (obj as LaptopCompany)?.Name;
+        return Name == (obj as LaptopRAM)?.Name;
     }
 }

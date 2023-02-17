@@ -9,6 +9,7 @@
              xmlns:local="clr-namespace:Views"
              mc:Ignorable="d"
              MinWidth="800"
+             MaxWidth="1000"
              Background="White">
     <ScrollViewer VerticalScrollBarVisibility="auto"
                   HorizontalAlignment="Stretch">
@@ -190,7 +191,7 @@
                                 Margin="20,10"
                                 helper:DatePickerDateFormat.DateFormat="{Binding DateFormat}"
                                 Language="{Binding Language, Mode=OneWay}"
-                                SelectedDate="{Binding BirthDay, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" />
+                                SelectedDate="{Binding BirthDay, UpdateSourceTrigger=PropertyChanged}" />
                 </DockPanel>
             </Grid>
             <TextBlock Text="ADDRESS"

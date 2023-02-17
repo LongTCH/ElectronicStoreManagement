@@ -26,6 +26,6 @@ public class LaptopGraphic
     }
     public override bool Equals(object? obj)
     {
-        return Name == (obj as LaptopCompany)?.Name;
+        return Name == (obj as LaptopGraphic)?.Name;
     }
 }

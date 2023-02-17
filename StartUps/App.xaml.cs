@@ -34,6 +34,7 @@ public partial class App : Application
         services.AddSingleton<ModalNavigationStore>();
         services.AddSingleton<FloatingNavigationStore>();
         services.AddSingleton<VerificationStore>();
+        services.AddSingleton<ProductDetailStore>();
 
         services.AddSingleton<MainViewModel>();
         services.AddTransient<AccountViewModel>(CreateAccountViewModel);
@@ -47,14 +48,15 @@ public partial class App : Application
         services.AddSingleton<PopupListItemViewModel>(CreatePopupListItemViewModel);
         services.AddTransient<ResetPasswordViewModel>(CreateResetPasswordViewModel);
         services.AddTransient<ChangeAccountInfoViewModel>(CreateChangeAccountInfoViewModel);
+        services.AddTransient<ProductDetailViewModel>(CreateProductDetailViewModel);
 
         services.AddTransient<LaptopViewModel>(CreateLaptopViewModel);
-        services.AddTransient<PCViewModel>();
-        services.AddTransient<PCCPUViewModel>();
-        services.AddTransient<PCHarddiskViewModel>();
-        services.AddTransient<MonitorViewModel>();
-        services.AddTransient<VGAViewModel>();
-        services.AddTransient<SmartPhoneViewModel>();
+        services.AddTransient<PCViewModel>(CreatePCViewModel);
+        services.AddTransient<PCCPUViewModel>(CreatePCCPUViewModel);
+        services.AddTransient<PCHarddiskViewModel>(CreatePCHardDiskViewModel);
+        services.AddTransient<MonitorViewModel>(CreateMonitorViewModel);
+        services.AddTransient<VGAViewModel>(CreateVGAViewModel);
+        services.AddTransient<SmartPhoneViewModel>(CreateSmartPhoneViewModel);
 
         services.AddSingleton<INavigationService>(CreateHomeNavigationService);
         services.AddSingleton<CloseModalNavigationService>(); 

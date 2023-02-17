@@ -67,6 +67,16 @@ public class LoginViewModel : ViewModelBase
     }
     private async Task loginCommandAsync()
     {
+        if (Id.IsNullOrEmpty())
+        {
+            ErrorNotifyViewModel.Instance!.Show("Enter ID", "Warning");
+            return;
+        }
+        if (Password.IsNullOrEmpty())
+        {
+            ErrorNotifyViewModel.Instance!.Show("Enter Password", "Warning");
+            return;
+        }
         Task<AccountDTO?> t = new(() => _dataProvider.GetAcount(Id, Password));
         t.Start();
         AccountDTO? account = await t;

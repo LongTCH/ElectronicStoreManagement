@@ -27,6 +27,6 @@ public class LaptopSeries : IStore
     }
     public override bool Equals(object? obj)
     {
-        return Name == (obj as LaptopCompany)?.Name;
+        return Name == (obj as LaptopSeries)?.Name;
     }
 }

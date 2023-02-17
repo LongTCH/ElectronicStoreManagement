@@ -33,8 +33,7 @@ public partial class Smartphone
     [Column(TypeName = "money")]
     public decimal Price { get; set; }
 
-    [Column(TypeName = "money")]
-    public decimal? Discount { get; set; }
+    public double? Discount { get; set; }
 
     public short Remain { get; set; }
 

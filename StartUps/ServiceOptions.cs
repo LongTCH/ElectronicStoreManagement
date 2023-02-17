@@ -19,6 +19,12 @@ namespace StartUps;
 
 public partial class App : Application
 {
+    private INavigationService CreateProductDetailNavigationService(IServiceProvider serviceProvider)
+    {
+        return new ModalNavigationService<ProductDetailViewModel>(
+            serviceProvider.GetRequiredService<ModalNavigationStore>(),
+            serviceProvider.GetRequiredService<ProductDetailViewModel>);
+    }
     private INavigationService CreateChangeAccountInfoNavigationService(IServiceProvider serviceProvider)
     {
         return new LayoutNavigationService<ChangeAccountInfoViewModel>(

@@ -9,6 +9,7 @@
              xmlns:core="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d"
              MinWidth="800"
+             MaxWidth="1000"
              Background="White">
     <ScrollViewer VerticalScrollBarVisibility="auto"
                   HorizontalAlignment="Stretch">

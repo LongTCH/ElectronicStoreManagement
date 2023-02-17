@@ -7,7 +7,7 @@
     [VRAM] VARCHAR(50) NOT NULL, 
     [Gen] VARCHAR(20) NOT NULL,  
     [Price] MONEY NOT NULL, 
-    [Discount] MONEY NULL, 
+    [Discount] FLOAT NULL, 
     [Remain] SMALLINT NOT NULL, 
     [Detail_Path] NVARCHAR(200) NULL, 
     [Image_Path] NVARCHAR(200) NULL, 
