@@ -29,6 +29,7 @@
                         HorizontalAlignment="Center"
                         Style="{StaticResource MaterialDesignRaisedButton}"
                         Height="20"
+                        IsDefault="True"
                         FontSize="10"
                         Foreground="Black"
                         Background="OrangeRed"

@@ -12,13 +12,18 @@
              d:DesignWidth="800">
     <StackPanel Grid.Row="0"
                 Orientation="Horizontal"
-                FlowDirection="RightToLeft"
-                Background="Transparent"
-                Margin="0,0,5,0">
+                FlowDirection="RightToLeft">
+        <StackPanel.Background>
+            <ImageBrush ImageSource="pack://application:,,,/Views;component/Images/headerimage.webp">
+                <ImageBrush.RelativeTransform>
+                    <ScaleTransform ScaleX="-1"
+                                    CenterX="0.5" />
+                </ImageBrush.RelativeTransform>
+            </ImageBrush>
+        </StackPanel.Background>
         <core:Interaction.Triggers>
             <core:EventTrigger EventName="MouseLeftButtonDown">
-                <core:InvokeCommandAction Command="{Binding DragMoveCommand}"
-                                          CommandParameter="{Binding controlBar}" />
+                <core:InvokeCommandAction Command="{Binding DragMoveCommand}" />
             </core:EventTrigger>
         </core:Interaction.Triggers>
         <Button x:Name="btnClose"

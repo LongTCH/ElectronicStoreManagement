@@ -5,12 +5,9 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Views"
-             mc:Ignorable="d"
-             MaxHeight="300"
-             MaxWidth="300"
-             d:DesignHeight="450"
-             d:DesignWidth="800">
-    <materialDesign:Card>
+             mc:Ignorable="d">
+    <materialDesign:Card MaxHeight="300"
+                         MaxWidth="300">
         <StackPanel Margin="20"
                     VerticalAlignment="Center">
             <Image Source="pack://application:,,,/Views;component/Images/logo.png"

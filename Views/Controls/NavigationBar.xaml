@@ -9,8 +9,7 @@
              xmlns:custom="clr-namespace:Views.Helper"
              mc:Ignorable="d"
              d:DesignHeight="450"
-             d:DesignWidth="800"
-             Background="WhiteSmoke">
+             d:DesignWidth="800">
     <ScrollViewer VerticalScrollBarVisibility="auto"
                   HorizontalAlignment="Stretch">
         <StackPanel>
@@ -118,25 +117,18 @@
                                              Foreground="DimGray" />
                 </Button >
             </Grid>
-            <Grid>
+            <!--<Grid>
                 <Button ToolTip="Notify"
                         Command="{Binding NavigateLoginCommand}">
                     <materialDesign:PackIcon Kind="Notifications"
                                              Foreground="SandyBrown" />
                 </Button>
-            </Grid>
+            </Grid>-->
             <Grid Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVis}}">
                 <Button ToolTip="Logout"
                         Command="{Binding LogoutCommand}">
                     <materialDesign:PackIcon Kind="Logout"
                                              Foreground="YellowGreen" />
-                </Button>
-            </Grid>
-            <Grid>
-                <Button ToolTip="ChangeAccountInfo"
-                        Command="{Binding ChangeAccountInfoCommand}">
-                    <materialDesign:PackIcon Kind="FindReplace"
-                                             Foreground="PaleVioletRed" />
                 </Button>
             </Grid>
         </StackPanel>

@@ -8,12 +8,12 @@
              xmlns:core="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:Views"
              mc:Ignorable="d"
-             MinWidth="800"
-             MaxWidth="1000"
              Background="White">
     <ScrollViewer VerticalScrollBarVisibility="auto"
                   HorizontalAlignment="Stretch">
         <StackPanel Margin="20"
+                    MinWidth="800"
+                    MaxWidth="1000"
                     VerticalAlignment="Center">
             <DockPanel>
                 <Button Height="220"

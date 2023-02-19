@@ -10,38 +10,38 @@ namespace ViewModels.ControlViewModels;
 
 public class ControlBarViewModel : ViewModelBase
 {
-    public ICommand CloseCommand { get; } 
+    public ICommand CloseCommand { get; }
     public ICommand MaximizeCommand { get; }
-    public ICommand MinimizeCommand { get; } 
+    public ICommand MinimizeCommand { get; }
     public ICommand DragMoveCommand { get; }
     public ControlBarViewModel()
     {
-        CloseCommand = new RelayCommand<UserControl>(closeCommand);
-        MaximizeCommand = new RelayCommand<UserControl>(maximizeCommand);
-        MinimizeCommand = new RelayCommand<UserControl>(minimizeCommand);
-        DragMoveCommand = new RelayCommand<UserControl>(dragMoveCommand);
+        CloseCommand = new RelayCommand<object>(_ => closeCommand());
+        MaximizeCommand = new RelayCommand<object>(_ => maximizeCommand());
+        MinimizeCommand = new RelayCommand<object>(_ => minimizeCommand());
+        DragMoveCommand = new RelayCommand<object>(_ => dragMoveCommand());
     }
 
-    [DllImport("user32.dll")]      
+    [DllImport("user32.dll")]
     public static extern IntPtr SendMessage(IntPtr hWnd, int wMsg, int wParam, int lParam);
-    private void dragMoveCommand(UserControl userControl)
+    private void dragMoveCommand()
     {
         Window window = Application.Current.MainWindow;
         WindowInteropHelper helper = new(window);
         SendMessage(helper.Handle, 161, 2, 0);
     }
-    private void closeCommand(UserControl userControl)
+    private void closeCommand()
     {
         Application.Current.Shutdown();
     }
-    private void maximizeCommand(UserControl userControl)
+    private void maximizeCommand()
     {
         Window w = Application.Current.MainWindow;
         if (w.WindowState == WindowState.Normal)
             w.WindowState = WindowState.Maximized;
         else w.WindowState = WindowState.Normal;
     }
-    private void minimizeCommand(UserControl userControl)
+    private void minimizeCommand()
     {
         Window w = Application.Current.MainWindow;
         w.WindowState = WindowState.Minimized;

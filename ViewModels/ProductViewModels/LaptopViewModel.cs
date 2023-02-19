@@ -25,7 +25,12 @@ public class LaptopViewModel : ProductViewModel<LaptopDTO>
         : base(unitOfWork, productDetailStore, productDetailNavigate)
     {
         var list = _unitOfWork.Laptops.GetAll();
-        if (list != null) ProductList = new(_productDTOs = list!);
+        if (list != null)
+        {
+            ProductList = new(_productDTOs = list!);
+            MaxPrice = (double)list.Max(x => x.Price);
+            CurrentPrice = MaxPrice;
+        }
         Action += OnIsCheckedChanged;
         getCompanyList();
         getCPUList();

@@ -22,7 +22,17 @@ public abstract class ProductViewModel<T> : ViewModelBase
     public List<T>? ProductList { get; set; } = null;
     public List<string> Conditions { get; } = new GetConditionsCommand().Execute();
     protected string? selectedCondition;
-
+    public double MaxPrice { get; set; } = 0;
+    private double currentPrice;
+    public double CurrentPrice
+    {
+        get => currentPrice;
+        set
+        {
+            currentPrice = value;
+            priceRangeCommand();
+        }
+    }
     protected ProductViewModel(IUnitOfWork unitOfWork,
         ProductDetailStore productDetailStore,
         INavigationService productDetailNavigate)
@@ -31,6 +41,12 @@ public abstract class ProductViewModel<T> : ViewModelBase
         _productDetailNavigate = productDetailNavigate;
         _productDetailStore = productDetailStore;
         ProductDetailNavigateCommand = new RelayCommand<T>(s => openDetailCommand(s));
+    }
+    private void priceRangeCommand()
+    {
+        Action?.Invoke();
+        ProductList = ProductList.Where(x => (double)x.Price <= CurrentPrice).ToList();
+        OnPropertyChanged(nameof(ProductList));
     }
     private void openDetailCommand(T dto)
     {

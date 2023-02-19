@@ -8,12 +8,11 @@
              xmlns:helper="clr-namespace:Views.Helper"
              FontFamily="Segoe UI Emoji"
              mc:Ignorable="d"
-             Height="auto"
-             MaxHeight="400"
-             Width="400">
+             Height="auto">
     <ScrollViewer VerticalScrollBarVisibility="auto"
                   HorizontalAlignment="Stretch">
-        <materialDesign:Card>
+        <materialDesign:Card MaxHeight="400"
+                             Width="400">
             <Grid>
                 <StackPanel Margin="20"
                             VerticalAlignment="Center">

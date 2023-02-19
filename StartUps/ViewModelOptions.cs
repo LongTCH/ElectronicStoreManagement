@@ -108,7 +108,17 @@ public partial class App : Application
     }
     private HomeViewModel CreateHomeViewModel(IServiceProvider serviceProvider)
     {
-        return new HomeViewModel(CreateLoginNavigationService(serviceProvider));
+        return new HomeViewModel(
+            serviceProvider.GetRequiredService<IUnitOfWork>(),
+            serviceProvider.GetRequiredService<ProductDetailStore>(),
+            CreateProductDetailNavigationService(serviceProvider),
+            CreateLaptopNavigationService(serviceProvider),
+            CreateMonitorNavigationService(serviceProvider),
+            CreatePCNavigationService(serviceProvider),
+            CreatePCCPUNavigationService(serviceProvider),
+            CreatePCHardDiskNavigationService(serviceProvider),
+            CreateVGANavigationService(serviceProvider),
+            CreateSmartPhoneNavigationService(serviceProvider));
     }
     private LoginViewModel CreateLoginViewModel(IServiceProvider serviceProvider)
     {
@@ -128,8 +138,7 @@ public partial class App : Application
             CreateListBoxItemNavigationService(serviceProvider),
             CreateHomeNavigationService(serviceProvider),
             CreateAccountNavigationService(serviceProvider),
-            serviceProvider.GetRequiredService<CloseFloatNavigationService>(),
-            CreateChangeAccountInfoNavigationService(serviceProvider));
+            serviceProvider.GetRequiredService<CloseFloatNavigationService>());
     }
     private InputVerificationViewModel CreateInputEmailViewModel(IServiceProvider serviceProvider)
     {

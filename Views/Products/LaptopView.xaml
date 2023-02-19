@@ -19,7 +19,8 @@
         <ScrollViewer VerticalScrollBarVisibility="auto"
                       VerticalContentAlignment="Top"
                       HorizontalAlignment="Stretch">
-            <Grid Grid.Column="0">
+            <Grid Grid.Column="0"
+                  Margin="0,0,5,0">
                 <Grid.Resources>
                     <Style TargetType="TextBlock">
                         <Setter Property="FontSize"
@@ -42,6 +43,22 @@
                     <RowDefinition MinHeight="100" />
                     <RowDefinition MinHeight="100" />
                 </Grid.RowDefinitions>
+                <StackPanel Grid.Column="0"
+                            VerticalAlignment="Bottom">
+                    <Grid>
+                        <TextBlock Text="0"
+                                   HorizontalAlignment="Left" />
+                        <TextBlock Text="{Binding ElementName=sld, Path=Maximum, StringFormat={}{0:N0}}"
+                                   HorizontalAlignment="Right" />
+                    </Grid>
+                    <Slider x:Name="sld"
+                            Maximum="{Binding MaxPrice}"
+                            Minimum="0"
+                            Style="{StaticResource MaterialDesignDiscreteSlider}"
+                            IsSnapToTickEnabled="True"
+                            TickFrequency="1"
+                            Value="{Binding CurrentPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></Slider>
+                </StackPanel>
                 <StackPanel Grid.Row="1">
                     <TextBlock Text="Company" />
                     <ListBox ItemsSource="{Binding CompanyList}">
@@ -186,11 +203,8 @@
                           x:Name="cmbSort"
                           ItemsSource="{Binding Conditions}"
                           SelectedItem="{Binding SelectedCondition, UpdateSourceTrigger=PropertyChanged}"
-                          IsSynchronizedWithCurrentItem="True">
-                   
-                </ComboBox>
+                          IsSynchronizedWithCurrentItem="True"></ComboBox>
             </DockPanel>
-            
             <ListBox ItemsSource="{Binding ProductList}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>

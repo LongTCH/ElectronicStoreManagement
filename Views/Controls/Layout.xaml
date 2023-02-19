@@ -22,9 +22,7 @@
             <local:NavigationBar Grid.Column="0"
                                  DataContext="{Binding NavigationBarViewModel}" />
             <ContentControl Grid.Column="1"
-                            Margin="20"
                             Content="{Binding ContentViewModel}" />
-            <!--<admin:CompanyNeedView Grid.Column="1" />-->
         </Grid>
     </Grid>
 </UserControl>

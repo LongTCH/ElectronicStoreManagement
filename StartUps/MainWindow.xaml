@@ -26,7 +26,7 @@
         MinHeight="100"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
-        Background="WhiteSmoke">
+        Background="White">
     <Grid>
         <Grid.Resources>
             <DataTemplate DataType="{x:Type viewmodels:HomeViewModel}">

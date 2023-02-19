@@ -30,6 +30,7 @@
                         Style="{StaticResource MaterialDesignRaisedButton}"
                         Height="20"
                         FontSize="10"
+                        IsDefault="True"
                         Foreground="Black"
                         Background="GreenYellow"
                         BorderBrush="Green"
