@@ -1,8 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.Win32;
-using Models;
+﻿using Microsoft.Win32;
 using Models.DTOs;
+using Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +8,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Markup;
@@ -23,8 +20,8 @@ namespace ViewModels.Admins;
 
 public class ChangeAccountInfoViewModel : ViewModelBase
 {
-    private readonly DataProvider _dataProvider;
     private readonly INavigationService _navigationService;
+    private readonly IUnitOfWork _unitOfWork;
 
     private ObservableCollection<string> _error = new ObservableCollection<string>();
 
@@ -122,11 +119,10 @@ public class ChangeAccountInfoViewModel : ViewModelBase
     public ICommand AddAvatarCommand { get; }
     public ICommand SignUpCommand { get; } = null!;
     public ICommand FindAccountCommand { get; }
-    public ChangeAccountInfoViewModel(DataProvider dataProvider, INavigationService navigationSerVice)
+    public ChangeAccountInfoViewModel(IUnitOfWork unitOfWork, INavigationService navigationSerVice)
     {
-        _dataProvider = dataProvider;
         _navigationService = navigationSerVice;
-
+        _unitOfWork = unitOfWork;
         Cities = new CitiesSortCommand(new GetCitiesCommand().GetCitiesList().ToList()).GetSortedCities();
         GetDistricts = new RelayCommand<City>(getDistricts);
         GetSub_districts = new RelayCommand<District>(getSubDistricts);
@@ -165,7 +161,7 @@ public class ChangeAccountInfoViewModel : ViewModelBase
     }
     private void signUp()
     {
-        if (_dataProvider.GetAcount(Id) == null)
+        if (Id == null || _unitOfWork.Accounts.Get(Id) == null)
         {
             ErrorNotifyViewModel.Instance!.Show("ID does not exist", "Error");
             return;
@@ -206,7 +202,7 @@ public class ChangeAccountInfoViewModel : ViewModelBase
     }
     private void changeUser(AccountDTO accountDTO)
     {
-        _dataProvider.ChangeUser(accountDTO);
+        _unitOfWork.Accounts.Update(accountDTO);
         InformationViewModel.Instance!.Show("Saved change", "Success");
         _navigationService.Navigate();
     }
@@ -224,7 +220,7 @@ public class ChangeAccountInfoViewModel : ViewModelBase
     }
     private void findAccountCommand()
     {
-        AccountDTO? accountDTO = _dataProvider.GetAcount(Id);
+        AccountDTO? accountDTO = _unitOfWork.Accounts.Get(Id);
         if (accountDTO == null)
         {
             ErrorNotifyViewModel.Instance!.Show("ID does not exist", "Error");

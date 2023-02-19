@@ -1,5 +1,6 @@
 ﻿using Models;
 using Models.DTOs;
+using Models.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -13,7 +14,7 @@ namespace ViewModels.ProductViewModels;
 
 public class LaptopViewModel : ViewModelBase
 {
-    private readonly DataProvider _dataProvider;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IEnumerable<LaptopDTO>? _laptopDTOs;
     private readonly INavigationService _productDetailNavigate;
     private readonly ProductDetailStore _productDetailStore;
@@ -26,15 +27,16 @@ public class LaptopViewModel : ViewModelBase
     public HashSet<LaptopRAM> RAMList { get; set; }
     public HashSet<LaptopStorage> StorageList { get; set; }
     public ICommand ProductDetailNavigateCommand { get; }
-    public LaptopViewModel(DataProvider dataProvider,
+    public LaptopViewModel(IUnitOfWork unitOfWork,
         ProductDetailStore productDetailStore,
         INavigationService productDetailNavigate)
     {
-        _dataProvider = dataProvider;
+        _unitOfWork = unitOfWork;
         _productDetailNavigate = productDetailNavigate;
         _productDetailStore = productDetailStore;
         ProductDetailNavigateCommand = new RelayCommand<LaptopDTO>(s => openDetailCommand(s));
-        if (_dataProvider.GetLaptopList() != null) LaptopList = new(_laptopDTOs = _dataProvider.GetLaptopList()!);
+        var list = _unitOfWork.Laptops.GetAll();
+        if (list != null) LaptopList = new(_laptopDTOs = list!);
         getCompanyList();
         getCPUList();
         getGraphicList();

@@ -1,4 +1,5 @@
 ﻿using Models;
+using Models.Interfaces;
 using Scrypt;
 using System;
 using System.Threading.Tasks;
@@ -15,14 +16,14 @@ public class ResetPasswordViewModel : ViewModelBase
 {
     private readonly AccountStore _accountStore;
     private readonly VerificationStore _verificationStore;
-    private readonly DataProvider _dataProvider;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly INavigationService _loginNavigate;
-    public ResetPasswordViewModel(DataProvider dataProvider,
+    public ResetPasswordViewModel(IUnitOfWork unitOfWork,
         AccountStore accountStore,
         VerificationStore verificationStore,
         INavigationService loginNavigate)
     {
-        _dataProvider = dataProvider;
+        _unitOfWork = unitOfWork;
         _accountStore = accountStore;
         _verificationStore = verificationStore;
         _loginNavigate = loginNavigate;
@@ -67,7 +68,7 @@ public class ResetPasswordViewModel : ViewModelBase
         try
         {
             InformationViewModel.Instance!.Show("Please log in your account", "Success");
-            _dataProvider.ResetPassword(_verificationStore.Id!, NewPassword!);
+            _unitOfWork.Accounts.ResetPassword(_verificationStore.Id!, NewPassword!);
         }
         catch (Exception ex)
         {

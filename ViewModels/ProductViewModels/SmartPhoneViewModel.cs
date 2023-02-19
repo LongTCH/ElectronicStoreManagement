@@ -8,11 +8,12 @@ using ViewModels.Commands;
 using ViewModels.Services;
 using ViewModels.Stores;
 using ViewModels.Stores.SmartPhoneAttributes;
+using Models.Interfaces;
 
 namespace ViewModels.ProductViewModels;
 public class SmartPhoneViewModel : ViewModelBase
 {
-    private readonly DataProvider _dataProvider;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IEnumerable<SmartphoneDTO>? _smartphoneDTOs;
     private readonly INavigationService _productDetailNavigate;
     private readonly ProductDetailStore _productDetailStore;
@@ -23,15 +24,16 @@ public class SmartPhoneViewModel : ViewModelBase
     public HashSet<SmartphoneRAM> RAMList { get; set; }
     public HashSet<SmartphoneStorage> StorageList { get; set; }
     public ICommand ProductDetailNavigateCommand { get; }
-    public SmartPhoneViewModel(DataProvider dataProvider,
+    public SmartPhoneViewModel(IUnitOfWork unitOfWork,
         ProductDetailStore productDetailStore,
         INavigationService productDetailNavigate)
     {
-        _dataProvider = dataProvider;
+        _unitOfWork = unitOfWork;
         _productDetailNavigate = productDetailNavigate;
         _productDetailStore = productDetailStore;
         ProductDetailNavigateCommand = new RelayCommand<SmartphoneDTO>(s => openDetailCommand(s));
-        if (_dataProvider.GetSmartphoneList() != null) SmartphoneList = new(_smartphoneDTOs = _dataProvider.GetSmartphoneList()!);
+        var list = _unitOfWork.Smartphones.GetAll();
+        if (list != null) SmartphoneList = new(_smartphoneDTOs = list!);
         getCompanyList();
         getCPUList();
         getRAMList();

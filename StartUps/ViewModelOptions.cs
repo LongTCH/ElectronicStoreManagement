@@ -11,6 +11,7 @@ using Models;
 using ViewModels.ProductViewModels;
 using ViewModels.NotifyControlViewModels;
 using ViewModels.Admins;
+using Models.Interfaces;
 
 namespace StartUps;
 
@@ -25,12 +26,12 @@ public partial class App : Application
     private ChangeAccountInfoViewModel CreateChangeAccountInfoViewModel(IServiceProvider serviceProvider)
     {
         return new ChangeAccountInfoViewModel(
-            serviceProvider.GetRequiredService<DataProvider>(),
+            serviceProvider.GetRequiredService<IUnitOfWork>(),
             CreateChangeAccountInfoNavigationService(serviceProvider));
     }
     private RegisterViewModel CreateRegisterViewModel(IServiceProvider serviceProvider)
     {
-        return new RegisterViewModel(serviceProvider.GetRequiredService<DataProvider>());
+        return new RegisterViewModel(serviceProvider.GetRequiredService<IUnitOfWork>());
     }
     private AccountViewModel CreateAccountViewModel(IServiceProvider serviceProvider)
     {
@@ -48,7 +49,7 @@ public partial class App : Application
     private ResetPasswordViewModel CreateResetPasswordViewModel(IServiceProvider serviceProvider)
     {
         return new ResetPasswordViewModel(
-            serviceProvider.GetRequiredService<DataProvider>(),
+            serviceProvider.GetRequiredService<IUnitOfWork>(),
             serviceProvider.GetRequiredService<AccountStore>(),
             serviceProvider.GetRequiredService<VerificationStore>(),
             CreateLoginNavigationService(serviceProvider));
@@ -56,49 +57,49 @@ public partial class App : Application
     private LaptopViewModel CreateLaptopViewModel(IServiceProvider serviceProvider)
     {
         return new LaptopViewModel(
-            serviceProvider.GetRequiredService<DataProvider>(),
+            serviceProvider.GetRequiredService<IUnitOfWork>(),
             serviceProvider.GetRequiredService<ProductDetailStore>(),
             CreateProductDetailNavigationService(serviceProvider));
     }
     private MonitorViewModel CreateMonitorViewModel(IServiceProvider serviceProvider)
     {
         return new MonitorViewModel(
-            serviceProvider.GetRequiredService<DataProvider>(),
+            serviceProvider.GetRequiredService<IUnitOfWork>(),
             serviceProvider.GetRequiredService<ProductDetailStore>(),
             CreateProductDetailNavigationService(serviceProvider));
     }
     private PCViewModel CreatePCViewModel(IServiceProvider serviceProvider)
     {
         return new PCViewModel(
-            serviceProvider.GetRequiredService<DataProvider>(),
+            serviceProvider.GetRequiredService<IUnitOfWork>(),
             serviceProvider.GetRequiredService<ProductDetailStore>(),
             CreateProductDetailNavigationService(serviceProvider));
     }
     private PCCPUViewModel CreatePCCPUViewModel(IServiceProvider serviceProvider)
     {
         return new PCCPUViewModel(
-            serviceProvider.GetRequiredService<DataProvider>(),
+            serviceProvider.GetRequiredService<IUnitOfWork>(),
             serviceProvider.GetRequiredService<ProductDetailStore>(),
             CreateProductDetailNavigationService(serviceProvider));
     }
     private PCHarddiskViewModel CreatePCHardDiskViewModel(IServiceProvider serviceProvider)
     {
         return new PCHarddiskViewModel(
-            serviceProvider.GetRequiredService<DataProvider>(),
+            serviceProvider.GetRequiredService<IUnitOfWork>(),
             serviceProvider.GetRequiredService<ProductDetailStore>(),
             CreateProductDetailNavigationService(serviceProvider));
     }
     private SmartPhoneViewModel CreateSmartPhoneViewModel(IServiceProvider serviceProvider)
     {
         return new SmartPhoneViewModel(
-            serviceProvider.GetRequiredService<DataProvider>(),
+            serviceProvider.GetRequiredService<IUnitOfWork>(),
             serviceProvider.GetRequiredService<ProductDetailStore>(),
             CreateProductDetailNavigationService(serviceProvider));
     }
     private VGAViewModel CreateVGAViewModel(IServiceProvider serviceProvider)
     {
         return new VGAViewModel(
-            serviceProvider.GetRequiredService<DataProvider>(),
+            serviceProvider.GetRequiredService<IUnitOfWork>(),
             serviceProvider.GetRequiredService<ProductDetailStore>(),
             CreateProductDetailNavigationService(serviceProvider));
     }
@@ -109,7 +110,7 @@ public partial class App : Application
     private LoginViewModel CreateLoginViewModel(IServiceProvider serviceProvider)
     {
         return new LoginViewModel(
-            serviceProvider.GetRequiredService<DataProvider>(),
+            serviceProvider.GetRequiredService<IUnitOfWork>(),
             serviceProvider.GetRequiredService<AccountStore>(),
             CreateAccountNavigationService(serviceProvider),
             CreateRegisterNavigationService(serviceProvider),

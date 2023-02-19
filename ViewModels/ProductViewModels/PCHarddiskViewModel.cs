@@ -7,12 +7,13 @@ using ViewModels.Commands;
 using ViewModels.Services;
 using ViewModels.Stores;
 using ViewModels.Stores.PCHardDiskAttributes;
+using Models.Interfaces;
 
 namespace ViewModels.ProductViewModels;
 
 public class PCHarddiskViewModel : ViewModelBase
 {
-    private readonly DataProvider _dataProvider;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IEnumerable<PcharddiskDTO>? _pcharddiskDTOs;
     private readonly INavigationService _productDetailNavigate;
     private readonly ProductDetailStore _productDetailStore;
@@ -23,15 +24,16 @@ public class PCHarddiskViewModel : ViewModelBase
     public HashSet<PcharddiskSeries> SeriesList { get; set; }
     public HashSet<PcharddiskStorage> StorageList { get; set; }
     public ICommand ProductDetailNavigateCommand { get; }
-    public PCHarddiskViewModel(DataProvider dataProvider,
+    public PCHarddiskViewModel(IUnitOfWork unitOfWork,
         ProductDetailStore productDetailStore,
         INavigationService productDetailNavigate)
     {
-        _dataProvider = dataProvider;
+        _unitOfWork = unitOfWork;
         _productDetailNavigate = productDetailNavigate;
         _productDetailStore = productDetailStore;
         ProductDetailNavigateCommand = new RelayCommand<PcharddiskDTO>(s => openDetailCommand(s));
-        if (_dataProvider.GetPcharddiskList() != null) PcharddiskList = new(_pcharddiskDTOs = _dataProvider.GetPcharddiskList()!);
+        var list = _unitOfWork.Pcharddisks.GetAll();
+        if (list != null) PcharddiskList = new(_pcharddiskDTOs = list!);
         getCompanyList();
         getConnectList();
         getTypeList();

@@ -8,6 +8,7 @@ using Models;
 using ViewModels.MyMessageBox;
 using System.Text;
 using System.Linq;
+using Models.Interfaces;
 
 namespace ViewModels.Services;
 
@@ -15,19 +16,19 @@ public class EmailVerificationService : INavigationService
 {
     private readonly ModalNavigationService<VerifyEmailViewModel> _navigationService;
     private readonly VerificationStore _store;
-    private readonly DataProvider _dataProvider;
+    private readonly IUnitOfWork _unitOfWork;
     public EmailVerificationService(VerificationStore Store,
         ModalNavigationService<VerifyEmailViewModel> navigationService,
-        DataProvider dataProvider)
+        IUnitOfWork unitOfWork)
     {
         _navigationService = navigationService;
         _store = Store;
-        _dataProvider = dataProvider;
+        _unitOfWork = unitOfWork;
     }
 
     public void Navigate()
     {
-        var account = _dataProvider.GetAcount(_store.Id);
+        var account = _unitOfWork.Accounts.Get(_store.Id);
         if (account == null)
         {
             ErrorNotifyViewModel.Instance!.Show("Can not find your account");

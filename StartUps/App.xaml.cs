@@ -12,6 +12,8 @@ using Models;
 using ViewModels.ProductViewModels;
 using Models.Entities;
 using ViewModels.Admins;
+using Models.Interfaces;
+using System.Security.Policy;
 
 namespace StartUps;
 
@@ -26,8 +28,8 @@ public partial class App : Application
         IServiceCollection services = new ServiceCollection();
 
         services.AddSingleton<ESMDbContext>();
-        services.AddSingleton<DataProvider>(s=> new DataProvider(s.GetRequiredService<ESMDbContext>()));
-
+        services.AddSingleton<IUnitOfWork, UnitOfWork>(s=> new UnitOfWork(s.GetRequiredService<ESMDbContext>()));
+        
         services.AddSingleton<MainViewModel>();
         services.AddSingleton<AccountStore>();
         services.AddSingleton<NavigationStore>();

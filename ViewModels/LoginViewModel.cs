@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using Models;
 using Models.DTOs;
 using Models.Entities;
+using Models.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace ViewModels;
 
 public class LoginViewModel : ViewModelBase
 {
-    private readonly DataProvider _dataProvider;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly AccountStore _accountStore;
     private readonly INavigationService _navigationService;
     private readonly INavigationService _registerNavigationService;
@@ -48,13 +49,13 @@ public class LoginViewModel : ViewModelBase
     public ICommand LoginCommand { get; }
     public ICommand RegisterNavigationCommand { get; }
     public ICommand ForgotPasswordNavigationCommand { get; }
-    public LoginViewModel(DataProvider dataProvider,
+    public LoginViewModel(IUnitOfWork unitOfWork,
         AccountStore accountStore,
         INavigationService loginNavigationService,
         INavigationService registerNavigationService,
         INavigationService forgotPasswordNavigationService)
     {
-        _dataProvider = dataProvider;
+        _unitOfWork = unitOfWork;
         _accountStore = accountStore;
         _navigationService = loginNavigationService;
         _registerNavigationService = registerNavigationService;
@@ -77,7 +78,7 @@ public class LoginViewModel : ViewModelBase
             ErrorNotifyViewModel.Instance!.Show("Enter Password", "Warning");
             return;
         }
-        Task<AccountDTO?> t = new(() => _dataProvider.GetAcount(Id, Password));
+        Task<AccountDTO?> t = new(() => _unitOfWork.Accounts.GetAccountWithIdAndPassword(Id, Password));
         t.Start();
         AccountDTO? account = await t;
         if (account == null)
@@ -87,6 +88,6 @@ public class LoginViewModel : ViewModelBase
         }
         _navigationService.Navigate();
         _accountStore.CurrentAccount = account;
-        
+
     }
 }

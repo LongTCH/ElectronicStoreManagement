@@ -8,11 +8,12 @@ using ViewModels.Commands;
 using ViewModels.Services;
 using ViewModels.Stores;
 using ViewModels.Stores.PCCPUAttributes;
+using Models.Interfaces;
 
 namespace ViewModels.ProductViewModels;
 public class PCCPUViewModel : ViewModelBase 
 {
-    private readonly DataProvider _dataProvider;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IEnumerable<PccpuDTO>? _pccpuDTOs;
     private readonly INavigationService _productDetailNavigate;
     private readonly ProductDetailStore _productDetailStore;
@@ -22,15 +23,16 @@ public class PCCPUViewModel : ViewModelBase
     public HashSet<PccpuSocket> SocketList { get; set; }
     public HashSet<PccpuSeries> SeriesList { get; set; }
     public ICommand ProductDetailNavigateCommand { get; }
-    public PCCPUViewModel(DataProvider dataProvider,
+    public PCCPUViewModel(IUnitOfWork unitOfWork,
         ProductDetailStore productDetailStore,
         INavigationService productDetailNavigate)
     {
-        _dataProvider = dataProvider;
+        _unitOfWork = unitOfWork;
         _productDetailNavigate = productDetailNavigate;
         _productDetailStore = productDetailStore;
         ProductDetailNavigateCommand = new RelayCommand<PccpuDTO>(s => openDetailCommand(s));
-        if (_dataProvider.GetPccpuList() != null) PccpuList = new(_pccpuDTOs = _dataProvider.GetPccpuList()!);
+        var list = _unitOfWork.Pccpus.GetAll();
+        if (list != null) PccpuList = new(_pccpuDTOs = list!);
         getCompanyList();
         getSocketList();
         getNeedList();

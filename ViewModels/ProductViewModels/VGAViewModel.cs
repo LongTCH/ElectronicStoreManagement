@@ -8,10 +8,11 @@ using ViewModels.Commands;
 using ViewModels.Services;
 using ViewModels.Stores;
 using ViewModels.Stores.VGAAttributes;
+using Models.Interfaces;
 
 namespace ViewModels.ProductViewModels;
 public class VGAViewModel : ViewModelBase {
-    private readonly DataProvider _dataProvider;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IEnumerable<VgaDTO>? _vgaDTOs;
     private readonly INavigationService _productDetailNavigate;
     private readonly ProductDetailStore _productDetailStore;
@@ -24,15 +25,16 @@ public class VGAViewModel : ViewModelBase {
     public HashSet<VgaVram> VramList { get; set; }
     public HashSet<VgaGen> GenList { get; set; }
     public ICommand ProductDetailNavigateCommand { get; }
-    public VGAViewModel(DataProvider dataProvider,
+    public VGAViewModel(IUnitOfWork unitOfWork,
         ProductDetailStore productDetailStore,
         INavigationService productDetailNavigate)
     {
-        _dataProvider = dataProvider;
+        _unitOfWork = unitOfWork;
         _productDetailNavigate = productDetailNavigate;
         _productDetailStore = productDetailStore;
         ProductDetailNavigateCommand = new RelayCommand<VgaDTO>(s => openDetailCommand(s));
-        if (_dataProvider.GetVgaList() != null) VgaList = new(_vgaDTOs = _dataProvider.GetVgaList()!);
+        var list = _unitOfWork.Vgas.GetAll();
+        if (list != null) VgaList = new(_vgaDTOs = list!);
         getCompanyList();
         getChipList();
         getChipsetList();

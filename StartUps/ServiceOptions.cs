@@ -14,6 +14,7 @@ using Views.Products;
 using ViewModels.ProductViewModels;
 using Models;
 using ViewModels.Admins;
+using Models.Interfaces;
 
 namespace StartUps;
 
@@ -102,7 +103,7 @@ public partial class App : Application
             new ModalNavigationService<VerifyEmailViewModel>(
             serviceProvider.GetRequiredService<ModalNavigationStore>(),
             serviceProvider.GetRequiredService<VerifyEmailViewModel>),
-            serviceProvider.GetRequiredService<DataProvider>());
+            serviceProvider.GetRequiredService<IUnitOfWork>());
     }
     private INavigationService CreateLaptopNavigationService(IServiceProvider serviceProvider)
     {

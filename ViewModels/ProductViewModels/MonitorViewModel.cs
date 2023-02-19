@@ -8,12 +8,14 @@ using ViewModels.Commands;
 using ViewModels.Services;
 using ViewModels.Stores;
 using ViewModels.Stores.MonitorAttributes;
+using Models.Interfaces;
+using Microsoft.Identity.Client;
 
 namespace ViewModels.ProductViewModels;
 
 public class MonitorViewModel : ViewModelBase
 {
-    private readonly DataProvider _dataProvider;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IEnumerable<MonitorDTO>? _monitorDTOs;
     private readonly INavigationService _productDetailNavigate;
     private readonly ProductDetailStore _productDetailStore;
@@ -25,15 +27,16 @@ public class MonitorViewModel : ViewModelBase
     public HashSet<MonitorRefreshRate> RefreshRateList { get; set; }
     public HashSet<MonitorSize> SizeList { get; set; }
     public ICommand ProductDetailNavigateCommand { get; }
-    public MonitorViewModel(DataProvider dataProvider,
+    public MonitorViewModel(IUnitOfWork unitOfWork,
         ProductDetailStore productDetailStore,
         INavigationService productDetailNavigate)
     {
-        _dataProvider = dataProvider;
+        _unitOfWork = unitOfWork;
         _productDetailNavigate = productDetailNavigate;
         _productDetailStore = productDetailStore;
         ProductDetailNavigateCommand = new RelayCommand<MonitorDTO>(s => openDetailCommand(s));
-        if (_dataProvider.GetMonitorList() != null) MonitorList = new(_monitorDTOs = _dataProvider.GetMonitorList()!);
+        var list = _unitOfWork.Monitors.GetAll();
+        if (list != null) MonitorList = new(_monitorDTOs = list!);
         getCompanyList();
         getPanelList();
         getNeedList();

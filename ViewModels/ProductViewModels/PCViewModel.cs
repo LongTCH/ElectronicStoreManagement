@@ -8,11 +8,12 @@ using ViewModels.Commands;
 using ViewModels.Services;
 using ViewModels.Stores;
 using ViewModels.Stores.PCAttributes;
+using Models.Interfaces;
 
 namespace ViewModels.ProductViewModels;
 public class PCViewModel : ViewModelBase
 {
-    private readonly DataProvider _dataProvider;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IEnumerable<PcDTO>? _pcDTOs;
     private readonly INavigationService _productDetailNavigate;
     private readonly ProductDetailStore _productDetailStore;
@@ -23,15 +24,16 @@ public class PCViewModel : ViewModelBase
     public HashSet<PcSeries> SeriesList { get; set; }
     public HashSet<PcRAM> RAMList { get; set; }
     public ICommand ProductDetailNavigateCommand { get; }
-    public PCViewModel(DataProvider dataProvider,
+    public PCViewModel(IUnitOfWork unitOfWork,
         ProductDetailStore productDetailStore,
         INavigationService productDetailNavigate)
     {
-        _dataProvider = dataProvider;
+        _unitOfWork = unitOfWork;
         _productDetailNavigate = productDetailNavigate;
         _productDetailStore = productDetailStore;
         ProductDetailNavigateCommand = new RelayCommand<PcDTO>(s => openDetailCommand(s));
-        if (_dataProvider.GetPcList() != null) PcList = new(_pcDTOs = _dataProvider.GetPcList()!);
+        var list = _unitOfWork.Pcs.GetAll();
+        if (list != null) PcList = new(_pcDTOs = list!);
         getCompanyList();
         getCPUList();
         getNeedList();

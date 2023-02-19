@@ -2,29 +2,26 @@
 using Microsoft.Win32;
 using Models;
 using Models.DTOs;
+using Models.Interfaces;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Markup;
 using ViewModels.Commands;
 using ViewModels.MyMessageBox;
-using ViewModels.Services;
-using ViewModels.Stores.Accounts;
 using ViewModels.Stores.Address;
 
 namespace ViewModels;
 
 public class RegisterViewModel : ViewModelBase
 {
-    private readonly DataProvider _dataProvider;
-    private ObservableCollection<string> _error = new ObservableCollection<string>() {
+    private readonly IUnitOfWork _unitOfWork;
+    private ObservableCollection<string> _error = new() {
         nameof(Id), nameof(FirstName), nameof(LastName), nameof(Email), nameof(Phone)};
 
     public List<City> Cities { get; set; }
@@ -48,7 +45,7 @@ public class RegisterViewModel : ViewModelBase
             _error.Remove(nameof(Id)); 
         }
     }
-    public string SuggestID => "1" + DateTime.UtcNow.Year.ToString() + _dataProvider.GetSeuggestAccountIdCounter();
+    public string SuggestID => "1" + DateTime.UtcNow.Year.ToString() + _unitOfWork.Accounts.GetSuggestAccountIdCounter();
     private string? _firstName;
     [Required]
     public string? FirstName
@@ -124,9 +121,9 @@ public class RegisterViewModel : ViewModelBase
     public ICommand SuggestCommand { get; }
     public ICommand AddAvatarCommand { get; }
     public ICommand SignUpCommand { get; } = null!;
-    public RegisterViewModel(DataProvider dataProvider)
+    public RegisterViewModel(IUnitOfWork unitOfWork)
     {
-        _dataProvider = dataProvider;
+        _unitOfWork = unitOfWork;
 
         Cities = new CitiesSortCommand(new GetCitiesCommand().GetCitiesList().ToList()).GetSortedCities();
         GetDistricts = new RelayCommand<City>(getDistricts);
@@ -161,7 +158,12 @@ public class RegisterViewModel : ViewModelBase
     }
     private void signUp()
     {
-        if(_dataProvider.GetAcount(Id) != null)
+        if (Id.IsNullOrEmpty())
+        {
+            ErrorNotifyViewModel.Instance!.Show("Enter ID", "Warning");
+            return;
+        }
+        if(_unitOfWork.Accounts.Get(Id!) != null)
         {
             ErrorNotifyViewModel.Instance!.Show("ID has existed", "Error");
             return;
@@ -197,7 +199,8 @@ public class RegisterViewModel : ViewModelBase
             Street = Street!.ToString(),
             AvatarPath = Avatar_Path
         };
-        _dataProvider.AddUser(accountDTO);
+        _unitOfWork.Accounts.Add(accountDTO);
+        _unitOfWork.Complete();
     }
     private void addAvatarCommand()
     {
