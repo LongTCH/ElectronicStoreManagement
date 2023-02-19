@@ -1,4 +1,5 @@
 ﻿using Models;
+using System.Threading;
 using System.Windows.Input;
 using ViewModels.Commands;
 using ViewModels.Services;
@@ -11,6 +12,7 @@ public class NavigationBarViewModel : ViewModelBase
 {
     private readonly AccountStore _accountStore;
     private readonly FloatingNavigationStore _floatingNavigationStore;
+    private readonly PopupListItemViewModel _popup;
     INavigationService _popupListItemNavigationService;
     INavigationService _closePopupListItemNavigationService;
     public ICommand NavigateLoginCommand { get; }
@@ -20,7 +22,8 @@ public class NavigationBarViewModel : ViewModelBase
     public ICommand LogoutCommand { get; }
     public ICommand ChangeAccountInfoCommand { get; }
     public bool IsLoggedIn => _accountStore.IsLoggedIn;
-    public bool IsMenuOpen => !_floatingNavigationStore.IsOpen;
+    public bool IsMenuOpen => _floatingNavigationStore.IsOpen;
+    public bool IsAdmin => _accountStore.IsAdmin;
     public NavigationBarViewModel(AccountStore accountStore,
             FloatingNavigationStore floatingNavigationStore,
             INavigationService loginNavigationService,

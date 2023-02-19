@@ -1,47 +1,30 @@
 ﻿using Models.DTOs;
-using Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Input;
-using ViewModels.Commands;
 using ViewModels.Services;
 using ViewModels.Stores;
 using ViewModels.Stores.PCCPUAttributes;
 using Models.Interfaces;
 
 namespace ViewModels.ProductViewModels;
-public class PCCPUViewModel : ViewModelBase 
+public class PCCPUViewModel : ProductViewModel<PccpuDTO>
 {
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IEnumerable<PccpuDTO>? _pccpuDTOs;
-    private readonly INavigationService _productDetailNavigate;
-    private readonly ProductDetailStore _productDetailStore;
-    public List<PccpuDTO>? PccpuList { get; set; } = null;
     public HashSet<PccpuCompany> CompanyList { get; set; }
     public HashSet<PccpuNeed> NeedList { get; set; }
     public HashSet<PccpuSocket> SocketList { get; set; }
     public HashSet<PccpuSeries> SeriesList { get; set; }
-    public ICommand ProductDetailNavigateCommand { get; }
     public PCCPUViewModel(IUnitOfWork unitOfWork,
         ProductDetailStore productDetailStore,
         INavigationService productDetailNavigate)
+        : base(unitOfWork, productDetailStore, productDetailNavigate)
     {
-        _unitOfWork = unitOfWork;
-        _productDetailNavigate = productDetailNavigate;
-        _productDetailStore = productDetailStore;
-        ProductDetailNavigateCommand = new RelayCommand<PccpuDTO>(s => openDetailCommand(s));
         var list = _unitOfWork.Pccpus.GetAll();
-        if (list != null) PccpuList = new(_pccpuDTOs = list!);
+        if (list != null) ProductList = new(_productDTOs = list!);
+        Action += OnIsCheckedChanged;
         getCompanyList();
         getSocketList();
         getNeedList();
         getSeriesList();
-    }
-    private void openDetailCommand(PccpuDTO dto)
-    {
-        _productDetailStore.CurrentProduct = dto;
-        _productDetailNavigate.Navigate();
     }
     private void OnIsCheckedChanged()
     {
@@ -49,7 +32,7 @@ public class PCCPUViewModel : ViewModelBase
         List<string> ListSocket = new();
         List<string> ListNeed = new();
         List<string> ListSeries = new();
-        PccpuList = new();
+        ProductList = new();
         foreach (var e in CompanyList)
             if (e.IsChecked) ListCompany.Add(e.Name);
         foreach (var e in SocketList)
@@ -58,18 +41,18 @@ public class PCCPUViewModel : ViewModelBase
             if (e.IsChecked) ListNeed.Add(e.Name);
         foreach (var e in SeriesList)
             if (e.IsChecked) ListSeries.Add(e.Name);
-        if (ListCompany.Count != 0) PccpuList = _pccpuDTOs!.Where(x => ListCompany.Contains(x.Company)).ToList();
-        else PccpuList = (List<PccpuDTO>?)_pccpuDTOs;
-        if (ListSocket.Count != 0) PccpuList = PccpuList!.Where(x => ListSocket.Contains(x.Socket)).ToList();
-        if (ListNeed.Count != 0) PccpuList = PccpuList!.Where(x => ListNeed.Contains(x.Need)).ToList();
-        if (ListSeries.Count != 0) PccpuList = PccpuList!.Where(x => ListSeries.Contains(x.Series)).ToList();
-        OnPropertyChanged(nameof(PccpuList));
+        if (ListCompany.Count != 0) ProductList = _productDTOs!.Where(x => ListCompany.Contains(x.Company)).ToList();
+        else ProductList = (List<PccpuDTO>?)_productDTOs;
+        if (ListSocket.Count != 0) ProductList = ProductList!.Where(x => ListSocket.Contains(x.Socket)).ToList();
+        if (ListNeed.Count != 0) ProductList = ProductList!.Where(x => ListNeed.Contains(x.Need)).ToList();
+        if (ListSeries.Count != 0) ProductList = ProductList!.Where(x => ListSeries.Contains(x.Series)).ToList();
+        OnPropertyChanged(nameof(ProductList));
     }
     private void getCompanyList()
     {
-        if (_pccpuDTOs == null) return;
+        if (_productDTOs == null) return;
         CompanyList = new();
-        foreach (var pccpu in _pccpuDTOs)
+        foreach (var pccpu in _productDTOs)
         {
             PccpuCompany pccpuCompany = new() { Name = pccpu.Company };
             pccpuCompany.CurrentStoreChanged += OnIsCheckedChanged;
@@ -78,9 +61,9 @@ public class PCCPUViewModel : ViewModelBase
     }
     private void getSocketList()
     {
-        if (_pccpuDTOs == null) return;
+        if (_productDTOs == null) return;
         SocketList = new();
-        foreach (var pccpu in _pccpuDTOs)
+        foreach (var pccpu in _productDTOs)
         {
             PccpuSocket pccpusocket = new() { Name = pccpu.Socket };
             pccpusocket.CurrentStoreChanged += OnIsCheckedChanged;
@@ -89,9 +72,9 @@ public class PCCPUViewModel : ViewModelBase
     }
     private void getNeedList()
     {
-        if (_pccpuDTOs == null) return;
+        if (_productDTOs == null) return;
         NeedList = new();
-        foreach (var pccpu in _pccpuDTOs)
+        foreach (var pccpu in _productDTOs)
         {
             if (pccpu.Need == null) continue;
             PccpuNeed pccpuNeed = new() { Name = pccpu.Need };
@@ -101,9 +84,9 @@ public class PCCPUViewModel : ViewModelBase
     }
     private void getSeriesList()
     {
-        if (_pccpuDTOs == null) return;
+        if (_productDTOs == null) return;
         SeriesList = new();
-        foreach (var pccpu in _pccpuDTOs)
+        foreach (var pccpu in _productDTOs)
         {
             if (pccpu.Series == null) continue;
             PccpuSeries pccpuSeries = new() { Name = pccpu.Series };

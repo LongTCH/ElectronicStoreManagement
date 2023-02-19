@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ViewModels;
 
-public class ViewModelBase : INotifyPropertyChanged, IDisposable
+public abstract class ViewModelBase : INotifyPropertyChanged, IDisposable
 {
     public event PropertyChangedEventHandler PropertyChanged;
 

@@ -13,7 +13,6 @@ using ViewModels.ProductViewModels;
 using Models.Entities;
 using ViewModels.Admins;
 using Models.Interfaces;
-using System.Security.Policy;
 
 namespace StartUps;
 
@@ -35,7 +34,7 @@ public partial class App : Application
         services.AddSingleton<NavigationStore>();
         services.AddSingleton<ModalNavigationStore>();
         services.AddSingleton<FloatingNavigationStore>();
-        services.AddSingleton<VerificationStore>();
+        services.AddSingleton<VerificationStore>(s => new VerificationStore(s.GetRequiredService<AccountStore>()));
         services.AddSingleton<ProductDetailStore>();
 
         services.AddSingleton<MainViewModel>();

@@ -36,8 +36,11 @@ public partial class App : Application
     private AccountViewModel CreateAccountViewModel(IServiceProvider serviceProvider)
     {
         return new AccountViewModel(
+            serviceProvider.GetRequiredService<IUnitOfWork>(),
             serviceProvider.GetRequiredService<AccountStore>(),
-            CreateHomeNavigationService(serviceProvider));
+            CreateResetPasswordNavigationService(serviceProvider),
+            CreateRegisterNavigationService(serviceProvider),
+            CreateChangeAccountInfoNavigationService(serviceProvider));
     }
     private VerifyEmailViewModel CreateVerifyEmailViewModel(IServiceProvider serviceProvider)
     {
@@ -113,7 +116,6 @@ public partial class App : Application
             serviceProvider.GetRequiredService<IUnitOfWork>(),
             serviceProvider.GetRequiredService<AccountStore>(),
             CreateAccountNavigationService(serviceProvider),
-            CreateRegisterNavigationService(serviceProvider),
             CreateForgotPasswordNavigationService(serviceProvider));
     }
 

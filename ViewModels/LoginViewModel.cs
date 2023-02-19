@@ -22,8 +22,6 @@ public class LoginViewModel : ViewModelBase
     private readonly IUnitOfWork _unitOfWork;
     private readonly AccountStore _accountStore;
     private readonly INavigationService _navigationService;
-    private readonly INavigationService _registerNavigationService;
-    private readonly INavigationService _forgotPasswordNavigationService;
     private string? _id;
     public string? Id
     {
@@ -47,23 +45,17 @@ public class LoginViewModel : ViewModelBase
     }
     public ICommand PasswordChangedCommand { get; }
     public ICommand LoginCommand { get; }
-    public ICommand RegisterNavigationCommand { get; }
     public ICommand ForgotPasswordNavigationCommand { get; }
     public LoginViewModel(IUnitOfWork unitOfWork,
         AccountStore accountStore,
-        INavigationService loginNavigationService,
-        INavigationService registerNavigationService,
+        INavigationService accountNavigationService,
         INavigationService forgotPasswordNavigationService)
     {
         _unitOfWork = unitOfWork;
         _accountStore = accountStore;
-        _navigationService = loginNavigationService;
-        _registerNavigationService = registerNavigationService;
-        _forgotPasswordNavigationService = forgotPasswordNavigationService;
-
+        _navigationService = accountNavigationService;
         LoginCommand = new RelayCommand<object>(async(_) => await loginCommandAsync());
         PasswordChangedCommand = new RelayCommand<PasswordBox>((p) => Password = p.Password);
-        RegisterNavigationCommand = new RelayCommand<object>(_ => registerNavigationService.Navigate());
         ForgotPasswordNavigationCommand = new RelayCommand<object>(_ => forgotPasswordNavigationService.Navigate());
     }
     private async Task loginCommandAsync()
@@ -86,8 +78,7 @@ public class LoginViewModel : ViewModelBase
             ErrorNotifyViewModel.Instance!.Show("Can not find you account", "Login failed");
             return;
         }
-        _navigationService.Navigate();
         _accountStore.CurrentAccount = account;
-
+        _navigationService.Navigate();   
     }
 }

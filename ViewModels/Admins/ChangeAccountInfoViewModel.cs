@@ -203,6 +203,7 @@ public class ChangeAccountInfoViewModel : ViewModelBase
     private void changeUser(AccountDTO accountDTO)
     {
         _unitOfWork.Accounts.Update(accountDTO);
+        _unitOfWork.Complete();
         InformationViewModel.Instance!.Show("Saved change", "Success");
         _navigationService.Navigate();
     }

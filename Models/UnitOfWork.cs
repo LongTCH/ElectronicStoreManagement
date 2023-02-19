@@ -22,7 +22,7 @@ public class UnitOfWork : IUnitOfWork
         Pccpus = new PccpuRepository(context);
         Pcharddisks = new PcharddiskRepository(context);
         Vgas = new VgaRepository(context);
-
+        Smartphones = new SmartphoneRepository(context);
     }
 
     public IAccountRepository Accounts { get; private set; }

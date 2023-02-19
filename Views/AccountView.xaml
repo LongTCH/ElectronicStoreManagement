@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:Views"
+             xmlns:helper="clr-namespace:Views.Helper"
              mc:Ignorable="d"
              MinWidth="800"
              MaxWidth="1000"
@@ -13,8 +14,112 @@
                   HorizontalAlignment="Stretch">
         <StackPanel Margin="20"
                     VerticalAlignment="Center">
-            <Image Source="pack://application:,,,/Views;component/Images/logo.png"
-                   Height="50" />
+            <DockPanel>
+                <Button Height="220"
+                        Margin="50,0,0,0"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Style="{StaticResource MaterialDesignFlatLightButton}"
+                        Command="{Binding AddAvatarCommand}">
+                    <Button.Content>
+                        <Grid>
+                            <Image Source="pack://application:,,,/Views;component/Images/adduser.png"
+                                   Height="200"
+                                   Visibility="{Binding IsDefault, Converter={StaticResource BoolToVis}}"
+                                   HorizontalAlignment="Left" />
+                            <Image Source="{Binding Avatar_Path}"
+                                   Height="200"
+                                   HorizontalAlignment="Left">
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Setter Property="Visibility"
+                                                Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsDefault}"
+                                                         Value="False">
+                                                <Setter Property="Visibility"
+                                                        Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                        </Grid>
+                    </Button.Content>
+                </Button>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0">
+                        <StackPanel.Resources>
+                            <Style TargetType="Button">
+                                <Setter Property="Background"
+                                        Value="Transparent" />
+                                <Setter Property="Foreground"
+                                        Value="Black" />
+                                <Setter Property="BorderThickness"
+                                        Value="0" />
+                                <Setter Property="Cursor"
+                                        Value="Hand" />
+                                <Setter Property="FontSize"
+                                        Value="14" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <TextBlock Text="{TemplateBinding Content}"
+                                                       VerticalAlignment="Center"
+                                                       HorizontalAlignment="Right"
+                                                       Foreground="Black" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver"
+                                             Value="True">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <TextBlock Text="{TemplateBinding Content}"
+                                                               TextDecorations="Underline"
+                                                               HorizontalAlignment="Right"
+                                                               VerticalAlignment="Center"
+                                                               Foreground="SteelBlue" />
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Resources>
+                        <Button Content="Reset password"
+                                Command="{Binding ResetPasswordCommand}" />
+                        <Button Content="Add user"
+                                Visibility="{Binding IsAdmin, Converter={StaticResource BoolToVis}}"
+                                Command="{Binding AddUserCommand}" />
+                        <Button Content="Change user infomation"
+                                Visibility="{Binding IsAdmin, Converter={StaticResource BoolToVis}}"
+                                Command="{Binding ChangeUserInfoCommand}" />
+                    </StackPanel>
+                    <DockPanel Grid.Row="1"
+                               VerticalAlignment="Center"
+                               Margin="100,0,100,100">
+                        <materialDesign:PackIcon VerticalAlignment="Bottom"
+                                                 Margin="0,0,0,10"
+                                                 Height="30"
+                                                 Width="30"
+                                                 Kind="Identifier" />
+                        <TextBox Margin="20,10"
+                                 materialDesign:HintAssist.Hint="ID"
+                                 Text="{Binding Id, Mode=OneWay}"
+                                 IsEnabled="False"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 FontFamily="Champagne &amp; Limousines"
+                                 FontSize="18" />
+                    </DockPanel>
+                </Grid>
+            </DockPanel>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
@@ -28,9 +133,9 @@
                                              Kind="Rename" />
                     <TextBox Margin="20,10"
                              materialDesign:HintAssist.Hint="First name"
-                             IsEnabled="False"
                              Text="{Binding FirstName, Mode=OneWay}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             IsEnabled="False"
                              FontFamily="Champagne &amp; Limousines"
                              FontSize="18" />
                 </DockPanel>
@@ -41,10 +146,10 @@
                                              Width="30"
                                              Kind="RenameBox" />
                     <TextBox Margin="20,10"
-                             IsEnabled="False"
                              materialDesign:HintAssist.Hint="Last name"
                              Text="{Binding LastName, Mode=OneWay}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             IsEnabled="False"
                              FontFamily="Champagne &amp; Limousines"
                              FontSize="18" />
                 </DockPanel>
@@ -61,10 +166,10 @@
                                              Width="30"
                                              Kind="Email" />
                     <TextBox Margin="20,10"
-                             IsEnabled="False"
                              materialDesign:HintAssist.Hint="Email"
                              Text="{Binding Email, Mode=OneWay}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             IsEnabled="False"
                              FontFamily="Champagne &amp; Limousines"
                              FontSize="18" />
                 </DockPanel>
@@ -75,12 +180,46 @@
                                              Height="30"
                                              Width="30" />
                     <TextBox Margin="20,10"
-                             IsEnabled="False"
                              materialDesign:HintAssist.Hint="Phone"
                              Text="{Binding Phone, Mode=OneWay}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             IsEnabled="False"
                              FontFamily="Champagne &amp; Limousines"
                              FontSize="18" />
+                </DockPanel>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <DockPanel Grid.Column="0">
+                    <materialDesign:PackIcon VerticalAlignment="Bottom"
+                                             Margin="0,0,0,10"
+                                             Height="30"
+                                             Width="30"
+                                             Kind="GenderMaleFemale" />
+                    <TextBox materialDesign:HintAssist.FontFamily="Verdana"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             materialDesign:HintAssist.Hint="Gender"
+                             BorderThickness="0"
+                             Margin="20,10"
+                             IsEnabled="False"
+                             FontSize="18"
+                             Text="{Binding Gender, Mode=OneWay}" />
+                </DockPanel>
+                <DockPanel Grid.Column="1">
+                    <materialDesign:PackIcon Kind="BirthdayCake"
+                                             VerticalAlignment="Bottom"
+                                             Margin="0,0,0,20"
+                                             Height="30"
+                                             Width="30" />
+                    <DatePicker FontSize="18"
+                                Margin="20,10"
+                                IsEnabled="False"
+                                helper:DatePickerDateFormat.DateFormat="{Binding DateFormat}"
+                                Language="{Binding Language, Mode=OneWay}"
+                                SelectedDate="{Binding BirthDay, Mode=OneWay}" />
                 </DockPanel>
             </Grid>
             <TextBlock Text="ADDRESS"
@@ -101,13 +240,13 @@
                                              Height="30"
                                              Width="30"
                                              Kind="City" />
-                    <TextBox Margin="20,10"
-                             IsEnabled="False"
-                             materialDesign:HintAssist.Hint="City"
-                             Text="{Binding City, Mode=OneWay}"
+                    <TextBox materialDesign:HintAssist.FontFamily="Verdana"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             FontFamily="Champagne &amp; Limousines"
-                             FontSize="18" />
+                             materialDesign:HintAssist.Hint="City"
+                             Margin="20,10"
+                             IsEnabled="False"
+                             FontSize="18"
+                             Text="{Binding City, Mode=OneWay}" />
                 </DockPanel>
                 <DockPanel Grid.Column="1"
                            LastChildFill="True">
@@ -116,13 +255,13 @@
                                              Height="30"
                                              Width="30"
                                              Kind="TownHall" />
-                    <TextBox Margin="20,10"
-                             IsEnabled="False"
-                             materialDesign:HintAssist.Hint="District"
-                             Text="{Binding District, Mode=OneWay}"
+                    <TextBox materialDesign:HintAssist.FontFamily="Verdana"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             FontFamily="Champagne &amp; Limousines"
-                             FontSize="18" />
+                             materialDesign:HintAssist.Hint="District"
+                             Margin="20,10"
+                             FontSize="18"
+                             IsEnabled="False"
+                             Text="{Binding District, Mode=OneWay}" />
                 </DockPanel>
             </Grid>
             <Grid>
@@ -139,13 +278,14 @@
                                              Height="30"
                                              Width="30"
                                              Kind="LandFields" />
-                    <TextBox Margin="20,10"
-                             IsEnabled="False"
-                             materialDesign:HintAssist.Hint="SubDistrict"
-                             Text="{Binding SubDistrict, Mode=OneWay}"
+                    <TextBox materialDesign:HintAssist.FontFamily="Verdana"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             FontFamily="Champagne &amp; Limousines"
-                             FontSize="18" />
+                             materialDesign:HintAssist.Hint="Sub_district"
+                             BorderThickness="0"
+                             Margin="20,10"
+                             FontSize="18"
+                             IsEnabled="False"
+                             Text="{Binding SubDistrict, Mode=OneWay}" />
                 </DockPanel>
                 <DockPanel Grid.Column="2"
                            LastChildFill="True">
@@ -155,10 +295,10 @@
                                              Width="30"
                                              Kind="Road" />
                     <TextBox Margin="20,10"
-                             IsEnabled="False"
                              materialDesign:HintAssist.Hint="Street"
                              Text="{Binding Street, Mode=OneWay}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             IsEnabled="False"
                              FontFamily="Champagne &amp; Limousines"
                              FontSize="18" />
                 </DockPanel>

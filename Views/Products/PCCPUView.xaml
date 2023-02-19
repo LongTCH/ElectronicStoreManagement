@@ -113,7 +113,7 @@
         </ScrollViewer>
         <ListBox x:Name="lboxMonitor"
                  Grid.Column="1"
-                 ItemsSource="{Binding PccpuList}">
+                 ItemsSource="{Binding ProductList}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Button Background="Transparent"

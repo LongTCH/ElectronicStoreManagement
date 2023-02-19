@@ -116,10 +116,6 @@
                         <Button Content="Forgot password?"
                                 Margin="0,10,0,0"
                                 Command="{Binding ForgotPasswordNavigationCommand}" />
-                        <Button Content="Register"
-                                Margin="0,10,0,0"
-                                VerticalContentAlignment="Top"
-                                Command="{Binding RegisterNavigationCommand}" />
                     </StackPanel>
                 </StackPanel>
             </Grid>

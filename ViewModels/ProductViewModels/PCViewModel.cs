@@ -1,49 +1,32 @@
 ﻿using Models.DTOs;
-using Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Input;
-using ViewModels.Commands;
 using ViewModels.Services;
 using ViewModels.Stores;
 using ViewModels.Stores.PCAttributes;
 using Models.Interfaces;
 
 namespace ViewModels.ProductViewModels;
-public class PCViewModel : ViewModelBase
+public class PCViewModel : ProductViewModel<PcDTO>
 {
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IEnumerable<PcDTO>? _pcDTOs;
-    private readonly INavigationService _productDetailNavigate;
-    private readonly ProductDetailStore _productDetailStore;
-    public List<PcDTO>? PcList { get; set; } = null;
     public HashSet<PcCompany> CompanyList { get; set; }
     public HashSet<PcCPU> CPUList { get; set; }
     public HashSet<PcNeed> NeedList { get; set; }
     public HashSet<PcSeries> SeriesList { get; set; }
     public HashSet<PcRAM> RAMList { get; set; }
-    public ICommand ProductDetailNavigateCommand { get; }
     public PCViewModel(IUnitOfWork unitOfWork,
         ProductDetailStore productDetailStore,
         INavigationService productDetailNavigate)
+        : base(unitOfWork, productDetailStore, productDetailNavigate)
     {
-        _unitOfWork = unitOfWork;
-        _productDetailNavigate = productDetailNavigate;
-        _productDetailStore = productDetailStore;
-        ProductDetailNavigateCommand = new RelayCommand<PcDTO>(s => openDetailCommand(s));
         var list = _unitOfWork.Pcs.GetAll();
-        if (list != null) PcList = new(_pcDTOs = list!);
+        if (list != null) ProductList = new(_productDTOs = list!);
+        Action += OnIsCheckedChanged;
         getCompanyList();
         getCPUList();
         getNeedList();
         getRAMList();
         getSeriesList();
-    }
-    private void openDetailCommand(PcDTO dto)
-    {
-        _productDetailStore.CurrentProduct = dto;
-        _productDetailNavigate.Navigate();
     }
     private void OnIsCheckedChanged()
     {
@@ -52,7 +35,7 @@ public class PCViewModel : ViewModelBase
         List<string> ListNeed = new();
         List<string> ListRAM = new();
         List<string> ListSeries = new();
-        PcList = new();
+        ProductList = new();
         foreach (var e in CompanyList)
             if (e.IsChecked) ListCompany.Add(e.Name);
         foreach (var e in CPUList)
@@ -63,19 +46,19 @@ public class PCViewModel : ViewModelBase
             if (e.IsChecked) ListRAM.Add(e.Name);
         foreach (var e in SeriesList)
             if (e.IsChecked) ListSeries.Add(e.Name);
-        if (ListCompany.Count != 0) PcList = _pcDTOs!.Where(x => ListCompany.Contains(x.Company)).ToList();
-        else PcList = (List<PcDTO>?)_pcDTOs;
-        if (ListCPU.Count != 0) PcList = PcList!.Where(x => ListCPU.Contains(x.Cpu)).ToList();
-        if (ListNeed.Count != 0) PcList = PcList!.Where(x => ListNeed.Contains(x.Need)).ToList();
-        if (ListRAM.Count != 0) PcList = PcList!.Where(x => ListRAM.Contains(x.Ram)).ToList();
-        if (ListSeries.Count != 0) PcList = PcList!.Where(x => ListSeries.Contains(x.Series)).ToList();
-        OnPropertyChanged(nameof(PcList));
+        if (ListCompany.Count != 0) ProductList = _productDTOs!.Where(x => ListCompany.Contains(x.Company)).ToList();
+        else ProductList = (List<PcDTO>?)_productDTOs;
+        if (ListCPU.Count != 0) ProductList = ProductList!.Where(x => ListCPU.Contains(x.Cpu)).ToList();
+        if (ListNeed.Count != 0) ProductList = ProductList!.Where(x => ListNeed.Contains(x.Need)).ToList();
+        if (ListRAM.Count != 0) ProductList = ProductList!.Where(x => ListRAM.Contains(x.Ram)).ToList();
+        if (ListSeries.Count != 0) ProductList = ProductList!.Where(x => ListSeries.Contains(x.Series)).ToList();
+        OnPropertyChanged(nameof(ProductList));
     }
     private void getCompanyList()
     {
-        if (_pcDTOs == null) return;
+        if (_productDTOs == null) return;
         CompanyList = new();
-        foreach (var pc in _pcDTOs)
+        foreach (var pc in _productDTOs)
         {
             PcCompany pcCompany = new() { Name = pc.Company };
             pcCompany.CurrentStoreChanged += OnIsCheckedChanged;
@@ -84,9 +67,9 @@ public class PCViewModel : ViewModelBase
     }
     private void getCPUList()
     {
-        if (_pcDTOs == null) return;
+        if (_productDTOs == null) return;
         CPUList = new();
-        foreach (var pc in _pcDTOs)
+        foreach (var pc in _productDTOs)
         {
             PcCPU pcCPU = new() { Name = pc.Cpu };
             pcCPU.CurrentStoreChanged += OnIsCheckedChanged;
@@ -95,9 +78,9 @@ public class PCViewModel : ViewModelBase
     }
     private void getNeedList()
     {
-        if (_pcDTOs == null) return;
+        if (_productDTOs == null) return;
         NeedList = new();
-        foreach (var pc in _pcDTOs)
+        foreach (var pc in _productDTOs)
         {
             if (pc.Need == null) continue;
             PcNeed pcNeed = new() { Name = pc.Need };
@@ -107,9 +90,9 @@ public class PCViewModel : ViewModelBase
     }
     private void getRAMList()
     {
-        if (_pcDTOs == null) return;
+        if (_productDTOs == null) return;
         RAMList = new();
-        foreach (var pc in _pcDTOs)
+        foreach (var pc in _productDTOs)
         {
             PcRAM pcRAM = new() { Name = pc.Ram };
             pcRAM.CurrentStoreChanged += OnIsCheckedChanged;
@@ -118,9 +101,9 @@ public class PCViewModel : ViewModelBase
     }
     private void getSeriesList()
     {
-        if (_pcDTOs == null) return;
+        if (_productDTOs == null) return;
         SeriesList = new();
-        foreach (var pc in _pcDTOs)
+        foreach (var pc in _productDTOs)
         {
             if (pc.Series == null) continue;
             PcSeries pcSeries = new() { Name = pc.Series };

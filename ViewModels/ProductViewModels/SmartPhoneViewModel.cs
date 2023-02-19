@@ -1,49 +1,32 @@
 ﻿using Models.DTOs;
-using Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Input;
-using ViewModels.Commands;
 using ViewModels.Services;
 using ViewModels.Stores;
 using ViewModels.Stores.SmartPhoneAttributes;
 using Models.Interfaces;
 
 namespace ViewModels.ProductViewModels;
-public class SmartPhoneViewModel : ViewModelBase
+public class SmartPhoneViewModel : ProductViewModel<SmartphoneDTO>
 {
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IEnumerable<SmartphoneDTO>? _smartphoneDTOs;
-    private readonly INavigationService _productDetailNavigate;
-    private readonly ProductDetailStore _productDetailStore;
-    public List<SmartphoneDTO>? SmartphoneList { get; set; } = null;
     public HashSet<SmartphoneCompany> CompanyList { get; set; }
     public HashSet<SmartphoneCPU> CPUList { get; set; }
     public HashSet<SmartphoneSeries> SeriesList { get; set; }
     public HashSet<SmartphoneRAM> RAMList { get; set; }
     public HashSet<SmartphoneStorage> StorageList { get; set; }
-    public ICommand ProductDetailNavigateCommand { get; }
     public SmartPhoneViewModel(IUnitOfWork unitOfWork,
         ProductDetailStore productDetailStore,
         INavigationService productDetailNavigate)
+        : base(unitOfWork, productDetailStore, productDetailNavigate)
     {
-        _unitOfWork = unitOfWork;
-        _productDetailNavigate = productDetailNavigate;
-        _productDetailStore = productDetailStore;
-        ProductDetailNavigateCommand = new RelayCommand<SmartphoneDTO>(s => openDetailCommand(s));
         var list = _unitOfWork.Smartphones.GetAll();
-        if (list != null) SmartphoneList = new(_smartphoneDTOs = list!);
+        if (list != null) ProductList = new(_productDTOs = list!);
+        Action += OnIsCheckedChanged;
         getCompanyList();
         getCPUList();
         getRAMList();
         getSeriesList();
         getStorageList();
-    }
-    private void openDetailCommand(SmartphoneDTO dto)
-    {
-        _productDetailStore.CurrentProduct = dto;
-        _productDetailNavigate.Navigate();
     }
     private void OnIsCheckedChanged()
     {
@@ -52,7 +35,7 @@ public class SmartPhoneViewModel : ViewModelBase
         List<string> ListRAM = new();
         List<string> ListSeries = new();
         List<string> ListStorage = new();
-        SmartphoneList = new();
+        ProductList = new();
         foreach (var e in CompanyList)
             if (e.IsChecked) ListCompany.Add(e.Name);
         foreach (var e in CPUList)
@@ -63,19 +46,19 @@ public class SmartPhoneViewModel : ViewModelBase
             if (e.IsChecked) ListSeries.Add(e.Name);
         foreach (var e in StorageList)
             if (e.IsChecked) ListStorage.Add(e.Name);
-        if (ListCompany.Count != 0) SmartphoneList = _smartphoneDTOs!.Where(x => ListCompany.Contains(x.Company)).ToList();
-        else SmartphoneList = (List<SmartphoneDTO>?)_smartphoneDTOs;
-        if (ListCPU.Count != 0) SmartphoneList = SmartphoneList!.Where(x => ListCPU.Contains(x.Cpu)).ToList();
-        if (ListRAM.Count != 0) SmartphoneList = SmartphoneList!.Where(x => ListRAM.Contains(x.Ram)).ToList();
-        if (ListSeries.Count != 0) SmartphoneList = SmartphoneList!.Where(x => ListSeries.Contains(x.Series)).ToList();
-        if (ListStorage.Count != 0) SmartphoneList = SmartphoneList!.Where(x => ListStorage.Contains(x.Storage)).ToList();
-        OnPropertyChanged(nameof(SmartphoneList));
+        if (ListCompany.Count != 0) ProductList = _productDTOs!.Where(x => ListCompany.Contains(x.Company)).ToList();
+        else ProductList = (List<SmartphoneDTO>?)_productDTOs;
+        if (ListCPU.Count != 0) ProductList = ProductList!.Where(x => ListCPU.Contains(x.Cpu)).ToList();
+        if (ListRAM.Count != 0) ProductList = ProductList!.Where(x => ListRAM.Contains(x.Ram)).ToList();
+        if (ListSeries.Count != 0) ProductList = ProductList!.Where(x => ListSeries.Contains(x.Series)).ToList();
+        if (ListStorage.Count != 0) ProductList = ProductList!.Where(x => ListStorage.Contains(x.Storage)).ToList();
+        OnPropertyChanged(nameof(ProductList));
     }
     private void getCompanyList()
     {
-        if (_smartphoneDTOs == null) return;
+        if (_productDTOs == null) return;
         CompanyList = new();
-        foreach (var smartphone in _smartphoneDTOs)
+        foreach (var smartphone in _productDTOs)
         {
             SmartphoneCompany smartphoneCompany = new() { Name = smartphone.Company };
             smartphoneCompany.CurrentStoreChanged += OnIsCheckedChanged;
@@ -84,9 +67,9 @@ public class SmartPhoneViewModel : ViewModelBase
     }
     private void getCPUList()
     {
-        if (_smartphoneDTOs == null) return;
+        if (_productDTOs == null) return;
         CPUList = new();
-        foreach (var smartphone in _smartphoneDTOs)
+        foreach (var smartphone in _productDTOs)
         {
             SmartphoneCPU smartphoneCPU = new() { Name = smartphone.Cpu };
             smartphoneCPU.CurrentStoreChanged += OnIsCheckedChanged;
@@ -95,9 +78,9 @@ public class SmartPhoneViewModel : ViewModelBase
     }
     private void getRAMList()
     {
-        if (_smartphoneDTOs == null) return;
+        if (_productDTOs == null) return;
         RAMList = new();
-        foreach (var smartphone in _smartphoneDTOs)
+        foreach (var smartphone in _productDTOs)
         {
             SmartphoneRAM smartphoneRAM = new() { Name = smartphone.Ram };
             smartphoneRAM.CurrentStoreChanged += OnIsCheckedChanged;
@@ -106,9 +89,9 @@ public class SmartPhoneViewModel : ViewModelBase
     }
     private void getSeriesList()
     {
-        if (_smartphoneDTOs == null) return;
+        if (_productDTOs == null) return;
         SeriesList = new();
-        foreach (var smartphone in _smartphoneDTOs)
+        foreach (var smartphone in _productDTOs)
         {
             if (smartphone.Series == null) continue;
             SmartphoneSeries smartphoneSeries = new() { Name = smartphone.Series };
@@ -118,9 +101,9 @@ public class SmartPhoneViewModel : ViewModelBase
     }
     private void getStorageList()
     {
-        if (_smartphoneDTOs == null) return;
+        if (_productDTOs == null) return;
         StorageList = new();
-        foreach (var smartphone in _smartphoneDTOs)
+        foreach (var smartphone in _productDTOs)
         {
             SmartphoneStorage smartphoneStorage = new() { Name = smartphone.Storage };
             smartphoneStorage.CurrentStoreChanged += OnIsCheckedChanged;

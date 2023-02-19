@@ -1,10 +1,7 @@
-﻿using Models;
-using Models.DTOs;
+﻿using Models.DTOs;
 using Models.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
-using System.Windows.Input;
 using ViewModels.Commands;
 using ViewModels.Services;
 using ViewModels.Stores;
@@ -12,13 +9,8 @@ using ViewModels.Stores.LaptopAttributes;
 
 namespace ViewModels.ProductViewModels;
 
-public class LaptopViewModel : ViewModelBase
+public class LaptopViewModel : ProductViewModel<LaptopDTO>
 {
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IEnumerable<LaptopDTO>? _laptopDTOs;
-    private readonly INavigationService _productDetailNavigate;
-    private readonly ProductDetailStore _productDetailStore;
-    public List<LaptopDTO>? LaptopList { get; set; } = null;
     public HashSet<LaptopCompany> CompanyList { get; set; }
     public HashSet<LaptopCPU> CPUList { get; set; }
     public HashSet<LaptopGraphic> GraphicList { get; set; }
@@ -26,17 +18,15 @@ public class LaptopViewModel : ViewModelBase
     public HashSet<LaptopSeries> SeriesList { get; set; }
     public HashSet<LaptopRAM> RAMList { get; set; }
     public HashSet<LaptopStorage> StorageList { get; set; }
-    public ICommand ProductDetailNavigateCommand { get; }
+    
     public LaptopViewModel(IUnitOfWork unitOfWork,
         ProductDetailStore productDetailStore,
         INavigationService productDetailNavigate)
+        : base(unitOfWork, productDetailStore, productDetailNavigate)
     {
-        _unitOfWork = unitOfWork;
-        _productDetailNavigate = productDetailNavigate;
-        _productDetailStore = productDetailStore;
-        ProductDetailNavigateCommand = new RelayCommand<LaptopDTO>(s => openDetailCommand(s));
         var list = _unitOfWork.Laptops.GetAll();
-        if (list != null) LaptopList = new(_laptopDTOs = list!);
+        if (list != null) ProductList = new(_productDTOs = list!);
+        Action += OnIsCheckedChanged;
         getCompanyList();
         getCPUList();
         getGraphicList();
@@ -44,11 +34,6 @@ public class LaptopViewModel : ViewModelBase
         getRAMList();
         getSeriesList();
         getStorageList();
-    }
-    private void openDetailCommand(LaptopDTO dto)
-    {
-        _productDetailStore.CurrentProduct = dto;
-        _productDetailNavigate.Navigate();
     }
     private void OnIsCheckedChanged()
     {
@@ -59,7 +44,7 @@ public class LaptopViewModel : ViewModelBase
         List<string> ListRAM = new();
         List<string> ListSeries = new();
         List<string> ListStorage = new();
-        LaptopList = new();
+        ProductList = new();
         foreach (var e in CompanyList)
             if (e.IsChecked) ListCompany.Add(e.Name);
         foreach (var e in CPUList)
@@ -74,21 +59,22 @@ public class LaptopViewModel : ViewModelBase
             if (e.IsChecked) ListSeries.Add(e.Name);
         foreach (var e in StorageList)
             if (e.IsChecked) ListStorage.Add(e.Name);
-        if (ListCompany.Count != 0) LaptopList = _laptopDTOs!.Where(x => ListCompany.Contains(x.Company)).ToList();
-        else LaptopList = (List<LaptopDTO>?)_laptopDTOs;
-        if (ListCPU.Count != 0) LaptopList = LaptopList!.Where(x => ListCPU.Contains(x.Cpu)).ToList();
-        if (ListGraphic.Count != 0) LaptopList = LaptopList!.Where(x => ListGraphic.Contains(x.Graphic)).ToList();
-        if (ListNeed.Count != 0) LaptopList = LaptopList!.Where(x => ListNeed.Contains(x.Need)).ToList();
-        if (ListRAM.Count != 0) LaptopList = LaptopList!.Where(x => ListRAM.Contains(x.Ram)).ToList();
-        if (ListSeries.Count != 0) LaptopList = LaptopList!.Where(x => ListSeries.Contains(x.Series)).ToList();
-        if (ListStorage.Count != 0) LaptopList = LaptopList!.Where(x => x.Storage.Contains(x.Storage)).ToList();
-        OnPropertyChanged(nameof(LaptopList));
+        if (ListCompany.Count != 0) ProductList = _productDTOs!.Where(x => ListCompany.Contains(x.Company)).ToList();
+        else ProductList = (List<LaptopDTO>?)_productDTOs;
+        if (ListCPU.Count != 0) ProductList = ProductList!.Where(x => ListCPU.Contains(x.Cpu)).ToList();
+        if (ListGraphic.Count != 0) ProductList = ProductList!.Where(x => ListGraphic.Contains(x.Graphic)).ToList();
+        if (ListNeed.Count != 0) ProductList = ProductList!.Where(x => ListNeed.Contains(x.Need)).ToList();
+        if (ListRAM.Count != 0) ProductList = ProductList!.Where(x => ListRAM.Contains(x.Ram)).ToList();
+        if (ListSeries.Count != 0) ProductList = ProductList!.Where(x => ListSeries.Contains(x.Series)).ToList();
+        if (ListStorage.Count != 0) ProductList = ProductList!.Where(x => ListStorage.Contains(x.Storage)).ToList();
+        SelectedConditionChanged();
+        OnPropertyChanged(nameof(ProductList));
     }
     private void getCompanyList()
     {
-        if (_laptopDTOs == null) return;
+        if (_productDTOs == null) return;
         CompanyList = new();
-        foreach (var laptop in _laptopDTOs)
+        foreach (var laptop in _productDTOs)
         {
             LaptopCompany laptopCompany = new() { Name = laptop.Company };
             laptopCompany.CurrentStoreChanged += OnIsCheckedChanged;
@@ -97,9 +83,9 @@ public class LaptopViewModel : ViewModelBase
     }
     private void getCPUList()
     {
-        if (_laptopDTOs == null) return;
+        if (_productDTOs == null) return;
         CPUList = new();
-        foreach (var laptop in _laptopDTOs)
+        foreach (var laptop in _productDTOs)
         {
             LaptopCPU laptopCPU = new() { Name = laptop.Cpu };
             laptopCPU.CurrentStoreChanged += OnIsCheckedChanged;
@@ -108,9 +94,9 @@ public class LaptopViewModel : ViewModelBase
     }
     private void getGraphicList()
     {
-        if (_laptopDTOs == null) return;
+        if (_productDTOs == null) return;
         GraphicList = new();
-        foreach (var laptop in _laptopDTOs)
+        foreach (var laptop in _productDTOs)
         {
             LaptopGraphic laptopGraphic = new() { Name = laptop.Graphic };
             laptopGraphic.CurrentStoreChanged += OnIsCheckedChanged;
@@ -119,9 +105,9 @@ public class LaptopViewModel : ViewModelBase
     }
     private void getNeedList()
     {
-        if (_laptopDTOs == null) return;
+        if (_productDTOs == null) return;
         NeedList = new();
-        foreach (var laptop in _laptopDTOs)
+        foreach (var laptop in _productDTOs)
         {
             if (laptop.Need == null) continue;
             LaptopNeed laptopNeed = new() { Name = laptop.Need };
@@ -131,9 +117,9 @@ public class LaptopViewModel : ViewModelBase
     }
     private void getRAMList()
     {
-        if (_laptopDTOs == null) return;
+        if (_productDTOs == null) return;
         RAMList = new();
-        foreach (var laptop in _laptopDTOs)
+        foreach (var laptop in _productDTOs)
         {
             LaptopRAM laptopRAM = new() { Name = laptop.Ram };
             laptopRAM.CurrentStoreChanged += OnIsCheckedChanged;
@@ -142,9 +128,9 @@ public class LaptopViewModel : ViewModelBase
     }
     private void getSeriesList()
     {
-        if (_laptopDTOs == null) return;
+        if (_productDTOs == null) return;
         SeriesList = new();
-        foreach (var laptop in _laptopDTOs)
+        foreach (var laptop in _productDTOs)
         {
             if (laptop.Series == null) continue;
             LaptopSeries laptopSeries = new() { Name = laptop.Series };
@@ -154,9 +140,9 @@ public class LaptopViewModel : ViewModelBase
     }
     private void getStorageList()
     {
-        if (_laptopDTOs == null) return;
+        if (_productDTOs == null) return;
         StorageList = new();
-        foreach (var laptop in _laptopDTOs)
+        foreach (var laptop in _productDTOs)
         {
             LaptopStorage laptopStorage = new() { Name = laptop.Storage };
             laptopStorage.CurrentStoreChanged += OnIsCheckedChanged;

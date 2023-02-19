@@ -4,15 +4,10 @@ using System.Windows;
 using ViewModels.Services;
 using ViewModels.Stores.Navigations;
 using ViewModels;
-using Microsoft.Extensions.Configuration;
-using System.IO;
-using ViewModels.Stores.Accounts;
 using ViewModels.Stores;
 using ViewModels.ControlViewModels;
 using ViewModels.NotifyControlViewModels;
-using Views.Products;
 using ViewModels.ProductViewModels;
-using Models;
 using ViewModels.Admins;
 using Models.Interfaces;
 
@@ -24,7 +19,8 @@ public partial class App : Application
     {
         return new ModalNavigationService<ProductDetailViewModel>(
             serviceProvider.GetRequiredService<ModalNavigationStore>(),
-            serviceProvider.GetRequiredService<ProductDetailViewModel>);
+            serviceProvider.GetRequiredService<ProductDetailViewModel>,
+            serviceProvider.GetRequiredService<CloseFloatNavigationService>());
     }
     private INavigationService CreateChangeAccountInfoNavigationService(IServiceProvider serviceProvider)
     {
@@ -32,7 +28,8 @@ public partial class App : Application
             serviceProvider.GetRequiredService<NavigationStore>(),
             serviceProvider.GetRequiredService<ChangeAccountInfoViewModel>,
             serviceProvider.GetRequiredService<NavigationBarViewModel>,
-            serviceProvider.GetRequiredService<ControlBarViewModel>);
+            serviceProvider.GetRequiredService<ControlBarViewModel>,
+            serviceProvider.GetRequiredService<CloseFloatNavigationService>());
     }
     private INavigationService CreateResetPasswordNavigationService(IServiceProvider serviceProvider)
     {
@@ -40,7 +37,8 @@ public partial class App : Application
             serviceProvider.GetRequiredService<NavigationStore>(),
             serviceProvider.GetRequiredService<ResetPasswordViewModel>,
             serviceProvider.GetRequiredService<NavigationBarViewModel>,
-            serviceProvider.GetRequiredService<ControlBarViewModel>);
+            serviceProvider.GetRequiredService<ControlBarViewModel>,
+            serviceProvider.GetRequiredService<CloseFloatNavigationService>());
     }
     private INavigationService CreateListBoxItemNavigationService(IServiceProvider serviceProvider)
     {
@@ -54,22 +52,18 @@ public partial class App : Application
             serviceProvider.GetRequiredService<NavigationStore>(),
             serviceProvider.GetRequiredService<HomeViewModel>,
             serviceProvider.GetRequiredService<NavigationBarViewModel>,
-            serviceProvider.GetRequiredService<ControlBarViewModel>);
+            serviceProvider.GetRequiredService<ControlBarViewModel>,
+            serviceProvider.GetRequiredService<CloseFloatNavigationService>());
     }
 
     private INavigationService CreateLoginNavigationService(IServiceProvider serviceProvider)
     {
-        //return new FloatingNavigationService<LoginViewModel>(
-        //    serviceProvider.GetRequiredService<FloatingNavigationStore>(),
-        //    serviceProvider.GetRequiredService<LoginViewModel>);
-        //return new ModalNavigationService<LoginViewModel>(
-        //    serviceProvider.GetRequiredService<ModalNavigationStore>(),
-        //    () => serviceProvider.GetRequiredService<LoginViewModel>());
         return new LayoutNavigationService<LoginViewModel>(
             serviceProvider.GetRequiredService<NavigationStore>(),
             serviceProvider.GetRequiredService<LoginViewModel>,
             serviceProvider.GetRequiredService<NavigationBarViewModel>,
-            serviceProvider.GetRequiredService<ControlBarViewModel>);
+            serviceProvider.GetRequiredService<ControlBarViewModel>,
+            serviceProvider.GetRequiredService<CloseFloatNavigationService>());
     }
 
     private INavigationService CreateAccountNavigationService(IServiceProvider serviceProvider)
@@ -78,7 +72,8 @@ public partial class App : Application
             serviceProvider.GetRequiredService<NavigationStore>(),
             serviceProvider.GetRequiredService<AccountViewModel>,
             serviceProvider.GetRequiredService<NavigationBarViewModel>,
-            serviceProvider.GetRequiredService<ControlBarViewModel>);
+            serviceProvider.GetRequiredService<ControlBarViewModel>,
+            serviceProvider.GetRequiredService<CloseFloatNavigationService>());
     }
     private INavigationService CreateRegisterNavigationService(IServiceProvider serviceProvider)
     {
@@ -86,7 +81,8 @@ public partial class App : Application
             serviceProvider.GetRequiredService<NavigationStore>(),
             serviceProvider.GetRequiredService<RegisterViewModel>,
             serviceProvider.GetRequiredService<NavigationBarViewModel>,
-            serviceProvider.GetRequiredService<ControlBarViewModel>);
+            serviceProvider.GetRequiredService<ControlBarViewModel>,
+            serviceProvider.GetRequiredService<CloseFloatNavigationService>());
     }
     private INavigationService CreateForgotPasswordNavigationService(IServiceProvider serviceProvider)
     {
@@ -94,15 +90,17 @@ public partial class App : Application
             serviceProvider.GetRequiredService<NavigationStore>(),
             serviceProvider.GetRequiredService<InputVerificationViewModel>,
             serviceProvider.GetRequiredService<NavigationBarViewModel>,
-            serviceProvider.GetRequiredService<ControlBarViewModel>);
+            serviceProvider.GetRequiredService<ControlBarViewModel>,
+            serviceProvider.GetRequiredService<CloseFloatNavigationService>());
     }
     private INavigationService CreateEmailVerificattionService(IServiceProvider serviceProvider)
     {
         return new EmailVerificationService(
             serviceProvider.GetRequiredService<VerificationStore>(),
             new ModalNavigationService<VerifyEmailViewModel>(
-            serviceProvider.GetRequiredService<ModalNavigationStore>(),
-            serviceProvider.GetRequiredService<VerifyEmailViewModel>),
+                serviceProvider.GetRequiredService<ModalNavigationStore>(),
+                serviceProvider.GetRequiredService<VerifyEmailViewModel>,
+                serviceProvider.GetRequiredService<CloseFloatNavigationService>()),
             serviceProvider.GetRequiredService<IUnitOfWork>());
     }
     private INavigationService CreateLaptopNavigationService(IServiceProvider serviceProvider)
@@ -111,7 +109,8 @@ public partial class App : Application
             serviceProvider.GetRequiredService<NavigationStore>(),
             serviceProvider.GetRequiredService<LaptopViewModel>,
             serviceProvider.GetRequiredService<NavigationBarViewModel>,
-            serviceProvider.GetRequiredService<ControlBarViewModel>);
+            serviceProvider.GetRequiredService<ControlBarViewModel>,
+            serviceProvider.GetRequiredService<CloseFloatNavigationService>());
     }
     private INavigationService CreateMonitorNavigationService(IServiceProvider serviceProvider)
     {
@@ -119,7 +118,8 @@ public partial class App : Application
             serviceProvider.GetRequiredService<NavigationStore>(),
             serviceProvider.GetRequiredService<MonitorViewModel>,
             serviceProvider.GetRequiredService<NavigationBarViewModel>,
-            serviceProvider.GetRequiredService<ControlBarViewModel>);
+            serviceProvider.GetRequiredService<ControlBarViewModel>,
+            serviceProvider.GetRequiredService<CloseFloatNavigationService>());
     }
     private INavigationService CreatePCNavigationService(IServiceProvider serviceProvider)
     {
@@ -127,7 +127,8 @@ public partial class App : Application
             serviceProvider.GetRequiredService<NavigationStore>(),
             serviceProvider.GetRequiredService<PCViewModel>,
             serviceProvider.GetRequiredService<NavigationBarViewModel>,
-            serviceProvider.GetRequiredService<ControlBarViewModel>);
+            serviceProvider.GetRequiredService<ControlBarViewModel>,
+            serviceProvider.GetRequiredService<CloseFloatNavigationService>());
     }
     private INavigationService CreatePCCPUNavigationService(IServiceProvider serviceProvider)
     {
@@ -135,7 +136,8 @@ public partial class App : Application
             serviceProvider.GetRequiredService<NavigationStore>(),
             serviceProvider.GetRequiredService<PCCPUViewModel>,
             serviceProvider.GetRequiredService<NavigationBarViewModel>,
-            serviceProvider.GetRequiredService<ControlBarViewModel>);
+            serviceProvider.GetRequiredService<ControlBarViewModel>,
+            serviceProvider.GetRequiredService<CloseFloatNavigationService>());
     }
     private INavigationService CreatePCHardDiskNavigationService(IServiceProvider serviceProvider)
     {
@@ -143,7 +145,8 @@ public partial class App : Application
             serviceProvider.GetRequiredService<NavigationStore>(),
             serviceProvider.GetRequiredService<PCHarddiskViewModel>,
             serviceProvider.GetRequiredService<NavigationBarViewModel>,
-            serviceProvider.GetRequiredService<ControlBarViewModel>);
+            serviceProvider.GetRequiredService<ControlBarViewModel>,
+            serviceProvider.GetRequiredService<CloseFloatNavigationService>());
     }
     private INavigationService CreateVGANavigationService(IServiceProvider serviceProvider)
     {
@@ -151,7 +154,8 @@ public partial class App : Application
             serviceProvider.GetRequiredService<NavigationStore>(),
             serviceProvider.GetRequiredService<VGAViewModel>,
             serviceProvider.GetRequiredService<NavigationBarViewModel>,
-            serviceProvider.GetRequiredService<ControlBarViewModel>);
+            serviceProvider.GetRequiredService<ControlBarViewModel>,
+            serviceProvider.GetRequiredService<CloseFloatNavigationService>());
     }
     private INavigationService CreateSmartPhoneNavigationService(IServiceProvider serviceProvider)
     {
@@ -159,6 +163,7 @@ public partial class App : Application
             serviceProvider.GetRequiredService<NavigationStore>(),
             serviceProvider.GetRequiredService<SmartPhoneViewModel>,
             serviceProvider.GetRequiredService<NavigationBarViewModel>,
-            serviceProvider.GetRequiredService<ControlBarViewModel>);
+            serviceProvider.GetRequiredService<ControlBarViewModel>,
+            serviceProvider.GetRequiredService<CloseFloatNavigationService>());
     }
 }

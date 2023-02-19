@@ -11,39 +11,26 @@ using Models.Interfaces;
 
 namespace ViewModels.ProductViewModels;
 
-public class PCHarddiskViewModel : ViewModelBase
+public class PCHarddiskViewModel : ProductViewModel<PcharddiskDTO>
 {
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IEnumerable<PcharddiskDTO>? _pcharddiskDTOs;
-    private readonly INavigationService _productDetailNavigate;
-    private readonly ProductDetailStore _productDetailStore;
-    public List<PcharddiskDTO>? PcharddiskList { get; set; } = null;
     public HashSet<PcharddiskCompany> CompanyList { get; set; }
     public HashSet<PcharddiskConnect> ConnectList { get; set; }
     public HashSet<PcharddiskType> TypeList { get; set; }
     public HashSet<PcharddiskSeries> SeriesList { get; set; }
     public HashSet<PcharddiskStorage> StorageList { get; set; }
-    public ICommand ProductDetailNavigateCommand { get; }
     public PCHarddiskViewModel(IUnitOfWork unitOfWork,
         ProductDetailStore productDetailStore,
         INavigationService productDetailNavigate)
+        : base(unitOfWork, productDetailStore, productDetailNavigate)
     {
-        _unitOfWork = unitOfWork;
-        _productDetailNavigate = productDetailNavigate;
-        _productDetailStore = productDetailStore;
-        ProductDetailNavigateCommand = new RelayCommand<PcharddiskDTO>(s => openDetailCommand(s));
         var list = _unitOfWork.Pcharddisks.GetAll();
-        if (list != null) PcharddiskList = new(_pcharddiskDTOs = list!);
+        if (list != null) ProductList = new(_productDTOs = list!);
+        Action += OnIsCheckedChanged;
         getCompanyList();
         getConnectList();
         getTypeList();
         getStorageList();
         getSeriesList();
-    }
-    private void openDetailCommand(PcharddiskDTO dto)
-    {
-        _productDetailStore.CurrentProduct = dto;
-        _productDetailNavigate.Navigate();
     }
     private void OnIsCheckedChanged()
     {
@@ -52,7 +39,7 @@ public class PCHarddiskViewModel : ViewModelBase
         List<string> ListType = new();
         List<string> ListStorage = new();
         List<string> ListSeries = new();
-        PcharddiskList = new();
+        ProductList = new();
         foreach (var e in CompanyList)
             if (e.IsChecked) ListCompany.Add(e.Name);
         foreach (var e in ConnectList)
@@ -63,19 +50,19 @@ public class PCHarddiskViewModel : ViewModelBase
             if (e.IsChecked) ListStorage.Add(e.Name);
         foreach (var e in SeriesList)
             if (e.IsChecked) ListSeries.Add(e.Name);
-        if (ListCompany.Count != 0) PcharddiskList = _pcharddiskDTOs!.Where(x => ListCompany.Contains(x.Company)).ToList();
-        else PcharddiskList = (List<PcharddiskDTO>?)_pcharddiskDTOs;
-        if (ListConnect.Count != 0) PcharddiskList = PcharddiskList!.Where(x => ListConnect.Contains(x.Connect)).ToList();
-        if (ListType.Count != 0) PcharddiskList = PcharddiskList!.Where(x => ListType.Contains(x.Type)).ToList();
-        if (ListStorage.Count != 0) PcharddiskList = PcharddiskList!.Where(x => ListStorage.Contains(x.Storage)).ToList();
-        if (ListSeries.Count != 0) PcharddiskList = PcharddiskList!.Where(x => ListSeries.Contains(x.Series)).ToList();
-        OnPropertyChanged(nameof(PcharddiskList));
+        if (ListCompany.Count != 0) ProductList = _productDTOs!.Where(x => ListCompany.Contains(x.Company)).ToList();
+        else ProductList = (List<PcharddiskDTO>?)_productDTOs;
+        if (ListConnect.Count != 0) ProductList = ProductList!.Where(x => ListConnect.Contains(x.Connect)).ToList();
+        if (ListType.Count != 0) ProductList = ProductList!.Where(x => ListType.Contains(x.Type)).ToList();
+        if (ListStorage.Count != 0) ProductList = ProductList!.Where(x => ListStorage.Contains(x.Storage)).ToList();
+        if (ListSeries.Count != 0) ProductList = ProductList!.Where(x => ListSeries.Contains(x.Series)).ToList();
+        OnPropertyChanged(nameof(ProductList));
     }
     private void getCompanyList()
     {
-        if (_pcharddiskDTOs == null) return;
+        if (_productDTOs == null) return;
         CompanyList = new();
-        foreach (var pcharddisk in _pcharddiskDTOs)
+        foreach (var pcharddisk in _productDTOs)
         {
             PcharddiskCompany pcharddiskCompany = new() { Name = pcharddisk.Company };
             pcharddiskCompany.CurrentStoreChanged += OnIsCheckedChanged;
@@ -84,9 +71,9 @@ public class PCHarddiskViewModel : ViewModelBase
     }
     private void getConnectList()
     {
-        if (_pcharddiskDTOs == null) return;
+        if (_productDTOs == null) return;
         ConnectList = new();
-        foreach (var pcharddisk in _pcharddiskDTOs)
+        foreach (var pcharddisk in _productDTOs)
         {
             PcharddiskConnect pcharddiskCPU = new() { Name = pcharddisk.Connect };
             pcharddiskCPU.CurrentStoreChanged += OnIsCheckedChanged;
@@ -95,9 +82,9 @@ public class PCHarddiskViewModel : ViewModelBase
     }
     private void getTypeList()
     {
-        if (_pcharddiskDTOs == null) return;
+        if (_productDTOs == null) return;
         TypeList = new();
-        foreach (var pcharddisk in _pcharddiskDTOs)
+        foreach (var pcharddisk in _productDTOs)
         {
             if (pcharddisk.Type == null) continue;
             PcharddiskType pcharddiskNeed = new() { Name = pcharddisk.Type };
@@ -107,9 +94,9 @@ public class PCHarddiskViewModel : ViewModelBase
     }
     private void getStorageList()
     {
-        if (_pcharddiskDTOs == null) return;
+        if (_productDTOs == null) return;
         StorageList = new();
-        foreach (var pcharddisk in _pcharddiskDTOs)
+        foreach (var pcharddisk in _productDTOs)
         {
             PcharddiskStorage pcharddiskRAM = new() { Name = pcharddisk.Storage };
             pcharddiskRAM.CurrentStoreChanged += OnIsCheckedChanged;
@@ -118,9 +105,9 @@ public class PCHarddiskViewModel : ViewModelBase
     }
     private void getSeriesList()
     {
-        if (_pcharddiskDTOs == null) return;
+        if (_productDTOs == null) return;
         SeriesList = new();
-        foreach (var pcharddisk in _pcharddiskDTOs)
+        foreach (var pcharddisk in _productDTOs)
         {
             if (pcharddisk.Series == null) continue;
             PcharddiskSeries pcharddiskSeries = new() { Name = pcharddisk.Series };

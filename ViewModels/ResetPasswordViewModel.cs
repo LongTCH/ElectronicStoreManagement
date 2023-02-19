@@ -69,6 +69,7 @@ public class ResetPasswordViewModel : ViewModelBase
         {
             InformationViewModel.Instance!.Show("Please log in your account", "Success");
             _unitOfWork.Accounts.ResetPassword(_verificationStore.Id!, NewPassword!);
+            _unitOfWork.Complete();
         }
         catch (Exception ex)
         {

@@ -76,68 +76,9 @@
                 </Style>
             </StackPanel.Resources>
             <Grid>
-                <Button ToolTip="Category"
-                        Command="{Binding PopupCommand}">
-                    <Grid>
-                        <materialDesign:PackIcon Kind="HamburgerMenuBack"
-                                                 VerticalAlignment="Center"
-                                                 HorizontalAlignment="Center"
-                                                 Foreground="DeepSkyBlue">
-                            <materialDesign:PackIcon.Style>
-                                <Style TargetType="materialDesign:PackIcon">
-                                    <Setter Property="Visibility"
-                                            Value="Visible" />
-                                    <Setter Property="Width"
-                                            Value="30" />
-                                    <Setter Property="Height"
-                                            Value="30" />
-                                    <Setter Property="VerticalAlignment"
-                                            Value="Center" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsMenuOpen}"
-                                                     Value="True">
-                                            <Setter Property="Visibility"
-                                                    Value="Collapsed" />
-                                        </DataTrigger>
-                                        <EventTrigger RoutedEvent="MouseEnter">
-                                            <EventTrigger.Actions>
-                                                <BeginStoryboard>
-                                                    <Storyboard>
-                                                        <DoubleAnimation Duration="0:0:0.300"
-                                                                         Storyboard.TargetProperty="Height"
-                                                                         To="40" />
-                                                        <DoubleAnimation Duration="0:0:0.300"
-                                                                         Storyboard.TargetProperty="Width"
-                                                                         To="40" />
-                                                    </Storyboard>
-                                                </BeginStoryboard>
-                                            </EventTrigger.Actions>
-                                        </EventTrigger>
-                                        <EventTrigger RoutedEvent="MouseLeave">
-                                            <EventTrigger.Actions>
-                                                <BeginStoryboard>
-                                                    <Storyboard>
-                                                        <DoubleAnimation Duration="0:0:0.300"
-                                                                         Storyboard.TargetProperty="Height"
-                                                                         To="40" />
-                                                        <DoubleAnimation Duration="0:0:0.300"
-                                                                         Storyboard.TargetProperty="Width"
-                                                                         To="30" />
-                                                    </Storyboard>
-                                                </BeginStoryboard>
-                                            </EventTrigger.Actions>
-                                        </EventTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </materialDesign:PackIcon.Style>
-                        </materialDesign:PackIcon>
-                        <materialDesign:PackIcon Kind="Menu"
-                                                 VerticalAlignment="Center"
-                                                 HorizontalAlignment="Center"
-                                                 Foreground="DeepSkyBlue"
-                                                 Visibility="{Binding IsMenuOpen, Converter={StaticResource BoolToVis}}" />
-                    </Grid>
-                </Button>
+                <ToggleButton Command="{Binding PopupCommand}"
+                              Style="{StaticResource MaterialDesignHamburgerToggleButton}"
+                              IsChecked="{Binding IsMenuOpen, Mode=OneWay}" />
             </Grid>
             <Grid>
                 <Button ToolTip="Home"

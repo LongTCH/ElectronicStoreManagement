@@ -169,14 +169,7 @@
                               x:Name="cmbGen"
                               SelectedItem="{Binding SelectedGender,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               ItemsSource="{Binding Gender}"
-                              IsSynchronizedWithCurrentItem="True">
-                        <!--<core:Interaction.Triggers>
-                            <core:EventTrigger EventName="SelectionChanged">
-                                <core:InvokeCommandAction Command="{Binding GenderChanged}"
-                                                          CommandParameter="{Binding ElementName=cmbGen,Path=SelectedItem}" />
-                            </core:EventTrigger>
-                        </core:Interaction.Triggers>-->
-                    </ComboBox>
+                              IsSynchronizedWithCurrentItem="True"></ComboBox>
                 </DockPanel>
                 <DockPanel Grid.Column="1">
                     <materialDesign:PackIcon Kind="BirthdayCake"
