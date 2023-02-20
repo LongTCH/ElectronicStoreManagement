@@ -53,6 +53,52 @@
                         </Setter>
                     </Style>
                 </ResourceDictionary>
+                <ResourceDictionary>
+                    <Style x:Key="cmbCon"
+                           TargetType="{x:Type ComboBox}"
+                           BasedOn="{StaticResource MaterialDesignFloatingHintComboBox}">
+                        <Setter Property="BorderThickness"
+                                Value="0" />
+                        <Setter Property="Margin"
+                                Value="20,10, 300,10" />
+                        <Setter Property="FontSize"
+                                Value="18" />
+                        <Setter Property="ItemsSource"
+                                Value="{Binding Conditions}" />
+                        <Setter Property="SelectedItem"
+                                Value="{Binding SelectedCondition, UpdateSourceTrigger=PropertyChanged}" />
+                        <Setter Property="IsSynchronizedWithCurrentItem"
+                                Value="True" />
+                    </Style>
+                </ResourceDictionary>
+                <ResourceDictionary>
+                    <Style x:Key="ckbFilter"
+                           TargetType="{x:Type CheckBox}"
+                           BasedOn="{StaticResource MaterialDesignUserForegroundCheckBox}">
+                        <Setter Property="Content"
+                                Value="{Binding Name}" />
+                        <Setter Property="IsChecked"
+                                Value="{Binding IsChecked}" />
+                        <Setter Property="Foreground"
+                                Value="DeepSkyBlue" />
+                    </Style>
+                </ResourceDictionary>
+                <ResourceDictionary>
+                    <Style x:Key="sldPrice"
+                           TargetType="{x:Type Slider}"
+                           BasedOn="{StaticResource MaterialDesignDiscreteSlider}">
+                        <Setter Property="Maximum"
+                                Value="{Binding MaxPrice}" />
+                        <Setter Property="Minimum"
+                                Value="0" />
+                        <Setter Property="IsSnapToTickEnabled"
+                                Value="True" />
+                        <Setter Property="TickFrequency"
+                                Value="{Binding TickFrequency}" />
+                        <Setter Property="Value"
+                                Value="{Binding CurrentPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </Style>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

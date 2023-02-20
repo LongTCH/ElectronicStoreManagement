@@ -25,7 +25,7 @@ public class ChangeAccountInfoViewModel : ViewModelBase
 
     private ObservableCollection<string> _error = new ObservableCollection<string>();
 
-    public List<City> Cities { get; set; }
+    public List<City>? Cities { get; set; }
     public IEnumerable<District>? Districts { get; set; }
     public IEnumerable<Sub_district>? Sub_districts { get; set; }
     public List<string> Gender { get; } = new GetGenderListCommand().Execute();
@@ -123,7 +123,7 @@ public class ChangeAccountInfoViewModel : ViewModelBase
     {
         _navigationService = navigationSerVice;
         _unitOfWork = unitOfWork;
-        Cities = new CitiesSortCommand(new GetCitiesCommand().GetCitiesList().ToList()).GetSortedCities();
+        Cities = new CitiesSortCommand(new GetCitiesCommand().GetCitiesList()?.ToList())?.GetSortedCities();
         GetDistricts = new RelayCommand<City>(getDistricts);
         GetSub_districts = new RelayCommand<District>(getSubDistricts);
         SignUpCommand = new RelayCommand<object>(_ => signUp());
@@ -209,9 +209,11 @@ public class ChangeAccountInfoViewModel : ViewModelBase
     }
     private void addAvatarCommand()
     {
-        OpenFileDialog openFileDialog = new();
-        openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;...";
-        openFileDialog.Title = "Direct to your avartar";
+        OpenFileDialog openFileDialog = new()
+        {
+            Filter = "Image Files|*.jpg;*.jpeg;*.png;...",
+            Title = "Direct to your avartar"
+        };
         if (openFileDialog.ShowDialog() == true)
         {
             Avatar_Path = openFileDialog.FileName;
@@ -262,12 +264,5 @@ public class ChangeAccountInfoViewModel : ViewModelBase
         OnPropertyChanged(nameof(Districts));
         OnPropertyChanged(nameof(Sub_districts));
         UpdateAddress = true;
-    }
-    private void ValidateProperty<T>(T value, string name)
-    {
-        Validator.ValidateProperty(value, new ValidationContext(this, null, null)
-        {
-            MemberName = name
-        });
     }
 }

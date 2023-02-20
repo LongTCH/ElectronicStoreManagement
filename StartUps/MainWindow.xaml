@@ -100,7 +100,7 @@
         </modalcontrol:Modal>
         <ContentControl Content="{Binding CurrentViewModel}" />
         <ContentControl HorizontalAlignment="Left"
-                        Margin="60,0,0,0"
+                        Margin="30,0,0,0"
                         Visibility="{Binding IsFloatOpen, Converter={StaticResource BoolToVis}}"
                         Content="{Binding FloatViewModel}" />
     </Grid>

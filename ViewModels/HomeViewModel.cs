@@ -1,8 +1,13 @@
 ﻿using Models.DTOs;
 using Models.Interfaces;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text.RegularExpressions;
+using System.Timers;
 using System.Windows.Input;
 using ViewModels.Commands;
+using ViewModels.MyMessageBox;
 using ViewModels.Services;
 using ViewModels.Stores;
 
@@ -28,11 +33,21 @@ public class HomeViewModel : ViewModelBase
     public ICommand PcharddiskNavigateCommand { get; }
     public ICommand VgaNavigateCommand { get; }
     public ICommand SmartphoneNavigateCommand { get; }
-    private void openDetailCommand<T>(T dto) where T : IProductDTO
+    private void openDetailCommand<T>(T dto) where T : ProductDTO
     {
         _productDetailStore.CurrentProduct = dto;
         _productDetailNavigate.Navigate();
     }
+    private readonly List<string> imageFiles;
+    private int index = 0;
+    private void dispatcherTimer_Tick(object sender, ElapsedEventArgs e)
+    {
+        Source = imageFiles[index];
+        OnPropertyChanged(nameof(Source));
+        index = (index + 1) % imageFiles.Count;
+    }
+    public string Source { get; set; }
+    Timer Timer { get; set; }
     public HomeViewModel(IUnitOfWork unitOfWork,
         ProductDetailStore productDetailStore,
         INavigationService productDetailNavigate,
@@ -47,14 +62,21 @@ public class HomeViewModel : ViewModelBase
         _unitOfWork = unitOfWork;
         _productDetailStore = productDetailStore;
         _productDetailNavigate = productDetailNavigate;
-        LaptopList = unitOfWork.Laptops.GetAll();
-        SmartphoneList = unitOfWork.Smartphones.GetAll();
-        PccpuList = unitOfWork.Pccpus.GetAll();
-        MonitorList = unitOfWork.Monitors.GetAll();
-        PcList = unitOfWork.Pcs.GetAll();
-        PcharddiskList = unitOfWork.Pcharddisks.GetAll();
-        VgaList = unitOfWork.Vgas.GetAll();
-        ProductDetailNavigateCommand = new RelayCommand<IProductDTO>(s => openDetailCommand(s));
+        try
+        {
+            LaptopList = unitOfWork.Laptops.GetAll();
+            SmartphoneList = unitOfWork.Smartphones.GetAll();
+            PccpuList = unitOfWork.Pccpus.GetAll();
+            MonitorList = unitOfWork.Monitors.GetAll();
+            PcList = unitOfWork.Pcs.GetAll();
+            PcharddiskList = unitOfWork.Pcharddisks.GetAll();
+            VgaList = unitOfWork.Vgas.GetAll();
+        }
+        catch(Exception ex)
+        {
+            ErrorNotifyViewModel.Instance!.Show(ex.Message, "Error");
+        }
+        ProductDetailNavigateCommand = new RelayCommand<ProductDTO>(s => openDetailCommand(s));
         LaptopNavigateCommand = new RelayCommand<object>(_ => laptop.Navigate());
         MonitorNavigateCommand = new RelayCommand<object>(_ => monitor.Navigate());
         PcNavigateCommand = new RelayCommand<object>(_ => pc.Navigate());
@@ -62,5 +84,23 @@ public class HomeViewModel : ViewModelBase
         PcharddiskNavigateCommand = new RelayCommand<object>(_ => pcharddisk.Navigate());
         VgaNavigateCommand = new RelayCommand<object>(_ => vga.Navigate());
         SmartphoneNavigateCommand = new RelayCommand<object>(_ => smartphone.Navigate());
+
+        Timer = new Timer();
+        Timer.Elapsed += new ElapsedEventHandler(dispatcherTimer_Tick!);
+        Timer.Interval = 3000;
+        Timer.Enabled = true;
+        var files = Directory.GetFiles(Directory.GetParent(
+            Directory.GetCurrentDirectory())!.Parent!.Parent!.Parent
+            + "\\Views\\Images\\HomeImages", "*.*", SearchOption.AllDirectories);
+
+        imageFiles = new();
+        foreach (string filename in files)
+        {
+            if (Regex.IsMatch(filename, @"\.jpg$|\.png$|\.gif$|\.webp$"))
+                imageFiles.Add(filename);
+        }
+        Source = imageFiles[index];
+        OnPropertyChanged(nameof(Source));
+        index = (index + 1) % imageFiles.Count;
     }
 }

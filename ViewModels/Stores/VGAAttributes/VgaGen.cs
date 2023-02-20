@@ -1,33 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ViewModels.Stores.PCHardDiskAttributes;
+﻿namespace ViewModels.Stores.VGAAttributes;
 
-namespace ViewModels.Stores.VGAAttributes;
-
-public class VgaGen:IStore
+public class VgaGen : ProductAttributeStore<VgaGen>, IProductAttributeStore
 {
-    public string Name { get; set; }
-    private bool isChecked;
-    public bool IsChecked
-    {
-        get => isChecked;
-        set
-        {
-            isChecked = value;
-            CurrentStoreChanged?.Invoke();
-        }
-    }
 
-    public event Action? CurrentStoreChanged;
-    public override int GetHashCode()
-    {
-        return Name.GetHashCode();
-    }
-    public override bool Equals(object? obj)
-    {
-        return Name == (obj as VgaGen)?.Name;
-    }
 }

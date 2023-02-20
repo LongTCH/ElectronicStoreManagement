@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Models.DTOs;
 
-namespace Models.DTOs;
-
-public interface IProductDTO
+public abstract class ProductDTO
 {
     public string Id { get; set; }
     public string Name { get; set; }
@@ -16,4 +10,6 @@ public interface IProductDTO
     public string? DetailPath { get; set; }
     public string? ImagePath { get; set; }
     public string Company { get; set; }
+    public decimal SellPrice => Discount == null || Discount == 0 ? Price : Price * (1 - (decimal)Discount / 100);
+    public bool DiscountShow => SellPrice < Price;
 }

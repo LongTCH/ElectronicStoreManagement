@@ -73,7 +73,7 @@ public class ResetPasswordViewModel : ViewModelBase
         }
         catch (Exception ex)
         {
-            ErrorNotifyViewModel.Instance!.Show(ex.Message);
+            ErrorNotifyViewModel.Instance!.Show(ex.Message, "Error");
         }
     }
 }

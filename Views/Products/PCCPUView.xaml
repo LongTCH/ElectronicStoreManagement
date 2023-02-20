@@ -116,12 +116,7 @@
                  ItemsSource="{Binding ProductList}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Button Background="Transparent"
-                            BorderThickness="1"
-                            BorderBrush="Silver"
-                            Height="100"
-                            Command="{Binding DataContext.ProductDetailNavigateCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
-                            CommandParameter="{Binding}">
+                    <Button Style="{StaticResource btnCard2}">
                         <Button.Content>
                             <StackPanel Width="150">
                                 <Image Source="{Binding ImagePath}"

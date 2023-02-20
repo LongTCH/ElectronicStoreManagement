@@ -16,192 +16,17 @@
                               MaxWidth="300" />
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
-        <!--<ScrollViewer VerticalScrollBarVisibility="auto"
-                      VerticalContentAlignment="Top"
-                      HorizontalAlignment="Stretch">
-            <Grid Grid.Column="0"
-                  Margin="0,0,5,0">
-                <Grid.Resources>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="FontSize"
-                                Value="14" />
-                        <Setter Property="Foreground"
-                                Value="BlueViolet" />
-                        <Setter Property="Padding"
-                                Value="10,0,0,0" />
-                        <Setter Property="FontWeight"
-                                Value="Bold" />
-                    </Style>
-                </Grid.Resources>
-                <Grid.RowDefinitions>
-                    <RowDefinition MinHeight="50" />
-                    <RowDefinition MinHeight="100" />
-                    <RowDefinition MinHeight="100" />
-                    <RowDefinition MinHeight="100" />
-                    <RowDefinition MinHeight="100" />
-                    <RowDefinition MinHeight="100" />
-                    <RowDefinition MinHeight="100" />
-                    <RowDefinition MinHeight="100" />
-                </Grid.RowDefinitions>
-                <StackPanel Grid.Column="0"
-                            VerticalAlignment="Bottom">
-                    <Grid>
-                        <TextBlock Text="0"
-                                   HorizontalAlignment="Left" />
-                        <TextBlock Text="{Binding ElementName=sld, Path=Value, StringFormat={}{0:N0}}"
-                                   HorizontalAlignment="Right" />
-                    </Grid>
-                    <Slider x:Name="sld"
-                            Maximum="{Binding MaxPrice}"
-                            Minimum="0"
-                            Style="{StaticResource MaterialDesignDiscreteSlider}"
-                            IsSnapToTickEnabled="True"
-                            TickFrequency="{Binding TickFrequency}"
-                            Value="{Binding CurrentPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></Slider>
-                </StackPanel>
-                <StackPanel Grid.Row="1">
-                    <TextBlock Text="Company" />
-                    <ListBox ItemsSource="{Binding CompanyList}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <CheckBox Content="{Binding Name}"
-                                          IsChecked="{Binding IsChecked}"
-                                          Style="{StaticResource MaterialDesignUserForegroundCheckBox}"
-                                          Foreground="DeepSkyBlue" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                    </ListBox>
-                </StackPanel>
-                <StackPanel Grid.Row="2">
-                    <TextBlock Text="Series" />
-                    <ListBox ItemsSource="{Binding SeriesList}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <CheckBox Content="{Binding Name}"
-                                          IsChecked="{Binding IsChecked}"
-                                          Style="{StaticResource MaterialDesignUserForegroundCheckBox}"
-                                          Foreground="DeepSkyBlue" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                    </ListBox>
-                </StackPanel>
-                <StackPanel Grid.Row="3">
-                    <TextBlock Text="Need" />
-                    <ListBox ItemsSource="{Binding NeedList}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <CheckBox Content="{Binding Name}"
-                                          IsChecked="{Binding IsChecked}"
-                                          Style="{StaticResource MaterialDesignUserForegroundCheckBox}"
-                                          Foreground="DeepSkyBlue" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                    </ListBox>
-                </StackPanel>
-                <StackPanel Grid.Row="4">
-                    <TextBlock Text="CPU" />
-                    <ListBox ItemsSource="{Binding CPUList}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <CheckBox Content="{Binding Name}"
-                                          IsChecked="{Binding IsChecked}"
-                                          Style="{StaticResource MaterialDesignUserForegroundCheckBox}"
-                                          Foreground="DeepSkyBlue" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                    </ListBox>
-                </StackPanel>
-                <StackPanel Grid.Row="5">
-                    <TextBlock Text="Graphic" />
-                    <ListBox ItemsSource="{Binding GraphicList}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <CheckBox Content="{Binding Name}"
-                                          IsChecked="{Binding IsChecked}"
-                                          Style="{StaticResource MaterialDesignUserForegroundCheckBox}"
-                                          Foreground="DeepSkyBlue" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                    </ListBox>
-                </StackPanel>
-                <StackPanel Grid.Row="6">
-                    <TextBlock Text="RAM" />
-                    <ListBox ItemsSource="{Binding RAMList}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <CheckBox Content="{Binding Name}"
-                                          IsChecked="{Binding IsChecked}"
-                                          Style="{StaticResource MaterialDesignUserForegroundCheckBox}"
-                                          Foreground="DeepSkyBlue" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                    </ListBox>
-                </StackPanel>
-                <StackPanel Grid.Row="7">
-                    <TextBlock Text="Storage" />
-                    <ListBox ItemsSource="{Binding StorageList}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <CheckBox Content="{Binding Name}"
-                                          IsChecked="{Binding IsChecked}"
-                                          Style="{StaticResource MaterialDesignUserForegroundCheckBox}"
-                                          Foreground="DeepSkyBlue" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                    </ListBox>
-                </StackPanel>
-            </Grid>
-        </ScrollViewer>-->
-        <StackPanel Grid.Column="0" Panel.ZIndex="1"
+        
+        <StackPanel Grid.Column="0"
+                    Panel.ZIndex="1"
                     VerticalAlignment="Top">
             <Grid>
                 <TextBlock Text="0"
                            HorizontalAlignment="Left" />
-                <TextBlock Text="{Binding ElementName=sld, Path=Value, StringFormat={}{0:N0}}"
-                           HorizontalAlignment="Right" />
+                <TextBlock Text="{Binding ElementName=sld, Path=Value, StringFormat={}{0:N0}}" 
+                           HorizontalAlignment="Right"/>
             </Grid>
-            <Slider x:Name="sld"
-                    Maximum="{Binding MaxPrice}"
-                    Minimum="0"
-                    Style="{StaticResource MaterialDesignDiscreteSlider}"
-                    IsSnapToTickEnabled="True"
-                    TickFrequency="{Binding TickFrequency}"
-                    Value="{Binding CurrentPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></Slider>
+            <Slider x:Name="sld" Style="{StaticResource sldPrice}" />
         </StackPanel>
         <ScrollViewer VerticalScrollBarVisibility="auto"
                       VerticalContentAlignment="Top"
@@ -215,10 +40,7 @@
                         <ListBox ItemsSource="{Binding CompanyList}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <CheckBox Content="{Binding Name}"
-                                              IsChecked="{Binding IsChecked}"
-                                              Style="{StaticResource MaterialDesignUserForegroundCheckBox}"
-                                              Foreground="DeepSkyBlue" />
+                                    <CheckBox Style="{StaticResource ckbFilter}" />
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                             <ListBox.ItemsPanel>
@@ -239,10 +61,7 @@
                         <ListBox ItemsSource="{Binding SeriesList}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <CheckBox Content="{Binding Name}"
-                                              IsChecked="{Binding IsChecked}"
-                                              Style="{StaticResource MaterialDesignUserForegroundCheckBox}"
-                                              Foreground="DeepSkyBlue" />
+                                    <CheckBox Style="{StaticResource ckbFilter}" />
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                             <ListBox.ItemsPanel>
@@ -262,10 +81,7 @@
                         <ListBox ItemsSource="{Binding NeedList}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <CheckBox Content="{Binding Name}"
-                                              IsChecked="{Binding IsChecked}"
-                                              Style="{StaticResource MaterialDesignUserForegroundCheckBox}"
-                                              Foreground="DeepSkyBlue" />
+                                    <CheckBox Style="{StaticResource ckbFilter}" />
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                             <ListBox.ItemsPanel>
@@ -286,10 +102,7 @@
                         <ListBox ItemsSource="{Binding CPUList}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <CheckBox Content="{Binding Name}"
-                                              IsChecked="{Binding IsChecked}"
-                                              Style="{StaticResource MaterialDesignUserForegroundCheckBox}"
-                                              Foreground="DeepSkyBlue" />
+                                    <CheckBox Style="{StaticResource ckbFilter}" />
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                             <ListBox.ItemsPanel>
@@ -309,10 +122,7 @@
                         <ListBox ItemsSource="{Binding GraphicList}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <CheckBox Content="{Binding Name}"
-                                              IsChecked="{Binding IsChecked}"
-                                              Style="{StaticResource MaterialDesignUserForegroundCheckBox}"
-                                              Foreground="DeepSkyBlue" />
+                                    <CheckBox Style="{StaticResource ckbFilter}" />
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                             <ListBox.ItemsPanel>
@@ -333,10 +143,7 @@
                         <ListBox ItemsSource="{Binding RAMList}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <CheckBox Content="{Binding Name}"
-                                              IsChecked="{Binding IsChecked}"
-                                              Style="{StaticResource MaterialDesignUserForegroundCheckBox}"
-                                              Foreground="DeepSkyBlue" />
+                                    <CheckBox Style="{StaticResource ckbFilter}" />
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                             <ListBox.ItemsPanel>
@@ -356,10 +163,7 @@
                         <ListBox ItemsSource="{Binding StorageList}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <CheckBox Content="{Binding Name}"
-                                              IsChecked="{Binding IsChecked}"
-                                              Style="{StaticResource MaterialDesignUserForegroundCheckBox}"
-                                              Foreground="DeepSkyBlue" />
+                                    <CheckBox Style="{StaticResource ckbFilter}" />
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                             <ListBox.ItemsPanel>
@@ -380,41 +184,46 @@
                                          Width="30"
                                          Kind="OrderAlphabeticalAscending" />
                 <ComboBox materialDesign:HintAssist.FontFamily="Verdana"
-                          Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                          materialDesign:HintAssist.Hint="Order by"
-                          BorderThickness="0"
-                          Margin="20,10, 300,10"
-                          FontSize="18"
-                          x:Name="cmbSort"
-                          ItemsSource="{Binding Conditions}"
-                          SelectedItem="{Binding SelectedCondition, UpdateSourceTrigger=PropertyChanged}"
-                          IsSynchronizedWithCurrentItem="True"></ComboBox>
+                          Style="{StaticResource cmbCon}"
+                          materialDesign:HintAssist.Hint="Order by" />
             </DockPanel>
             <ListBox ItemsSource="{Binding ProductList}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Button Background="Transparent"
+                        <Button Background="Snow"
                                 BorderThickness="1"
-                                BorderBrush="Silver"
-                                Height="100"
+                                Height="200"
+                                VerticalContentAlignment="Bottom"
                                 Command="{Binding DataContext.ProductDetailNavigateCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
-                                CommandParameter="{Binding}">
-                            <Button.Content>
-                                <StackPanel Width="150">
-                                    <Image Source="{Binding ImagePath}"
-                                           Height="50" />
-                                    <TextBlock Text="{Binding Name}"
-                                               TextWrapping="NoWrap"
-                                               Foreground="Black" />
-                                    <DockPanel LastChildFill="True">
-                                        <TextBlock Text="Price :"
-                                                   Foreground="Black" />
-                                        <TextBlock Text="{Binding Price, StringFormat={}{0:0.#}}"
-                                                   HorizontalAlignment="Right"
-                                                   Foreground="Black" />
-                                    </DockPanel>
-                                </StackPanel>
-                            </Button.Content>
+                                CommandParameter="{Binding}"
+                                BorderBrush="Silver">
+                            <StackPanel Width="150">
+                                <Image Source="{Binding ImagePath}"
+                                       Height="50" />
+                                <TextBlock Text="{Binding Name}"
+                                           TextWrapping="Wrap"
+                                           Foreground="Black" />
+                                <TextBlock Text="{Binding SellPrice, Mode=OneWay, StringFormat={}{0:0.#}}"
+                                           HorizontalAlignment="Left"
+                                           Foreground="Blue"
+                                           FontSize="20" />
+                                <DockPanel Visibility="{Binding DiscountShow, Converter={StaticResource BoolToVis}}"
+                                           LastChildFill="True">
+                                    <TextBlock Text="{Binding Price , Mode=OneWay, StringFormat={}{0:0.#}}"
+                                               TextDecorations="OverLine"
+                                               Foreground="Gray"
+                                               FontSize="18" />
+                                    <TextBlock Text="-"
+                                               Foreground="LightBlue"
+                                               FontSize="18" />
+                                    <TextBlock Text="{Binding Discount, Mode=OneWay}"
+                                               Foreground="LightBlue"
+                                               FontSize="18" />
+                                    <TextBlock Text="%"
+                                               Foreground="LightBlue"
+                                               FontSize="18" />
+                                </DockPanel>
+                            </StackPanel>
                         </Button>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

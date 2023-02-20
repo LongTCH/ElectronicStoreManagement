@@ -1,8 +1,9 @@
 ﻿using Models.DTOs;
 using Models.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using ViewModels.Commands;
+using ViewModels.MyMessageBox;
 using ViewModels.Services;
 using ViewModels.Stores;
 using ViewModels.Stores.LaptopAttributes;
@@ -24,21 +25,28 @@ public class LaptopViewModel : ProductViewModel<LaptopDTO>
         INavigationService productDetailNavigate)
         : base(unitOfWork, productDetailStore, productDetailNavigate)
     {
-        var list = _unitOfWork.Laptops.GetAll();
-        if (list != null)
+        try
         {
-            ProductList = new(_productDTOs = list!);
-            MaxPrice = System.Math.Ceiling((double)list.Max(x => x.Price) / TickFrequency) * TickFrequency;
-            CurrentPrice = MaxPrice;
+            var list = _unitOfWork.Laptops.GetAll();
+            if (list != null)
+            {
+                ProductList = new(_productDTOs = list!);
+                MaxPrice = Math.Ceiling((double)list.Max(x => x.SellPrice) / TickFrequency) * TickFrequency;
+                CurrentPrice = MaxPrice;
+            }
+            Action += OnIsCheckedChanged;
+            getCompanyList();
+            getCPUList();
+            getGraphicList();
+            getNeedList();
+            getRAMList();
+            getSeriesList();
+            getStorageList();
         }
-        Action += OnIsCheckedChanged;
-        getCompanyList();
-        getCPUList();
-        getGraphicList();
-        getNeedList();
-        getRAMList();
-        getSeriesList();
-        getStorageList();
+        catch(Exception ex)
+        {
+            ErrorNotifyViewModel.Instance!.Show(ex.Message, "Error");
+        }
     }
     private void OnIsCheckedChanged()
     {

@@ -16,9 +16,9 @@
             <StackPanel.Resources>
                 <Style TargetType="materialDesign:PackIcon">
                     <Setter Property="Width"
-                            Value="30" />
+                            Value="20" />
                     <Setter Property="Height"
-                            Value="30" />
+                            Value="20" />
                     <Setter Property="VerticalAlignment"
                             Value="Center" />
                     <Style.Triggers>
@@ -28,10 +28,10 @@
                                     <Storyboard>
                                         <DoubleAnimation Duration="0:0:0.300"
                                                          Storyboard.TargetProperty="Height"
-                                                         To="40" />
+                                                         To="30" />
                                         <DoubleAnimation Duration="0:0:0.300"
                                                          Storyboard.TargetProperty="Width"
-                                                         To="40" />
+                                                         To="30" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger.Actions>
@@ -42,10 +42,10 @@
                                     <Storyboard>
                                         <DoubleAnimation Duration="0:0:0.300"
                                                          Storyboard.TargetProperty="Height"
-                                                         To="40" />
+                                                         To="20" />
                                         <DoubleAnimation Duration="0:0:0.300"
                                                          Storyboard.TargetProperty="Width"
-                                                         To="30" />
+                                                         To="20" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger.Actions>
@@ -58,7 +58,9 @@
                     <Setter Property="Background"
                             Value="Transparent" />
                     <Setter Property="Width"
-                            Value="60" />
+                            Value="30" />
+                    <Setter Property="Height"
+                            Value="40" />
                     <Style.Triggers>
                         <Trigger Property="IsMouseOver"
                                  Value="True">
@@ -69,15 +71,20 @@
                         </Trigger>
                     </Style.Triggers>
                 </Style>
-                <Style TargetType="Grid">
-                    <Setter Property="Height"
-                            Value="60" />
-                </Style>
             </StackPanel.Resources>
-            <Grid>
+            <Grid Margin="0,10,0,5">
                 <ToggleButton Command="{Binding PopupCommand}"
-                              Style="{StaticResource MaterialDesignHamburgerToggleButton}"
-                              IsChecked="{Binding IsMenuOpen, Mode=OneWay}" />
+                              Height="20"
+                              Width="20"
+                              IsChecked="{Binding IsMenuOpen, Mode=OneWay}">
+                    <ToggleButton.Style>
+                        <Style TargetType="ToggleButton"
+                               BasedOn="{StaticResource MaterialDesignHamburgerToggleButton}">
+                            <Setter Property="Cursor"
+                                    Value="Hand" />
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
             </Grid>
             <Grid>
                 <Button ToolTip="Home"
@@ -91,8 +98,6 @@
                     <Style TargetType="Grid">
                         <Setter Property="Visibility"
                                 Value="Visible" />
-                        <Setter Property="Height"
-                                Value="60" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsLoggedIn}"
                                          Value="True">

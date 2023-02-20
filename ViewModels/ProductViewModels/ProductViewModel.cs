@@ -11,7 +11,7 @@ using ViewModels.Stores;
 namespace ViewModels.ProductViewModels;
 
 public abstract class ProductViewModel<T> : ViewModelBase
-    where T : IProductDTO
+    where T : ProductDTO
 {
     protected IUnitOfWork _unitOfWork;
     protected IEnumerable<T>? _productDTOs;
@@ -44,7 +44,7 @@ public abstract class ProductViewModel<T> : ViewModelBase
     private void priceRangeCommand()
     {
         Action?.Invoke();
-        ProductList = ProductList.Where(x => (double)x.Price <= CurrentPrice).ToList();
+        ProductList = ProductList.Where(x => (double)x.SellPrice <= CurrentPrice).ToList();
         OnPropertyChanged(nameof(ProductList));
     }
     private void openDetailCommand(T dto)
@@ -74,11 +74,11 @@ public abstract class ProductViewModel<T> : ViewModelBase
         }
         else if (SelectedCondition == Conditions[1])
         {
-            ProductList = ProductList?.OrderBy(x => x.Price).ToList();
+            ProductList = ProductList?.OrderBy(x => x.SellPrice).ToList();
         }
         else if (SelectedCondition == Conditions[2])
         {
-            ProductList = ProductList?.OrderByDescending(x => x.Price).ToList();
+            ProductList = ProductList?.OrderByDescending(x => x.SellPrice).ToList();
         }
         OnPropertyChanged(nameof(ProductList));
     }

@@ -12,39 +12,51 @@
     <ScrollViewer VerticalScrollBarVisibility="auto"
                   HorizontalAlignment="Stretch">
         <StackPanel>
-            
+            <Image Source="{Binding Source}" />
             <StackPanel>
                 <Button Style="{StaticResource MaterialDesignFlatButton}"
                         BorderThickness="0"
                         Content="Laptop ->"
                         HorizontalContentAlignment="Left"
-                        Command="{Binding LaptopNavigateCommand}"/>
+                        Command="{Binding LaptopNavigateCommand}" />
                 <ListBox MaxHeight="250"
                          ItemsSource="{Binding LaptopList}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Button Background="Transparent"
+                            <Button Background="Snow"
                                     BorderThickness="1"
-                                    BorderBrush="Silver"
-                                    Height="100"
+                                    Height="200"
+                                    VerticalContentAlignment="Bottom"
                                     Command="{Binding DataContext.ProductDetailNavigateCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
-                                    CommandParameter="{Binding}">
-                                <Button.Content>
-                                    <StackPanel Width="150">
-                                        <Image Source="{Binding ImagePath}"
-                                               Height="50" />
-                                        <TextBlock Text="{Binding Name}"
-                                                   TextWrapping="NoWrap"
-                                                   Foreground="Black" />
-                                        <DockPanel LastChildFill="True">
-                                            <TextBlock Text="Price :"
-                                                       Foreground="Black" />
-                                            <TextBlock Text="{Binding Price, StringFormat={}{0:0.#}}"
-                                                       HorizontalAlignment="Right"
-                                                       Foreground="Black" />
-                                        </DockPanel>
-                                    </StackPanel>
-                                </Button.Content>
+                                    CommandParameter="{Binding}"
+                                    BorderBrush="Silver">
+                                <StackPanel Width="150">
+                                    <Image Source="{Binding ImagePath}"
+                                           Height="50" />
+                                    <TextBlock Text="{Binding Name}"
+                                               TextWrapping="Wrap"
+                                               Foreground="Black" />
+                                    <TextBlock Text="{Binding SellPrice, Mode=OneWay, StringFormat={}{0:0.#}}"
+                                               HorizontalAlignment="Left"
+                                               Foreground="Blue"
+                                               FontSize="20" />
+                                    <DockPanel Visibility="{Binding DiscountShow, Converter={StaticResource BoolToVis}}"
+                                               LastChildFill="True">
+                                        <TextBlock Text="{Binding Price , Mode=OneWay, StringFormat={}{0:0.#}}"
+                                                   TextDecorations="Strikethrough"
+                                                   Foreground="Gray"
+                                                   FontSize="18" />
+                                        <TextBlock Text="-"
+                                                   Foreground="LightBlue"
+                                                   FontSize="18" />
+                                        <TextBlock Text="{Binding Discount, Mode=OneWay}"
+                                                   Foreground="LightBlue"
+                                                   FontSize="18" />
+                                        <TextBlock Text="%"
+                                                   Foreground="LightBlue"
+                                                   FontSize="18" />
+                                    </DockPanel>
+                                </StackPanel>
                             </Button>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -60,33 +72,45 @@
                         BorderThickness="0"
                         Content="PC ->"
                         HorizontalContentAlignment="Left"
-                        Command="{Binding PcNavigateCommand}"/>
+                        Command="{Binding PcNavigateCommand}" />
                 <ListBox MaxHeight="250"
                          ItemsSource="{Binding PcList}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Button Background="Transparent"
+                            <Button Background="Snow"
                                     BorderThickness="1"
-                                    BorderBrush="Silver"
-                                    Height="100"
+                                    Height="200"
+                                    VerticalContentAlignment="Bottom"
                                     Command="{Binding DataContext.ProductDetailNavigateCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
-                                    CommandParameter="{Binding}">
-                                <Button.Content>
-                                    <StackPanel Width="150">
-                                        <Image Source="{Binding ImagePath}"
-                                               Height="50" />
-                                        <TextBlock Text="{Binding Name}"
-                                                   TextWrapping="NoWrap"
-                                                   Foreground="Black" />
-                                        <DockPanel LastChildFill="True">
-                                            <TextBlock Text="Price :"
-                                                       Foreground="Black" />
-                                            <TextBlock Text="{Binding Price, StringFormat={}{0:0.#}}"
-                                                       HorizontalAlignment="Right"
-                                                       Foreground="Black" />
-                                        </DockPanel>
-                                    </StackPanel>
-                                </Button.Content>
+                                    CommandParameter="{Binding}"
+                                    BorderBrush="Silver">
+                                <StackPanel Width="150">
+                                    <Image Source="{Binding ImagePath}"
+                                           Height="50" />
+                                    <TextBlock Text="{Binding Name}"
+                                               TextWrapping="Wrap"
+                                               Foreground="Black" />
+                                    <TextBlock Text="{Binding SellPrice, Mode=OneWay, StringFormat={}{0:0.#}}"
+                                               HorizontalAlignment="Left"
+                                               Foreground="Blue"
+                                               FontSize="20" />
+                                    <DockPanel Visibility="{Binding DiscountShow, Converter={StaticResource BoolToVis}}"
+                                               LastChildFill="True">
+                                        <TextBlock Text="{Binding Price , Mode=OneWay, StringFormat={}{0:0.#}}"
+                                                   TextDecorations="Strikethrough"
+                                                   Foreground="Gray"
+                                                   FontSize="18" />
+                                        <TextBlock Text="-"
+                                                   Foreground="LightBlue"
+                                                   FontSize="18" />
+                                        <TextBlock Text="{Binding Discount, Mode=OneWay}"
+                                                   Foreground="LightBlue"
+                                                   FontSize="18" />
+                                        <TextBlock Text="%"
+                                                   Foreground="LightBlue"
+                                                   FontSize="18" />
+                                    </DockPanel>
+                                </StackPanel>
                             </Button>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -102,33 +126,45 @@
                         BorderThickness="0"
                         Content="Monitor ->"
                         HorizontalContentAlignment="Left"
-                        Command="{Binding MonitorNavigateCommand}"/>
+                        Command="{Binding MonitorNavigateCommand}" />
                 <ListBox MaxHeight="250"
                          ItemsSource="{Binding MonitorList}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Button Background="Transparent"
+                            <Button Background="Snow"
                                     BorderThickness="1"
-                                    BorderBrush="Silver"
-                                    Height="100"
+                                    Height="200"
+                                    VerticalContentAlignment="Bottom"
                                     Command="{Binding DataContext.ProductDetailNavigateCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
-                                    CommandParameter="{Binding}">
-                                <Button.Content>
-                                    <StackPanel Width="150">
-                                        <Image Source="{Binding ImagePath}"
-                                               Height="50" />
-                                        <TextBlock Text="{Binding Name}"
-                                                   TextWrapping="NoWrap"
-                                                   Foreground="Black" />
-                                        <DockPanel LastChildFill="True">
-                                            <TextBlock Text="Price :"
-                                                       Foreground="Black" />
-                                            <TextBlock Text="{Binding Price, StringFormat={}{0:0.#}}"
-                                                       HorizontalAlignment="Right"
-                                                       Foreground="Black" />
-                                        </DockPanel>
-                                    </StackPanel>
-                                </Button.Content>
+                                    CommandParameter="{Binding}"
+                                    BorderBrush="Silver">
+                                <StackPanel Width="150">
+                                    <Image Source="{Binding ImagePath}"
+                                           Height="50" />
+                                    <TextBlock Text="{Binding Name}"
+                                               TextWrapping="Wrap"
+                                               Foreground="Black" />
+                                    <TextBlock Text="{Binding SellPrice, Mode=OneWay, StringFormat={}{0:0.#}}"
+                                               HorizontalAlignment="Left"
+                                               Foreground="Blue"
+                                               FontSize="20" />
+                                    <DockPanel Visibility="{Binding DiscountShow, Converter={StaticResource BoolToVis}}"
+                                               LastChildFill="True">
+                                        <TextBlock Text="{Binding Price , Mode=OneWay, StringFormat={}{0:0.#}}"
+                                                   TextDecorations="Strikethrough"
+                                                   Foreground="Gray"
+                                                   FontSize="18" />
+                                        <TextBlock Text="-"
+                                                   Foreground="LightBlue"
+                                                   FontSize="18" />
+                                        <TextBlock Text="{Binding Discount, Mode=OneWay}"
+                                                   Foreground="LightBlue"
+                                                   FontSize="18" />
+                                        <TextBlock Text="%"
+                                                   Foreground="LightBlue"
+                                                   FontSize="18" />
+                                    </DockPanel>
+                                </StackPanel>
                             </Button>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -144,33 +180,45 @@
                         BorderThickness="0"
                         Content="Hard Disk ->"
                         HorizontalContentAlignment="Left"
-                        Command="{Binding PcharddiskNavigateCommand}"/>
+                        Command="{Binding PcharddiskNavigateCommand}" />
                 <ListBox MaxHeight="250"
                          ItemsSource="{Binding PcharddiskList}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Button Background="Transparent"
+                            <Button Background="Snow"
                                     BorderThickness="1"
-                                    BorderBrush="Silver"
-                                    Height="100"
+                                    Height="200"
+                                    VerticalContentAlignment="Bottom"
                                     Command="{Binding DataContext.ProductDetailNavigateCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
-                                    CommandParameter="{Binding}">
-                                <Button.Content>
-                                    <StackPanel Width="150">
-                                        <Image Source="{Binding ImagePath}"
-                                               Height="50" />
-                                        <TextBlock Text="{Binding Name}"
-                                                   TextWrapping="NoWrap"
-                                                   Foreground="Black" />
-                                        <DockPanel LastChildFill="True">
-                                            <TextBlock Text="Price :"
-                                                       Foreground="Black" />
-                                            <TextBlock Text="{Binding Price, StringFormat={}{0:0.#}}"
-                                                       HorizontalAlignment="Right"
-                                                       Foreground="Black" />
-                                        </DockPanel>
-                                    </StackPanel>
-                                </Button.Content>
+                                    CommandParameter="{Binding}"
+                                    BorderBrush="Silver">
+                                <StackPanel Width="150">
+                                    <Image Source="{Binding ImagePath}"
+                                           Height="50" />
+                                    <TextBlock Text="{Binding Name}"
+                                               TextWrapping="Wrap"
+                                               Foreground="Black" />
+                                    <TextBlock Text="{Binding SellPrice, Mode=OneWay, StringFormat={}{0:0.#}}"
+                                               HorizontalAlignment="Left"
+                                               Foreground="Blue"
+                                               FontSize="20" />
+                                    <DockPanel Visibility="{Binding DiscountShow, Converter={StaticResource BoolToVis}}"
+                                               LastChildFill="True">
+                                        <TextBlock Text="{Binding Price , Mode=OneWay, StringFormat={}{0:0.#}}"
+                                                   TextDecorations="Strikethrough"
+                                                   Foreground="Gray"
+                                                   FontSize="18" />
+                                        <TextBlock Text="-"
+                                                   Foreground="LightBlue"
+                                                   FontSize="18" />
+                                        <TextBlock Text="{Binding Discount, Mode=OneWay}"
+                                                   Foreground="LightBlue"
+                                                   FontSize="18" />
+                                        <TextBlock Text="%"
+                                                   Foreground="LightBlue"
+                                                   FontSize="18" />
+                                    </DockPanel>
+                                </StackPanel>
                             </Button>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -186,33 +234,45 @@
                         BorderThickness="0"
                         HorizontalContentAlignment="Left"
                         Content="CPU ->"
-                        Command="{Binding PccpuNavigateCommand}"/>
+                        Command="{Binding PccpuNavigateCommand}" />
                 <ListBox MaxHeight="250"
                          ItemsSource="{Binding PccpuList}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Button Background="Transparent"
+                            <Button Background="Snow"
                                     BorderThickness="1"
-                                    BorderBrush="Silver"
-                                    Height="100"
+                                    Height="200"
+                                    VerticalContentAlignment="Bottom"
                                     Command="{Binding DataContext.ProductDetailNavigateCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
-                                    CommandParameter="{Binding}">
-                                <Button.Content>
-                                    <StackPanel Width="150">
-                                        <Image Source="{Binding ImagePath}"
-                                               Height="50" />
-                                        <TextBlock Text="{Binding Name}"
-                                                   TextWrapping="NoWrap"
-                                                   Foreground="Black" />
-                                        <DockPanel LastChildFill="True">
-                                            <TextBlock Text="Price :"
-                                                       Foreground="Black" />
-                                            <TextBlock Text="{Binding Price, StringFormat={}{0:0.#}}"
-                                                       HorizontalAlignment="Right"
-                                                       Foreground="Black" />
-                                        </DockPanel>
-                                    </StackPanel>
-                                </Button.Content>
+                                    CommandParameter="{Binding}"
+                                    BorderBrush="Silver">
+                                <StackPanel Width="150">
+                                    <Image Source="{Binding ImagePath}"
+                                           Height="50" />
+                                    <TextBlock Text="{Binding Name}"
+                                               TextWrapping="Wrap"
+                                               Foreground="Black" />
+                                    <TextBlock Text="{Binding SellPrice, Mode=OneWay, StringFormat={}{0:0.#}}"
+                                               HorizontalAlignment="Left"
+                                               Foreground="Blue"
+                                               FontSize="20" />
+                                    <DockPanel Visibility="{Binding DiscountShow, Converter={StaticResource BoolToVis}}"
+                                               LastChildFill="True">
+                                        <TextBlock Text="{Binding Price , Mode=OneWay, StringFormat={}{0:0.#}}"
+                                                   TextDecorations="Strikethrough"
+                                                   Foreground="Gray"
+                                                   FontSize="18" />
+                                        <TextBlock Text="-"
+                                                   Foreground="LightBlue"
+                                                   FontSize="18" />
+                                        <TextBlock Text="{Binding Discount, Mode=OneWay}"
+                                                   Foreground="LightBlue"
+                                                   FontSize="18" />
+                                        <TextBlock Text="%"
+                                                   Foreground="LightBlue"
+                                                   FontSize="18" />
+                                    </DockPanel>
+                                </StackPanel>
                             </Button>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -228,33 +288,45 @@
                         BorderThickness="0"
                         Content="VGA ->"
                         HorizontalContentAlignment="Left"
-                        Command="{Binding VgaNavigateCommand}"/>
+                        Command="{Binding VgaNavigateCommand}" />
                 <ListBox MaxHeight="250"
                          ItemsSource="{Binding VgaList}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Button Background="Transparent"
+                            <Button Background="Snow"
                                     BorderThickness="1"
-                                    BorderBrush="Silver"
-                                    Height="100"
+                                    Height="200"
+                                    VerticalContentAlignment="Bottom"
                                     Command="{Binding DataContext.ProductDetailNavigateCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
-                                    CommandParameter="{Binding}">
-                                <Button.Content>
-                                    <StackPanel Width="150">
-                                        <Image Source="{Binding ImagePath}"
-                                               Height="50" />
-                                        <TextBlock Text="{Binding Name}"
-                                                   TextWrapping="NoWrap"
-                                                   Foreground="Black" />
-                                        <DockPanel LastChildFill="True">
-                                            <TextBlock Text="Price :"
-                                                       Foreground="Black" />
-                                            <TextBlock Text="{Binding Price, StringFormat={}{0:0.#}}"
-                                                       HorizontalAlignment="Right"
-                                                       Foreground="Black" />
-                                        </DockPanel>
-                                    </StackPanel>
-                                </Button.Content>
+                                    CommandParameter="{Binding}"
+                                    BorderBrush="Silver">
+                                <StackPanel Width="150">
+                                    <Image Source="{Binding ImagePath}"
+                                           Height="50" />
+                                    <TextBlock Text="{Binding Name}"
+                                               TextWrapping="Wrap"
+                                               Foreground="Black" />
+                                    <TextBlock Text="{Binding SellPrice, Mode=OneWay, StringFormat={}{0:0.#}}"
+                                               HorizontalAlignment="Left"
+                                               Foreground="Blue"
+                                               FontSize="20" />
+                                    <DockPanel Visibility="{Binding DiscountShow, Converter={StaticResource BoolToVis}}"
+                                               LastChildFill="True">
+                                        <TextBlock Text="{Binding Price , Mode=OneWay, StringFormat={}{0:0.#}}"
+                                                   TextDecorations="Strikethrough"
+                                                   Foreground="Gray"
+                                                   FontSize="18" />
+                                        <TextBlock Text="-"
+                                                   Foreground="LightBlue"
+                                                   FontSize="18" />
+                                        <TextBlock Text="{Binding Discount, Mode=OneWay}"
+                                                   Foreground="LightBlue"
+                                                   FontSize="18" />
+                                        <TextBlock Text="%"
+                                                   Foreground="LightBlue"
+                                                   FontSize="18" />
+                                    </DockPanel>
+                                </StackPanel>
                             </Button>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -270,33 +342,45 @@
                         BorderThickness="0"
                         HorizontalContentAlignment="Left"
                         Content="Smartphone ->"
-                        Command="{Binding SmartphoneNavigateCommand}"/>
+                        Command="{Binding SmartphoneNavigateCommand}" />
                 <ListBox MaxHeight="250"
                          ItemsSource="{Binding SmartphoneList}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Button Background="Transparent"
+                            <Button Background="Snow"
                                     BorderThickness="1"
-                                    BorderBrush="Silver"
-                                    Height="100"
+                                    Height="200"
+                                    VerticalContentAlignment="Bottom"
                                     Command="{Binding DataContext.ProductDetailNavigateCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
-                                    CommandParameter="{Binding}">
-                                <Button.Content>
-                                    <StackPanel Width="150">
-                                        <Image Source="{Binding ImagePath}"
-                                               Height="50" />
-                                        <TextBlock Text="{Binding Name}"
-                                                   TextWrapping="NoWrap"
-                                                   Foreground="Black" />
-                                        <DockPanel LastChildFill="True">
-                                            <TextBlock Text="Price :"
-                                                       Foreground="Black" />
-                                            <TextBlock Text="{Binding Price, StringFormat={}{0:0.#}}"
-                                                       HorizontalAlignment="Right"
-                                                       Foreground="Black" />
-                                        </DockPanel>
-                                    </StackPanel>
-                                </Button.Content>
+                                    CommandParameter="{Binding}"
+                                    BorderBrush="Silver">
+                                <StackPanel Width="150">
+                                    <Image Source="{Binding ImagePath}"
+                                           Height="50" />
+                                    <TextBlock Text="{Binding Name}"
+                                               TextWrapping="Wrap"
+                                               Foreground="Black" />
+                                    <TextBlock Text="{Binding SellPrice, Mode=OneWay, StringFormat={}{0:0.#}}"
+                                               HorizontalAlignment="Left"
+                                               Foreground="Blue"
+                                               FontSize="20" />
+                                    <DockPanel Visibility="{Binding DiscountShow, Converter={StaticResource BoolToVis}}"
+                                               LastChildFill="True">
+                                        <TextBlock Text="{Binding Price , Mode=OneWay, StringFormat={}{0:0.#}}"
+                                                   TextDecorations="Strikethrough"
+                                                   Foreground="Gray"
+                                                   FontSize="18" />
+                                        <TextBlock Text="-"
+                                                   Foreground="LightBlue"
+                                                   FontSize="18" />
+                                        <TextBlock Text="{Binding Discount, Mode=OneWay}"
+                                                   Foreground="LightBlue"
+                                                   FontSize="18" />
+                                        <TextBlock Text="%"
+                                                   Foreground="LightBlue"
+                                                   FontSize="18" />
+                                    </DockPanel>
+                                </StackPanel>
                             </Button>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

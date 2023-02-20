@@ -15,10 +15,10 @@ namespace ViewModels.ProductViewModels;
 public class TestProductViewModel: ViewModelBase
 {
     protected IUnitOfWork _unitOfWork;
-    protected IEnumerable<IProductDTO>? _productDTOs;
+    protected IEnumerable<ProductDTO>? _productDTOs;
     protected INavigationService _productDetailNavigate;
     protected ProductDetailStore _productDetailStore;
-    public List<IProductDTO>? ProductList { get; set; } = null;
+    public List<ProductDTO>? ProductList { get; set; } = null;
     public List<string> Conditions { get; } = new GetConditionsCommand().Execute();
     protected string? selectedCondition;
     public double MaxPrice { get; set; } = 0;
@@ -39,7 +39,7 @@ public class TestProductViewModel: ViewModelBase
         _unitOfWork = unitOfWork;
         _productDetailNavigate = productDetailNavigate;
         _productDetailStore = productDetailStore;
-        ProductDetailNavigateCommand = new RelayCommand<IProductDTO>(s => openDetailCommand(s));
+        ProductDetailNavigateCommand = new RelayCommand<ProductDTO>(s => openDetailCommand(s));
     }
     private void priceRangeCommand()
     {
@@ -47,7 +47,7 @@ public class TestProductViewModel: ViewModelBase
         ProductList = ProductList.Where(x => (double)x.Price <= CurrentPrice).ToList();
         OnPropertyChanged(nameof(ProductList));
     }
-    private void openDetailCommand(IProductDTO dto)
+    private void openDetailCommand(ProductDTO dto)
     {
         _productDetailStore.CurrentProduct = dto;
         _productDetailNavigate.Navigate();
