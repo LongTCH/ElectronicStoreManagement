@@ -28,7 +28,7 @@ public class LaptopViewModel : ProductViewModel<LaptopDTO>
         if (list != null)
         {
             ProductList = new(_productDTOs = list!);
-            MaxPrice = (double)list.Max(x => x.Price);
+            MaxPrice = System.Math.Ceiling((double)list.Max(x => x.Price) / TickFrequency) * TickFrequency;
             CurrentPrice = MaxPrice;
         }
         Action += OnIsCheckedChanged;

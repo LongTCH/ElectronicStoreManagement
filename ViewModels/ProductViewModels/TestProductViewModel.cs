@@ -3,6 +3,8 @@ using Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using ViewModels.Commands;
 using ViewModels.Services;
@@ -10,18 +12,16 @@ using ViewModels.Stores;
 
 namespace ViewModels.ProductViewModels;
 
-public abstract class ProductViewModel<T> : ViewModelBase
-    where T : IProductDTO
+public class TestProductViewModel: ViewModelBase
 {
     protected IUnitOfWork _unitOfWork;
-    protected IEnumerable<T>? _productDTOs;
+    protected IEnumerable<IProductDTO>? _productDTOs;
     protected INavigationService _productDetailNavigate;
     protected ProductDetailStore _productDetailStore;
-    public List<T>? ProductList { get; set; } = null;
+    public List<IProductDTO>? ProductList { get; set; } = null;
     public List<string> Conditions { get; } = new GetConditionsCommand().Execute();
     protected string? selectedCondition;
     public double MaxPrice { get; set; } = 0;
-    public double TickFrequency { get; } = 5;
     private double currentPrice;
     public double CurrentPrice
     {
@@ -32,14 +32,14 @@ public abstract class ProductViewModel<T> : ViewModelBase
             priceRangeCommand();
         }
     }
-    protected ProductViewModel(IUnitOfWork unitOfWork,
+    protected TestProductViewModel(IUnitOfWork unitOfWork,
         ProductDetailStore productDetailStore,
         INavigationService productDetailNavigate)
     {
         _unitOfWork = unitOfWork;
         _productDetailNavigate = productDetailNavigate;
         _productDetailStore = productDetailStore;
-        ProductDetailNavigateCommand = new RelayCommand<T>(s => openDetailCommand(s));
+        ProductDetailNavigateCommand = new RelayCommand<IProductDTO>(s => openDetailCommand(s));
     }
     private void priceRangeCommand()
     {
@@ -47,7 +47,7 @@ public abstract class ProductViewModel<T> : ViewModelBase
         ProductList = ProductList.Where(x => (double)x.Price <= CurrentPrice).ToList();
         OnPropertyChanged(nameof(ProductList));
     }
-    private void openDetailCommand(T dto)
+    private void openDetailCommand(IProductDTO dto)
     {
         _productDetailStore.CurrentProduct = dto;
         _productDetailNavigate.Navigate();
