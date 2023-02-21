@@ -20,7 +20,7 @@ public class MainViewModel : ViewModelBase
     public ViewModelBase? CurrentTopLevelViewModel => TopLevelStore.Instance!.CurrentViewModel;
     public bool IsOpen => _modalNavigationStore.IsOpen;
     public bool IsFloatOpen => _floatingNavigationStore.IsOpen;
-    public static bool IsTopLevelOpen => TopLevelStore.Instance!.IsOpen;
+    public bool IsTopLevelOpen => TopLevelStore.Instance!.IsOpen;
     public MainViewModel(NavigationStore navigationStore, 
         ModalNavigationStore modalNavigationStore,
         FloatingNavigationStore floatingNavigationStore)
