@@ -23,6 +23,8 @@ public class NavigationBarViewModel : ViewModelBase
     public bool IsLoggedIn => _accountStore.IsLoggedIn;
     public bool IsMenuOpen => _floatingNavigationStore.IsOpen;
     public bool IsAdmin => _accountStore.IsAdmin;
+    public bool IsSellStaff => _accountStore.IsSellStaff || IsAdmin;
+    public bool IsTypingStaff => _accountStore.IsTypingStaff || IsAdmin;
     public NavigationBarViewModel(AccountStore accountStore,
             FloatingNavigationStore floatingNavigationStore,
             INavigationService loginNavigationService,

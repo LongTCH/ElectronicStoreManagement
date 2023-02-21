@@ -4,7 +4,7 @@
     [PasswordHash] NVARCHAR(128) NOT NULL,
     [FirstName] NVARCHAR(50) NOT NULL, 
     [LastName] NVARCHAR(50) NOT NULL, 
-    [Sex] BIT NOT NULL , 
+    [Gender] BIT NOT NULL , 
     [EmailAddress] NVARCHAR(256) NOT NULL, 
     [Birthday] DATE NOT NULL , 
     [City] NVARCHAR(50) NOT NULL, 

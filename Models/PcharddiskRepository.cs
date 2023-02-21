@@ -33,4 +33,23 @@ public class PcharddiskRepository : Repository<PcharddiskDTO>, IPcharddiskReposi
                     Type = pcharddisk.Type
                 }).ToList();
     }
+    public override void Add(PcharddiskDTO entity)
+    {
+        Pcharddisk e = new()
+        {
+            Name = entity.Name,
+            Company = entity.Company,
+            Connect = entity.Connect,
+            DetailPath = entity.DetailPath,
+            Discount = entity.Discount,
+            Id = entity.Id,
+            ImagePath = entity.ImagePath,
+            Price = entity.Price,
+            Remain = entity.Remain,
+            Series = entity.Series,
+            Storage = entity.Storage,
+            Type = entity.Type
+        };
+        _context.Pcharddisks.Add(e);
+    }
 }

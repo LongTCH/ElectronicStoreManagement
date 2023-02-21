@@ -1,9 +1,0 @@
-﻿CREATE TABLE [dbo].[ORDER_PRODUCT]
-(
-    [OrderID] INT NOT NULL, 
-    [ProductID] CHAR(9) NOT NULL, 
-    [Number] INT NOT NULL, 
-    [Warranty: nvarchar(50)] NVARCHAR(50) NULL, 
-    CONSTRAINT [FK_ORDER_PRODUCT_ORDER] FOREIGN KEY ([OrderID]) REFERENCES [ORDER]([Id]), 
-    CONSTRAINT [PK_ORDER_PRODUCT] PRIMARY KEY ([OrderID], [ProductID]) 
-)

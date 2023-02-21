@@ -1,0 +1,12 @@
+﻿CREATE TABLE [dbo].[IMPORT_PRODUCT]
+(
+	[ImportID] INT NOT NULL, 
+    [ProductID] CHAR(9) NOT NULL, 
+    [Number] INT NOT NULL, 
+    [Warranty]VARCHAR(50) NULL, 
+    [Unit] NVARCHAR(50) NOT NULL, 
+    [SellPrice] MONEY NOT NULL, 
+    [Amount] MONEY NOT NULL, 
+    CONSTRAINT [FK_IMPORT_PRODUCT_IMPORT] FOREIGN KEY ([ImportID]) REFERENCES [IMPORT]([Id]), 
+    CONSTRAINT [PK_IMPORT_PRODUCT] PRIMARY KEY ([ImportID], [ProductID]) 
+)

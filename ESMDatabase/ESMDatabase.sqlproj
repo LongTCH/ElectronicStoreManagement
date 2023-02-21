@@ -58,9 +58,8 @@
     <Folder Include="Properties" />
     <Folder Include="dbo" />
     <Folder Include="dbo\Tables" />
-    <Folder Include="dbo\Views" />
-    <Folder Include="dbo\StoreProcedures" />
     <Folder Include="PublishLocations" />
+    <Folder Include="dbo\Triggers" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PublishLocations\ESMDatabase.publish.xml" />
@@ -69,14 +68,20 @@
   <ItemGroup>
     <Build Include="dbo\Tables\ACCOUNT.sql" />
     <Build Include="dbo\Tables\LAPTOP.sql" />
-    <Build Include="dbo\Tables\ORDER.sql" />
-    <Build Include="dbo\Tables\ORDER_PRODUCT.sql" />
+    <Build Include="dbo\Tables\BILL.sql" />
+    <Build Include="dbo\Tables\BILL_PRODUCT.sql" />
     <Build Include="dbo\Tables\PC.sql" />
     <Build Include="dbo\Tables\MONITOR.sql" />
     <Build Include="dbo\Tables\PCHARDDISK.sql" />
     <Build Include="dbo\Tables\PCCPU.sql" />
     <Build Include="dbo\Tables\VGA.sql" />
     <Build Include="dbo\Tables\SMARTPHONE.sql" />
+    <Build Include="dbo\Tables\USED_PRODUCT_ID.sql" />
+    <Build Include="dbo\Tables\COMBO.sql" />
+    <Build Include="dbo\Tables\COMBO_PRODUCT.sql" />
+    <Build Include="dbo\Tables\IMPORT.sql" />
+    <Build Include="dbo\Tables\IMPORT_PRODUCT.sql" />
+    <Build Include="dbo\Triggers\Trigger1.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ESMDatabase.refactorlog" />

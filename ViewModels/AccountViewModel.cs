@@ -41,6 +41,8 @@ public class AccountViewModel : ViewModelBase
     public XmlLanguage Language => XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag);
     public bool IsDefault => !File.Exists(Avatar_Path);
     public bool IsAdmin => _accountStore.IsAdmin;
+    public bool IsSellStaff => _accountStore.IsSellStaff || IsAdmin;
+    public bool IsTypingStaff => _accountStore.IsTypingStaff || IsAdmin;
     public ICommand ResetPasswordCommand { get; }
     public ICommand AddAvatarCommand { get; }
     public ICommand AddUserCommand { get; }

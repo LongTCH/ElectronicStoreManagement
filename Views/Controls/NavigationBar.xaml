@@ -122,13 +122,27 @@
                                              Foreground="DimGray" />
                 </Button >
             </Grid>
-            <!--<Grid>
-                <Button ToolTip="Notify"
-                        Command="{Binding NavigateLoginCommand}">
-                    <materialDesign:PackIcon Kind="Notifications"
+            <Grid Visibility="{Binding IsSellStaff, Converter={StaticResource BoolToVis}}">
+                <Button ToolTip="Selling Workplace"
+                        Command="{Binding NavigateSellStaffCommand}">
+                    <materialDesign:PackIcon Kind="WorkerOutline"
                                              Foreground="SandyBrown" />
                 </Button>
-            </Grid>-->
+            </Grid>
+            <Grid Visibility="{Binding IsTypingStaff, Converter={StaticResource BoolToVis}}">
+                <Button ToolTip="Typing Workplace"
+                        Command="{Binding NavigateTypingStaffCommand}">
+                    <materialDesign:PackIcon Kind="WorkerOutline"
+                                             Foreground="CadetBlue" />
+                </Button>
+            </Grid>
+            <Grid Visibility="{Binding IsAdmin, Converter={StaticResource BoolToVis}}">
+                <Button ToolTip="View Report"
+                        Command="{Binding NavigateReportCommand}">
+                    <materialDesign:PackIcon Kind="ReportArc"
+                                             Foreground="Goldenrod" />
+                </Button>
+            </Grid>
             <Grid Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVis}}">
                 <Button ToolTip="Logout"
                         Command="{Binding LogoutCommand}">

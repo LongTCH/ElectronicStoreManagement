@@ -126,4 +126,32 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="PurchasedTime" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="7259165d-a0dd-4aa9-b766-b98e6ae89f11" ChangeDateTime="02/21/2023 15:26:42">
+    <Property Name="ElementName" Value="[dbo].[ACCOUNT].[Sex]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ACCOUNT]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Gender" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="cf707379-ef77-4072-836e-0593ab48da91" ChangeDateTime="02/21/2023 15:33:16">
+    <Property Name="ElementName" Value="[dbo].[ORDER_PRODUCT].[Warranty: nvarchar(50)]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ORDER_PRODUCT]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Warranty" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="8002b21c-6bbc-4e07-b765-cae9ac315240" ChangeDateTime="02/21/2023 15:35:42">
+    <Property Name="ElementName" Value="[dbo].[COMBO].[EndDate]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[COMBO]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="SellPrice" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ac5fa8e3-08ae-4e1d-a5f6-4a9d89ff6848" ChangeDateTime="02/21/2023 15:36:47">
+    <Property Name="ElementName" Value="[dbo].[COMBO_PRODUCT].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[COMBO_PRODUCT]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ComboId" />
+  </Operation>
 </Operations>
