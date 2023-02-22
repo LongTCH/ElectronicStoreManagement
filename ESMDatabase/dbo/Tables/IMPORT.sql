@@ -1,0 +1,15 @@
+﻿CREATE TABLE [dbo].[IMPORT]
+(
+	[Id] INT NOT NULL , 
+    [StaffID] CHAR(9) NOT NULL, 
+    [Provider] NVARCHAR(100) NOT NULL, 
+    [Provider_Bill_ID] NVARCHAR(100) NOT NULL, 
+    [City] NVARCHAR(50) NOT NULL, 
+    [District] NVARCHAR(50) NOT NULL, 
+    [Sub_district] NVARCHAR(50) NOT NULL, 
+    [Street] NVARCHAR(100) NOT NULL, 
+    [ImportDate] DATE NOT NULL, 
+    [TotalAmount] MONEY NOT NULL, 
+    CONSTRAINT [PK_IMPORT] PRIMARY KEY ([Id]), 
+    CONSTRAINT [FK_IMPORT_ACCOUNT] FOREIGN KEY ([StaffID]) REFERENCES [ACCOUNT]([Id])
+)

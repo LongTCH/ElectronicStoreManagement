@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using ViewModels.Services;
 using ViewModels.Stores;
-using ViewModels.Stores.SmartPhoneAttributes;
 using Models.Interfaces;
 
 namespace ViewModels.ProductViewModels;
 public class SmartPhoneViewModel : ProductViewModel<SmartphoneDTO>
 {
-    public HashSet<SmartphoneCompany> CompanyList { get; set; }
-    public HashSet<SmartphoneCPU> CPUList { get; set; }
-    public HashSet<SmartphoneSeries> SeriesList { get; set; }
-    public HashSet<SmartphoneRAM> RAMList { get; set; }
-    public HashSet<SmartphoneStorage> StorageList { get; set; }
+    public HashSet<ProductAttributeStore> CompanyList { get; set; }
+    public HashSet<ProductAttributeStore> CPUList { get; set; }
+    public HashSet<ProductAttributeStore> SeriesList { get; set; }
+    public HashSet<ProductAttributeStore> RAMList { get; set; }
+    public HashSet<ProductAttributeStore> StorageList { get; set; }
     public SmartPhoneViewModel(IUnitOfWork unitOfWork,
         ProductDetailStore productDetailStore,
         INavigationService productDetailNavigate)
@@ -60,7 +59,7 @@ public class SmartPhoneViewModel : ProductViewModel<SmartphoneDTO>
         CompanyList = new();
         foreach (var smartphone in _productDTOs)
         {
-            SmartphoneCompany smartphoneCompany = new() { Name = smartphone.Company };
+            ProductAttributeStore smartphoneCompany = new() { Name = smartphone.Company };
             smartphoneCompany.CurrentStoreChanged += OnIsCheckedChanged;
             CompanyList.Add(smartphoneCompany);
         }
@@ -71,7 +70,7 @@ public class SmartPhoneViewModel : ProductViewModel<SmartphoneDTO>
         CPUList = new();
         foreach (var smartphone in _productDTOs)
         {
-            SmartphoneCPU smartphoneCPU = new() { Name = smartphone.Cpu };
+            ProductAttributeStore smartphoneCPU = new() { Name = smartphone.Cpu };
             smartphoneCPU.CurrentStoreChanged += OnIsCheckedChanged;
             CPUList.Add(smartphoneCPU);
         }
@@ -82,7 +81,7 @@ public class SmartPhoneViewModel : ProductViewModel<SmartphoneDTO>
         RAMList = new();
         foreach (var smartphone in _productDTOs)
         {
-            SmartphoneRAM smartphoneRAM = new() { Name = smartphone.Ram };
+            ProductAttributeStore smartphoneRAM = new() { Name = smartphone.Ram };
             smartphoneRAM.CurrentStoreChanged += OnIsCheckedChanged;
             RAMList.Add(smartphoneRAM);
         }
@@ -94,7 +93,7 @@ public class SmartPhoneViewModel : ProductViewModel<SmartphoneDTO>
         foreach (var smartphone in _productDTOs)
         {
             if (smartphone.Series == null) continue;
-            SmartphoneSeries smartphoneSeries = new() { Name = smartphone.Series };
+            ProductAttributeStore smartphoneSeries = new() { Name = smartphone.Series };
             smartphoneSeries.CurrentStoreChanged += OnIsCheckedChanged;
             SeriesList.Add(smartphoneSeries);
         }
@@ -105,7 +104,7 @@ public class SmartPhoneViewModel : ProductViewModel<SmartphoneDTO>
         StorageList = new();
         foreach (var smartphone in _productDTOs)
         {
-            SmartphoneStorage smartphoneStorage = new() { Name = smartphone.Storage };
+            ProductAttributeStore smartphoneStorage = new() { Name = smartphone.Storage };
             smartphoneStorage.CurrentStoreChanged += OnIsCheckedChanged;
             StorageList.Add(smartphoneStorage);
         }

@@ -1,0 +1,5 @@
+﻿CREATE TABLE [dbo].[COMBO]
+(
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
+    [SellPrice] MONEY NOT NULL
+)

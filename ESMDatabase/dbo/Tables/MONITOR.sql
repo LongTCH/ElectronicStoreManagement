@@ -13,5 +13,6 @@
     [Series] NVARCHAR(50) NULL, 
     [Company] NVARCHAR(50) NOT NULL, 
     [Need] NVARCHAR(50), 
+    [Avatar_Path] NVARCHAR(200) NULL, 
     CONSTRAINT [PK_MONITOR] PRIMARY KEY ([Id])
 )
