@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using ViewModels.Services;
 using ViewModels.Stores;
-using ViewModels.Stores.PCCPUAttributes;
 using Models.Interfaces;
 
 namespace ViewModels.ProductViewModels;
 public class PCCPUViewModel : ProductViewModel<PccpuDTO>
 {
-    public HashSet<PccpuCompany> CompanyList { get; set; }
-    public HashSet<PccpuNeed> NeedList { get; set; }
-    public HashSet<PccpuSocket> SocketList { get; set; }
-    public HashSet<PccpuSeries> SeriesList { get; set; }
+    public HashSet<ProductAttributeStore> CompanyList { get; set; }
+    public HashSet<ProductAttributeStore> NeedList { get; set; }
+    public HashSet<ProductAttributeStore> SocketList { get; set; }
+    public HashSet<ProductAttributeStore> SeriesList { get; set; }
     public PCCPUViewModel(IUnitOfWork unitOfWork,
         ProductDetailStore productDetailStore,
         INavigationService productDetailNavigate)
@@ -54,7 +53,7 @@ public class PCCPUViewModel : ProductViewModel<PccpuDTO>
         CompanyList = new();
         foreach (var pccpu in _productDTOs)
         {
-            PccpuCompany pccpuCompany = new() { Name = pccpu.Company };
+            ProductAttributeStore pccpuCompany = new() { Name = pccpu.Company };
             pccpuCompany.CurrentStoreChanged += OnIsCheckedChanged;
             CompanyList.Add(pccpuCompany);
         }
@@ -65,7 +64,7 @@ public class PCCPUViewModel : ProductViewModel<PccpuDTO>
         SocketList = new();
         foreach (var pccpu in _productDTOs)
         {
-            PccpuSocket pccpusocket = new() { Name = pccpu.Socket };
+            ProductAttributeStore pccpusocket = new() { Name = pccpu.Socket };
             pccpusocket.CurrentStoreChanged += OnIsCheckedChanged;
             SocketList.Add(pccpusocket);
         }
@@ -77,7 +76,7 @@ public class PCCPUViewModel : ProductViewModel<PccpuDTO>
         foreach (var pccpu in _productDTOs)
         {
             if (pccpu.Need == null) continue;
-            PccpuNeed pccpuNeed = new() { Name = pccpu.Need };
+            ProductAttributeStore pccpuNeed = new() { Name = pccpu.Need };
             pccpuNeed.CurrentStoreChanged += OnIsCheckedChanged;
             NeedList.Add(pccpuNeed);
         }
@@ -89,7 +88,7 @@ public class PCCPUViewModel : ProductViewModel<PccpuDTO>
         foreach (var pccpu in _productDTOs)
         {
             if (pccpu.Series == null) continue;
-            PccpuSeries pccpuSeries = new() { Name = pccpu.Series };
+            ProductAttributeStore pccpuSeries = new() { Name = pccpu.Series };
             pccpuSeries.CurrentStoreChanged += OnIsCheckedChanged;
             SeriesList.Add(pccpuSeries);
         }

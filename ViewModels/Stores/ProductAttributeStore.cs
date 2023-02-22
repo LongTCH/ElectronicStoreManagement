@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ViewModels.Stores.LaptopAttributes;
 
 namespace ViewModels.Stores;
 
-public abstract class ProductAttributeStore: IStore
+public class ProductAttributeStore: IStore
 {
     public string Name { get; set; }
     private bool isChecked;

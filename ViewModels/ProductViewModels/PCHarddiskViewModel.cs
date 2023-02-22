@@ -1,23 +1,19 @@
 ﻿using Models.DTOs;
-using Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Input;
-using ViewModels.Commands;
 using ViewModels.Services;
 using ViewModels.Stores;
-using ViewModels.Stores.PCHardDiskAttributes;
 using Models.Interfaces;
 
 namespace ViewModels.ProductViewModels;
 
 public class PCHarddiskViewModel : ProductViewModel<PcharddiskDTO>
 {
-    public HashSet<PcharddiskCompany> CompanyList { get; set; }
-    public HashSet<PcharddiskConnect> ConnectList { get; set; }
-    public HashSet<PcharddiskType> TypeList { get; set; }
-    public HashSet<PcharddiskSeries> SeriesList { get; set; }
-    public HashSet<PcharddiskStorage> StorageList { get; set; }
+    public HashSet<ProductAttributeStore> CompanyList { get; set; }
+    public HashSet<ProductAttributeStore> ConnectList { get; set; }
+    public HashSet<ProductAttributeStore> TypeList { get; set; }
+    public HashSet<ProductAttributeStore> SeriesList { get; set; }
+    public HashSet<ProductAttributeStore> StorageList { get; set; }
     public PCHarddiskViewModel(IUnitOfWork unitOfWork,
         ProductDetailStore productDetailStore,
         INavigationService productDetailNavigate)
@@ -64,7 +60,7 @@ public class PCHarddiskViewModel : ProductViewModel<PcharddiskDTO>
         CompanyList = new();
         foreach (var pcharddisk in _productDTOs)
         {
-            PcharddiskCompany pcharddiskCompany = new() { Name = pcharddisk.Company };
+            ProductAttributeStore pcharddiskCompany = new() { Name = pcharddisk.Company };
             pcharddiskCompany.CurrentStoreChanged += OnIsCheckedChanged;
             CompanyList.Add(pcharddiskCompany);
         }
@@ -75,7 +71,7 @@ public class PCHarddiskViewModel : ProductViewModel<PcharddiskDTO>
         ConnectList = new();
         foreach (var pcharddisk in _productDTOs)
         {
-            PcharddiskConnect pcharddiskCPU = new() { Name = pcharddisk.Connect };
+            ProductAttributeStore pcharddiskCPU = new() { Name = pcharddisk.Connect };
             pcharddiskCPU.CurrentStoreChanged += OnIsCheckedChanged;
             ConnectList.Add(pcharddiskCPU);
         }
@@ -87,7 +83,7 @@ public class PCHarddiskViewModel : ProductViewModel<PcharddiskDTO>
         foreach (var pcharddisk in _productDTOs)
         {
             if (pcharddisk.Type == null) continue;
-            PcharddiskType pcharddiskNeed = new() { Name = pcharddisk.Type };
+            ProductAttributeStore pcharddiskNeed = new() { Name = pcharddisk.Type };
             pcharddiskNeed.CurrentStoreChanged += OnIsCheckedChanged;
             TypeList.Add(pcharddiskNeed);
         }
@@ -98,7 +94,7 @@ public class PCHarddiskViewModel : ProductViewModel<PcharddiskDTO>
         StorageList = new();
         foreach (var pcharddisk in _productDTOs)
         {
-            PcharddiskStorage pcharddiskRAM = new() { Name = pcharddisk.Storage };
+            ProductAttributeStore pcharddiskRAM = new() { Name = pcharddisk.Storage };
             pcharddiskRAM.CurrentStoreChanged += OnIsCheckedChanged;
             StorageList.Add(pcharddiskRAM);
         }
@@ -110,7 +106,7 @@ public class PCHarddiskViewModel : ProductViewModel<PcharddiskDTO>
         foreach (var pcharddisk in _productDTOs)
         {
             if (pcharddisk.Series == null) continue;
-            PcharddiskSeries pcharddiskSeries = new() { Name = pcharddisk.Series };
+            ProductAttributeStore pcharddiskSeries = new() { Name = pcharddisk.Series };
             pcharddiskSeries.CurrentStoreChanged += OnIsCheckedChanged;
             SeriesList.Add(pcharddiskSeries);
         }

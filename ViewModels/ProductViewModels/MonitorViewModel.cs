@@ -1,26 +1,20 @@
 ﻿using Models.DTOs;
-using Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Input;
-using ViewModels.Commands;
 using ViewModels.Services;
 using ViewModels.Stores;
-using ViewModels.Stores.MonitorAttributes;
 using Models.Interfaces;
-using Microsoft.Identity.Client;
 
 namespace ViewModels.ProductViewModels;
 
 public class MonitorViewModel : ProductViewModel<MonitorDTO>
 {
-    public HashSet<MonitorCompany> CompanyList { get; set; }
-    public HashSet<MonitorNeed> NeedList { get; set; }
-    public HashSet<MonitorPanel> PanelList { get; set; }
-    public HashSet<MonitorSeries> SeriesList { get; set; }
-    public HashSet<MonitorRefreshRate> RefreshRateList { get; set; }
-    public HashSet<MonitorSize> SizeList { get; set; }
+    public HashSet<ProductAttributeStore> CompanyList { get; set; }
+    public HashSet<ProductAttributeStore> NeedList { get; set; }
+    public HashSet<ProductAttributeStore> PanelList { get; set; }
+    public HashSet<ProductAttributeStore> SeriesList { get; set; }
+    public HashSet<ProductAttributeStore> RefreshRateList { get; set; }
+    public HashSet<ProductAttributeStore> SizeList { get; set; }
     public MonitorViewModel(IUnitOfWork unitOfWork,
         ProductDetailStore productDetailStore,
         INavigationService productDetailNavigate)
@@ -72,7 +66,7 @@ public class MonitorViewModel : ProductViewModel<MonitorDTO>
         CompanyList = new();
         foreach (var monitor in _productDTOs)
         {
-            MonitorCompany monitorCompany = new() { Name = monitor.Company };
+            ProductAttributeStore monitorCompany = new() { Name = monitor.Company };
             monitorCompany.CurrentStoreChanged += OnIsCheckedChanged;
             CompanyList.Add(monitorCompany);
         }
@@ -83,7 +77,7 @@ public class MonitorViewModel : ProductViewModel<MonitorDTO>
         PanelList = new();
         foreach (var monitor in _productDTOs)
         {
-            MonitorPanel monitorCPU = new() { Name = monitor.Panel };
+            ProductAttributeStore monitorCPU = new() { Name = monitor.Panel };
             monitorCPU.CurrentStoreChanged += OnIsCheckedChanged;
             PanelList.Add(monitorCPU);
         }
@@ -95,7 +89,7 @@ public class MonitorViewModel : ProductViewModel<MonitorDTO>
         foreach (var monitor in _productDTOs)
         {
             if (monitor.Need == null) continue;
-            MonitorNeed monitorNeed = new() { Name = monitor.Need };
+            ProductAttributeStore monitorNeed = new() { Name = monitor.Need };
             monitorNeed.CurrentStoreChanged += OnIsCheckedChanged;
             NeedList.Add(monitorNeed);
         }
@@ -106,7 +100,7 @@ public class MonitorViewModel : ProductViewModel<MonitorDTO>
         RefreshRateList = new();
         foreach (var monitor in _productDTOs)
         {
-            MonitorRefreshRate monitorRAM = new() { Name = monitor.RefreshRate.ToString() };
+            ProductAttributeStore monitorRAM = new() { Name = monitor.RefreshRate.ToString() };
             monitorRAM.CurrentStoreChanged += OnIsCheckedChanged;
             RefreshRateList.Add(monitorRAM);
         }
@@ -118,7 +112,7 @@ public class MonitorViewModel : ProductViewModel<MonitorDTO>
         foreach (var monitor in _productDTOs)
         {
             if (monitor.Series == null) continue;
-            MonitorSeries monitorSeries = new() { Name = monitor.Series };
+            ProductAttributeStore monitorSeries = new() { Name = monitor.Series };
             monitorSeries.CurrentStoreChanged += OnIsCheckedChanged;
             SeriesList.Add(monitorSeries);
         }
@@ -129,7 +123,7 @@ public class MonitorViewModel : ProductViewModel<MonitorDTO>
         SizeList = new();
         foreach (var monitor in _productDTOs)
         {
-            MonitorSize monitorStorage = new() { Name = monitor.Size };
+            ProductAttributeStore monitorStorage = new() { Name = monitor.Size };
             monitorStorage.CurrentStoreChanged += OnIsCheckedChanged;
             SizeList.Add(monitorStorage);
         }

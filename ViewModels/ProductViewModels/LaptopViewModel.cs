@@ -6,19 +6,18 @@ using System.Linq;
 using ViewModels.MyMessageBox;
 using ViewModels.Services;
 using ViewModels.Stores;
-using ViewModels.Stores.LaptopAttributes;
 
 namespace ViewModels.ProductViewModels;
 
 public class LaptopViewModel : ProductViewModel<LaptopDTO>
 {
-    public HashSet<LaptopCompany> CompanyList { get; set; }
-    public HashSet<LaptopCPU> CPUList { get; set; }
-    public HashSet<LaptopGraphic> GraphicList { get; set; }
-    public HashSet<LaptopNeed> NeedList { get; set; }
-    public HashSet<LaptopSeries> SeriesList { get; set; }
-    public HashSet<LaptopRAM> RAMList { get; set; }
-    public HashSet<LaptopStorage> StorageList { get; set; }
+    public HashSet<ProductAttributeStore> CompanyList { get; set; }
+    public HashSet<ProductAttributeStore> CPUList { get; set; }
+    public HashSet<ProductAttributeStore> GraphicList { get; set; }
+    public HashSet<ProductAttributeStore> NeedList { get; set; }
+    public HashSet<ProductAttributeStore> SeriesList { get; set; }
+    public HashSet<ProductAttributeStore> RAMList { get; set; }
+    public HashSet<ProductAttributeStore> StorageList { get; set; }
     
     public LaptopViewModel(IUnitOfWork unitOfWork,
         ProductDetailStore productDetailStore,
@@ -89,7 +88,7 @@ public class LaptopViewModel : ProductViewModel<LaptopDTO>
         CompanyList = new();
         foreach (var laptop in _productDTOs)
         {
-            LaptopCompany laptopCompany = new() { Name = laptop.Company };
+            ProductAttributeStore laptopCompany = new() { Name = laptop.Company };
             laptopCompany.CurrentStoreChanged += OnIsCheckedChanged;
             CompanyList.Add(laptopCompany);
         }
@@ -100,7 +99,7 @@ public class LaptopViewModel : ProductViewModel<LaptopDTO>
         CPUList = new();
         foreach (var laptop in _productDTOs)
         {
-            LaptopCPU laptopCPU = new() { Name = laptop.Cpu };
+            ProductAttributeStore laptopCPU = new() { Name = laptop.Cpu };
             laptopCPU.CurrentStoreChanged += OnIsCheckedChanged;
             CPUList.Add(laptopCPU);
         }
@@ -111,7 +110,7 @@ public class LaptopViewModel : ProductViewModel<LaptopDTO>
         GraphicList = new();
         foreach (var laptop in _productDTOs)
         {
-            LaptopGraphic laptopGraphic = new() { Name = laptop.Graphic };
+            ProductAttributeStore laptopGraphic = new() { Name = laptop.Graphic };
             laptopGraphic.CurrentStoreChanged += OnIsCheckedChanged;
             GraphicList.Add(laptopGraphic);
         }
@@ -123,7 +122,7 @@ public class LaptopViewModel : ProductViewModel<LaptopDTO>
         foreach (var laptop in _productDTOs)
         {
             if (laptop.Need == null) continue;
-            LaptopNeed laptopNeed = new() { Name = laptop.Need };
+            ProductAttributeStore laptopNeed = new() { Name = laptop.Need };
             laptopNeed.CurrentStoreChanged += OnIsCheckedChanged;
             NeedList.Add(laptopNeed);
         }
@@ -134,7 +133,7 @@ public class LaptopViewModel : ProductViewModel<LaptopDTO>
         RAMList = new();
         foreach (var laptop in _productDTOs)
         {
-            LaptopRAM laptopRAM = new() { Name = laptop.Ram };
+            ProductAttributeStore laptopRAM = new() { Name = laptop.Ram };
             laptopRAM.CurrentStoreChanged += OnIsCheckedChanged;
             RAMList.Add(laptopRAM);
         }
@@ -146,7 +145,7 @@ public class LaptopViewModel : ProductViewModel<LaptopDTO>
         foreach (var laptop in _productDTOs)
         {
             if (laptop.Series == null) continue;
-            LaptopSeries laptopSeries = new() { Name = laptop.Series };
+            ProductAttributeStore laptopSeries = new() { Name = laptop.Series };
             laptopSeries.CurrentStoreChanged += OnIsCheckedChanged;
             SeriesList.Add(laptopSeries);
         }
@@ -157,7 +156,7 @@ public class LaptopViewModel : ProductViewModel<LaptopDTO>
         StorageList = new();
         foreach (var laptop in _productDTOs)
         {
-            LaptopStorage laptopStorage = new() { Name = laptop.Storage };
+            ProductAttributeStore laptopStorage = new() { Name = laptop.Storage };
             laptopStorage.CurrentStoreChanged += OnIsCheckedChanged;
             StorageList.Add(laptopStorage);
         }

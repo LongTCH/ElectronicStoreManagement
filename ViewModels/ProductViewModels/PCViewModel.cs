@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using ViewModels.Services;
 using ViewModels.Stores;
-using ViewModels.Stores.PCAttributes;
 using Models.Interfaces;
 
 namespace ViewModels.ProductViewModels;
 public class PCViewModel : ProductViewModel<PcDTO>
 {
-    public HashSet<PcCompany> CompanyList { get; set; }
-    public HashSet<PcCPU> CPUList { get; set; }
-    public HashSet<PcNeed> NeedList { get; set; }
-    public HashSet<PcSeries> SeriesList { get; set; }
-    public HashSet<PcRAM> RAMList { get; set; }
+    public HashSet<ProductAttributeStore> CompanyList { get; set; }
+    public HashSet<ProductAttributeStore> CPUList { get; set; }
+    public HashSet<ProductAttributeStore> NeedList { get; set; }
+    public HashSet<ProductAttributeStore> SeriesList { get; set; }
+    public HashSet<ProductAttributeStore> RAMList { get; set; }
     public PCViewModel(IUnitOfWork unitOfWork,
         ProductDetailStore productDetailStore,
         INavigationService productDetailNavigate)
@@ -60,7 +59,7 @@ public class PCViewModel : ProductViewModel<PcDTO>
         CompanyList = new();
         foreach (var pc in _productDTOs)
         {
-            PcCompany pcCompany = new() { Name = pc.Company };
+            ProductAttributeStore pcCompany = new() { Name = pc.Company };
             pcCompany.CurrentStoreChanged += OnIsCheckedChanged;
             CompanyList.Add(pcCompany);
         }
@@ -71,7 +70,7 @@ public class PCViewModel : ProductViewModel<PcDTO>
         CPUList = new();
         foreach (var pc in _productDTOs)
         {
-            PcCPU pcCPU = new() { Name = pc.Cpu };
+            ProductAttributeStore pcCPU = new() { Name = pc.Cpu };
             pcCPU.CurrentStoreChanged += OnIsCheckedChanged;
             CPUList.Add(pcCPU);
         }
@@ -83,7 +82,7 @@ public class PCViewModel : ProductViewModel<PcDTO>
         foreach (var pc in _productDTOs)
         {
             if (pc.Need == null) continue;
-            PcNeed pcNeed = new() { Name = pc.Need };
+            ProductAttributeStore pcNeed = new() { Name = pc.Need };
             pcNeed.CurrentStoreChanged += OnIsCheckedChanged;
             NeedList.Add(pcNeed);
         }
@@ -94,7 +93,7 @@ public class PCViewModel : ProductViewModel<PcDTO>
         RAMList = new();
         foreach (var pc in _productDTOs)
         {
-            PcRAM pcRAM = new() { Name = pc.Ram };
+            ProductAttributeStore pcRAM = new() { Name = pc.Ram };
             pcRAM.CurrentStoreChanged += OnIsCheckedChanged;
             RAMList.Add(pcRAM);
         }
@@ -106,7 +105,7 @@ public class PCViewModel : ProductViewModel<PcDTO>
         foreach (var pc in _productDTOs)
         {
             if (pc.Series == null) continue;
-            PcSeries pcSeries = new() { Name = pc.Series };
+            ProductAttributeStore pcSeries = new() { Name = pc.Series };
             pcSeries.CurrentStoreChanged += OnIsCheckedChanged;
             SeriesList.Add(pcSeries);
         }
