@@ -64,12 +64,9 @@ public class AccountViewModel : ViewModelBase
     }
     private void addAvatarCommand()
     {
-        OpenFileDialog openFileDialog = new();
-        openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;...";
-        openFileDialog.Title = "Direct to your avartar";
-        if (openFileDialog.ShowDialog() == true)
+        Avatar_Path = new ImagePathCommand().Set();
+        if (Avatar_Path != null)
         {
-            Avatar_Path = openFileDialog.FileName;
             OnPropertyChanged(nameof(IsDefault));
             OnPropertyChanged(nameof(Avatar_Path));
         }
