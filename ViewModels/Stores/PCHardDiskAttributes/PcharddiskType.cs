@@ -1,6 +1,6 @@
 ﻿namespace ViewModels.Stores.PCHardDiskAttributes;
 
-public class PcharddiskType : ProductAttributeStore<PcharddiskType>, IProductAttributeStore
+public class PcharddiskType : ProductAttributeStore
 {
 
 }

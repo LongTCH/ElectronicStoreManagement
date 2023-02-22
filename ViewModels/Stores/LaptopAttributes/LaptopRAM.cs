@@ -1,6 +1,6 @@
 ﻿namespace ViewModels.Stores.LaptopAttributes;
 
-public class LaptopRAM : ProductAttributeStore<LaptopRAM>, IProductAttributeStore
+public class LaptopRAM : ProductAttributeStore
 {
 
 }

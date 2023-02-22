@@ -1,6 +1,6 @@
 ﻿namespace ViewModels.Stores.PCCPUAttributes;
 
-public class PccpuSocket : ProductAttributeStore<PccpuSocket>, IProductAttributeStore
+public class PccpuSocket : ProductAttributeStore
 {
 
 }

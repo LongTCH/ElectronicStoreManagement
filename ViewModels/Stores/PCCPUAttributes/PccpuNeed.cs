@@ -1,6 +1,6 @@
 ﻿namespace ViewModels.Stores.PCCPUAttributes;
 
-public class PccpuNeed : ProductAttributeStore<PccpuNeed>, IProductAttributeStore
+public class PccpuNeed : ProductAttributeStore
 {
 
 }

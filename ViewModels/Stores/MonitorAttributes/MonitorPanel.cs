@@ -2,7 +2,7 @@
 
 namespace ViewModels.Stores.MonitorAttributes;
 
-public class MonitorPanel : ProductAttributeStore<LaptopGraphic>, IProductAttributeStore
+public class MonitorPanel : ProductAttributeStore
 {
 
 }

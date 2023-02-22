@@ -2,6 +2,6 @@
 
 namespace ViewModels.Stores.PCAttributes;
 
-public class PcCompany : ProductAttributeStore<PcCompany>, IProductAttributeStore
+public class PcCompany : ProductAttributeStore
 {
 }

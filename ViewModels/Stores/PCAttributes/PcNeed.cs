@@ -1,6 +1,6 @@
 ﻿namespace ViewModels.Stores.PCAttributes;
 
-public class PcNeed : ProductAttributeStore<PcNeed>, IProductAttributeStore
+public class PcNeed : ProductAttributeStore
 {
 
 }

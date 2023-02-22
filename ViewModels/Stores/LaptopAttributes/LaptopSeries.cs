@@ -1,6 +1,6 @@
 ﻿namespace ViewModels.Stores.LaptopAttributes;
 
-public class LaptopSeries : ProductAttributeStore<LaptopSeries>, IProductAttributeStore
+public class LaptopSeries : ProductAttributeStore
 {
 
 }

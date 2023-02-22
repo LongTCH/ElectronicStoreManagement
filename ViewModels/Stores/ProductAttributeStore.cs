@@ -7,7 +7,7 @@ using ViewModels.Stores.LaptopAttributes;
 
 namespace ViewModels.Stores;
 
-public abstract class ProductAttributeStore<T> where T : IProductAttributeStore
+public abstract class ProductAttributeStore: IStore
 {
     public string Name { get; set; }
     private bool isChecked;
@@ -28,6 +28,6 @@ public abstract class ProductAttributeStore<T> where T : IProductAttributeStore
     }
     public override bool Equals(object? obj)
     {
-        return Name == ((T)obj)?.Name;
+        return Name == ((ProductAttributeStore)obj)?.Name;
     }
 }

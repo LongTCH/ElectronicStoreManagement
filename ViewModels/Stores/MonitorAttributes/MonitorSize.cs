@@ -1,6 +1,6 @@
 ﻿namespace ViewModels.Stores.MonitorAttributes;
 
-public class MonitorSize : ProductAttributeStore<MonitorSize>, IProductAttributeStore
+public class MonitorSize : ProductAttributeStore
 {
 
 }

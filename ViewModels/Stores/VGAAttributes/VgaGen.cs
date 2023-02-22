@@ -1,6 +1,6 @@
 ﻿namespace ViewModels.Stores.VGAAttributes;
 
-public class VgaGen : ProductAttributeStore<VgaGen>, IProductAttributeStore
+public class VgaGen : ProductAttributeStore
 {
 
 }

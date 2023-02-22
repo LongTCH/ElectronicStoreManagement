@@ -1,6 +1,6 @@
 ﻿namespace ViewModels.Stores.MonitorAttributes;
 
-public class MonitorCompany : ProductAttributeStore<MonitorCompany>, IProductAttributeStore
+public class MonitorCompany : ProductAttributeStore
 {
 
 }

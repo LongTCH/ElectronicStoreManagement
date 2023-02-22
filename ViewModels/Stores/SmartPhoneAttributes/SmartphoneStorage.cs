@@ -1,6 +1,6 @@
 ﻿namespace ViewModels.Stores.SmartPhoneAttributes;
 
-public class SmartphoneStorage : ProductAttributeStore<SmartphoneStorage>, IProductAttributeStore
+public class SmartphoneStorage : ProductAttributeStore
 {
 
 }
