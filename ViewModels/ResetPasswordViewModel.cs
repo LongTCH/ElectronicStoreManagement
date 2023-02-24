@@ -59,21 +59,23 @@ public class ResetPasswordViewModel : ViewModelBase
                 return;
             }
         }
+        _verificationStore.Id = _accountStore.CurrentAccount?.Id;
+        _accountStore.Logout();
         _loginNavigate.Navigate();
-        Task task = new Task(resetAsync);
+        Task task = new(resetAsync);
         task.Start();
     }
     private void resetAsync()
     {
         try
         {
-            InformationViewModel.Instance!.Show("Please log in your account", "Success");
             _unitOfWork.Accounts.ResetPassword(_verificationStore.Id!, NewPassword!);
             _unitOfWork.Complete();
+            InformationViewModel.Instance!.Show("Please log in your account", "Success");
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            ErrorNotifyViewModel.Instance!.Show(ex.Message, "Error");
+            ErrorNotifyViewModel.Instance!.Show("Reset password failed", "Error");
         }
     }
 }

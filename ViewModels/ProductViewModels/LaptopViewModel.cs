@@ -1,4 +1,5 @@
-﻿using Models.DTOs;
+﻿using Microsoft.IdentityModel.Tokens;
+using Models.DTOs;
 using Models.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ public class LaptopViewModel : ProductViewModel<LaptopDTO>
         try
         {
             var list = _unitOfWork.Laptops.GetAll();
-            if (list != null)
+            if (!list.IsNullOrEmpty())
             {
                 ProductList = new(_productDTOs = list!);
                 MaxPrice = Math.Ceiling((double)list.Max(x => x.SellPrice) / TickFrequency) * TickFrequency;
@@ -121,7 +122,7 @@ public class LaptopViewModel : ProductViewModel<LaptopDTO>
         NeedList = new();
         foreach (var laptop in _productDTOs)
         {
-            if (laptop.Need == null) continue;
+            if (laptop.Need.IsNullOrEmpty()) continue;
             ProductAttributeStore laptopNeed = new() { Name = laptop.Need };
             laptopNeed.CurrentStoreChanged += OnIsCheckedChanged;
             NeedList.Add(laptopNeed);
@@ -144,7 +145,7 @@ public class LaptopViewModel : ProductViewModel<LaptopDTO>
         SeriesList = new();
         foreach (var laptop in _productDTOs)
         {
-            if (laptop.Series == null) continue;
+            if (laptop.Series.IsNullOrEmpty()) continue;
             ProductAttributeStore laptopSeries = new() { Name = laptop.Series };
             laptopSeries.CurrentStoreChanged += OnIsCheckedChanged;
             SeriesList.Add(laptopSeries);

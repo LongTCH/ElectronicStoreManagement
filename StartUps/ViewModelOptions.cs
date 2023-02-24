@@ -17,6 +17,10 @@ namespace StartUps;
 
 public partial class App : Application
 {
+    private ProductInputViewModel CreateProductInputViewModel(IServiceProvider serviceProvider)
+    {
+        return new ProductInputViewModel(serviceProvider.GetRequiredService<HardDiskNhapLieuViewModel>());
+    }
     private ProductDetailViewModel CreateProductDetailViewModel(IServiceProvider serviceProvider)
     {
         return new ProductDetailViewModel(
@@ -138,7 +142,8 @@ public partial class App : Application
             CreateListBoxItemNavigationService(serviceProvider),
             CreateHomeNavigationService(serviceProvider),
             CreateAccountNavigationService(serviceProvider),
-            serviceProvider.GetRequiredService<CloseFloatNavigationService>());
+            serviceProvider.GetRequiredService<CloseFloatNavigationService>(),
+            CreateProductInputNavigationService(serviceProvider));
     }
     private InputVerificationViewModel CreateInputEmailViewModel(IServiceProvider serviceProvider)
     {
