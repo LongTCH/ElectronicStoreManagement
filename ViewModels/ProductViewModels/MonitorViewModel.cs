@@ -4,6 +4,8 @@ using System.Linq;
 using ViewModels.Services;
 using ViewModels.Stores;
 using Models.Interfaces;
+using System;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ViewModels.ProductViewModels;
 
@@ -21,7 +23,12 @@ public class MonitorViewModel : ProductViewModel<MonitorDTO>
         : base(unitOfWork, productDetailStore, productDetailNavigate)
     {
         var list = _unitOfWork.Monitors.GetAll();
-        if (list != null) ProductList = new(_productDTOs = list!);
+        if (!list.IsNullOrEmpty())
+        {
+            ProductList = new(_productDTOs = list!);
+            MaxPrice = Math.Ceiling((double)list.Max(x => x.SellPrice) / TickFrequency) * TickFrequency;
+            CurrentPrice = MaxPrice;
+        }
         Action += OnIsCheckedChanged;
         getCompanyList();
         getPanelList();
@@ -88,7 +95,7 @@ public class MonitorViewModel : ProductViewModel<MonitorDTO>
         NeedList = new();
         foreach (var monitor in _productDTOs)
         {
-            if (monitor.Need == null) continue;
+            if (monitor.Need.IsNullOrEmpty()) continue;
             ProductAttributeStore monitorNeed = new() { Name = monitor.Need };
             monitorNeed.CurrentStoreChanged += OnIsCheckedChanged;
             NeedList.Add(monitorNeed);
@@ -111,7 +118,7 @@ public class MonitorViewModel : ProductViewModel<MonitorDTO>
         SeriesList = new();
         foreach (var monitor in _productDTOs)
         {
-            if (monitor.Series == null) continue;
+            if (monitor.Series.IsNullOrEmpty()) continue;
             ProductAttributeStore monitorSeries = new() { Name = monitor.Series };
             monitorSeries.CurrentStoreChanged += OnIsCheckedChanged;
             SeriesList.Add(monitorSeries);

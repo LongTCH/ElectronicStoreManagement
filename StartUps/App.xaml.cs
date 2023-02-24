@@ -58,6 +58,8 @@ public partial class App : Application
         services.AddTransient<MonitorViewModel>(CreateMonitorViewModel);
         services.AddTransient<VGAViewModel>(CreateVGAViewModel);
         services.AddTransient<SmartPhoneViewModel>(CreateSmartPhoneViewModel);
+        services.AddSingleton<HardDiskNhapLieuViewModel>();
+        services.AddSingleton<ProductInputViewModel>(CreateProductInputViewModel);
 
         services.AddSingleton<INavigationService>(CreateHomeNavigationService);
         services.AddSingleton<CloseModalNavigationService>(); 

@@ -4,6 +4,8 @@ using System.Linq;
 using ViewModels.Services;
 using ViewModels.Stores;
 using Models.Interfaces;
+using Microsoft.IdentityModel.Tokens;
+using System;
 
 namespace ViewModels.ProductViewModels;
 public class SmartPhoneViewModel : ProductViewModel<SmartphoneDTO>
@@ -19,7 +21,12 @@ public class SmartPhoneViewModel : ProductViewModel<SmartphoneDTO>
         : base(unitOfWork, productDetailStore, productDetailNavigate)
     {
         var list = _unitOfWork.Smartphones.GetAll();
-        if (list != null) ProductList = new(_productDTOs = list!);
+        if (!list.IsNullOrEmpty())
+        {
+            ProductList = new(_productDTOs = list!);
+            MaxPrice = Math.Ceiling((double)list.Max(x => x.SellPrice) / TickFrequency) * TickFrequency;
+            CurrentPrice = MaxPrice;
+        }
         Action += OnIsCheckedChanged;
         getCompanyList();
         getCPUList();
@@ -92,7 +99,7 @@ public class SmartPhoneViewModel : ProductViewModel<SmartphoneDTO>
         SeriesList = new();
         foreach (var smartphone in _productDTOs)
         {
-            if (smartphone.Series == null) continue;
+            if (smartphone.Series.IsNullOrEmpty()) continue;
             ProductAttributeStore smartphoneSeries = new() { Name = smartphone.Series };
             smartphoneSeries.CurrentStoreChanged += OnIsCheckedChanged;
             SeriesList.Add(smartphoneSeries);

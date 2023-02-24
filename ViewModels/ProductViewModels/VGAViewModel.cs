@@ -4,6 +4,8 @@ using System.Linq;
 using ViewModels.Services;
 using ViewModels.Stores;
 using Models.Interfaces;
+using Microsoft.IdentityModel.Tokens;
+using System;
 
 namespace ViewModels.ProductViewModels;
 public class VGAViewModel : ProductViewModel<VgaDTO>
@@ -22,7 +24,12 @@ public class VGAViewModel : ProductViewModel<VgaDTO>
         : base(unitOfWork, productDetailStore, productDetailNavigate)
     {
         var list = _unitOfWork.Vgas.GetAll();
-        if (list != null) ProductList = new(_productDTOs = list!);
+        if (!list.IsNullOrEmpty())
+        {
+            ProductList = new(_productDTOs = list!);
+            MaxPrice = Math.Ceiling((double)list.Max(x => x.SellPrice) / TickFrequency) * TickFrequency;
+            CurrentPrice = MaxPrice;
+        }
         Action += OnIsCheckedChanged;
         getCompanyList();
         getChipList();
@@ -105,7 +112,7 @@ public class VGAViewModel : ProductViewModel<VgaDTO>
         NeedList = new();
         foreach (var vga in _productDTOs)
         {
-            if (vga.Need == null) continue;
+            if (vga.Need.IsNullOrEmpty()) continue;
             ProductAttributeStore vgaNeed = new() { Name = vga.Need };
             vgaNeed.CurrentStoreChanged += OnIsCheckedChanged;
             NeedList.Add(vgaNeed);
@@ -128,7 +135,7 @@ public class VGAViewModel : ProductViewModel<VgaDTO>
         SeriesList = new();
         foreach (var vga in _productDTOs)
         {
-            if (vga.Series == null) continue;
+            if (vga.Series.IsNullOrEmpty()) continue;
             ProductAttributeStore vgaSeries = new() { Name = vga.Series };
             vgaSeries.CurrentStoreChanged += OnIsCheckedChanged;
             SeriesList.Add(vgaSeries);

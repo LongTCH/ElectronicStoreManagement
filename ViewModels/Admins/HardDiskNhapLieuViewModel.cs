@@ -7,7 +7,7 @@ using ViewModels.MyMessageBox;
 
 namespace ViewModels.Admins;
 
-public class HardDiskNhapLieuViewModel : ProductInputViewModel
+public class HardDiskNhapLieuViewModel : ProductInputAbstract
 {
     private readonly IUnitOfWork _unitOfWork;
     public string? Storage { get; set; }

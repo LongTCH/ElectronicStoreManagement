@@ -4,6 +4,8 @@ using System.Linq;
 using ViewModels.Services;
 using ViewModels.Stores;
 using Models.Interfaces;
+using Microsoft.IdentityModel.Tokens;
+using System;
 
 namespace ViewModels.ProductViewModels;
 public class PCViewModel : ProductViewModel<PcDTO>
@@ -19,7 +21,12 @@ public class PCViewModel : ProductViewModel<PcDTO>
         : base(unitOfWork, productDetailStore, productDetailNavigate)
     {
         var list = _unitOfWork.Pcs.GetAll();
-        if (list != null) ProductList = new(_productDTOs = list!);
+        if (!list.IsNullOrEmpty())
+        {
+            ProductList = new(_productDTOs = list!);
+            MaxPrice = Math.Ceiling((double)list.Max(x => x.SellPrice) / TickFrequency) * TickFrequency;
+            CurrentPrice = MaxPrice;
+        }
         Action += OnIsCheckedChanged;
         getCompanyList();
         getCPUList();
@@ -81,7 +88,7 @@ public class PCViewModel : ProductViewModel<PcDTO>
         NeedList = new();
         foreach (var pc in _productDTOs)
         {
-            if (pc.Need == null) continue;
+            if (pc.Need.IsNullOrEmpty()) continue;
             ProductAttributeStore pcNeed = new() { Name = pc.Need };
             pcNeed.CurrentStoreChanged += OnIsCheckedChanged;
             NeedList.Add(pcNeed);
@@ -104,7 +111,7 @@ public class PCViewModel : ProductViewModel<PcDTO>
         SeriesList = new();
         foreach (var pc in _productDTOs)
         {
-            if (pc.Series == null) continue;
+            if (pc.Series.IsNullOrEmpty()) continue;
             ProductAttributeStore pcSeries = new() { Name = pc.Series };
             pcSeries.CurrentStoreChanged += OnIsCheckedChanged;
             SeriesList.Add(pcSeries);

@@ -89,6 +89,9 @@
             <DataTemplate DataType="{x:Type notifyviewmodels:ProductDetailViewModel}">
                 <notifycontrols:ProductDetailView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type adminviewmodel:ProductInputViewModel}">
+                <adminview:ProductInputView />
+            </DataTemplate>
         </Grid.Resources>
         <modalcontrol:Modal Panel.ZIndex="1"
                             IsOpen="{Binding IsOpen}">
