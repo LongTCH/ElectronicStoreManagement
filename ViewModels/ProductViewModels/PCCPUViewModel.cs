@@ -4,6 +4,8 @@ using System.Linq;
 using ViewModels.Services;
 using ViewModels.Stores;
 using Models.Interfaces;
+using Microsoft.IdentityModel.Tokens;
+using System;
 
 namespace ViewModels.ProductViewModels;
 public class PCCPUViewModel : ProductViewModel<PccpuDTO>
@@ -18,7 +20,12 @@ public class PCCPUViewModel : ProductViewModel<PccpuDTO>
         : base(unitOfWork, productDetailStore, productDetailNavigate)
     {
         var list = _unitOfWork.Pccpus.GetAll();
-        if (list != null) ProductList = new(_productDTOs = list!);
+        if (!list.IsNullOrEmpty())
+        {
+            ProductList = new(_productDTOs = list!);
+            MaxPrice = Math.Ceiling((double)list.Max(x => x.SellPrice) / TickFrequency) * TickFrequency;
+            CurrentPrice = MaxPrice;
+        }
         Action += OnIsCheckedChanged;
         getCompanyList();
         getSocketList();
@@ -75,7 +82,7 @@ public class PCCPUViewModel : ProductViewModel<PccpuDTO>
         NeedList = new();
         foreach (var pccpu in _productDTOs)
         {
-            if (pccpu.Need == null) continue;
+            if (pccpu.Need.IsNullOrEmpty()) continue;
             ProductAttributeStore pccpuNeed = new() { Name = pccpu.Need };
             pccpuNeed.CurrentStoreChanged += OnIsCheckedChanged;
             NeedList.Add(pccpuNeed);
@@ -87,7 +94,7 @@ public class PCCPUViewModel : ProductViewModel<PccpuDTO>
         SeriesList = new();
         foreach (var pccpu in _productDTOs)
         {
-            if (pccpu.Series == null) continue;
+            if (pccpu.Series.IsNullOrEmpty()) continue;
             ProductAttributeStore pccpuSeries = new() { Name = pccpu.Series };
             pccpuSeries.CurrentStoreChanged += OnIsCheckedChanged;
             SeriesList.Add(pccpuSeries);

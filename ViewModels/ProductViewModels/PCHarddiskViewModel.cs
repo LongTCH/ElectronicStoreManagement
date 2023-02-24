@@ -4,6 +4,8 @@ using System.Linq;
 using ViewModels.Services;
 using ViewModels.Stores;
 using Models.Interfaces;
+using Microsoft.IdentityModel.Tokens;
+using System;
 
 namespace ViewModels.ProductViewModels;
 
@@ -20,7 +22,12 @@ public class PCHarddiskViewModel : ProductViewModel<PcharddiskDTO>
         : base(unitOfWork, productDetailStore, productDetailNavigate)
     {
         var list = _unitOfWork.Pcharddisks.GetAll();
-        if (list != null) ProductList = new(_productDTOs = list!);
+        if (!list.IsNullOrEmpty())
+        {
+            ProductList = new(_productDTOs = list!);
+            MaxPrice = Math.Ceiling((double)list.Max(x => x.SellPrice) / TickFrequency) * TickFrequency;
+            CurrentPrice = MaxPrice;
+        }
         Action += OnIsCheckedChanged;
         getCompanyList();
         getConnectList();
@@ -82,7 +89,7 @@ public class PCHarddiskViewModel : ProductViewModel<PcharddiskDTO>
         TypeList = new();
         foreach (var pcharddisk in _productDTOs)
         {
-            if (pcharddisk.Type == null) continue;
+            if (pcharddisk.Type.IsNullOrEmpty()) continue;
             ProductAttributeStore pcharddiskNeed = new() { Name = pcharddisk.Type };
             pcharddiskNeed.CurrentStoreChanged += OnIsCheckedChanged;
             TypeList.Add(pcharddiskNeed);
@@ -105,7 +112,7 @@ public class PCHarddiskViewModel : ProductViewModel<PcharddiskDTO>
         SeriesList = new();
         foreach (var pcharddisk in _productDTOs)
         {
-            if (pcharddisk.Series == null) continue;
+            if (pcharddisk.Series.IsNullOrEmpty()) continue;
             ProductAttributeStore pcharddiskSeries = new() { Name = pcharddisk.Series };
             pcharddiskSeries.CurrentStoreChanged += OnIsCheckedChanged;
             SeriesList.Add(pcharddiskSeries);

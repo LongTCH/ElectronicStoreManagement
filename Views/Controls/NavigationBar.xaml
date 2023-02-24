@@ -150,6 +150,13 @@
                                              Foreground="YellowGreen" />
                 </Button>
             </Grid>
+            <Grid>
+                <Button ToolTip="Test"
+                        Command="{Binding Test}">
+                    <materialDesign:PackIcon Kind="Text"
+                                             Foreground="Black" />
+                </Button>
+            </Grid>
         </StackPanel>
     </ScrollViewer>
 </UserControl>
