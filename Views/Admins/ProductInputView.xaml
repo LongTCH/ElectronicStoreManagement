@@ -15,6 +15,25 @@
                 <local:HardDiskNhapLieu DataContext="{Binding HardDisk}" />
             </TabItem>
             <TabItem Header="TAB 2">
+                <local:MonitorNhapLieu DataContext="{Binding Monitor}" />
+            </TabItem>
+            <TabItem Header="TAB 3">
+                <TextBlock Margin="8"
+                           Text="PrimaryMid Tab 2" />
+            </TabItem>
+            <TabItem Header="TAB 4">
+                <TextBlock Margin="8"
+                           Text="PrimaryMid Tab 2" />
+            </TabItem>
+            <TabItem Header="TAB 5">
+                <TextBlock Margin="8"
+                           Text="PrimaryMid Tab 2" />
+            </TabItem>
+            <TabItem Header="TAB 6">
+                <TextBlock Margin="8"
+                           Text="PrimaryMid Tab 2" />
+            </TabItem>
+            <TabItem Header="TAB 7">
                 <TextBlock Margin="8"
                            Text="PrimaryMid Tab 2" />
             </TabItem>

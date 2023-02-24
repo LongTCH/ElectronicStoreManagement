@@ -19,7 +19,9 @@ public partial class App : Application
 {
     private ProductInputViewModel CreateProductInputViewModel(IServiceProvider serviceProvider)
     {
-        return new ProductInputViewModel(serviceProvider.GetRequiredService<HardDiskNhapLieuViewModel>());
+        return new ProductInputViewModel(
+            serviceProvider.GetRequiredService<HardDiskNhapLieuViewModel>(),
+            serviceProvider.GetRequiredService<MonitorNhapLieuViewModel>());
     }
     private ProductDetailViewModel CreateProductDetailViewModel(IServiceProvider serviceProvider)
     {
