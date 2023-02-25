@@ -21,7 +21,7 @@ public class SmartPhoneViewModel : ProductViewModel<SmartphoneDTO>
         : base(unitOfWork, productDetailStore, productDetailNavigate)
     {
         var list = _unitOfWork.Smartphones.GetAll();
-        if (!list.IsNullOrEmpty())
+        if (list != null && list.Any())
         {
             ProductList = new(_productDTOs = list!);
             MaxPrice = Math.Ceiling((double)list.Max(x => x.SellPrice) / TickFrequency) * TickFrequency;
@@ -99,7 +99,7 @@ public class SmartPhoneViewModel : ProductViewModel<SmartphoneDTO>
         SeriesList = new();
         foreach (var smartphone in _productDTOs)
         {
-            if (smartphone.Series.IsNullOrEmpty()) continue;
+            if (string.IsNullOrWhiteSpace(smartphone.Series)) continue;
             ProductAttributeStore smartphoneSeries = new() { Name = smartphone.Series };
             smartphoneSeries.CurrentStoreChanged += OnIsCheckedChanged;
             SeriesList.Add(smartphoneSeries);

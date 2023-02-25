@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using System.Windows.Markup;
@@ -112,7 +113,7 @@ public class RegisterViewModel : ViewModelBase
     public string DateFormat => CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;
     public XmlLanguage Language => XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag);
     public bool CanClick => _error.Count == 0;
-    public bool IsDefault => Avatar_Path.IsNullOrEmpty();
+    public bool IsDefault => !File.Exists(Avatar_Path);
     public ICommand GetDistricts { get; }
     public ICommand GetSub_districts { get; }
     public ICommand Sub_districtChanged { get; }
@@ -157,7 +158,7 @@ public class RegisterViewModel : ViewModelBase
     }
     private void signUp()
     {
-        if (Id.IsNullOrEmpty())
+        if (string.IsNullOrWhiteSpace(Id))
         {
             ErrorNotifyViewModel.Instance!.Show("Enter ID", "Warning");
             return;
