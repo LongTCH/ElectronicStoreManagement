@@ -127,7 +127,7 @@
     <Property Name="NewName" Value="PurchasedTime" />
   </Operation>
   <Operation Name="Rename Refactor" Key="7259165d-a0dd-4aa9-b766-b98e6ae89f11" ChangeDateTime="02/21/2023 15:26:42">
-    <Property Name="ElementName" Value="[dbo].[ACCOUNT].[Sex]" />
+    <Property Name="ElementName" Value="[dbo].[ACCOUNT].[Gender]" />
     <Property Name="ElementType" Value="SqlSimpleColumn" />
     <Property Name="ParentElementName" Value="[dbo].[ACCOUNT]" />
     <Property Name="ParentElementType" Value="SqlTable" />

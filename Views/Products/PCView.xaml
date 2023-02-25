@@ -160,7 +160,7 @@
                                     Command="{Binding DataContext.ProductDetailNavigateCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
                                     CommandParameter="{Binding}">
                                 <StackPanel>
-                                    <Image Source="{Binding ImagePath}"
+                                    <Image Source="{Binding AvatarPath}"
                                            Height="200"
                                            Width="200"
                                            Stretch="UniformToFill" />

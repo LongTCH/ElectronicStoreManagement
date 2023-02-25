@@ -32,7 +32,7 @@ public class AccountRepository : Repository<AccountDTO>, IAccountRepository
                                    LastName = ac.LastName,
                                    PasswordHash = ac.PasswordHash,
                                    Phone = ac.Phone,
-                                   Sex = ac.Sex,
+                                   Gender = ac.Gender,
                                    Street = ac.Street,
                                    SubDistrict = ac.SubDistrict
                                }).FirstOrDefault();
@@ -55,7 +55,7 @@ public class AccountRepository : Repository<AccountDTO>, IAccountRepository
                                    LastName = ac.LastName,
                                    PasswordHash = ac.PasswordHash,
                                    Phone = ac.Phone,
-                                   Sex = ac.Sex,
+                                   Gender = ac.Gender,
                                    Street = ac.Street,
                                    SubDistrict = ac.SubDistrict
                                }).FirstOrDefault();
@@ -91,7 +91,7 @@ public class AccountRepository : Repository<AccountDTO>, IAccountRepository
         account.SubDistrict = accountDTO.SubDistrict;
         account.District = accountDTO.District;
         account.Street = accountDTO.Street;
-        account.Sex = accountDTO.Sex;
+        account.Gender = accountDTO.Gender;
     }
     public override void Add(AccountDTO accountDTO)
     {
@@ -107,7 +107,7 @@ public class AccountRepository : Repository<AccountDTO>, IAccountRepository
             LastName = accountDTO.LastName,
             PasswordHash = accountDTO.PasswordHash,
             Phone = accountDTO.Phone,
-            Sex = accountDTO.Sex,
+            Gender = accountDTO.Gender,
             Street = accountDTO.Street,
             SubDistrict = accountDTO.SubDistrict,
         };

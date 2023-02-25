@@ -30,6 +30,7 @@ public class PcharddiskRepository : Repository<PcharddiskDTO>, IPcharddiskReposi
                     Remain = pcharddisk.Remain,
                     Series = pcharddisk.Series,
                     Storage = pcharddisk.Storage,
+                    AvatarPath = @pcharddisk.AvatarPath,
                     Type = pcharddisk.Type
                 }).ToList();
     }

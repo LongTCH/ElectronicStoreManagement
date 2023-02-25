@@ -32,7 +32,8 @@ public class LaptopRepository : Repository<LaptopDTO>, ILaptopRepository
                     Ram = laptop.Ram,
                     Remain = laptop.Remain,
                     Series = laptop.Series,
-                    Storage = laptop.Storage
+                    Storage = laptop.Storage,
+                    AvatarPath = @laptop.AvatarPath
                 }).ToList();
     }
 }

@@ -6,15 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Models.Entities;
 
-[PrimaryKey("OrderId", "ProductId")]
-[Table("ORDER_PRODUCT")]
-public partial class OrderProduct
+[Table("COMBO_PRODUCT")]
+public partial class ComboProduct
 {
     [Key]
-    [Column("OrderID")]
-    public int OrderId { get; set; }
+    public int ComboId { get; set; }
 
-    [Key]
     [Column("ProductID")]
     [StringLength(9)]
     [Unicode(false)]
@@ -23,9 +20,9 @@ public partial class OrderProduct
     public int Number { get; set; }
 
     [StringLength(50)]
-    public string? Warranty { get; set; }
+    public string Unit { get; set; } = null!;
 
-    [ForeignKey("OrderId")]
-    [InverseProperty("OrderProducts")]
-    public virtual Order Order { get; set; } = null!;
+    [ForeignKey("ComboId")]
+    [InverseProperty("ComboProduct")]
+    public virtual Combo Combo { get; set; } = null!;
 }

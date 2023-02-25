@@ -50,4 +50,8 @@ public partial class Smartphone
 
     [StringLength(50)]
     public string Company { get; set; } = null!;
+
+    [Column("Avatar_Path")]
+    [StringLength(200)]
+    public string? AvatarPath { get; set; }
 }

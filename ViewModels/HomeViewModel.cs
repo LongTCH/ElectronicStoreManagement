@@ -3,6 +3,7 @@ using Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Timers;
 using System.Windows.Input;
@@ -10,6 +11,7 @@ using ViewModels.Commands;
 using ViewModels.MyMessageBox;
 using ViewModels.Services;
 using ViewModels.Stores;
+using ViewModels.Validators;
 
 namespace ViewModels;
 
@@ -33,7 +35,7 @@ public class HomeViewModel : ViewModelBase
     public ICommand PcharddiskNavigateCommand { get; }
     public ICommand VgaNavigateCommand { get; }
     public ICommand SmartphoneNavigateCommand { get; }
-    private void openDetailCommand<T>(T dto) where T : ProductDTO
+    private void openDetailCommand(ProductDTO dto)
     {
         _productDetailStore.CurrentProduct = dto;
         _productDetailNavigate.Navigate();
@@ -42,11 +44,10 @@ public class HomeViewModel : ViewModelBase
     private int index = 0;
     private void dispatcherTimer_Tick(object sender, ElapsedEventArgs e)
     {
-        Source = imageFiles[index];
-        OnPropertyChanged(nameof(Source));
         index = (index + 1) % imageFiles.Count;
+        OnPropertyChanged(nameof(Source));
     }
-    public string Source { get; set; }
+    public string? Source => imageFiles.ElementAtOrDefault(index);
     Timer Timer { get; set; }
     public HomeViewModel(IUnitOfWork unitOfWork,
         ProductDetailStore productDetailStore,
@@ -72,7 +73,7 @@ public class HomeViewModel : ViewModelBase
             PcharddiskList = unitOfWork.Pcharddisks.GetAll();
             VgaList = unitOfWork.Vgas.GetAll();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             ErrorNotifyViewModel.Instance!.Show(ex.Message, "Error");
         }
@@ -85,22 +86,19 @@ public class HomeViewModel : ViewModelBase
         VgaNavigateCommand = new RelayCommand<object>(_ => vga.Navigate());
         SmartphoneNavigateCommand = new RelayCommand<object>(_ => smartphone.Navigate());
 
-        Timer = new Timer();
-        Timer.Elapsed += new ElapsedEventHandler(dispatcherTimer_Tick!);
-        Timer.Interval = 3000;
+        Timer = new Timer(3000);
+        Timer.Elapsed += dispatcherTimer_Tick!;
         Timer.Enabled = true;
         var files = Directory.GetFiles(Directory.GetParent(
             Directory.GetCurrentDirectory())!.Parent!.Parent!.Parent
-            + "\\Views\\Images\\HomeImages", "*.*", SearchOption.AllDirectories);
+            + "\\Views\\Images\\HomeImages", "*.*", SearchOption.TopDirectoryOnly);
 
         imageFiles = new();
         foreach (string filename in files)
         {
-            if (Regex.IsMatch(filename, @"\.jpg$|\.png$|\.gif$|\.webp$"))
+            if (Regex.IsMatch(filename, ImageRegex.Get()))
                 imageFiles.Add(filename);
         }
-        Source = imageFiles[index];
         OnPropertyChanged(nameof(Source));
-        index = (index + 1) % imageFiles.Count;
     }
 }

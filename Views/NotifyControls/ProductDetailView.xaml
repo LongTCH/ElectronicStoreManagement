@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Views.NotifyControls"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+            
              mc:Ignorable="d"
              Height="450"
              Width="800">
@@ -22,26 +23,81 @@
                     <ColumnDefinition Width="2*" />
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
-                
-                    <StackPanel HorizontalAlignment="Center">
-                        <Image Source="{Binding ImagePath}"
+                <StackPanel HorizontalAlignment="Center">
+                    <Grid>
+                        <Grid.Resources>
+                            <Style TargetType="Button"
+                                   BasedOn="{StaticResource MaterialDesignFlatLightButton}">
+                                <Setter Property="VerticalAlignment"
+                                        Value="Stretch" />
+                                <Setter Property="Opacity"
+                                        Value="0" />
+                                <Setter Property="Width"
+                                        Value="100" />
+                                <Setter Property="Height"
+                                        Value="{Binding ElementName=img, Path=ActualHeight}" />
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver"
+                                             Value="True">
+                                        <Setter Property="Opacity"
+                                                Value="1" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Resources>
+                        <Button HorizontalAlignment="Left"
+                                Panel.ZIndex="1"
+                                Command="{Binding PreviousCommand}">
+                            <materialDesign:PackIcon Kind="SkipPrevious" />
+                        </Button>
+                        <Image Source="{Binding ImageSource}"
                                MaxHeight="300"
                                MaxWidth="300"
-                               Stretch="UniformToFill" />
-                        <TextBlock Text="{Binding Company, Mode=OneWay}"
-                                   FontWeight="Bold"
-                                   Foreground="Silver"
-                                   FontSize="20" />
+                               Stretch="UniformToFill"
+                               x:Name="img" />
+                        <Button HorizontalAlignment="Right"
+                                Command="{Binding NextCommand}">
+                            <materialDesign:PackIcon Kind="SkipNext" />
+                        </Button>
+                    </Grid>
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center">
+                        <StackPanel.Resources>
+                            <Style TargetType="Image">
+                                <Setter Property="Opacity"
+                                        Value="0.1" />
+                                <Setter Property="Height"
+                                        Value="60" />
+                                <Setter Property="Width"
+                                        Value="60" />
+                                <Setter Property="Stretch"
+                                        Value="UniformToFill" />
+                                <Setter Property="Margin"
+                                        Value="0,5,0,5" />
+                                <Setter Property="VerticalAlignment"
+                                        Value="Center" />
+                            </Style>
+                        </StackPanel.Resources>
+                        <Image Source="{Binding PreviousImage}" />
+                        <Image Source="{Binding ImageSource}"
+                               Opacity="0.6"
+                               Height="90"
+                               Width="90" />
+                        <Image Source="{Binding NextImage}" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <StackPanel>
                         <TextBlock Text="{Binding Name}"
                                    TextWrapping="Wrap"
-                                   FontWeight="Thin"
-                                   Foreground="Black"
-                                   FontSize="18" />
+                                   FontWeight="Bold"
+                                   Foreground="DarkSlateBlue"
+                                   FontSize="30" />
                         <DockPanel>
                             <DockPanel.Resources>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="FontSize"
-                                            Value="14" />
+                                            Value="20" />
                                     <Setter Property="Foreground"
                                             Value="Blue" />
                                     <Setter Property="FontWeight"
@@ -56,7 +112,7 @@
                             <DockPanel.Resources>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="FontSize"
-                                            Value="12" />
+                                            Value="16" />
                                     <Setter Property="FontWeight"
                                             Value="Thin" />
                                 </Style>
@@ -74,15 +130,15 @@
                                        Foreground="CornflowerBlue" />
                         </DockPanel>
                     </StackPanel>
-                
-                <StackPanel Grid.Column="1">
-                    <TextBlock Text="Thông tin sản phẩm"
-                               Foreground="DeepSkyBlue" 
-                               HorizontalAlignment="Center"/>
+                    <TextBlock Text="Thông tin chi tiết"
+                               Foreground="DeepSkyBlue"
+                               FontSize="20"
+                               Margin="0,10,0,10"
+                               HorizontalAlignment="Center" />
                     <ListView Background="Transparent"
-                              
                               Foreground="Black"
-                              ItemsSource="{Binding Source, Mode=OneWay}">
+                              HorizontalAlignment="Center"
+                              ItemsSource="{Binding DetailSource, Mode=OneWay}">
                         <ListView.View>
                             <GridView>
                                 <GridView.ColumnHeaderContainerStyle>
@@ -92,6 +148,8 @@
                                     </Style>
                                 </GridView.ColumnHeaderContainerStyle>
                                 <GridViewColumn DisplayMemberBinding="{Binding Attribute}" />
+                                <GridViewColumn Width="50"
+                                                DisplayMemberBinding="{Binding _}" />
                                 <GridViewColumn DisplayMemberBinding="{Binding Description}" />
                             </GridView>
                         </ListView.View>
