@@ -18,8 +18,7 @@
                 <local:MonitorNhapLieu DataContext="{Binding Monitor}" />
             </TabItem>
             <TabItem Header="TAB 3">
-                <TextBlock Margin="8"
-                           Text="PrimaryMid Tab 2" />
+                
             </TabItem>
             <TabItem Header="TAB 4">
                 <TextBlock Margin="8"

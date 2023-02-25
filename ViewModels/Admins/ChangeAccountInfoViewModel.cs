@@ -209,14 +209,9 @@ public class ChangeAccountInfoViewModel : ViewModelBase
     }
     private void addAvatarCommand()
     {
-        OpenFileDialog openFileDialog = new()
+        Avatar_Path = new ImagePathCommand().Set();
+        if (Avatar_Path != null)
         {
-            Filter = "Image Files|*.jpg;*.jpeg;*.png;...",
-            Title = "Direct to your avartar"
-        };
-        if (openFileDialog.ShowDialog() == true)
-        {
-            Avatar_Path = openFileDialog.FileName;
             OnPropertyChanged(nameof(IsDefault));
             OnPropertyChanged(nameof(Avatar_Path));
         }

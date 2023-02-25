@@ -23,7 +23,7 @@ public class MonitorViewModel : ProductViewModel<MonitorDTO>
         : base(unitOfWork, productDetailStore, productDetailNavigate)
     {
         var list = _unitOfWork.Monitors.GetAll();
-        if (!list.IsNullOrEmpty())
+        if (list != null && list.Any())
         {
             ProductList = new(_productDTOs = list!);
             MaxPrice = Math.Ceiling((double)list.Max(x => x.SellPrice) / TickFrequency) * TickFrequency;
@@ -95,7 +95,7 @@ public class MonitorViewModel : ProductViewModel<MonitorDTO>
         NeedList = new();
         foreach (var monitor in _productDTOs)
         {
-            if (monitor.Need.IsNullOrEmpty()) continue;
+            if (string.IsNullOrWhiteSpace(monitor.Need)) continue;
             ProductAttributeStore monitorNeed = new() { Name = monitor.Need };
             monitorNeed.CurrentStoreChanged += OnIsCheckedChanged;
             NeedList.Add(monitorNeed);
@@ -118,7 +118,7 @@ public class MonitorViewModel : ProductViewModel<MonitorDTO>
         SeriesList = new();
         foreach (var monitor in _productDTOs)
         {
-            if (monitor.Series.IsNullOrEmpty()) continue;
+            if (string.IsNullOrWhiteSpace(monitor.Series)) continue;
             ProductAttributeStore monitorSeries = new() { Name = monitor.Series };
             monitorSeries.CurrentStoreChanged += OnIsCheckedChanged;
             SeriesList.Add(monitorSeries);

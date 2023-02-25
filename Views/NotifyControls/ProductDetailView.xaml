@@ -6,26 +6,98 @@
              xmlns:local="clr-namespace:Views.NotifyControls"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
-             d:DesignHeight="450"
-             d:DesignWidth="800">
-    <StackPanel>
-        <Button HorizontalAlignment="Right"
-                Style="{StaticResource MaterialDesignFlatButton}"
-                Command="{Binding CloseCommand}">
-            <Button.Content>
-                <materialDesign:PackIcon Kind="Close" />
-            </Button.Content>
-        </Button>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
-            </Grid.ColumnDefinitions>
-            <Image Source="{Binding ImagePath}"
-                   Height="500"
-                   Width="500" />
-            <TextBlock Text="{Binding DetailPath}"
-                       FontSize="20" />
-        </Grid>
-    </StackPanel>
+             Height="450"
+             Width="800">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <Button HorizontalAlignment="Right"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    Command="{Binding CloseCommand}">
+                <Button.Content>
+                    <materialDesign:PackIcon Kind="Close" />
+                </Button.Content>
+            </Button>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                
+                    <StackPanel HorizontalAlignment="Center">
+                        <Image Source="{Binding ImagePath}"
+                               MaxHeight="300"
+                               MaxWidth="300"
+                               Stretch="UniformToFill" />
+                        <TextBlock Text="{Binding Company, Mode=OneWay}"
+                                   FontWeight="Bold"
+                                   Foreground="Silver"
+                                   FontSize="20" />
+                        <TextBlock Text="{Binding Name}"
+                                   TextWrapping="Wrap"
+                                   FontWeight="Thin"
+                                   Foreground="Black"
+                                   FontSize="18" />
+                        <DockPanel>
+                            <DockPanel.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontSize"
+                                            Value="14" />
+                                    <Setter Property="Foreground"
+                                            Value="Blue" />
+                                    <Setter Property="FontWeight"
+                                            Value="DemiBold" />
+                                </Style>
+                            </DockPanel.Resources>
+                            <TextBlock Text="{Binding SellPrice, Mode=OneWay, StringFormat={}{0:0.#}}" />
+                            <TextBlock Text="đ" />
+                        </DockPanel>
+                        <DockPanel Visibility="{Binding DiscountShow, Converter={StaticResource BoolToVis}}"
+                                   LastChildFill="True">
+                            <DockPanel.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontSize"
+                                            Value="12" />
+                                    <Setter Property="FontWeight"
+                                            Value="Thin" />
+                                </Style>
+                            </DockPanel.Resources>
+                            <TextBlock Text="{Binding Price , Mode=OneWay, StringFormat={}{0:0.#}}"
+                                       TextDecorations="Strikethrough"
+                                       Foreground="SlateGray" />
+                            <TextBlock Text="đ"
+                                       Foreground="SlateGray" />
+                            <TextBlock Text=" -"
+                                       Foreground="CornflowerBlue" />
+                            <TextBlock Text="{Binding Discount, Mode=OneWay}"
+                                       Foreground="CornflowerBlue" />
+                            <TextBlock Text="%"
+                                       Foreground="CornflowerBlue" />
+                        </DockPanel>
+                    </StackPanel>
+                
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="Thông tin sản phẩm"
+                               Foreground="DeepSkyBlue" 
+                               HorizontalAlignment="Center"/>
+                    <ListView Background="Transparent"
+                              
+                              Foreground="Black"
+                              ItemsSource="{Binding Source, Mode=OneWay}">
+                        <ListView.View>
+                            <GridView>
+                                <GridView.ColumnHeaderContainerStyle>
+                                    <Style TargetType="{x:Type GridViewColumnHeader}">
+                                        <Setter Property="Visibility"
+                                                Value="Collapsed" />
+                                    </Style>
+                                </GridView.ColumnHeaderContainerStyle>
+                                <GridViewColumn DisplayMemberBinding="{Binding Attribute}" />
+                                <GridViewColumn DisplayMemberBinding="{Binding Description}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

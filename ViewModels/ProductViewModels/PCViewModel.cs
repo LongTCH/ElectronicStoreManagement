@@ -21,7 +21,7 @@ public class PCViewModel : ProductViewModel<PcDTO>
         : base(unitOfWork, productDetailStore, productDetailNavigate)
     {
         var list = _unitOfWork.Pcs.GetAll();
-        if (!list.IsNullOrEmpty())
+        if (list != null && list.Any())
         {
             ProductList = new(_productDTOs = list!);
             MaxPrice = Math.Ceiling((double)list.Max(x => x.SellPrice) / TickFrequency) * TickFrequency;
@@ -88,7 +88,7 @@ public class PCViewModel : ProductViewModel<PcDTO>
         NeedList = new();
         foreach (var pc in _productDTOs)
         {
-            if (pc.Need.IsNullOrEmpty()) continue;
+            if (string.IsNullOrWhiteSpace(pc.Need)) continue;
             ProductAttributeStore pcNeed = new() { Name = pc.Need };
             pcNeed.CurrentStoreChanged += OnIsCheckedChanged;
             NeedList.Add(pcNeed);
@@ -111,7 +111,7 @@ public class PCViewModel : ProductViewModel<PcDTO>
         SeriesList = new();
         foreach (var pc in _productDTOs)
         {
-            if (pc.Series.IsNullOrEmpty()) continue;
+            if (string.IsNullOrWhiteSpace(pc.Series)) continue;
             ProductAttributeStore pcSeries = new() { Name = pc.Series };
             pcSeries.CurrentStoreChanged += OnIsCheckedChanged;
             SeriesList.Add(pcSeries);

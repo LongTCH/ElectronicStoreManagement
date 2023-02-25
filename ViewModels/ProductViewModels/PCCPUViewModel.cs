@@ -20,7 +20,7 @@ public class PCCPUViewModel : ProductViewModel<PccpuDTO>
         : base(unitOfWork, productDetailStore, productDetailNavigate)
     {
         var list = _unitOfWork.Pccpus.GetAll();
-        if (!list.IsNullOrEmpty())
+        if (list != null && list.Any())
         {
             ProductList = new(_productDTOs = list!);
             MaxPrice = Math.Ceiling((double)list.Max(x => x.SellPrice) / TickFrequency) * TickFrequency;
@@ -82,7 +82,7 @@ public class PCCPUViewModel : ProductViewModel<PccpuDTO>
         NeedList = new();
         foreach (var pccpu in _productDTOs)
         {
-            if (pccpu.Need.IsNullOrEmpty()) continue;
+            if (string.IsNullOrWhiteSpace(pccpu.Need)) continue;
             ProductAttributeStore pccpuNeed = new() { Name = pccpu.Need };
             pccpuNeed.CurrentStoreChanged += OnIsCheckedChanged;
             NeedList.Add(pccpuNeed);
@@ -94,7 +94,7 @@ public class PCCPUViewModel : ProductViewModel<PccpuDTO>
         SeriesList = new();
         foreach (var pccpu in _productDTOs)
         {
-            if (pccpu.Series.IsNullOrEmpty()) continue;
+            if (string.IsNullOrWhiteSpace(pccpu.Series)) continue;
             ProductAttributeStore pccpuSeries = new() { Name = pccpu.Series };
             pccpuSeries.CurrentStoreChanged += OnIsCheckedChanged;
             SeriesList.Add(pccpuSeries);
