@@ -28,7 +28,7 @@ public class LaptopViewModel : ProductViewModel<LaptopDTO>
         try
         {
             var list = _unitOfWork.Laptops.GetAll();
-            if (!list.IsNullOrEmpty())
+            if (list != null && list.Any())
             {
                 ProductList = new(_productDTOs = list!);
                 MaxPrice = Math.Ceiling((double)list.Max(x => x.SellPrice) / TickFrequency) * TickFrequency;
@@ -122,7 +122,7 @@ public class LaptopViewModel : ProductViewModel<LaptopDTO>
         NeedList = new();
         foreach (var laptop in _productDTOs)
         {
-            if (laptop.Need.IsNullOrEmpty()) continue;
+            if (string.IsNullOrWhiteSpace(laptop.Need)) continue;
             ProductAttributeStore laptopNeed = new() { Name = laptop.Need };
             laptopNeed.CurrentStoreChanged += OnIsCheckedChanged;
             NeedList.Add(laptopNeed);
@@ -145,7 +145,7 @@ public class LaptopViewModel : ProductViewModel<LaptopDTO>
         SeriesList = new();
         foreach (var laptop in _productDTOs)
         {
-            if (laptop.Series.IsNullOrEmpty()) continue;
+            if (string.IsNullOrWhiteSpace(laptop.Series)) continue;
             ProductAttributeStore laptopSeries = new() { Name = laptop.Series };
             laptopSeries.CurrentStoreChanged += OnIsCheckedChanged;
             SeriesList.Add(laptopSeries);

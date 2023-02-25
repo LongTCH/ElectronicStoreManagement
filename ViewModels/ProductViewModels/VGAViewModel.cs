@@ -24,7 +24,7 @@ public class VGAViewModel : ProductViewModel<VgaDTO>
         : base(unitOfWork, productDetailStore, productDetailNavigate)
     {
         var list = _unitOfWork.Vgas.GetAll();
-        if (!list.IsNullOrEmpty())
+        if (list != null && list.Any())
         {
             ProductList = new(_productDTOs = list!);
             MaxPrice = Math.Ceiling((double)list.Max(x => x.SellPrice) / TickFrequency) * TickFrequency;
@@ -112,7 +112,7 @@ public class VGAViewModel : ProductViewModel<VgaDTO>
         NeedList = new();
         foreach (var vga in _productDTOs)
         {
-            if (vga.Need.IsNullOrEmpty()) continue;
+            if (string.IsNullOrWhiteSpace(vga.Need)) continue;
             ProductAttributeStore vgaNeed = new() { Name = vga.Need };
             vgaNeed.CurrentStoreChanged += OnIsCheckedChanged;
             NeedList.Add(vgaNeed);
@@ -135,7 +135,7 @@ public class VGAViewModel : ProductViewModel<VgaDTO>
         SeriesList = new();
         foreach (var vga in _productDTOs)
         {
-            if (vga.Series.IsNullOrEmpty()) continue;
+            if (string.IsNullOrWhiteSpace(vga.Series)) continue;
             ProductAttributeStore vgaSeries = new() { Name = vga.Series };
             vgaSeries.CurrentStoreChanged += OnIsCheckedChanged;
             SeriesList.Add(vgaSeries);

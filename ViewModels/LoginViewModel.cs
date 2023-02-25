@@ -61,12 +61,12 @@ public class LoginViewModel : ViewModelBase
     }
     private async Task loginCommandAsync()
     {
-        if (Id.IsNullOrEmpty())
+        if (string.IsNullOrWhiteSpace(Id))
         {
             ErrorNotifyViewModel.Instance!.Show("Enter ID", "Warning");
             return;
         }
-        if (Password.IsNullOrEmpty())
+        if (string.IsNullOrWhiteSpace(Password))
         {
             ErrorNotifyViewModel.Instance!.Show("Enter Password", "Warning");
             return;

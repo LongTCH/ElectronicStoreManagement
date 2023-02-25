@@ -22,7 +22,7 @@ public class PCHarddiskViewModel : ProductViewModel<PcharddiskDTO>
         : base(unitOfWork, productDetailStore, productDetailNavigate)
     {
         var list = _unitOfWork.Pcharddisks.GetAll();
-        if (!list.IsNullOrEmpty())
+        if (list != null && list.Any())
         {
             ProductList = new(_productDTOs = list!);
             MaxPrice = Math.Ceiling((double)list.Max(x => x.SellPrice) / TickFrequency) * TickFrequency;
@@ -89,7 +89,7 @@ public class PCHarddiskViewModel : ProductViewModel<PcharddiskDTO>
         TypeList = new();
         foreach (var pcharddisk in _productDTOs)
         {
-            if (pcharddisk.Type.IsNullOrEmpty()) continue;
+            if (string.IsNullOrWhiteSpace(pcharddisk.Type)) continue;
             ProductAttributeStore pcharddiskNeed = new() { Name = pcharddisk.Type };
             pcharddiskNeed.CurrentStoreChanged += OnIsCheckedChanged;
             TypeList.Add(pcharddiskNeed);
@@ -112,7 +112,7 @@ public class PCHarddiskViewModel : ProductViewModel<PcharddiskDTO>
         SeriesList = new();
         foreach (var pcharddisk in _productDTOs)
         {
-            if (pcharddisk.Series.IsNullOrEmpty()) continue;
+            if (string.IsNullOrWhiteSpace(pcharddisk.Series)) continue;
             ProductAttributeStore pcharddiskSeries = new() { Name = pcharddisk.Series };
             pcharddiskSeries.CurrentStoreChanged += OnIsCheckedChanged;
             SeriesList.Add(pcharddiskSeries);
