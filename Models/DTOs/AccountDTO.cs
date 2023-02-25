@@ -8,7 +8,7 @@ public class AccountDTO
     public string PasswordHash { get; set; } = null!;
     public string FirstName { get; set; } = null!;
     public string LastName { get; set; } = null!;
-    public bool Sex { get; set; }
+    public bool Gender { get; set; }
     public string EmailAddress { get; set; } = null!;
     public DateTime Birthday { get; set; }
     public string City { get; set; } = null!;

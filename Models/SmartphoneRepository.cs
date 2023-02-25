@@ -30,6 +30,7 @@ namespace Models
                         Price = smartphone.Price,
                         Ram = smartphone.Ram,
                         Remain = smartphone.Remain,
+                        AvatarPath= @smartphone.AvatarPath,
                         Series = smartphone.Series
                     }).ToList();
         }

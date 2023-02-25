@@ -189,7 +189,7 @@ public class ChangeAccountInfoViewModel : ViewModelBase
             LastName = LastName!,
             EmailAddress = Email!,
             Phone = Phone!,
-            Sex = SelectedGender!.Equals(Gender.ElementAt(0))!,
+            Gender = SelectedGender!.Equals(Gender.ElementAt(0))!,
             Birthday = DateTime.SpecifyKind(BirthDay, DateTimeKind.Utc),
             City = SelectedCity!.ToString(),
             District = SelectedDistrict!.ToString(),
@@ -228,7 +228,7 @@ public class ChangeAccountInfoViewModel : ViewModelBase
         LastName = accountDTO.LastName;
         Email = accountDTO.EmailAddress;
         Phone = accountDTO.Phone;
-        SelectedGender = (accountDTO.Sex) ? Gender.ElementAt(0) : Gender.ElementAt(1);
+        SelectedGender = (accountDTO.Gender) ? Gender.ElementAt(0) : Gender.ElementAt(1);
         BirthDay = DateTime.SpecifyKind(accountDTO.Birthday, DateTimeKind.Local);
         try
         {

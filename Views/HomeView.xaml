@@ -12,7 +12,31 @@
     <ScrollViewer VerticalScrollBarVisibility="auto"
                   HorizontalAlignment="Stretch">
         <StackPanel>
-            <Image Source="{Binding Source}" />
+            <Image x:Name="image"
+                   Stretch="Fill"
+                   Source="{Binding Source, Mode=OneWay}">
+                
+                <Image.RenderTransform>
+                    <TranslateTransform x:Name="MyTranslateTransform" />
+                </Image.RenderTransform>
+                <Image.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MyTranslateTransform"
+                                                               Storyboard.TargetProperty="X"
+                                                               Duration="0:0:1"
+                                                               RepeatBehavior="Forever">
+                                    <DiscreteDoubleKeyFrame KeyTime="0:0:1"
+                                                            Value="0" />
+                                    <DiscreteDoubleKeyFrame KeyTime="0:0:2"
+                                                            Value="-100" />
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Image.Triggers>
+            </Image>
             <StackPanel>
                 <Button Style="{StaticResource MaterialDesignFlatButton}"
                         BorderThickness="0"
@@ -33,7 +57,7 @@
                                     Command="{Binding DataContext.ProductDetailNavigateCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
                                     CommandParameter="{Binding}">
                                 <StackPanel>
-                                    <Image Source="{Binding ImagePath}"
+                                    <Image Source="{Binding AvatarPath}"
                                            Height="200"
                                            Width="200"
                                            Stretch="UniformToFill" />
@@ -113,7 +137,7 @@
                                     Command="{Binding DataContext.ProductDetailNavigateCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
                                     CommandParameter="{Binding}">
                                 <StackPanel>
-                                    <Image Source="{Binding ImagePath}"
+                                    <Image Source="{Binding AvatarPath}"
                                            Height="200"
                                            Width="200"
                                            Stretch="UniformToFill" />
@@ -193,7 +217,7 @@
                                     Command="{Binding DataContext.ProductDetailNavigateCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
                                     CommandParameter="{Binding}">
                                 <StackPanel>
-                                    <Image Source="{Binding ImagePath}"
+                                    <Image Source="{Binding AvatarPath}"
                                            Height="200"
                                            Width="200"
                                            Stretch="UniformToFill" />
@@ -273,7 +297,7 @@
                                     Command="{Binding DataContext.ProductDetailNavigateCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
                                     CommandParameter="{Binding}">
                                 <StackPanel>
-                                    <Image Source="{Binding ImagePath}"
+                                    <Image Source="{Binding AvatarPath}"
                                            Height="200"
                                            Width="200"
                                            Stretch="UniformToFill" />
@@ -353,7 +377,7 @@
                                     Command="{Binding DataContext.ProductDetailNavigateCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
                                     CommandParameter="{Binding}">
                                 <StackPanel>
-                                    <Image Source="{Binding ImagePath}"
+                                    <Image Source="{Binding AvatarPath}"
                                            Height="200"
                                            Width="200"
                                            Stretch="UniformToFill" />
@@ -433,7 +457,7 @@
                                     Command="{Binding DataContext.ProductDetailNavigateCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
                                     CommandParameter="{Binding}">
                                 <StackPanel>
-                                    <Image Source="{Binding ImagePath}"
+                                    <Image Source="{Binding AvatarPath}"
                                            Height="200"
                                            Width="200"
                                            Stretch="UniformToFill" />
@@ -513,7 +537,7 @@
                                     Command="{Binding DataContext.ProductDetailNavigateCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
                                     CommandParameter="{Binding}">
                                 <StackPanel>
-                                    <Image Source="{Binding ImagePath}"
+                                    <Image Source="{Binding AvatarPath}"
                                            Height="200"
                                            Width="200"
                                            Stretch="UniformToFill" />

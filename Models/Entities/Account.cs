@@ -24,7 +24,7 @@ public partial class Account
     [StringLength(50)]
     public string LastName { get; set; } = null!;
 
-    public bool Sex { get; set; }
+    public bool Gender { get; set; }
 
     [StringLength(256)]
     public string EmailAddress { get; set; } = null!;
@@ -51,4 +51,10 @@ public partial class Account
     [Column("Avatar_Path")]
     [StringLength(200)]
     public string? AvatarPath { get; set; }
+
+    [InverseProperty("Staff")]
+    public virtual ICollection<Bill> Bills { get; } = new List<Bill>();
+
+    [InverseProperty("Staff")]
+    public virtual ICollection<Import> Imports { get; } = new List<Import>();
 }

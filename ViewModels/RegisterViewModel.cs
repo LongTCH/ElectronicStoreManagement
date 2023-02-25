@@ -199,7 +199,7 @@ public class RegisterViewModel : ViewModelBase
             LastName = LastName!,
             EmailAddress = Email!,
             Phone = Phone!,
-            Sex = SelectedGender!.Equals(Gender.ElementAt(0))!,
+            Gender = SelectedGender!.Equals(Gender.ElementAt(0))!,
             Birthday = DateTime.SpecifyKind(BirthDay, DateTimeKind.Utc),
             City = SelectedCity!.ToString(),
             District = SelectedDistrict!.ToString(),

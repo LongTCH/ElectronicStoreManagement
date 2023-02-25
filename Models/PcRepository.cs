@@ -30,6 +30,7 @@ public class PcRepository : Repository<PcDTO>, IPcRepository
                     Need = pc.Need,
                     Ram = pc.Ram,
                     Series = pc.Series,
+                    AvatarPath = @pc.AvatarPath,
                     Remain = pc.Remain
                 }).ToList();
     }

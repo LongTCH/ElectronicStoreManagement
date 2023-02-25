@@ -27,7 +27,7 @@ public class AccountViewModel : ViewModelBase
     public string? District => _accountStore.CurrentAccount!.District;
     public string? SubDistrict => _accountStore.CurrentAccount!.SubDistrict;
     public string? Street => _accountStore.CurrentAccount!.Street;
-    public string? Gender => _accountStore.CurrentAccount!.Sex ? GenderList.ElementAt(0) : GenderList.ElementAt(1);
+    public string? Gender => _accountStore.CurrentAccount!.Gender ? GenderList.ElementAt(0) : GenderList.ElementAt(1);
     public string? Avatar_Path
     {
         get => _accountStore.CurrentAccount?.AvatarPath;

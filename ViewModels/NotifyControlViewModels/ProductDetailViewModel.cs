@@ -1,13 +1,13 @@
 ﻿using ClosedXML.Excel;
-using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
 using ViewModels.Commands;
 using ViewModels.Services;
 using ViewModels.Stores;
+using ViewModels.Validators;
 
 namespace ViewModels.NotifyControlViewModels;
 
@@ -15,7 +15,9 @@ public class ProductDetailViewModel : ViewModelBase
 {
     private readonly ProductDetailStore _currentProduct;
     public ICommand CloseCommand { get; }
-    public List<CustomAtrribute>? Source { get; } = null;
+    public ICommand NextCommand { get; }
+    public ICommand PreviousCommand { get; }
+    public List<CustomAtrribute>? DetailSource { get; } = null;
     public ProductDetailViewModel(ProductDetailStore currentProduct,
         INavigationService closeModalNavigationService)
     {
@@ -23,14 +25,49 @@ public class ProductDetailViewModel : ViewModelBase
         CloseCommand = new RelayCommand<object>(_ => closeModalNavigationService.Navigate());
         var filePath = currentProduct.CurrentProduct!.DetailPath;
         if (File.Exists(filePath))
-            Source = ReadExcelFile(filePath);
+            DetailSource = ReadExcelFile(filePath);
+        var path = _currentProduct.CurrentProduct?.ImagePath;
+        if (Directory.Exists(path))
+        {
+            var files = Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly);
+            imageFiles = new();
+            foreach (string filename in files)
+            {
+                if (Regex.IsMatch(filename, ImageRegex.Get()))
+                    imageFiles.Add(filename);
+            }
+            OnPropertyChanged(nameof(ImageSource));
+            OnPropertyChanged(nameof(PreviousImage));
+            OnPropertyChanged(nameof(NextImage));
+        }
+        NextCommand = new RelayCommand<object>(_ => nextCommand());
+        PreviousCommand = new RelayCommand<object>(_ => previousCommand());
     }
-    public string? ImagePath => _currentProduct.CurrentProduct?.ImagePath;
+    private List<string> imageFiles { get; }
+    private int index = 0;
+    public string? ImageSource => imageFiles.ElementAtOrDefault(index);
+    public string? PreviousImage => imageFiles.ElementAtOrDefault((imageFiles.Count + index - 1) % imageFiles.Count);
+    public string? NextImage => imageFiles.ElementAtOrDefault((index + 1) % imageFiles.Count);
     public string? DetailPath => _currentProduct.CurrentProduct?.DetailPath;
+    public string? Name => _currentProduct.CurrentProduct?.Name;
     public string? Company => _currentProduct.CurrentProduct?.Company;
     public decimal? Price => _currentProduct.CurrentProduct?.Price;
     public decimal? SellPrice => _currentProduct.CurrentProduct?.SellPrice;
     public bool? DiscountShow => _currentProduct.CurrentProduct?.DiscountShow;
+    private void nextCommand()
+    {
+        index = (index + 1) % imageFiles.Count;
+        OnPropertyChanged(nameof(ImageSource));
+        OnPropertyChanged(nameof(PreviousImage));
+        OnPropertyChanged(nameof(NextImage));
+    }
+    private void previousCommand()
+    {
+        index = (imageFiles.Count + index - 1) % imageFiles.Count;
+        OnPropertyChanged(nameof(ImageSource)); 
+        OnPropertyChanged(nameof(PreviousImage));
+        OnPropertyChanged(nameof(NextImage));
+    }
     private List<CustomAtrribute>? ReadExcelFile(string? filePath)
     {
         using (var workbook = new XLWorkbook(filePath))
@@ -50,19 +87,8 @@ public class ProductDetailViewModel : ViewModelBase
                 var item = new CustomAtrribute(Attribute, Description);
                 data.Add(item);
             }
-
             return data;
         }
     }
-    public class CustomAtrribute
-    {
-        public CustomAtrribute(string? attribute, string? description)
-        {
-            Attribute = attribute;
-            Description = description;
-        }
-
-        public string? Attribute { get; }
-        public string? Description { get; }
-    }
 }
+public record CustomAtrribute(string? Attribute, string? Description);
