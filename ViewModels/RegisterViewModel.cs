@@ -216,7 +216,7 @@ public class RegisterViewModel : ViewModelBase
     }
     private void addAvatarCommand()
     {
-        Avatar_Path = new ImagePathCommand().Set();
+        Avatar_Path = new FileCommand().Set(FileType.Image);
         if (Avatar_Path != null)
         {
             OnPropertyChanged(nameof(IsDefault));

@@ -40,7 +40,7 @@ public partial class App : Application
         services.AddSingleton<MainViewModel>();
         services.AddTransient<AccountViewModel>(CreateAccountViewModel);
         services.AddTransient<LoginViewModel>(CreateLoginViewModel);
-        services.AddSingleton<ControlBarViewModel>();
+        services.AddTransient<ControlBarViewModel>(s => new ControlBarViewModel(s.GetRequiredService<AccountStore>()));
         services.AddTransient<NavigationBarViewModel>(CreateNavigationBarViewModel);
         services.AddSingleton<HomeViewModel>(CreateHomeViewModel);
         services.AddTransient<RegisterViewModel>(CreateRegisterViewModel);

@@ -49,7 +49,8 @@ public class PcharddiskRepository : Repository<PcharddiskDTO>, IPcharddiskReposi
             Remain = entity.Remain,
             Series = entity.Series,
             Storage = entity.Storage,
-            Type = entity.Type
+            Type = entity.Type,
+            AvatarPath = entity.AvatarPath
         };
         _context.Pcharddisks.Add(e);
     }

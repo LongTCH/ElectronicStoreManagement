@@ -6,7 +6,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:Views.Admins"
              mc:Ignorable="d"
-             d:DesignHeight="1000"
+             d:DesignHeight="600"
              d:DesignWidth="960"
              Background="White">
     <ScrollViewer VerticalScrollBarVisibility="Auto"
@@ -57,32 +57,50 @@
                             VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
                         <TextBox materialDesign:HintAssist.Hint="Đường dẫn tới thư mục ảnh"
-                                 materialDesign:TextFieldAssist.HasClearButton="True"
+                                 
                                  Margin="20,10"
-                                 Text="{Binding ProductName, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding FolderPath, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18"
                                  Width="300" />
                         <Button HorizontalAlignment="Right"
+                                Command="{Binding SelectFolder}"
                                 Style="{StaticResource MaterialDesignFloatingActionMiniButton}">
                             <materialDesign:PackIcon Kind="Folder" />
                         </Button>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBox materialDesign:HintAssist.Hint="Đường dẫn tới file mô tả"
-                                 materialDesign:TextFieldAssist.HasClearButton="True"
+                                 
                                  Margin="20,10"
-                                 Text="{Binding ProductName, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding DetailPath, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18"
                                  Width="300" />
                         <Button HorizontalAlignment="Right"
+                                Command="{Binding SelectDetail}"
                                 Style="{StaticResource MaterialDesignFloatingActionMiniButton}">
                             <materialDesign:PackIcon Kind="Folder" />
                         </Button>
                     </StackPanel>
+                    <DockPanel Grid.Column="0"
+                               VerticalAlignment="Center"
+                               Margin="100,0,100,0">
+                        <materialDesign:PackIcon VerticalAlignment="Bottom"
+                                                 Margin="0,0,0,10"
+                                                 Height="30"
+                                                 Width="30"
+                                                 Kind="Identifier" />
+                        <TextBox Margin="20,10"
+                                 materialDesign:HintAssist.Hint="ID"
+                                 Text="{Binding Id, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 FontFamily="Champagne &amp; Limousines"
+                                 FontSize="18"
+                                 IsEnabled="False"/>
+                    </DockPanel>
                 </StackPanel>
             </Grid>
             <Grid>
@@ -201,12 +219,12 @@
                                              Height="30"
                                              Width="30" />
                     <TextBox materialDesign:HintAssist.Hint="Còn lại"
-                               IsEnabled="False"
-                               Margin="20,10"
-                               Text="{Binding Remain, Mode=OneWay}"
-                               Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                               FontFamily="Champagne &amp; Limousines"
-                               FontSize="18" />
+                             IsEnabled="False"
+                             Margin="20,10"
+                             Text="{Binding Remain, Mode=OneWay}"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             FontFamily="Champagne &amp; Limousines"
+                             FontSize="18" />
                 </DockPanel>
                 <DockPanel Grid.Column="1">
                     <materialDesign:PackIcon Kind="RazorSingleEdge"
@@ -255,7 +273,7 @@
                              FontSize="18" />
                 </DockPanel>
             </Grid>
-            <Grid>
+            <Grid Margin="0,20,0,20">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
                     <ColumnDefinition Width="1*" />

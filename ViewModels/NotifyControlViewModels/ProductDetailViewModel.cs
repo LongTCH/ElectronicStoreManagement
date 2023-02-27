@@ -70,25 +70,29 @@ public class ProductDetailViewModel : ViewModelBase
     }
     private List<CustomAtrribute>? ReadExcelFile(string? filePath)
     {
-        using (var workbook = new XLWorkbook(filePath))
+        try
         {
-            var worksheet = workbook.Worksheet(1);
-            // Get the table range from the worksheet
-            var range = worksheet.RangeUsed();
-
-            // Convert the table range to a List of objects
-            var rows = range.RowsUsed().ToList();
-            var data = new List<CustomAtrribute>();
-            foreach (var row in rows)
+            using (var workbook = new XLWorkbook(filePath))
             {
-                var Attribute = row.Cell(1).Value.ToString();
-                var Description = row.Cell(2).Value.ToString();
-                if (Attribute.Trim() == "" && Description.Trim() == "") continue;
-                var item = new CustomAtrribute(Attribute, Description);
-                data.Add(item);
+                var worksheet = workbook.Worksheet(1);
+                // Get the table range from the worksheet
+                var range = worksheet.RangeUsed();
+
+                // Convert the table range to a List of objects
+                var rows = range.RowsUsed().ToList();
+                var data = new List<CustomAtrribute>();
+                foreach (var row in rows)
+                {
+                    var Attribute = row.Cell(1).Value.ToString();
+                    var Description = row.Cell(2).Value.ToString();
+                    if (Attribute.Trim() == "" && Description.Trim() == "") continue;
+                    var item = new CustomAtrribute(Attribute, Description);
+                    data.Add(item);
+                }
+                return data;
             }
-            return data;
         }
+        catch { return null; }
     }
 }
 public record CustomAtrribute(string? Attribute, string? Description);
