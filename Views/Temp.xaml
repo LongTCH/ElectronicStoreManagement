@@ -21,13 +21,17 @@
                     <MenuItem.Icon>
                         <materialDesign:PackIcon Kind="Laptop" />
                     </MenuItem.Icon>
-                    <Button Content="HP" />
-                    <Button Content="ASUS" />
+                    <TextBlock Text="HP" />
+                    <TextBlock Text="ASUS" />
+                    <TextBlock Text="MSI" />
                 </MenuItem>
                 <MenuItem Header="Smart Phone">
                     <MenuItem.Icon>
                         <materialDesign:PackIcon Kind="Cellphone" />
                     </MenuItem.Icon>
+                    <TextBlock Text="Aple" />
+                    <TextBlock Text="SAMSUNG" />
+                    <TextBlock Text="OPPO" />
                 </MenuItem>
                 <MenuItem Header="PC">
                     <MenuItem.Icon>
