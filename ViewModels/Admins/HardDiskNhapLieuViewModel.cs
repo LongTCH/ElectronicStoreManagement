@@ -14,11 +14,13 @@ public class HardDiskNhapLieuViewModel : ProductInputAbstract
     public string Connect { get; set; }
     public string? Series { get; set; }
     public string? Type { get; set; }
+    
     public HardDiskNhapLieuViewModel(IUnitOfWork unitOfWork) : base(unitOfWork)
     {
         SaveCommand = new RelayCommand<object>(_ => saveCommand());
+        
     }
-
+    
     public ICommand SaveCommand { get; }
     protected override void saveCommand()
     {
@@ -40,7 +42,8 @@ public class HardDiskNhapLieuViewModel : ProductInputAbstract
             DetailPath = DetailPath,
             Discount = Discount,
             Id = Id!,
-            ImagePath = ImagePath,
+            ImagePath = FolderPath,
+            AvatarPath = AvatarPath,
             Price = Price
         };
         _unitOfWork.Pcharddisks.Add(pcharddiskDTO);

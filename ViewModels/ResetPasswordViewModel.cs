@@ -50,6 +50,7 @@ public class ResetPasswordViewModel : ViewModelBase
                 ErrorNotifyViewModel.Instance!.Show("New Password Invalid", "Failed");
                 return;
             }
+            _verificationStore.Id = _accountStore.CurrentAccount?.Id;
         }
         else
         {
@@ -59,7 +60,7 @@ public class ResetPasswordViewModel : ViewModelBase
                 return;
             }
         }
-        _verificationStore.Id = _accountStore.CurrentAccount?.Id;
+        
         _accountStore.Logout();
         _loginNavigate.Navigate();
         Task task = new(resetAsync);

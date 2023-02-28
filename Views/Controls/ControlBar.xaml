@@ -9,41 +9,32 @@
              xmlns:core="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d"
              d:DesignHeight="450"
-             d:DesignWidth="800">
-    <StackPanel Grid.Row="0"
-                Orientation="Horizontal"
-                FlowDirection="RightToLeft">
-        <StackPanel.Background>
-            <ImageBrush ImageSource="pack://application:,,,/Views;component/Images/headerimage.webp">
-                <ImageBrush.RelativeTransform>
-                    <ScaleTransform ScaleX="-1"
-                                    CenterX="0.5" />
-                </ImageBrush.RelativeTransform>
-            </ImageBrush>
-        </StackPanel.Background>
-        <core:Interaction.Triggers>
-            <core:EventTrigger EventName="MouseLeftButtonDown">
-                <core:InvokeCommandAction Command="{Binding DragMoveCommand}" />
-            </core:EventTrigger>
-        </core:Interaction.Triggers>
-        <Button x:Name="btnClose"
-                Style="{StaticResource MaterialDesignFlatDarkButton}"
-                Background="Transparent"
-                Command="{Binding CloseCommand}"
-                CommandParameter="{Binding ElementName=controlBar}">
-            <materialDesign:PackIcon Kind="Power" />
-        </Button>
-        <Button x:Name="btnMaximize"
-                Style="{StaticResource MaterialDesignFlatDarkButton}"
-                Command="{Binding MaximizeCommand}"
-                CommandParameter="{Binding ElementName=controlBar}">
-            <materialDesign:PackIcon Kind="SquareRoundedOutline" />
-        </Button>
-        <Button x:Name="btnMinimize"
-                Style="{StaticResource MaterialDesignFlatDarkButton}"
-                Command="{Binding MinimizeCommand}"
-                CommandParameter="{Binding ElementName=controlBar}">
-            <materialDesign:PackIcon Kind="WindowMinimize" />
-        </Button>
-    </StackPanel>
+             d:DesignWidth="800"
+             Background="Transparent"
+             MouseLeftButtonDown="controlBar_MouseLeftButtonDown">
+    <Grid>
+        <TextBlock Text="{Binding Message, Mode=OneWay}" 
+                   HorizontalAlignment="Center"/>
+        <StackPanel HorizontalAlignment="Right"
+                    Orientation="Horizontal"
+                    Width="{Binding ElementName=controlBar, Path=ActualWidth}"
+                    FlowDirection="RightToLeft">
+            <Button x:Name="btnClose"
+                    Style="{StaticResource MaterialDesignFlatDarkButton}"
+                    Background="Transparent"
+                    Click="btnClose_Click">
+                <materialDesign:PackIcon Kind="Power" />
+            </Button>
+            <Button x:Name="btnMaximize"
+                    Style="{StaticResource MaterialDesignFlatDarkButton}"
+                    Click="btnMaximize_Click">
+                <materialDesign:PackIcon Kind="SquareRoundedOutline" />
+            </Button>
+            <Button x:Name="btnMinimize"
+                    Style="{StaticResource MaterialDesignFlatDarkButton}"
+                    Click="btnMinimize_Click">
+                <materialDesign:PackIcon Kind="WindowMinimize" />
+            </Button>
+        </StackPanel>
+    </Grid>
 </UserControl>
