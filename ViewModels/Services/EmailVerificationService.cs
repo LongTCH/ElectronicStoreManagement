@@ -81,12 +81,13 @@ public class EmailVerificationService : INavigationService
         try
         {
             client.Send(mess);
+            _store.VerificationCode = _randomVerifyCode;
         }
         catch (Exception ex)
         {
             ErrorNotifyViewModel.Instance!.Show(ex.Message, "Failed");
         }
-        _store.VerificationCode = _randomVerifyCode;
+        
     }
 
 }
