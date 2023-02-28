@@ -17,7 +17,7 @@ public class ControlBarViewModel : ViewModelBase
         _accountStore = accountStore;
     }
 
-    public string Message => "Xin chào " + _accountStore.CurrentAccount!.FirstName;
+    public string Message => "Xin chào " + _accountStore.CurrentAccount?.FirstName;
     public bool CanShow => _accountStore.IsLoggedIn;
 
 }
