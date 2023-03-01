@@ -89,6 +89,9 @@
             <DataTemplate DataType="{x:Type notifyviewmodels:ProductDetailViewModel}">
                 <notifycontrols:ProductDetailView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type adminviewmodel:ProductInputViewModel}">
+                <adminview:ProductInputView />
+            </DataTemplate>
         </Grid.Resources>
         <modalcontrol:Modal Panel.ZIndex="1"
                             IsOpen="{Binding IsOpen}">
@@ -100,7 +103,7 @@
         </modalcontrol:Modal>
         <ContentControl Content="{Binding CurrentViewModel}" />
         <ContentControl HorizontalAlignment="Left"
-                        Margin="60,0,0,0"
+                        Margin="30,0,0,0"
                         Visibility="{Binding IsFloatOpen, Converter={StaticResource BoolToVis}}"
                         Content="{Binding FloatViewModel}" />
     </Grid>

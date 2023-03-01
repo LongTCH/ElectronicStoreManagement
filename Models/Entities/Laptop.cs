@@ -57,4 +57,8 @@ public partial class Laptop
 
     [StringLength(50)]
     public string? Need { get; set; }
+
+    [Column("Avatar_Path")]
+    [StringLength(200)]
+    public string? AvatarPath { get; set; }
 }

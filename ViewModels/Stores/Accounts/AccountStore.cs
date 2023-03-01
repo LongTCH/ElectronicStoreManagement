@@ -24,6 +24,8 @@ public class AccountStore : IStore
 
     public bool IsLoggedIn => CurrentAccount != null;
     public bool IsAdmin => CurrentAccount != null && CurrentAccount.Id.StartsWith("0");
+    public bool IsSellStaff => CurrentAccount != null && CurrentAccount.Id.StartsWith("1");
+    public bool IsTypingStaff => CurrentAccount != null && CurrentAccount.Id.StartsWith("2");
 
     public event Action? CurrentStoreChanged;
     public void Logout()

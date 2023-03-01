@@ -25,7 +25,7 @@ public class ChangeAccountInfoViewModel : ViewModelBase
 
     private ObservableCollection<string> _error = new ObservableCollection<string>();
 
-    public List<City> Cities { get; set; }
+    public List<City>? Cities { get; set; }
     public IEnumerable<District>? Districts { get; set; }
     public IEnumerable<Sub_district>? Sub_districts { get; set; }
     public List<string> Gender { get; } = new GetGenderListCommand().Execute();
@@ -123,7 +123,7 @@ public class ChangeAccountInfoViewModel : ViewModelBase
     {
         _navigationService = navigationSerVice;
         _unitOfWork = unitOfWork;
-        Cities = new CitiesSortCommand(new GetCitiesCommand().GetCitiesList().ToList()).GetSortedCities();
+        Cities = new CitiesSortCommand(new GetCitiesCommand().GetCitiesList()?.ToList())?.GetSortedCities();
         GetDistricts = new RelayCommand<City>(getDistricts);
         GetSub_districts = new RelayCommand<District>(getSubDistricts);
         SignUpCommand = new RelayCommand<object>(_ => signUp());
@@ -189,7 +189,7 @@ public class ChangeAccountInfoViewModel : ViewModelBase
             LastName = LastName!,
             EmailAddress = Email!,
             Phone = Phone!,
-            Sex = SelectedGender!.Equals(Gender.ElementAt(0))!,
+            Gender = SelectedGender!.Equals(Gender.ElementAt(0))!,
             Birthday = DateTime.SpecifyKind(BirthDay, DateTimeKind.Utc),
             City = SelectedCity!.ToString(),
             District = SelectedDistrict!.ToString(),
@@ -209,12 +209,9 @@ public class ChangeAccountInfoViewModel : ViewModelBase
     }
     private void addAvatarCommand()
     {
-        OpenFileDialog openFileDialog = new();
-        openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;...";
-        openFileDialog.Title = "Direct to your avartar";
-        if (openFileDialog.ShowDialog() == true)
+        Avatar_Path = new FileCommand().Set(FileType.Image);
+        if (Avatar_Path != null)
         {
-            Avatar_Path = openFileDialog.FileName;
             OnPropertyChanged(nameof(IsDefault));
             OnPropertyChanged(nameof(Avatar_Path));
         }
@@ -231,7 +228,7 @@ public class ChangeAccountInfoViewModel : ViewModelBase
         LastName = accountDTO.LastName;
         Email = accountDTO.EmailAddress;
         Phone = accountDTO.Phone;
-        SelectedGender = (accountDTO.Sex) ? Gender.ElementAt(0) : Gender.ElementAt(1);
+        SelectedGender = (accountDTO.Gender) ? Gender.ElementAt(0) : Gender.ElementAt(1);
         BirthDay = DateTime.SpecifyKind(accountDTO.Birthday, DateTimeKind.Local);
         try
         {
@@ -262,12 +259,5 @@ public class ChangeAccountInfoViewModel : ViewModelBase
         OnPropertyChanged(nameof(Districts));
         OnPropertyChanged(nameof(Sub_districts));
         UpdateAddress = true;
-    }
-    private void ValidateProperty<T>(T value, string name)
-    {
-        Validator.ValidateProperty(value, new ValidationContext(this, null, null)
-        {
-            MemberName = name
-        });
     }
 }

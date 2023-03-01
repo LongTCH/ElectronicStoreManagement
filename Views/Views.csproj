@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\addproduct.png" />
     <None Remove="Images\adduser.png" />
     <None Remove="Images\email.png" />
     <None Remove="Images\error.png" />
@@ -27,6 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\addproduct.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\adduser.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

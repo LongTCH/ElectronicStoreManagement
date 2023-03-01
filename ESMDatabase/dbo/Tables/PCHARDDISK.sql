@@ -12,5 +12,6 @@
     [Series] NVARCHAR(50) NULL, 
     [Company] NVARCHAR(50) NOT NULL, 
     [Type] VARCHAR(20), 
+    [Avatar_Path] NVARCHAR(200) NULL, 
     CONSTRAINT [PK_PCHARDDISK] PRIMARY KEY ([Id])
 )

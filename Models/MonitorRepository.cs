@@ -31,7 +31,8 @@ public class MonitorRepository : Repository<MonitorDTO>, IMonitorRepository
                     RefreshRate = monitor.RefreshRate,
                     Remain = monitor.Remain,
                     Series = monitor.Series,
-                    Size = monitor.Size
+                    Size = monitor.Size,
+                    AvatarPath = @monitor.AvatarPath
                 }).ToList();
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using Microsoft.Win32;
-using Models;
 using Models.DTOs;
 using Models.Interfaces;
 using Newtonsoft.Json;
@@ -9,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using System.Windows.Markup;
@@ -24,7 +24,7 @@ public class RegisterViewModel : ViewModelBase
     private ObservableCollection<string> _error = new() {
         nameof(Id), nameof(FirstName), nameof(LastName), nameof(Email), nameof(Phone)};
 
-    public List<City> Cities { get; set; }
+    public List<City>? Cities { get; set; }
     public IEnumerable<District>? Districts { get; set; }
     public IEnumerable<Sub_district>? Sub_districts { get; set; }
     public List<string> Gender { get; } = new GetGenderListCommand().Execute();
@@ -42,7 +42,7 @@ public class RegisterViewModel : ViewModelBase
             if (!_error.Contains(nameof(Id)))
                 _error.Add(nameof(Id));
             ValidateProperty(value, nameof(Id));
-            _error.Remove(nameof(Id)); 
+            _error.Remove(nameof(Id));
         }
     }
     public string SuggestID => "1" + DateTime.UtcNow.Year.ToString() + _unitOfWork.Accounts.GetSuggestAccountIdCounter();
@@ -113,7 +113,7 @@ public class RegisterViewModel : ViewModelBase
     public string DateFormat => CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;
     public XmlLanguage Language => XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag);
     public bool CanClick => _error.Count == 0;
-    public bool IsDefault => Avatar_Path.IsNullOrEmpty();
+    public bool IsDefault => !File.Exists(Avatar_Path);
     public ICommand GetDistricts { get; }
     public ICommand GetSub_districts { get; }
     public ICommand Sub_districtChanged { get; }
@@ -125,7 +125,7 @@ public class RegisterViewModel : ViewModelBase
     {
         _unitOfWork = unitOfWork;
 
-        Cities = new CitiesSortCommand(new GetCitiesCommand().GetCitiesList().ToList()).GetSortedCities();
+        Cities = new CitiesSortCommand(new GetCitiesCommand().GetCitiesList()?.ToList()).GetSortedCities();
         GetDistricts = new RelayCommand<City>(getDistricts);
         GetSub_districts = new RelayCommand<District>(getSubDistricts);
         Sub_districtChanged = new RelayCommand<Sub_district>(p => SelectedSub_district = p);
@@ -158,14 +158,22 @@ public class RegisterViewModel : ViewModelBase
     }
     private void signUp()
     {
-        if (Id.IsNullOrEmpty())
+        if (string.IsNullOrWhiteSpace(Id))
         {
             ErrorNotifyViewModel.Instance!.Show("Enter ID", "Warning");
             return;
         }
-        if(_unitOfWork.Accounts.Get(Id!) != null)
+        try
         {
-            ErrorNotifyViewModel.Instance!.Show("ID has existed", "Error");
+            if (_unitOfWork.Accounts.Get(Id!) != null)
+            {
+                ErrorNotifyViewModel.Instance!.Show("ID has existed", "Error");
+                return;
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorNotifyViewModel.Instance!.Show(ex.Message, "Error");
             return;
         }
         if (SelectedCity == null || SelectedDistrict == null || SelectedSub_district == null || Street == null)
@@ -183,15 +191,15 @@ public class RegisterViewModel : ViewModelBase
             ErrorNotifyViewModel.Instance!.Show("Must be earlier than current day", "Birthday Invalid");
             return;
         }
-        AccountDTO accountDTO = new AccountDTO()
+        AccountDTO accountDTO = new()
         {
             Id = Id!,
-            PasswordHash="00000000000000000",
+            PasswordHash = "00000000000000000",
             FirstName = FirstName!,
             LastName = LastName!,
             EmailAddress = Email!,
             Phone = Phone!,
-            Sex = SelectedGender!.Equals(Gender.ElementAt(0))!,
+            Gender = SelectedGender!.Equals(Gender.ElementAt(0))!,
             Birthday = DateTime.SpecifyKind(BirthDay, DateTimeKind.Utc),
             City = SelectedCity!.ToString(),
             District = SelectedDistrict!.ToString(),
@@ -199,26 +207,21 @@ public class RegisterViewModel : ViewModelBase
             Street = Street!.ToString(),
             AvatarPath = Avatar_Path
         };
-        _unitOfWork.Accounts.Add(accountDTO);
-        _unitOfWork.Complete();
+        try
+        {
+            _unitOfWork.Accounts.Add(accountDTO);
+            _unitOfWork.Complete();
+        }
+        catch (Exception ex) { ErrorNotifyViewModel.Instance!.Show(ex.Message, "Error"); }
     }
     private void addAvatarCommand()
     {
-        OpenFileDialog openFileDialog = new();
-        openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;...";
-        openFileDialog.Title = "Direct to your avartar";
-        if (openFileDialog.ShowDialog() == true)
+        Avatar_Path = new FileCommand().Set(FileType.Image);
+        if (Avatar_Path != null)
         {
-            Avatar_Path = openFileDialog.FileName;
             OnPropertyChanged(nameof(IsDefault));
             OnPropertyChanged(nameof(Avatar_Path));
         }
     }
-    private void ValidateProperty<T>(T value, string name)
-    {
-        Validator.ValidateProperty(value, new ValidationContext(this, null, null)
-        {
-            MemberName = name
-        });
-    }
+
 }

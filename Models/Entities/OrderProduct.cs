@@ -22,9 +22,8 @@ public partial class OrderProduct
 
     public int Number { get; set; }
 
-    [Column("Warranty: nvarchar(50)")]
     [StringLength(50)]
-    public string? WarrantyNvarchar50 { get; set; }
+    public string? Warranty { get; set; }
 
     [ForeignKey("OrderId")]
     [InverseProperty("OrderProducts")]

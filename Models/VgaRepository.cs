@@ -29,6 +29,7 @@ public class VgaRepository : Repository<VgaDTO>, IVgaRepository
                     Id = vga.Id,
                     ImagePath = @vga.ImagePath,
                     Need = vga.Need,
+                    AvatarPath= @vga.AvatarPath,
                     Series = vga.Series
                 }).ToList();
     }

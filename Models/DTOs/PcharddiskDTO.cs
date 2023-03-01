@@ -9,18 +9,10 @@ using System.Threading.Tasks;
 
 namespace Models.DTOs;
 
-public class PcharddiskDTO :IProductDTO
+public class PcharddiskDTO :ProductDTO
 {
-    public string Id { get; set; } = null!;
-    public string Name { get; set; } = null!;
     public string Storage { get; set; } = null!;
     public string Connect { get; set; } = null!;
-    public decimal Price { get; set; }
-    public double? Discount { get; set; }
-    public short Remain { get; set; }
-    public string? DetailPath { get; set; }
-    public string? ImagePath { get; set; }
     public string? Series { get; set; }
-    public string Company { get; set; } = null!;
     public string? Type { get; set; }
 }

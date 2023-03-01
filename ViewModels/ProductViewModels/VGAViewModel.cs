@@ -1,25 +1,22 @@
 ﻿using Models.DTOs;
-using Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Input;
-using ViewModels.Commands;
 using ViewModels.Services;
 using ViewModels.Stores;
-using ViewModels.Stores.VGAAttributes;
 using Models.Interfaces;
+using Microsoft.IdentityModel.Tokens;
+using System;
 
 namespace ViewModels.ProductViewModels;
 public class VGAViewModel : ProductViewModel<VgaDTO>
 {
-    public HashSet<VgaCompany> CompanyList { get; set; }
-    public HashSet<VgaChip> ChipList { get; set; }
-    public HashSet<VgaChipset> ChipsetList { get; set; }
-    public HashSet<VgaNeed> NeedList { get; set; }
-    public HashSet<VgaSeries> SeriesList { get; set; }
-    public HashSet<VgaVram> VramList { get; set; }
-    public HashSet<VgaGen> GenList { get; set; }
+    public HashSet<ProductAttributeStore> CompanyList { get; set; }
+    public HashSet<ProductAttributeStore> ChipList { get; set; }
+    public HashSet<ProductAttributeStore> ChipsetList { get; set; }
+    public HashSet<ProductAttributeStore> NeedList { get; set; }
+    public HashSet<ProductAttributeStore> SeriesList { get; set; }
+    public HashSet<ProductAttributeStore> VramList { get; set; }
+    public HashSet<ProductAttributeStore> GenList { get; set; }
     
     public VGAViewModel(IUnitOfWork unitOfWork,
         ProductDetailStore productDetailStore,
@@ -27,7 +24,12 @@ public class VGAViewModel : ProductViewModel<VgaDTO>
         : base(unitOfWork, productDetailStore, productDetailNavigate)
     {
         var list = _unitOfWork.Vgas.GetAll();
-        if (list != null) ProductList = new(_productDTOs = list!);
+        if (list != null && list.Any())
+        {
+            ProductList = new(_productDTOs = list!);
+            MaxPrice = Math.Ceiling((double)list.Max(x => x.SellPrice) / TickFrequency) * TickFrequency;
+            CurrentPrice = MaxPrice;
+        }
         Action += OnIsCheckedChanged;
         getCompanyList();
         getChipList();
@@ -77,7 +79,7 @@ public class VGAViewModel : ProductViewModel<VgaDTO>
         CompanyList = new();
         foreach (var vga in _productDTOs)
         {
-            VgaCompany vgaCompany = new() { Name = vga.Company };
+            ProductAttributeStore vgaCompany = new() { Name = vga.Company };
             vgaCompany.CurrentStoreChanged += OnIsCheckedChanged;
             CompanyList.Add(vgaCompany);
         }
@@ -88,7 +90,7 @@ public class VGAViewModel : ProductViewModel<VgaDTO>
         ChipList = new();
         foreach (var vga in _productDTOs)
         {
-            VgaChip vgaCPU = new() { Name = vga.Chip };
+            ProductAttributeStore vgaCPU = new() { Name = vga.Chip };
             vgaCPU.CurrentStoreChanged += OnIsCheckedChanged;
             ChipList.Add(vgaCPU);
         }
@@ -99,7 +101,7 @@ public class VGAViewModel : ProductViewModel<VgaDTO>
         ChipsetList = new();
         foreach (var vga in _productDTOs)
         {
-            VgaChipset vgaGraphic = new() { Name = vga.Chipset };
+            ProductAttributeStore vgaGraphic = new() { Name = vga.Chipset };
             vgaGraphic.CurrentStoreChanged += OnIsCheckedChanged;
             ChipsetList.Add(vgaGraphic);
         }
@@ -110,8 +112,8 @@ public class VGAViewModel : ProductViewModel<VgaDTO>
         NeedList = new();
         foreach (var vga in _productDTOs)
         {
-            if (vga.Need == null) continue;
-            VgaNeed vgaNeed = new() { Name = vga.Need };
+            if (string.IsNullOrWhiteSpace(vga.Need)) continue;
+            ProductAttributeStore vgaNeed = new() { Name = vga.Need };
             vgaNeed.CurrentStoreChanged += OnIsCheckedChanged;
             NeedList.Add(vgaNeed);
         }
@@ -122,7 +124,7 @@ public class VGAViewModel : ProductViewModel<VgaDTO>
         VramList = new();
         foreach (var vga in _productDTOs)
         {
-            VgaVram vgaVram = new() { Name = vga.Vram };
+            ProductAttributeStore vgaVram = new() { Name = vga.Vram };
             vgaVram.CurrentStoreChanged += OnIsCheckedChanged;
             VramList.Add(vgaVram);
         }
@@ -133,8 +135,8 @@ public class VGAViewModel : ProductViewModel<VgaDTO>
         SeriesList = new();
         foreach (var vga in _productDTOs)
         {
-            if (vga.Series == null) continue;
-            VgaSeries vgaSeries = new() { Name = vga.Series };
+            if (string.IsNullOrWhiteSpace(vga.Series)) continue;
+            ProductAttributeStore vgaSeries = new() { Name = vga.Series };
             vgaSeries.CurrentStoreChanged += OnIsCheckedChanged;
             SeriesList.Add(vgaSeries);
         }
@@ -145,7 +147,7 @@ public class VGAViewModel : ProductViewModel<VgaDTO>
         GenList = new();
         foreach (var vga in _productDTOs)
         {
-            VgaGen vgaGen = new() { Name = vga.Gen };
+            ProductAttributeStore vgaGen = new() { Name = vga.Gen };
             vgaGen.CurrentStoreChanged += OnIsCheckedChanged;
             GenList.Add(vgaGen);
         }

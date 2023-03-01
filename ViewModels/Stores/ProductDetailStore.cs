@@ -9,5 +9,5 @@ namespace ViewModels.Stores;
 
 public class ProductDetailStore
 {
-    public IProductDTO? CurrentProduct { get; set; }
+    public ProductDTO? CurrentProduct { get; set; }
 }

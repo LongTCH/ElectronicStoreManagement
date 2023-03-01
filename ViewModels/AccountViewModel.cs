@@ -27,7 +27,7 @@ public class AccountViewModel : ViewModelBase
     public string? District => _accountStore.CurrentAccount!.District;
     public string? SubDistrict => _accountStore.CurrentAccount!.SubDistrict;
     public string? Street => _accountStore.CurrentAccount!.Street;
-    public string? Gender => _accountStore.CurrentAccount!.Sex ? GenderList.ElementAt(0) : GenderList.ElementAt(1);
+    public string? Gender => _accountStore.CurrentAccount!.Gender ? GenderList.ElementAt(0) : GenderList.ElementAt(1);
     public string? Avatar_Path
     {
         get => _accountStore.CurrentAccount?.AvatarPath;
@@ -41,6 +41,8 @@ public class AccountViewModel : ViewModelBase
     public XmlLanguage Language => XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag);
     public bool IsDefault => !File.Exists(Avatar_Path);
     public bool IsAdmin => _accountStore.IsAdmin;
+    public bool IsSellStaff => _accountStore.IsSellStaff || IsAdmin;
+    public bool IsTypingStaff => _accountStore.IsTypingStaff || IsAdmin;
     public ICommand ResetPasswordCommand { get; }
     public ICommand AddAvatarCommand { get; }
     public ICommand AddUserCommand { get; }
@@ -62,12 +64,9 @@ public class AccountViewModel : ViewModelBase
     }
     private void addAvatarCommand()
     {
-        OpenFileDialog openFileDialog = new();
-        openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;...";
-        openFileDialog.Title = "Direct to your avartar";
-        if (openFileDialog.ShowDialog() == true)
+        Avatar_Path = new FileCommand().Set(FileType.Image);
+        if (Avatar_Path != null)
         {
-            Avatar_Path = openFileDialog.FileName;
             OnPropertyChanged(nameof(IsDefault));
             OnPropertyChanged(nameof(Avatar_Path));
         }

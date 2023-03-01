@@ -49,4 +49,8 @@ public partial class Pcharddisk
     [StringLength(20)]
     [Unicode(false)]
     public string? Type { get; set; }
+
+    [Column("Avatar_Path")]
+    [StringLength(200)]
+    public string? AvatarPath { get; set; }
 }

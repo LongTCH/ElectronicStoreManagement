@@ -20,16 +20,20 @@ public class NavigationBarViewModel : ViewModelBase
     public ICommand NavigateAccountCommand { get; }
     public ICommand PopupCommand { get; }
     public ICommand LogoutCommand { get; }
+    public ICommand Test { get; }
     public bool IsLoggedIn => _accountStore.IsLoggedIn;
     public bool IsMenuOpen => _floatingNavigationStore.IsOpen;
     public bool IsAdmin => _accountStore.IsAdmin;
+    public bool IsSellStaff => _accountStore.IsSellStaff || IsAdmin;
+    public bool IsTypingStaff => _accountStore.IsTypingStaff || IsAdmin;
     public NavigationBarViewModel(AccountStore accountStore,
             FloatingNavigationStore floatingNavigationStore,
             INavigationService loginNavigationService,
             INavigationService popupListItemNavigationService,
             INavigationService homeNavigationService,
             INavigationService accountNavigationService,
-            INavigationService closePopupListItemNavigationService)
+            INavigationService closePopupListItemNavigationService,
+            INavigationService test)
     {
         _accountStore = accountStore;
         _floatingNavigationStore = floatingNavigationStore;
@@ -39,7 +43,7 @@ public class NavigationBarViewModel : ViewModelBase
         NavigateAccountCommand = new RelayCommand<object>(_ => accountNavigationService.Navigate());
         PopupCommand = new RelayCommand<object>(_ => popupCommand());
         LogoutCommand = new RelayCommand<object>(_ => logoutCommand());
-        
+        Test = new RelayCommand<object>(_ => test.Navigate());
 
             _closePopupListItemNavigationService = closePopupListItemNavigationService;
         _accountStore.CurrentStoreChanged += OnCurrentAccountChanged;

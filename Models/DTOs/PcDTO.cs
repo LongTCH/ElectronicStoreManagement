@@ -9,18 +9,10 @@ using System.Threading.Tasks;
 
 namespace Models.DTOs;
 
-public class PcDTO : IProductDTO
+public class PcDTO : ProductDTO
 {
-    public string Id { get; set; } = null!;
-    public string Name { get; set; } = null!;
     public string Cpu { get; set; } = null!;
     public string? Ram { get; set; }
-    public decimal Price { get; set; }
-    public double? Discount { get; set; }
-    public short Remain { get; set; }
-    public string? DetailPath { get; set; }
-    public string? ImagePath { get; set; }
     public string? Series { get; set; }
-    public string Company { get; set; } = null!;
     public string? Need { get; set; }
 }

@@ -9,15 +9,15 @@ namespace ViewModels.Commands;
 
 public class CitiesSortCommand
 {
-    private List<City> _cities;
-    public CitiesSortCommand(List<City> cities)
+    private readonly List<City>? _cities;
+    public CitiesSortCommand(List<City>? cities)
     {
         _cities = cities;
     }
-    private int partition(int low, int high)
+    private int Partition(int low, int high)
     {
         City temp;
-        City pivot = _cities[high];
+        City pivot = _cities![high];
 
         // index of smaller element
         int i = (low - 1);
@@ -51,24 +51,25 @@ public class CitiesSortCommand
     sorted,
     low --> Starting index,
     high --> Ending index */
-    private void qSort(int low, int high)
+    private void QSort(int low, int high)
     {
         if (low < high)
         {
             /* pi is partitioning index, 
             _cities[pi] is now at right place */
-            int pi = partition(low, high);
+            int pi = Partition(low, high);
 
             // Recursively sort elements
             // before partition and after
             // partition
-            qSort(low, pi - 1);
-            qSort(pi + 1, high);
+            QSort(low, pi - 1);
+            QSort(pi + 1, high);
         }
     }
-    public List<City> GetSortedCities()
+    public List<City>? GetSortedCities()
     {
-        qSort(0, _cities.Count - 1);
+        if (_cities == null) return null;
+        QSort(0, _cities.Count - 1);
         return _cities;
     }
 }
