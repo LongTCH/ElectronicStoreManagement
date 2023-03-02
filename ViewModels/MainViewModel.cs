@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ViewModels.ControlViewModels;
 using ViewModels.Stores;
 using ViewModels.Stores.Navigations;
 
@@ -17,13 +18,15 @@ public class MainViewModel : ViewModelBase
     public ViewModelBase CurrentViewModel => _navigationStore.CurrentViewModel!;
     public ViewModelBase? CurrentModalViewModel => _modalNavigationStore.CurrentViewModel;
     public ViewModelBase? FloatViewModel => _floatingNavigationStore.CurrentViewModel;
+    public ViewModelBase? NavigationBarVM { get; }
     public ViewModelBase? CurrentTopLevelViewModel => TopLevelStore.Instance!.CurrentViewModel;
     public bool IsOpen => _modalNavigationStore.IsOpen;
     public bool IsFloatOpen => _floatingNavigationStore.IsOpen;
     public bool IsTopLevelOpen => TopLevelStore.Instance!.IsOpen;
     public MainViewModel(NavigationStore navigationStore, 
         ModalNavigationStore modalNavigationStore,
-        FloatingNavigationStore floatingNavigationStore)
+        FloatingNavigationStore floatingNavigationStore,
+        TestNavigationBarViewModel? navigationBarVM)
     {
         _navigationStore = navigationStore;
         _modalNavigationStore = modalNavigationStore;
@@ -32,6 +35,7 @@ public class MainViewModel : ViewModelBase
         _modalNavigationStore.CurrentStoreChanged += OnCurrentModalViewModelChanged;
         _floatingNavigationStore.CurrentStoreChanged += OnFloatViewModelChanged;
         TopLevelStore.Instance!.CurrentStoreChanged += OnTopLevelViewModelChanged;
+        NavigationBarVM = navigationBarVM;
     }
 
     private void OnCurrentViewModelChanged()

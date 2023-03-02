@@ -17,6 +17,18 @@ namespace StartUps;
 
 public partial class App : Application
 {
+    private TestNavigationBarViewModel CreateTestNavigationBarViewModel(IServiceProvider serviceProvider)
+    {
+        return new TestNavigationBarViewModel(serviceProvider.GetRequiredService<AccountStore>(),
+            serviceProvider.GetRequiredService<FloatingNavigationStore>(),
+            CreateLoginNavigationService(serviceProvider),
+            CreateListBoxItemNavigationService(serviceProvider),
+            CreateHomeNavigationService(serviceProvider),
+            CreateAccountNavigationService(serviceProvider),
+            serviceProvider.GetRequiredService<CloseFloatNavigationService>(),
+            CreateProductInputNavigationService(serviceProvider),
+            serviceProvider.GetRequiredService<PopupListItemViewModel>());
+    }
     private ProductInputViewModel CreateProductInputViewModel(IServiceProvider serviceProvider)
     {
         return new ProductInputViewModel(

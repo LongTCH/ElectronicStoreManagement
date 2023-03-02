@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StartUps"
+        xmlns:core="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:views="clr-namespace:Views;assembly=Views"
         xmlns:viewmodels="clr-namespace:ViewModels;assembly=ViewModels"
         xmlns:controls="clr-namespace:Views.Controls;assembly=Views"
@@ -92,6 +93,9 @@
             <DataTemplate DataType="{x:Type adminviewmodel:ProductInputViewModel}">
                 <adminview:ProductInputView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type controlviewmodels:NavigationBarViewModel}">
+                <controls:TestNavigationBar />
+            </DataTemplate>
         </Grid.Resources>
         <modalcontrol:Modal Panel.ZIndex="1"
                             IsOpen="{Binding IsOpen}">
@@ -106,5 +110,8 @@
                         Margin="30,0,0,0"
                         Visibility="{Binding IsFloatOpen, Converter={StaticResource BoolToVis}}"
                         Content="{Binding FloatViewModel}" />
+        <ContentControl HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Content="{Binding NavigationBarVM}" />
     </Grid>
 </Window>

@@ -29,7 +29,6 @@ public partial class App : Application
         services.AddSingleton<ESMDbContext>();
         services.AddSingleton<IUnitOfWork, UnitOfWork>(s=> new UnitOfWork(s.GetRequiredService<ESMDbContext>()));
         
-        services.AddSingleton<MainViewModel>();
         services.AddSingleton<AccountStore>();
         services.AddSingleton<NavigationStore>();
         services.AddSingleton<ModalNavigationStore>();
@@ -38,6 +37,7 @@ public partial class App : Application
         services.AddSingleton<ProductDetailStore>();
 
         services.AddSingleton<MainViewModel>();
+        services.AddSingleton<TestNavigationBarViewModel>(CreateTestNavigationBarViewModel);
         services.AddTransient<AccountViewModel>(CreateAccountViewModel);
         services.AddTransient<LoginViewModel>(CreateLoginViewModel);
         services.AddTransient<ControlBarViewModel>(s => new ControlBarViewModel(s.GetRequiredService<AccountStore>()));

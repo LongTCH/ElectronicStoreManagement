@@ -19,9 +19,8 @@
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <local:NavigationBar Grid.Column="0"
-                                 DataContext="{Binding NavigationBarViewModel}" />
             <ContentControl Grid.Column="1"
+                            Margin="5,0,0,0"
                             Content="{Binding ContentViewModel}" />
         </Grid>
     </Grid>

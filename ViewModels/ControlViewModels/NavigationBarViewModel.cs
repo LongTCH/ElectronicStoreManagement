@@ -10,7 +10,7 @@ namespace ViewModels.ControlViewModels;
 
 public class NavigationBarViewModel : ViewModelBase
 {
-    private readonly AccountStore _accountStore;
+    protected readonly AccountStore _accountStore;
     private readonly FloatingNavigationStore _floatingNavigationStore;
     private readonly PopupListItemViewModel _popup;
     INavigationService _popupListItemNavigationService;
