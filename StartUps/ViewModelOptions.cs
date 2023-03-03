@@ -62,7 +62,8 @@ public partial class App : Application
         return new VerifyEmailViewModel(
             serviceProvider.GetRequiredService<VerificationStore>(),
             serviceProvider.GetRequiredService<CloseModalNavigationService>(),
-            CreateResetPasswordNavigationService(serviceProvider));
+            CreateResetPasswordNavigationService(serviceProvider),
+            CreateHomeNavigationService(serviceProvider));
     }
     private ResetPasswordViewModel CreateResetPasswordViewModel(IServiceProvider serviceProvider)
     {
