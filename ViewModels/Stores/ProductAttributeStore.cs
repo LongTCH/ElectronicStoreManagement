@@ -23,6 +23,6 @@ public class ProductAttributeStore: IStore
     }
     public override bool Equals(object? obj)
     {
-        return Name == ((ProductAttributeStore)obj)?.Name;
+        return Name == (obj as ProductAttributeStore)?.Name;
     }
 }

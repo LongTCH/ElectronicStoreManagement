@@ -10,153 +10,82 @@
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800">
-    <ScrollViewer VerticalScrollBarVisibility="auto"
-                  HorizontalAlignment="Stretch">
-        <StackPanel>
-            <StackPanel.Resources>
-                <Style TargetType="materialDesign:PackIcon">
-                    <Setter Property="Width"
-                            Value="20" />
-                    <Setter Property="Height"
-                            Value="20" />
-                    <Setter Property="VerticalAlignment"
-                            Value="Center" />
-                    <Style.Triggers>
-                        <EventTrigger RoutedEvent="MouseEnter">
-                            <EventTrigger.Actions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Duration="0:0:0.300"
-                                                         Storyboard.TargetProperty="Height"
-                                                         To="30" />
-                                        <DoubleAnimation Duration="0:0:0.300"
-                                                         Storyboard.TargetProperty="Width"
-                                                         To="30" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger.Actions>
-                        </EventTrigger>
-                        <EventTrigger RoutedEvent="MouseLeave">
-                            <EventTrigger.Actions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Duration="0:0:0.300"
-                                                         Storyboard.TargetProperty="Height"
-                                                         To="20" />
-                                        <DoubleAnimation Duration="0:0:0.300"
-                                                         Storyboard.TargetProperty="Width"
-                                                         To="20" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger.Actions>
-                        </EventTrigger>
-                    </Style.Triggers>
-                </Style>
-                <Style TargetType="Button">
-                    <Setter Property="BorderThickness"
-                            Value="0" />
-                    <Setter Property="Background"
-                            Value="Transparent" />
-                    <Setter Property="Width"
-                            Value="30" />
-                    <Setter Property="Height"
-                            Value="40" />
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver"
-                                 Value="True">
-                            <Setter Property="Foreground"
-                                    Value="LightSkyBlue" />
-                            <Setter Property="Cursor"
-                                    Value="Hand" />
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </StackPanel.Resources>
-            <Grid Margin="0,10,0,5">
-                <ToggleButton Command="{Binding PopupCommand}"
-                              Height="20"
-                              Width="20"
-                              IsChecked="{Binding IsMenuOpen, Mode=OneWay}">
-                    <ToggleButton.Style>
-                        <Style TargetType="ToggleButton"
-                               BasedOn="{StaticResource MaterialDesignHamburgerToggleButton}">
-                            <Setter Property="Cursor"
-                                    Value="Hand" />
-                        </Style>
-                    </ToggleButton.Style>
-                </ToggleButton>
-            </Grid>
-            <Grid>
-                <Button ToolTip="Home"
-                        Command="{Binding NavigateHomeCommand}">
-                    <materialDesign:PackIcon Kind="Home"
-                                             Foreground="MediumPurple" />
-                </Button>
-            </Grid>
-            <Grid>
-                <Grid.Style>
-                    <Style TargetType="Grid">
-                        <Setter Property="Visibility"
-                                Value="Visible" />
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsLoggedIn}"
-                                         Value="True">
-                                <Setter Property="Visibility"
-                                        Value="Collapsed" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Grid.Style>
-                <Button  Command="{Binding NavigateLoginCommand}"
-                         ToolTip="Login">
-                    <materialDesign:PackIcon Kind="Login"
-                                             VerticalAlignment="Center"
-                                             Foreground="DarkGreen" />
-                </Button >
-            </Grid>
-            <Grid Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVis}}">
-                <Button Command="{Binding NavigateAccountCommand}"
-                        ToolTip="Account">
-                    <materialDesign:PackIcon Kind="User"
-                                             VerticalAlignment="Center"
-                                             Foreground="DimGray" />
-                </Button >
-            </Grid>
-            <Grid Visibility="{Binding IsSellStaff, Converter={StaticResource BoolToVis}}">
-                <Button ToolTip="Selling Workplace"
-                        Command="{Binding NavigateSellStaffCommand}">
-                    <materialDesign:PackIcon Kind="WorkerOutline"
-                                             Foreground="SandyBrown" />
-                </Button>
-            </Grid>
-            <Grid Visibility="{Binding IsTypingStaff, Converter={StaticResource BoolToVis}}">
-                <Button ToolTip="Typing Workplace"
-                        Command="{Binding NavigateTypingStaffCommand}">
-                    <materialDesign:PackIcon Kind="WorkerOutline"
-                                             Foreground="CadetBlue" />
-                </Button>
-            </Grid>
-            <Grid Visibility="{Binding IsAdmin, Converter={StaticResource BoolToVis}}">
-                <Button ToolTip="View Report"
-                        Command="{Binding NavigateReportCommand}">
-                    <materialDesign:PackIcon Kind="ReportArc"
-                                             Foreground="Goldenrod" />
-                </Button>
-            </Grid>
-            <Grid Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVis}}">
-                <Button ToolTip="Logout"
-                        Command="{Binding LogoutCommand}">
-                    <materialDesign:PackIcon Kind="Logout"
-                                             Foreground="YellowGreen" />
-                </Button>
-            </Grid>
-            <Grid>
-                <Button ToolTip="Test"
-                        Command="{Binding Test}">
-                    <materialDesign:PackIcon Kind="Text"
-                                             Foreground="Black" />
-                </Button>
-            </Grid>
-        </StackPanel>
-    </ScrollViewer>
+    <Grid>
+        <Menu>
+            <MenuItem>
+                <MenuItem.Header>
+                    <materialDesign:Chip Content="Tool"
+                                         IsEnabled="False">
+                        <materialDesign:Chip.Icon>
+                            <materialDesign:PackIcon Kind="Menu" />
+                        </materialDesign:Chip.Icon>
+                    </materialDesign:Chip>
+                </MenuItem.Header>
+                <MenuItem Header="Category">
+                    <MenuItem Header="Laptop"
+                              Command="{Binding LaptopNavigation}">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Laptop" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Smart Phone"
+                              Command="{Binding SmartPhoneNavigation}">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Cellphone" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="PC"
+                              Command="{Binding PCNavigation}">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="DesktopClassic" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Monitor"
+                              Command="{Binding MonitorNavigation}">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Monitor" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="VGA"
+                              Command="{Binding VGANavigation}">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="ExpansionCard" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="CPU"
+                              Command="{Binding PCCPUNavigation}">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Chip" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Hard Disk"
+                              Command="{Binding PCDiskNavigation}">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Harddisk" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="Home"
+                          Command="{Binding NavigateHomeCommand}" />
+                <MenuItem Header="Login"
+                          Visibility="{Binding IsNotLoggedIn, Converter={StaticResource BoolToVis}}"
+                          Command="{Binding NavigateLoginCommand}" />
+                <MenuItem Header="Account"
+                          Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVis}}"
+                          Command="{Binding NavigateAccountCommand}" />
+                <MenuItem Header="Selling WorkPlace"
+                          Visibility="{Binding IsSellStaff, Converter={StaticResource BoolToVis}}"
+                          Command="{Binding NavigateSellStaffCommand}" />
+                <MenuItem Header="Typing Workplace"
+                          Visibility="{Binding IsTypingStaff, Converter={StaticResource BoolToVis}}"
+                          Command="{Binding NavigateTypingStaffCommand}" />
+                <MenuItem Header="View Report"
+                          Visibility="{Binding IsAdmin, Converter={StaticResource BoolToVis}}"
+                          Command="{Binding NavigateReportCommand}" />
+                <MenuItem Header="Logout"
+                          Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVis}}"
+                          Command="{Binding LogoutCommand}" />
+            </MenuItem>
+        </Menu>
+    </Grid>
 </UserControl>

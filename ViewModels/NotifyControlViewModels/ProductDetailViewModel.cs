@@ -53,6 +53,7 @@ public class ProductDetailViewModel : ViewModelBase
     public string? Company => _currentProduct.CurrentProduct?.Company;
     public decimal? Price => _currentProduct.CurrentProduct?.Price;
     public decimal? SellPrice => _currentProduct.CurrentProduct?.SellPrice;
+    public double? Discount => _currentProduct.CurrentProduct?.Discount;
     public bool? DiscountShow => _currentProduct.CurrentProduct?.DiscountShow;
     private void nextCommand()
     {

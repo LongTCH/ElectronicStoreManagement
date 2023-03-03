@@ -5,9 +5,7 @@ using ViewModels.Services;
 using ViewModels.Stores.Accounts;
 using ViewModels;
 using ViewModels.Stores;
-using ViewModels.Stores.Navigations;
 using ViewModels.ControlViewModels;
-using Models;
 using ViewModels.ProductViewModels;
 using ViewModels.NotifyControlViewModels;
 using ViewModels.Admins;
@@ -17,6 +15,15 @@ namespace StartUps;
 
 public partial class App : Application
 {
+    private NavigationBarViewModel CreateNavigationBarViewModel(IServiceProvider serviceProvider)
+    {
+        return new NavigationBarViewModel(serviceProvider.GetRequiredService<AccountStore>(),
+            serviceProvider.GetRequiredService<PopupListItemViewModel>(),
+            CreateLoginNavigationService(serviceProvider),
+            CreateHomeNavigationService(serviceProvider),
+            CreateAccountNavigationService(serviceProvider),
+            CreateProductInputNavigationService(serviceProvider));
+    }
     private ProductInputViewModel CreateProductInputViewModel(IServiceProvider serviceProvider)
     {
         return new ProductInputViewModel(
@@ -37,7 +44,9 @@ public partial class App : Application
     }
     private RegisterViewModel CreateRegisterViewModel(IServiceProvider serviceProvider)
     {
-        return new RegisterViewModel(serviceProvider.GetRequiredService<IUnitOfWork>());
+        return new RegisterViewModel(
+            serviceProvider.GetRequiredService<IUnitOfWork>(),
+            CreateRegisterNavigationService(serviceProvider));
     }
     private AccountViewModel CreateAccountViewModel(IServiceProvider serviceProvider)
     {
@@ -53,7 +62,8 @@ public partial class App : Application
         return new VerifyEmailViewModel(
             serviceProvider.GetRequiredService<VerificationStore>(),
             serviceProvider.GetRequiredService<CloseModalNavigationService>(),
-            CreateResetPasswordNavigationService(serviceProvider));
+            CreateResetPasswordNavigationService(serviceProvider),
+            CreateHomeNavigationService(serviceProvider));
     }
     private ResetPasswordViewModel CreateResetPasswordViewModel(IServiceProvider serviceProvider)
     {
@@ -135,18 +145,6 @@ public partial class App : Application
             CreateForgotPasswordNavigationService(serviceProvider));
     }
 
-    private NavigationBarViewModel CreateNavigationBarViewModel(IServiceProvider serviceProvider)
-    {
-        return new NavigationBarViewModel(
-            serviceProvider.GetRequiredService<AccountStore>(),
-            serviceProvider.GetRequiredService<FloatingNavigationStore>(),
-            CreateLoginNavigationService(serviceProvider),
-            CreateListBoxItemNavigationService(serviceProvider),
-            CreateHomeNavigationService(serviceProvider),
-            CreateAccountNavigationService(serviceProvider),
-            serviceProvider.GetRequiredService<CloseFloatNavigationService>(),
-            CreateProductInputNavigationService(serviceProvider));
-    }
     private InputVerificationViewModel CreateInputEmailViewModel(IServiceProvider serviceProvider)
     {
         return new InputVerificationViewModel(serviceProvider.GetRequiredService<VerificationStore>(),
@@ -155,7 +153,6 @@ public partial class App : Application
     private PopupListItemViewModel CreatePopupListItemViewModel(IServiceProvider serviceProvider)
     {
         return new PopupListItemViewModel(
-            serviceProvider.GetRequiredService<CloseFloatNavigationService>(),
             CreateLaptopNavigationService(serviceProvider),
             CreateMonitorNavigationService(serviceProvider),
             CreatePCNavigationService(serviceProvider),

@@ -13,8 +13,12 @@
              Background="Transparent"
              MouseLeftButtonDown="controlBar_MouseLeftButtonDown">
     <Grid>
-        <TextBlock Text="{Binding Message, Mode=OneWay}" 
-                   HorizontalAlignment="Center"/>
+        <TextBlock Text="{Binding Message, Mode=OneWay}"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="18"
+                   FontWeight="Bold"
+                   Foreground="SkyBlue" />
         <StackPanel HorizontalAlignment="Right"
                     Orientation="Horizontal"
                     Width="{Binding ElementName=controlBar, Path=ActualWidth}"
