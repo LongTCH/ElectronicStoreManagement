@@ -85,6 +85,10 @@
                 <MenuItem Header="Logout"
                           Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVis}}"
                           Command="{Binding LogoutCommand}" />
+                <MenuItem Header="Nhaplieu"
+                          Command="{Binding Test}" />
+                <MenuItem Header="BanHang"
+                          Command="{Binding BanHang}" />
             </MenuItem>
         </Menu>
     </Grid>

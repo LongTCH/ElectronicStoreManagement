@@ -47,7 +47,9 @@ public partial class App : Application
         services.AddSingleton<PopupListItemViewModel>(CreatePopupListItemViewModel);
         services.AddTransient<ResetPasswordViewModel>(CreateResetPasswordViewModel);
         services.AddTransient<ChangeAccountInfoViewModel>(CreateChangeAccountInfoViewModel);
+
         services.AddTransient<ProductDetailViewModel>(CreateProductDetailViewModel);
+        services.AddTransient<SellProductViewModel>();
 
         services.AddTransient<LaptopViewModel>(CreateLaptopViewModel);
         services.AddTransient<PCViewModel>(CreatePCViewModel);

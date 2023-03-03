@@ -14,6 +14,12 @@ namespace StartUps;
 
 public partial class App : Application
 {
+    private INavigationService CreateSellProductNavigationService(IServiceProvider serviceProvider)
+    {
+        return new LayoutNavigationService<SellProductViewModel>(
+            serviceProvider.GetRequiredService<NavigationStore>(),
+            serviceProvider.GetRequiredService<SellProductViewModel>);
+    }
     private INavigationService CreateProductInputNavigationService(IServiceProvider serviceProvider)
     {
         return new LayoutNavigationService<ProductInputViewModel>(

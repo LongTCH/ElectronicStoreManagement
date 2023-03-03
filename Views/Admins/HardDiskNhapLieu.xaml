@@ -6,47 +6,90 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:Views.Admins"
              mc:Ignorable="d"
-             d:DesignHeight="450"
-             d:DesignWidth="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition  Height="60" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <StackPanel VerticalAlignment="Center"
-                    Orientation="Horizontal"
-                    Width="200">
-            <materialDesign:PackIcon Kind="Harddisk"
-                                     Height="40"
-                                     Width="40"
-                                     VerticalAlignment="Center" />
-            <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                       Text="Hard Disk"
-                       FontSize="30"
-                       VerticalAlignment="Center"></TextBlock>
-        </StackPanel>
-        <ScrollViewer VerticalScrollBarVisibility="Disabled"
-                      HorizontalAlignment="Stretch"
-                      Grid.Row="1">
-            <Grid Background="AliceBlue">
+             d:DesignHeight="600"
+             d:DesignWidth="960"
+             Background="White">
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalAlignment="Stretch"
+                  Grid.Row="1">
+        <StackPanel>
+            <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <DockPanel Grid.Column="0"
-                           Grid.Row="0">
-                    <materialDesign:PackIcon VerticalAlignment="Bottom"
-                                             Margin="0,0,0,10"
-                                             Height="30"
-                                             Width="30"
+                <Button Height="220"
+                        Margin="50,0,0,0"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Style="{StaticResource MaterialDesignFlatLightButton}"
+                        Command="{Binding AddAvatarCommand}">
+                    <Button.Content>
+                        <Grid>
+                            <Image Source="pack://application:,,,/Views;component/Images/addproduct.png"
+                                   Height="200"
+                                   MinWidth="200"
+                                   Visibility="{Binding IsDefault, Converter={StaticResource BoolToVis}}"
+                                   HorizontalAlignment="Left" />
+                            <Image Source="{Binding AvatarPath}"
+                                   Height="200"
+                                   MinWidth="200"
+                                   HorizontalAlignment="Left">
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Setter Property="Visibility"
+                                                Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsDefault}"
+                                                         Value="False">
+                                                <Setter Property="Visibility"
+                                                        Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                        </Grid>
+                    </Button.Content>
+                </Button>
+                <StackPanel Grid.Column="1"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox materialDesign:HintAssist.Hint="Đường dẫn tới thư mục ảnh"
+                                 Margin="20,10"
+                                 Text="{Binding FolderPath, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 FontFamily="Champagne &amp; Limousines"
+                                 FontSize="18"
+                                 Width="300" />
+                        <Button HorizontalAlignment="Right"
+                                Command="{Binding SelectFolder}"
+                                Style="{StaticResource MaterialDesignFloatingActionMiniButton}">
+                            <materialDesign:PackIcon Kind="Folder" />
+                        </Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox materialDesign:HintAssist.Hint="Đường dẫn tới file mô tả"
+                                 Margin="20,10"
+                                 Text="{Binding DetailPath, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 FontFamily="Champagne &amp; Limousines"
+                                 FontSize="18"
+                                 Width="300" />
+                        <Button HorizontalAlignment="Right"
+                                Command="{Binding SelectDetail}"
+                                Style="{StaticResource MaterialDesignFloatingActionMiniButton}">
+                            <materialDesign:PackIcon Kind="Folder" />
+                        </Button>
+                    </StackPanel>
+                    <DockPanel Grid.Column="0"
+                               VerticalAlignment="Center"
+                               Margin="100,0,100,0">
+                        <materialDesign:PackIcon VerticalAlignment="Bottom"
+                                                 Margin="0,0,0,10"
+                                                 Height="30"
+                                                 Width="30"
                                                  Kind="Identifier" />
                         <TextBox Margin="20,10"
                                  materialDesign:HintAssist.Hint="ID"
@@ -54,7 +97,7 @@
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18"
-                                 IsEnabled="False"/>
+                                 IsEnabled="False" />
                     </DockPanel>
                 </StackPanel>
             </Grid>
@@ -69,137 +112,144 @@
                                              Height="30"
                                              Width="30"
                                              Kind="Rename" />
-                    <TextBox materialDesign:HintAssist.Hint="Product's name"
+                    <TextBox materialDesign:HintAssist.Hint="Tên sản phẩm"
                              materialDesign:TextFieldAssist.HasClearButton="True"
                              Margin="20,10"
                              Text="{Binding ProductName, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              FontFamily="Champagne &amp; Limousines"
-                             FontSize="18"></TextBox>
+                             FontSize="18" />
                 </DockPanel>
-                <DockPanel Grid.Column="0"
-                           Grid.Row="1">
+                <DockPanel Grid.Column="1">
                     <materialDesign:PackIcon Kind="Database"
                                              VerticalAlignment="Bottom"
                                              Margin="0,0,0,10"
                                              Height="30"
                                              Width="30" />
-                    <TextBox materialDesign:HintAssist.Hint="Storages"
+                    <TextBox materialDesign:HintAssist.Hint="Bộ nhớ"
                              materialDesign:TextFieldAssist.HasClearButton="True"
                              Margin="20,10"
                              Text="{Binding Storages, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              FontFamily="Champagne &amp; Limousines"
-                             FontSize="18"></TextBox>
+                             FontSize="18" />
                 </DockPanel>
-                <DockPanel Grid.Column="0"
-                           Grid.Row="2">
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <DockPanel Grid.Column="0">
                     <materialDesign:PackIcon Kind="Connection"
                                              VerticalAlignment="Bottom"
                                              Margin="0,0,0,10"
                                              Height="30"
                                              Width="30" />
-                    <ComboBox materialDesign:ComboBoxAssist.MaxLength="2"
-                              materialDesign:TextFieldAssist.HasClearButton="True"
-                              materialDesign:HintAssist.Hint="Transmission interface"
-                              Text="{Binding Connect, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
-                              Margin="20,10"
-                              IsEditable="True"
-                              FontSize="18">
-                        <ComboBoxItem Content="SATA 3" />
-                        <ComboBoxItem Content="M2 NVMe" />
-                        <ComboBoxItem Content="PCIe" />
-                    </ComboBox>
+                    <TextBox materialDesign:HintAssist.Hint="Chuẩn kết nối"
+                             materialDesign:TextFieldAssist.HasClearButton="True"
+                             Margin="20,10"
+                             Text="{Binding Connect, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             FontFamily="Champagne &amp; Limousines"
+                             FontSize="18" />
                 </DockPanel>
-                <DockPanel Grid.Column="0"
-                           Grid.Row="3">
+                <DockPanel Grid.Column="1">
                     <materialDesign:PackIcon Kind="Collage"
                                              VerticalAlignment="Bottom"
                                              Margin="0,0,0,10"
                                              Height="30"
                                              Width="30" />
-                    <ComboBox materialDesign:ComboBoxAssist.MaxLength="2"
-                              materialDesign:TextFieldAssist.HasClearButton="True"
-                              materialDesign:HintAssist.Hint="Type"
-                              Text="{Binding Type, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
-                              Margin="20,10"
-                              IsEditable="True"
-                              FontSize="18">
-                        <ComboBoxItem Content="HDD" />
-                        <ComboBoxItem Content="SSD" />
-                        <ComboBoxItem Content="Others" />
-                    </ComboBox>
+                    <TextBox materialDesign:HintAssist.Hint="Loại ổ cứng"
+                             materialDesign:TextFieldAssist.HasClearButton="True"
+                             Margin="20,10"
+                             Text="{Binding Type, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             FontFamily="Champagne &amp; Limousines"
+                             FontSize="18" />
                 </DockPanel>
-                <DockPanel Grid.Column="0"
-                           Grid.Row="4">
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <DockPanel Grid.Column="0">
                     <materialDesign:PackIcon Kind="Cash"
                                              VerticalAlignment="Bottom"
                                              Margin="0,0,0,10"
                                              Height="30"
                                              Width="30" />
-                    <TextBox materialDesign:HintAssist.Hint="Prices"
+                    <TextBox materialDesign:HintAssist.Hint="Giá niêm yết"
                              materialDesign:TextFieldAssist.HasClearButton="True"
                              materialDesign:TextFieldAssist.SuffixText="VND"
                              Margin="20,10"
-                             Text="{Binding Prices, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                             Text="{Binding Price, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              FontFamily="Champagne &amp; Limousines"
-                             FontSize="18"></TextBox>
+                             FontSize="18" />
                 </DockPanel>
-                <DockPanel Grid.Column="1"
-                           Grid.Row="4">
+                <DockPanel Grid.Column="1">
                     <materialDesign:PackIcon Kind="CartPercent"
                                              VerticalAlignment="Bottom"
                                              Margin="0,0,0,10"
                                              Height="30"
                                              Width="30" />
-                    <TextBox materialDesign:HintAssist.Hint="Discout"
+                    <TextBox materialDesign:HintAssist.Hint="Giảm giá"
                              materialDesign:TextFieldAssist.HasClearButton="True"
-                             materialDesign:TextFieldAssist.SuffixText="VND"
+                             materialDesign:TextFieldAssist.SuffixText="%"
                              Margin="20,10"
                              Text="{Binding Discout, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              FontFamily="Champagne &amp; Limousines"
-                             FontSize="18"></TextBox>
+                             FontSize="18" />
                 </DockPanel>
-                <DockPanel Grid.Column="1"
-                           Grid.Row="0">
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <DockPanel Grid.Column="0">
                     <materialDesign:PackIcon Kind="PackageVariantClosed"
                                              VerticalAlignment="Bottom"
                                              Margin="0,0,0,10"
                                              Height="30"
                                              Width="30" />
-                    <TextBox materialDesign:HintAssist.Hint="Remain"
-                             materialDesign:TextFieldAssist.HasClearButton="True"
+                    <TextBox materialDesign:HintAssist.Hint="Còn lại"
+                             IsEnabled="False"
                              Margin="20,10"
-                             Text="{Binding Remain, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                             Text="{Binding Remain, Mode=OneWay}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              FontFamily="Champagne &amp; Limousines"
-                             FontSize="18"></TextBox>
+                             FontSize="18" />
                 </DockPanel>
-                <DockPanel Grid.Column="1"
-                           Grid.Row="1">
-                    <materialDesign:PackIcon Kind="MapMarker"
+                <DockPanel Grid.Column="1">
+                    <materialDesign:PackIcon Kind="RazorSingleEdge"
                                              VerticalAlignment="Bottom"
                                              Margin="0,0,0,10"
                                              Height="30"
                                              Width="30" />
-                    <TextBox materialDesign:HintAssist.Hint="Detail Path"
-                             materialDesign:TextFieldAssist.HasClearButton="True"
-                             Margin="20,10"
-                             Text="{Binding DetailPath, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                    <TextBox materialDesign:TextFieldAssist.HasClearButton="True"
+                             materialDesign:HintAssist.Hint="Đơn vị tính"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             FontFamily="Champagne &amp; Limousines"
-                             FontSize="18"></TextBox>
+                             Text="{Binding Unit, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                             Margin="20,10"
+                             FontSize="18" />
                 </DockPanel>
-                <DockPanel Grid.Column="1"
-                           Grid.Row="2">
-                    <materialDesign:PackIcon Kind="Barcode"
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <DockPanel Grid.Column="0">
+                    <materialDesign:PackIcon Kind="MergeType"
                                              VerticalAlignment="Bottom"
                                              Margin="0,0,0,10"
                                              Height="30"
                                              Width="30" />
-                    <TextBox materialDesign:HintAssist.Hint="Series"
+                    <TextBox materialDesign:HintAssist.Hint="Series sản phẩm"
                              materialDesign:TextFieldAssist.HasClearButton="True"
                              Margin="20,10"
                              Text="{Binding Series, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
@@ -207,63 +257,49 @@
                              FontFamily="Champagne &amp; Limousines"
                              FontSize="18"></TextBox>
                 </DockPanel>
-                <DockPanel Grid.Column="1"
-                           Grid.Row="3">
+                <DockPanel Grid.Column="1">
                     <materialDesign:PackIcon Kind="Factory"
                                              VerticalAlignment="Bottom"
                                              Margin="0,0,0,10"
                                              Height="30"
                                              Width="30" />
-                    <ComboBox materialDesign:ComboBoxAssist.MaxLength="2"
-                              materialDesign:TextFieldAssist.HasClearButton="True"
-                              materialDesign:HintAssist.Hint="Company"
-                              Text="{Binding Connect, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
-                              Margin="20,10"
-                              IsEditable="True"
-                              FontSize="18">
-                        <ComboBoxItem Content="Lexar" />
-                        <ComboBoxItem Content="Kingston" />
-                        <ComboBoxItem Content="Samsung" />
-                        <ComboBoxItem Content="Corsair" />
-                        <ComboBoxItem Content="Apacer" />
-                        <ComboBoxItem Content="Western Digital" />
-                        <ComboBoxItem Content="GIGABYTE" />
-                        <ComboBoxItem Content="Intel" />
-                        <ComboBoxItem Content="ADATA" />
-                        <ComboBoxItem Content="SEAGATE" />
-                        <ComboBoxItem Content="TeamGroup" />
-                    </ComboBox>
+                    <TextBox materialDesign:TextFieldAssist.HasClearButton="True"
+                             materialDesign:HintAssist.Hint="Thương hiệu"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             Text="{Binding Company, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                             Margin="20,10"
+                             FontSize="18" />
                 </DockPanel>
-                <Grid Grid.Row=" 5"
-                      Grid.Column="0">
-                    <Button Width="150"
-                            BorderThickness="0"
-                            materialDesign:ButtonAssist.CornerRadius="10"
-                            Style="{StaticResource MaterialDesignRaisedButton}"
-                            IsEnabled="{Binding CanClick}"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Background="DodgerBlue"
-                            IsDefault="True"
-                            Content="SUBMIT"
-                            Command="{Binding Submit}" />
-                </Grid>
-                <Grid Grid.Row="5"
-                      Grid.Column="1">
-                    <Button Width="150"
-                        Grid.Column="1"
-                            BorderThickness="0"
-                            materialDesign:ButtonAssist.CornerRadius="10"
-                            Style="{StaticResource MaterialDesignRaisedButton}"
-                            IsEnabled="{Binding CanClick}"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Background="DodgerBlue"
-                            IsDefault="True"
-                            Content="CANCEL"
-                            Command="{Binding CancelCommand}" />
-                </Grid>
             </Grid>
-        </ScrollViewer>
-    </Grid>
+            <Grid Margin="0,20,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Button Width="150"
+                        BorderThickness="0"
+                        materialDesign:ButtonAssist.CornerRadius="10"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        IsEnabled="{Binding CanClick}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Background="DodgerBlue"
+                        IsDefault="True"
+                        Content="LƯU"
+                        Command="{Binding Submit}" />
+                <Button Width="150"
+                        Grid.Column="1"
+                        BorderThickness="0"
+                        materialDesign:ButtonAssist.CornerRadius="10"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        IsEnabled="{Binding CanClick}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Background="DodgerBlue"
+                        IsDefault="True"
+                        Content="HỦY"
+                        Command="{Binding CancelCommand}" />
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

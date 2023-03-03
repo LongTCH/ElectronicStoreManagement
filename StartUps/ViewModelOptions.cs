@@ -22,7 +22,8 @@ public partial class App : Application
             CreateLoginNavigationService(serviceProvider),
             CreateHomeNavigationService(serviceProvider),
             CreateAccountNavigationService(serviceProvider),
-            CreateProductInputNavigationService(serviceProvider));
+            CreateProductInputNavigationService(serviceProvider),
+            CreateSellProductNavigationService(serviceProvider));
     }
     private ProductInputViewModel CreateProductInputViewModel(IServiceProvider serviceProvider)
     {

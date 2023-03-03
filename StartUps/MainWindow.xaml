@@ -93,6 +93,9 @@
             <DataTemplate DataType="{x:Type controlviewmodels:ControlBarViewModel}">
                 <controls:ControlBar />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type adminviewmodel:SellProductViewModel}">
+                <adminview:SellProductView />
+            </DataTemplate>
         </Grid.Resources>
         <modalcontrol:Modal Panel.ZIndex="1"
                             IsOpen="{Binding IsOpen}">

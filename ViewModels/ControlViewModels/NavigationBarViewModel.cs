@@ -17,6 +17,7 @@ public class NavigationBarViewModel : ViewModelBase
     public ICommand PopupCommand { get; }
     public ICommand LogoutCommand { get; }
     public ICommand Test { get; }
+    public ICommand BanHang { get; }
     public bool IsNotLoggedIn => !IsLoggedIn;
     public ICommand LaptopNavigation { get; }
     public ICommand MonitorNavigation { get; }
@@ -34,7 +35,8 @@ public class NavigationBarViewModel : ViewModelBase
             INavigationService loginNavigationService,
             INavigationService homeNavigationService,
             INavigationService accountNavigationService,
-            INavigationService test)
+            INavigationService test,
+            INavigationService banHang)
     {
         _accountStore = accountStore;
         NavigateLoginCommand = new RelayCommand<object>(_ => loginNavigationService.Navigate());
@@ -50,6 +52,7 @@ public class NavigationBarViewModel : ViewModelBase
         VGANavigation = popupListItemViewModel.VGANavigation;
         SmartPhoneNavigation = popupListItemViewModel.SmartPhoneNavigation;
         _accountStore.CurrentStoreChanged += OnCurrentAccountChanged;
+        BanHang = new RelayCommand<object>(_ => banHang.Navigate()); 
     }
 
     private void logoutCommand()
