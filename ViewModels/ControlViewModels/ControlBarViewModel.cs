@@ -1,11 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Interop;
-using ViewModels.Commands;
-using ViewModels.Stores.Accounts;
+﻿using ViewModels.Stores.Accounts;
 
 namespace ViewModels.ControlViewModels;
 
@@ -15,9 +8,9 @@ public class ControlBarViewModel : ViewModelBase
     public ControlBarViewModel(AccountStore accountStore)
     {
         _accountStore = accountStore;
+        _accountStore.CurrentStoreChanged += () => OnPropertyChanged(nameof(Message));
     }
 
     public string Message => "Xin chào " + _accountStore.CurrentAccount?.FirstName;
-    public bool CanShow => _accountStore.IsLoggedIn;
 
 }

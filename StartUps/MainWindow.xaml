@@ -36,9 +36,6 @@
             <DataTemplate DataType="{x:Type viewmodels:LoginViewModel}">
                 <views:LoginView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type controlviewmodels:LayoutViewModel}">
-                <controls:Layout />
-            </DataTemplate>
             <DataTemplate DataType="{x:Type viewmodels:AccountViewModel}">
                 <views:AccountView />
             </DataTemplate>
@@ -56,9 +53,6 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type notifyviewmodels:VerifyEmailViewModel}">
                 <notifycontrols:VerifyEmailView />
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type controlviewmodels:PopupListItemViewModel}">
-                <controls:PopupListItem />
             </DataTemplate>
             <DataTemplate DataType="{x:Type productviewmodels:LaptopViewModel}">
                 <products:LaptopView />
@@ -94,7 +88,10 @@
                 <adminview:ProductInputView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type controlviewmodels:NavigationBarViewModel}">
-                <controls:TestNavigationBar />
+                <controls:NavigationBar />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type controlviewmodels:ControlBarViewModel}">
+                <controls:ControlBar />
             </DataTemplate>
         </Grid.Resources>
         <modalcontrol:Modal Panel.ZIndex="1"
@@ -105,11 +102,17 @@
                             IsOpen="{Binding IsTopLevelOpen}">
             <ContentControl Content="{Binding CurrentTopLevelViewModel}" />
         </modalcontrol:Modal>
-        <ContentControl Content="{Binding CurrentViewModel}" />
-        <ContentControl HorizontalAlignment="Left"
-                        Margin="30,0,0,0"
-                        Visibility="{Binding IsFloatOpen, Converter={StaticResource BoolToVis}}"
-                        Content="{Binding FloatViewModel}" />
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <ContentControl VerticalAlignment="Top"
+                            Content="{Binding ControlBarVM}" />
+            <ContentControl Grid.Row="1"
+                            Margin="5,0,0,0"
+                            Content="{Binding CurrentViewModel}" />
+        </Grid>
         <ContentControl HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Content="{Binding NavigationBarVM}" />

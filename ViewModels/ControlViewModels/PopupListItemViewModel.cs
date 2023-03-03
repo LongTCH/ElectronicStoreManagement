@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using ViewModels.Commands;
 using ViewModels.Services;
 
@@ -19,7 +14,6 @@ public class PopupListItemViewModel : ViewModelBase
     public ICommand VGANavigation { get; }
     public ICommand SmartPhoneNavigation { get; }
     public PopupListItemViewModel(
-        INavigationService closeFloatNavi,
         INavigationService laptopNavi,
         INavigationService monitorNavi,
         INavigationService pcNavi,
@@ -28,12 +22,12 @@ public class PopupListItemViewModel : ViewModelBase
         INavigationService vgaNavi,
         INavigationService smtphoneNavi)
     {
-        LaptopNavigation = new RelayCommand<object>(_ => { laptopNavi.Navigate(); closeFloatNavi.Navigate(); });
-        MonitorNavigation = new RelayCommand<object>(_ =>{ monitorNavi.Navigate(); closeFloatNavi.Navigate(); });
-        PCNavigation = new RelayCommand<object>(_ => { pcNavi.Navigate(); closeFloatNavi.Navigate(); });
-        PCCPUNavigation = new RelayCommand<object>(_ => { pccpuNavi.Navigate(); closeFloatNavi.Navigate(); });
-        PCDiskNavigation = new RelayCommand<object>(_ => { pcdiskNavi.Navigate(); closeFloatNavi.Navigate(); });
-        VGANavigation = new RelayCommand<object>(_ => { vgaNavi.Navigate(); closeFloatNavi.Navigate(); });
-        SmartPhoneNavigation = new RelayCommand<object>(_ => { smtphoneNavi.Navigate(); closeFloatNavi.Navigate(); });
+        LaptopNavigation = new RelayCommand<object>(_ => laptopNavi.Navigate());
+        MonitorNavigation = new RelayCommand<object>(_ =>monitorNavi.Navigate());
+        PCNavigation = new RelayCommand<object>(_ => pcNavi.Navigate());
+        PCCPUNavigation = new RelayCommand<object>(_ => pccpuNavi.Navigate());
+        PCDiskNavigation = new RelayCommand<object>(_ => pcdiskNavi.Navigate());
+        VGANavigation = new RelayCommand<object>(_ => vgaNavi.Navigate());
+        SmartPhoneNavigation = new RelayCommand<object>(_ => smtphoneNavi.Navigate());
     }
 }

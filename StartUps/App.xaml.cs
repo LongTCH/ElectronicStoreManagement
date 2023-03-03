@@ -32,16 +32,14 @@ public partial class App : Application
         services.AddSingleton<AccountStore>();
         services.AddSingleton<NavigationStore>();
         services.AddSingleton<ModalNavigationStore>();
-        services.AddSingleton<FloatingNavigationStore>();
-        services.AddSingleton<VerificationStore>(s => new VerificationStore(s.GetRequiredService<AccountStore>()));
+        services.AddSingleton<VerificationStore>();
         services.AddSingleton<ProductDetailStore>();
 
         services.AddSingleton<MainViewModel>();
-        services.AddSingleton<TestNavigationBarViewModel>(CreateTestNavigationBarViewModel);
         services.AddTransient<AccountViewModel>(CreateAccountViewModel);
         services.AddTransient<LoginViewModel>(CreateLoginViewModel);
-        services.AddTransient<ControlBarViewModel>(s => new ControlBarViewModel(s.GetRequiredService<AccountStore>()));
-        services.AddTransient<NavigationBarViewModel>(CreateNavigationBarViewModel);
+        services.AddSingleton<ControlBarViewModel>();
+        services.AddSingleton<NavigationBarViewModel>(CreateNavigationBarViewModel);
         services.AddSingleton<HomeViewModel>(CreateHomeViewModel);
         services.AddTransient<RegisterViewModel>(CreateRegisterViewModel);
         services.AddTransient<InputVerificationViewModel>(CreateInputEmailViewModel);
@@ -58,13 +56,12 @@ public partial class App : Application
         services.AddTransient<MonitorViewModel>(CreateMonitorViewModel);
         services.AddTransient<VGAViewModel>(CreateVGAViewModel);
         services.AddTransient<SmartPhoneViewModel>(CreateSmartPhoneViewModel);
-        services.AddSingleton<HardDiskNhapLieuViewModel>();
-        services.AddSingleton<MonitorNhapLieuViewModel>();
-        services.AddSingleton<ProductInputViewModel>(CreateProductInputViewModel);
+        services.AddTransient<HardDiskNhapLieuViewModel>();
+        services.AddTransient<MonitorNhapLieuViewModel>();
+        services.AddTransient<ProductInputViewModel>(CreateProductInputViewModel);
 
         services.AddSingleton<INavigationService>(CreateHomeNavigationService);
         services.AddSingleton<CloseModalNavigationService>(); 
-        services.AddSingleton<CloseFloatNavigationService>();
 
         services.AddSingleton<MainWindow>(s => new MainWindow()
         {

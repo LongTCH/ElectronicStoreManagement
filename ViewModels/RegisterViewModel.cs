@@ -1,6 +1,4 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using Microsoft.Win32;
-using Models.DTOs;
+﻿using Models.DTOs;
 using Models.Interfaces;
 using Newtonsoft.Json;
 using System;
@@ -14,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Markup;
 using ViewModels.Commands;
 using ViewModels.MyMessageBox;
+using ViewModels.Services;
 using ViewModels.Stores.Address;
 
 namespace ViewModels;
@@ -121,7 +120,7 @@ public class RegisterViewModel : ViewModelBase
     public ICommand SuggestCommand { get; }
     public ICommand AddAvatarCommand { get; }
     public ICommand SignUpCommand { get; } = null!;
-    public RegisterViewModel(IUnitOfWork unitOfWork)
+    public RegisterViewModel(IUnitOfWork unitOfWork, INavigationService registerNavigationService)
     {
         _unitOfWork = unitOfWork;
 
@@ -130,7 +129,7 @@ public class RegisterViewModel : ViewModelBase
         GetSub_districts = new RelayCommand<District>(getSubDistricts);
         Sub_districtChanged = new RelayCommand<Sub_district>(p => SelectedSub_district = p);
         GenderChanged = new RelayCommand<string>(p => SelectedGender = p);
-        SignUpCommand = new RelayCommand<object>(_ => signUp());
+        SignUpCommand = new RelayCommand<object>(_ => signUp(registerNavigationService));
         SuggestCommand = new RelayCommand<object>(_ => OnPropertyChanged(nameof(SuggestID)));
         AddAvatarCommand = new RelayCommand<object>(_ => addAvatarCommand());
 
@@ -156,7 +155,7 @@ public class RegisterViewModel : ViewModelBase
         OnPropertyChanged(nameof(Sub_districts));
         SelectedDistrict = p;
     }
-    private void signUp()
+    private void signUp(INavigationService navigation)
     {
         if (string.IsNullOrWhiteSpace(Id))
         {
@@ -211,6 +210,8 @@ public class RegisterViewModel : ViewModelBase
         {
             _unitOfWork.Accounts.Add(accountDTO);
             _unitOfWork.Complete();
+            InformationViewModel.Instance.Show("New account created", "Success");
+            navigation.Navigate();
         }
         catch (Exception ex) { ErrorNotifyViewModel.Instance!.Show(ex.Message, "Error"); }
     }

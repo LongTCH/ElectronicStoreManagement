@@ -13,29 +13,26 @@ public class MainViewModel : ViewModelBase
 {
     private readonly NavigationStore _navigationStore;
     private readonly ModalNavigationStore _modalNavigationStore;
-    private readonly FloatingNavigationStore _floatingNavigationStore;
 
     public ViewModelBase CurrentViewModel => _navigationStore.CurrentViewModel!;
     public ViewModelBase? CurrentModalViewModel => _modalNavigationStore.CurrentViewModel;
-    public ViewModelBase? FloatViewModel => _floatingNavigationStore.CurrentViewModel;
+    public ViewModelBase? ControlBarVM { get; }
     public ViewModelBase? NavigationBarVM { get; }
     public ViewModelBase? CurrentTopLevelViewModel => TopLevelStore.Instance!.CurrentViewModel;
     public bool IsOpen => _modalNavigationStore.IsOpen;
-    public bool IsFloatOpen => _floatingNavigationStore.IsOpen;
     public bool IsTopLevelOpen => TopLevelStore.Instance!.IsOpen;
     public MainViewModel(NavigationStore navigationStore, 
         ModalNavigationStore modalNavigationStore,
-        FloatingNavigationStore floatingNavigationStore,
-        TestNavigationBarViewModel? navigationBarVM)
+        NavigationBarViewModel navigationBarVM,
+        ControlBarViewModel controlBarViewModel)
     {
         _navigationStore = navigationStore;
         _modalNavigationStore = modalNavigationStore;
-        _floatingNavigationStore = floatingNavigationStore;
         _navigationStore.CurrentStoreChanged += OnCurrentViewModelChanged;
         _modalNavigationStore.CurrentStoreChanged += OnCurrentModalViewModelChanged;
-        _floatingNavigationStore.CurrentStoreChanged += OnFloatViewModelChanged;
         TopLevelStore.Instance!.CurrentStoreChanged += OnTopLevelViewModelChanged;
         NavigationBarVM = navigationBarVM;
+        ControlBarVM = controlBarViewModel;
     }
 
     private void OnCurrentViewModelChanged()
@@ -47,11 +44,6 @@ public class MainViewModel : ViewModelBase
     {
         OnPropertyChanged(nameof(CurrentModalViewModel));
         OnPropertyChanged(nameof(IsOpen));
-    }
-    private void OnFloatViewModelChanged()
-    {
-        OnPropertyChanged(nameof(FloatViewModel));
-        OnPropertyChanged(nameof(IsFloatOpen));
     }
     private void OnTopLevelViewModelChanged()
     {
