@@ -56,11 +56,12 @@ public class LoginViewModel : ViewModelBase
         _unitOfWork = unitOfWork;
         _accountStore = accountStore;
         _navigationService = accountNavigationService;
-        LoginCommand = new RelayCommand<object>(async(_) => await loginCommandAsync());
+        Task task = new(() => loginCommandAsync());
+        LoginCommand = new RelayCommand<object>(_ => task.Start());
         PasswordChangedCommand = new RelayCommand<PasswordBox>((p) => Password = p.Password);
         ForgotPasswordNavigationCommand = new RelayCommand<object>(_ => forgotPasswordNavigationService.Navigate());
     }
-    private async Task loginCommandAsync()
+    private void loginCommandAsync()
     {
         if (string.IsNullOrWhiteSpace(Id))
         {
