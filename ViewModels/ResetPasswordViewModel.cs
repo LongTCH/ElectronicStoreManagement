@@ -70,7 +70,8 @@ public class ResetPasswordViewModel : ViewModelBase
     {
         try
         {
-            _unitOfWork.Accounts.ResetPassword(_verificationStore.Id!, NewPassword!);
+            ScryptEncoder encoder = new ScryptEncoder();
+            _unitOfWork.Accounts.ResetPassword(_verificationStore.Id!, encoder.Encode(NewPassword!));
             _unitOfWork.Complete();
             InformationViewModel.Instance!.Show("Please log in your account", "Success");
         }

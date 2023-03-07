@@ -9,7 +9,6 @@ namespace Models.Interfaces;
 
 public interface IAccountRepository: IRepository<AccountDTO>
 {
-    AccountDTO? GetAccountWithIdAndPassword(string id, string password);
     string GetSuggestAccountIdCounter();
     void ResetPassword(string ID, string newPassword);
 }

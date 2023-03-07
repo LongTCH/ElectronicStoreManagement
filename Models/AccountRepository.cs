@@ -1,13 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Models.DTOs;
+﻿using Models.DTOs;
 using Models.Entities;
 using Models.Interfaces;
-using Scrypt;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Models;
 
@@ -37,33 +32,6 @@ public class AccountRepository : Repository<AccountDTO>, IAccountRepository
                                    SubDistrict = ac.SubDistrict
                                }).FirstOrDefault();
         return account;
-    }
-    public AccountDTO? GetAccountWithIdAndPassword(string id, string password)
-    {
-        ScryptEncoder encoder = new ScryptEncoder();
-        AccountDTO? account = (from ac in _context.Accounts
-                               where ac.Id == id
-                               select new AccountDTO()
-                               {
-                                   Id = ac.Id,
-                                   AvatarPath = @ac.AvatarPath,
-                                   Birthday = ac.Birthday,
-                                   City = ac.City,
-                                   District = ac.District,
-                                   EmailAddress = ac.EmailAddress,
-                                   FirstName = ac.FirstName,
-                                   LastName = ac.LastName,
-                                   PasswordHash = ac.PasswordHash,
-                                   Phone = ac.Phone,
-                                   Gender = ac.Gender,
-                                   Street = ac.Street,
-                                   SubDistrict = ac.SubDistrict
-                               }).FirstOrDefault();
-
-        if (account != null && encoder.Compare(password, account.PasswordHash))
-            return account;
-        else return null;
-
     }
 
     public string GetSuggestAccountIdCounter()
@@ -113,12 +81,12 @@ public class AccountRepository : Repository<AccountDTO>, IAccountRepository
         };
         _context.Accounts.Add(newAccount);
     }
-    public void ResetPassword(string ID, string newPassword)
+    public void ResetPassword(string ID, string newPasswordHash)
     {
         var account = (from a in _context.Accounts
                        where a.Id == ID
                        select a).First();
-        ScryptEncoder encoder = new ScryptEncoder();
-        account.PasswordHash = encoder.Encode(newPassword);
+        
+        account.PasswordHash = newPasswordHash;
     }
 }

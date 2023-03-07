@@ -4,6 +4,7 @@ using Models;
 using Models.DTOs;
 using Models.Entities;
 using Models.Interfaces;
+using Scrypt;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -73,10 +74,9 @@ public class LoginViewModel : ViewModelBase
         }
         try
         {
-            Task<AccountDTO?> t = new(() => _unitOfWork.Accounts.GetAccountWithIdAndPassword(Id, Password));
-            t.Start();
-            AccountDTO? account = await t;
-            if (account == null)
+            ScryptEncoder encoder = new ScryptEncoder();
+            AccountDTO? account = _unitOfWork.Accounts.Get(Id);
+            if (account == null || !encoder.Compare(Password, account.PasswordHash))
             {
                 ErrorNotifyViewModel.Instance!.Show("Can not find you account", "Login failed");
                 return;
