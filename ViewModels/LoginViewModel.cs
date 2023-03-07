@@ -1,15 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Models;
-using Models.DTOs;
-using Models.Entities;
+﻿using Models.DTOs;
 using Models.Interfaces;
 using Scrypt;
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ViewModels.Commands;
@@ -56,11 +49,12 @@ public class LoginViewModel : ViewModelBase
         _unitOfWork = unitOfWork;
         _accountStore = accountStore;
         _navigationService = accountNavigationService;
-        LoginCommand = new RelayCommand<object>(async(_) => await loginCommandAsync());
+        Task task = new(() => loginCommandAsync());
+        LoginCommand = new RelayCommand<object>(_ => task.Start());
         PasswordChangedCommand = new RelayCommand<PasswordBox>((p) => Password = p.Password);
         ForgotPasswordNavigationCommand = new RelayCommand<object>(_ => forgotPasswordNavigationService.Navigate());
     }
-    private async Task loginCommandAsync()
+    private void loginCommandAsync()
     {
         if (string.IsNullOrWhiteSpace(Id))
         {
