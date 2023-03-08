@@ -6,16 +6,14 @@
              xmlns:local="clr-namespace:Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
-             Background="White"
              d:DesignHeight="450"
              d:DesignWidth="800">
     <ScrollViewer VerticalScrollBarVisibility="auto"
                   HorizontalAlignment="Stretch">
-        <StackPanel>
+        <StackPanel >
             <Image x:Name="image"
                    Stretch="Fill"
                    Source="{Binding Source, Mode=OneWay}">
-                
                 <Image.RenderTransform>
                     <TranslateTransform x:Name="MyTranslateTransform" />
                 </Image.RenderTransform>
@@ -71,39 +69,25 @@
                                                Foreground="Black"
                                                FontSize="18" />
                                     <DockPanel>
-                                        <DockPanel.Resources>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="FontSize"
-                                                        Value="14" />
-                                                <Setter Property="Foreground"
-                                                        Value="Blue" />
-                                                <Setter Property="FontWeight"
-                                                        Value="DemiBold" />
-                                            </Style>
-                                        </DockPanel.Resources>
-                                        <TextBlock Text="{Binding SellPrice, Mode=OneWay, StringFormat={}{0:0.#}}" />
-                                        <TextBlock Text="đ" />
+                                        <TextBlock Text="{Binding SellPrice, Mode=OneWay, StringFormat={}{0:0.# đ}}"
+                                                   FontSize="14"
+                                                   Foreground="Blue"
+                                                   FontWeight="DemiBold" />
                                     </DockPanel>
                                     <DockPanel Visibility="{Binding DiscountShow, Converter={StaticResource BoolToVis}}"
                                                LastChildFill="True">
                                         <DockPanel.Resources>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="FontSize"
-                                                        Value="12" />
+                                                        Value="13" />
                                                 <Setter Property="FontWeight"
                                                         Value="Thin" />
                                             </Style>
                                         </DockPanel.Resources>
-                                        <TextBlock Text="{Binding Price , Mode=OneWay, StringFormat={}{0:0.#}}"
+                                        <TextBlock Text="{Binding Price , Mode=OneWay, StringFormat={}{0:0.# đ}}"
                                                    TextDecorations="Strikethrough"
                                                    Foreground="SlateGray" />
-                                        <TextBlock Text="đ"
-                                                   Foreground="SlateGray" />
-                                        <TextBlock Text=" -"
-                                                   Foreground="CornflowerBlue" />
-                                        <TextBlock Text="{Binding Discount, Mode=OneWay}"
-                                                   Foreground="CornflowerBlue" />
-                                        <TextBlock Text="%"
+                                        <TextBlock Text="{Binding Discount, Mode=OneWay, StringFormat=' -{0}%'}"
                                                    Foreground="CornflowerBlue" />
                                     </DockPanel>
                                 </StackPanel>
@@ -151,39 +135,25 @@
                                                Foreground="Black"
                                                FontSize="18" />
                                     <DockPanel>
-                                        <DockPanel.Resources>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="FontSize"
-                                                        Value="14" />
-                                                <Setter Property="Foreground"
-                                                        Value="Blue" />
-                                                <Setter Property="FontWeight"
-                                                        Value="DemiBold" />
-                                            </Style>
-                                        </DockPanel.Resources>
-                                        <TextBlock Text="{Binding SellPrice, Mode=OneWay, StringFormat={}{0:0.#}}" />
-                                        <TextBlock Text="đ" />
+                                        <TextBlock Text="{Binding SellPrice, Mode=OneWay, StringFormat={}{0:0.# đ}}"
+                                                   FontSize="14"
+                                                   Foreground="Blue"
+                                                   FontWeight="DemiBold" />
                                     </DockPanel>
                                     <DockPanel Visibility="{Binding DiscountShow, Converter={StaticResource BoolToVis}}"
                                                LastChildFill="True">
                                         <DockPanel.Resources>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="FontSize"
-                                                        Value="12" />
+                                                        Value="13" />
                                                 <Setter Property="FontWeight"
                                                         Value="Thin" />
                                             </Style>
                                         </DockPanel.Resources>
-                                        <TextBlock Text="{Binding Price , Mode=OneWay, StringFormat={}{0:0.#}}"
+                                        <TextBlock Text="{Binding Price , Mode=OneWay, StringFormat={}{0:0.# đ}}"
                                                    TextDecorations="Strikethrough"
                                                    Foreground="SlateGray" />
-                                        <TextBlock Text="đ"
-                                                   Foreground="SlateGray" />
-                                        <TextBlock Text=" -"
-                                                   Foreground="CornflowerBlue" />
-                                        <TextBlock Text="{Binding Discount, Mode=OneWay}"
-                                                   Foreground="CornflowerBlue" />
-                                        <TextBlock Text="%"
+                                        <TextBlock Text="{Binding Discount, Mode=OneWay, StringFormat=' -{0}%'}"
                                                    Foreground="CornflowerBlue" />
                                     </DockPanel>
                                 </StackPanel>
@@ -231,39 +201,25 @@
                                                Foreground="Black"
                                                FontSize="18" />
                                     <DockPanel>
-                                        <DockPanel.Resources>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="FontSize"
-                                                        Value="14" />
-                                                <Setter Property="Foreground"
-                                                        Value="Blue" />
-                                                <Setter Property="FontWeight"
-                                                        Value="DemiBold" />
-                                            </Style>
-                                        </DockPanel.Resources>
-                                        <TextBlock Text="{Binding SellPrice, Mode=OneWay, StringFormat={}{0:0.#}}" />
-                                        <TextBlock Text="đ" />
+                                        <TextBlock Text="{Binding SellPrice, Mode=OneWay, StringFormat={}{0:0.# đ}}"
+                                                   FontSize="14"
+                                                   Foreground="Blue"
+                                                   FontWeight="DemiBold" />
                                     </DockPanel>
                                     <DockPanel Visibility="{Binding DiscountShow, Converter={StaticResource BoolToVis}}"
                                                LastChildFill="True">
                                         <DockPanel.Resources>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="FontSize"
-                                                        Value="12" />
+                                                        Value="13" />
                                                 <Setter Property="FontWeight"
                                                         Value="Thin" />
                                             </Style>
                                         </DockPanel.Resources>
-                                        <TextBlock Text="{Binding Price , Mode=OneWay, StringFormat={}{0:0.#}}"
+                                        <TextBlock Text="{Binding Price , Mode=OneWay, StringFormat={}{0:0.# đ}}"
                                                    TextDecorations="Strikethrough"
                                                    Foreground="SlateGray" />
-                                        <TextBlock Text="đ"
-                                                   Foreground="SlateGray" />
-                                        <TextBlock Text=" -"
-                                                   Foreground="CornflowerBlue" />
-                                        <TextBlock Text="{Binding Discount, Mode=OneWay}"
-                                                   Foreground="CornflowerBlue" />
-                                        <TextBlock Text="%"
+                                        <TextBlock Text="{Binding Discount, Mode=OneWay, StringFormat=' -{0}%'}"
                                                    Foreground="CornflowerBlue" />
                                     </DockPanel>
                                 </StackPanel>
@@ -311,39 +267,25 @@
                                                Foreground="Black"
                                                FontSize="18" />
                                     <DockPanel>
-                                        <DockPanel.Resources>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="FontSize"
-                                                        Value="14" />
-                                                <Setter Property="Foreground"
-                                                        Value="Blue" />
-                                                <Setter Property="FontWeight"
-                                                        Value="DemiBold" />
-                                            </Style>
-                                        </DockPanel.Resources>
-                                        <TextBlock Text="{Binding SellPrice, Mode=OneWay, StringFormat={}{0:0.#}}" />
-                                        <TextBlock Text="đ" />
+                                        <TextBlock Text="{Binding SellPrice, Mode=OneWay, StringFormat={}{0:0.# đ}}"
+                                                   FontSize="14"
+                                                   Foreground="Blue"
+                                                   FontWeight="DemiBold" />
                                     </DockPanel>
                                     <DockPanel Visibility="{Binding DiscountShow, Converter={StaticResource BoolToVis}}"
                                                LastChildFill="True">
                                         <DockPanel.Resources>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="FontSize"
-                                                        Value="12" />
+                                                        Value="13" />
                                                 <Setter Property="FontWeight"
                                                         Value="Thin" />
                                             </Style>
                                         </DockPanel.Resources>
-                                        <TextBlock Text="{Binding Price , Mode=OneWay, StringFormat={}{0:0.#}}"
+                                        <TextBlock Text="{Binding Price , Mode=OneWay, StringFormat={}{0:0.# đ}}"
                                                    TextDecorations="Strikethrough"
                                                    Foreground="SlateGray" />
-                                        <TextBlock Text="đ"
-                                                   Foreground="SlateGray" />
-                                        <TextBlock Text=" -"
-                                                   Foreground="CornflowerBlue" />
-                                        <TextBlock Text="{Binding Discount, Mode=OneWay}"
-                                                   Foreground="CornflowerBlue" />
-                                        <TextBlock Text="%"
+                                        <TextBlock Text="{Binding Discount, Mode=OneWay, StringFormat=' -{0}%'}"
                                                    Foreground="CornflowerBlue" />
                                     </DockPanel>
                                 </StackPanel>
@@ -391,39 +333,25 @@
                                                Foreground="Black"
                                                FontSize="18" />
                                     <DockPanel>
-                                        <DockPanel.Resources>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="FontSize"
-                                                        Value="14" />
-                                                <Setter Property="Foreground"
-                                                        Value="Blue" />
-                                                <Setter Property="FontWeight"
-                                                        Value="DemiBold" />
-                                            </Style>
-                                        </DockPanel.Resources>
-                                        <TextBlock Text="{Binding SellPrice, Mode=OneWay, StringFormat={}{0:0.#}}" />
-                                        <TextBlock Text="đ" />
+                                        <TextBlock Text="{Binding SellPrice, Mode=OneWay, StringFormat={}{0:0.# đ}}"
+                                                   FontSize="14"
+                                                   Foreground="Blue"
+                                                   FontWeight="DemiBold" />
                                     </DockPanel>
                                     <DockPanel Visibility="{Binding DiscountShow, Converter={StaticResource BoolToVis}}"
                                                LastChildFill="True">
                                         <DockPanel.Resources>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="FontSize"
-                                                        Value="12" />
+                                                        Value="13" />
                                                 <Setter Property="FontWeight"
                                                         Value="Thin" />
                                             </Style>
                                         </DockPanel.Resources>
-                                        <TextBlock Text="{Binding Price , Mode=OneWay, StringFormat={}{0:0.#}}"
+                                        <TextBlock Text="{Binding Price , Mode=OneWay, StringFormat={}{0:0.# đ}}"
                                                    TextDecorations="Strikethrough"
                                                    Foreground="SlateGray" />
-                                        <TextBlock Text="đ"
-                                                   Foreground="SlateGray" />
-                                        <TextBlock Text=" -"
-                                                   Foreground="CornflowerBlue" />
-                                        <TextBlock Text="{Binding Discount, Mode=OneWay}"
-                                                   Foreground="CornflowerBlue" />
-                                        <TextBlock Text="%"
+                                        <TextBlock Text="{Binding Discount, Mode=OneWay, StringFormat=' -{0}%'}"
                                                    Foreground="CornflowerBlue" />
                                     </DockPanel>
                                 </StackPanel>
@@ -471,39 +399,25 @@
                                                Foreground="Black"
                                                FontSize="18" />
                                     <DockPanel>
-                                        <DockPanel.Resources>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="FontSize"
-                                                        Value="14" />
-                                                <Setter Property="Foreground"
-                                                        Value="Blue" />
-                                                <Setter Property="FontWeight"
-                                                        Value="DemiBold" />
-                                            </Style>
-                                        </DockPanel.Resources>
-                                        <TextBlock Text="{Binding SellPrice, Mode=OneWay, StringFormat={}{0:0.#}}" />
-                                        <TextBlock Text="đ" />
+                                        <TextBlock Text="{Binding SellPrice, Mode=OneWay, StringFormat={}{0:0.# đ}}"
+                                                   FontSize="14"
+                                                   Foreground="Blue"
+                                                   FontWeight="DemiBold" />
                                     </DockPanel>
                                     <DockPanel Visibility="{Binding DiscountShow, Converter={StaticResource BoolToVis}}"
                                                LastChildFill="True">
                                         <DockPanel.Resources>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="FontSize"
-                                                        Value="12" />
+                                                        Value="13" />
                                                 <Setter Property="FontWeight"
                                                         Value="Thin" />
                                             </Style>
                                         </DockPanel.Resources>
-                                        <TextBlock Text="{Binding Price , Mode=OneWay, StringFormat={}{0:0.#}}"
+                                        <TextBlock Text="{Binding Price , Mode=OneWay, StringFormat={}{0:0.# đ}}"
                                                    TextDecorations="Strikethrough"
                                                    Foreground="SlateGray" />
-                                        <TextBlock Text="đ"
-                                                   Foreground="SlateGray" />
-                                        <TextBlock Text=" -"
-                                                   Foreground="CornflowerBlue" />
-                                        <TextBlock Text="{Binding Discount, Mode=OneWay}"
-                                                   Foreground="CornflowerBlue" />
-                                        <TextBlock Text="%"
+                                        <TextBlock Text="{Binding Discount, Mode=OneWay, StringFormat=' -{0}%'}"
                                                    Foreground="CornflowerBlue" />
                                     </DockPanel>
                                 </StackPanel>
@@ -551,39 +465,25 @@
                                                Foreground="Black"
                                                FontSize="18" />
                                     <DockPanel>
-                                        <DockPanel.Resources>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="FontSize"
-                                                        Value="14" />
-                                                <Setter Property="Foreground"
-                                                        Value="Blue" />
-                                                <Setter Property="FontWeight"
-                                                        Value="DemiBold" />
-                                            </Style>
-                                        </DockPanel.Resources>
-                                        <TextBlock Text="{Binding SellPrice, Mode=OneWay, StringFormat={}{0:0.#}}" />
-                                        <TextBlock Text="đ" />
+                                        <TextBlock Text="{Binding SellPrice, Mode=OneWay, StringFormat={}{0:0.# đ}}"
+                                                   FontSize="14"
+                                                   Foreground="Blue"
+                                                   FontWeight="DemiBold" />
                                     </DockPanel>
                                     <DockPanel Visibility="{Binding DiscountShow, Converter={StaticResource BoolToVis}}"
                                                LastChildFill="True">
                                         <DockPanel.Resources>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="FontSize"
-                                                        Value="12" />
+                                                        Value="13" />
                                                 <Setter Property="FontWeight"
                                                         Value="Thin" />
                                             </Style>
                                         </DockPanel.Resources>
-                                        <TextBlock Text="{Binding Price , Mode=OneWay, StringFormat={}{0:0.#}}"
+                                        <TextBlock Text="{Binding Price , Mode=OneWay, StringFormat={}{0:0.# đ}}"
                                                    TextDecorations="Strikethrough"
                                                    Foreground="SlateGray" />
-                                        <TextBlock Text="đ"
-                                                   Foreground="SlateGray" />
-                                        <TextBlock Text=" -"
-                                                   Foreground="CornflowerBlue" />
-                                        <TextBlock Text="{Binding Discount, Mode=OneWay}"
-                                                   Foreground="CornflowerBlue" />
-                                        <TextBlock Text="%"
+                                        <TextBlock Text="{Binding Discount, Mode=OneWay, StringFormat=' -{0}%'}"
                                                    Foreground="CornflowerBlue" />
                                     </DockPanel>
                                 </StackPanel>
