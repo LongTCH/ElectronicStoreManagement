@@ -59,7 +59,6 @@
     <Folder Include="dbo" />
     <Folder Include="dbo\Tables" />
     <Folder Include="PublishLocations" />
-    <Folder Include="dbo\Triggers" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PublishLocations\ESMDatabase.publish.xml" />
@@ -76,12 +75,10 @@
     <Build Include="dbo\Tables\PCCPU.sql" />
     <Build Include="dbo\Tables\VGA.sql" />
     <Build Include="dbo\Tables\SMARTPHONE.sql" />
-    <Build Include="dbo\Tables\USED_PRODUCT_ID.sql" />
     <Build Include="dbo\Tables\COMBO.sql" />
-    <Build Include="dbo\Tables\COMBO_PRODUCT.sql" />
     <Build Include="dbo\Tables\IMPORT.sql" />
     <Build Include="dbo\Tables\IMPORT_PRODUCT.sql" />
-    <Build Include="dbo\Triggers\Trigger1.sql" />
+    <Build Include="dbo\Tables\BILL_COMBO.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ESMDatabase.refactorlog" />

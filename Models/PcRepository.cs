@@ -28,7 +28,8 @@ public class PcRepository : Repository<PcDTO>, IPcRepository
                     Ram = pc.Ram,
                     Series = pc.Series,
                     AvatarPath = @pc.AvatarPath,
-                    Remain = pc.Remain
+                    Remain = pc.Remain,
+                    Unit = pc.Unit
                 }).ToList();
     }
 }

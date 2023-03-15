@@ -30,7 +30,8 @@ public class PccpuRepository : Repository<PccpuDTO>, IPccpuRepository
                     Remain = pccpu.Remain,
                     Series = pccpu.Series,
                     Socket = pccpu.Socket,
-                    AvatarPath = @pccpu.AvatarPath
+                    AvatarPath = @pccpu.AvatarPath,
+                    Unit = pccpu.Unit
                 }).ToList();
     }
 }

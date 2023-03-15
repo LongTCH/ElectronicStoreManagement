@@ -32,7 +32,8 @@ public class MonitorRepository : Repository<MonitorDTO>, IMonitorRepository
                     Remain = monitor.Remain,
                     Series = monitor.Series,
                     Size = monitor.Size,
-                    AvatarPath = @monitor.AvatarPath
+                    AvatarPath = @monitor.AvatarPath,
+                    Unit = monitor.Unit
                 }).ToList();
     }
 }

@@ -154,4 +154,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="ComboId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="e361845b-dd93-4ff5-b8c7-ef2e1ecdc0b6" ChangeDateTime="03/12/2023 09:10:18">
+    <Property Name="ElementName" Value="[dbo].[COMBO].[SellPrice]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[COMBO]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Discount" />
+  </Operation>
 </Operations>

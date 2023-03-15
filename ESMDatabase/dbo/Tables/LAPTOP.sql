@@ -15,5 +15,6 @@
     [Company] NVARCHAR(50) NOT NULL, 
     [Need] NVARCHAR(50), 
     [Avatar_Path] NVARCHAR(200) NULL, 
+    [Unit] NCHAR(10) NOT NULL, 
     CONSTRAINT [PK_LAPTOP] PRIMARY KEY ([Id])
 )

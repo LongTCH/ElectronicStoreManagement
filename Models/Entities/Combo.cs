@@ -10,11 +10,16 @@ namespace Models.Entities;
 public partial class Combo
 {
     [Key]
-    public int Id { get; set; }
+    [StringLength(9)]
+    [Unicode(false)]
+    public string Id { get; set; } = null!;
 
-    [Column(TypeName = "money")]
-    public decimal SellPrice { get; set; }
+    public double Discount { get; set; }
+
+    [Column("ProductIDList")]
+    [StringLength(200)]
+    public string ProductIdlist { get; set; } = null!;
 
     [InverseProperty("Combo")]
-    public virtual ComboProduct? ComboProduct { get; set; }
+    public virtual ICollection<BillCombo> BillCombos { get; } = new List<BillCombo>();
 }

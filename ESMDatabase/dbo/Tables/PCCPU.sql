@@ -12,5 +12,6 @@
     [Company] NVARCHAR(50) NOT NULL, 
     [Need] NVARCHAR(50), 
     [Avatar_Path] NVARCHAR(200) NULL, 
+    [Unit] NVARCHAR(50) NOT NULL, 
     CONSTRAINT [PK_PCCPU] PRIMARY KEY ([Id])
 )

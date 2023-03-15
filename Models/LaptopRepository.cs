@@ -33,7 +33,8 @@ public class LaptopRepository : Repository<LaptopDTO>, ILaptopRepository
                     Remain = laptop.Remain,
                     Series = laptop.Series,
                     Storage = laptop.Storage,
-                    AvatarPath = @laptop.AvatarPath
+                    AvatarPath = @laptop.AvatarPath,
+                    Unit = laptop.Unit
                 }).ToList();
     }
 }

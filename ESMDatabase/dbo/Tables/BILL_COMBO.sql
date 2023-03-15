@@ -1,0 +1,17 @@
+﻿CREATE TABLE [dbo].[BILL_COMBO]
+(
+	[Id] INT NOT NULL , 
+    [StaffID] CHAR(9) NOT NULL,
+	[CustomerName] NVARCHAR(50) NULL, 
+    [Phone nvarchar(30)] NCHAR(10) NULL, 
+    [City] NVARCHAR(50) NULL, 
+    [District] NVARCHAR(50) NULL, 
+    [Sub_district] NVARCHAR(50) NULL, 
+    [Street] NVARCHAR(100) NULL, 
+    [PurchasedTime] DATETIME2(3) NOT NULL DEFAULT getutcdate(), 
+    [TotalAmount] MONEY NOT NULL, 
+    [ComboID] CHAR(9) NOT NULL, 
+    CONSTRAINT [PK_BILL_COMBO] PRIMARY KEY ([Id]), 
+    CONSTRAINT [FK_BILL_COMBO_COMBO] FOREIGN KEY ([ComboID]) REFERENCES [COMBO]([Id]), 
+    CONSTRAINT [FK_BILL_COMBO_ACCOUNT] FOREIGN KEY ([StaffID]) REFERENCES [ACCOUNT]([Id])
+)

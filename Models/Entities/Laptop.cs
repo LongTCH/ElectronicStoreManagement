@@ -61,4 +61,7 @@ public partial class Laptop
     [Column("Avatar_Path")]
     [StringLength(200)]
     public string? AvatarPath { get; set; }
+
+    [StringLength(10)]
+    public string Unit { get; set; } = null!;
 }

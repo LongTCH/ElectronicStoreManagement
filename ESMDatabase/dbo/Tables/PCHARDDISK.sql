@@ -13,5 +13,6 @@
     [Company] NVARCHAR(50) NOT NULL, 
     [Type] VARCHAR(20), 
     [Avatar_Path] NVARCHAR(200) NULL, 
+    [Unit] NVARCHAR(50) NOT NULL, 
     CONSTRAINT [PK_PCHARDDISK] PRIMARY KEY ([Id])
 )
