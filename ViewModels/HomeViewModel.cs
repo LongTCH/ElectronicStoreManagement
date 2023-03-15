@@ -11,7 +11,7 @@ using ViewModels.Commands;
 using ViewModels.MyMessageBox;
 using ViewModels.Services;
 using ViewModels.Stores;
-using ViewModels.Validators;
+using ViewModels.Utilities;
 
 namespace ViewModels;
 

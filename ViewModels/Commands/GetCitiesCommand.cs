@@ -14,7 +14,7 @@ public class GetCitiesCommand
 {
     private static string json = Directory.GetParent(
             Directory.GetCurrentDirectory())!.Parent!.Parent!.Parent
-            + "\\ViewModels\\JsonConfig\\dvhcvn.json";
+            + "\\ViewModels\\Utilities\\dvhcvn.json";
     public GetCitiesCommand()
     {
     }

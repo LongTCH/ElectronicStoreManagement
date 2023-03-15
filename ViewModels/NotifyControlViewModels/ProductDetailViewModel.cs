@@ -7,7 +7,7 @@ using System.Windows.Input;
 using ViewModels.Commands;
 using ViewModels.Services;
 using ViewModels.Stores;
-using ViewModels.Validators;
+using ViewModels.Utilities;
 
 namespace ViewModels.NotifyControlViewModels;
 
