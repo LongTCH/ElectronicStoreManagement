@@ -20,17 +20,7 @@ public abstract class ProductInputAbstract : ViewModelBase
         AddAvatarCommand = new RelayCommand<object>(_ => addAvatarCommand());
     }
 
-    protected string? id;
-    [Required]
-    [RegularExpression(@"\d{9}", ErrorMessage = "ID must contain 9 digital characters")]
-    public string? Id
-    {
-        get => id; set
-        {
-            id= value;
-            ValidateProperty(value, nameof(Id));
-        }
-    }
+    public abstract string? Id { get; }
     public string? Name { get; set; }
     protected decimal price;
     [Required]
@@ -58,6 +48,7 @@ public abstract class ProductInputAbstract : ViewModelBase
     public string? DetailPath { get; set; }
     public string? AvatarPath { get; set; }
     public string? Company { get; set; }
+    public string? Unit { get; set; }
     public bool IsDefault => AvatarPath == null;
     public string? FolderPath { get; set; }
     public ICommand SelectFolder { get; }
@@ -65,7 +56,7 @@ public abstract class ProductInputAbstract : ViewModelBase
     public ICommand AddAvatarCommand { get; }
     protected virtual void saveCommand()
     {
-        if (Id == null || Company == null)
+        if (Id == null || Company == null || Unit == null)
         {
             ErrorNotifyViewModel.Instance!.Show("Enter all required value", "Warning");
             return;

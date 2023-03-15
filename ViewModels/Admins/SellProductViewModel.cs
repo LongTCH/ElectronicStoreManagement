@@ -74,7 +74,7 @@ public class SellProductViewModel : ViewModelBase
             ProductID = SelectedProduct.Id,
             Number = "1",
             SellPrice = SelectedProduct.SellPrice,
-            Unit = "Cai"
+            Unit = SelectedProduct.Unit
         };
         p.Action += () => OnPropertyChanged(nameof(TotalAmount));
         ProductBillList.Add(p);
@@ -97,7 +97,7 @@ public class ProductBill : ViewModelBase
         }
     }
     public decimal SellPrice { get; set; }
-    public string Unit { get; set; }
+    public string? Unit { get; set; }
     public decimal Amount => SellPrice * Convert.ToInt32(Number);
     public string? Warranty { get; set; }
     public Action? Action { get; set; }

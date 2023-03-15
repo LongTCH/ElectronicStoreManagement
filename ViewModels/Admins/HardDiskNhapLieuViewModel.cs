@@ -1,6 +1,6 @@
-﻿using Microsoft.Identity.Client.Extensions.Msal;
-using Models.DTOs;
+﻿using Models.DTOs;
 using Models.Interfaces;
+using System;
 using System.Windows.Input;
 using ViewModels.Commands;
 using ViewModels.MyMessageBox;
@@ -9,19 +9,21 @@ namespace ViewModels.Admins;
 
 public class HardDiskNhapLieuViewModel : ProductInputAbstract
 {
-    private readonly IUnitOfWork _unitOfWork;
     public string? Storage { get; set; }
     public string Connect { get; set; }
     public string? Series { get; set; }
     public string? Type { get; set; }
-    
+
     public HardDiskNhapLieuViewModel(IUnitOfWork unitOfWork) : base(unitOfWork)
     {
         SaveCommand = new RelayCommand<object>(_ => saveCommand());
-        
+        Id = _unitOfWork.Pcharddisks.GetLastID();
     }
-    
+
     public ICommand SaveCommand { get; }
+
+    public override string? Id { get; }
+
     protected override void saveCommand()
     {
         base.saveCommand();
@@ -44,8 +46,19 @@ public class HardDiskNhapLieuViewModel : ProductInputAbstract
             Id = Id!,
             ImagePath = FolderPath,
             AvatarPath = AvatarPath,
-            Price = Price
+            Price = Price,
+            Unit = Unit,
+            Remain = 0
         };
-        _unitOfWork.Pcharddisks.Add(pcharddiskDTO);
+        try
+        {
+            _unitOfWork.Pcharddisks.Add(pcharddiskDTO);
+            _unitOfWork.Complete();
+            InformationViewModel.Instance.Show("New Hard Disk Added", "Success");
+        }
+        catch (Exception)
+        {
+            ErrorNotifyViewModel.Instance.Show("Add new Hard Disk failed", "Error");
+        }
     }
 }

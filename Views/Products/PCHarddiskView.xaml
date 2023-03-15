@@ -97,7 +97,7 @@
                     <StackPanel Margin="24,8,24,16"
                                 Orientation="Vertical"
                                 TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
-                        <ListBox ItemsSource="{Binding StoargeList}">
+                        <ListBox ItemsSource="{Binding StorageList}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <CheckBox Style="{StaticResource ckbFilter}" />
