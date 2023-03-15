@@ -1,8 +1,8 @@
-﻿namespace ViewModels.Filter;
+﻿namespace ViewModels.Utilities;
 
 public class MyFilter
 {
-    public string GetImageFilter() => 
+    public string GetImageFilter() =>
         "All Files (*.*)|*.*" +
         "|All Pictures (*.emf;*.wmf;*.jpg;*.jpeg;*.jfif;*.jpe;*.png;*.bmp;*.dib;*.rle;*.gif;*.emz;*.wmz;*.tif;*.tiff;*.svg;*.ico)" +
             "|*.emf;*.wmf;*.jpg;*.jpeg;*.jfif;*.jpe;*.png;*.bmp;*.dib;*.rle;*.gif;*.emz;*.wmz;*.tif;*.tiff;*.svg;*.ico" +

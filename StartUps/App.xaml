@@ -15,6 +15,7 @@
                 <ResourceDictionary Source="pack://application:,,,/Views;component/Themes/DisplayProductStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Views;component/Themes/ScrollBarStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Views;component/Themes/ListProductStyle.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Views;component/Themes/StringFormatSource.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

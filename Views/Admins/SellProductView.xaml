@@ -15,6 +15,7 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0"
                     x:Name="TopPanel"
@@ -67,13 +68,13 @@
                                       Path=Header}" />
                 <DataGridTextColumn Header="Mã sản phẩm"
                                     IsReadOnly="True"
-                                    Binding="{Binding ProductId, Mode=OneWay}" />
+                                    Binding="{Binding Id, Mode=OneWay}" />
                 <DataGridTextColumn Header="Tên sản phẩm"
                                     IsReadOnly="True"
                                     Binding="{Binding Name, Mode=OneWay}" />
                 <DataGridTextColumn Header="Giá"
                                     IsReadOnly="True"
-                                    Binding="{Binding SellPrice, Mode=OneWay, StringFormat={}{0:0.##}}" />
+                                    Binding="{Binding SellPrice, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
                 <DataGridTextColumn Header="Đơn vị"
                                     IsReadOnly="True"
                                     Binding="{Binding Unit, Mode=OneWay}" />
@@ -81,7 +82,7 @@
                                     Binding="{Binding Number, UpdateSourceTrigger=LostFocus}" />
                 <DataGridTextColumn Header="Thành tiền"
                                     IsReadOnly="True"
-                                    Binding="{Binding Amount, Mode=OneWay, StringFormat={}{0:0.##}}" />
+                                    Binding="{Binding Amount, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
                 <DataGridTextColumn Header="Bảo hành"
                                     Binding="{Binding Warranty}" />
                 <DataGridTemplateColumn Header="Xóa">
@@ -97,6 +98,7 @@
         <StackPanel x:Name="BotPanel"
                     Grid.Row="2"
                     Margin="0,0,0,10"
+                    HorizontalAlignment="Center"
                     Orientation="Horizontal">
             <TextBlock Text="Tổng tiền:"
                        FontSize="18"
@@ -106,7 +108,7 @@
             <materialDesign:Card Margin="3">
                 <TextBox  VerticalAlignment="Center"
                           Width="300"
-                          Text="{Binding TotalAmount, Mode=OneWay, StringFormat={}{0:0.# VND}}"
+                          Text="{Binding TotalAmount, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}"
                           BorderThickness="0"
                           FontSize="18"
                           IsEnabled="False" />
@@ -117,5 +119,12 @@
             <Button Content="Xác nhận"
                     Margin="40,0,0,0" />
         </StackPanel>
+        <TextBlock Grid.Row="3"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Foreground="DarkBlue"
+                   FontSize="16"
+                   Margin="0,0,0,10"
+                   Text="{Binding TextFormPrice, Mode=OneWay}" />
     </Grid>
 </UserControl>

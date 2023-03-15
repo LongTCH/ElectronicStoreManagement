@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows.Input;
 using ViewModels.Commands;
 using ViewModels.MyMessageBox;
+using ViewModels.Utilities;
 
 namespace ViewModels.Admins;
 
@@ -19,7 +20,7 @@ public class SellProductViewModel : ViewModelBase
         AddCommand = new RelayCommand<object>(_ => addCommand());
         DeleteCommand = new RelayCommand<object>(_ => ProductBillList.RemoveAt(SelectedIndex));
         DeleteAllCommand = new RelayCommand<object>(_ => ProductBillList.Clear());
-        ProductBillList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(TotalAmount));
+        ProductBillList.CollectionChanged += (_, _) => OnTotalAmountChanged();
     }
     private string? category;
 
@@ -44,6 +45,7 @@ public class SellProductViewModel : ViewModelBase
     }
     public int SelectedIndex { get; set; }
     public decimal TotalAmount => ProductBillList.Sum(s => s.Amount);
+    public string TextFormPrice => NumberToText.FuncNumberToText((double)TotalAmount);
     public ProductDTO SelectedProduct { get; set; }
     public IEnumerable<ProductDTO>? Products { get; set; }
     public ObservableCollection<ProductBill> ProductBillList { get; } = new();
@@ -69,21 +71,34 @@ public class SellProductViewModel : ViewModelBase
             ErrorNotifyViewModel.Instance.Show("Choose Product", "Warning");
             return;
         }
-        ProductBill p = new()
+        var product = ProductBillList.FirstOrDefault(s => s.Id == SelectedProduct.Id);
+        if (product != null)
         {
-            ProductID = SelectedProduct.Id,
-            Number = "1",
-            SellPrice = SelectedProduct.SellPrice,
-            Unit = SelectedProduct.Unit
-        };
-        p.Action += () => OnPropertyChanged(nameof(TotalAmount));
-        ProductBillList.Add(p);
+            product.Number = Convert.ToInt32(product.Number) + 1 + "";
+        }
+        else
+        {
+            ProductBill p = new()
+            {
+                Id = SelectedProduct.Id,
+                Number = "1",
+                SellPrice = SelectedProduct.SellPrice,
+                Unit = SelectedProduct.Unit,
+                Name = SelectedProduct.Name,
+            };
+            p.Action += OnTotalAmountChanged;
+            ProductBillList.Add(p);
+        }
     }
-
+    private void OnTotalAmountChanged()
+    {
+        OnPropertyChanged(nameof(TotalAmount));
+        OnPropertyChanged(nameof(TextFormPrice));
+    }
 }
 public class ProductBill : ViewModelBase
 {
-    public string ProductID { get; set; }
+    public string Id { get; set; }
     private string? number;
     public string? Number
     {
@@ -96,6 +111,7 @@ public class ProductBill : ViewModelBase
             Action?.Invoke();
         }
     }
+    public string Name { get; set; }
     public decimal SellPrice { get; set; }
     public string? Unit { get; set; }
     public decimal Amount => SellPrice * Convert.ToInt32(Number);
