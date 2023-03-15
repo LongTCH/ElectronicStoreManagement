@@ -49,22 +49,21 @@ public class LoginViewModel : ViewModelBase
         _unitOfWork = unitOfWork;
         _accountStore = accountStore;
         _navigationService = accountNavigationService;
-        Task task = new(() => loginCommandAsync());
-        LoginCommand = new RelayCommand<object>(_ => task.Start());
+        LoginCommand = new RelayCommand<object>(_ => Task.Run(loginCommand));
         PasswordChangedCommand = new RelayCommand<PasswordBox>((p) => Password = p.Password);
         ForgotPasswordNavigationCommand = new RelayCommand<object>(_ => forgotPasswordNavigationService.Navigate());
     }
-    private void loginCommandAsync()
+    private Task loginCommand()
     {
         if (string.IsNullOrWhiteSpace(Id))
         {
             ErrorNotifyViewModel.Instance!.Show("Enter ID", "Warning");
-            return;
+            return Task.CompletedTask;
         }
         if (string.IsNullOrWhiteSpace(Password))
         {
             ErrorNotifyViewModel.Instance!.Show("Enter Password", "Warning");
-            return;
+            return Task.CompletedTask;
         }
         try
         {
@@ -73,7 +72,7 @@ public class LoginViewModel : ViewModelBase
             if (account == null || !encoder.Compare(Password, account.PasswordHash))
             {
                 ErrorNotifyViewModel.Instance!.Show("Can not find you account", "Login failed");
-                return;
+                return Task.CompletedTask;
             }
             _accountStore.CurrentAccount = account;
             _navigationService.Navigate();
@@ -82,5 +81,6 @@ public class LoginViewModel : ViewModelBase
         {
             ErrorNotifyViewModel.Instance!.Show(ex.Message, "Error");
         }
+        return Task.CompletedTask;
     }
 }

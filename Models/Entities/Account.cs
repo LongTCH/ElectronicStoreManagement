@@ -53,6 +53,9 @@ public partial class Account
     public string? AvatarPath { get; set; }
 
     [InverseProperty("Staff")]
+    public virtual ICollection<BillCombo> BillCombos { get; } = new List<BillCombo>();
+
+    [InverseProperty("Staff")]
     public virtual ICollection<Bill> Bills { get; } = new List<Bill>();
 
     [InverseProperty("Staff")]

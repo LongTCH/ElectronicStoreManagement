@@ -4,8 +4,6 @@ using Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Models;
 
@@ -31,7 +29,8 @@ public class PcharddiskRepository : Repository<PcharddiskDTO>, IPcharddiskReposi
                     Series = pcharddisk.Series,
                     Storage = pcharddisk.Storage,
                     AvatarPath = @pcharddisk.AvatarPath,
-                    Type = pcharddisk.Type
+                    Type = pcharddisk.Type,
+                    Unit = pcharddisk.Unit
                 }).ToList();
     }
     public override void Add(PcharddiskDTO entity)
@@ -50,8 +49,18 @@ public class PcharddiskRepository : Repository<PcharddiskDTO>, IPcharddiskReposi
             Series = entity.Series,
             Storage = entity.Storage,
             Type = entity.Type,
-            AvatarPath = entity.AvatarPath
+            AvatarPath = entity.AvatarPath,
+            Unit = entity.Unit
         };
         _context.Pcharddisks.Add(e);
+    }
+
+    public string GetLastID()
+    {
+        string? NewID = _context.Pcharddisks.OrderBy(p => p.Id).LastOrDefault()?.Id;
+        if (NewID == null) return "040000000";
+        int counter = Convert.ToInt32(NewID[2..]);
+        ++counter;
+        return "04"+ counter.ToString().PadLeft(7, '0');
     }
 }

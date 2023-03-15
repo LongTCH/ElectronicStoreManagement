@@ -4,7 +4,6 @@ using System.Net;
 using System.Threading.Tasks;
 using ViewModels.Stores;
 using ViewModels.NotifyControlViewModels;
-using Models;
 using ViewModels.MyMessageBox;
 using System.Text;
 using System.Linq;
@@ -39,7 +38,7 @@ public class EmailVerificationService : INavigationService
         if (i / 2 > 2)
         {
             builder.Append(account.EmailAddress[..2]);
-            builder.Append(new string('*', i - 1));
+            builder.Append(new string('*', i - 2));
         }
         else
         {

@@ -13,5 +13,6 @@
     [Series] NVARCHAR(50) NULL, 
     [Company] NVARCHAR(50) NOT NULL, 
     [Avatar_Path] NVARCHAR(200) NULL, 
+    [Unit] NVARCHAR(50) NOT NULL, 
     CONSTRAINT [PK_SMARTPHONE] PRIMARY KEY ([Id]), 
 )

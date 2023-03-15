@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Models.Entities;
 
-[Table("ORDER")]
-public partial class Order
+[Table("BILL_COMBO")]
+public partial class BillCombo
 {
     [Key]
     public int Id { get; set; }
@@ -40,6 +40,19 @@ public partial class Order
     [Precision(3)]
     public DateTime PurchasedTime { get; set; }
 
-    [InverseProperty("Order")]
-    public virtual ICollection<OrderProduct> OrderProducts { get; } = new List<OrderProduct>();
+    [Column(TypeName = "money")]
+    public decimal TotalAmount { get; set; }
+
+    [Column("ComboID")]
+    [StringLength(9)]
+    [Unicode(false)]
+    public string ComboId { get; set; } = null!;
+
+    [ForeignKey("ComboId")]
+    [InverseProperty("BillCombos")]
+    public virtual Combo Combo { get; set; } = null!;
+
+    [ForeignKey("StaffId")]
+    [InverseProperty("BillCombos")]
+    public virtual Account Staff { get; set; } = null!;
 }

@@ -31,7 +31,8 @@ namespace Models
                         Ram = smartphone.Ram,
                         Remain = smartphone.Remain,
                         AvatarPath= @smartphone.AvatarPath,
-                        Series = smartphone.Series
+                        Series = smartphone.Series,
+                        Unit = smartphone.Unit
                     }).ToList();
         }
     }

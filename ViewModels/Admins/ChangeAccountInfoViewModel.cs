@@ -181,7 +181,11 @@ public class ChangeAccountInfoViewModel : ViewModelBase
             ErrorNotifyViewModel.Instance!.Show("Must be earlier than current day", "Birthday Invalid");
             return;
         }
-        AccountDTO accountDTO = new AccountDTO()
+        Task.Run(changeUser);
+    }
+    private Task changeUser()
+    {
+        AccountDTO accountDTO = new()
         {
             Id = Id!,
             PasswordHash = "00000000000000000",
@@ -197,15 +201,18 @@ public class ChangeAccountInfoViewModel : ViewModelBase
             Street = Street!.ToString(),
             AvatarPath = Avatar_Path
         };
-        Task task = new(() => changeUser(accountDTO));
-        task.Start();
-    }
-    private void changeUser(AccountDTO accountDTO)
-    {
-        _unitOfWork.Accounts.Update(accountDTO);
-        _unitOfWork.Complete();
-        InformationViewModel.Instance!.Show("Saved change", "Success");
-        _navigationService.Navigate();
+        try
+        {
+            _unitOfWork.Accounts.Update(accountDTO);
+            _unitOfWork.Complete();
+            InformationViewModel.Instance!.Show("Saved change", "Success");
+            _navigationService.Navigate();
+        }
+        catch (Exception)
+        {
+            ErrorNotifyViewModel.Instance.Show("Change save failed", "Error");
+        }
+        return Task.CompletedTask;
     }
     private void addAvatarCommand()
     {

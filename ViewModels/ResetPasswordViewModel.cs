@@ -63,10 +63,9 @@ public class ResetPasswordViewModel : ViewModelBase
         
         _accountStore.Logout();
         _loginNavigate.Navigate();
-        Task task = new(resetAsync);
-        task.Start();
+        Task.Run(resetAsync);
     }
-    private void resetAsync()
+    private Task resetAsync()
     {
         try
         {
@@ -79,5 +78,6 @@ public class ResetPasswordViewModel : ViewModelBase
         {
             ErrorNotifyViewModel.Instance!.Show("Reset password failed", "Error");
         }
+        return Task.CompletedTask;
     }
 }

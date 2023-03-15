@@ -54,4 +54,7 @@ public partial class Monitor
     [Column("Avatar_Path")]
     [StringLength(200)]
     public string? AvatarPath { get; set; }
+
+    [StringLength(50)]
+    public string Unit { get; set; } = null!;
 }

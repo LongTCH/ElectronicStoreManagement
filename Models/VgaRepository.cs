@@ -30,7 +30,8 @@ public class VgaRepository : Repository<VgaDTO>, IVgaRepository
                     ImagePath = @vga.ImagePath,
                     Need = vga.Need,
                     AvatarPath= @vga.AvatarPath,
-                    Series = vga.Series
+                    Series = vga.Series,
+                    Unit = vga.Unit
                 }).ToList();
     }
 }

@@ -1,5 +1,7 @@
 ﻿CREATE TABLE [dbo].[COMBO]
 (
-	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
-    [SellPrice] MONEY NOT NULL
+	[Id] CHAR(9) NOT NULL, 
+    [Discount] FLOAT NOT NULL, 
+    [ProductIDList] NVARCHAR(200) NOT NULL, 
+    CONSTRAINT [PK_COMBO] PRIMARY KEY ([Id])
 )

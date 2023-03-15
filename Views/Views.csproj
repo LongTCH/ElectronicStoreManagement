@@ -6,6 +6,7 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+
   <ItemGroup>
     <None Remove="Images\addproduct.png" />
     <None Remove="Images\adduser.png" />
@@ -55,10 +56,6 @@
     <Page Update="LoginView.xaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Converters\" />
   </ItemGroup>
 
 </Project>
