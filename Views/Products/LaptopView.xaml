@@ -189,79 +189,8 @@
                               Style="{StaticResource cmbCon}"
                               materialDesign:HintAssist.Hint="Order by" />
                 </DockPanel>
-                <ListBox MaxHeight="350"
-                         ItemsSource="{Binding ProductList}"
-                         ScrollViewer.HorizontalScrollBarVisibility="Auto">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Button Background="Snow"
-                                    BorderThickness="0"
-                                    Height="300"
-                                    Width="200"
-                                    VerticalContentAlignment="Top"
-                                    HorizontalContentAlignment="Left"
-                                    Command="{Binding DataContext.ProductDetailNavigateCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
-                                    CommandParameter="{Binding}">
-                                <StackPanel>
-                                    <Image Source="{Binding AvatarPath}"
-                                           Height="200"
-                                           Width="200"
-                                           Stretch="UniformToFill" />
-                                    <TextBlock Text="{Binding Company, Mode=OneWay}"
-                                               FontWeight="Bold"
-                                               Foreground="Silver"
-                                               FontSize="20" />
-                                    <TextBlock Text="{Binding Name}"
-                                               TextWrapping="Wrap"
-                                               FontWeight="Thin"
-                                               Foreground="Black"
-                                               FontSize="18" />
-                                    <DockPanel>
-                                        <DockPanel.Resources>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="FontSize"
-                                                        Value="14" />
-                                                <Setter Property="Foreground"
-                                                        Value="Blue" />
-                                                <Setter Property="FontWeight"
-                                                        Value="DemiBold" />
-                                            </Style>
-                                        </DockPanel.Resources>
-                                        <TextBlock Text="{Binding SellPrice, Mode=OneWay, StringFormat={}{0:0.#}}" />
-                                        <TextBlock Text="đ" />
-                                    </DockPanel>
-                                    <DockPanel Visibility="{Binding DiscountShow, Converter={StaticResource BoolToVis}}"
-                                               LastChildFill="True">
-                                        <DockPanel.Resources>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="FontSize"
-                                                        Value="12" />
-                                                <Setter Property="FontWeight"
-                                                        Value="Thin" />
-                                            </Style>
-                                        </DockPanel.Resources>
-                                        <TextBlock Text="{Binding Price , Mode=OneWay, StringFormat={}{0:0.#}}"
-                                                   TextDecorations="Strikethrough"
-                                                   Foreground="SlateGray" />
-                                        <TextBlock Text="đ"
-                                                   Foreground="SlateGray" />
-                                        <TextBlock Text=" -"
-                                                   Foreground="CornflowerBlue" />
-                                        <TextBlock Text="{Binding Discount, Mode=OneWay}"
-                                                   Foreground="CornflowerBlue" />
-                                        <TextBlock Text="%"
-                                                   Foreground="CornflowerBlue" />
-                                    </DockPanel>
-                                </StackPanel>
-                            </Button>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel />
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                </ListBox>
+                <ListBox Style="{StaticResource listProduct}"
+                         ItemsSource="{Binding ProductList}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

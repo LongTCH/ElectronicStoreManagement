@@ -1,0 +1,71 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="listProduct"
+           TargetType="{x:Type ListBox}">
+        <Setter Property="MaxHeight"
+                Value="350" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility"
+                Value="Auto" />
+        <Setter Property="BorderThickness"
+                Value="0" />
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Button Background="Snow"
+                            BorderThickness="0"
+                            Height="300"
+                            Width="200"
+                            VerticalContentAlignment="Top"
+                            HorizontalContentAlignment="Left"
+                            Command="{Binding DataContext.ProductDetailNavigateCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
+                            CommandParameter="{Binding}">
+                        <StackPanel>
+                            <Image Source="{Binding AvatarPath}"
+                                   Height="200"
+                                   Width="200"
+                                   Stretch="UniformToFill" />
+                            <TextBlock Text="{Binding Company, Mode=OneWay}"
+                                       FontWeight="Bold"
+                                       Foreground="Silver"
+                                       FontSize="20" />
+                            <TextBlock Text="{Binding Name}"
+                                       TextWrapping="Wrap"
+                                       FontWeight="Thin"
+                                       Foreground="Black"
+                                       FontSize="18" />
+                            <DockPanel>
+                                <TextBlock Text="{Binding SellPrice, Mode=OneWay, StringFormat={}{0:0.# đ}}"
+                                           FontSize="14"
+                                           Foreground="Blue"
+                                           FontWeight="DemiBold" />
+                            </DockPanel>
+                            <DockPanel Visibility="{Binding DiscountShow, Converter={StaticResource BoolToVis}}"
+                                       LastChildFill="True">
+                                <DockPanel.Resources>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontSize"
+                                                Value="13" />
+                                        <Setter Property="FontWeight"
+                                                Value="Thin" />
+                                    </Style>
+                                </DockPanel.Resources>
+                                <TextBlock Text="{Binding Price , Mode=OneWay, StringFormat={}{0:0.# đ}}"
+                                           TextDecorations="Strikethrough"
+                                           Foreground="SlateGray" />
+                                <TextBlock Text="{Binding Discount, Mode=OneWay, StringFormat=' -{0}%'}"
+                                           Foreground="CornflowerBlue" />
+                            </DockPanel>
+                        </StackPanel>
+                    </Button>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <WrapPanel  />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

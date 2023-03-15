@@ -61,6 +61,7 @@ public partial class App : Application
         services.AddTransient<HardDiskNhapLieuViewModel>();
         services.AddTransient<MonitorNhapLieuViewModel>();
         services.AddTransient<ProductInputViewModel>(CreateProductInputViewModel);
+        
 
         services.AddSingleton<INavigationService>(CreateHomeNavigationService);
         services.AddSingleton<CloseModalNavigationService>(); 
