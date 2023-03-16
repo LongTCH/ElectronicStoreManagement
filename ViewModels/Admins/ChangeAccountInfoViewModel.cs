@@ -123,7 +123,7 @@ public class ChangeAccountInfoViewModel : ViewModelBase
     {
         _navigationService = navigationSerVice;
         _unitOfWork = unitOfWork;
-        Cities = new CitiesSortCommand(new GetCitiesCommand().GetCitiesList()?.ToList())?.GetSortedCities();
+        Cities = new GetCitiesCommand().GetCitiesList()?.OrderBy(c => c.name).ToList();
         GetDistricts = new RelayCommand<City>(getDistricts);
         GetSub_districts = new RelayCommand<District>(getSubDistricts);
         SignUpCommand = new RelayCommand<object>(_ => signUp());
@@ -216,7 +216,7 @@ public class ChangeAccountInfoViewModel : ViewModelBase
     }
     private void addAvatarCommand()
     {
-        Avatar_Path = new FileCommand().Set(FileType.Image);
+        Avatar_Path = FileCommand.Set(FileType.Image);
         if (Avatar_Path != null)
         {
             OnPropertyChanged(nameof(IsDefault));

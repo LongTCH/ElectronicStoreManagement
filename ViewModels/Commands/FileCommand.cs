@@ -5,10 +5,7 @@ namespace ViewModels.Commands;
 public enum FileType { Image, Excel}
 public class FileCommand
 {
-    public FileCommand()
-    {
-    }
-    public string? Set(FileType? fileType = null)
+    public static string? Set(FileType? fileType = null)
     {
         string filter;
         if (fileType == FileType.Image) filter = new MyFilter().GetImageFilter();

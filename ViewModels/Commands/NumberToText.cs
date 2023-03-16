@@ -1,14 +1,14 @@
 ﻿using System;
 
-namespace ViewModels.Utilities;
+namespace ViewModels.Commands;
 
 public static class NumberToText
 {
-  
+
     public static string FuncNumberToText(double inputNumber, bool suffix = true)
     {
         char[] separator = { ',', '.' };
-        String[] strlist = inputNumber.ToString().Split(separator);
+        string[] strlist = inputNumber.ToString().Split(separator);
         string result;
         if (strlist.Length < 2) result = IntNumberToText(Convert.ToInt32(strlist[0]), true);
         else result = IntNumberToText(Convert.ToInt32(strlist[0]), false) + " phẩy " + IntNumberToText(Convert.ToInt32(strlist[1]), suffix);
@@ -66,17 +66,17 @@ public static class NumberToText
                     }
                 }
 
-                if ((ones > 0) || (tens > 0) || (hundreds > 0) || (placeValue == 3))
+                if (ones > 0 || tens > 0 || hundreds > 0 || placeValue == 3)
                     result = placeValues[placeValue] + result;
 
                 placeValue++;
                 if (placeValue > 3) placeValue = 1;
 
-                if ((ones == 1) && (tens > 1))
+                if (ones == 1 && tens > 1)
                     result = "mốt " + result;
                 else
                 {
-                    if ((ones == 5) && (tens > 0))
+                    if (ones == 5 && tens > 0)
                         result = "lăm " + result;
                     else if (ones > 0)
                         result = unitNumbers[ones] + " " + result;
@@ -85,14 +85,14 @@ public static class NumberToText
                     break;
                 else
                 {
-                    if ((tens == 0) && (ones > 0)) result = "lẻ " + result;
+                    if (tens == 0 && ones > 0) result = "lẻ " + result;
                     if (tens == 1) result = "mười " + result;
                     if (tens > 1) result = unitNumbers[tens] + " mươi " + result;
                 }
                 if (hundreds < 0) break;
                 else
                 {
-                    if ((hundreds > 0) || (tens > 0) || (ones > 0))
+                    if (hundreds > 0 || tens > 0 || ones > 0)
                         result = unitNumbers[hundreds] + " trăm " + result;
                 }
                 result = " " + result;

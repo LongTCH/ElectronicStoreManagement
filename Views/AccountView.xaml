@@ -54,44 +54,8 @@
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0">
                         <StackPanel.Resources>
-                            <Style TargetType="Button">
-                                <Setter Property="Background"
-                                        Value="Transparent" />
-                                <Setter Property="Foreground"
-                                        Value="Black" />
-                                <Setter Property="BorderThickness"
-                                        Value="0" />
-                                <Setter Property="Cursor"
-                                        Value="Hand" />
-                                <Setter Property="FontSize"
-                                        Value="14" />
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="Button">
-                                            <TextBlock Text="{TemplateBinding Content}"
-                                                       VerticalAlignment="Center"
-                                                       HorizontalAlignment="Right"
-                                                       Foreground="Black" />
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver"
-                                             Value="True">
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="Button">
-                                                    <TextBlock Text="{TemplateBinding Content}"
-                                                               TextDecorations="Underline"
-                                                               HorizontalAlignment="Right"
-                                                               VerticalAlignment="Center"
-                                                               Foreground="SteelBlue" />
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
+                            <Style TargetType="Button"
+                                   BasedOn="{StaticResource TextButton}" />
                         </StackPanel.Resources>
                         <Button Content="Reset password"
                                 Command="{Binding ResetPasswordCommand}" />

@@ -6,13 +6,22 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:Views.Admins"
              mc:Ignorable="d"
-             d:DesignHeight="600"
+             d:DesignHeight="800"
              d:DesignWidth="960"
              Background="White">
     <ScrollViewer VerticalScrollBarVisibility="Auto"
-                  HorizontalAlignment="Stretch"
-                  Grid.Row="1">
+                  HorizontalAlignment="Stretch">
         <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <ComboBox Cursor="Hand"
+                          Width="200"
+                          ItemsSource="{Binding CategoryList}"
+                          SelectedItem="{Binding Category}"
+                          VerticalContentAlignment="Center"
+                          HorizontalContentAlignment="Center"
+                          Style="{StaticResource MaterialDesignDataGridComboBox}"
+                          materialDesign:HintAssist.Hint="Chọn sản phẩm để sửa thông tin" />
+            </StackPanel>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
@@ -80,7 +89,7 @@
                         <Button HorizontalAlignment="Right"
                                 Command="{Binding SelectDetail}"
                                 Style="{StaticResource MaterialDesignFloatingActionMiniButton}">
-                            <materialDesign:PackIcon Kind="Folder" />
+                            <materialDesign:PackIcon Kind="File" />
                         </Button>
                     </StackPanel>
                     <DockPanel Grid.Column="0"
@@ -184,7 +193,7 @@
                              materialDesign:TextFieldAssist.HasClearButton="True"
                              materialDesign:TextFieldAssist.SuffixText="VND"
                              Margin="20,10"
-                             Text="{Binding Price, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                             Text="{Binding Price, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              FontFamily="Champagne &amp; Limousines"
                              FontSize="18" />
@@ -199,7 +208,7 @@
                              materialDesign:TextFieldAssist.HasClearButton="True"
                              materialDesign:TextFieldAssist.SuffixText="%"
                              Margin="20,10"
-                             Text="{Binding Discout, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                             Text="{Binding Discout, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              FontFamily="Champagne &amp; Limousines"
                              FontSize="18" />

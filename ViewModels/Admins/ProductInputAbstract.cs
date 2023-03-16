@@ -64,19 +64,19 @@ public abstract class ProductInputAbstract : ViewModelBase
     }
     private void getFolderPath()
     {
-        FolderPath = new FolderCommand().Set();
+        FolderPath = FolderCommand.Set();
         if (FolderPath != null) 
             OnPropertyChanged(nameof(FolderPath));
     }
     private void getDetailPath()
     {
-        DetailPath = new FileCommand().Set(FileType.Excel);
+        DetailPath = FileCommand.Set(FileType.Excel);
         if (DetailPath != null)
             OnPropertyChanged(nameof(DetailPath));
     }
     private void addAvatarCommand()
     {
-        AvatarPath = new FileCommand().Set(FileType.Image);
+        AvatarPath = FileCommand.Set(FileType.Image);
         if (AvatarPath != null)
         {
             OnPropertyChanged(nameof(IsDefault));

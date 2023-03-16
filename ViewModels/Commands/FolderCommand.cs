@@ -6,10 +6,7 @@ namespace ViewModels.Commands;
 
 public class FolderCommand
 {
-    public FolderCommand()
-    {
-    }
-    public string? Set()
+    public static string? Set()
     {
         FolderBrowserDialog folder = new()
         {
