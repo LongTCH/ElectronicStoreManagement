@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Wordprocessing;
+using System;
 
 namespace ViewModels.Commands;
 
@@ -10,12 +11,12 @@ public static class NumberToText
         char[] separator = { ',', '.' };
         string[] strlist = inputNumber.ToString().Split(separator);
         string result;
-        if (strlist.Length < 2) result = IntNumberToText(Convert.ToInt32(strlist[0]), true);
-        else result = IntNumberToText(Convert.ToInt32(strlist[0]), false) + " phẩy " + IntNumberToText(Convert.ToInt32(strlist[1]), suffix);
+        if (strlist.Length < 2) result = IntNumberToText(Convert.ToUInt64(strlist[0]), true);
+        else result = IntNumberToText(Convert.ToUInt64(strlist[0]), false) + " phẩy " + IntNumberToText(Convert.ToUInt64(strlist[1]), suffix);
         result = char.ToUpper(result[0]) + result[1..];
         return result;
     }
-    public static string IntNumberToText(int inputNumber, bool suffix = true)
+    public static string IntNumberToText(UInt64 inputNumber, bool suffix = true)
     {
         string[] unitNumbers = new string[] { "không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín" };
         string[] placeValues = new string[] { "", "nghìn", "triệu", "tỷ" };
