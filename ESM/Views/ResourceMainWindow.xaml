@@ -1,0 +1,57 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+                    xmlns:local="clr-namespace:ESM.Views"
+                 xmlns:localmodel="clr-namespace:ESM.ViewModels">
+    <DataTemplate DataType="{x:Type localmodel:ErrorNotifyViewModel}">
+        <local:ErrorNotifyView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type localmodel:InformationViewModel}">
+        <local:InformationView />
+    </DataTemplate>
+    <DataTemplate x:Key="MenuItemTemplate">
+        <Grid Height="48">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type Controls:HamburgerMenu}}, Path=CompactPaneLength, Mode=OneWay}" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <ContentControl Grid.Column="0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Content="{Binding Icon}"
+                            Focusable="False" />
+            <TextBlock Grid.Column="1"
+                       VerticalAlignment="Center"
+                       FontSize="16"
+                       Text="{Binding Label}" />
+        </Grid>
+    </DataTemplate>
+    <!--  This is the template for the option menu item  -->
+    <DataTemplate x:Key="HamburgerOptionsMenuItem"
+                  DataType="{x:Type Controls:HamburgerMenuIconItem}">
+        <DockPanel Height="48"
+                   LastChildFill="True">
+            <ContentControl x:Name="IconPart"
+                            Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type Controls:HamburgerMenu}}, Path=CompactPaneLength}"
+                            Content="{Binding Icon}"
+                            DockPanel.Dock="Left"
+                            Focusable="False"
+                            IsTabStop="False" />
+            <TextBlock x:Name="TextPart"
+                       VerticalAlignment="Center"
+                       FontSize="16"
+                       Text="{Binding Label}" />
+        </DockPanel>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Controls:HamburgerMenu}}, Path=PanePlacement}"
+                         Value="Right">
+                <Setter TargetName="IconPart"
+                        Property="DockPanel.Dock"
+                        Value="Right" />
+                <Setter TargetName="TextPart"
+                        Property="Margin"
+                        Value="8 0 0 0" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+</ResourceDictionary>

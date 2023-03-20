@@ -1,0 +1,105 @@
+﻿<mah:MetroWindow x:Class="ESM.Views.MainWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:prism="http://prismlibrary.com/"
+                 xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                 xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                 xmlns:esmcore="clr-namespace:ESM.Core;assembly=ESM.Core"
+                 xmlns:modalcontrol="clr-namespace:ModalControl;assembly=ModalControl"
+                 xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+                 GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
+                 ResizeMode="CanResizeWithGrip"
+                 WindowStartupLocation="CenterScreen"
+                 WindowTransitionsEnabled="False"
+                 ShowIconOnTitleBar="True"
+                 prism:ViewModelLocator.AutoWireViewModel="True"
+                 xmlns:localvm="clr-namespace:ESM.ViewModels"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 mc:Ignorable="d"
+                 d:DataContext="{d:DesignInstance localvm:MainWindowViewModel}"
+                 Title="{x:Static esmcore:RegionNames.AppTitle}"
+                 Height="540"
+                 Width="960">
+    <mah:MetroWindow.IconTemplate>
+        <DataTemplate>
+            <iconPacks:PackIconUnicons Kind="Apple"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Margin="4"
+                                       Foreground="{DynamicResource MahApps.Brushes.IdealForeground}" />
+        </DataTemplate>
+    </mah:MetroWindow.IconTemplate>
+    <mah:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/ESM;component/Views/ResourceMainWindow.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </mah:MetroWindow.Resources>
+    <Grid>
+        <ContentControl Margin="50,0,0,0"
+                        prism:RegionManager.RegionName="{x:Static esmcore:RegionNames.ContentRegion}" />
+        <Controls:HamburgerMenu x:Name="HamburgerMenuControl"
+                                DisplayMode="CompactOverlay"
+                                OpenPaneLength="200"
+                                ItemTemplate="{StaticResource MenuItemTemplate}"
+                                HamburgerWidth="48"
+                                Cursor="Hand">
+            <!--  Header  -->
+            <!--<Controls:HamburgerMenu.HamburgerMenuHeaderTemplate>
+                <DataTemplate>
+                    <TextBlock HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="16"
+                               Foreground="White"
+                               Text="Pictures" />
+                </DataTemplate>
+            </Controls:HamburgerMenu.HamburgerMenuHeaderTemplate>-->
+            <!--  Items  -->
+            <Controls:HamburgerMenu.ItemsSource>
+                <Controls:HamburgerMenuItemCollection>
+                    <Controls:HamburgerMenuIconItem Label="Home"
+                                                    Command="{Binding NavigateCommand}"
+                                                    CommandParameter="{x:Static esmcore:ViewNames.HomeView}">
+                        <Controls:HamburgerMenuIconItem.Icon>
+                            <iconPacks:PackIconMaterial Width="22"
+                                                        Height="22"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Kind="Home" />
+                        </Controls:HamburgerMenuIconItem.Icon>
+                    </Controls:HamburgerMenuIconItem>
+                    <Controls:HamburgerMenuIconItem Label="Login"
+                                                    IsVisible="{Binding IsNotLoggedIn}"
+                                                    Command="{Binding NavigateCommand}"
+                                                    CommandParameter="{x:Static esmcore:ViewNames.LoginView}">
+                        <Controls:HamburgerMenuIconItem.Icon>
+                            <iconPacks:PackIconFontAwesome Width="22"
+                                                           Height="22"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Kind="SignInAltSolid" />
+                        </Controls:HamburgerMenuIconItem.Icon>
+                    </Controls:HamburgerMenuIconItem>
+                    <Controls:HamburgerMenuIconItem Label="Account"
+                                                    IsVisible="{Binding IsLoggedIn}"
+                                                    Command="{Binding NavigateCommand}"
+                                                    CommandParameter="{x:Static esmcore:ViewNames.AccountView}">
+                        <Controls:HamburgerMenuIconItem.Icon>
+                            <iconPacks:PackIconUnicons Width="22"
+                                                       Height="22"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Kind="User" />
+                        </Controls:HamburgerMenuIconItem.Icon>
+                    </Controls:HamburgerMenuIconItem>
+                </Controls:HamburgerMenuItemCollection>
+            </Controls:HamburgerMenu.ItemsSource>
+        </Controls:HamburgerMenu>
+        <modalcontrol:Modal IsOpen="{Binding IsModalOpen}"
+                            Panel.ZIndex="2">
+            <ContentControl prism:RegionManager.RegionName="{x:Static esmcore:RegionNames.HostRegion}" />
+        </modalcontrol:Modal>
+    </Grid>
+</mah:MetroWindow>

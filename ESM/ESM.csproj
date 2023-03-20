@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Prism.Unity" Version="8.1.97" />
+    <PackageReference Include="SimpleModal.WPF" Version="1.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ESM.Core\ESM.Core.csproj" />
+    <ProjectReference Include="..\ESM.Modules.Authentication\ESM.Modules.Authentication.csproj" />
+    <ProjectReference Include="..\ESM.Modules.Normal\ESM.Modules.Normal.csproj" />
+  </ItemGroup>
+</Project>

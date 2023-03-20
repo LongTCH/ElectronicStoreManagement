@@ -1,11 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace Models.Entities;
+namespace ESM.Modules.DataAccess.Models;
 
-[Table("VGA")]
-public partial class Vga
+[Table("PCHARDDISK")]
+public partial class Pcharddisk
 {
     [Key]
     [StringLength(9)]
@@ -17,20 +19,11 @@ public partial class Vga
 
     [StringLength(50)]
     [Unicode(false)]
-    public string Chip { get; set; } = null!;
-
-    [StringLength(10)]
-    [Unicode(false)]
-    public string Chipset { get; set; } = null!;
-
-    [Column("VRAM")]
-    [StringLength(50)]
-    [Unicode(false)]
-    public string Vram { get; set; } = null!;
+    public string Storage { get; set; } = null!;
 
     [StringLength(20)]
     [Unicode(false)]
-    public string Gen { get; set; } = null!;
+    public string Connect { get; set; } = null!;
 
     [Column(TypeName = "money")]
     public decimal Price { get; set; }
@@ -53,8 +46,9 @@ public partial class Vga
     [StringLength(50)]
     public string Company { get; set; } = null!;
 
-    [StringLength(50)]
-    public string? Need { get; set; }
+    [StringLength(20)]
+    [Unicode(false)]
+    public string? Type { get; set; }
 
     [Column("Avatar_Path")]
     [StringLength(200)]
