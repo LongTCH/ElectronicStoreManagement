@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using ViewModels.Commands;
 using ViewModels.Services;
 using ViewModels.Stores;

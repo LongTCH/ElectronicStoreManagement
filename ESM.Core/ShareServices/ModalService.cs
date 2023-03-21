@@ -8,6 +8,7 @@ namespace ESM.Core.ShareServices
     {
         void ShowModal(ModalType type, string message, string title);
         Action? Action { get; set; }
+        void ShowModal(string view, NavigationParameters parameter);
     }
     public class ModalService : IModalService
     {
@@ -32,6 +33,11 @@ namespace ESM.Core.ShareServices
                 case ModalType.Information:
                     _regionManager.RequestNavigate(RegionNames.HostRegion, HostNames.InformationModal, parameters); break;
             }
+            Action?.Invoke();
+        }
+        public void ShowModal(string view, NavigationParameters parameter)
+        {
+            _regionManager.RequestNavigate(RegionNames.HostRegion, view, parameter);
             Action?.Invoke();
         }
     }

@@ -22,7 +22,7 @@ namespace ESM.ViewModels
             get => _title;
             set => SetProperty(ref _title, value);
         }
-        public DelegateCommand CloseCommand { get; set; }
+        public DelegateCommand CloseCommand { get; }
         public ErrorNotifyViewModel(IModalService modalService, IRegionManager regionManager)
         {
             CloseCommand = new(() =>

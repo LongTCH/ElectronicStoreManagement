@@ -4,12 +4,12 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              prism:ViewModelLocator.AutoWireViewModel="True"
+             Background="SandyBrown"
              Height="150"
              Width="300">
     <Grid>
         <materialDesign:Card  Margin="0,25,0,0">
-            <StackPanel VerticalAlignment="Bottom"
-                        Grid.Row="1">
+            <StackPanel VerticalAlignment="Bottom">
                 <TextBlock Text="{Binding Title}"
                            FontSize="22"
                            FontWeight="Bold"
@@ -37,6 +37,6 @@
         <Image VerticalAlignment="Top"
                Panel.ZIndex="1"
                Height="50"
-               Source="pack://application:,,,/ESM.Core;component/ShareImages/logo.png" />
+               Source="pack://application:,,,/ESM.Core;component/ShareImages/error.png" />
     </Grid>
 </UserControl>

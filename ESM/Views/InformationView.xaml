@@ -1,9 +1,43 @@
 ﻿<UserControl x:Class="ESM.Views.InformationView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:prism="http://prismlibrary.com/"             
+             xmlns:prism="http://prismlibrary.com/"
+             Background="LightSkyBlue"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             Height="150"
+             Width="300"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
-            
+        <materialDesign:Card Margin="0,25,0,0">
+            <StackPanel VerticalAlignment="Bottom"
+                        Grid.Row="1">
+                <TextBlock Text="{Binding Title}"
+                           FontSize="22"
+                           FontWeight="Bold"
+                           Foreground="LawnGreen"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Top" />
+                <TextBlock Text="{Binding Message}"
+                           FontSize="18"
+                           Foreground="Black"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center" />
+                <Button Content="OK"
+                        Margin="0,20,0,10"
+                        HorizontalAlignment="Center"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Height="20"
+                        FontSize="10"
+                        IsDefault="True"
+                        Foreground="Black"
+                        Background="GreenYellow"
+                        BorderBrush="Green"
+                        Command="{Binding CloseCommand}" />
+            </StackPanel>
+        </materialDesign:Card>
+        <Image VerticalAlignment="Top"
+               Panel.ZIndex="1"
+               Height="50"
+               Source="pack://application:,,,/ESM.Core;component/ShareImages/success.png" />
     </Grid>
 </UserControl>

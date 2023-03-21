@@ -16,6 +16,11 @@ namespace ESM.Modules.DataAccess.Infrastructure
             throw new NotImplementedException();
         }
 
+        public virtual bool Any(string id)
+        {
+            throw new NotImplementedException();
+        }
+
         public virtual void Delete(string id)
         {
             throw new NotImplementedException();

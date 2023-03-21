@@ -19,6 +19,8 @@
                  mc:Ignorable="d"
                  d:DataContext="{d:DesignInstance localvm:MainWindowViewModel}"
                  Title="{x:Static esmcore:RegionNames.AppTitle}"
+                 xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+                 Dialog:DialogParticipation.Register="{Binding}"
                  Height="540"
                  Width="960">
     <mah:MetroWindow.IconTemplate>
@@ -38,25 +40,29 @@
         </ResourceDictionary>
     </mah:MetroWindow.Resources>
     <Grid>
-        <ContentControl Margin="50,0,0,0"
-                        prism:RegionManager.RegionName="{x:Static esmcore:RegionNames.ContentRegion}" />
+        <Controls:TransitioningContentControl prism:RegionManager.RegionName="{x:Static esmcore:RegionNames.ContentRegion}"
+                                              RestartTransitionOnContentChange="True"
+                                              Transition="Default"
+                                              Margin="50,0,0,0" />
         <Controls:HamburgerMenu x:Name="HamburgerMenuControl"
                                 DisplayMode="CompactOverlay"
                                 OpenPaneLength="200"
                                 ItemTemplate="{StaticResource MenuItemTemplate}"
+                                OptionsItemTemplate="{StaticResource HamburgerOptionsMenuItem}"
                                 HamburgerWidth="48"
                                 Cursor="Hand">
-            <!--  Header  -->
-            <!--<Controls:HamburgerMenu.HamburgerMenuHeaderTemplate>
+            <!-- Header-->
+            <Controls:HamburgerMenu.HamburgerMenuHeaderTemplate>
                 <DataTemplate>
-                    <TextBlock HorizontalAlignment="Center"
+                    <TextBlock HorizontalAlignment="Left"
                                VerticalAlignment="Center"
-                               FontSize="16"
-                               Foreground="White"
-                               Text="Pictures" />
+                               FontSize="20"
+                               Margin="10,0,0,0"
+                               Foreground="GreenYellow"
+                               Text="Tool Bar" />
                 </DataTemplate>
-            </Controls:HamburgerMenu.HamburgerMenuHeaderTemplate>-->
-            <!--  Items  -->
+            </Controls:HamburgerMenu.HamburgerMenuHeaderTemplate>
+            <!-- Items-->
             <Controls:HamburgerMenu.ItemsSource>
                 <Controls:HamburgerMenuItemCollection>
                     <Controls:HamburgerMenuIconItem Label="Home"
@@ -94,9 +100,36 @@
                                                        Kind="User" />
                         </Controls:HamburgerMenuIconItem.Icon>
                     </Controls:HamburgerMenuIconItem>
+                    <Controls:HamburgerMenuIconItem Label="Test"
+                                                    Command="{Binding Test}">
+                        <Controls:HamburgerMenuIconItem.Icon>
+                            <iconPacks:PackIconUnicons Width="22"
+                                                       Height="22"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Kind="_10Plus" />
+                        </Controls:HamburgerMenuIconItem.Icon>
+                    </Controls:HamburgerMenuIconItem>
                 </Controls:HamburgerMenuItemCollection>
             </Controls:HamburgerMenu.ItemsSource>
+            <!--  Options  -->
+            <Controls:HamburgerMenu.OptionsItemsSource>
+                <Controls:HamburgerMenuItemCollection>
+                    <Controls:HamburgerMenuIconItem Label="Logout"
+                                                    IsVisible="{Binding IsLoggedIn}"
+                                                    Command="{Binding LogoutCommand}">
+                        <Controls:HamburgerMenuIconItem.Icon>
+                            <iconPacks:PackIconMaterial Width="22"
+                                                        Height="22"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Kind="Logout" />
+                        </Controls:HamburgerMenuIconItem.Icon>
+                    </Controls:HamburgerMenuIconItem>
+                </Controls:HamburgerMenuItemCollection>
+            </Controls:HamburgerMenu.OptionsItemsSource>
         </Controls:HamburgerMenu>
+        <!-- Modal Region-->
         <modalcontrol:Modal IsOpen="{Binding IsModalOpen}"
                             Panel.ZIndex="2">
             <ContentControl prism:RegionManager.RegionName="{x:Static esmcore:RegionNames.HostRegion}" />

@@ -1,5 +1,4 @@
-﻿using ESM.Modules.DataAccess.Models;
-using ESM.Modules.DataAccess.Repositories;
+﻿using ESM.Modules.DataAccess.Repositories;
 
 namespace ESM.Modules.DataAccess.Infrastructure
 {

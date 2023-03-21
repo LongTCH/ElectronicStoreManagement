@@ -5,6 +5,7 @@ using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.Normal;
 using ESM.ViewModels;
 using ESM.Views;
+using MahApps.Metro.Controls.Dialogs;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Unity;
@@ -29,6 +30,9 @@ namespace ESM
             containerRegistry.RegisterSingleton<AccountStore>();
             containerRegistry.RegisterSingleton<IUnitOfWork,UnitOfWork>();
             containerRegistry.RegisterSingleton<IModalService, ModalService>();
+            containerRegistry.RegisterSingleton<IOpenDialogService, OpenDialogService>();
+            containerRegistry.RegisterSingleton<IDialogCoordinator, DialogCoordinator>();
+            containerRegistry.RegisterSingleton<ISendEmailService, SendEmailService>();
 
 
             containerRegistry.RegisterDialogWindow<DialogWindow>();

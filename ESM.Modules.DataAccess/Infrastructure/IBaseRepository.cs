@@ -7,5 +7,6 @@
         void Add(T entity);
         void Delete(string id);
         void Update(T entity);
+        bool Any(string id);
     }
 }

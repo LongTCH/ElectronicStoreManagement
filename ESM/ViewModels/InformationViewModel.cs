@@ -9,7 +9,7 @@ using System.Linq;
 namespace ESM.ViewModels
 {
     public class InformationViewModel : BindableBase, INavigationAware
-	{
+    {
         private string _title;
         private string _message;
         public string Message
@@ -22,10 +22,11 @@ namespace ESM.ViewModels
             get => _title;
             set => SetProperty(ref _title, value);
         }
-        public DelegateCommand CloseCommand { get; set; }
+        public DelegateCommand CloseCommand { get; }
         public InformationViewModel(IModalService modalService, IRegionManager regionManager)
-        {   
-            CloseCommand = new(() => {
+        {
+            CloseCommand = new(() =>
+            {
                 var view = regionManager.Regions[RegionNames.HostRegion].Views.First(v => v.GetType().Equals(typeof(InformationView)));
                 regionManager.Regions[RegionNames.HostRegion].Deactivate(view);
                 modalService.Action?.Invoke();

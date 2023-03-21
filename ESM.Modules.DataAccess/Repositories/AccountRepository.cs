@@ -2,6 +2,7 @@
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace ESM.Modules.DataAccess.Repositories;
 
@@ -35,6 +36,10 @@ public class AccountRepository : BaseRepository<AccountDTO>, IAccountRepository
                                    SubDistrict = ac.SubDistrict
                                }).FirstOrDefault();
     }
+    public override bool Any(string id)
+    {
+        return _context.Accounts.Any(a => a.Id == id);
+    }
     public string GetSuggestAccountIdCounter()
     {
         var MaxValue = _context.Accounts
@@ -44,7 +49,6 @@ public class AccountRepository : BaseRepository<AccountDTO>, IAccountRepository
         result = result.Insert(0, new('0', 4 - result.Length));
         return result;
     }
-
     public override void Update(AccountDTO accountDTO)
     {
         var account = (from ac in _context.Accounts

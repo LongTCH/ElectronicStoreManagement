@@ -23,5 +23,6 @@ namespace ESM.Core
         public static readonly string ExcelFilter =
             "All Files (*.*)|*.*" +
             "|Excel Files|*.xls;*.xlsx;*.xlsm";
+        public static readonly string EmailVerificationPrefix = "From : Electronic Store" + "<br>Your verification code : ";
     }
 }

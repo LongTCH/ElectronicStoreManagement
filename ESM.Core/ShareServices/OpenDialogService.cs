@@ -5,13 +5,18 @@ using System.Windows.Forms;
 namespace ESM.Core.ShareServices
 {
     public enum FileType { Image, Excel };
-    public class StaticDialogService
+    public interface IOpenDialogService
     {
-        public static string? FolderDialog()
+        public string? FolderDialog();
+        public string? FileDialog(FileType? fileType);
+    }
+    public class OpenDialogService : IOpenDialogService
+    {
+        public string? FolderDialog()
         {
             FolderBrowserDialog folder = new()
             {
-                Description = "Time to select a folder",
+                Description = "Select a folder",
                 UseDescriptionForTitle = true,
                 SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)
             + Path.DirectorySeparatorChar,
@@ -21,7 +26,7 @@ namespace ESM.Core.ShareServices
                 return folder.SelectedPath;
             return null;
         }
-        public static string? FileDialog(FileType? fileType = null)
+        public string? FileDialog(FileType? fileType = null)
         {
             string filter;
             if (fileType == FileType.Image) filter = StaticData.ImageFilter;

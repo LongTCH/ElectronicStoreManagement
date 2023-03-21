@@ -18,22 +18,24 @@ namespace ESM.ViewModels
         public MainWindowViewModel(IRegionManager regionManager,
             IDialogService dialogService,
             IModalService modalService,
-            AccountStore account)
+            AccountStore accountstore)
         {
             _regionManager = regionManager;
             _dialogService = dialogService;
             _modalService = modalService;
-            _accountStore = account;
+            _accountStore = accountstore;
             _modalService.Action += () => RaisePropertyChanged(nameof(IsModalOpen));
             NavigateCommand = new(ExecuteNavigateCommand);
             HostCommand = new(ExecuteHostCommand);
-
+            LogoutCommand = new(ExecutelogoutCommand);
+            Test = new(test);
             _accountStore.CurrentStoreChanged += () => { RaisePropertyChanged(nameof(IsLoggedIn)); RaisePropertyChanged(nameof(IsNotLoggedIn)); };
         }
         public bool IsLoggedIn => _accountStore.IsLoggedIn;
         public bool IsNotLoggedIn => !_accountStore.IsLoggedIn;
         public DelegateCommand<string> NavigateCommand { get; }
         public DelegateCommand<string> HostCommand { get; }
+        public DelegateCommand LogoutCommand { get; }
         private void ExecuteNavigateCommand(string navigationPath)
         {
             if (!string.IsNullOrWhiteSpace(navigationPath))
@@ -45,6 +47,15 @@ namespace ESM.ViewModels
         {
             _modalService.ShowModal(ModalType.Error, "Test", "Host");
         }
+        private void ExecutelogoutCommand()
+        {
+            _accountStore.Logout();
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.HomeView);
+        }
+        public DelegateCommand Test { get; }
+        private void test()
+        { }
+
         #region DialogService
         private DelegateCommand _showDialogCommand;
         public DelegateCommand ShowDialogCommand =>_showDialogCommand ??= new DelegateCommand(ShowDialog);

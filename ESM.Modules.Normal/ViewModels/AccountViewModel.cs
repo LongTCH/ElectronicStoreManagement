@@ -19,12 +19,16 @@ namespace ESM.Modules.Normal.ViewModels
         private readonly IUnitOfWork _unitOfWork;
         private readonly AccountStore _accountStore;
         private readonly IEnumerable<string> GenderList;
-        public AccountViewModel(IUnitOfWork unitOfWork, AccountStore accountStore)
+        private readonly IOpenDialogService _openDialogService;
+        public AccountViewModel(IUnitOfWork unitOfWork,
+            AccountStore accountStore,
+            IOpenDialogService openDialogService)
         {
             _unitOfWork = unitOfWork;
             _accountStore = accountStore;
             GenderList = StaticData.GenderList;
             AddAvatarCommand = new(addAvatarCommand);
+            _openDialogService = openDialogService;
         }
 
         public string Id => _accountStore.CurrentAccount?.Id;
@@ -91,14 +95,14 @@ namespace ESM.Modules.Normal.ViewModels
 
         private void addAvatarCommand()
         {
-            Avatar_Path = StaticDialogService.FileDialog(FileType.Image);
+            Avatar_Path = _openDialogService.FileDialog(FileType.Image);
             if (Avatar_Path != null)
             {
                 RaisePropertyChanged(nameof(IsDefault));
                 RaisePropertyChanged(nameof(Avatar_Path));
             }
             _unitOfWork.Accounts.Update(_accountStore.CurrentAccount!);
-            _unitOfWork.SaveChangesAsync().RunSynchronously();
+            _unitOfWork.SaveChangesAsync();
         }
     }
 }

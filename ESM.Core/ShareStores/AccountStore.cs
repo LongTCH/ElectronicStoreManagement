@@ -3,7 +3,7 @@ using System;
 
 namespace ESM.Core.ShareStores
 {
-    public class AccountStore : IStore
+    public class AccountStore
     {
         private AccountDTO? _currentAccount;
         public AccountDTO? CurrentAccount

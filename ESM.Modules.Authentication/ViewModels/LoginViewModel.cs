@@ -1,19 +1,15 @@
 ﻿using ESM.Core;
 using ESM.Core.ShareServices;
 using ESM.Core.ShareStores;
-using ESM.Modules.Authentication.Views;
 using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Prism.Commands;
-using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Regions;
 using Scrypt;
-using System.Linq;
+using System;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using System.Timers;
-using System.Windows;
 
 namespace ESM.Modules.Authentication.ViewModels
 {
@@ -27,14 +23,14 @@ namespace ESM.Modules.Authentication.ViewModels
         public string Id
         {
             get { return _id; }
-            set { _id = value; }
+            set { _id = value; throw new ValidationException("Chan"); }
         }
 
         private string _password;
         public string Password
         {
             get { return _password; }
-            set { SetProperty(ref _password, value); }
+            set { _password = value; }
         }
         private bool isBusy;
         public bool IsBusy
@@ -51,7 +47,7 @@ namespace ESM.Modules.Authentication.ViewModels
             _accountStore = accountStore;
             _regionManager = regionManager;
             _modalService = modalService;
-            LoginCommand = new (async () => await ExecuteLogin());
+            LoginCommand = new(async () => await ExecuteLogin());
             ForgotPasswordNavigationCommand = new(() => _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.InputVerificationView));
         }
 
@@ -71,27 +67,30 @@ namespace ESM.Modules.Authentication.ViewModels
         }
         private async Task ExecuteLogin()
         {
-            
-            if (string.IsNullOrWhiteSpace(Id))
+            try
             {
-                _modalService.ShowModal(ModalType.Error, "Enter ID", "Error");
-                await Task.CompletedTask;
+                if (string.IsNullOrWhiteSpace(Id))
+                {
+                    _modalService.ShowModal(ModalType.Error, "Enter ID", "Error");
+                    await Task.CompletedTask;
+                }
+                else if (string.IsNullOrWhiteSpace(Password))
+                {
+                    _modalService.ShowModal(ModalType.Error, "Enter Password", "Error");
+                    await Task.CompletedTask;
+                }
+                else
+                {
+                    Task<AccountDTO> task = new(Login);
+                    task.Start();
+                    var account = await task;
+                    if (account == null)
+                        _modalService.ShowModal(ModalType.Error, "Cannot find your account", "Error");
+                    else _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.AccountView);
+                }
             }
-            else if (string.IsNullOrWhiteSpace(Password))
-            {
-                _modalService.ShowModal(ModalType.Error, "Enter Password", "Error");
-                await Task.CompletedTask;
-            }
-            else
-            {
-                Task<AccountDTO> task = new(Login);
-                task.Start();
-                var account = await task;
-                if (account == null)
-                    _modalService.ShowModal(ModalType.Error, "Cannot find your account", "Error");
-                else _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.AccountView);
-            }
-            
+
+            catch (Exception) { _modalService.ShowModal(ModalType.Error, "Fail to access data", "Error"); }
         }
     }
 }
