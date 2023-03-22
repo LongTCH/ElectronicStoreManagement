@@ -92,8 +92,14 @@ namespace ESM.Modules.Authentication.ViewModels
                     { "MailMark", builder.ToString() },
                     {"Code", _randomVerifyCode }
                 };
-                await _sendEmailService.BeginSendEmail(account.EmailAddress, StaticData.EmailVerificationPrefix + _randomVerifyCode, true);
-                _modalService.ShowModal(ViewNames.VerifyEmailView, parameter);
+
+                var result = await _sendEmailService.BeginSendEmail(account.EmailAddress, StaticData.EmailVerificationPrefix + _randomVerifyCode, true);
+                if (result)
+                    _modalService.ShowModal(ViewNames.VerifyEmailView, parameter);
+                else
+                    _modalService.ShowModal(ModalType.Error, "Cannot send email", "Error");
+
+
             }
             IsBusy = false;
         }

@@ -2,8 +2,18 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"             
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
-        <TextBlock Text="HomeView" />
+        <Controls:Tile Title="Mail"
+                       Margin="3"
+                       Controls:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                       Background="Teal"
+                       HorizontalTitleAlignment="Right">
+            <iconPacks:PackIconModern Width="40"
+                                      Height="40"
+                                      Kind="Email" />
+        </Controls:Tile>
     </Grid>
 </UserControl>

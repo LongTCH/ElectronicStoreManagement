@@ -17,7 +17,7 @@ namespace ESM.Core.ShareServices
 
         public SendEmailService()
         {
-            
+
         }
 
         public async Task<bool> BeginSendEmail(string toEmail, string message, bool isBodyHtml = false)
@@ -50,12 +50,9 @@ namespace ESM.Core.ShareServices
             {
                 client.Send(mess);
             }
-            catch (Exception)
-            {
-                return false;
-            }
+            catch (Exception) { return false; }
             return true;
         }
-        
+
     }
 }

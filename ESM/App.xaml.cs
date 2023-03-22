@@ -1,6 +1,8 @@
-﻿using ESM.Core.ShareServices;
+﻿using ESM.Core;
+using ESM.Core.ShareServices;
 using ESM.Core.ShareStores;
 using ESM.Modules.Authentication;
+using ESM.Modules.Authentication.Views;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.Normal;
 using ESM.ViewModels;
@@ -21,6 +23,8 @@ namespace ESM
 
         protected override Window CreateShell()
         {
+            var modalRegister = Container.Resolve<IModalService>();
+            modalRegister.Register<VerifyEmailView>(ViewNames.VerifyEmailView);
             return Container.Resolve<MainWindow>();
         }
 

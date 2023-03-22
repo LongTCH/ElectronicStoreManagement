@@ -41,7 +41,7 @@ namespace ESM.ViewModels
             if (!string.IsNullOrWhiteSpace(navigationPath))
                 _regionManager.RequestNavigate(RegionNames.ContentRegion, navigationPath);
         }
-        public bool IsModalOpen => _regionManager.Regions.ContainsRegionWithName(RegionNames.HostRegion) 
+        public bool IsModalOpen => _regionManager.Regions.ContainsRegionWithName(RegionNames.HostRegion)
                                     && _regionManager.Regions[RegionNames.HostRegion].ActiveViews.Any();
         private void ExecuteHostCommand(string navigationPath)
         {
@@ -54,11 +54,13 @@ namespace ESM.ViewModels
         }
         public DelegateCommand Test { get; }
         private void test()
-        { }
+        {
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.PCHardDiskView);
+        }
 
         #region DialogService
         private DelegateCommand _showDialogCommand;
-        public DelegateCommand ShowDialogCommand =>_showDialogCommand ??= new DelegateCommand(ShowDialog);
+        public DelegateCommand ShowDialogCommand => _showDialogCommand ??= new DelegateCommand(ShowDialog);
 
         private void ShowDialog()
         {

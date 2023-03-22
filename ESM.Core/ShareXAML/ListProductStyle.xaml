@@ -42,7 +42,7 @@
                                            Foreground="Blue"
                                            FontWeight="DemiBold" />
                             </DockPanel>
-                            <DockPanel Visibility="{Binding DiscountShow, Converter={StaticResource BoolToVis}}"
+                            <DockPanel Visibility="{Binding DiscountShow, Converter={StaticResource BooleanToVisibilityConverter}}"
                                        LastChildFill="True">
                                 <DockPanel.Resources>
                                     <Style TargetType="TextBlock">

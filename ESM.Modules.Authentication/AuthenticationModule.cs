@@ -21,15 +21,18 @@ namespace ESM.Modules.Authentication
             RegisterViewWithContentRegion(typeof(LoginView));
             RegisterViewWithContentRegion(typeof(InputVerificationView));
             RegisterViewWithContentRegion(typeof(VerifyEmailView));
+            RegisterViewWithContentRegion(typeof(ResetPasswordView));
         }
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.Register<LoginView>();
+            containerRegistry.Register<LoginViewModel>();
             containerRegistry.RegisterForNavigation<LoginView, LoginViewModel>(ViewNames.LoginView);
-            containerRegistry.Register<InputVerificationView>();
+            containerRegistry.Register<InputVerificationViewModel>();
             containerRegistry.RegisterForNavigation<InputVerificationView, InputVerificationViewModel>(ViewNames.InputVerificationView);
-            containerRegistry.Register<VerifyEmailView>();
+            containerRegistry.Register<VerifyEmailViewModel>();
             containerRegistry.RegisterForNavigation<VerifyEmailView, VerifyEmailViewModel>(ViewNames.VerifyEmailView);
+            containerRegistry.Register<ResetPasswordViewModel>();
+            containerRegistry.RegisterForNavigation<ResetPasswordView, ResetPasswordViewModel>(ViewNames.ResetPasswordView);
         }
 
         private void RegisterViewWithContentRegion(Type type)

@@ -30,8 +30,8 @@ namespace ESM
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<ErrorNotifyView, ErrorNotifyViewModel>(HostNames.ErrorModal);
-            containerRegistry.RegisterForNavigation<InformationView, InformationViewModel>(HostNames.InformationModal);
+            containerRegistry.RegisterForNavigation<ErrorNotifyView, ErrorNotifyViewModel>(ViewNames.ErrorModal);
+            containerRegistry.RegisterForNavigation<InformationView, InformationViewModel>(ViewNames.InformationModal);
         }
     }
 }
