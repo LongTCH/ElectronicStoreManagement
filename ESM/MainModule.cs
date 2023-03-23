@@ -1,8 +1,10 @@
 ﻿using ESM.Core;
+using ESM.Core.ShareServices;
 using ESM.ViewModels;
 using ESM.Views;
 using Prism.Ioc;
 using Prism.Modularity;
+using Prism.Mvvm;
 using Prism.Regions;
 using System.Linq;
 
@@ -12,26 +14,24 @@ namespace ESM
     {
         private readonly IRegionManager _regionManager;
 
-        public MainModule(IRegionManager regionManager)
+        public MainModule(IRegionManager regionManager, IModalService modalService)
         {
             _regionManager = regionManager;
+            modalService.Register<ErrorNotifyView>(ViewNames.ErrorModal);
+            modalService.Register<InformationView>(ViewNames.InformationModal);
+            ViewModelLocationProvider.Register<ErrorNotifyView, ErrorNotifyViewModel>();
+            ViewModelLocationProvider.Register<InformationView, InformationViewModel>();
         }
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            _regionManager.RegisterViewWithRegion(RegionNames.HostRegion, typeof(ErrorNotifyView));
-            var errorview = _regionManager.Regions[RegionNames.HostRegion].Views.First(v => v.GetType().Equals(typeof(ErrorNotifyView)));
-            _regionManager.Regions[RegionNames.HostRegion].Deactivate(errorview);
-
-            _regionManager.RegisterViewWithRegion(RegionNames.HostRegion, typeof(InformationView));
-            var informationrview = _regionManager.Regions[RegionNames.HostRegion].Views.First(v => v.GetType().Equals(typeof(InformationView)));
-            _regionManager.Regions[RegionNames.HostRegion].Deactivate(informationrview);
+            
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<ErrorNotifyView, ErrorNotifyViewModel>(ViewNames.ErrorModal);
-            containerRegistry.RegisterForNavigation<InformationView, InformationViewModel>(ViewNames.InformationModal);
+            containerRegistry.RegisterForNavigation<ErrorNotifyView>(ViewNames.ErrorModal);
+            containerRegistry.RegisterForNavigation<InformationView>(ViewNames.InformationModal);
         }
     }
 }

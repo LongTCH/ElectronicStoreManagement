@@ -90,7 +90,8 @@ namespace ESM.Modules.Authentication.ViewModels
                 NavigationParameters parameter = new()
                 {
                     { "MailMark", builder.ToString() },
-                    {"Code", _randomVerifyCode }
+                    {"Code", _randomVerifyCode },
+                    { "Id", Id }
                 };
 
                 var result = await _sendEmailService.BeginSendEmail(account.EmailAddress, StaticData.EmailVerificationPrefix + _randomVerifyCode, true);

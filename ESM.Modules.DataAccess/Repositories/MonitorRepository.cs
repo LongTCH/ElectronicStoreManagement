@@ -1,7 +1,6 @@
 ﻿using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace ESM.Modules.DataAccess.Repositories;
 public interface IMonitorRepository : IBaseRepository<MonitorDTO> { }
@@ -12,8 +11,8 @@ public class MonitorRepository : BaseRepository<MonitorDTO>, IMonitorRepository
     }
     public override IEnumerable<MonitorDTO>? GetAll()
     {
-        return (from monitor in _context.Monitors
-                select new MonitorDTO()
+        return _context.Monitors.AsQueryable()
+                .Select(monitor => new MonitorDTO()
                 {
                     Name = monitor.Name,
                     ImagePath = @monitor.ImagePath,

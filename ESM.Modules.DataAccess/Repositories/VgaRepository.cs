@@ -1,7 +1,6 @@
 ﻿using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace ESM.Modules.DataAccess.Repositories;
 
@@ -13,8 +12,8 @@ public class VgaRepository : BaseRepository<VgaDTO>, IVgaRepository
     }
     public override IEnumerable<VgaDTO>? GetAll()
     {
-        return (from vga in _context.Vgas
-                select new VgaDTO()
+        return _context.Vgas.AsQueryable()
+                .Select(vga => new VgaDTO()
                 {
                     Name = vga.Name,
                     Chip = vga.Chip,

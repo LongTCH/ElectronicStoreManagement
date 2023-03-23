@@ -36,6 +36,11 @@ namespace ESM.Modules.DataAccess.Infrastructure
             Vgas = new VgaRepository(context);
             Smartphones = new SmartphoneRepository(context);
         }
+
+        public int SaveChange()
+        {
+            return _context.SaveChanges();
+        }
         public async Task<int> SaveChangesAsync()
         {
             return await _context.SaveChangesAsync();
@@ -58,6 +63,8 @@ namespace ESM.Modules.DataAccess.Infrastructure
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
+
         ~UnitOfWork()
         {
             Dispose(false);

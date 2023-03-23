@@ -1,7 +1,6 @@
 ﻿using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace ESM.Modules.DataAccess.Repositories
 {
@@ -13,8 +12,8 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         public override IEnumerable<SmartphoneDTO>? GetAll()
         {
-            return (from smartphone in _context.Smartphones
-                    select new SmartphoneDTO()
+            return _context.Smartphones.AsQueryable()
+                    .Select(smartphone => new SmartphoneDTO()
                     {
                         Name = smartphone.Name,
                         Company = smartphone.Company,

@@ -20,15 +20,23 @@ namespace ESM.Modules.Normal.ViewModels
         private readonly AccountStore _accountStore;
         private readonly IEnumerable<string> GenderList;
         private readonly IOpenDialogService _openDialogService;
+        private readonly IRegionManager _regionManager;
+
         public AccountViewModel(IUnitOfWork unitOfWork,
             AccountStore accountStore,
-            IOpenDialogService openDialogService)
+            IOpenDialogService openDialogService,
+            IRegionManager regionManager)
         {
             _unitOfWork = unitOfWork;
             _accountStore = accountStore;
             GenderList = StaticData.GenderList;
             AddAvatarCommand = new(addAvatarCommand);
             _openDialogService = openDialogService;
+            _regionManager = regionManager;
+
+            ResetPasswordCommand = new(ExecuteResetPassword);
+            AddUserCommand = new(ExecuteAddUserCommand);
+            ChangeUserInfoCommand = new(ExecuteChangeUserInfoCommand);
         }
 
         public string Id => _accountStore.CurrentAccount?.Id;
@@ -40,7 +48,7 @@ namespace ESM.Modules.Normal.ViewModels
         public string District => _accountStore.CurrentAccount?.District;
         public string SubDistrict => _accountStore.CurrentAccount?.SubDistrict;
         public string Street => _accountStore.CurrentAccount?.Street;
-        public string Gender => _accountStore.CurrentAccount.Gender ? GenderList.ElementAt(0) : GenderList.ElementAt(1);
+        public string Gender => _accountStore.CurrentAccount == null || _accountStore.CurrentAccount.Gender ? GenderList.ElementAt(0) : GenderList.ElementAt(1);
         public string Avatar_Path
         {
             get => _accountStore.CurrentAccount?.AvatarPath;
@@ -49,18 +57,25 @@ namespace ESM.Modules.Normal.ViewModels
                 _accountStore.CurrentAccount!.AvatarPath = value;
             }
         }
-        public DateTime BirthDay { get; set; }
-        public string DateFormat => CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;
-        public XmlLanguage Language => XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag);
+        public DateTime BirthDay => _accountStore.CurrentAccount.Birthday;
         public bool IsDefault => !File.Exists(Avatar_Path);
         public bool IsAdmin => _accountStore.IsAdmin;
-        public bool IsSellStaff => _accountStore.IsSellStaff || IsAdmin;
-        public bool IsTypingStaff => _accountStore.IsTypingStaff || IsAdmin;
         public DelegateCommand ResetPasswordCommand { get; }
         public DelegateCommand AddAvatarCommand { get; }
         public DelegateCommand AddUserCommand { get; }
         public DelegateCommand ChangeUserInfoCommand { get; }
-
+        private void ExecuteResetPassword()
+        {
+            _regionManager.RequestNavigateContentRegionWithTrace(ViewNames.ResetPasswordView);
+        }
+        private void ExecuteAddUserCommand()
+        {
+            _regionManager.RequestNavigateContentRegionWithTrace(ViewNames.RegisterView);
+        }
+        private void ExecuteChangeUserInfoCommand()
+        {
+            _regionManager.RequestNavigateContentRegionWithTrace(ViewNames.ChangeAccountInfoView);
+        }
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
             return true;
@@ -85,12 +100,8 @@ namespace ESM.Modules.Normal.ViewModels
             RaisePropertyChanged(nameof(Gender));
             RaisePropertyChanged(nameof(Avatar_Path));
             RaisePropertyChanged(nameof(BirthDay));
-            RaisePropertyChanged(nameof(DateFormat));
-            RaisePropertyChanged(nameof(Language));
             RaisePropertyChanged(nameof(IsDefault));
             RaisePropertyChanged(nameof(IsAdmin));
-            RaisePropertyChanged(nameof(IsSellStaff));
-            RaisePropertyChanged(nameof(IsTypingStaff));
         }
 
         private void addAvatarCommand()

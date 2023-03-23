@@ -1,14 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-                    xmlns:local="clr-namespace:ESM.Views"
-                 xmlns:localmodel="clr-namespace:ESM.ViewModels">
-    <DataTemplate DataType="{x:Type localmodel:ErrorNotifyViewModel}">
-        <local:ErrorNotifyView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type localmodel:InformationViewModel}">
-        <local:InformationView />
-    </DataTemplate>
+                    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls">
     <DataTemplate x:Key="MenuItemTemplate">
         <Grid Height="48">
             <Grid.ColumnDefinitions>

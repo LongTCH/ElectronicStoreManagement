@@ -8,7 +8,6 @@ using Prism.Mvvm;
 using Prism.Regions;
 using Scrypt;
 using System;
-using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace ESM.Modules.Authentication.ViewModels
@@ -19,11 +18,12 @@ namespace ESM.Modules.Authentication.ViewModels
         private readonly IRegionManager _regionManager;
         private readonly AccountStore _accountStore;
         private readonly IModalService _modalService;
+        private readonly IApplicationCommand _applicationCommand;
         private string _id;
         public string Id
         {
             get { return _id; }
-            set { _id = value; throw new ValidationException("Chan"); }
+            set { _id = value; }
         }
 
         private string _password;
@@ -41,14 +41,16 @@ namespace ESM.Modules.Authentication.ViewModels
         public LoginViewModel(IUnitOfWork unitOfWork,
             AccountStore accountStore,
             IRegionManager regionManager,
-            IModalService modalService)
+            IModalService modalService,
+            IApplicationCommand applicationCommand)
         {
             _unitOfWork = unitOfWork;
             _accountStore = accountStore;
             _regionManager = regionManager;
             _modalService = modalService;
+            _applicationCommand = applicationCommand;
             LoginCommand = new(async () => await ExecuteLogin());
-            ForgotPasswordNavigationCommand = new(() => _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.InputVerificationView));
+            ForgotPasswordNavigationCommand = new(forgotPasswordNavigationCommand);
         }
 
         public DelegateCommand LoginCommand { get; }
@@ -86,11 +88,20 @@ namespace ESM.Modules.Authentication.ViewModels
                     var account = await task;
                     if (account == null)
                         _modalService.ShowModal(ModalType.Error, "Cannot find your account", "Error");
-                    else _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.AccountView);
+                    else
+                    {  
+                        _regionManager.RequestNavigateContentRegionWithTrace(ViewNames.AccountView);
+                        _applicationCommand.ResetIndexCommand.Execute(true);
+                    }
                 }
             }
 
             catch (Exception) { _modalService.ShowModal(ModalType.Error, "Fail to access data", "Error"); }
+        }
+        private void forgotPasswordNavigationCommand()
+        {
+            _regionManager.RequestNavigateContentRegionWithTrace(ViewNames.InputVerificationView);
+            _applicationCommand.ResetIndexCommand.Execute(true);
         }
     }
 }

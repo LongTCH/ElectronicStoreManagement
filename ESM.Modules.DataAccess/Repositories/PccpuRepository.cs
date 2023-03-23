@@ -11,8 +11,8 @@ public class PccpuRepository : BaseRepository<PccpuDTO>, IPccpuRepository
     }
     public override IEnumerable<PccpuDTO>? GetAll()
     {
-        return (from pccpu in _context.Pccpus
-                select new PccpuDTO()
+        return _context.Pccpus.AsQueryable()
+                .Select(pccpu => new PccpuDTO()
                 {
                     Name = pccpu.Name,
                     ImagePath = @pccpu.ImagePath,

@@ -6,6 +6,8 @@ using Prism.Modularity;
 using Prism.Regions;
 using System.Linq;
 using System;
+using ESM.Core.ShareServices;
+using Prism.Mvvm;
 
 namespace ESM.Modules.Normal
 {
@@ -13,14 +15,16 @@ namespace ESM.Modules.Normal
     {
         private readonly IRegionManager _regionManager;
 
-        public NormalModule(IRegionManager regionManager)
+        public NormalModule(IRegionManager regionManager, IModalService modalService)
         {
             _regionManager = regionManager;
+            ViewModelLocationProvider.Register<ProductDetailView, ProductDetailViewModel>();
+            modalService.Register<ProductDetailView>(ViewNames.ProductDetailView);
         }
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            _regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(HomeView));
+            RegisterViewWithContentRegion(typeof(HomeView));
             RegisterViewWithContentRegion(typeof(AccountView));
             RegisterViewWithContentRegion(typeof(LaptopView));
             RegisterViewWithContentRegion(typeof(MonitorView));

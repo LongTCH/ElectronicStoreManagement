@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace ESM.ViewModels
 {
-    public class InformationViewModel : BindableBase, INavigationAware
+    public class InformationViewModel : BindableBase, INavigationAware, IModal
     {
         private string _title;
         private string _message;
@@ -23,14 +23,9 @@ namespace ESM.ViewModels
             set => SetProperty(ref _title, value);
         }
         public DelegateCommand CloseCommand { get; }
-        public InformationViewModel(IModalService modalService, IRegionManager regionManager)
+        public InformationViewModel(IModalService modalService)
         {
-            CloseCommand = new(() =>
-            {
-                var view = regionManager.Regions[RegionNames.HostRegion].Views.First(v => v.GetType().Equals(typeof(InformationView)));
-                regionManager.Regions[RegionNames.HostRegion].Deactivate(view);
-                modalService.Action?.Invoke();
-            });
+            CloseCommand = new(() => modalService.CloseModal(ViewNames.InformationModal));
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)

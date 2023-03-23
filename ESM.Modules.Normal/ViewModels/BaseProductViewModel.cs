@@ -1,19 +1,22 @@
 ﻿using ESM.Core;
+using ESM.Core.ShareServices;
 using ESM.Modules.DataAccess;
 using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
+using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Input;
 
 namespace ESM.Modules.Normal.ViewModels
 {
-    public abstract class BaseProductViewModel<T> : BindableBase
+    public abstract class BaseProductViewModel<T> : BindableBase, INavigationAware
     where T : ProductDTO
     {
-        protected IUnitOfWork _unitOfWork;
+        protected readonly IUnitOfWork _unitOfWork;
+        protected readonly IModalService _modalService;
         protected dynamic _productDTOs;
         public dynamic ProductList { get; set; }
         public List<string> Conditions { get; } = StaticData.Conditions;
@@ -30,10 +33,12 @@ namespace ESM.Modules.Normal.ViewModels
                 priceRangeCommand();
             }
         }
-        protected BaseProductViewModel(IUnitOfWork unitOfWork)
+        protected BaseProductViewModel(IUnitOfWork unitOfWork, IModalService modalService)
         {
             _unitOfWork = unitOfWork;
+            _modalService = modalService;
             GetProductList();
+            ProductDetailNavigateCommand = new(navigate);
         }
         private void GetProductList()
         {
@@ -76,7 +81,15 @@ namespace ESM.Modules.Normal.ViewModels
                 SelectedConditionChanged();
             }
         }
-        public ICommand ProductDetailNavigateCommand { get; set; }
+        public DelegateCommand<ProductDTO> ProductDetailNavigateCommand { get; set; }
+        private void navigate(ProductDTO product)
+        {
+            NavigationParameters parameter = new()
+            {
+                {"Product" , product}
+            };
+            _modalService.ShowModal(ViewNames.ProductDetailView, parameter);
+        }
         protected Action? Action { get; set; }
         protected void SelectedConditionChanged()
         {
@@ -95,6 +108,21 @@ namespace ESM.Modules.Normal.ViewModels
                 ProductList = ((List<T>)ProductList)?.OrderByDescending(x => x.SellPrice).ToList();
             }
             RaisePropertyChanged(nameof(ProductList));
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+           
         }
     }
 }

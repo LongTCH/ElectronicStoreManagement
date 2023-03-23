@@ -1,5 +1,4 @@
-﻿using Models;
-using Models.Interfaces;
+﻿using Models.Interfaces;
 using Scrypt;
 using System;
 using System.Threading.Tasks;

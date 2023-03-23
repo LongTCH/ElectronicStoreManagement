@@ -1,19 +1,135 @@
 ﻿<UserControl x:Class="ESM.Modules.Normal.Views.HomeView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:prism="http://prismlibrary.com/"             
-             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:prism="http://prismlibrary.com/"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:esmcore="clr-namespace:ESM.Core;assembly=ESM.Core"
+             Background="{DynamicResource MahApps.Brushes.Accent4}"
              prism:ViewModelLocator.AutoWireViewModel="True">
-    <Grid>
-        <Controls:Tile Title="Mail"
-                       Margin="3"
-                       Controls:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
-                       Background="Teal"
-                       HorizontalTitleAlignment="Right">
-            <iconPacks:PackIconModern Width="40"
-                                      Height="40"
-                                      Kind="Email" />
-        </Controls:Tile>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="LargeTileStyle"
+                   TargetType="mah:Tile">
+                <Setter Property="Height"
+                        Value="125" />
+                <Setter Property="Cursor"
+                        Value="Hand" />
+                <Setter Property="TextOptions.TextFormattingMode"
+                        Value="Display" />
+                <Setter Property="TextOptions.TextRenderingMode"
+                        Value="ClearType" />
+                <Setter Property="TitleFontSize"
+                        Value="14" />
+                <Setter Property="Width"
+                        Value="300" />
+            </Style>
+            <Style x:Key="SmallTileStyle"
+                   TargetType="mah:Tile">
+                <Setter Property="Height"
+                        Value="125" />
+                <Setter Property="Cursor"
+                        Value="Hand" />
+                <Setter Property="TextOptions.TextFormattingMode"
+                        Value="Ideal" />
+                <Setter Property="TextOptions.TextRenderingMode"
+                        Value="ClearType" />
+                <Setter Property="TitleFontSize"
+                        Value="10" />
+                <Setter Property="Width"
+                        Value="147" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid HorizontalAlignment="Center"
+          VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="83*" />
+            <RowDefinition Height="259*" />
+        </Grid.RowDefinitions>
+       
+        <WrapPanel Grid.Row="1"
+                   Width="940"
+                   Height="382"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top">
+            <mah:Tile Title="Laptop"
+                      Margin="3"
+                      mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                      Background="Teal"
+                      HorizontalTitleAlignment="Right"
+                      Style="{StaticResource LargeTileStyle}"
+                      Command="{Binding NavigateCommand}"
+                      CommandParameter="{x:Static esmcore:ViewNames.LaptopView}">
+                <iconPacks:PackIconPicolIcons Kind="Computer"
+                                              Width="40"
+                                              Height="40" />
+            </mah:Tile>
+            <mah:Tile Title="PC"
+                      Margin="3"
+                      Command="{Binding NavigateCommand}"
+                      CommandParameter="{x:Static esmcore:ViewNames.PCView}"
+                      mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                      Style="{StaticResource LargeTileStyle}">
+                <iconPacks:PackIconJamIcons Kind="Computer"
+                                            Width="40"
+                                            Height="40" />
+            </mah:Tile>
+            <mah:Tile Title="Smart Phone"
+                      Background="DimGray"
+                      Command="{Binding NavigateCommand}"
+                      CommandParameter="{x:Static esmcore:ViewNames.SmartPhoneView}"
+                      mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                      Style="{StaticResource LargeTileStyle}">
+                <iconPacks:PackIconMaterialDesign Kind="PhoneIphone"
+                                                  Width="40"
+                                                  Height="40" />
+            </mah:Tile>
+            <mah:Tile Title="CPU"
+                      Background="#D2691E"
+                      Command="{Binding NavigateCommand}"
+                      CommandParameter="{x:Static esmcore:ViewNames.PCCPUView}"
+                      mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                      HorizontalTitleAlignment="Right"
+                      Style="{StaticResource LargeTileStyle}">
+                <iconPacks:PackIconBootstrapIcons Kind="Cpu"
+                                                  Width="40"
+                                                  Height="40" />
+            </mah:Tile>
+            <mah:Tile Title="VGA"
+                      Background="#FF842D"
+                      Command="{Binding NavigateCommand}"
+                      CommandParameter="{x:Static esmcore:ViewNames.VGAView}"
+                      mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                      Style="{StaticResource SmallTileStyle}"
+                      TitleFontSize="16"
+                      VerticalTitleAlignment="Top">
+                <iconPacks:PackIconMaterial Kind="ExpansionCard"
+                                            Width="40"
+                                            Height="40" />
+            </mah:Tile>
+            <mah:Tile Title="Hard Disk"
+                      Background="#1E90FF"
+                      mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                      TitleFontSize="16"
+                      Style="{StaticResource SmallTileStyle}"
+                      Command="{Binding NavigateCommand}"
+                      CommandParameter="{x:Static esmcore:ViewNames.PCHardDiskView}">
+                <iconPacks:PackIconMaterial Kind="Harddisk"
+                                            Width="40"
+                                            Height="40" />
+            </mah:Tile>
+            <mah:Tile Title="Monitor"
+                      Background="Green"
+                      Command="{Binding NavigateCommand}"
+                      CommandParameter="{x:Static esmcore:ViewNames.MonitorView}"
+                      mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                      Style="{StaticResource LargeTileStyle}">
+                <iconPacks:PackIconFeatherIcons Kind="Monitor"
+                                                Width="40"
+                                                Height="40" />
+            </mah:Tile>
+        </WrapPanel>
     </Grid>
 </UserControl>

@@ -1,7 +1,6 @@
 ﻿using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace ESM.Modules.DataAccess.Repositories;
 
@@ -16,8 +15,8 @@ public class PcharddiskRepository : BaseRepository<PcharddiskDTO>, IPcharddiskRe
     }
     public override IEnumerable<PcharddiskDTO>? GetAll()
     {
-        return (from pcharddisk in _context.Pcharddisks
-                select new PcharddiskDTO()
+        return _context.Pcharddisks.AsQueryable()
+                .Select(pcharddisk => new PcharddiskDTO()
                 {
                     Name = pcharddisk.Name,
                     Company = pcharddisk.Company,

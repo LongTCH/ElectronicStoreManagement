@@ -5,6 +5,11 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:helper="clr-namespace:ESM.Core.Helper;assembly=ESM.Core"
+             xmlns:localvm="clr-namespace:ESM.Modules.Normal.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance localvm:AccountViewModel}"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <ScrollViewer VerticalScrollBarVisibility="auto"
                   HorizontalAlignment="Stretch">
@@ -50,10 +55,17 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0">
+                    <StackPanel Grid.Row="0" HorizontalAlignment="Right">
                         <StackPanel.Resources>
                             <Style TargetType="Button"
-                                   BasedOn="{StaticResource MahApps.Styles.Button.Chromeless}" />
+                                   BasedOn="{StaticResource MahApps.Styles.Button.Chromeless}">
+                                <Setter Property="Cursor"
+                                        Value="Hand" />
+                                <Setter Property="HorizontalAlignment"
+                                        Value="Right" />
+                                <Setter Property="Margin"
+                                        Value="0,5,0,0" />
+                            </Style>
                         </StackPanel.Resources>
                         <Button Content="Reset password"
                                 Command="{Binding ResetPasswordCommand}" />
@@ -178,8 +190,8 @@
                     <DatePicker FontSize="18"
                                 Margin="20,10"
                                 IsEnabled="False"
-                                helper:DatePickerDateFormat.DateFormat="{Binding DateFormat}"
-                                Language="{Binding Language, Mode=OneWay}"
+                                SelectedDateFormat="Short"
+                                xml:lang="vi-VN"
                                 SelectedDate="{Binding BirthDay, Mode=OneWay}" />
                 </DockPanel>
             </Grid>

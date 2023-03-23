@@ -5,6 +5,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Services.Dialogs;
+using System;
 using System.Linq;
 
 namespace ESM.ViewModels
@@ -15,31 +16,59 @@ namespace ESM.ViewModels
         private readonly IDialogService _dialogService;
         private readonly IModalService _modalService;
         private readonly AccountStore _accountStore;
+        private readonly IApplicationCommand _applicationCommand;
         public MainWindowViewModel(IRegionManager regionManager,
             IDialogService dialogService,
             IModalService modalService,
-            AccountStore accountstore)
+            AccountStore accountstore,
+            IApplicationCommand applicationCommand)
         {
             _regionManager = regionManager;
             _dialogService = dialogService;
             _modalService = modalService;
             _accountStore = accountstore;
-            _modalService.Action += () => RaisePropertyChanged(nameof(IsModalOpen));
-            NavigateCommand = new(ExecuteNavigateCommand);
+            _applicationCommand = applicationCommand;
+            ResetIndexCommand = new(resetIndex);
+            _applicationCommand.ResetIndexCommand.RegisterCommand(ResetIndexCommand);
+            _applicationCommand.ChangeModalState.RegisterCommand(new DelegateCommand(() => RaisePropertyChanged(nameof(IsModalOpen))));
+            _accountStore.CurrentStoreChanged += () => { if (!_accountStore.IsLoggedIn) _regionManager.ResetTrace(); };
+            NavigateCommand = new DelegateCommand<string>(ExecuteNavigateCommand).ObservesCanExecute(() => CanNavigate);
             HostCommand = new(ExecuteHostCommand);
             LogoutCommand = new(ExecutelogoutCommand);
+            GoBackCommand = new(goBack);
+            GoForwardCommand = new(goForward);
+
             Test = new(test);
-            _accountStore.CurrentStoreChanged += () => { RaisePropertyChanged(nameof(IsLoggedIn)); RaisePropertyChanged(nameof(IsNotLoggedIn)); };
+            _accountStore.CurrentStoreChanged += () =>
+            {
+                RaisePropertyChanged(nameof(IsLoggedIn));
+                RaisePropertyChanged(nameof(IsNotLoggedIn));
+                RaisePropertyChanged(nameof(IsAdmin));
+                RaisePropertyChanged(nameof(IsSellStaff));
+                RaisePropertyChanged(nameof(IsTypingStaff));
+            };
+        }
+        private bool CanNavigate { get; set; } = true;
+        private int index;
+        public int Index
+        {
+            get => index;
+            set => SetProperty(ref index, value);
         }
         public bool IsLoggedIn => _accountStore.IsLoggedIn;
         public bool IsNotLoggedIn => !_accountStore.IsLoggedIn;
+        public bool IsAdmin => _accountStore.IsAdmin;
+        public bool IsSellStaff => _accountStore.IsSellStaff;
+        public bool IsTypingStaff => _accountStore.IsTypingStaff;
         public DelegateCommand<string> NavigateCommand { get; }
         public DelegateCommand<string> HostCommand { get; }
         public DelegateCommand LogoutCommand { get; }
+        public DelegateCommand GoBackCommand { get; }
+        public DelegateCommand GoForwardCommand { get; }
+        public DelegateCommand ResetIndexCommand { get; }
         private void ExecuteNavigateCommand(string navigationPath)
         {
-            if (!string.IsNullOrWhiteSpace(navigationPath))
-                _regionManager.RequestNavigate(RegionNames.ContentRegion, navigationPath);
+            _regionManager.RequestNavigateContentRegionWithTrace(navigationPath);
         }
         public bool IsModalOpen => _regionManager.Regions.ContainsRegionWithName(RegionNames.HostRegion)
                                     && _regionManager.Regions[RegionNames.HostRegion].ActiveViews.Any();
@@ -50,12 +79,37 @@ namespace ESM.ViewModels
         private void ExecutelogoutCommand()
         {
             _accountStore.Logout();
-            _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.HomeView);
+            Index = 0;
         }
+        #region ModalHosting
+        private void resetIndex()
+        {
+            Type view = _regionManager.Regions[RegionNames.ContentRegion].ActiveViews.First().GetType();
+            var res = Utilities.StaticData.ViewTypeToHamburgerIndex.TryGetValue(view, out int temp);
+            CanNavigate = false;
+            if (res) Index = temp; else Index = -1;
+            CanNavigate = true;
+        }
+        private void goBack()
+        {
+            CanNavigate = false;
+            _regionManager.GoBack();
+            resetIndex();
+            CanNavigate = true;
+        }
+        private void goForward()
+        {
+            CanNavigate = false;
+            _regionManager.GoForward();
+            resetIndex();
+            CanNavigate = true;
+        }
+        #endregion
         public DelegateCommand Test { get; }
         private void test()
         {
-            _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.PCHardDiskView);
+            _modalService.ShowModal(ViewNames.ProductDetailView, null);
+            //_regionManager.RequestNavigateContentRegionWithTrace(ViewNames.ChangeAccountInfoView);
         }
 
         #region DialogService

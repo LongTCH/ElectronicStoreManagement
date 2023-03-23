@@ -1,4 +1,5 @@
-﻿using ESM.Core.ShareStores;
+﻿using ESM.Core.ShareServices;
+using ESM.Core.ShareStores;
 using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using System.Collections.Generic;
@@ -12,8 +13,8 @@ namespace ESM.Modules.Normal.ViewModels
         public HashSet<ProductAttributeStore> NeedList { get; set; }
         public HashSet<ProductAttributeStore> SocketList { get; set; }
         public HashSet<ProductAttributeStore> SeriesList { get; set; }
-        public PCCPUViewModel(IUnitOfWork unitOfWork)
-            : base(unitOfWork)
+        public PCCPUViewModel(IUnitOfWork unitOfWork, IModalService modalService)
+            : base(unitOfWork, modalService)
         {
             Action += OnIsCheckedChanged;
             getCompanyList();

@@ -3,10 +3,9 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:prism="http://prismlibrary.com/"
                  xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-                 xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                 xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                  xmlns:esmcore="clr-namespace:ESM.Core;assembly=ESM.Core"
                  xmlns:modalcontrol="clr-namespace:ModalControl;assembly=ModalControl"
-                 xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
                  GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
                  ResizeMode="CanResizeWithGrip"
                  WindowStartupLocation="CenterScreen"
@@ -23,6 +22,24 @@
                  Dialog:DialogParticipation.Register="{Binding}"
                  Height="540"
                  Width="960">
+    <mah:MetroWindow.LeftWindowCommands>
+        <mah:WindowCommands Cursor="Hand">
+            <Button Command="{Binding GoBackCommand}">
+                <iconPacks:PackIconTypicons Kind="ArrowBack"
+                                            Width="22"
+                                            Height="22" />
+            </Button>
+        </mah:WindowCommands>
+    </mah:MetroWindow.LeftWindowCommands>
+    <mah:MetroWindow.RightWindowCommands>
+        <mah:WindowCommands Cursor="Hand">
+            <Button Command="{Binding GoForwardCommand}">
+                <iconPacks:PackIconTypicons Kind="ArrowForward"
+                                            Height="22"
+                                            Width="22" />
+            </Button>
+        </mah:WindowCommands>
+    </mah:MetroWindow.RightWindowCommands>
     <mah:MetroWindow.IconTemplate>
         <DataTemplate>
             <iconPacks:PackIconUnicons Kind="Apple"
@@ -40,19 +57,23 @@
         </ResourceDictionary>
     </mah:MetroWindow.Resources>
     <Grid>
-        <Controls:TransitioningContentControl prism:RegionManager.RegionName="{x:Static esmcore:RegionNames.ContentRegion}"
-                                              RestartTransitionOnContentChange="True"
-                                              Transition="Default"
-                                              Margin="50,0,0,0" />
-        <Controls:HamburgerMenu x:Name="HamburgerMenuControl"
-                                DisplayMode="CompactOverlay"
-                                OpenPaneLength="200"
-                                ItemTemplate="{StaticResource MenuItemTemplate}"
-                                OptionsItemTemplate="{StaticResource HamburgerOptionsMenuItem}"
-                                HamburgerWidth="48"
-                                Cursor="Hand">
+        <mah:TransitioningContentControl prism:RegionManager.RegionName="{x:Static esmcore:RegionNames.ContentRegion}"
+                                         RestartTransitionOnContentChange="True"
+                                         Transition="Default"
+                                         Margin="50,0,0,0" />
+        <mah:HamburgerMenu x:Name="HamburgerMenuControl"
+                           DisplayMode="CompactOverlay"
+                           OpenPaneLength="200"
+                           SelectedIndex="{Binding Index, UpdateSourceTrigger=PropertyChanged}"
+                           ItemTemplate="{StaticResource MenuItemTemplate}"
+                           OptionsItemTemplate="{StaticResource HamburgerOptionsMenuItem}"
+                           HamburgerWidth="48"
+                           Cursor="Hand">
+            <mah:HamburgerMenu.Style>
+                <Style TargetType="mah:HamburgerMenu" />
+            </mah:HamburgerMenu.Style>
             <!-- Header-->
-            <Controls:HamburgerMenu.HamburgerMenuHeaderTemplate>
+            <!--<mah:HamburgerMenu.HamburgerMenuHeaderTemplate>
                 <DataTemplate>
                     <TextBlock HorizontalAlignment="Left"
                                VerticalAlignment="Center"
@@ -61,74 +82,86 @@
                                Foreground="GreenYellow"
                                Text="Tool Bar" />
                 </DataTemplate>
-            </Controls:HamburgerMenu.HamburgerMenuHeaderTemplate>
+            </mah:HamburgerMenu.HamburgerMenuHeaderTemplate>-->
             <!-- Items-->
-            <Controls:HamburgerMenu.ItemsSource>
-                <Controls:HamburgerMenuItemCollection>
-                    <Controls:HamburgerMenuIconItem Label="Home"
-                                                    Command="{Binding NavigateCommand}"
-                                                    CommandParameter="{x:Static esmcore:ViewNames.HomeView}">
-                        <Controls:HamburgerMenuIconItem.Icon>
+            <mah:HamburgerMenu.ItemsSource>
+                <mah:HamburgerMenuItemCollection>
+                    <mah:HamburgerMenuIconItem Label="Home"
+                                               Command="{Binding NavigateCommand}"
+                                               CommandParameter="{x:Static esmcore:ViewNames.HomeView}">
+                        <mah:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconMaterial Width="22"
                                                         Height="22"
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
                                                         Kind="Home" />
-                        </Controls:HamburgerMenuIconItem.Icon>
-                    </Controls:HamburgerMenuIconItem>
-                    <Controls:HamburgerMenuIconItem Label="Login"
-                                                    IsVisible="{Binding IsNotLoggedIn}"
-                                                    Command="{Binding NavigateCommand}"
-                                                    CommandParameter="{x:Static esmcore:ViewNames.LoginView}">
-                        <Controls:HamburgerMenuIconItem.Icon>
+                        </mah:HamburgerMenuIconItem.Icon>
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem Label="Login"
+                                               IsVisible="{Binding IsNotLoggedIn}"
+                                               Command="{Binding NavigateCommand}"
+                                               CommandParameter="{x:Static esmcore:ViewNames.LoginView}">
+                        <mah:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconFontAwesome Width="22"
                                                            Height="22"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            Kind="SignInAltSolid" />
-                        </Controls:HamburgerMenuIconItem.Icon>
-                    </Controls:HamburgerMenuIconItem>
-                    <Controls:HamburgerMenuIconItem Label="Account"
-                                                    IsVisible="{Binding IsLoggedIn}"
-                                                    Command="{Binding NavigateCommand}"
-                                                    CommandParameter="{x:Static esmcore:ViewNames.AccountView}">
-                        <Controls:HamburgerMenuIconItem.Icon>
+                        </mah:HamburgerMenuIconItem.Icon>
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem Label="Account"
+                                               IsVisible="{Binding IsLoggedIn}"
+                                               Command="{Binding NavigateCommand}"
+                                               CommandParameter="{x:Static esmcore:ViewNames.AccountView}">
+                        <mah:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconUnicons Width="22"
                                                        Height="22"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        Kind="User" />
-                        </Controls:HamburgerMenuIconItem.Icon>
-                    </Controls:HamburgerMenuIconItem>
-                    <Controls:HamburgerMenuIconItem Label="Test"
-                                                    Command="{Binding Test}">
-                        <Controls:HamburgerMenuIconItem.Icon>
+                        </mah:HamburgerMenuIconItem.Icon>
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem Label="Input"
+                                               IsVisible="{Binding }"
+                                               Command="{Binding NavigateCommand}"
+                                               CommandParameter="{x:Static esmcore:ViewNames.ProductInputView}">
+                        <mah:HamburgerMenuIconItem.Icon>
+                            <iconPacks:PackIconModern Kind="Paper"
+                                                      Width="22"
+                                                      Height="22"
+                                                      HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center" />
+                        </mah:HamburgerMenuIconItem.Icon>
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem Label="Test"
+                                               Command="{Binding Test}">
+                        <mah:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconUnicons Width="22"
                                                        Height="22"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        Kind="_10Plus" />
-                        </Controls:HamburgerMenuIconItem.Icon>
-                    </Controls:HamburgerMenuIconItem>
-                </Controls:HamburgerMenuItemCollection>
-            </Controls:HamburgerMenu.ItemsSource>
+                        </mah:HamburgerMenuIconItem.Icon>
+                    </mah:HamburgerMenuIconItem>
+                </mah:HamburgerMenuItemCollection>
+            </mah:HamburgerMenu.ItemsSource>
             <!--  Options  -->
-            <Controls:HamburgerMenu.OptionsItemsSource>
-                <Controls:HamburgerMenuItemCollection>
-                    <Controls:HamburgerMenuIconItem Label="Logout"
-                                                    IsVisible="{Binding IsLoggedIn}"
-                                                    Command="{Binding LogoutCommand}">
-                        <Controls:HamburgerMenuIconItem.Icon>
+            <mah:HamburgerMenu.OptionsItemsSource>
+                <mah:HamburgerMenuItemCollection>
+                    <mah:HamburgerMenuIconItem Label="Logout"
+                                               IsVisible="{Binding IsLoggedIn}"
+                                               Command="{Binding LogoutCommand}">
+                        <mah:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconMaterial Width="22"
                                                         Height="22"
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
                                                         Kind="Logout" />
-                        </Controls:HamburgerMenuIconItem.Icon>
-                    </Controls:HamburgerMenuIconItem>
-                </Controls:HamburgerMenuItemCollection>
-            </Controls:HamburgerMenu.OptionsItemsSource>
-        </Controls:HamburgerMenu>
+                        </mah:HamburgerMenuIconItem.Icon>
+                    </mah:HamburgerMenuIconItem>
+                </mah:HamburgerMenuItemCollection>
+            </mah:HamburgerMenu.OptionsItemsSource>
+        </mah:HamburgerMenu>
         <!-- Modal Region-->
         <modalcontrol:Modal IsOpen="{Binding IsModalOpen}"
                             Panel.ZIndex="2">

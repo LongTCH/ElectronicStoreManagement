@@ -1,14 +1,13 @@
 ﻿using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace ESM.Modules.DataAccess.Repositories;
 
 public interface IAccountRepository : IBaseRepository<AccountDTO>
 {
-    string GetSuggestAccountIdCounter();
+    string GetSuggestAccountId(string prefix);
+    void ResetPassword(string ID, string newPasswordHash);
 }
 public class AccountRepository : BaseRepository<AccountDTO>, IAccountRepository
 {
@@ -17,37 +16,38 @@ public class AccountRepository : BaseRepository<AccountDTO>, IAccountRepository
     }
     public override AccountDTO? GetById(string id)
     {
-        return (from ac in _context.Accounts
-                               where ac.Id == id
-                               select new AccountDTO()
-                               {
-                                   Id = ac.Id,
-                                   AvatarPath = @ac.AvatarPath,
-                                   Birthday = ac.Birthday,
-                                   City = ac.City,
-                                   District = ac.District,
-                                   EmailAddress = ac.EmailAddress,
-                                   FirstName = ac.FirstName,
-                                   LastName = ac.LastName,
-                                   PasswordHash = ac.PasswordHash,
-                                   Phone = ac.Phone,
-                                   Gender = ac.Gender,
-                                   Street = ac.Street,
-                                   SubDistrict = ac.SubDistrict
-                               }).FirstOrDefault();
+        return _context.Accounts.AsQueryable()
+                .Where(ac => ac.Id == id)
+                .Select(ac => new AccountDTO()
+                {
+                    Id = ac.Id,
+                    AvatarPath = @ac.AvatarPath,
+                    Birthday = ac.Birthday,
+                    City = ac.City,
+                    District = ac.District,
+                    EmailAddress = ac.EmailAddress,
+                    FirstName = ac.FirstName,
+                    LastName = ac.LastName,
+                    PasswordHash = ac.PasswordHash,
+                    Phone = ac.Phone,
+                    Gender = ac.Gender,
+                    Street = ac.Street,
+                    SubDistrict = ac.SubDistrict
+                }).FirstOrDefault();
     }
     public override bool Any(string id)
     {
         return _context.Accounts.Any(a => a.Id == id);
     }
-    public string GetSuggestAccountIdCounter()
+    public string GetSuggestAccountId(string prefix)
     {
-        var MaxValue = _context.Accounts
+        var MaxValue = _context.Accounts.AsQueryable()
+                    .Where(a => a.Id.StartsWith(prefix))
                     .OrderByDescending(x => Convert.ToInt32(x.Id.Substring(5)))
                     .FirstOrDefault();
         string result = (MaxValue != null) ? (Convert.ToInt32(MaxValue.Id[5..]) + 1).ToString() : "0";
         result = result.Insert(0, new('0', 4 - result.Length));
-        return result;
+        return prefix + result;
     }
     public override void Update(AccountDTO accountDTO)
     {

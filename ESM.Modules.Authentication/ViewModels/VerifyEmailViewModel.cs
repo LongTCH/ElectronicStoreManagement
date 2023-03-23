@@ -9,13 +9,14 @@ using System.Linq;
 
 namespace ESM.Modules.Authentication.ViewModels
 {
-    public class VerifyEmailViewModel : BindableBase, INavigationAware
+    public class VerifyEmailViewModel : BindableBase, INavigationAware, IModal
     {
         private readonly IModalService _modalService;
         private readonly IRegionManager _regionManager;
         public DelegateCommand CloseCommand { get; }
         public string EmailMark { get; set; }
         private string ReceivedCode;
+        private string Id;
         public VerifyEmailViewModel(IModalService modalService, IRegionManager regionManager)
         {
             _modalService = modalService;
@@ -37,6 +38,7 @@ namespace ESM.Modules.Authentication.ViewModels
                     {
                         CloseCommand.Execute();
                         _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.HomeView);
+                        _regionManager.ResetTrace();
                         _modalService.ShowModal(ModalType.Error, "Verification Fail", "Error");
                     }
                     else --counter;
@@ -45,7 +47,11 @@ namespace ESM.Modules.Authentication.ViewModels
                 else if (VerifyCode == ReceivedCode)
                 {
                     CloseCommand.Execute();
-                    _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.ResetPasswordView);
+                    NavigationParameters parameter = new()
+                    {
+                        { "Id", Id },
+                    };
+                    _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.ResetPasswordView, parameter);
                     _modalService.ShowModal(ModalType.Information, "Please reset your password", "Verified");
                 }
             }
@@ -54,6 +60,7 @@ namespace ESM.Modules.Authentication.ViewModels
         {
             var mailMark = navigationContext.Parameters["MailMark"] as string;
             ReceivedCode = navigationContext.Parameters["Code"] as string;
+            Id = navigationContext.Parameters["Id"] as string;
             EmailMark = mailMark ?? string.Empty;
             RaisePropertyChanged(nameof(EmailMark));
         }

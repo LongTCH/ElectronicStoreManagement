@@ -1,7 +1,6 @@
 ﻿using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace ESM.Modules.DataAccess.Repositories;
 public interface IPcRepository : IBaseRepository<PcDTO> { }
@@ -12,8 +11,8 @@ public class PcRepository : BaseRepository<PcDTO>, IPcRepository
     }
     public override IEnumerable<PcDTO>? GetAll()
     {
-        return (from pc in _context.Pcs
-                select new PcDTO()
+        return _context.Pcs.AsQueryable()
+                .Select(pc => new PcDTO()
                 {
                     Name = pc.Name,
                     Company = pc.Company,

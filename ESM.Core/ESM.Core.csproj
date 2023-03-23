@@ -10,6 +10,7 @@
 	<ItemGroup>
 		<None Remove="ShareImages\addproduct.png" />
 		<None Remove="ShareImages\adduser.png" />
+		<None Remove="ShareImages\app.ico" />
 		<None Remove="ShareImages\email.png" />
 		<None Remove="ShareImages\error.png" />
 		<None Remove="ShareImages\logo.png" />
@@ -22,6 +23,7 @@
 		<PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />
 		<PackageReference Include="MaterialDesignThemes" Version="4.8.0" />
 		<PackageReference Include="MaterialDesignThemes.Wpf" Version="1.0.1" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="Prism.Unity" Version="8.1.97" />
 	</ItemGroup>
 
@@ -32,6 +34,9 @@
 		<Resource Include="ShareImages\adduser.png">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
+		<Resource Include="ShareImages\app.ico">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
 		<Resource Include="ShareImages\email.png">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
@@ -39,7 +44,7 @@
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
 		<Resource Include="ShareImages\logo.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
 		<Resource Include="ShareImages\success.png">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>

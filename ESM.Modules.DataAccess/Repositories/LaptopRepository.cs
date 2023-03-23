@@ -1,7 +1,6 @@
 ﻿using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace ESM.Modules.DataAccess.Repositories;
 public interface ILaptopRepository : IBaseRepository<LaptopDTO>
@@ -14,8 +13,8 @@ public class LaptopRepository : BaseRepository<LaptopDTO>, ILaptopRepository
     }
     public override IEnumerable<LaptopDTO>? GetAll()
     {
-        return (from laptop in _context.Laptops
-                select new LaptopDTO()
+        return _context.Laptops.AsQueryable()
+                .Select(laptop => new LaptopDTO()
                 {
                     Name = laptop.Name,
                     ImagePath = @laptop.ImagePath,

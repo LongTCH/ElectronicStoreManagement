@@ -1,4 +1,5 @@
 ﻿using ESM.Core;
+using ESM.Core.ShareServices;
 using ESM.Modules.Authentication.ViewModels;
 using ESM.Modules.Authentication.Views;
 using Prism.Ioc;
@@ -12,15 +13,16 @@ namespace ESM.Modules.Authentication
     public class AuthenticationModule : IModule
     {
         private readonly IRegionManager _regionManager;
-        public AuthenticationModule(IRegionManager regionManager)
+        public AuthenticationModule(IRegionManager regionManager, IModalService modalService)
         {
             _regionManager = regionManager;
+            modalService.Register<VerifyEmailView>(ViewNames.VerifyEmailView);
         }
+
         public void OnInitialized(IContainerProvider containerProvider)
         {
             RegisterViewWithContentRegion(typeof(LoginView));
             RegisterViewWithContentRegion(typeof(InputVerificationView));
-            RegisterViewWithContentRegion(typeof(VerifyEmailView));
             RegisterViewWithContentRegion(typeof(ResetPasswordView));
         }
         public void RegisterTypes(IContainerRegistry containerRegistry)

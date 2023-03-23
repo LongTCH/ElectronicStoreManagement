@@ -17,5 +17,9 @@
         public static readonly string PCHardDiskView = "PCHardDiskView";
         public static readonly string SmartPhoneView = "SmartPhoneView";
         public static readonly string VGAView = "VGAView";
+        public static readonly string ProductInputView = "ProductInputView";
+        public static readonly string RegisterView = "RegisterView"; 
+        public static readonly string ChangeAccountInfoView = "ChangeAccountInfoView";
+        public static readonly string ProductDetailView = "ProductDetailView";
     }
 }
