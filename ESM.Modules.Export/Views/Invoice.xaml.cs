@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace ESM.Modules.Export.Views
 {
     /// <summary>
-    /// Interaction logic for ViewA.xaml
+    /// Interaction logic for Invoice.xaml
     /// </summary>
-    public partial class ViewA : UserControl
+    public partial class Invoice : Page
     {
-        public ViewA()
+        public Invoice()
         {
             InitializeComponent();
         }

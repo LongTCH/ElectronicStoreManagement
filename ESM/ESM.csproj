@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ESM.Core\ESM.Core.csproj" />
     <ProjectReference Include="..\ESM.Modules.Authentication\ESM.Modules.Authentication.csproj" />
+    <ProjectReference Include="..\ESM.Modules.Export\ESM.Modules.Export.csproj" />
     <ProjectReference Include="..\ESM.Modules.Import\ESM.Modules.Import.csproj" />
     <ProjectReference Include="..\ESM.Modules.Normal\ESM.Modules.Normal.csproj" />
   </ItemGroup>

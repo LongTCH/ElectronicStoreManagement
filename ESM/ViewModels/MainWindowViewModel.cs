@@ -108,8 +108,8 @@ namespace ESM.ViewModels
         public DelegateCommand Test { get; }
         private void test()
         {
-            _modalService.ShowModal(ViewNames.ProductDetailView, null);
-            //_regionManager.RequestNavigateContentRegionWithTrace(ViewNames.ChangeAccountInfoView);
+            //_modalService.ShowModal(ViewNames.ProductDetailView, null);
+            _regionManager.RequestNavigateContentRegionWithTrace(ViewNames.SellView);
         }
 
         #region DialogService

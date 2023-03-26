@@ -1,6 +1,4 @@
 ﻿using ClosedXML.Excel;
-using DocumentFormat.OpenXml.InkML;
-using DocumentFormat.OpenXml.Office2021.DocumentTasks;
 using ESM.Core;
 using ESM.Core.ShareServices;
 using ESM.Modules.DataAccess;
@@ -15,13 +13,19 @@ using System.Threading.Tasks;
 
 namespace ESM.Modules.Normal.ViewModels
 {
+    [RegionMemberLifetime(KeepAlive = false)]
     public class ProductDetailViewModel : BindableBase, IModal, INavigationAware
     {
         private ProductDTO ProductDTO { get; set; }
         public ProductDetailViewModel(IModalService modalService)
         {
-
-            CloseCommand = new(() => modalService.CloseModal(ViewNames.ProductDetailView));
+            CloseCommand = new(() => modalService.CloseModal());
+        }
+        private bool isBusy;
+        public bool IsBusy
+        {
+            get => isBusy;
+            set => SetProperty(ref isBusy, value);
         }
         private List<string> imageList;
         public List<string> ImageList
@@ -75,6 +79,7 @@ namespace ESM.Modules.Normal.ViewModels
 
         private void ReadExcel()
         {
+            IsBusy = true;
             var filePath = ProductDTO.DetailPath;
             if (File.Exists(filePath))
             {
@@ -100,6 +105,7 @@ namespace ESM.Modules.Normal.ViewModels
                 }
                 catch { DetailSource = null; }
             }
+            IsBusy = false;
             var path = ProductDTO.ImagePath;
             if (Directory.Exists(path))
             {
@@ -126,7 +132,7 @@ namespace ESM.Modules.Normal.ViewModels
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
-            return true;
+            return false;
         }
 
         public void OnNavigatedFrom(NavigationContext navigationContext)

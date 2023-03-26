@@ -1,0 +1,135 @@
+﻿<UserControl x:Class="ESM.Modules.Export.Views.SellView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:helper="clr-namespace:ESM.Core.Helper;assembly=ESM.Core"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             mc:Ignorable="d"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0"
+                    x:Name="TopPanel"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+            <ComboBox Cursor="Hand"
+                      Margin="5"
+                      Width="150"
+                      ItemsSource="{Binding CategoryList}"
+                      SelectedItem="{Binding Category}"
+                      VerticalContentAlignment="Center"
+                      HorizontalContentAlignment="Center"
+                      Style="{StaticResource MahApps.Styles.ComboBox.Virtualized}"
+                      mah:TextBoxHelper.Watermark="Danh mục" />
+            <ComboBox Cursor="Hand"
+                      Margin="5"
+                      Width="300"
+                      ItemsSource="{Binding Products}"
+                      Style="{StaticResource MahApps.Styles.ComboBox.Virtualized}"
+                      VerticalContentAlignment="Center"
+                      HorizontalContentAlignment="Center"
+                      DisplayMemberPath="Name"
+                      SelectedItem="{Binding SelectedProduct, UpdateSourceTrigger=PropertyChanged}"
+                      mah:TextBoxHelper.Watermark="Chọn sản phẩm" />
+            <Button Content="Thêm"
+                    Margin="5"
+                    Cursor="Hand"
+                    Background="LightBlue"
+                    Style="{StaticResource MahApps.Styles.Button.Flat}"
+                    Command="{Binding AddCommand}" />
+        </StackPanel>
+        <DataGrid ItemsSource="{Binding ProductBillList}"
+                  Grid.Row="1"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  CanUserReorderColumns="False"
+                  HorizontalAlignment="Center"
+                  VerticalGridLinesBrush="DeepSkyBlue"
+                  HorizontalGridLinesBrush="DeepSkyBlue"
+                  ScrollViewer.CanContentScroll="True"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                  SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}"
+                  x:Name="myDataGrid"
+                  helper:DataGridBehavior.RowNumbers="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="STT"
+                                    IsReadOnly="True"
+                                    Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}},
+                                      Path=Header}" />
+                <DataGridTextColumn Header="Mã sản phẩm"
+                                    IsReadOnly="True"
+                                    Binding="{Binding Id, Mode=OneWay}" />
+                <DataGridTextColumn Header="Tên sản phẩm"
+                                    IsReadOnly="True"
+                                    Binding="{Binding Name, Mode=OneWay}" />
+                <DataGridTextColumn Header="Giá"
+                                    IsReadOnly="True"
+                                    Binding="{Binding SellPrice, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
+                <DataGridTextColumn Header="Đơn vị"
+                                    IsReadOnly="True"
+                                    Binding="{Binding Unit, Mode=OneWay}" />
+                <DataGridTextColumn Header="Số lượng"
+                                    Binding="{Binding Number, UpdateSourceTrigger=LostFocus}" />
+                <DataGridTextColumn Header="Thành tiền"
+                                    IsReadOnly="True"
+                                    Binding="{Binding Amount, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
+                <DataGridTextColumn Header="Bảo hành"
+                                    Binding="{Binding Warranty}" />
+                <DataGridTemplateColumn Header="Xóa">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Xóa"
+                                    Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryLightButton}"
+                                    Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel x:Name="BotPanel"
+                    Grid.Row="2"
+                    Margin="0,0,0,10"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+            <TextBlock Text="Tổng tiền:"
+                       FontSize="18"
+                       FontWeight="Black"
+                       VerticalAlignment="Center"
+                       Margin="30, 0, 0 ,0" />
+            <materialDesign:Card Margin="3">
+                <TextBox  VerticalAlignment="Center"
+                          Width="300"
+                          Text="{Binding TotalAmount, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}"
+                          BorderThickness="0"
+                          FontSize="18"
+                          IsEnabled="False" />
+            </materialDesign:Card>
+            <Button Content="Xóa hết"
+                    Margin="30,0,0,0"
+                    Background="IndianRed"
+                    Command="{Binding DeleteAllCommand}" />
+            <Button Content="Xác nhận"
+                    Background="DarkOliveGreen"
+                    Margin="40,0,0,0" />
+        </StackPanel>
+        <TextBlock Grid.Row="3"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Foreground="DarkBlue"
+                   FontSize="16"
+                   Margin="0,0,0,10"
+                   Text="{Binding TextFormPrice, Mode=OneWay}" />
+    </Grid>
+</UserControl>

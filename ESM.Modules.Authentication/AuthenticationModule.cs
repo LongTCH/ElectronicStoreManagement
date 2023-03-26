@@ -5,25 +5,22 @@ using ESM.Modules.Authentication.Views;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
-using System;
-using System.Linq;
 
 namespace ESM.Modules.Authentication
 {
     public class AuthenticationModule : IModule
     {
         private readonly IRegionManager _regionManager;
-        public AuthenticationModule(IRegionManager regionManager, IModalService modalService)
+        public AuthenticationModule(IRegionManager regionManager)
         {
             _regionManager = regionManager;
-            modalService.Register<VerifyEmailView>(ViewNames.VerifyEmailView);
         }
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            RegisterViewWithContentRegion(typeof(LoginView));
-            RegisterViewWithContentRegion(typeof(InputVerificationView));
-            RegisterViewWithContentRegion(typeof(ResetPasswordView));
+            _regionManager.RegisterViewWithContentRegion<LoginView>();
+            _regionManager.RegisterViewWithContentRegion<InputVerificationView>();
+            _regionManager.RegisterViewWithContentRegion<ResetPasswordView>();
         }
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
@@ -37,11 +34,5 @@ namespace ESM.Modules.Authentication
             containerRegistry.RegisterForNavigation<ResetPasswordView, ResetPasswordViewModel>(ViewNames.ResetPasswordView);
         }
 
-        private void RegisterViewWithContentRegion(Type type)
-        {
-            _regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, type);
-            var view = _regionManager.Regions[RegionNames.ContentRegion].Views.First(v => v.GetType().Equals(type));
-            _regionManager.Regions[RegionNames.ContentRegion].Deactivate(view);
-        }
     }
 }

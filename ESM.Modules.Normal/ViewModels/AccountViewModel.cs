@@ -57,7 +57,7 @@ namespace ESM.Modules.Normal.ViewModels
                 _accountStore.CurrentAccount!.AvatarPath = value;
             }
         }
-        public DateTime BirthDay => _accountStore.CurrentAccount.Birthday;
+        public DateTime? BirthDay => _accountStore.CurrentAccount?.Birthday;
         public bool IsDefault => !File.Exists(Avatar_Path);
         public bool IsAdmin => _accountStore.IsAdmin;
         public DelegateCommand ResetPasswordCommand { get; }

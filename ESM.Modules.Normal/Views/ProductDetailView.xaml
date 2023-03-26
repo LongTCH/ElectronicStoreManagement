@@ -5,6 +5,7 @@
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:busyIndicator="https://github.com/Peoky/BusyIndicator"
              prism:ViewModelLocator.AutoWireViewModel="True"
              Height="450"
              Width="800">
@@ -21,27 +22,27 @@
                 HorizontalAlignment="Right">
             <iconPacks:PackIconIonicons Kind="CloseiOS" />
         </Button>
-        <ScrollViewer VerticalScrollBarVisibility="Auto"
-                      Grid.Row="1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*" />
-                    <ColumnDefinition Width="1*" />
-                </Grid.ColumnDefinitions>
-                <mah:FlipView ItemsSource="{Binding ImageList}"
-                              ShowIndex="True"
-                              IsBannerEnabled="False"
-                              MouseHoverBorderEnabled="False">
-                    <mah:FlipView.ItemTemplate>
-                        <DataTemplate>
-                            <Image Source="{Binding}"
-                                   MaxHeight="300"
-                                   MaxWidth="300"
-                                   Stretch="UniformToFill" />
-                        </DataTemplate>
-                    </mah:FlipView.ItemTemplate>
-                </mah:FlipView>
-                <StackPanel Grid.Column="1">
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <mah:FlipView ItemsSource="{Binding ImageList}"
+                          ShowIndex="True"
+                          IsBannerEnabled="False"
+                          MouseHoverBorderEnabled="False">
+                <mah:FlipView.ItemTemplate>
+                    <DataTemplate>
+                        <Image Source="{Binding}"
+                               MaxHeight="300"
+                               MaxWidth="300"
+                               Stretch="UniformToFill" />
+                    </DataTemplate>
+                </mah:FlipView.ItemTemplate>
+            </mah:FlipView>
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          Grid.Column="1">
+                <StackPanel>
                     <StackPanel>
                         <TextBlock Text="{Binding Name}"
                                    TextWrapping="Wrap"
@@ -83,26 +84,29 @@
                                FontSize="20"
                                Margin="0,10,0,10"
                                HorizontalAlignment="Center" />
-                    <ListView Background="Transparent"
-                              Foreground="Black"
-                              HorizontalAlignment="Center"
-                              ItemsSource="{Binding DetailSource, Mode=OneWay}">
-                        <ListView.View>
-                            <GridView>
-                                <GridView.ColumnHeaderContainerStyle>
-                                    <Style TargetType="{x:Type GridViewColumnHeader}">
-                                        <Setter Property="Visibility"
-                                                Value="Collapsed" />
-                                    </Style>
-                                </GridView.ColumnHeaderContainerStyle>
-                                <GridViewColumn DisplayMemberBinding="{Binding Attribute}"
-                                                Width="100" />
-                                <GridViewColumn DisplayMemberBinding="{Binding Description}" />
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
+                    <busyIndicator:BusyMask IsBusy="{Binding IsBusy, Mode=OneWay}"
+                                            IndicatorType="Swirl">
+                        <ListView Background="Transparent"
+                                  Foreground="Black"
+                                  HorizontalAlignment="Center"
+                                  ItemsSource="{Binding DetailSource, Mode=OneWay}">
+                            <ListView.View>
+                                <GridView>
+                                    <GridView.ColumnHeaderContainerStyle>
+                                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                                            <Setter Property="Visibility"
+                                                    Value="Collapsed" />
+                                        </Style>
+                                    </GridView.ColumnHeaderContainerStyle>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Attribute}"
+                                                    Width="100" />
+                                    <GridViewColumn DisplayMemberBinding="{Binding Description}" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </busyIndicator:BusyMask>
                 </StackPanel>
-            </Grid>
-        </ScrollViewer>
+            </ScrollViewer>
+        </Grid>
     </Grid>
 </UserControl>

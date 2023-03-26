@@ -4,7 +4,9 @@ using ESM.Modules.DataAccess.Models;
 
 namespace ESM.Modules.DataAccess.Repositories
 {
-    public interface ISmartphoneRepository : IBaseRepository<SmartphoneDTO> { }
+    public interface ISmartphoneRepository : IBaseRepository<SmartphoneDTO> {
+        string GetSuggestID();
+    }
     public class SmartphoneRepository : BaseRepository<SmartphoneDTO>, ISmartphoneRepository
     {
         public SmartphoneRepository(ESMDbContext context) : base(context)
@@ -13,6 +15,7 @@ namespace ESM.Modules.DataAccess.Repositories
         public override IEnumerable<SmartphoneDTO>? GetAll()
         {
             return _context.Smartphones.AsQueryable()
+                    .Where(smartphone => smartphone.Remain > -1)
                     .Select(smartphone => new SmartphoneDTO()
                     {
                         Name = smartphone.Name,
@@ -31,6 +34,13 @@ namespace ESM.Modules.DataAccess.Repositories
                         Unit = smartphone.Unit
                     }).ToList();
         }
-
+        public string GetSuggestID()
+        {
+            string? NewID = _context.Smartphones.OrderBy(p => p.Id).LastOrDefault()?.Id;
+            if (NewID == null) return StaticData.IdPrefix[ProductType.SMARTPHONE] + "0000000";
+            int counter = Convert.ToInt32(NewID[2..]);
+            ++counter;
+            return StaticData.IdPrefix[ProductType.SMARTPHONE] + counter.ToString().PadLeft(7, '0');
+        }
     }
 }

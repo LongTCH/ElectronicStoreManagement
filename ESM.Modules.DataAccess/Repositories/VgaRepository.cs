@@ -4,7 +4,9 @@ using ESM.Modules.DataAccess.Models;
 
 namespace ESM.Modules.DataAccess.Repositories;
 
-public interface IVgaRepository : IBaseRepository<VgaDTO> { }
+public interface IVgaRepository : IBaseRepository<VgaDTO> {
+    string GetSuggestID();
+}
 public class VgaRepository : BaseRepository<VgaDTO>, IVgaRepository
 {
     public VgaRepository(ESMDbContext context) : base(context)
@@ -13,6 +15,7 @@ public class VgaRepository : BaseRepository<VgaDTO>, IVgaRepository
     public override IEnumerable<VgaDTO>? GetAll()
     {
         return _context.Vgas.AsQueryable()
+                .Where(vga => vga.Remain > -1)
                 .Select(vga => new VgaDTO()
                 {
                     Name = vga.Name,
@@ -29,5 +32,13 @@ public class VgaRepository : BaseRepository<VgaDTO>, IVgaRepository
                     Series = vga.Series,
                     Unit = vga.Unit
                 }).ToList();
+    }
+    public string GetSuggestID()
+    {
+        string? NewID = _context.Vgas.OrderBy(p => p.Id).LastOrDefault()?.Id;
+        if (NewID == null) return StaticData.IdPrefix[ProductType.VGA] + "0000000";
+        int counter = Convert.ToInt32(NewID[2..]);
+        ++counter;
+        return StaticData.IdPrefix[ProductType.VGA] + counter.ToString().PadLeft(7, '0');
     }
 }

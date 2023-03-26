@@ -14,13 +14,9 @@ namespace ESM
     {
         private readonly IRegionManager _regionManager;
 
-        public MainModule(IRegionManager regionManager, IModalService modalService)
+        public MainModule(IRegionManager regionManager)
         {
             _regionManager = regionManager;
-            modalService.Register<ErrorNotifyView>(ViewNames.ErrorModal);
-            modalService.Register<InformationView>(ViewNames.InformationModal);
-            ViewModelLocationProvider.Register<ErrorNotifyView, ErrorNotifyViewModel>();
-            ViewModelLocationProvider.Register<InformationView, InformationViewModel>();
         }
 
         public void OnInitialized(IContainerProvider containerProvider)
@@ -30,8 +26,8 @@ namespace ESM
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<ErrorNotifyView>(ViewNames.ErrorModal);
-            containerRegistry.RegisterForNavigation<InformationView>(ViewNames.InformationModal);
+            containerRegistry.RegisterForNavigation<ErrorNotifyView, ErrorNotifyViewModel>(ViewNames.ErrorModal);
+            containerRegistry.RegisterForNavigation<InformationView, InformationViewModel>(ViewNames.InformationModal);
         }
     }
 }

@@ -3,7 +3,9 @@ using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 
 namespace ESM.Modules.DataAccess.Repositories;
-public interface IPccpuRepository : IBaseRepository<PccpuDTO> { }
+public interface IPccpuRepository : IBaseRepository<PccpuDTO> {
+    string GetSuggestID();
+}
 public class PccpuRepository : BaseRepository<PccpuDTO>, IPccpuRepository
 {
     public PccpuRepository(ESMDbContext context) : base(context)
@@ -12,6 +14,7 @@ public class PccpuRepository : BaseRepository<PccpuDTO>, IPccpuRepository
     public override IEnumerable<PccpuDTO>? GetAll()
     {
         return _context.Pccpus.AsQueryable()
+                .Where(p => p.Remain > -1)
                 .Select(pccpu => new PccpuDTO()
                 {
                     Name = pccpu.Name,
@@ -28,5 +31,13 @@ public class PccpuRepository : BaseRepository<PccpuDTO>, IPccpuRepository
                     AvatarPath = @pccpu.AvatarPath,
                     Unit = pccpu.Unit
                 }).ToList();
+    }
+    public string GetSuggestID()
+    {
+        string? NewID = _context.Pccpus.AsQueryable().OrderBy(p => p.Id).LastOrDefault()?.Id;
+        if (NewID == null) return StaticData.IdPrefix[ProductType.CPU] + "0000000";
+        int counter = Convert.ToInt32(NewID[2..]);
+        ++counter;
+        return StaticData.IdPrefix[ProductType.CPU] + counter.ToString().PadLeft(7, '0');
     }
 }

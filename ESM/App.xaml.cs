@@ -5,6 +5,7 @@ using ESM.Modules.Authentication;
 using ESM.Modules.Authentication.Views;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
+using ESM.Modules.Export;
 using ESM.Modules.Import;
 using ESM.Modules.Normal;
 using ESM.ViewModels;
@@ -62,6 +63,7 @@ namespace ESM
             moduleCatalog.AddModule<NormalModule>();
             moduleCatalog.AddModule<MainModule>();
             moduleCatalog.AddModule<ImportModule>();
+            moduleCatalog.AddModule<ExportModule>();
         }
         protected override void ConfigureRegionAdapterMappings(RegionAdapterMappings regionAdapterMappings)
         {
