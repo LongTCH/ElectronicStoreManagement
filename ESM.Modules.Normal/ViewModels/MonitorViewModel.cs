@@ -9,12 +9,12 @@ namespace ESM.Modules.Normal.ViewModels
 {
     public class MonitorViewModel : BaseProductViewModel<MonitorDTO>
     {
-        public HashSet<ProductAttributeStore> CompanyList { get; set; }
-        public HashSet<ProductAttributeStore> NeedList { get; set; }
-        public HashSet<ProductAttributeStore> PanelList { get; set; }
-        public HashSet<ProductAttributeStore> SeriesList { get; set; }
-        public HashSet<ProductAttributeStore> RefreshRateList { get; set; }
-        public HashSet<ProductAttributeStore> SizeList { get; set; }
+        public HashSet<ProductAttributeStore> CompanyList { get; set; } = new();
+        public HashSet<ProductAttributeStore> NeedList { get; set; }=new();
+        public HashSet<ProductAttributeStore> PanelList { get; set; } = new();
+        public HashSet<ProductAttributeStore> SeriesList { get; set; } = new();
+        public HashSet<ProductAttributeStore> RefreshRateList { get; set; } = new();
+        public HashSet<ProductAttributeStore> SizeList { get; set; } = new();
         public MonitorViewModel(IUnitOfWork unitOfWork, IModalService modalService)
             : base(unitOfWork, modalService)
         {
@@ -46,14 +46,12 @@ namespace ESM.Modules.Normal.ViewModels
                 if (e.IsChecked) ListSeries.Add(e.Name);
             foreach (var e in SizeList)
                 if (e.IsChecked) ListSize.Add(e.Name);
-            if (ListCompany.Count != 0) ProductList = ((List<MonitorDTO>)_productDTOs).Where(x => ListCompany.Contains(x.Company)).ToList();
-            else ProductList = (List<MonitorDTO>?)_productDTOs;
+            if (ListCompany.Count != 0) ProductList = ((List<MonitorDTO>)ProductList).Where(x => ListCompany.Contains(x.Company)).ToList();
             if (ListPanel.Count != 0) ProductList = ((List<MonitorDTO>)ProductList).Where(x => ListPanel.Contains(x.Panel)).ToList();
             if (ListNeed.Count != 0) ProductList = ((List<MonitorDTO>)ProductList).Where(x => ListNeed.Contains(x.Need)).ToList();
             if (ListRefreshRate.Count != 0) ProductList = ((List<MonitorDTO>)ProductList).Where(x => ListRefreshRate.Contains(x.RefreshRate.ToString())).ToList();
             if (ListSeries.Count != 0) ProductList = ((List<MonitorDTO>)ProductList).Where(x => ListSeries.Contains(x.Series)).ToList();
             if (ListSize.Count != 0) ProductList = ((List<MonitorDTO>)ProductList).Where(x => ListSize.Contains(x.Size)).ToList();
-            RaisePropertyChanged(nameof(ProductList));
         }
         private void getCompanyList()
         {
@@ -62,7 +60,7 @@ namespace ESM.Modules.Normal.ViewModels
             foreach (var monitor in _productDTOs)
             {
                 ProductAttributeStore monitorCompany = new() { Name = monitor.Company };
-                monitorCompany.CurrentStoreChanged += OnIsCheckedChanged;
+                monitorCompany.CurrentStoreChanged += FilterProduct;
                 CompanyList.Add(monitorCompany);
             }
         }
@@ -85,7 +83,7 @@ namespace ESM.Modules.Normal.ViewModels
             {
                 if (string.IsNullOrWhiteSpace(monitor.Need)) continue;
                 ProductAttributeStore monitorNeed = new() { Name = monitor.Need };
-                monitorNeed.CurrentStoreChanged += OnIsCheckedChanged;
+                monitorNeed.CurrentStoreChanged += FilterProduct;
                 NeedList.Add(monitorNeed);
             }
         }
@@ -96,7 +94,7 @@ namespace ESM.Modules.Normal.ViewModels
             foreach (var monitor in _productDTOs)
             {
                 ProductAttributeStore monitorRAM = new() { Name = monitor.RefreshRate.ToString() };
-                monitorRAM.CurrentStoreChanged += OnIsCheckedChanged;
+                monitorRAM.CurrentStoreChanged += FilterProduct;
                 RefreshRateList.Add(monitorRAM);
             }
         }
@@ -108,7 +106,7 @@ namespace ESM.Modules.Normal.ViewModels
             {
                 if (string.IsNullOrWhiteSpace(monitor.Series)) continue;
                 ProductAttributeStore monitorSeries = new() { Name = monitor.Series };
-                monitorSeries.CurrentStoreChanged += OnIsCheckedChanged;
+                monitorSeries.CurrentStoreChanged += FilterProduct;
                 SeriesList.Add(monitorSeries);
             }
         }
@@ -119,7 +117,7 @@ namespace ESM.Modules.Normal.ViewModels
             foreach (var monitor in _productDTOs)
             {
                 ProductAttributeStore monitorStorage = new() { Name = monitor.Size };
-                monitorStorage.CurrentStoreChanged += OnIsCheckedChanged;
+                monitorStorage.CurrentStoreChanged += FilterProduct;
                 SizeList.Add(monitorStorage);
             }
         }

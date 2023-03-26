@@ -20,18 +20,20 @@ namespace ESM.Modules.Normal.ViewModels
         protected dynamic _productDTOs;
         public dynamic ProductList { get; set; }
         public List<string> Conditions { get; } = StaticData.Conditions;
-        protected string selectedCondition;
+        
         public double MaxPrice { get; set; } = 0;
         public double TickFrequency { get; } = 500_000;
-        private double currentPrice;
-        public double CurrentPrice
+        private double upperValue;
+        public double UpperValue
         {
-            get => currentPrice;
-            set
-            {
-                currentPrice = value;
-                priceRangeCommand();
-            }
+            get => upperValue;
+            set => SetProperty(ref upperValue, value, FilterProduct);
+        }
+        private double lowerValue;
+        public double LowerValue
+        {
+            get => lowerValue;
+            set => SetProperty(ref lowerValue, value, FilterProduct);
         }
         protected BaseProductViewModel(IUnitOfWork unitOfWork, IModalService modalService)
         {
@@ -47,11 +49,11 @@ namespace ESM.Modules.Normal.ViewModels
                 list = _unitOfWork.Laptops.GetAll();
             else if (typeof(T).Equals(typeof(MonitorDTO)))
                 list = _unitOfWork.Monitors.GetAll();
-            else if(typeof(T).Equals(typeof(PccpuDTO)))
+            else if (typeof(T).Equals(typeof(PccpuDTO)))
                 list = _unitOfWork.Pccpus.GetAll();
             else if (typeof(T).Equals(typeof(PcDTO)))
                 list = _unitOfWork.Pcs.GetAll();
-            else if(typeof(T).Equals(typeof(SmartphoneDTO)))
+            else if (typeof(T).Equals(typeof(SmartphoneDTO)))
                 list = _unitOfWork.Smartphones.GetAll();
             else if (typeof(T).Equals(typeof(VgaDTO)))
                 list = _unitOfWork.Vgas.GetAll();
@@ -62,24 +64,14 @@ namespace ESM.Modules.Normal.ViewModels
                 ProductList = list;
                 _productDTOs = list;
                 MaxPrice = Math.Ceiling((double)((List<T>)list).Max(x => x.SellPrice) / TickFrequency) * TickFrequency;
-                CurrentPrice = MaxPrice;
+                UpperValue = MaxPrice;
             }
         }
-        private void priceRangeCommand()
-        {
-            Action?.Invoke();
-            ProductList = ((List<T>)ProductList).Where(x => (double)x.SellPrice <= CurrentPrice).ToList();
-            RaisePropertyChanged(nameof(ProductList));
-        }
+        protected string selectedCondition;
         public string? SelectedCondition
         {
             get => selectedCondition;
-            set
-            {
-                selectedCondition = value;
-                RaisePropertyChanged(nameof(SelectedCondition));
-                SelectedConditionChanged();
-            }
+            set => SetProperty(ref selectedCondition, value, FilterProduct);
         }
         public DelegateCommand<ProductDTO> ProductDetailNavigateCommand { get; set; }
         private void navigate(ProductDTO product)
@@ -91,15 +83,10 @@ namespace ESM.Modules.Normal.ViewModels
             _modalService.ShowModal(ViewNames.ProductDetailView, parameter);
         }
         protected Action? Action { get; set; }
-        protected void SelectedConditionChanged()
+        protected void FilterProduct()
         {
-            if (SelectedCondition == null) return;
-            if (SelectedCondition == Conditions[0])
-            {
-                SelectedCondition = null;
-                Action?.Invoke();
-            }
-            else if (SelectedCondition == Conditions[1])
+            ProductList = _productDTOs;
+            if (SelectedCondition == Conditions[1])
             {
                 ProductList = ((List<T>)ProductList)?.OrderBy(x => x.SellPrice).ToList();
             }
@@ -107,12 +94,16 @@ namespace ESM.Modules.Normal.ViewModels
             {
                 ProductList = ((List<T>)ProductList)?.OrderByDescending(x => x.SellPrice).ToList();
             }
+            Action?.Invoke();
+            ProductList = ((List<T>)ProductList)
+                .Where(x => (double)x.SellPrice <= UpperValue && (double)x.SellPrice >= LowerValue)
+                .ToList();
             RaisePropertyChanged(nameof(ProductList));
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            
+
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -122,7 +113,7 @@ namespace ESM.Modules.Normal.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
-           
+
         }
     }
 }

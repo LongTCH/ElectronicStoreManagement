@@ -9,13 +9,13 @@ namespace ESM.Modules.Normal.ViewModels
 {
     public class LaptopViewModel : BaseProductViewModel<LaptopDTO>
     {
-        public HashSet<ProductAttributeStore> CompanyList { get; set; }
-        public HashSet<ProductAttributeStore> CPUList { get; set; }
-        public HashSet<ProductAttributeStore> GraphicList { get; set; }
-        public HashSet<ProductAttributeStore> NeedList { get; set; }
-        public HashSet<ProductAttributeStore> SeriesList { get; set; }
-        public HashSet<ProductAttributeStore> RAMList { get; set; }
-        public HashSet<ProductAttributeStore> StorageList { get; set; }
+        public HashSet<ProductAttributeStore> CompanyList { get; set; } = new();
+        public HashSet<ProductAttributeStore> CPUList { get; set; }=new();
+        public HashSet<ProductAttributeStore> GraphicList { get; set; } = new();
+        public HashSet<ProductAttributeStore> NeedList { get; set; } = new();
+        public HashSet<ProductAttributeStore> SeriesList { get; set; } = new();
+        public HashSet<ProductAttributeStore> RAMList { get; set; } = new();
+        public HashSet<ProductAttributeStore> StorageList { get; set; } = new();
 
         public LaptopViewModel(IUnitOfWork unitOfWork, IModalService modalService)
             : base(unitOfWork, modalService)
@@ -39,7 +39,6 @@ namespace ESM.Modules.Normal.ViewModels
             List<string> ListRAM = new();
             List<string> ListSeries = new();
             List<string> ListStorage = new();
-            ProductList = null;
             foreach (var e in CompanyList)
                 if (e.IsChecked) ListCompany.Add(e.Name);
             foreach (var e in CPUList)
@@ -54,16 +53,13 @@ namespace ESM.Modules.Normal.ViewModels
                 if (e.IsChecked) ListSeries.Add(e.Name);
             foreach (var e in StorageList)
                 if (e.IsChecked) ListStorage.Add(e.Name);
-            if (ListCompany.Count != 0) ProductList = ((List<LaptopDTO>)_productDTOs).Where(x => ListCompany.Contains(x.Company)).ToList();
-            else ProductList = (List<LaptopDTO>)_productDTOs;
+            if (ListCompany.Count != 0) ProductList = ((List<LaptopDTO>)ProductList).Where(x => ListCompany.Contains(x.Company)).ToList();
             if (ListCPU.Count != 0) ProductList = ((List<LaptopDTO>)ProductList).Where(x => ListCPU.Contains(x.Cpu)).ToList();
             if (ListGraphic.Count != 0) ProductList = ((List<LaptopDTO>)ProductList).Where(x => ListGraphic.Contains(x.Graphic)).ToList();
             if (ListNeed.Count != 0) ProductList = ((List<LaptopDTO>)ProductList).Where(x => ListNeed.Contains(x.Need)).ToList();
             if (ListRAM.Count != 0) ProductList = ((List<LaptopDTO>)ProductList).Where(x => ListRAM.Contains(x.Ram)).ToList();
             if (ListSeries.Count != 0) ProductList = ((List<LaptopDTO>)ProductList).Where(x => ListSeries.Contains(x.Series)).ToList();
             if (ListStorage.Count != 0) ProductList = ((List<LaptopDTO>)ProductList).Where(x => ListStorage.Contains(x.Storage)).ToList();
-            SelectedConditionChanged();
-            RaisePropertyChanged(nameof(ProductList));
         }
         private void getCompanyList()
         {
@@ -72,7 +68,7 @@ namespace ESM.Modules.Normal.ViewModels
             foreach (var laptop in _productDTOs)
             {
                 ProductAttributeStore laptopCompany = new() { Name = laptop.Company };
-                laptopCompany.CurrentStoreChanged += OnIsCheckedChanged;
+                laptopCompany.CurrentStoreChanged += FilterProduct;
                 CompanyList.Add(laptopCompany);
             }
         }
@@ -83,7 +79,7 @@ namespace ESM.Modules.Normal.ViewModels
             foreach (var laptop in _productDTOs)
             {
                 ProductAttributeStore laptopCPU = new() { Name = laptop.Cpu };
-                laptopCPU.CurrentStoreChanged += OnIsCheckedChanged;
+                laptopCPU.CurrentStoreChanged += FilterProduct;
                 CPUList.Add(laptopCPU);
             }
         }
@@ -94,7 +90,7 @@ namespace ESM.Modules.Normal.ViewModels
             foreach (var laptop in _productDTOs)
             {
                 ProductAttributeStore laptopGraphic = new() { Name = laptop.Graphic };
-                laptopGraphic.CurrentStoreChanged += OnIsCheckedChanged;
+                laptopGraphic.CurrentStoreChanged += FilterProduct;
                 GraphicList.Add(laptopGraphic);
             }
         }
@@ -117,7 +113,7 @@ namespace ESM.Modules.Normal.ViewModels
             foreach (var laptop in _productDTOs)
             {
                 ProductAttributeStore laptopRAM = new() { Name = laptop.Ram };
-                laptopRAM.CurrentStoreChanged += OnIsCheckedChanged;
+                laptopRAM.CurrentStoreChanged += FilterProduct;
                 RAMList.Add(laptopRAM);
             }
         }
@@ -129,7 +125,7 @@ namespace ESM.Modules.Normal.ViewModels
             {
                 if (string.IsNullOrWhiteSpace(laptop.Series)) continue;
                 ProductAttributeStore laptopSeries = new() { Name = laptop.Series };
-                laptopSeries.CurrentStoreChanged += OnIsCheckedChanged;
+                laptopSeries.CurrentStoreChanged += FilterProduct;
                 SeriesList.Add(laptopSeries);
             }
         }
@@ -140,7 +136,7 @@ namespace ESM.Modules.Normal.ViewModels
             foreach (var laptop in _productDTOs)
             {
                 ProductAttributeStore laptopStorage = new() { Name = laptop.Storage };
-                laptopStorage.CurrentStoreChanged += OnIsCheckedChanged;
+                laptopStorage.CurrentStoreChanged += FilterProduct;
                 StorageList.Add(laptopStorage);
             }
         }

@@ -12,11 +12,11 @@ namespace ESM.Modules.Normal.ViewModels
 {
     public class SmartPhoneViewModel : BaseProductViewModel<SmartphoneDTO>
     {
-        public HashSet<ProductAttributeStore> CompanyList { get; set; }
-        public HashSet<ProductAttributeStore> CPUList { get; set; }
-        public HashSet<ProductAttributeStore> SeriesList { get; set; }
-        public HashSet<ProductAttributeStore> RAMList { get; set; }
-        public HashSet<ProductAttributeStore> StorageList { get; set; }
+        public HashSet<ProductAttributeStore> CompanyList { get; set; } = new();
+        public HashSet<ProductAttributeStore> CPUList { get; set; } = new();
+        public HashSet<ProductAttributeStore> SeriesList { get; set; } = new();
+        public HashSet<ProductAttributeStore> RAMList { get; set; } = new();
+        public HashSet<ProductAttributeStore> StorageList { get; set; } = new();
         public SmartPhoneViewModel(IUnitOfWork unitOfWork, IModalService modalService)
             : base(unitOfWork, modalService)
         {
@@ -44,13 +44,11 @@ namespace ESM.Modules.Normal.ViewModels
                 if (e.IsChecked) ListSeries.Add(e.Name);
             foreach (var e in StorageList)
                 if (e.IsChecked) ListStorage.Add(e.Name);
-            if (ListCompany.Count != 0) ProductList = ((List<SmartphoneDTO>)_productDTOs).Where(x => ListCompany.Contains(x.Company)).ToList();
-            else ProductList = (List<SmartphoneDTO>?)_productDTOs;
+            if (ListCompany.Count != 0) ProductList = ((List<SmartphoneDTO>)ProductList).Where(x => ListCompany.Contains(x.Company)).ToList();
             if (ListCPU.Count != 0) ProductList = ((List<SmartphoneDTO>)ProductList).Where(x => ListCPU.Contains(x.Cpu)).ToList();
             if (ListRAM.Count != 0) ProductList = ((List<SmartphoneDTO>)ProductList).Where(x => ListRAM.Contains(x.Ram)).ToList();
             if (ListSeries.Count != 0) ProductList = ((List<SmartphoneDTO>)ProductList).Where(x => ListSeries.Contains(x.Series)).ToList();
             if (ListStorage.Count != 0) ProductList = ((List<SmartphoneDTO>)ProductList).Where(x => ListStorage.Contains(x.Storage)).ToList();
-            RaisePropertyChanged(nameof(ProductList));
         }
         private void getCompanyList()
         {
@@ -59,7 +57,7 @@ namespace ESM.Modules.Normal.ViewModels
             foreach (var smartphone in _productDTOs)
             {
                 ProductAttributeStore smartphoneCompany = new() { Name = smartphone.Company };
-                smartphoneCompany.CurrentStoreChanged += OnIsCheckedChanged;
+                smartphoneCompany.CurrentStoreChanged += FilterProduct;
                 CompanyList.Add(smartphoneCompany);
             }
         }
@@ -70,7 +68,7 @@ namespace ESM.Modules.Normal.ViewModels
             foreach (var smartphone in _productDTOs)
             {
                 ProductAttributeStore smartphoneCPU = new() { Name = smartphone.Cpu };
-                smartphoneCPU.CurrentStoreChanged += OnIsCheckedChanged;
+                smartphoneCPU.CurrentStoreChanged += FilterProduct;
                 CPUList.Add(smartphoneCPU);
             }
         }
@@ -81,7 +79,7 @@ namespace ESM.Modules.Normal.ViewModels
             foreach (var smartphone in _productDTOs)
             {
                 ProductAttributeStore smartphoneRAM = new() { Name = smartphone.Ram };
-                smartphoneRAM.CurrentStoreChanged += OnIsCheckedChanged;
+                smartphoneRAM.CurrentStoreChanged += FilterProduct;
                 RAMList.Add(smartphoneRAM);
             }
         }
@@ -93,7 +91,7 @@ namespace ESM.Modules.Normal.ViewModels
             {
                 if (string.IsNullOrWhiteSpace(smartphone.Series)) continue;
                 ProductAttributeStore smartphoneSeries = new() { Name = smartphone.Series };
-                smartphoneSeries.CurrentStoreChanged += OnIsCheckedChanged;
+                smartphoneSeries.CurrentStoreChanged += FilterProduct;
                 SeriesList.Add(smartphoneSeries);
             }
         }
@@ -104,7 +102,7 @@ namespace ESM.Modules.Normal.ViewModels
             foreach (var smartphone in _productDTOs)
             {
                 ProductAttributeStore smartphoneStorage = new() { Name = smartphone.Storage };
-                smartphoneStorage.CurrentStoreChanged += OnIsCheckedChanged;
+                smartphoneStorage.CurrentStoreChanged += FilterProduct;
                 StorageList.Add(smartphoneStorage);
             }
         }

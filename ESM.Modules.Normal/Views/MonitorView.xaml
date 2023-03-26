@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:prism="http://prismlibrary.com/"             
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -14,12 +15,12 @@
                     Panel.ZIndex="1"
                     VerticalAlignment="Top">
             <Grid>
-                <TextBlock Text="0"
+                <TextBlock Text="{Binding ElementName=sld, Path=LowerValue,StringFormat={StaticResource CurrencyFormat}}"
                            HorizontalAlignment="Left" />
-                <TextBlock Text="{Binding ElementName=sld, Path=Value, StringFormat={}{0:N0}}"
+                <TextBlock Text="{Binding ElementName=sld, Path=UpperValue, StringFormat={StaticResource CurrencyFormat}}"
                            HorizontalAlignment="Right" />
             </Grid>
-            <Slider x:Name="sld"
+            <mah:RangeSlider x:Name="sld"
                     Style="{StaticResource sldPrice}" />
         </StackPanel>
         <ScrollViewer VerticalScrollBarVisibility="auto"

@@ -9,11 +9,11 @@ namespace ESM.Modules.Normal.ViewModels
 {
     public class PCViewModel : BaseProductViewModel<PcDTO>
     {
-        public HashSet<ProductAttributeStore> CompanyList { get; set; }
-        public HashSet<ProductAttributeStore> CPUList { get; set; }
-        public HashSet<ProductAttributeStore> NeedList { get; set; }
-        public HashSet<ProductAttributeStore> SeriesList { get; set; }
-        public HashSet<ProductAttributeStore> RAMList { get; set; }
+        public HashSet<ProductAttributeStore> CompanyList { get; set; } = new();
+        public HashSet<ProductAttributeStore> CPUList { get; set; } = new();
+        public HashSet<ProductAttributeStore> NeedList { get; set; } = new();
+        public HashSet<ProductAttributeStore> SeriesList { get; set; } = new();
+        public HashSet<ProductAttributeStore> RAMList { get; set; } = new();
         public PCViewModel(IUnitOfWork unitOfWork, IModalService modalService)
             : base(unitOfWork, modalService)
         {
@@ -41,13 +41,11 @@ namespace ESM.Modules.Normal.ViewModels
                 if (e.IsChecked) ListRAM.Add(e.Name);
             foreach (var e in SeriesList)
                 if (e.IsChecked) ListSeries.Add(e.Name);
-            if (ListCompany.Count != 0) ProductList = ((List<PcDTO>)_productDTOs)!.Where(x => ListCompany.Contains(x.Company)).ToList();
-            else ProductList = (List<PcDTO>)_productDTOs;
+            if (ListCompany.Count != 0) ProductList = ((List<PcDTO>)ProductList)!.Where(x => ListCompany.Contains(x.Company)).ToList();
             if (ListCPU.Count != 0) ProductList = ((List<PcDTO>)ProductList)!.Where(x => ListCPU.Contains(x.Cpu)).ToList();
             if (ListNeed.Count != 0) ProductList = ((List<PcDTO>)ProductList)!.Where(x => ListNeed.Contains(x.Need)).ToList();
             if (ListRAM.Count != 0) ProductList = ((List<PcDTO>)ProductList)!.Where(x => ListRAM.Contains(x.Ram)).ToList();
             if (ListSeries.Count != 0) ProductList = ((List<PcDTO>)ProductList)!.Where(x => ListSeries.Contains(x.Series)).ToList();
-            RaisePropertyChanged(nameof(ProductList));
         }
         private void getCompanyList()
         {
@@ -56,7 +54,7 @@ namespace ESM.Modules.Normal.ViewModels
             foreach (var pc in _productDTOs)
             {
                 ProductAttributeStore pcCompany = new() { Name = pc.Company };
-                pcCompany.CurrentStoreChanged += OnIsCheckedChanged;
+                pcCompany.CurrentStoreChanged += FilterProduct;
                 CompanyList.Add(pcCompany);
             }
         }
@@ -67,7 +65,7 @@ namespace ESM.Modules.Normal.ViewModels
             foreach (var pc in _productDTOs)
             {
                 ProductAttributeStore pcCPU = new() { Name = pc.Cpu };
-                pcCPU.CurrentStoreChanged += OnIsCheckedChanged;
+                pcCPU.CurrentStoreChanged += FilterProduct;
                 CPUList.Add(pcCPU);
             }
         }
@@ -79,7 +77,7 @@ namespace ESM.Modules.Normal.ViewModels
             {
                 if (string.IsNullOrWhiteSpace(pc.Need)) continue;
                 ProductAttributeStore pcNeed = new() { Name = pc.Need };
-                pcNeed.CurrentStoreChanged += OnIsCheckedChanged;
+                pcNeed.CurrentStoreChanged += FilterProduct;
                 NeedList.Add(pcNeed);
             }
         }
@@ -90,7 +88,7 @@ namespace ESM.Modules.Normal.ViewModels
             foreach (var pc in _productDTOs)
             {
                 ProductAttributeStore pcRAM = new() { Name = pc.Ram };
-                pcRAM.CurrentStoreChanged += OnIsCheckedChanged;
+                pcRAM.CurrentStoreChanged += FilterProduct;
                 RAMList.Add(pcRAM);
             }
         }
@@ -102,7 +100,7 @@ namespace ESM.Modules.Normal.ViewModels
             {
                 if (string.IsNullOrWhiteSpace(pc.Series)) continue;
                 ProductAttributeStore pcSeries = new() { Name = pc.Series };
-                pcSeries.CurrentStoreChanged += OnIsCheckedChanged;
+                pcSeries.CurrentStoreChanged += FilterProduct;
                 SeriesList.Add(pcSeries);
             }
         }

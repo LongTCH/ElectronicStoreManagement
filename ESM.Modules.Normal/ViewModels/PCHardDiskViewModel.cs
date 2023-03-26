@@ -9,11 +9,11 @@ namespace ESM.Modules.Normal.ViewModels
 {
     public class PCHardDiskViewModel : BaseProductViewModel<PcharddiskDTO>
     {
-        public HashSet<ProductAttributeStore> CompanyList { get; set; }
-        public HashSet<ProductAttributeStore> ConnectList { get; set; }
-        public HashSet<ProductAttributeStore> TypeList { get; set; }
-        public HashSet<ProductAttributeStore> SeriesList { get; set; }
-        public HashSet<ProductAttributeStore> StorageList { get; set; }
+        public HashSet<ProductAttributeStore> CompanyList { get; set; } = new();
+        public HashSet<ProductAttributeStore> ConnectList { get; set; }=new();
+        public HashSet<ProductAttributeStore> TypeList { get; set; } = new();
+        public HashSet<ProductAttributeStore> SeriesList { get; set; } = new();
+        public HashSet<ProductAttributeStore> StorageList { get; set; } = new();
         public PCHardDiskViewModel(IUnitOfWork unitOfWork, IModalService modalService)
             : base(unitOfWork, modalService)
         {
@@ -41,13 +41,11 @@ namespace ESM.Modules.Normal.ViewModels
                 if (e.IsChecked) ListStorage.Add(e.Name);
             foreach (var e in SeriesList)
                 if (e.IsChecked) ListSeries.Add(e.Name);
-            if (ListCompany.Count != 0) ProductList = ((List<PcharddiskDTO>)_productDTOs)!.Where(x => ListCompany.Contains(x.Company)).ToList();
-            else ProductList = (List<PcharddiskDTO>)_productDTOs;
+            if (ListCompany.Count != 0) ProductList = ((List<PcharddiskDTO>)ProductList)!.Where(x => ListCompany.Contains(x.Company)).ToList();
             if (ListConnect.Count != 0) ProductList = ((List<PcharddiskDTO>)ProductList)!.Where(x => ListConnect.Contains(x.Connect)).ToList();
             if (ListType.Count != 0) ProductList = ((List<PcharddiskDTO>)ProductList)!.Where(x => ListType.Contains(x.Type)).ToList();
             if (ListStorage.Count != 0) ProductList = ((List<PcharddiskDTO>)ProductList)!.Where(x => ListStorage.Contains(x.Storage)).ToList();
             if (ListSeries.Count != 0) ProductList = ((List<PcharddiskDTO>)ProductList)!.Where(x => ListSeries.Contains(x.Series)).ToList();
-            RaisePropertyChanged(nameof(ProductList));
         }
         private void getCompanyList()
         {
@@ -67,7 +65,7 @@ namespace ESM.Modules.Normal.ViewModels
             foreach (var pcharddisk in _productDTOs)
             {
                 ProductAttributeStore pcharddiskCPU = new() { Name = pcharddisk.Connect };
-                pcharddiskCPU.CurrentStoreChanged += OnIsCheckedChanged;
+                pcharddiskCPU.CurrentStoreChanged += FilterProduct;
                 ConnectList.Add(pcharddiskCPU);
             }
         }
@@ -79,7 +77,7 @@ namespace ESM.Modules.Normal.ViewModels
             {
                 if (string.IsNullOrWhiteSpace(pcharddisk.Type)) continue;
                 ProductAttributeStore pcharddiskNeed = new() { Name = pcharddisk.Type };
-                pcharddiskNeed.CurrentStoreChanged += OnIsCheckedChanged;
+                pcharddiskNeed.CurrentStoreChanged += FilterProduct;
                 TypeList.Add(pcharddiskNeed);
             }
         }
@@ -90,7 +88,7 @@ namespace ESM.Modules.Normal.ViewModels
             foreach (var pcharddisk in _productDTOs)
             {
                 ProductAttributeStore pcharddiskRAM = new() { Name = pcharddisk.Storage };
-                pcharddiskRAM.CurrentStoreChanged += OnIsCheckedChanged;
+                pcharddiskRAM.CurrentStoreChanged += FilterProduct;
                 StorageList.Add(pcharddiskRAM);
             }
         }
@@ -102,7 +100,7 @@ namespace ESM.Modules.Normal.ViewModels
             {
                 if (string.IsNullOrWhiteSpace(pcharddisk.Series)) continue;
                 ProductAttributeStore pcharddiskSeries = new() { Name = pcharddisk.Series };
-                pcharddiskSeries.CurrentStoreChanged += OnIsCheckedChanged;
+                pcharddiskSeries.CurrentStoreChanged += FilterProduct;
                 SeriesList.Add(pcharddiskSeries);
             }
         }
