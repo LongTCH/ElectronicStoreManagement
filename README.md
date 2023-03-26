@@ -1,12 +1,14 @@
 # ElectronicStoreManagement
 # On Progress
+How to test from your computer:
+- First, clone project and public ESMDatabase to your machine, also change the connection string in ESM.Modules.DataAccess.Models.ESMDbContext.cs if neccessary
+<img width="587" alt="image" src="https://user-images.githubusercontent.com/104202148/227768869-51a46b4c-ac3b-4ebc-80ad-785d98bf10bf.png">
+- Then, set project ESM as Startup Project by right click on the project and chose Set as Startup Project.
+- Finally, it's your time!
 Quick Demo UI
-<img width="957" alt="image" src="https://user-images.githubusercontent.com/104202148/223778072-31797181-e5f4-45ac-a6e8-1437f701101e.png">
-<img width="956" alt="image" src="https://user-images.githubusercontent.com/104202148/223778273-5e2295af-6d1f-4edf-a2b9-e0783153ec94.png">
-<img width="960" alt="image" src="https://user-images.githubusercontent.com/104202148/223778448-4fef45de-9c5e-4591-83db-ff6a70bcecc2.png">
-<img width="261" alt="image" src="https://user-images.githubusercontent.com/104202148/223778520-b2b95ec6-1c57-4b41-828a-25fb43dcc571.png">
-<img width="213" alt="image" src="https://user-images.githubusercontent.com/104202148/223779963-5a4a2e37-28bd-4f6a-aa19-1880949c285a.png">
-<img width="214" alt="image" src="https://user-images.githubusercontent.com/104202148/223779847-19224d1f-4dc6-48e8-aca1-cd3111f50008.png">
-<img width="655" alt="image" src="https://user-images.githubusercontent.com/104202148/223778736-53b3a804-de03-473c-9777-0a1d2d8c846b.png">
-<img width="957" alt="image" src="https://user-images.githubusercontent.com/104202148/223778830-c06da4f8-a832-4185-a1af-3eea67aad41e.png">
+<img width="960" alt="image" src="https://user-images.githubusercontent.com/104202148/227768641-ea2fb36d-308a-4c3e-ab2c-663cec54154a.png">
+<img width="960" alt="image" src="https://user-images.githubusercontent.com/104202148/227768663-b9902cdb-3152-4f6f-b53d-d119813d0c5f.png">
+<img width="960" alt="image" src="https://user-images.githubusercontent.com/104202148/227768677-057565ff-4aad-4a0c-b0b4-22ee0521058e.png">
+<img width="960" alt="image" src="https://user-images.githubusercontent.com/104202148/227768747-5394bd43-0ca7-417e-9639-2e893e5fb55b.png">
+<img width="960" alt="image" src="https://user-images.githubusercontent.com/104202148/227768941-1379904e-a178-4ad0-af1f-b72ba5cee53e.png">
 
