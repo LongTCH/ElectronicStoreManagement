@@ -4,8 +4,6 @@ using ESM.Modules.Normal.Views;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
-using System.Linq;
-using System;
 using ESM.Core.ShareServices;
 using Prism.Mvvm;
 
@@ -15,34 +13,30 @@ namespace ESM.Modules.Normal
     {
         private readonly IRegionManager _regionManager;
 
-        public NormalModule(IRegionManager regionManager, IModalService modalService)
+        public NormalModule(IRegionManager regionManager)
         {
             _regionManager = regionManager;
-            ViewModelLocationProvider.Register<ProductDetailView, ProductDetailViewModel>();
-            modalService.Register<ProductDetailView>(ViewNames.ProductDetailView);
         }
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            RegisterViewWithContentRegion(typeof(HomeView));
-            RegisterViewWithContentRegion(typeof(AccountView));
-            RegisterViewWithContentRegion(typeof(LaptopView));
-            RegisterViewWithContentRegion(typeof(MonitorView));
-            RegisterViewWithContentRegion(typeof(PCCPUView));
-            RegisterViewWithContentRegion(typeof(PCView));
-            RegisterViewWithContentRegion(typeof(PCHardDiskView));
-            RegisterViewWithContentRegion(typeof(SmartPhoneView));
-            RegisterViewWithContentRegion(typeof(VGAView));
+            _regionManager.RegisterViewWithContentRegion<HomeView>();
+            _regionManager.RegisterViewWithContentRegion<AccountView>();
+            _regionManager.RegisterViewWithContentRegion<LaptopView>();
+            _regionManager.RegisterViewWithContentRegion<MonitorView>();
+            _regionManager.RegisterViewWithContentRegion<PCCPUView>();
+            _regionManager.RegisterViewWithContentRegion<PCView>();
+            _regionManager.RegisterViewWithContentRegion<PCHardDiskView>();
+            _regionManager.RegisterViewWithContentRegion<SmartPhoneView>();
+            _regionManager.RegisterViewWithContentRegion<VGAView>();
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterSingleton<HomeViewModel>();
-            containerRegistry.Register<AccountViewModel>();
-
             containerRegistry.RegisterForNavigation<HomeView, HomeViewModel>(ViewNames.HomeView);
             containerRegistry.RegisterForNavigation<AccountView, AccountViewModel>(ViewNames.AccountView);
 
+            containerRegistry.RegisterForNavigation<ProductDetailView, ProductDetailViewModel>(ViewNames.ProductDetailView);
             containerRegistry.RegisterForNavigation<LaptopView, LaptopViewModel>(ViewNames.LaptopView);
             containerRegistry.RegisterForNavigation<MonitorView, MonitorViewModel>(ViewNames.MonitorView);
             containerRegistry.RegisterForNavigation<PCView, PCViewModel>(ViewNames.PCView);
@@ -50,12 +44,6 @@ namespace ESM.Modules.Normal
             containerRegistry.RegisterForNavigation<SmartPhoneView, SmartPhoneViewModel>(ViewNames.SmartPhoneView);
             containerRegistry.RegisterForNavigation<PCHardDiskView, PCHardDiskViewModel>(ViewNames.PCHardDiskView);
             containerRegistry.RegisterForNavigation<VGAView, VGAViewModel>(ViewNames.VGAView);
-        }
-        private void RegisterViewWithContentRegion(Type type)
-        {
-            _regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, type);
-            var view = _regionManager.Regions[RegionNames.ContentRegion].Views.First(v => v.GetType().Equals(type));
-            _regionManager.Regions[RegionNames.ContentRegion].Deactivate(view);
         }
     }
 }

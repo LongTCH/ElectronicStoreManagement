@@ -22,9 +22,11 @@ namespace ESM.Modules.Import
         {
             _regionManager.RegisterViewWithRegion("TabRegion", typeof(HardDiskInputView));
             _regionManager.RegisterViewWithRegion("TabRegion", typeof(LaptopInputView));
-            RegisterViewWithContentRegion(typeof(ProductInputView));
-            RegisterViewWithContentRegion(typeof(RegisterView));
-            RegisterViewWithContentRegion(typeof(ChangeAccountInfoView));
+            _regionManager.RegisterViewWithRegion("TabRegion", typeof(PCInputView));
+            _regionManager.RegisterViewWithRegion("TabRegion", typeof(MonitorInputView));
+            _regionManager.RegisterViewWithContentRegion<ProductInputView>();
+            _regionManager.RegisterViewWithContentRegion<RegisterView>();
+            _regionManager.RegisterViewWithContentRegion<ChangeAccountInfoView>();
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
@@ -32,12 +34,6 @@ namespace ESM.Modules.Import
             containerRegistry.RegisterForNavigation<ProductInputView, ProductInputViewModel>(ViewNames.ProductInputView);
             containerRegistry.RegisterForNavigation<RegisterView, RegisterViewModel>(ViewNames.RegisterView);
             containerRegistry.RegisterForNavigation<ChangeAccountInfoView, ChangeAccountInfoViewModel>(ViewNames.ChangeAccountInfoView);
-        }
-        private void RegisterViewWithContentRegion(Type type)
-        {
-            _regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, type);
-            var view = _regionManager.Regions[RegionNames.ContentRegion].Views.First(v => v.GetType().Equals(type));
-            _regionManager.Regions[RegionNames.ContentRegion].Deactivate(view);
         }
     }
 }

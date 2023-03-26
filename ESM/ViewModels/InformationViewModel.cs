@@ -25,7 +25,7 @@ namespace ESM.ViewModels
         public DelegateCommand CloseCommand { get; }
         public InformationViewModel(IModalService modalService)
         {
-            CloseCommand = new(() => modalService.CloseModal(ViewNames.InformationModal));
+            CloseCommand = new(() => modalService.CloseModal());
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)

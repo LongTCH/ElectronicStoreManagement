@@ -3,7 +3,10 @@ using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 
 namespace ESM.Modules.DataAccess.Repositories;
-public interface IPcRepository : IBaseRepository<PcDTO> { }
+public interface IPcRepository : IBaseRepository<PcDTO>
+{
+    string GetSuggestID();
+}
 public class PcRepository : BaseRepository<PcDTO>, IPcRepository
 {
     public PcRepository(ESMDbContext context) : base(context)
@@ -12,6 +15,7 @@ public class PcRepository : BaseRepository<PcDTO>, IPcRepository
     public override IEnumerable<PcDTO>? GetAll()
     {
         return _context.Pcs.AsQueryable()
+                .Where(pc => pc.Remain > -1)
                 .Select(pc => new PcDTO()
                 {
                     Name = pc.Name,
@@ -29,5 +33,13 @@ public class PcRepository : BaseRepository<PcDTO>, IPcRepository
                     Remain = pc.Remain,
                     Unit = pc.Unit
                 }).ToList();
+    }
+    public string GetSuggestID()
+    {
+        string? NewID = _context.Pcs.OrderBy(p => p.Id).LastOrDefault()?.Id;
+        if (NewID == null) return StaticData.IdPrefix[ProductType.PC] + "0000000";
+        int counter = Convert.ToInt32(NewID[2..]);
+        ++counter;
+        return StaticData.IdPrefix[ProductType.PC] + counter.ToString().PadLeft(7, '0');
     }
 }

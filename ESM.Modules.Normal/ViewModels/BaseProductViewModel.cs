@@ -95,7 +95,7 @@ namespace ESM.Modules.Normal.ViewModels
                 ProductList = ((List<T>)ProductList)?.OrderByDescending(x => x.SellPrice).ToList();
             }
             Action?.Invoke();
-            ProductList = ((List<T>)ProductList)
+            ProductList = ((List<T>)ProductList)?
                 .Where(x => (double)x.SellPrice <= UpperValue && (double)x.SellPrice >= LowerValue)
                 .ToList();
             RaisePropertyChanged(nameof(ProductList));

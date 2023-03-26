@@ -2,11 +2,13 @@
 using ESM.Core.ShareStores;
 using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
+using Prism.Regions;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ESM.Modules.Normal.ViewModels
 {
+    [RegionMemberLifetime(KeepAlive = false)]
     public class PCViewModel : BaseProductViewModel<PcDTO>
     {
         public HashSet<ProductAttributeStore> CompanyList { get; set; } = new();

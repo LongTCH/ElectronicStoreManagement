@@ -3,7 +3,10 @@ using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 
 namespace ESM.Modules.DataAccess.Repositories;
-public interface IMonitorRepository : IBaseRepository<MonitorDTO> { }
+public interface IMonitorRepository : IBaseRepository<MonitorDTO>
+{
+    string GetSuggestID();
+}
 public class MonitorRepository : BaseRepository<MonitorDTO>, IMonitorRepository
 {
     public MonitorRepository(ESMDbContext context) : base(context)
@@ -12,6 +15,7 @@ public class MonitorRepository : BaseRepository<MonitorDTO>, IMonitorRepository
     public override IEnumerable<MonitorDTO>? GetAll()
     {
         return _context.Monitors.AsQueryable()
+                .Where(p => p.Remain > -1)
                 .Select(monitor => new MonitorDTO()
                 {
                     Name = monitor.Name,
@@ -30,5 +34,13 @@ public class MonitorRepository : BaseRepository<MonitorDTO>, IMonitorRepository
                     AvatarPath = @monitor.AvatarPath,
                     Unit = monitor.Unit
                 }).ToList();
+    }
+    public string GetSuggestID()
+    {
+        string? NewID = _context.Monitors.OrderBy(p => p.Id).LastOrDefault()?.Id;
+        if (NewID == null) return StaticData.IdPrefix[ProductType.MONITOR] +"0000000";
+        int counter = Convert.ToInt32(NewID[2..]);
+        ++counter;
+        return StaticData.IdPrefix[ProductType.MONITOR] + counter.ToString().PadLeft(7, '0');
     }
 }

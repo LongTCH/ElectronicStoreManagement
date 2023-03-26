@@ -21,7 +21,7 @@ namespace ESM.Modules.Authentication.ViewModels
         {
             _modalService = modalService;
             _regionManager = regionManager;
-            CloseCommand = new(() => modalService.CloseModal(ViewNames.VerifyEmailView));
+            CloseCommand = new(() => modalService.CloseModal());
         }
         public int MaxLengthCode { get; } = 6;
         private int counter = 2;
