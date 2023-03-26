@@ -7,6 +7,7 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace ESM.Modules.Export.ViewModels
@@ -25,24 +26,22 @@ namespace ESM.Modules.Export.ViewModels
             DeleteAllCommand = new DelegateCommand(() => ProductBillList.Clear());
             ProductBillList.CollectionChanged += (_, _) => OnTotalAmountChanged();
         }
-        private string? category;
+        private string category;
 
-        public string? Category
+        public string Category
         {
             get => category;
             set
             {
-                category = value;
+                SetProperty(ref category, value);
                 try
                 {
                     getProductList();
-                    RaisePropertyChanged(nameof(Products));
                 }
                 catch
                 {
                     _modalService.ShowModal(ModalType.Error, "Cannot load data", "Failed");
                     Products = null;
-                    RaisePropertyChanged(nameof(Products));
                 }
             }
         }
@@ -50,12 +49,17 @@ namespace ESM.Modules.Export.ViewModels
         public decimal TotalAmount => ProductBillList.Sum(s => s.Amount);
         public string TextFormPrice => NumberToText.FuncNumberToText((double)TotalAmount);
         public ProductDTO SelectedProduct { get; set; }
-        public IEnumerable<ProductDTO>? Products { get; set; }
+        private IEnumerable<ProductDTO> products;
+        public IEnumerable<ProductDTO> Products
+        {
+            get => products;
+            set => SetProperty(ref products, value);
+        }
         public ObservableCollection<ProductBill> ProductBillList { get; } = new();
         public DelegateCommand AddCommand { get; }
         public DelegateCommand DeleteCommand { get; }
         public DelegateCommand DeleteAllCommand { get; }
-        public List<string>? CategoryList { get; } = new() { "Laptop", "PC", "Monitor", "Hard Disk", "CPU", "VGA", "SmartPhone", "Combo" };
+        public IEnumerable<string> CategoryList { get; } = new[] { "Laptop", "PC", "Monitor", "Hard Disk", "CPU", "VGA", "SmartPhone", "Combo" };
         private void getProductList()
         {
             if (Category == "Laptop") Products = _unitOfWork.Laptops.GetAll();
@@ -64,7 +68,7 @@ namespace ESM.Modules.Export.ViewModels
             else if (Category == "Hard Disk") Products = _unitOfWork.Pcharddisks.GetAll();
             else if (Category == "CPU") Products = _unitOfWork.Pccpus.GetAll();
             else if (Category == "VGA") Products = _unitOfWork.Vgas.GetAll();
-            else if (Category == "Smartphone") Products = _unitOfWork.Smartphones.GetAll();
+            else if (Category == "SmartPhone") Products = _unitOfWork.Smartphones.GetAll();
             else throw new Exception();
         }
         private void addCommand()
@@ -123,14 +127,13 @@ namespace ESM.Modules.Export.ViewModels
         }
         public string Name { get; set; }
         public decimal SellPrice { get; set; }
-        public string? Unit { get; set; }
+        public string Unit { get; set; }
         public decimal Amount => SellPrice * Convert.ToInt32(Number);
         public string? Warranty { get; set; }
         public Action? Action { get; set; }
         public int checkValidNumber(string? s)
         {
-            int n;
-            if (!int.TryParse(s, out n))
+            if (!int.TryParse(s, out int n))
             {
                 _modalService.ShowModal(ModalType.Error, "Invalid Number Format", "Error");
             }
@@ -139,6 +142,13 @@ namespace ESM.Modules.Export.ViewModels
                 _modalService.ShowModal(ModalType.Error, "Number must be greater than 0", "Error");
             }
             return (n == 0) ? 1 : n;
+        }
+        private void ValidateProperty<TProp>(TProp value, string name)
+        {
+            Validator.ValidateProperty(value, new ValidationContext(this, null, null)
+            {
+                MemberName = name
+            });
         }
     }
 }
