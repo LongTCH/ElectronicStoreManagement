@@ -2,6 +2,7 @@
 using Prism.Regions;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace ESM.Core.ShareStores
@@ -17,25 +18,70 @@ namespace ESM.Core.ShareStores
             region.Views.CollectionChanged += (s, e) =>
             {
                 if (e.Action == NotifyCollectionChangedAction.Add)
-                    foreach (UserControl item in e.NewItems)
+                {
+                    foreach (FrameworkElement view in e.NewItems)
                     {
-                        regionTarget.Items.Add(new TabItem { Header = item.Tag, Content = item });
+                        var tabItem = new TabItem();
+                        tabItem.Header = view.Tag;
+                        tabItem.Content = view;
+                        regionTarget.Items.Add(tabItem);
+
+                        var navigationAware = view.DataContext as INavigationAware;
+                        if (navigationAware != null)
+                        {
+                            navigationAware.OnNavigatedTo(new NavigationContext(region.NavigationService, null));
+                        }
                     }
+                }
                 else if (e.Action == NotifyCollectionChangedAction.Remove)
-                    foreach (UserControl item in e.OldItems)
+                {
+                    foreach (FrameworkElement view in e.OldItems)
                     {
-                        var tabTodelete = regionTarget.Items.OfType<TabItem>().FirstOrDefault(n => n.Content == item);
-                        regionTarget.Items.Remove(tabTodelete);
+                        var tabItem = regionTarget.Items.Cast<TabItem>().FirstOrDefault(ti => ti.Content == view);
+                        if (tabItem != null)
+                        {
+                            var navigationAware = view.DataContext as INavigationAware;
+                            if (navigationAware != null)
+                            {
+                                navigationAware.OnNavigatedFrom(new NavigationContext(region.NavigationService, null));
+                            }
+
+                            regionTarget.Items.Remove(tabItem);
+                        }
+                    }
+                }
+            };
+
+            regionTarget.SelectionChanged += (s, e) =>
+            {
+                if (e.Source is TabControl tabControl)
+                {
+                    var deselectedTabItem = e.RemovedItems.Cast<TabItem>().FirstOrDefault();
+                    if (deselectedTabItem != null && deselectedTabItem.Content is FrameworkElement deselectedView)
+                    {
+                        var deselectedNavigationAware = deselectedView.DataContext as INavigationAware;
+                        if (deselectedNavigationAware != null)
+                        {
+                            deselectedNavigationAware.OnNavigatedFrom(new NavigationContext(region.NavigationService, null));
+                        }
                     }
 
+                    var selectedTabItem = e.AddedItems.Cast<TabItem>().FirstOrDefault();
+                    if (selectedTabItem != null && selectedTabItem.Content is FrameworkElement selectedView)
+                    {
+                        var selectedNavigationAware = selectedView.DataContext as INavigationAware;
+                        if (selectedNavigationAware != null)
+                        {
+                            selectedNavigationAware.OnNavigatedTo(new NavigationContext(region.NavigationService, null));
+                        }
+                    }
+                }
             };
         }
 
-
         protected override IRegion CreateRegion()
         {
-            return new SingleActiveRegion();
+            return new AllActiveRegion();
         }
     }
-
 }
