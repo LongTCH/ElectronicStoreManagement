@@ -26,7 +26,7 @@ public partial class Pccpu
 
     public double? Discount { get; set; }
 
-    public short Remain { get; set; }
+    public int Remain { get; set; }
 
     [Column("Detail_Path")]
     [StringLength(200)]

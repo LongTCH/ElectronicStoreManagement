@@ -94,7 +94,7 @@
                                              Width="30"
                                              Kind="Rename" />
                     <TextBox Margin="20,10"
-                             materialDesign:HintAssist.Hint="First name"
+                             materialDesign:HintAssist.Hint="Têne"
                              Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              FontFamily="Champagne &amp; Limousines"
@@ -107,7 +107,7 @@
                                              Width="30"
                                              Kind="RenameBox" />
                     <TextBox Margin="20,10"
-                             materialDesign:HintAssist.Hint="Last name"
+                             materialDesign:HintAssist.Hint="Họ"
                              Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              FontFamily="Champagne &amp; Limousines"
@@ -139,7 +139,7 @@
                                              Height="30"
                                              Width="30" />
                     <TextBox Margin="20,10"
-                             materialDesign:HintAssist.Hint="Phone"
+                             materialDesign:HintAssist.Hint="Số điện thoại"
                              Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              FontFamily="Champagne &amp; Limousines"
@@ -159,7 +159,7 @@
                                              Kind="GenderMaleFemale" />
                     <ComboBox materialDesign:HintAssist.FontFamily="Verdana"
                               Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                              materialDesign:HintAssist.Hint="Gender"
+                              materialDesign:HintAssist.Hint="Giới tính"
                               BorderThickness="0"
                               Margin="20,10"
                               FontSize="18"
@@ -176,6 +176,7 @@
                     <DatePicker FontSize="18"
                                 Margin="20,10"
                                 SelectedDateFormat="Short"
+                                materialDesign:HintAssist.Hint="Sinh nhật"
                                 xml:lang="vi-VN"
                                 SelectedDate="{Binding BirthDay, UpdateSourceTrigger=PropertyChanged}" />
                 </DockPanel>
@@ -200,7 +201,7 @@
                                              Kind="City" />
                     <ComboBox materialDesign:HintAssist.FontFamily="Verdana"
                               Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                              materialDesign:HintAssist.Hint="City"
+                              materialDesign:HintAssist.Hint="Tỉnh/Thành phố"
                               BorderThickness="0"
                               Margin="20,10"
                               IsEditable="True"
@@ -217,7 +218,7 @@
                                              Kind="TownHall" />
                     <ComboBox materialDesign:HintAssist.FontFamily="Verdana"
                               Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                              materialDesign:HintAssist.Hint="District"
+                              materialDesign:HintAssist.Hint="Quận/Huyện"
                               BorderThickness="0"
                               Margin="20,10"
                               FontSize="18"
@@ -241,7 +242,7 @@
                                              Kind="LandFields" />
                     <ComboBox materialDesign:HintAssist.FontFamily="Verdana"
                               Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                              materialDesign:HintAssist.Hint="Sub_district"
+                              materialDesign:HintAssist.Hint="Phường/Xã"
                               BorderThickness="0"
                               Margin="20,10"
                               FontSize="18"
@@ -256,7 +257,7 @@
                                              Width="30"
                                              Kind="Road" />
                     <TextBox Margin="20,10"
-                             materialDesign:HintAssist.Hint="Street"
+                             materialDesign:HintAssist.Hint="Tên đường"
                              Text="{Binding Street, UpdateSourceTrigger=PropertyChanged}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              FontFamily="Champagne &amp; Limousines"
@@ -272,7 +273,7 @@
                     Background="DodgerBlue"
                     Margin="0,40,0,10"
                     IsDefault="True"
-                    Content="SAVE"
+                    Content="LƯU"
                     Command="{Binding SignUpCommand}" />
         </StackPanel>
     </ScrollViewer>

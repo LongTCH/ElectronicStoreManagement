@@ -67,12 +67,12 @@
                                         Value="0,5,0,0" />
                             </Style>
                         </StackPanel.Resources>
-                        <Button Content="Reset password"
+                        <Button Content="Đổi mật khẩu"
                                 Command="{Binding ResetPasswordCommand}" />
-                        <Button Content="Add user"
+                        <Button Content="Tạo tài khoản mới"
                                 Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}}"
                                 Command="{Binding AddUserCommand}" />
-                        <Button Content="Change user infomation"
+                        <Button Content="Chỉnh sửa thông tin tài khoản"
                                 Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}}"
                                 Command="{Binding ChangeUserInfoCommand}" />
                     </StackPanel>
@@ -106,7 +106,7 @@
                                              Width="30"
                                              Kind="Rename" />
                     <TextBox Margin="20,10"
-                             materialDesign:HintAssist.Hint="First name"
+                             materialDesign:HintAssist.Hint="Tên"
                              Text="{Binding FirstName, Mode=OneWay}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              IsEnabled="False"
@@ -120,7 +120,7 @@
                                              Width="30"
                                              Kind="RenameBox" />
                     <TextBox Margin="20,10"
-                             materialDesign:HintAssist.Hint="Last name"
+                             materialDesign:HintAssist.Hint="Họ"
                              Text="{Binding LastName, Mode=OneWay}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              IsEnabled="False"
@@ -154,7 +154,7 @@
                                              Height="30"
                                              Width="30" />
                     <TextBox Margin="20,10"
-                             materialDesign:HintAssist.Hint="Phone"
+                             materialDesign:HintAssist.Hint="Số điện thoại"
                              Text="{Binding Phone, Mode=OneWay}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              IsEnabled="False"
@@ -175,7 +175,7 @@
                                              Kind="GenderMaleFemale" />
                     <TextBox materialDesign:HintAssist.FontFamily="Verdana"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             materialDesign:HintAssist.Hint="Gender"
+                             materialDesign:HintAssist.Hint="Giới tính"
                              Margin="20,10"
                              IsEnabled="False"
                              FontSize="18"
@@ -215,7 +215,7 @@
                                              Kind="City" />
                     <TextBox materialDesign:HintAssist.FontFamily="Verdana"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             materialDesign:HintAssist.Hint="City"
+                             materialDesign:HintAssist.Hint="Tỉnh/Thành phố"
                              Margin="20,10"
                              IsEnabled="False"
                              FontSize="18"
@@ -230,7 +230,7 @@
                                              Kind="TownHall" />
                     <TextBox materialDesign:HintAssist.FontFamily="Verdana"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             materialDesign:HintAssist.Hint="District"
+                             materialDesign:HintAssist.Hint="Quận/Huyện"
                              Margin="20,10"
                              FontSize="18"
                              IsEnabled="False"
@@ -253,7 +253,7 @@
                                              Kind="LandFields" />
                     <TextBox materialDesign:HintAssist.FontFamily="Verdana"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             materialDesign:HintAssist.Hint="Sub_district"
+                             materialDesign:HintAssist.Hint="Phường/Xã"
                              Margin="20,10"
                              FontSize="18"
                              IsEnabled="False"
@@ -267,7 +267,7 @@
                                              Width="30"
                                              Kind="Road" />
                     <TextBox Margin="20,10"
-                             materialDesign:HintAssist.Hint="Street"
+                             materialDesign:HintAssist.Hint="Tên đường"
                              Text="{Binding Street, Mode=OneWay}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              IsEnabled="False"

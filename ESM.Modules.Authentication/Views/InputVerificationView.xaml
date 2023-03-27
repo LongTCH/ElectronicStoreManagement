@@ -43,7 +43,7 @@
                         Background="DodgerBlue"
                         Margin="0,40,0,10"
                         IsDefault="True"
-                        Content="VERIFY"
+                        Content="KIỂM TRA"
                         Command="{Binding VerifyCommand}" />
             </StackPanel>
         </materialDesign:Card>

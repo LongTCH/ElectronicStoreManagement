@@ -66,8 +66,8 @@ namespace ESM.Modules.Import.ViewModels
             get => discount;
             set => SetProperty(ref discount, value, () => ValidateProperty(value, nameof(Discount)));
         }
-        private short remain;
-        public short Remain
+        private int remain;
+        public int Remain
         {
             get => remain;
             set => SetProperty(ref remain, value);

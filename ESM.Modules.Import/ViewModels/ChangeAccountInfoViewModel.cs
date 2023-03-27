@@ -13,6 +13,7 @@ using System.Linq;
 using ESM.Modules.DataAccess.DTOs;
 using System.IO;
 using static ESM.Modules.Import.Utilities.StaticData;
+using ESM.Core.ShareStores;
 
 namespace ESM.Modules.Import.ViewModels
 {
@@ -22,17 +23,20 @@ namespace ESM.Modules.Import.ViewModels
         private readonly IRegionManager _regionManager;
         private readonly IModalService _modalService;
         private readonly IOpenDialogService _openDialogService;
+        private readonly AccountStore _accountStore;
 
         public ChangeAccountInfoViewModel(IUnitOfWork unitOfWork,
             IRegionManager regionManager,
             IModalService modalService,
             ICityListService cityListService,
-            IOpenDialogService openDialogService)
+            IOpenDialogService openDialogService,
+            AccountStore accountStore)
         {
             _unitOfWork = unitOfWork;
             _regionManager = regionManager;
             _modalService = modalService;
             _openDialogService = openDialogService;
+            _accountStore = accountStore;
             GetCityList(cityListService).Await();
             SaveChangeCommand = new DelegateCommand(async () => await saveChange());
             AddAvatarCommand = new DelegateCommand(addAvatarCommand);
@@ -157,23 +161,23 @@ namespace ESM.Modules.Import.ViewModels
         {
             if (Id != CurrentAccoutId)
             {
-                _modalService.ShowModal(ModalType.Error, "You changed ID", "Warning");
+                _modalService.ShowModal(ModalType.Error, "Có vấn đề với ID", "Cảnh báo");
                 return;
             }
 
             if (SelectedCity == null || SelectedDistrict == null || SelectedSub_district == null || Street == null)
             {
-                _modalService.ShowModal(ModalType.Error, "Enter full address", "Warning");
+                _modalService.ShowModal(ModalType.Error, "Điền đầy đủ địa chỉ", "Cảnh báo");
                 return;
             }
             if (SelectedGender == null)
             {
-                _modalService.ShowModal(ModalType.Error, "Choose your gender", "Warning");
+                _modalService.ShowModal(ModalType.Error, "Chọn giới tính", "Cảnh báo");
                 return;
             }
             if (DateTime.Compare(BirthDay!, DateTime.Today) >= 0)
             {
-                _modalService.ShowModal(ModalType.Error, "Must be earlier than current day", "Birthday Invalid");
+                _modalService.ShowModal(ModalType.Error, "Phải lớn hơn ngày hiện tại", "Ngày sinh không hợp lệ");
                 return;
             }
             AccountDTO accountDTO = new()
@@ -196,12 +200,17 @@ namespace ESM.Modules.Import.ViewModels
             {
                 _unitOfWork.Accounts.Update(accountDTO);
                 await _unitOfWork.SaveChangesAsync();
-
-                _modalService.ShowModal(ModalType.Information, "Saved change", "Success");
+                Task t = new(() =>
+                {
+                    var id = _accountStore.CurrentAccount.Id;
+                    _accountStore.CurrentAccount = _unitOfWork.Accounts.GetById(id);
+                });
+                t.Start();
+                await t;
+                _modalService.ShowModal(ModalType.Information, "Đã lưu thay đổi", "Thành công");
                 _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.ChangeAccountInfoView);
-
             }
-            catch (Exception ex) { _modalService.ShowModal(ModalType.Error, ex.Message, "Error"); }
+            catch (Exception) { _modalService.ShowModal(ModalType.Error, "Không thể lưu thay đổi", "Lỗi"); }
         }
         private void addAvatarCommand()
         {
@@ -220,7 +229,7 @@ namespace ESM.Modules.Import.ViewModels
             var CurrentAccout = task.Result;
             if (CurrentAccout == null)
             {
-                _modalService.ShowModal(ModalType.Error, "ID does not exist", "Error");
+                _modalService.ShowModal(ModalType.Error, "ID không tồn tại", "Lỗi");
                 return;
             }
             CurrentAccoutId = CurrentAccout.Id;

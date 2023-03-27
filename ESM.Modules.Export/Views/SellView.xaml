@@ -122,7 +122,8 @@
                     Command="{Binding DeleteAllCommand}" />
             <Button Content="Xác nhận"
                     Background="DarkOliveGreen"
-                    Margin="40,0,0,0" />
+                    Margin="40,0,0,0"
+                    Command="{Binding PayCommand}"/>
         </StackPanel>
         <TextBlock Grid.Row="3"
                    HorizontalAlignment="Center"

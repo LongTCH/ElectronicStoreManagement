@@ -16,7 +16,7 @@
                         VerticalAlignment="Center">
                 <Grid>
                     <StackPanel>
-                        <TextBlock Text="We sent an email to"
+                        <TextBlock Text="Đã gửi mã xác thực đến"
                                    HorizontalAlignment="Left"
                                    FontSize="16"
                                    Foreground="Silver"
@@ -33,7 +33,7 @@
                         <materialDesign:PackIcon Kind="CloseCircle" />
                     </Button>
                 </Grid>
-                <TextBlock Text="Enter verify code sent by email"
+                <TextBlock Text="Nhập mã xác minh gồm 6 số"
                            FontSize="20" />
                 <TextBox materialDesign:HintAssist.FloatingScale="0.50"
                          materialDesign:TextFieldAssist.TextBoxViewMargin="1 0 1 0"

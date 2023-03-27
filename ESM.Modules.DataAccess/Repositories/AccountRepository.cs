@@ -43,8 +43,8 @@ public class AccountRepository : BaseRepository<AccountDTO>, IAccountRepository
     {
         var MaxValue = _context.Accounts.AsQueryable()
                     .Where(a => a.Id.StartsWith(prefix))
-                    .OrderByDescending(x => Convert.ToInt32(x.Id.Substring(5)))
-                    .FirstOrDefault();
+                    .OrderBy(x => Convert.ToInt32(x.Id.Substring(5)))
+                    .LastOrDefault();
         string result = (MaxValue != null) ? (Convert.ToInt32(MaxValue.Id[5..]) + 1).ToString() : "0";
         result = result.Insert(0, new('0', 4 - result.Length));
         return prefix + result;

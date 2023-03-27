@@ -78,6 +78,8 @@
                             <TextBlock Text="{Binding Discount, Mode=OneWay, StringFormat={StaticResource DiscountFormat}}"
                                        Foreground="CornflowerBlue" />
                         </DockPanel>
+                        <TextBlock Text="{Binding Remain, Mode=OneWay, StringFormat='Còn lại {0}'}"
+                                   Foreground="CornflowerBlue" />
                     </StackPanel>
                     <TextBlock Text="Thông tin chi tiết"
                                Foreground="DeepSkyBlue"

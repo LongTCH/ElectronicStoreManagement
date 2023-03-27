@@ -2,6 +2,7 @@
 using ESM.Core;
 using ESM.Core.ShareServices;
 using ESM.Modules.DataAccess;
+using MahApps.Metro.IconPacks;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -75,6 +76,12 @@ namespace ESM.Modules.Normal.ViewModels
             get => discountShow;
             set => SetProperty(ref discountShow, value);
         }
+        private int remain;
+        public int Remain
+        {
+            get => remain;
+            set => SetProperty(ref remain, value);
+        }
         public DelegateCommand CloseCommand { get; }
 
         private void ReadExcel()
@@ -106,6 +113,18 @@ namespace ESM.Modules.Normal.ViewModels
                 catch { DetailSource = null; }
             }
             IsBusy = false;
+        }
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            ProductDTO = navigationContext.Parameters["Product"] as ProductDTO;
+            Task task = new(ReadExcel);
+            task.Start();
+            Name = ProductDTO.Name;
+            Price = ProductDTO.Price;
+            SellPrice = ProductDTO.SellPrice;
+            Discount = ProductDTO.Discount;
+            DiscountShow = ProductDTO.DiscountShow;
+            Remain = ProductDTO.Remain;
             var path = ProductDTO.ImagePath;
             if (Directory.Exists(path))
             {
@@ -117,17 +136,6 @@ namespace ESM.Modules.Normal.ViewModels
                         ImageList.Add(filename);
                 }
             }
-        }
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            ProductDTO = navigationContext.Parameters["Product"] as ProductDTO;
-            System.Threading.Tasks.Task task = new(ReadExcel);
-            task.Start();
-            Name = ProductDTO.Name;
-            Price = ProductDTO.Price;
-            SellPrice = ProductDTO.SellPrice;
-            Discount = ProductDTO.Discount;
-            DiscountShow = ProductDTO.DiscountShow;
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
