@@ -1,6 +1,7 @@
 ﻿using ESM.Core.ShareServices;
 using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
+using Prism.Regions;
 using System;
 using System.Threading.Tasks;
 
@@ -11,7 +12,6 @@ namespace ESM.Modules.Import.ViewModels
         public HardDiskInputViewModel(IUnitOfWork unitOfWork, IOpenDialogService openDialogService, IModalService modalService) : base(unitOfWork, openDialogService, modalService)
         {
             Id = _unitOfWork.Pcharddisks.GetSuggestID();
-            ProductList = _unitOfWork.Pcharddisks.GetAll();
         }
         public string Header => "Hard Disk";
         private string storage;
@@ -119,6 +119,11 @@ namespace ESM.Modules.Import.ViewModels
             Storage = Product.Storage;
             Type = Product.Type;
             Remain = Product.Remain;
+        }
+
+        public override void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            ProductList = _unitOfWork.Pcharddisks.GetAll();
         }
     }
 }

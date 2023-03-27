@@ -9,7 +9,6 @@
                     Style="{DynamicResource MaterialDesignUniformTabControl}"
                     prism:RegionManager.RegionName="TabRegion"
                     VerticalAlignment="Stretch"
-                    
                     BorderThickness="0" />
     </Grid>
 </UserControl>
