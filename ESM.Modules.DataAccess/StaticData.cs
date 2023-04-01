@@ -4,6 +4,8 @@
     {
         LAPTOP, CPU, MONITOR, HARDDISK, VGA, SMARTPHONE, PC, COMBO
     }
+    public enum ReportDuration
+    { WEEK, MONTH, QUARTER, YEAR }
     internal class StaticData
     {
         internal static readonly Dictionary<ProductType, string> IdPrefix = new()
