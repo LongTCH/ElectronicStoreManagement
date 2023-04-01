@@ -6,7 +6,7 @@ public abstract class ProductDTO
     public string Name { get; set; }
     public decimal Price { get; set; }
     public double? Discount { get; set; }
-    public short Remain { get; set; }
+    public int Remain { get; set; }
     public string? DetailPath { get; set; }
     public string? ImagePath { get; set; }
     public string? AvatarPath { get; set; }

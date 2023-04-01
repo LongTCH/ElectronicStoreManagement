@@ -12,6 +12,7 @@ namespace ESM.Modules.DataAccess.Infrastructure
         IPcharddiskRepository Pcharddisks { get; }
         ISmartphoneRepository Smartphones { get; }
         IVgaRepository Vgas { get; }
+        IBillRepository Bills { get; }
         Task<int> SaveChangesAsync();
         int SaveChange();
     }

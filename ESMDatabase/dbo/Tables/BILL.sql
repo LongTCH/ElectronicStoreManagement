@@ -1,9 +1,9 @@
 ﻿CREATE TABLE [dbo].[BILL]
 (
-	[Id] INT NOT NULL IDENTITY, 
+	[Id] INT NOT NULL,
     [StaffID] CHAR(9) NOT NULL,
     [CustomerName] NVARCHAR(50) NULL, 
-    [Phone nvarchar(30)] NCHAR(10) NULL, 
+    [Phone] NVARCHAR(30) NULL, 
     [City] NVARCHAR(50) NULL, 
     [District] NVARCHAR(50) NULL, 
     [Sub_district] NVARCHAR(50) NULL, 

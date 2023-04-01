@@ -23,6 +23,7 @@ public static class NumberToText
 
         // -12345678.3445435 => "-12345678"
         string sNumber = inputNumber.ToString("#");
+        if (inputNumber == 0) sNumber = "0";
         double number = Convert.ToDouble(sNumber);
         if (number < 0)
         {

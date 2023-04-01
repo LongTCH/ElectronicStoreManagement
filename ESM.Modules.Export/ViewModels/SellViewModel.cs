@@ -1,7 +1,9 @@
 ﻿using ESM.Core;
 using ESM.Core.ShareServices;
+using ESM.Core.ShareStores;
 using ESM.Modules.DataAccess;
 using ESM.Modules.DataAccess.Infrastructure;
+using ESM.Modules.DataAccess.Models;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -15,34 +17,35 @@ namespace ESM.Modules.Export.ViewModels
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IModalService _modalService;
+        private readonly AccountStore _accountStore;
 
-        public SellViewModel(IUnitOfWork unitOfWork, IModalService modalService)
+        public SellViewModel(IUnitOfWork unitOfWork, IModalService modalService, AccountStore accountStore)
         {
             _unitOfWork = unitOfWork;
             _modalService = modalService;
+            _accountStore = accountStore;
             AddCommand = new DelegateCommand(() => addCommand());
             DeleteCommand = new DelegateCommand(() => ProductBillList.RemoveAt(SelectedIndex));
             DeleteAllCommand = new DelegateCommand(() => ProductBillList.Clear());
             ProductBillList.CollectionChanged += (_, _) => OnTotalAmountChanged();
+            PayCommand = new(ExecutePay);
         }
-        private string? category;
+        private string category;
 
-        public string? Category
+        public string Category
         {
             get => category;
             set
             {
-                category = value;
+                SetProperty(ref category, value);
                 try
                 {
                     getProductList();
-                    RaisePropertyChanged(nameof(Products));
                 }
                 catch
                 {
                     _modalService.ShowModal(ModalType.Error, "Cannot load data", "Failed");
                     Products = null;
-                    RaisePropertyChanged(nameof(Products));
                 }
             }
         }
@@ -50,12 +53,18 @@ namespace ESM.Modules.Export.ViewModels
         public decimal TotalAmount => ProductBillList.Sum(s => s.Amount);
         public string TextFormPrice => NumberToText.FuncNumberToText((double)TotalAmount);
         public ProductDTO SelectedProduct { get; set; }
-        public IEnumerable<ProductDTO>? Products { get; set; }
+        private IEnumerable<ProductDTO> products;
+        public IEnumerable<ProductDTO> Products
+        {
+            get => products;
+            set => SetProperty(ref products, value);
+        }
         public ObservableCollection<ProductBill> ProductBillList { get; } = new();
         public DelegateCommand AddCommand { get; }
         public DelegateCommand DeleteCommand { get; }
         public DelegateCommand DeleteAllCommand { get; }
-        public List<string>? CategoryList { get; } = new() { "Laptop", "PC", "Monitor", "Hard Disk", "CPU", "VGA", "SmartPhone", "Combo" };
+        public DelegateCommand PayCommand { get; }
+        public IEnumerable<string> CategoryList { get; } = new[] { "Laptop", "PC", "Monitor", "Hard Disk", "CPU", "VGA", "SmartPhone", "Combo" };
         private void getProductList()
         {
             if (Category == "Laptop") Products = _unitOfWork.Laptops.GetAll();
@@ -64,8 +73,7 @@ namespace ESM.Modules.Export.ViewModels
             else if (Category == "Hard Disk") Products = _unitOfWork.Pcharddisks.GetAll();
             else if (Category == "CPU") Products = _unitOfWork.Pccpus.GetAll();
             else if (Category == "VGA") Products = _unitOfWork.Vgas.GetAll();
-            else if (Category == "Smartphone") Products = _unitOfWork.Smartphones.GetAll();
-            else throw new Exception();
+            else if (Category == "SmartPhone") Products = _unitOfWork.Smartphones.GetAll();
         }
         private void addCommand()
         {
@@ -77,13 +85,23 @@ namespace ESM.Modules.Export.ViewModels
             var product = ProductBillList.FirstOrDefault(s => s.Id == SelectedProduct.Id);
             if (product != null)
             {
-                product.Number = Convert.ToInt32(product.Number) + 1 + "";
+                var n = Convert.ToInt32(product.Number);
+                if (n == SelectedProduct.Remain)
+                    _modalService.ShowModal(ModalType.Error, $"Chỉ còn {SelectedProduct.Remain} sản phẩm", "Không đủ sản phẩm");
+                else
+                    product.Number = n + 1 + "";
             }
             else
             {
+                if (SelectedProduct.Remain == 0)
+                {
+                    _modalService.ShowModal(ModalType.Information, "Sản phẩm tạm hết hàng", "Xin lỗi");
+                    return;
+                }
                 ProductBill p = new(_modalService)
                 {
                     Id = SelectedProduct.Id,
+                    Remain = SelectedProduct.Remain,
                     Number = "1",
                     SellPrice = SelectedProduct.SellPrice,
                     Unit = SelectedProduct.Unit,
@@ -92,6 +110,44 @@ namespace ESM.Modules.Export.ViewModels
                 p.Action += OnTotalAmountChanged;
                 ProductBillList.Add(p);
             }
+        }
+        private void ExecutePay()
+        {
+            saveBill();
+        }
+        private void saveBill()
+        {
+            List<BillProduct> list = new();
+            foreach (var item in ProductBillList)
+            {
+                BillProduct b = new()
+                {
+                    ProductId = item.Id,
+                    Amount = item.Amount,
+                    Number = Convert.ToInt32(item.Number),
+                    SellPrice = item.SellPrice,
+                    Unit = item.Unit,
+                    Warranty = item.Warranty,
+                };
+                list.Add(b);
+            }
+            Bill bill = new()
+            {
+                BillProducts = list,
+                TotalAmount = TotalAmount,
+                StaffId = "020230000",
+                PurchasedTime = DateTime.Now,
+                CustomerName = "Thang"
+            };
+            try
+            {
+                _unitOfWork.Bills.Add(bill);
+                _unitOfWork.SaveChange();
+                ProductBillList.Clear();
+                Category = null;
+            }
+            catch (Exception) { _modalService.ShowModal(ModalType.Error, "Không thể lập hóa đơn", "Có lỗi xảy ra"); }
+
         }
         private void OnTotalAmountChanged()
         {
@@ -109,6 +165,7 @@ namespace ESM.Modules.Export.ViewModels
         }
 
         public string Id { get; set; }
+        public int Remain { get; set; }
         private string? number;
         public string? Number
         {
@@ -123,20 +180,24 @@ namespace ESM.Modules.Export.ViewModels
         }
         public string Name { get; set; }
         public decimal SellPrice { get; set; }
-        public string? Unit { get; set; }
+        public string Unit { get; set; }
         public decimal Amount => SellPrice * Convert.ToInt32(Number);
         public string? Warranty { get; set; }
         public Action? Action { get; set; }
         public int checkValidNumber(string? s)
         {
-            int n;
-            if (!int.TryParse(s, out n))
+            if (!int.TryParse(s, out int n))
             {
-                _modalService.ShowModal(ModalType.Error, "Invalid Number Format", "Error");
+                _modalService.ShowModal(ModalType.Error, "Không đúng định dạng", "Lỗi");
             }
             else if (n <= 0)
             {
-                _modalService.ShowModal(ModalType.Error, "Number must be greater than 0", "Error");
+                _modalService.ShowModal(ModalType.Error, "Số lượng phải lớn hơn 0", "Lỗi");
+            }
+            else if (n > Remain)
+            {
+                _modalService.ShowModal(ModalType.Error, $"Chỉ còn {Remain} sản phẩm", "Không đủ sản phẩm");
+                return Remain;
             }
             return (n == 0) ? 1 : n;
         }

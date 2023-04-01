@@ -20,9 +20,8 @@ public partial class Bill
     [StringLength(50)]
     public string? CustomerName { get; set; }
 
-    [Column("Phone nvarchar(30)")]
-    [StringLength(10)]
-    public string? PhoneNvarchar30 { get; set; }
+    [StringLength(30)]
+    public string? Phone { get; set; }
 
     [StringLength(50)]
     public string? City { get; set; }
@@ -44,7 +43,7 @@ public partial class Bill
     public decimal TotalAmount { get; set; }
 
     [InverseProperty("Bill")]
-    public virtual ICollection<BillProduct> BillProducts { get; } = new List<BillProduct>();
+    public virtual ICollection<BillProduct> BillProducts { get; set; } = new List<BillProduct>();
 
     [ForeignKey("StaffId")]
     [InverseProperty("Bills")]

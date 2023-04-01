@@ -323,7 +323,7 @@
                         VerticalAlignment="Center"
                         Background="DodgerBlue"
                         IsDefault="True"
-                        Content="Xóa"
+                        Content="XÓA"
                         Command="{Binding DeleteCommand}" />
             </Grid>
         </StackPanel>

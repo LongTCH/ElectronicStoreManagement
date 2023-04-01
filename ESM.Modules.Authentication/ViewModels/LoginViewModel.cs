@@ -73,12 +73,12 @@ namespace ESM.Modules.Authentication.ViewModels
             {
                 if (string.IsNullOrWhiteSpace(Id))
                 {
-                    _modalService.ShowModal(ModalType.Error, "Enter ID", "Error");
+                    _modalService.ShowModal(ModalType.Error, "Nhập ID", "Cảnh báo");
                     await Task.CompletedTask;
                 }
                 else if (string.IsNullOrWhiteSpace(Password))
                 {
-                    _modalService.ShowModal(ModalType.Error, "Enter Password", "Error");
+                    _modalService.ShowModal(ModalType.Error, "Nhập mật khẩu", "Cảnh báo");
                     await Task.CompletedTask;
                 }
                 else
@@ -87,7 +87,7 @@ namespace ESM.Modules.Authentication.ViewModels
                     task.Start();
                     var account = await task;
                     if (account == null)
-                        _modalService.ShowModal(ModalType.Error, "Cannot find your account", "Error");
+                        _modalService.ShowModal(ModalType.Error, "Sai ID hoặc mật khẩu", "Thất bại");
                     else
                     {  
                         _regionManager.RequestNavigateContentRegionWithTrace(ViewNames.AccountView);
@@ -96,7 +96,7 @@ namespace ESM.Modules.Authentication.ViewModels
                 }
             }
 
-            catch (Exception) { _modalService.ShowModal(ModalType.Error, "Fail to access data", "Error"); }
+            catch (Exception) { _modalService.ShowModal(ModalType.Error, "Không thể kết nối dữ liệu", "Lỗi"); }
         }
         private void forgotPasswordNavigationCommand()
         {

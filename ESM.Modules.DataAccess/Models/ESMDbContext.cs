@@ -56,7 +56,7 @@ public partial class ESMDbContext : DbContext
 
         modelBuilder.Entity<Bill>(entity =>
         {
-            entity.Property(e => e.PhoneNvarchar30).IsFixedLength();
+            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.PurchasedTime).HasDefaultValueSql("(getutcdate())");
             entity.Property(e => e.StaffId).IsFixedLength();
 

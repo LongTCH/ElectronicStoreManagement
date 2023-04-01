@@ -24,6 +24,8 @@ namespace ESM.Modules.DataAccess.Infrastructure
 
         public IVgaRepository Vgas { get; }
 
+        public IBillRepository Bills { get; }
+
         public UnitOfWork(ESMDbContext context)
         {
             _context = context;
@@ -35,6 +37,7 @@ namespace ESM.Modules.DataAccess.Infrastructure
             Pcharddisks = new PcharddiskRepository(context);
             Vgas = new VgaRepository(context);
             Smartphones = new SmartphoneRepository(context);
+            Bills = new BillRepository(context);
         }
 
         public int SaveChange()

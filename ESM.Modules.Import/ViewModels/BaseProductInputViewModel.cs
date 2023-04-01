@@ -2,14 +2,16 @@
 using ESM.Modules.DataAccess.Infrastructure;
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ESM.Modules.Import.ViewModels
 {
-    public abstract class BaseProductInputViewModel<T> : BindableBase
+    public abstract class BaseProductInputViewModel<T> : BindableBase, INavigationAware
     {
         protected readonly IUnitOfWork _unitOfWork;
         protected readonly IOpenDialogService _openDialogService;
@@ -66,8 +68,8 @@ namespace ESM.Modules.Import.ViewModels
             get => discount;
             set => SetProperty(ref discount, value, () => ValidateProperty(value, nameof(Discount)));
         }
-        private short remain;
-        public short Remain
+        private int remain;
+        public int Remain
         {
             get => remain;
             set => SetProperty(ref remain, value);
@@ -135,6 +137,21 @@ namespace ESM.Modules.Import.ViewModels
             {
                 MemberName = name
             });
+        }
+
+        public virtual void OnNavigatedTo(NavigationContext navigationContext)
+        {
+           
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            
         }
     }
 }

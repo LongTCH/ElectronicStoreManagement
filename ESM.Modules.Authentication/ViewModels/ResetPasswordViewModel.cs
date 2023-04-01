@@ -41,14 +41,14 @@ namespace ESM.Modules.Authentication.ViewModels
                 ScryptEncoder encoder = new ScryptEncoder();
                 if (encoder.Compare(OldPassword, _accountStore.CurrentAccount!.PasswordHash) == false)
                 {
-                    _modalService.ShowModal(ModalType.Error, "Wrong Password", "Failed");
+                    _modalService.ShowModal(ModalType.Error, "Sai mật khẩu", "Thất bại");
                     return;
                 }
                 Id = _accountStore.CurrentAccount.Id;
             }
             if (NewPassword != ReTypeNewPassword || NewPassword == null)
             {
-                _modalService.ShowModal(ModalType.Error, "New Password Invalid", "Failed");
+                _modalService.ShowModal(ModalType.Error, "Mật khẩu không hợp lệ", "Thất bại");
                 return;
             }
             try
@@ -61,11 +61,11 @@ namespace ESM.Modules.Authentication.ViewModels
                 });
                 t.Start();
                 await t;
-                _modalService.ShowModal(ModalType.Information, "Please log in your account", "Success");
+                _modalService.ShowModal(ModalType.Information, "Đăng nhập lại", "Thành công");
             }
             catch (Exception)
             {
-                _modalService.ShowModal(ModalType.Error, "Reset password failed", "Error");
+                _modalService.ShowModal(ModalType.Error, "Đặt lại mật khẩu không thành công", "Lỗi");
             }
             finally
             {

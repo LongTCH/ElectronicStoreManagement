@@ -4,8 +4,9 @@ using ESM.Modules.Import.Views;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
-using System;
+using System.Collections.Specialized;
 using System.Linq;
+using System.Windows;
 
 namespace ESM.Modules.Import
 {
@@ -24,6 +25,7 @@ namespace ESM.Modules.Import
             _regionManager.RegisterViewWithRegion("TabRegion", typeof(LaptopInputView));
             _regionManager.RegisterViewWithRegion("TabRegion", typeof(PCInputView));
             _regionManager.RegisterViewWithRegion("TabRegion", typeof(MonitorInputView));
+
             _regionManager.RegisterViewWithContentRegion<ProductInputView>();
             _regionManager.RegisterViewWithContentRegion<RegisterView>();
             _regionManager.RegisterViewWithContentRegion<ChangeAccountInfoView>();
@@ -34,6 +36,11 @@ namespace ESM.Modules.Import
             containerRegistry.RegisterForNavigation<ProductInputView, ProductInputViewModel>(ViewNames.ProductInputView);
             containerRegistry.RegisterForNavigation<RegisterView, RegisterViewModel>(ViewNames.RegisterView);
             containerRegistry.RegisterForNavigation<ChangeAccountInfoView, ChangeAccountInfoViewModel>(ViewNames.ChangeAccountInfoView);
+
+            containerRegistry.RegisterForNavigation<HardDiskInputView, HardDiskInputViewModel>();
+            containerRegistry.RegisterForNavigation<LaptopInputView, LaptopInputViewModel>();
+            containerRegistry.RegisterForNavigation<PCInputView, PCInputViewModel>();
+            containerRegistry.RegisterForNavigation<MonitorInputView, MonitorInputViewModel>();
         }
     }
 }
