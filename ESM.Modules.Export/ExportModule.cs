@@ -19,11 +19,13 @@ namespace ESM.Modules.Export
         public void OnInitialized(IContainerProvider containerProvider)
         {
             _regionManager.RegisterViewWithContentRegion<SellView>();
+            _regionManager.RegisterViewWithContentRegion<ReportView>();
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<SellView, SellViewModel>(ViewNames.SellView);
+            containerRegistry.RegisterForNavigation<ReportView, ReportViewModel>(ViewNames.ReportView);
         }
     }
 }

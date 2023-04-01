@@ -1,0 +1,138 @@
+﻿<UserControl x:Class="ESM.Modules.Export.Views.ReportView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:localvm="clr-namespace:ESM.Modules.Export.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance localvm:ReportViewModel}"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             Background="White">
+    <Grid Background="AliceBlue">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Row="0"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Orientation="Horizontal">
+                <Label Height="30"
+                       Padding="0">
+                    <materialDesign:PackIcon Kind="Menu"
+                                             Width="30"
+                                             Height="30" />
+                </Label>
+                <TextBlock Text="Thống kê"
+                           FontWeight="Bold"
+                           FontSize="20"
+                           Margin="10"
+                           Foreground="Black" />
+            </StackPanel>
+            <StackPanel Grid.Row="1"
+                        Grid.Column="0"
+                        Margin="10"
+                        Width="200">
+                <TextBlock Text="Filter by:"
+                           FontWeight="Bold"
+                           Margin="0 0 0 10" />
+                <TextBlock Text="Start Time:"
+                           FontWeight="Bold"
+                           VerticalAlignment="Center"
+                           Margin="5" />
+                <DatePicker Name="startTimePicker"
+                            Grid.Column="1"
+                            Margin="5" />
+                <TextBlock Text="End Time:"
+                           Grid.Row="1"
+                           FontWeight="Bold"
+                           VerticalAlignment="Center"
+                           Margin="5" />
+                <DatePicker Name="endTimePicker"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="5" />
+                <Button Width="65"
+                        BorderThickness="0"
+                        Margin="120,20,10,10"
+                        materialDesign:ButtonAssist.CornerRadius="10"
+                        HorizontalAlignment="Center"
+                        Background="DodgerBlue"
+                        IsDefault="True"
+                        Content="ADD"/>
+                <CheckBox Name="laptopCheckBox"
+                          Content="LAPTOP"
+                          FontWeight="Bold"
+                          Margin="5" />
+                <CheckBox Name="smartphoneCheckBox"
+                          Content="SMARTPHONE"
+                          FontWeight="Bold"
+                          Margin="5" />
+                <CheckBox Name="pcCheckBox"
+                          Content="PC"
+                          FontWeight="Bold"
+                          Margin="5" />
+                <CheckBox Name="cpuCheckBox"
+                          Content="CPU"
+                          FontWeight="Bold"
+                          Margin="5" />
+                <CheckBox Name="vgaCheckBox"
+                          Content="VGA"
+                          FontWeight="Bold"
+                          Margin="5" />
+                <CheckBox Name="monitorCheckBox"
+                          Content="MONITOR"
+                          FontWeight="Bold"
+                          Margin="5" />
+                <CheckBox Name="harddiskCheckBox"
+                          Content="HARDDISK"
+                          FontWeight="Bold"
+                          Margin="5" />
+            </StackPanel>
+            <Grid Grid.Row="1"
+                  Grid.Column="1"
+                  Grid.ColumnSpan="2"
+                  Margin="10">
+                <TextBlock Text="Sales by catory"
+                           FontWeight="Bold"
+                           Margin="0 0 0 10" />
+                <lvc:CartesianChart Margin="0,20,0,0"
+                                    x:Name="ChartPlotter">
+                    <lvc:CartesianChart.Series>
+                        <lvc:LineSeries Name="laptopSeries"
+                                        Title="Laptop"
+                                        Values="{Binding LaptopValues}" />
+                        <lvc:LineSeries Name="smartphoneSeries"
+                                        Title="Smartphone"
+                                        Values="{Binding SmartphoneValues}" />
+                        <lvc:LineSeries Name="pcSeries"
+                                        Title="PC"
+                                        Values="{Binding PCValues}" />
+                        <lvc:LineSeries Name="cpuSeries"
+                                        Title="CPU"
+                                        Values="{Binding CPUValues}" />
+                        <lvc:LineSeries Name="vgaSeries"
+                                        Title="VGA"
+                                        Values="{Binding VGAValues}" />
+                        <lvc:LineSeries Name="monitorSeries"
+                                        Title="Monitor"
+                                        Values="{Binding MonitorValues}" />
+                        <lvc:LineSeries Name="harddiskSeries"
+                                        Title="Harddisk"
+                                        Values="{Binding HarddiskValues}" />
+                    </lvc:CartesianChart.Series>
+                </lvc:CartesianChart>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>
