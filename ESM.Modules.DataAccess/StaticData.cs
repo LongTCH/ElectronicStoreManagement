@@ -6,7 +6,7 @@
     }
     public enum ReportDuration
     { WEEK, MONTH, QUARTER, YEAR }
-    internal class StaticData
+    internal static class StaticData
     {
         internal static readonly Dictionary<ProductType, string> IdPrefix = new()
         {
@@ -19,5 +19,13 @@
             {ProductType.SMARTPHONE,"07" },
             {ProductType.COMBO,"99" },
         };
+        internal static int GetWeekOfYear(DateTime dateTime)
+        {
+            return System.Globalization.CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(dateTime, System.Globalization.CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+        }
+        internal static int GetQuarter(int month)
+        {
+            return (month - 1) / 3 + 1;
+        }
     }
 }
