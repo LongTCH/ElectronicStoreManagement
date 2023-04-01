@@ -22,5 +22,6 @@
         public static readonly string ChangeAccountInfoView = "ChangeAccountInfoView"; 
         public static readonly string ProductDetailView = "ProductDetailView";
         public static readonly string SellView = "SellView";
+        public static readonly string ReportView = "ReportView";
     }
 }

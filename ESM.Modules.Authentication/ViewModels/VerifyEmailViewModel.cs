@@ -39,7 +39,7 @@ namespace ESM.Modules.Authentication.ViewModels
                         CloseCommand.Execute();
                         _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.HomeView);
                         _regionManager.ResetTrace();
-                        _modalService.ShowModal(ModalType.Error, "Verification Fail", "Error");
+                        _modalService.ShowModal(ModalType.Error, "Nhập sai nhiều lần", "Thất bại");
                     }
                     else --counter;
                     throw new ValidationException("Verify Failed");
@@ -52,7 +52,7 @@ namespace ESM.Modules.Authentication.ViewModels
                         { "Id", Id },
                     };
                     _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.ResetPasswordView, parameter);
-                    _modalService.ShowModal(ModalType.Information, "Please reset your password", "Verified");
+                    _modalService.ShowModal(ModalType.Information, "Đặt lại mật khẩu", "Đã xác minh");
                 }
             }
         }

@@ -55,22 +55,22 @@ namespace ESM.Modules.Authentication.ViewModels
         {
             if (string.IsNullOrWhiteSpace(Id))
             {
-                _modalService.ShowModal(ModalType.Error, "Enter ID", "Error");
+                _modalService.ShowModal(ModalType.Error, "Nhập ID", "Cảnh báo");
                 return;
             }
             IsBusy = true;
-            BusyContent = "Checking your accout...";
+            BusyContent = "Đang kiểm tra tài khoản...";
             Task<AccountDTO> CheckAccountExist = new(() => _unitOfWork.Accounts.GetById(Id));
             CheckAccountExist.Start();
             await CheckAccountExist;
             var account = CheckAccountExist.Result;
             if (account == null)
             {
-                _modalService.ShowModal(ModalType.Error, "Cannot find your account", "Error");
+                _modalService.ShowModal(ModalType.Error, "Tài khoản không tồn tại", "Lỗi");
             }
             else
             {
-                BusyContent = "Sending email...";
+                BusyContent = "Đang gửi email...";
                 Random rnd = new();
                 int ran = rnd.Next(100_000, 999_999);
                 string _randomVerifyCode = ran.ToString();
@@ -98,7 +98,7 @@ namespace ESM.Modules.Authentication.ViewModels
                 if (result)
                     _modalService.ShowModal(ViewNames.VerifyEmailView, parameter);
                 else
-                    _modalService.ShowModal(ModalType.Error, "Cannot send email", "Error");
+                    _modalService.ShowModal(ModalType.Error, "Không thể gửi email", "Lỗi");
 
 
             }
