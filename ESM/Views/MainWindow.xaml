@@ -143,6 +143,15 @@
                                                        Kind="_10Plus" />
                         </mah:HamburgerMenuIconItem.Icon>
                     </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem Label="Test"
+                                               Command="{Binding NavigateCommand}"
+                                               CommandParameter="{x:Static esmcore:ViewNames.ReportView}">
+                        <mah:HamburgerMenuIconItem.Icon>
+                            <iconPacks:PackIconFontisto Width="22"
+                                                        Height="22"
+                                                        Kind="AreaChart" />
+                        </mah:HamburgerMenuIconItem.Icon>
+                    </mah:HamburgerMenuIconItem>
                 </mah:HamburgerMenuItemCollection>
             </mah:HamburgerMenu.ItemsSource>
             <!--  Options  -->
