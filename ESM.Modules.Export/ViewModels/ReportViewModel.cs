@@ -12,6 +12,8 @@ using System.Windows.Controls;
 using ESM.Modules.DataAccess;
 using MahApps.Metro.Controls;
 using System.Windows;
+using ESM.Modules.DataAccess.Models;
+using System.Diagnostics;
 
 namespace ESM.Modules.Export.ViewModels
 {
@@ -31,16 +33,34 @@ namespace ESM.Modules.Export.ViewModels
         public DelegateCommand AddCommand { get; }
         private void execute(string w)
         {
-            DateTime start = startTime;
-            DateTime end = endTime;
-            if (startTime > endTime)
+            DateTime start = StartTime;
+            DateTime end = EndTime;
+            if (StartTime > EndTime)
             {
                 MessageBox.Show("invalid date range!");
                 return; 
             }
             if (IsLaptopCheck)
-               LaptopList = _unitOfWork.Laptops.GetSoldNumberWeekDuration(start, end);
-            
+               LaptopList = _unitOfWork.Pcharddisks.GetSoldNumberWeekDuration(start, end);
+            if (IsSmartphoneCheck)
+               SmartphoneList = _unitOfWork.Pcharddisks.GetSoldNumberWeekDuration(start, end);
+            if (IsPCCheck)
+                PCList = _unitOfWork.Pcharddisks.GetSoldNumberWeekDuration(start, end);
+            if (IsCPUCheck)
+                CPUList = _unitOfWork.Pcharddisks.GetSoldNumberWeekDuration(start, end);
+            if (IsVGACheck)
+                VGAList = _unitOfWork.Pcharddisks.GetSoldNumberWeekDuration(start, end);
+            if (IsMonitorCheck)
+                MonitorList = _unitOfWork.Pcharddisks.GetSoldNumberWeekDuration(start, end);
+            if (IsHarddiskCheck)
+                HarddiskList = _unitOfWork.Pcharddisks.GetSoldNumberWeekDuration(start, end);
+
+        }
+        private SeriesCollection series;
+        public SeriesCollection Series
+        {
+            get=> series;
+            set => SetProperty(ref series, value);
         }
          private void addCommand()
         {
@@ -51,75 +71,116 @@ namespace ESM.Modules.Export.ViewModels
             bool showVGA = IsVGACheck;
             bool showMonitor = IsMonitorCheck;
             bool showHarddisk = IsHarddiskCheck;
-            SeriesCollection series = new SeriesCollection();
+            var series = new SeriesCollection();
             if (showLaptop)
             {
+                var values = new ChartValues<int>();
+                var list = _unitOfWork.Laptops.GetSoldNumberWeekDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                foreach(var l in list)
+                {
+                    values.Add(l);
+                }
                 series.Add(new LineSeries
                 {
                     Title = "Laptop",
-                    Values = (IChartValues) _unitOfWork.Laptops.GetSoldNumberWeekDuration(startTime, endTime).ToList(),
-                    //Values = new ChartValues<double> { 10, 9, 26, 38, 35, 40, 45 },
+                    Values = values,
                     DataLabels = true
-                });
+                }); ;
             }
             if (showSmartphone)
             {
+                var values = new ChartValues<int>();
+                var list = _unitOfWork.Smartphones.GetSoldNumberWeekDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                foreach (var l in list)
+                {
+                    values.Add(l);
+                }
                 series.Add(new LineSeries
                 {
                     Title = "Smartphone",
-                    //Values = new ChartValues<double> { 5, 15, 12, 20, 45, 30, 65 },
+                    Values = values,
                     DataLabels = true
-                });
+                }) ;
             }
             if (showPC)
             {
+                var values = new ChartValues<int>();
+                var list = _unitOfWork.Pcs.GetSoldNumberWeekDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                foreach (var l in list)
+                {
+                    values.Add(l);
+                }
                 series.Add(new LineSeries
                 {
                     Title = "PC",
-                    //Values = new ChartValues<double> { 8, 18, 28, 25, 48, 30, 40 },
+                    Values = values,
                     DataLabels = true
-                });
+                }) ;
             }
             if (showCPU)
             {
+                var values = new ChartValues<int>();
+                var list = _unitOfWork.Pccpus.GetSoldNumberWeekDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                foreach (var l in list)
+                {
+                    values.Add(l);
+                }
                 series.Add(new LineSeries
                 {
                     Title = "CPU",
-                    ///Values = new ChartValues<double> { 9, 13, 49, 39, 40, 52, 43 },
-                });
+                    Values = values,
+                    DataLabels = true
+                }) ;
             }
             if (showVGA)
             {
+                var values = new ChartValues<int>();
+                var list = _unitOfWork.Vgas.GetSoldNumberWeekDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                foreach (var l in list)
+                {
+                    values.Add(l);
+                }
                 series.Add(new LineSeries
                 {
                     Title = "VGA",
-                    //Values = new ChartValues<double> { 7, 17, 27, 37, 47, 36, 30 },
+                    Values = values,              
                     DataLabels = true
                 });
             }
             if (showMonitor)
             {
+                var values = new ChartValues<int>();
+                var list = _unitOfWork.Monitors.GetSoldNumberWeekDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                foreach (var l in list)
+                {
+                    values.Add(l);
+                }
                 series.Add(new LineSeries
                 {
                     Title = "Monitor",
-                   // Values = new ChartValues<double> { 4, 14, 24, 28, 44, 54, 40 },
+                    Values = values,
                     DataLabels = true
                 });
             }
             if (showHarddisk)
             {
+                var values = new ChartValues<int>();
+                var list = _unitOfWork.Pcharddisks.GetSoldNumberWeekDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                foreach (var l in list)
+                {
+                    values.Add(l);
+                }
                 series.Add(new LineSeries
                 {
                     Title = "Harddisk",
-                    //Values = new ChartValues<double> { 6, 16, 20, 25, 30, 36, 24 },
+                    Values = values ,
                     DataLabels = true
                 });
             }
-            //ChartPlotter.Series = series;
-            //ChartPlotter.LegendLocation = LegendLocation.Right;
+            Series = series;
         }
-        public DateTime startTime { get; set; }
-        public DateTime endTime { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
         public bool IsLaptopCheck { get; set; }
         public bool IsSmartphoneCheck { get; set; }
         public bool IsPCCheck { get; set; }
@@ -128,5 +189,11 @@ namespace ESM.Modules.Export.ViewModels
         public bool IsMonitorCheck { get; set; }
         public bool IsHarddiskCheck { get; set; }
         public object LaptopList { get; set; }
+        public object SmartphoneList { get; set; }
+        public object PCList { get; set; }
+        public object CPUList { get; set;}
+        public object VGAList { get; set; }
+        public object MonitorList { get; set; }
+        public object HarddiskList { get; set; }
     }
 }
