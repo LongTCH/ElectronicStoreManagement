@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
 namespace ESM.Modules.DataAccess.Models;
 
 [Table("ACCOUNT")]
-[Index("Id", Name = "IX_ACCOUNT_Id")]
+[Microsoft.EntityFrameworkCore.Index("Id", Name = "IX_ACCOUNT_Id")]
 public partial class Account
 {
     [Key]

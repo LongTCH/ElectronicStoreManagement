@@ -6,27 +6,16 @@ using System.Threading.Tasks;
 
 namespace ESM.Modules.DataAccess.DTOs
 {
-    public class YearWeek
+    public class ReportMock : IComparable<ReportMock>
     {
-        public int year;
-        public int week;
-        public int value;
-    }
-    public class YearMonth
-    {
-        public int year;
-        public int month;
-        public int value;
-    }
-    public class YearQuarter
-    {
-        public int year;
-        public int quarter;
-        public int value;
-    }
-    public class YearSales
-    {
-        public int year;
-        public int value;
+        public int Year { get; set; }
+        public int Sub { get; set; }
+        public int Value { get; set; }
+
+        public int CompareTo(ReportMock? other)
+        {
+            if (Year.Equals(other.Year)) return Sub.CompareTo(other.Sub);
+            return Year.CompareTo(other.Year);
+        }
     }
 }

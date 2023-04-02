@@ -3,7 +3,7 @@ using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 
 namespace ESM.Modules.DataAccess.Repositories;
-public interface IPcRepository : IBaseRepository<PcDTO>
+public interface IPcRepository : IBaseRepository<PcDTO>, IProductRepository
 {
     string GetSuggestID();
 }
@@ -41,5 +41,24 @@ public class PcRepository : BaseRepository<PcDTO>, IPcRepository
         int counter = Convert.ToInt32(NewID[2..]);
         ++counter;
         return StaticData.IdPrefix[ProductType.PC] + counter.ToString().PadLeft(7, '0');
+    }
+    public IEnumerable<ReportMock> GetSoldNumberMonthDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetSoldNumberMonthDuration(startDate, endDate, ProductType.PC);
+    }
+
+    public IEnumerable<ReportMock> GetSoldNumberQuarterDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetSoldNumberQuarterDuration(startDate, endDate, ProductType.PC);
+    }
+
+    public IEnumerable<ReportMock> GetSoldNumberWeekDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetSoldNumberWeekDuration(startDate, endDate, ProductType.PC);
+    }
+
+    public IEnumerable<ReportMock> GetSoldNumberYearDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetSoldNumberYearDuration(startDate, endDate, ProductType.PC);
     }
 }

@@ -4,7 +4,7 @@ using ESM.Modules.DataAccess.Models;
 
 namespace ESM.Modules.DataAccess.Repositories;
 
-public interface IVgaRepository : IBaseRepository<VgaDTO> {
+public interface IVgaRepository : IBaseRepository<VgaDTO>, IProductRepository{
     string GetSuggestID();
 }
 public class VgaRepository : BaseRepository<VgaDTO>, IVgaRepository
@@ -40,5 +40,24 @@ public class VgaRepository : BaseRepository<VgaDTO>, IVgaRepository
         int counter = Convert.ToInt32(NewID[2..]);
         ++counter;
         return StaticData.IdPrefix[ProductType.VGA] + counter.ToString().PadLeft(7, '0');
+    }
+    public IEnumerable<ReportMock> GetSoldNumberMonthDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetSoldNumberMonthDuration(startDate, endDate, ProductType.VGA);
+    }
+
+    public IEnumerable<ReportMock> GetSoldNumberQuarterDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetSoldNumberQuarterDuration(startDate, endDate, ProductType.VGA);
+    }
+
+    public IEnumerable<ReportMock> GetSoldNumberWeekDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetSoldNumberWeekDuration(startDate, endDate, ProductType.VGA);
+    }
+
+    public IEnumerable<ReportMock> GetSoldNumberYearDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetSoldNumberYearDuration(startDate, endDate, ProductType.VGA);
     }
 }

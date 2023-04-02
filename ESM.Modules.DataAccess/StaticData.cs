@@ -1,6 +1,6 @@
 ﻿namespace ESM.Modules.DataAccess
 {
-    internal enum ProductType
+    public enum ProductType
     {
         LAPTOP, CPU, MONITOR, HARDDISK, VGA, SMARTPHONE, PC, COMBO
     }
