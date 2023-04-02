@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ESM.Modules.DataAccess.Repositories;
 
-public interface IPcharddiskRepository : IBaseRepository<PcharddiskDTO>
+public interface IPcharddiskRepository : IBaseRepository<PcharddiskDTO>, IProductRepository
 {
     string GetSuggestID();
 }
@@ -106,4 +106,24 @@ public class PcharddiskRepository : BaseRepository<PcharddiskDTO>, IPcharddiskRe
         var x = StaticData.IdPrefix[ProductType.HARDDISK];
         return StaticData.IdPrefix[ProductType.HARDDISK] + counter.ToString().PadLeft(7, '0');
     }
+    public IEnumerable<ReportMock> GetSoldNumberMonthDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetSoldNumberMonthDuration(startDate, endDate, ProductType.HARDDISK);
+    }
+
+    public IEnumerable<ReportMock> GetSoldNumberQuarterDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetSoldNumberQuarterDuration(startDate, endDate, ProductType.HARDDISK);
+    }
+
+    public IEnumerable<ReportMock> GetSoldNumberWeekDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetSoldNumberWeekDuration(startDate, endDate, ProductType.HARDDISK);
+    }
+
+    public IEnumerable<ReportMock> GetSoldNumberYearDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetSoldNumberYearDuration(startDate, endDate, ProductType.HARDDISK);
+    }
+
 }

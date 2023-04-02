@@ -1,6 +1,7 @@
 ﻿using ESM.Core;
 using ESM.Core.ShareServices;
 using ESM.Core.ShareStores;
+using ESM.Modules.DataAccess.Infrastructure;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -109,7 +110,9 @@ namespace ESM.ViewModels
         private void test()
         {
             //_modalService.ShowModal(ViewNames.ProductDetailView, null);
-            _regionManager.RequestNavigateContentRegionWithTrace(ViewNames.SellView);
+            //_regionManager.RequestNavigateContentRegionWithTrace(ViewNames.SellView);
+            IUnitOfWork t = new UnitOfWork(new Modules.DataAccess.Models.ESMDbContext());
+            var l = t.Pcharddisks.GetSoldNumberWeekDuration(DateTime.Now.AddYears(-2), DateTime.Now);
         }
 
         #region DialogService
