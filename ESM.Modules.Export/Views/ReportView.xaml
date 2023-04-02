@@ -51,7 +51,7 @@
                            VerticalAlignment="Center"
                            Margin="5" />
                 <DatePicker Name="startTimePicker"
-                            SelectedDate="{Binding startDate}"
+                            SelectedDate="{Binding StartTime}"
                             Grid.Column="1"
                             Margin="5" />
                 <TextBlock Text="End Time:"
@@ -60,7 +60,7 @@
                            VerticalAlignment="Center"
                            Margin="5" />
                 <DatePicker Name="endTimePicker"
-                            SelectedDate="{Binding endDate}"
+                            SelectedDate="{Binding EndTime}"
                             Grid.Row="1"
                             Grid.Column="1"
                             Margin="5" />
@@ -117,31 +117,8 @@
                            FontWeight="Bold"
                            Margin="0 0 0 10" />
                 <lvc:CartesianChart Margin="0,20,0,0"
-                                    x:Name="ChartPlotter">
-                    <lvc:CartesianChart.Series>
-                        <lvc:LineSeries Name="laptopSeries"
-                                        Title="Laptop"
-                                        Values="{Binding LaptopValues}" />
-                        <lvc:LineSeries Name="smartphoneSeries"
-                                        Title="Smartphone"
-                                        Values="{Binding SmartphoneValues}" />
-                        <lvc:LineSeries Name="pcSeries"
-                                        Title="PC"
-                                        Values="{Binding PCValues}" />
-                        <lvc:LineSeries Name="cpuSeries"
-                                        Title="CPU"
-                                        Values="{Binding CPUValues}" />
-                        <lvc:LineSeries Name="vgaSeries"
-                                        Title="VGA"
-                                        Values="{Binding VGAValues}" />
-                        <lvc:LineSeries Name="monitorSeries"
-                                        Title="Monitor"
-                                        Values="{Binding MonitorValues}" />
-                        <lvc:LineSeries Name="harddiskSeries"
-                                        Title="Harddisk"
-                                        Values="{Binding HarddiskValues}" />
-                    </lvc:CartesianChart.Series>
-                </lvc:CartesianChart>
+                                    Series="{Binding Series}"
+                                    LegendLocation="Right"></lvc:CartesianChart>
             </Grid>
         </Grid>
     </Grid>
