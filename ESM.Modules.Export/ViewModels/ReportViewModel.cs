@@ -14,10 +14,11 @@ using MahApps.Metro.Controls;
 using System.Windows;
 using ESM.Modules.DataAccess.Models;
 using System.Diagnostics;
+using Prism.Regions;
 
 namespace ESM.Modules.Export.ViewModels
 {
-    public class ReportViewModel : BindableBase
+    public class ReportViewModel : BindableBase, INavigationAware
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IModalService _modalService;
@@ -179,6 +180,25 @@ namespace ESM.Modules.Export.ViewModels
             }
             Series = series;
         }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            StartTime = DateTime.Now.AddMonths(-1);
+            EndTime = DateTime.Now;
+            RaisePropertyChanged(nameof(StartTime));
+            RaisePropertyChanged(nameof(EndTime));
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            
+        }
+
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public bool IsLaptopCheck { get; set; }
