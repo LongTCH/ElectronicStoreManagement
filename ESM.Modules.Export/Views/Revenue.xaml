@@ -1,17 +1,13 @@
-﻿<UserControl x:Class="ESM.Modules.Export.Views.ReportView"
+﻿<UserControl x:Class="ESM.Modules.Export.Views.Revenue"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:prism="http://prismlibrary.com/"
-             xmlns:localvm="clr-namespace:ESM.Modules.Export.ViewModels"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-             mc:Ignorable="d"
-             d:DataContext="{d:DesignInstance localvm:ReportViewModel}"
-             prism:ViewModelLocator.AutoWireViewModel="True"
-             d:DesignHeight="450"
-             d:DesignWidth="800"
+             xmlns:local="clr-namespace:ESM.Modules.Export.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
              Background="White">
     <Grid Background="AliceBlue">
         <Grid>
@@ -72,7 +68,7 @@
                         Background="DodgerBlue"
                         IsDefault="True"
                         Content="ADD"
-                        Command="{Binding AddCommand}"/>
+                        Command="{Binding AddCommand}" />
                 <CheckBox Name="laptopCheckBox"
                           Content="LAPTOP"
                           IsChecked="{Binding IsLaptopCheck, UpdateSourceTrigger=PropertyChanged}"

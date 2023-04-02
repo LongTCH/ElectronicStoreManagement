@@ -26,6 +26,7 @@ namespace ESM.Modules.Export
         {
             containerRegistry.RegisterForNavigation<SellView, SellViewModel>(ViewNames.SellView);
             containerRegistry.RegisterForNavigation<ReportView, ReportViewModel>(ViewNames.ReportView);
+            containerRegistry.RegisterForNavigation<ReportView, ReportViewModel>(ViewNames.TopSellingReportView);
         }
     }
 }

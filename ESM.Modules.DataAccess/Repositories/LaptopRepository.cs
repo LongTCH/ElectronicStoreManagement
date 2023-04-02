@@ -6,10 +6,10 @@ namespace ESM.Modules.DataAccess.Repositories;
 public interface ILaptopRepository : IBaseRepository<LaptopDTO>
 {
     string GetSuggestID();
-    IEnumerable<YearWeek> GetSoldNumberWeekDuration(DateTime start, DateTime end);
-    IEnumerable<YearMonth> GetSoldNumberMonthDuration(DateTime start, DateTime end);
-    IEnumerable<YearQuarter> GetSoldNumberQuarterDuration(DateTime start, DateTime end);
-    IEnumerable<YearSales> GetSoldNumberYearDuration(DateTime start, DateTime end);
+    IEnumerable<ReportMock> GetSoldNumberWeekDuration(DateTime start, DateTime end);
+    IEnumerable<ReportMock> GetSoldNumberMonthDuration(DateTime start, DateTime end);
+    IEnumerable<ReportMock> GetSoldNumberQuarterDuration(DateTime start, DateTime end);
+    IEnumerable<ReportMock> GetSoldNumberYearDuration(DateTime start, DateTime end);
 }
 public class LaptopRepository : BaseRepository<LaptopDTO>, ILaptopRepository
 {
@@ -41,7 +41,7 @@ public class LaptopRepository : BaseRepository<LaptopDTO>, ILaptopRepository
                 }).ToList();
     }
 
-    public IEnumerable<YearWeek> GetSoldNumberWeekDuration(DateTime start, DateTime end)
+    public IEnumerable<ReportMock> GetSoldNumberWeekDuration(DateTime start, DateTime end)
     {
         return (from p in _context.BillProducts
                 join q in _context.Bills
@@ -49,14 +49,14 @@ public class LaptopRepository : BaseRepository<LaptopDTO>, ILaptopRepository
                 where p.ProductId.StartsWith(StaticData.IdPrefix[ProductType.LAPTOP])
                       && q.PurchasedTime.Date >= start && q.PurchasedTime.Date <= end
                 group p by new { Year = q.PurchasedTime.Year, Week = StaticData.GetWeekOfYear(q.PurchasedTime) } into g
-                select new YearWeek()
+                select new ReportMock()
                 {
                     year = g.Key.Year,
-                    week = g.Key.Week,
+                    sub = g.Key.Week,
                     value = g.Sum(p => p.Number)
                 }).ToList();
     }
-    public IEnumerable<YearMonth> GetSoldNumberMonthDuration(DateTime start, DateTime end)
+    public IEnumerable<ReportMock> GetSoldNumberMonthDuration(DateTime start, DateTime end)
     {
         return (from p in _context.BillProducts
                 join q in _context.Bills
@@ -64,10 +64,10 @@ public class LaptopRepository : BaseRepository<LaptopDTO>, ILaptopRepository
                 where p.ProductId.StartsWith(StaticData.IdPrefix[ProductType.LAPTOP])
                       && q.PurchasedTime.Date >= start && q.PurchasedTime.Date <= end
                 group p by new { Year = q.PurchasedTime.Year, Month = q.PurchasedTime.Month } into g
-                select new YearMonth()
+                select new ReportMock()
                 {
                     year = g.Key.Year,
-                    month = g.Key.Month,
+                    sub = g.Key.Month,
                     value = g.Sum(p => p.Number)
                 }).ToList();
     }
@@ -80,7 +80,7 @@ public class LaptopRepository : BaseRepository<LaptopDTO>, ILaptopRepository
         return StaticData.IdPrefix[ProductType.LAPTOP] + counter.ToString().PadLeft(7, '0');
     }
 
-    public IEnumerable<YearQuarter> GetSoldNumberQuarterDuration(DateTime start, DateTime end)
+    public IEnumerable<ReportMock> GetSoldNumberQuarterDuration(DateTime start, DateTime end)
     {
         return (from p in _context.BillProducts
                 join q in _context.Bills
@@ -88,15 +88,15 @@ public class LaptopRepository : BaseRepository<LaptopDTO>, ILaptopRepository
                 where p.ProductId.StartsWith(StaticData.IdPrefix[ProductType.LAPTOP])
                       && q.PurchasedTime.Date >= start && q.PurchasedTime.Date <= end
                 group p by new { Year = q.PurchasedTime.Year, Quarter = StaticData.GetQuarter(q.PurchasedTime.Month) } into g
-                select new YearQuarter()
+                select new ReportMock()
                 {
                     year = g.Key.Year,
-                    quarter = g.Key.Quarter,
+                    sub = g.Key.Quarter,
                     value = g.Sum(p => p.Number)
                 }).ToList();
     }
 
-    public IEnumerable<YearSales> GetSoldNumberYearDuration(DateTime start, DateTime end)
+    public IEnumerable<ReportMock> GetSoldNumberYearDuration(DateTime start, DateTime end)
     {
         return (from p in _context.BillProducts
                 join q in _context.Bills
@@ -104,7 +104,7 @@ public class LaptopRepository : BaseRepository<LaptopDTO>, ILaptopRepository
                 where p.ProductId.StartsWith(StaticData.IdPrefix[ProductType.LAPTOP])
                       && q.PurchasedTime.Date >= start && q.PurchasedTime.Date <= end
                 group p by q.PurchasedTime.Year into g
-                select new YearSales()
+                select new ReportMock()
                 {
                     year = g.Key,
                     value = g.Sum(p => p.Number)
