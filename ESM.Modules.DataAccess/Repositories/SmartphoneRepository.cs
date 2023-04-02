@@ -4,7 +4,7 @@ using ESM.Modules.DataAccess.Models;
 
 namespace ESM.Modules.DataAccess.Repositories
 {
-    public interface ISmartphoneRepository : IBaseRepository<SmartphoneDTO> {
+    public interface ISmartphoneRepository : IBaseRepository<SmartphoneDTO>, IProductRepository {
         string GetSuggestID();
     }
     public class SmartphoneRepository : BaseRepository<SmartphoneDTO>, ISmartphoneRepository
@@ -41,6 +41,25 @@ namespace ESM.Modules.DataAccess.Repositories
             int counter = Convert.ToInt32(NewID[2..]);
             ++counter;
             return StaticData.IdPrefix[ProductType.SMARTPHONE] + counter.ToString().PadLeft(7, '0');
+        }
+        public IEnumerable<ReportMock> GetSoldNumberMonthDuration(DateTime startDate, DateTime endDate)
+        {
+            return GetSoldNumberMonthDuration(startDate, endDate, ProductType.SMARTPHONE);
+        }
+
+        public IEnumerable<ReportMock> GetSoldNumberQuarterDuration(DateTime startDate, DateTime endDate)
+        {
+            return GetSoldNumberQuarterDuration(startDate, endDate, ProductType.SMARTPHONE);
+        }
+
+        public IEnumerable<ReportMock> GetSoldNumberWeekDuration(DateTime startDate, DateTime endDate)
+        {
+            return GetSoldNumberWeekDuration(startDate, endDate, ProductType.SMARTPHONE);
+        }
+
+        public IEnumerable<ReportMock> GetSoldNumberYearDuration(DateTime startDate, DateTime endDate)
+        {
+            return GetSoldNumberYearDuration(startDate, endDate, ProductType.SMARTPHONE);
         }
     }
 }

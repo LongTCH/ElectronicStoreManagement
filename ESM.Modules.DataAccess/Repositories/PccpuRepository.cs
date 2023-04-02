@@ -3,7 +3,7 @@ using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 
 namespace ESM.Modules.DataAccess.Repositories;
-public interface IPccpuRepository : IBaseRepository<PccpuDTO> {
+public interface IPccpuRepository : IBaseRepository<PccpuDTO>, IProductRepository {
     string GetSuggestID();
 }
 public class PccpuRepository : BaseRepository<PccpuDTO>, IPccpuRepository
@@ -40,4 +40,24 @@ public class PccpuRepository : BaseRepository<PccpuDTO>, IPccpuRepository
         ++counter;
         return StaticData.IdPrefix[ProductType.CPU] + counter.ToString().PadLeft(7, '0');
     }
+    public IEnumerable<ReportMock> GetSoldNumberMonthDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetSoldNumberMonthDuration(startDate, endDate, ProductType.CPU);
+    }
+
+    public IEnumerable<ReportMock> GetSoldNumberQuarterDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetSoldNumberQuarterDuration(startDate, endDate, ProductType.CPU);
+    }
+
+    public IEnumerable<ReportMock> GetSoldNumberWeekDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetSoldNumberWeekDuration(startDate, endDate, ProductType.CPU);
+    }
+
+    public IEnumerable<ReportMock> GetSoldNumberYearDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetSoldNumberYearDuration(startDate, endDate, ProductType.CPU);
+    }
+
 }
