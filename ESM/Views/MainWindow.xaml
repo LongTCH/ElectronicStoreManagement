@@ -145,7 +145,7 @@
                     </mah:HamburgerMenuIconItem>
                     <mah:HamburgerMenuIconItem Label="Test"
                                                Command="{Binding NavigateCommand}"
-                                               CommandParameter="{x:Static esmcore:ViewNames.ReportView}">
+                                               CommandParameter="{x:Static esmcore:ViewNames.TabChartView}">
                         <mah:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconFontisto Width="22"
                                                         Height="22"
