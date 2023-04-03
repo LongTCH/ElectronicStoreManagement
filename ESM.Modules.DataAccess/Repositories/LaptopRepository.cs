@@ -38,6 +38,11 @@ public class LaptopRepository : BaseRepository<LaptopDTO>, ILaptopRepository
                 }).ToList();
     }
 
+    public IEnumerable<RevenueDTO> GetRevenueWeekDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetRevenueWeekDuration(startDate, endDate, ProductType.LAPTOP);
+    }
+
     public IEnumerable<ReportMock> GetSoldNumberMonthDuration(DateTime startDate, DateTime endDate)
     {
         return GetSoldNumberMonthDuration(startDate, endDate, ProductType.LAPTOP);

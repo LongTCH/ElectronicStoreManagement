@@ -18,4 +18,16 @@ namespace ESM.Modules.DataAccess.DTOs
             return Year.CompareTo(other.Year);
         }
     }
+    public class RevenueDTO : IComparable<RevenueDTO>
+    {
+        public int Year { get; set; }
+        public int Sub { get; set; }
+        public decimal Value { get; set; }
+
+        public int CompareTo(RevenueDTO? other)
+        {
+            if (Year.Equals(other.Year)) return Sub.CompareTo(other.Sub);
+            return Year.CompareTo(other.Year);
+        }
+    }
 }
