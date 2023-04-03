@@ -70,16 +70,16 @@ namespace ESM.Modules.Export.ViewModels
             }
             if (IsLaptopCheck) 
             {
-                //var laptopSales = _unitOfWork.ProductRepository.GetTopSellingProducts(start, end, ProductType.Laptop, 10);
-                //foreach (var sale in laptopSales)
+                //laptopSales = _unitOfWork.Laptops.GetTopSellingProducts(start, end, ProductType.LAPTOP, 10);
+                //foreach (var sale in laptopsales)
                 //{
-                //    LaptopSales.Add(sale.QuantitySold);
-                //    Labels.Add(sale.Product.Name);
+                //    laptopsales.add(sale.quantitysold);
+                //    labels.add(sale.product.name);
                 //}
             }
             if (IsSmartphoneCheck)
             {
-                //var smartphoneSales = _unitOfWork.ProductRepository.GetTopSellingProducts(start, end, ProductType.Smartphone, 10);
+                //smartphoneSales = _unitOfWork.ProductRepository.GetTopSellingProducts(start, end, ProductType.Smartphone, 10);
                 //foreach (var sale in smartphoneSales)
                 //{
                 //    SmartphoneSales.Add(sale.QuantitySold);
@@ -89,7 +89,7 @@ namespace ESM.Modules.Export.ViewModels
 
             if (IsPCCheck)
             {
-                //var pcSales = _unitOfWork.ProductRepository.GetTopSellingProducts(start, end, ProductType.PC, 10);
+                // pcSales = _unitOfWork.ProductRepository.GetTopSellingProducts(start, end, ProductType.PC, 10);
                 //foreach (var sale in pcSales)
                 //{
                 //    PCSales.Add(sale.QuantitySold);
@@ -99,7 +99,7 @@ namespace ESM.Modules.Export.ViewModels
 
             if (IsCPUCheck)
             {
-                //var cpuSales = _unitOfWork.ProductRepository.GetTopSellingProducts(start, end, ProductType.CPU, 10);
+                //cpuSales = _unitOfWork.ProductRepository.GetTopSellingProducts(start, end, ProductType.CPU, 10);
                 //foreach (var sale in cpuSales)
                 //{
                 //    CPUSales.Add(sale.QuantitySold);
@@ -109,7 +109,7 @@ namespace ESM.Modules.Export.ViewModels
 
             if (IsVGACheck)
             {
-                //var vgaSales = _unitOfWork.ProductRepository.GetTopSellingProducts(start, end, ProductType.VGA, 10);
+                //vgaSales = _unitOfWork.ProductRepository.GetTopSellingProducts(start, end, ProductType.VGA, 10);
                 //foreach (var sale in vgaSales)
                 //{
                 //    VGASales.Add(sale.QuantitySold);
@@ -119,17 +119,17 @@ namespace ESM.Modules.Export.ViewModels
 
             if (IsMonitorCheck)
             {     
-            //    var monitorSales = _unitOfWork.ProductRepository.GetTopSellingProducts(start, end, ProductType.Monitor, 10);
-            //    foreach (var sale in monitorSales)
-            //    {
-            //        MonitorSales.Add(sale.QuantitySold);
-            //        Labels.Add(sale.Product.Name);
-            //    }
+               // monitorSales = _unitOfWork.ProductRepository.GetTopSellingProducts(start, end, ProductType.Monitor, 10);
+                //foreach (var sale in monitorSales)
+                //{
+                //    MonitorSales.Add(sale.QuantitySold);
+                //    Labels.Add(sale.Product.Name);
+                //}
             }
 
             if (IsHarddiskCheck)
             {
-                //var harddiskSales = _unitOfWork.ProductRepository.GetTopSellingProducts(start, end, ProductType.Harddisk, 10);
+                //harddiskSales = _unitOfWork.ProductRepository.GetTopSellingProducts(start, end, ProductType.Harddisk, 10);
                 //foreach (var sale in harddiskSales)
                 //{
                 //    HarddiskSales.Add(sale.QuantitySold);
@@ -151,8 +151,10 @@ namespace ESM.Modules.Export.ViewModels
             bool showVGA = IsVGACheck;
             bool showMonitor = IsMonitorCheck;
             bool showHarddisk = IsHarddiskCheck;
-            if (showLaptop) { }
-            if(showSmartphone) { }
+            if (showLaptop) {
+               
+            }
+            if (showSmartphone) { }
             if (showPC) { }
             if (showCPU) { }
             if (showVGA) { }
@@ -169,6 +171,13 @@ namespace ESM.Modules.Export.ViewModels
         public bool IsVGACheck { get; set; }
         public bool IsMonitorCheck { get; set; }
         public bool IsHarddiskCheck { get; set; }
+        public object laptopSales { get; set; }
+        public object smartphoneSales { get; set; }
+        public object pcSales { get; set; }
+        public object cpuSales { get; set; }
+        public object vgaSales { get; set; }
+        public object monitorSales { get; set; }
+        public object harddiskSales { get; set; }
 
     }
 }
