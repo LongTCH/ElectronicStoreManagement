@@ -11,7 +11,7 @@ namespace ESM.Modules.Import.ViewModels
     {
         public HardDiskInputViewModel(IUnitOfWork unitOfWork, IOpenDialogService openDialogService, IModalService modalService) : base(unitOfWork, openDialogService, modalService)
         {
-            Id = _unitOfWork.Pcharddisks.GetSuggestID();
+
         }
         public string Header => "Hard Disk";
         private string storage;
@@ -119,10 +119,12 @@ namespace ESM.Modules.Import.ViewModels
             Storage = Product.Storage;
             Type = Product.Type;
             Remain = Product.Remain;
+            RaisePropertyChanged(nameof(IsDefault));
         }
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
+            Id = _unitOfWork.Pcharddisks.GetSuggestID();
             ProductList = _unitOfWork.Pcharddisks.GetAll();
         }
     }
