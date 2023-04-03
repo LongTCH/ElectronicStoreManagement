@@ -32,7 +32,6 @@ namespace ESM.ViewModels
             ResetIndexCommand = new(resetIndex);
             _applicationCommand.ResetIndexCommand.RegisterCommand(ResetIndexCommand);
             _applicationCommand.ChangeModalState.RegisterCommand(new DelegateCommand(() => RaisePropertyChanged(nameof(IsModalOpen))));
-            _accountStore.CurrentStoreChanged += () => { if (!_accountStore.IsLoggedIn) _regionManager.ResetTrace(); };
             NavigateCommand = new DelegateCommand<string>(ExecuteNavigateCommand).ObservesCanExecute(() => CanNavigate);
             HostCommand = new(ExecuteHostCommand);
             LogoutCommand = new(ExecutelogoutCommand);
@@ -47,6 +46,7 @@ namespace ESM.ViewModels
                 RaisePropertyChanged(nameof(IsAdmin));
                 RaisePropertyChanged(nameof(IsSellStaff));
                 RaisePropertyChanged(nameof(IsTypingStaff));
+                if (!_accountStore.IsLoggedIn) _regionManager.ResetTrace();
             };
         }
         private bool CanNavigate { get; set; } = true;

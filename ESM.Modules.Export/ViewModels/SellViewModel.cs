@@ -49,6 +49,20 @@ namespace ESM.Modules.Export.ViewModels
                 }
             }
         }
+
+
+        private string customerName;
+        public string CustomerName
+        {
+            get => customerName;
+            set => SetProperty(ref customerName, value);
+        }
+        private string customerPhone;
+        public string CustomerPhone
+        {
+            get => customerPhone;
+            set => SetProperty(ref customerPhone, value);
+        }
         public int SelectedIndex { get; set; }
         public decimal TotalAmount => ProductBillList.Sum(s => s.Amount);
         public string TextFormPrice => NumberToText.FuncNumberToText((double)TotalAmount);
@@ -113,42 +127,16 @@ namespace ESM.Modules.Export.ViewModels
         }
         private void ExecutePay()
         {
-            saveBill();
-        }
-        private void saveBill()
-        {
-            List<BillProduct> list = new();
-            foreach (var item in ProductBillList)
+            var Result = new Invoice(_modalService, _unitOfWork, _accountStore, CustomerName, CustomerPhone, ProductBillList, TotalAmount).ShowDialog();
+            if (Result == true)
             {
-                BillProduct b = new()
-                {
-                    ProductId = item.Id,
-                    Amount = item.Amount,
-                    Number = Convert.ToInt32(item.Number),
-                    SellPrice = item.SellPrice,
-                    Unit = item.Unit,
-                    Warranty = item.Warranty,
-                };
-                list.Add(b);
-            }
-            Bill bill = new()
-            {
-                BillProducts = list,
-                TotalAmount = TotalAmount,
-                StaffId = "020230000",
-                PurchasedTime = DateTime.Now,
-                CustomerName = "Thang"
-            };
-            try
-            {
-                _unitOfWork.Bills.Add(bill);
-                _unitOfWork.SaveChange();
                 ProductBillList.Clear();
                 Category = null;
+                CustomerName = null;
+                CustomerPhone = null;
             }
-            catch (Exception) { _modalService.ShowModal(ModalType.Error, "Không thể lập hóa đơn", "Có lỗi xảy ra"); }
-
         }
+
         private void OnTotalAmountChanged()
         {
             RaisePropertyChanged(nameof(TotalAmount));
