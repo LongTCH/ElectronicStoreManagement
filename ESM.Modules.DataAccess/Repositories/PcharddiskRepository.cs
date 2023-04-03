@@ -129,4 +129,8 @@ public class PcharddiskRepository : BaseRepository<PcharddiskDTO>, IPcharddiskRe
     {
         return GetTopSoldProducts(startDate, endDate, ProductType.HARDDISK, number);
     }
+    public IEnumerable<RevenueDTO> GetRevenueWeekDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetRevenueWeekDuration(startDate, endDate, ProductType.HARDDISK);
+    }
 }

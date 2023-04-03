@@ -19,5 +19,6 @@ namespace ESM.Modules.DataAccess.Infrastructure
         IEnumerable<ReportMock> GetSoldNumberQuarterDuration(DateTime startDate, DateTime endDate);
         IEnumerable<ReportMock> GetSoldNumberYearDuration(DateTime startDate, DateTime endDate);
         IEnumerable<TopSellDTO> GetTopSoldProducts(DateTime startDate, DateTime endDate, int number);
+        IEnumerable<RevenueDTO> GetRevenueWeekDuration(DateTime startDate, DateTime endDate);
     }
 }

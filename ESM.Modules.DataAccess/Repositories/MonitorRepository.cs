@@ -66,4 +66,8 @@ public class MonitorRepository : BaseRepository<MonitorDTO>, IMonitorRepository
     {
         return GetTopSoldProducts(startDate, endDate, ProductType.MONITOR, number);
     }
+    public IEnumerable<RevenueDTO> GetRevenueWeekDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetRevenueWeekDuration(startDate, endDate, ProductType.MONITOR);
+    }
 }

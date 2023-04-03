@@ -66,7 +66,7 @@ namespace ESM.Modules.DataAccess.Infrastructure
 
         protected IEnumerable<ReportMock> GetSoldNumberWeekDuration(DateTime startDate, DateTime endDate, ProductType type)
         {
-            var list =  _context.BillProducts
+            var list = _context.BillProducts
     .Join(_context.Bills, bp => bp.BillId, b => b.Id, (bp, b) => new { BillProduct = bp, Bill = b })
     .Where(x => x.Bill.PurchasedTime >= startDate && x.Bill.PurchasedTime <= endDate)
     .Where(x => x.BillProduct.ProductId.StartsWith(StaticData.IdPrefix[type]))
@@ -84,7 +84,7 @@ namespace ESM.Modules.DataAccess.Infrastructure
         }
         protected IEnumerable<ReportMock> GetSoldNumberMonthDuration(DateTime startDate, DateTime endDate, ProductType type)
         {
-            var list =  _context.BillProducts
+            var list = _context.BillProducts
     .Join(_context.Bills, bp => bp.BillId, b => b.Id, (bp, b) => new { BillProduct = bp, Bill = b })
     .Where(x => x.Bill.PurchasedTime >= startDate && x.Bill.PurchasedTime <= endDate)
     .Where(x => x.BillProduct.ProductId.StartsWith(StaticData.IdPrefix[type]))
@@ -141,15 +141,31 @@ namespace ESM.Modules.DataAccess.Infrastructure
         protected IEnumerable<TopSellDTO> GetTopSoldProducts(DateTime startDate, DateTime endDate, ProductType type, int number)
         {
             return (from x in _context.Bills
-                        join y in _context.BillProducts
-                        on x.Id equals y.BillId
-                        where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate
-                        group y by y.ProductId into g
-                        select new TopSellDTO()
-                        {
-                            Name = g.Key,
-                            Number = g.Sum(x => x.Number)
-                        }).ToList();
+                    join y in _context.BillProducts
+                    on x.Id equals y.BillId
+                    where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate && y.ProductId.StartsWith(StaticData.IdPrefix[type])
+                    group y by y.ProductId into g
+                    select new TopSellDTO()
+                    {
+                        Name = g.Key,
+                        Number = g.Sum(x => x.Number)
+                    }).ToList();
+        }
+        protected IEnumerable<RevenueDTO> GetRevenueWeekDuration(DateTime startDate, DateTime endDate, ProductType type)
+        {
+            var l = from x in _context.Bills
+                    join y in _context.BillProducts
+                    on x.Id equals y.BillId
+                    where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate && y.ProductId.StartsWith(StaticData.IdPrefix[type])
+                    select new { Year = x.PurchasedTime.Year, Week = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(x.PurchasedTime, CalendarWeekRule.FirstDay, DayOfWeek.Monday) , Revenue = y.Amount};
+            return (from x in l
+                   group x by new { x.Year, x.Week } into g
+                   select new RevenueDTO()
+                   {
+                       Year = g.Key.Year,
+                       Sub = g.Key.Week,
+                       Value = g.Sum(x => x.Revenue)
+                   }).ToList();
         }
     }
 }

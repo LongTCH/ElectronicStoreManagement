@@ -65,4 +65,8 @@ public class PcRepository : BaseRepository<PcDTO>, IPcRepository
     {
         return GetTopSoldProducts(startDate, endDate, ProductType.PC, number);
     }
+    public IEnumerable<RevenueDTO> GetRevenueWeekDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetRevenueWeekDuration(startDate, endDate, ProductType.PC);
+    }
 }
