@@ -42,17 +42,17 @@ namespace ESM.Modules.Export.ViewModels
                 return; 
             }
             if (IsLaptopCheck)
-               LaptopList = _unitOfWork.Pcharddisks.GetSoldNumberWeekDuration(start, end);
+               LaptopList = _unitOfWork.Laptops.GetSoldNumberWeekDuration(start, end);
             if (IsSmartphoneCheck)
-               SmartphoneList = _unitOfWork.Pcharddisks.GetSoldNumberWeekDuration(start, end);
+               SmartphoneList = _unitOfWork.Smartphones.GetSoldNumberWeekDuration(start, end);
             if (IsPCCheck)
-                PCList = _unitOfWork.Pcharddisks.GetSoldNumberWeekDuration(start, end);
+                PCList = _unitOfWork.Pcs.GetSoldNumberWeekDuration(start, end);
             if (IsCPUCheck)
-                CPUList = _unitOfWork.Pcharddisks.GetSoldNumberWeekDuration(start, end);
+                CPUList = _unitOfWork.Pccpus.GetSoldNumberWeekDuration(start, end);
             if (IsVGACheck)
-                VGAList = _unitOfWork.Pcharddisks.GetSoldNumberWeekDuration(start, end);
+                VGAList = _unitOfWork.Vgas.GetSoldNumberWeekDuration(start, end);
             if (IsMonitorCheck)
-                MonitorList = _unitOfWork.Pcharddisks.GetSoldNumberWeekDuration(start, end);
+                MonitorList = _unitOfWork.Monitors.GetSoldNumberWeekDuration(start, end);
             if (IsHarddiskCheck)
                 HarddiskList = _unitOfWork.Pcharddisks.GetSoldNumberWeekDuration(start, end);
 

@@ -28,11 +28,39 @@ namespace ESM.Modules.Export.ViewModels
             _modalService = modalService;
             Test = new(execute);
             AddCommand = new(addCommand);
+
+            LaptopSales = new ChartValues<int>();
+            SmartphoneSales = new ChartValues<int>();
+            PCSales = new ChartValues<int>();
+            CPUSales = new ChartValues<int>();
+            VGASales = new ChartValues<int>();
+            MonitorSales = new ChartValues<int>();
+            HarddiskSales = new ChartValues<int>();
+            StartTime = new DateTime(2023, 1, 1);
+            EndTime = new DateTime(2023, 4, 1);
         }
         public DelegateCommand<string> Test { get; }
         public DelegateCommand AddCommand { get; }
-        private void execute(string w)
-        {
+        public ChartValues<int> LaptopSales { get; set; }
+        public ChartValues<int> SmartphoneSales { get; set; }
+        public ChartValues<int> PCSales { get; set; }
+        public ChartValues<int> CPUSales { get; set; }
+        public ChartValues<int> VGASales { get; set; }
+        public ChartValues<int> MonitorSales { get; set; }
+        public ChartValues<int> HarddiskSales { get; set; }
+        public ObservableCollection<string> Labels { get; set; } = new ObservableCollection<string>();
+        public string ChartTitle { get; set; } = "Top 10 Best Selling Products";
+        private void execute(string w) 
+        { 
+            LaptopSales.Clear();
+            SmartphoneSales.Clear();
+            PCSales.Clear();
+            CPUSales.Clear();
+            VGASales.Clear();
+            MonitorSales.Clear();
+            HarddiskSales.Clear();
+            Labels.Clear();
+  
             DateTime start = StartTime;
             DateTime end = EndTime;
             if (StartTime > EndTime)
@@ -40,9 +68,79 @@ namespace ESM.Modules.Export.ViewModels
                 MessageBox.Show("invalid date range!");
                 return;
             }
-            if (IsLaptopCheck) { }
-               
+            if (IsLaptopCheck) 
+            {
+                //var laptopSales = _unitOfWork.ProductRepository.GetTopSellingProducts(start, end, ProductType.Laptop, 10);
+                //foreach (var sale in laptopSales)
+                //{
+                //    LaptopSales.Add(sale.QuantitySold);
+                //    Labels.Add(sale.Product.Name);
+                //}
+            }
+            if (IsSmartphoneCheck)
+            {
+                //var smartphoneSales = _unitOfWork.ProductRepository.GetTopSellingProducts(start, end, ProductType.Smartphone, 10);
+                //foreach (var sale in smartphoneSales)
+                //{
+                //    SmartphoneSales.Add(sale.QuantitySold);
+                //    Labels.Add(sale.Product.Name);
+                //}
+            }
 
+            if (IsPCCheck)
+            {
+                //var pcSales = _unitOfWork.ProductRepository.GetTopSellingProducts(start, end, ProductType.PC, 10);
+                //foreach (var sale in pcSales)
+                //{
+                //    PCSales.Add(sale.QuantitySold);
+                //    Labels.Add(sale.Product.Name);
+                //}
+            }
+
+            if (IsCPUCheck)
+            {
+                //var cpuSales = _unitOfWork.ProductRepository.GetTopSellingProducts(start, end, ProductType.CPU, 10);
+                //foreach (var sale in cpuSales)
+                //{
+                //    CPUSales.Add(sale.QuantitySold);
+                //    Labels.Add(sale.Product.Name);
+                //}
+            }
+
+            if (IsVGACheck)
+            {
+                //var vgaSales = _unitOfWork.ProductRepository.GetTopSellingProducts(start, end, ProductType.VGA, 10);
+                //foreach (var sale in vgaSales)
+                //{
+                //    VGASales.Add(sale.QuantitySold);
+                //    Labels.Add(sale.Product.Name);
+                //}
+            }
+
+            if (IsMonitorCheck)
+            {     
+            //    var monitorSales = _unitOfWork.ProductRepository.GetTopSellingProducts(start, end, ProductType.Monitor, 10);
+            //    foreach (var sale in monitorSales)
+            //    {
+            //        MonitorSales.Add(sale.QuantitySold);
+            //        Labels.Add(sale.Product.Name);
+            //    }
+            }
+
+            if (IsHarddiskCheck)
+            {
+                //var harddiskSales = _unitOfWork.ProductRepository.GetTopSellingProducts(start, end, ProductType.Harddisk, 10);
+                //foreach (var sale in harddiskSales)
+                //{
+                //    HarddiskSales.Add(sale.QuantitySold);
+                //    Labels.Add(sale.Product.Name);
+                //}
+            }
+            if (Labels.Count == 0)
+            {
+                MessageBox.Show("No sales found for the selected date range and product types!");
+            }
+            ChartTitle = $"Top 10 Best Selling Products ({StartTime.ToShortDateString()} - {EndTime.ToShortDateString()})";
         }
         private void addCommand()
         {
