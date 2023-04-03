@@ -135,6 +135,7 @@
                         Command="{Binding DeleteAllCommand}" />
                 <Button Content="Xác nhận"
                         Background="DarkOliveGreen"
+                        Command="{Binding PayCommand}"
                         Margin="40,0,0,0" />
             </StackPanel>
             <TextBlock Grid.Row="4"

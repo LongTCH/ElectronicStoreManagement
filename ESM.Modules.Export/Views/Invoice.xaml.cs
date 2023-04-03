@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace ESM.Modules.Export.Views
     /// <summary>
     /// Interaction logic for Invoice.xaml
     /// </summary>
-    public partial class Invoice : Page
+    public partial class Invoice : MetroWindow
     {
         public Invoice()
         {

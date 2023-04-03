@@ -72,7 +72,7 @@
                         Background="DodgerBlue"
                         IsDefault="True"
                         Content="ADD"
-                        Command="{Binding AddCommand}"/>
+                        Command="{Binding AddCommand}" />
                 <CheckBox Name="laptopCheckBox"
                           Content="LAPTOP"
                           IsChecked="{Binding IsLaptopCheck, UpdateSourceTrigger=PropertyChanged}"

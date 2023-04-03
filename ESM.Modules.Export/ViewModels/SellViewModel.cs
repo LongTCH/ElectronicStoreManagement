@@ -4,12 +4,15 @@ using ESM.Core.ShareStores;
 using ESM.Modules.DataAccess;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
+using ESM.Modules.Export.Views;
+using MaterialDesignThemes.Wpf;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Controls;
 
 namespace ESM.Modules.Export.ViewModels
 {
@@ -113,8 +116,9 @@ namespace ESM.Modules.Export.ViewModels
         }
         private void ExecutePay()
         {
-            saveBill();
+            new Invoice().ShowDialog();
         }
+
         private void saveBill()
         {
             List<BillProduct> list = new();
