@@ -62,4 +62,8 @@ public class MonitorRepository : BaseRepository<MonitorDTO>, IMonitorRepository
     {
         return GetSoldNumberYearDuration(startDate, endDate, ProductType.MONITOR);
     }
+    public IEnumerable<TopSellDTO> GetTopSoldProducts(DateTime startDate, DateTime endDate, int number)
+    {
+        return GetTopSoldProducts(startDate, endDate, ProductType.MONITOR, number);
+    }
 }

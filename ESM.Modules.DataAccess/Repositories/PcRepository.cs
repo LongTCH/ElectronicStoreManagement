@@ -61,4 +61,8 @@ public class PcRepository : BaseRepository<PcDTO>, IPcRepository
     {
         return GetSoldNumberYearDuration(startDate, endDate, ProductType.PC);
     }
+    public IEnumerable<TopSellDTO> GetTopSoldProducts(DateTime startDate, DateTime endDate, int number)
+    {
+        return GetTopSoldProducts(startDate, endDate, ProductType.PC, number);
+    }
 }

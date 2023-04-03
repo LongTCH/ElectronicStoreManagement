@@ -59,5 +59,8 @@ public class PccpuRepository : BaseRepository<PccpuDTO>, IPccpuRepository
     {
         return GetSoldNumberYearDuration(startDate, endDate, ProductType.CPU);
     }
-
+    public IEnumerable<TopSellDTO> GetTopSoldProducts(DateTime startDate, DateTime endDate, int number)
+    {
+        return GetTopSoldProducts(startDate, endDate, ProductType.CPU, number);
+    }
 }

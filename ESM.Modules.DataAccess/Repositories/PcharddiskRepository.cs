@@ -125,5 +125,8 @@ public class PcharddiskRepository : BaseRepository<PcharddiskDTO>, IPcharddiskRe
     {
         return GetSoldNumberYearDuration(startDate, endDate, ProductType.HARDDISK);
     }
-
+    public IEnumerable<TopSellDTO> GetTopSoldProducts(DateTime startDate, DateTime endDate, int number)
+    {
+        return GetTopSoldProducts(startDate, endDate, ProductType.HARDDISK, number);
+    }
 }
