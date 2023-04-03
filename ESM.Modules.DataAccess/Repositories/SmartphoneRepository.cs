@@ -65,5 +65,9 @@ namespace ESM.Modules.DataAccess.Repositories
         {
             return GetTopSoldProducts(startDate, endDate, ProductType.SMARTPHONE, number);
         }
+        public IEnumerable<RevenueDTO> GetRevenueWeekDuration(DateTime startDate, DateTime endDate)
+        {
+            return GetRevenueWeekDuration(startDate, endDate, ProductType.SMARTPHONE);
+        }
     }
 }

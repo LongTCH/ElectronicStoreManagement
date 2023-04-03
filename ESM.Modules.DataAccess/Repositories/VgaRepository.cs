@@ -64,4 +64,8 @@ public class VgaRepository : BaseRepository<VgaDTO>, IVgaRepository
     {
         return GetTopSoldProducts(startDate, endDate, ProductType.VGA, number);
     }
+    public IEnumerable<RevenueDTO> GetRevenueWeekDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetRevenueWeekDuration(startDate, endDate, ProductType.VGA);
+    }
 }

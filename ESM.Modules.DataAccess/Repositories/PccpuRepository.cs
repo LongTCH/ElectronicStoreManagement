@@ -63,4 +63,8 @@ public class PccpuRepository : BaseRepository<PccpuDTO>, IPccpuRepository
     {
         return GetTopSoldProducts(startDate, endDate, ProductType.CPU, number);
     }
+    public IEnumerable<RevenueDTO> GetRevenueWeekDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetRevenueWeekDuration(startDate, endDate, ProductType.CPU);
+    }
 }
