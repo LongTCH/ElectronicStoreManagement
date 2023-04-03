@@ -66,4 +66,9 @@ public class LaptopRepository : BaseRepository<LaptopDTO>, ILaptopRepository
         ++counter;
         return StaticData.IdPrefix[ProductType.LAPTOP] + counter.ToString().PadLeft(7, '0');
     }
+
+    public IEnumerable<TopSellDTO> GetTopSoldProducts(DateTime startDate, DateTime endDate, int number)
+    {
+        return GetTopSoldProducts(startDate, endDate, ProductType.LAPTOP, number);
+    }
 }

@@ -60,4 +60,8 @@ public class VgaRepository : BaseRepository<VgaDTO>, IVgaRepository
     {
         return GetSoldNumberYearDuration(startDate, endDate, ProductType.VGA);
     }
+    public IEnumerable<TopSellDTO> GetTopSoldProducts(DateTime startDate, DateTime endDate, int number)
+    {
+        return GetTopSoldProducts(startDate, endDate, ProductType.VGA, number);
+    }
 }

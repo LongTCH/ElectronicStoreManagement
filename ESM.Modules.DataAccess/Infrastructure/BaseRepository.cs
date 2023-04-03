@@ -138,5 +138,18 @@ namespace ESM.Modules.DataAccess.Infrastructure
             list.Sort();
             return list;
         }
+        protected IEnumerable<TopSellDTO> GetTopSoldProducts(DateTime startDate, DateTime endDate, ProductType type, int number)
+        {
+            return (from x in _context.Bills
+                        join y in _context.BillProducts
+                        on x.Id equals y.BillId
+                        where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate
+                        group y by y.ProductId into g
+                        select new TopSellDTO()
+                        {
+                            Name = g.Key,
+                            Number = g.Sum(x => x.Number)
+                        }).ToList();
+        }
     }
 }
