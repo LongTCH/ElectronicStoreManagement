@@ -47,7 +47,7 @@
                            VerticalAlignment="Center"
                            Margin="5" />
                 <DatePicker Name="startTimePicker"
-                            SelectedDate="{Binding startDate}"
+                            SelectedDate="{Binding startTime}"
                             Grid.Column="1"
                             Margin="5" />
                 <TextBlock Text="End Time:"
@@ -56,7 +56,7 @@
                            VerticalAlignment="Center"
                            Margin="5" />
                 <DatePicker Name="endTimePicker"
-                            SelectedDate="{Binding endDate}"
+                            SelectedDate="{Binding endTime}"
                             Grid.Row="1"
                             Grid.Column="1"
                             Margin="5" />

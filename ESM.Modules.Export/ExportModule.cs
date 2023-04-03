@@ -21,6 +21,7 @@ namespace ESM.Modules.Export
             _regionManager.RegisterViewWithContentRegion<SellView>();
 
             _regionManager.RegisterViewWithRegion("ReportTabRegion", typeof(ReportView));
+            _regionManager.RegisterViewWithRegion("ReportTabRegion", typeof(TopSellingReport));
             _regionManager.RegisterViewWithContentRegion<TabChartView>();
         }
 

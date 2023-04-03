@@ -118,7 +118,9 @@
                            Margin="0 0 0 10" />
                 <lvc:CartesianChart Margin="0,20,0,0"
                                     Series="{Binding Series}"
-                                    LegendLocation="Right"></lvc:CartesianChart>
+                                    DataTooltip="{x:Null}"
+                                    Hoverable="False"
+                                    LegendLocation="Right" />
             </Grid>
         </Grid>
     </Grid>
