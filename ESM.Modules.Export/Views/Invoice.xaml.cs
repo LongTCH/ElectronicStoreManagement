@@ -1,4 +1,5 @@
-﻿using MahApps.Metro.Controls;
+﻿using ESM.Core.ShareServices;
+using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,9 +22,22 @@ namespace ESM.Modules.Export.Views
     /// </summary>
     public partial class Invoice : MetroWindow
     {
-        public Invoice()
+        private readonly IModalService _modalService;
+        public Invoice(IModalService modalService)
         {
+            _modalService = modalService;
             InitializeComponent();
+        }
+
+        private void btnPrint_Click(object sender, RoutedEventArgs e)
+        {
+            PrintDialog printDialog = new PrintDialog();
+            if (printDialog.ShowDialog() == true)
+            {
+                btnPrint.Visibility = Visibility.Hidden;
+                printDialog.PrintVisual(print, "In Hóa đơn");
+                _modalService.ShowModal(ModalType.Information, "In thành công", "Thông báo");
+            }
         }
     }
 }

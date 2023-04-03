@@ -7,8 +7,6 @@
                  xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                  xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                  xmlns:local="clr-namespace:ESM.Modules.Export.Views"
-                 xmlns:prism="http://prismlibrary.com/"
-                 prism:ViewModelLocator.AutoWireViewModel="True"
                  mc:Ignorable="d"
                  Title="PrintPage"
                  FontFamily="Roboto"
@@ -23,9 +21,8 @@
                     <RowDefinition Height="200" />
                 </Grid.RowDefinitions>
                 <Button HorizontalAlignment="Right"
-                        Visibility="{Binding IsPrintShow, Converter={StaticResource BooleanToVisibilityConverter}}"
-                        Command="{Binding PrintCommand}"
-                        CommandParameter="{Binding ElementName=print}" />
+                        x:Name="btnPrint"
+                        Click="btnPrint_Click" />
                 <StackPanel Orientation="Horizontal"
                             Margin="30"
                             Grid.Row="0">

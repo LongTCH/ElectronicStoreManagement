@@ -116,7 +116,7 @@ namespace ESM.Modules.Export.ViewModels
         }
         private void ExecutePay()
         {
-            new Invoice().ShowDialog();
+            new Invoice(_modalService).ShowDialog();
         }
 
         private void saveBill()
