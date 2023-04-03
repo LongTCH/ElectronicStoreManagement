@@ -61,5 +61,9 @@ namespace ESM.Modules.DataAccess.Repositories
         {
             return GetSoldNumberYearDuration(startDate, endDate, ProductType.SMARTPHONE);
         }
+        public IEnumerable<TopSellDTO> GetTopSoldProducts(DateTime startDate, DateTime endDate, int number)
+        {
+            return GetTopSoldProducts(startDate, endDate, ProductType.SMARTPHONE, number);
+        }
     }
 }
