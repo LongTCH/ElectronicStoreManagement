@@ -164,7 +164,7 @@
                          FontSize="13">Tên khách hàng:</TextBox>
                 <TextBox Margin="0,5"
                          Width="200"
-                         Text="{Binding CustomerName, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" />
+                         Text="{Binding CustomerName, UpdateSourceTrigger=PropertyChanged}" />
             </DockPanel>
             <DockPanel>
                 <TextBox Margin="30,5,0,0"

@@ -7,6 +7,7 @@ namespace ESM.Modules.DataAccess.Repositories
 {
     public interface IBillRepository : IBaseRepository<Bill>
     {
+        int AddBillAndGetID(Bill bill);
     }
     public class BillRepository : BaseRepository<Bill>, IBillRepository
     {
@@ -49,6 +50,12 @@ namespace ESM.Modules.DataAccess.Repositories
                 _context.Smartphones.Where(p => p.Id == id).First().Remain -= number;
             else if (id.StartsWith(StaticData.IdPrefix[ProductType.VGA]))
                 _context.Vgas.Where(p => p.Id == id).First().Remain -= number;
+        }
+
+        public int AddBillAndGetID(Bill bill)
+        {
+            Add(bill);
+            return bill.Id;
         }
     }
 }
