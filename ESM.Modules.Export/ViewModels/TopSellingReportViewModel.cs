@@ -5,6 +5,8 @@ using ESM.Modules.DataAccess;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using LiveCharts;
+using LiveCharts.Wpf;
+using LiveCharts.Wpf.Charts.Base;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -70,15 +72,21 @@ namespace ESM.Modules.Export.ViewModels
             }
             if (IsLaptopCheck) 
             {
-                //laptopSales = _unitOfWork.Laptops.GetTopSellingProducts(start, end, ProductType.LAPTOP, 10);
-                //foreach (var sale in laptopsales)
-                //{
-                //    laptopsales.add(sale.quantitysold);
-                //    labels.add(sale.product.name);
-                //}
+                var laptopSales = _unitOfWork.Laptops.GetTopSoldProducts(start, end, 10);
+                foreach (var sale in laptopSales)
+                {
+                    LaptopSales.Add(sale.Number);
+                    Labels.Add(sale.Name);
+                }
             }
             if (IsSmartphoneCheck)
             {
+                var smartSales = _unitOfWork.Laptops.GetTopSoldProducts(start, end, 10);
+                foreach (var sale in smartSales)
+                {
+                    LaptopSales.Add(sale.Number);
+                    Labels.Add(sale.Name);
+                }
                 //smartphoneSales = _unitOfWork.ProductRepository.GetTopSellingProducts(start, end, ProductType.Smartphone, 10);
                 //foreach (var sale in smartphoneSales)
                 //{
@@ -129,12 +137,12 @@ namespace ESM.Modules.Export.ViewModels
 
             if (IsHarddiskCheck)
             {
-                //harddiskSales = _unitOfWork.ProductRepository.GetTopSellingProducts(start, end, ProductType.Harddisk, 10);
-                //foreach (var sale in harddiskSales)
-                //{
-                //    HarddiskSales.Add(sale.QuantitySold);
-                //    Labels.Add(sale.Product.Name);
-                //}
+                var harddiskSales = _unitOfWork.Pcharddisks.GetTopSoldProducts(start, end, 10);
+                foreach (var sale in harddiskSales)
+                {
+                    HarddiskSales.Add(sale.Number);
+                    Labels.Add(sale.Name);
+                }
             }
             if (Labels.Count == 0)
             {
@@ -151,6 +159,12 @@ namespace ESM.Modules.Export.ViewModels
             bool showVGA = IsVGACheck;
             bool showMonitor = IsMonitorCheck;
             bool showHarddisk = IsHarddiskCheck;
+            var chart = new LiveCharts.Wpf.CartesianChart();
+            var laptopSeries = new LiveCharts.Wpf.ColumnSeries
+            {
+                Title = "Laptop",
+                Values = new LiveCharts.ChartValues<int>()
+            };
             if (showLaptop) {
                
             }
@@ -159,7 +173,10 @@ namespace ESM.Modules.Export.ViewModels
             if (showCPU) { }
             if (showVGA) { }
             if (showMonitor) { }
-            if(showHarddisk) { }
+            if(showHarddisk) {
+               
+            }
+            Series = series;
         }
         public ChartValues<int> Sales { get; set; }   
         public DateTime StartTime { get; set; }
@@ -171,13 +188,13 @@ namespace ESM.Modules.Export.ViewModels
         public bool IsVGACheck { get; set; }
         public bool IsMonitorCheck { get; set; }
         public bool IsHarddiskCheck { get; set; }
-        public object laptopSales { get; set; }
-        public object smartphoneSales { get; set; }
-        public object pcSales { get; set; }
-        public object cpuSales { get; set; }
-        public object vgaSales { get; set; }
-        public object monitorSales { get; set; }
-        public object harddiskSales { get; set; }
+        //public object laptopSales { get; set; }
+        //public object smartphoneSales { get; set; }
+        //public object pcSales { get; set; }
+        //public object cpuSales { get; set; }
+        //public object vgaSales { get; set; }
+        //public object monitorSales { get; set; }
+        //public object harddiskSales { get; set; }
 
     }
 }
