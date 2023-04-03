@@ -145,11 +145,19 @@
                     </mah:HamburgerMenuIconItem>
                     <mah:HamburgerMenuIconItem Label="Test"
                                                Command="{Binding NavigateCommand}"
-                                               CommandParameter="{x:Static esmcore:ViewNames.ReportView}">
+                                               CommandParameter="{x:Static esmcore:ViewNames.TabChartView}">
                         <mah:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconFontisto Width="22"
                                                         Height="22"
                                                         Kind="AreaChart" />
+                        </mah:HamburgerMenuIconItem.Icon>
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem Label="TestFeature"
+                                               Command="{Binding Test}">
+                        <mah:HamburgerMenuIconItem.Icon>
+                            <iconPacks:PackIconFontisto Width="22"
+                                                        Height="22"
+                                                        Kind="Taxi" />
                         </mah:HamburgerMenuIconItem.Icon>
                     </mah:HamburgerMenuIconItem>
                 </mah:HamburgerMenuItemCollection>

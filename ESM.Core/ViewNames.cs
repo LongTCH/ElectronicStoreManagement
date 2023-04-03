@@ -23,6 +23,8 @@
         public static readonly string ProductDetailView = "ProductDetailView";
         public static readonly string SellView = "SellView";
         public static readonly string ReportView = "ReportView";
+        public static readonly string TopSellingReportView = "TopSellingReportView";
+        public static readonly string TabChartView = "TabChartView";
         public static readonly string Invoice = "Invoice";
     }
 }

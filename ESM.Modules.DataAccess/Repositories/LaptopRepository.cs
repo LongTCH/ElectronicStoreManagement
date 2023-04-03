@@ -1,9 +1,10 @@
 ﻿using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ESM.Modules.DataAccess.Repositories;
-public interface ILaptopRepository : IBaseRepository<LaptopDTO>
+public interface ILaptopRepository : IBaseRepository<LaptopDTO>, IProductRepository
 {
     string GetSuggestID();
 }
@@ -36,6 +37,27 @@ public class LaptopRepository : BaseRepository<LaptopDTO>, ILaptopRepository
                     Unit = laptop.Unit
                 }).ToList();
     }
+
+    public IEnumerable<ReportMock> GetSoldNumberMonthDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetSoldNumberMonthDuration(startDate, endDate, ProductType.LAPTOP);
+    }
+
+    public IEnumerable<ReportMock> GetSoldNumberQuarterDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetSoldNumberQuarterDuration(startDate, endDate, ProductType.LAPTOP);
+    }
+
+    public IEnumerable<ReportMock> GetSoldNumberWeekDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetSoldNumberWeekDuration(startDate, endDate, ProductType.LAPTOP);
+    }
+
+    public IEnumerable<ReportMock> GetSoldNumberYearDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetSoldNumberYearDuration(startDate, endDate, ProductType.LAPTOP);
+    }
+
     public string GetSuggestID()
     {
         string? NewID = _context.Laptops.OrderBy(p => p.Id).LastOrDefault()?.Id;
