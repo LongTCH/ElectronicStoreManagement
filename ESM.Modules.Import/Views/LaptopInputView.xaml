@@ -4,6 +4,7 @@
              xmlns:prism="http://prismlibrary.com/"
              Tag="{Binding Header}"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto"
@@ -122,11 +123,11 @@
                         <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
                     <DockPanel Grid.Column="0">
-                        <materialDesign:PackIcon Kind="Memory"
-                                                 VerticalAlignment="Bottom"
-                                                 Margin="0,0,0,10"
-                                                 Height="30"
-                                                 Width="30" />
+                        <iconPacks:PackIconFontAwesome Margin="0,0,0,10"
+                                                       Height="30"
+                                                       Width="30"
+                                                       Kind="MemorySolid"
+                                                       VerticalAlignment="Bottom" />
                         <TextBox materialDesign:HintAssist.Hint="RAM"
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  Margin="20,10"
@@ -167,7 +168,8 @@
                                  Text="{Binding Graphic, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
-                                 FontSize="18" />
+                                 FontSize="18"
+                                 />
                     </DockPanel>
                     <DockPanel Grid.Column="1">
                         <materialDesign:PackIcon Kind="Cash"
