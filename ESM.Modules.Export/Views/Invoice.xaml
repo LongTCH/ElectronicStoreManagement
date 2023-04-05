@@ -11,7 +11,7 @@
                  Title="PrintPage"
                  FontFamily="Roboto"
                  Width="550"
-                 ResizeMode="NoResize"
+                 MinHeight="600"
                  Background="White">
     <StackPanel x:Name="print"
                 Height="auto">
