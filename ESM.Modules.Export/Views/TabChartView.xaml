@@ -1,11 +1,13 @@
 ﻿<UserControl x:Class="ESM.Modules.Export.Views.TabChartView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:prism="http://prismlibrary.com/"             
+             xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True">
-    <TabControl Margin="5"
-                Style="{DynamicResource MaterialDesignUniformTabControl}"
-                prism:RegionManager.RegionName="ReportTabRegion"
-                VerticalAlignment="Stretch"
-                BorderThickness="0" />
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <TabControl Margin="5"
+                    Style="{DynamicResource MaterialDesignUniformTabControl}"
+                    prism:RegionManager.RegionName="ReportTabRegion"
+                    VerticalAlignment="Stretch"
+                    BorderThickness="0" />
+    </ScrollViewer>
 </UserControl>

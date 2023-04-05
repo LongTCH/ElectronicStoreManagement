@@ -23,18 +23,7 @@ public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRe
     {
         var hd = _context.Pcharddisks.AsQueryable()
                .First(p => p.Id == entity.Id);
-        hd.AvatarPath = entity.AvatarPath;
-        hd.Company = entity.Company;
-        hd.Connect = entity.Connect;
-        hd.DetailPath = entity.DetailPath;
-        hd.Discount = entity.Discount;
-        hd.ImagePath = entity.ImagePath;
-        hd.Name = entity.Name;
-        hd.Price = entity.Price;
-        hd.Remain = entity.Remain;
-        hd.Unit = entity.Unit;
-        hd.Storage = entity.Storage;
-        hd.Series = entity.Series;
+        _context.Entry(hd).CurrentValues.SetValues(entity);
         return null;
     }
     public override IEnumerable<Pcharddisk>? GetAll()

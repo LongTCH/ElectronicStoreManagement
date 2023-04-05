@@ -17,6 +17,18 @@ namespace ESM.Modules.DataAccess.Repositories
                     .Where(smartphone => smartphone.Remain > -1)
                     .ToList();
         }
+        public override object? Add(Smartphone entity)
+        {
+            _context.Smartphones.Add(entity);
+            return null;
+        }
+        public override object? Update(Smartphone entity)
+        {
+            var hd = _context.Smartphones.AsQueryable()
+                   .First(p => p.Id == entity.Id);
+            _context.Entry(hd).CurrentValues.SetValues(entity);
+            return null;
+        }
         public string GetSuggestID()
         {
             return GetSuggestID(ProductType.SMARTPHONE);
