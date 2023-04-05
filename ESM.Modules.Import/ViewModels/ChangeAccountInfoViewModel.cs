@@ -44,6 +44,7 @@ namespace ESM.Modules.Import.ViewModels
             FindAccountCommand = new DelegateCommand(async () => await findAccountCommand());
         }
         private string CurrentAccoutId;
+        private string CurrentAccountPasswordHash;
         private IEnumerable<City>? cities;
         public IEnumerable<City>? Cities
         {
@@ -184,7 +185,7 @@ namespace ESM.Modules.Import.ViewModels
             Account accountDTO = new()
             {
                 Id = Id!,
-                PasswordHash = "00000000000000000",
+                PasswordHash = CurrentAccountPasswordHash,
                 FirstName = FirstName!,
                 LastName = LastName!,
                 EmailAddress = Email!,
@@ -234,6 +235,7 @@ namespace ESM.Modules.Import.ViewModels
                 return;
             }
             CurrentAccoutId = CurrentAccout.Id;
+            CurrentAccountPasswordHash = CurrentAccout.PasswordHash;
             FirstName = CurrentAccout.FirstName;
             LastName = CurrentAccout.LastName;
             Email = CurrentAccout.EmailAddress;
