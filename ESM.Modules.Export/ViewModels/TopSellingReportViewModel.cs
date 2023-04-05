@@ -5,8 +5,10 @@ using ESM.Modules.DataAccess;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using LiveCharts;
+using LiveCharts.Helpers;
 using LiveCharts.Wpf;
 using LiveCharts.Wpf.Charts.Base;
+using Newtonsoft.Json.Linq;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -14,8 +16,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Windows;
+using System.Windows.Documents;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace ESM.Modules.Export.ViewModels
@@ -24,45 +28,18 @@ namespace ESM.Modules.Export.ViewModels
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IModalService _modalService;
+
         public TopSellingReportViewModel(IUnitOfWork unitOfWork, IModalService modalService)
         {
             _unitOfWork = unitOfWork;
             _modalService = modalService;
             Test = new(execute);
             AddCommand = new(addCommand);
-
-            LaptopSales = new ChartValues<int>();
-            SmartphoneSales = new ChartValues<int>();
-            PCSales = new ChartValues<int>();
-            CPUSales = new ChartValues<int>();
-            VGASales = new ChartValues<int>();
-            MonitorSales = new ChartValues<int>();
-            HarddiskSales = new ChartValues<int>();
-            StartTime = new DateTime(2023, 1, 1);
-            EndTime = new DateTime(2023, 4, 1);
         }
         public DelegateCommand<string> Test { get; }
         public DelegateCommand AddCommand { get; }
-        public ChartValues<int> LaptopSales { get; set; }
-        public ChartValues<int> SmartphoneSales { get; set; }
-        public ChartValues<int> PCSales { get; set; }
-        public ChartValues<int> CPUSales { get; set; }
-        public ChartValues<int> VGASales { get; set; }
-        public ChartValues<int> MonitorSales { get; set; }
-        public ChartValues<int> HarddiskSales { get; set; }
-        public ObservableCollection<string> Labels { get; set; } = new ObservableCollection<string>();
-        public string ChartTitle { get; set; } = "Top 10 Best Selling Products";
-        private void execute(string w) 
-        { 
-            LaptopSales.Clear();
-            SmartphoneSales.Clear();
-            PCSales.Clear();
-            CPUSales.Clear();
-            VGASales.Clear();
-            MonitorSales.Clear();
-            HarddiskSales.Clear();
-            Labels.Clear();
-  
+        private void execute(string w)
+        {
             DateTime start = StartTime;
             DateTime end = EndTime;
             if (StartTime > EndTime)
@@ -70,85 +47,27 @@ namespace ESM.Modules.Export.ViewModels
                 MessageBox.Show("invalid date range!");
                 return;
             }
-            if (IsLaptopCheck) 
-            {
-                var laptopSales = _unitOfWork.Laptops.GetTopSoldProducts(start, end, 10);
-                foreach (var sale in laptopSales)
-                {
-                    LaptopSales.Add(sale.Number);
-                    Labels.Add(sale.Name);
-                }
-            }
+            if (IsLaptopCheck)
+                LaptopList = _unitOfWork.Laptops.GetTopSoldProducts(start, end, 10);
             if (IsSmartphoneCheck)
-            {
-                var smartSales = _unitOfWork.Laptops.GetTopSoldProducts(start, end, 10);
-                foreach (var sale in smartSales)
-                {
-                    LaptopSales.Add(sale.Number);
-                    Labels.Add(sale.Name);
-                }
-                //smartphoneSales = _unitOfWork.ProductRepository.GetTopSellingProducts(start, end, ProductType.Smartphone, 10);
-                //foreach (var sale in smartphoneSales)
-                //{
-                //    SmartphoneSales.Add(sale.QuantitySold);
-                //    Labels.Add(sale.Product.Name);
-                //}
-            }
-
+                SmartphoneList = _unitOfWork.Smartphones.GetTopSoldProducts(start, end, 10);
             if (IsPCCheck)
-            {
-                // pcSales = _unitOfWork.ProductRepository.GetTopSellingProducts(start, end, ProductType.PC, 10);
-                //foreach (var sale in pcSales)
-                //{
-                //    PCSales.Add(sale.QuantitySold);
-                //    Labels.Add(sale.Product.Name);
-                //}
-            }
-
+                PCList = _unitOfWork.Pcs.GetTopSoldProducts(start, end, 10);
             if (IsCPUCheck)
-            {
-                //cpuSales = _unitOfWork.ProductRepository.GetTopSellingProducts(start, end, ProductType.CPU, 10);
-                //foreach (var sale in cpuSales)
-                //{
-                //    CPUSales.Add(sale.QuantitySold);
-                //    Labels.Add(sale.Product.Name);
-                //}
-            }
-
+                CPUList = _unitOfWork.Pccpus.GetTopSoldProducts(start, end, 10);
             if (IsVGACheck)
-            {
-                //vgaSales = _unitOfWork.ProductRepository.GetTopSellingProducts(start, end, ProductType.VGA, 10);
-                //foreach (var sale in vgaSales)
-                //{
-                //    VGASales.Add(sale.QuantitySold);
-                //    Labels.Add(sale.Product.Name);
-                //}
-            }
-
+                VGAList = _unitOfWork.Vgas.GetTopSoldProducts(start, end, 10);
             if (IsMonitorCheck)
-            {     
-               // monitorSales = _unitOfWork.ProductRepository.GetTopSellingProducts(start, end, ProductType.Monitor, 10);
-                //foreach (var sale in monitorSales)
-                //{
-                //    MonitorSales.Add(sale.QuantitySold);
-                //    Labels.Add(sale.Product.Name);
-                //}
-            }
-
+                MonitorList = _unitOfWork.Monitors.GetTopSoldProducts(start, end, 10);
             if (IsHarddiskCheck)
-            {
-                var harddiskSales = _unitOfWork.Pcharddisks.GetTopSoldProducts(start, end, 10);
-                foreach (var sale in harddiskSales)
-                {
-                    HarddiskSales.Add(sale.Number);
-                    Labels.Add(sale.Name);
-                }
-            }
-            if (Labels.Count == 0)
-            {
-                MessageBox.Show("No sales found for the selected date range and product types!");
-            }
-            ChartTitle = $"Top 10 Best Selling Products ({StartTime.ToShortDateString()} - {EndTime.ToShortDateString()})";
+                HarddiskList = _unitOfWork.Pcharddisks.GetTopSoldProducts(start, end, 10);
+
+        }
+        private SeriesCollection series;
+        public SeriesCollection Series
+        {
+            get => series;
+            set => SetProperty(ref series, value);
         }
         private void addCommand()
         {
@@ -159,26 +78,148 @@ namespace ESM.Modules.Export.ViewModels
             bool showVGA = IsVGACheck;
             bool showMonitor = IsMonitorCheck;
             bool showHarddisk = IsHarddiskCheck;
-            var chart = new LiveCharts.Wpf.CartesianChart();
-            var laptopSeries = new LiveCharts.Wpf.ColumnSeries
+            var series = new SeriesCollection();
+            var chartValues = new ChartValues<int>();
+            var labels = new List<string>();
+            if (showLaptop)
             {
-                Title = "Laptop",
-                Values = new LiveCharts.ChartValues<int>()
-            };
-            if (showLaptop) {
-               
+                var laptopSales = _unitOfWork.Laptops.GetTopSoldProducts(StartTime, EndTime, 10);
+                foreach (var sale in laptopSales)
+                {
+                    chartValues.Add(sale.Number);
+                    labels.Add(sale.Name);
+                }
+                series.Add(new RowSeries
+                {
+                    Title = "Laptop",
+                    Values = chartValues,
+                    DataLabels = true,
+                    LabelPoint = point => $"{point.Y}",
+                }); ;
+
             }
-            if (showSmartphone) { }
-            if (showPC) { }
-            if (showCPU) { }
-            if (showVGA) { }
-            if (showMonitor) { }
-            if(showHarddisk) {
-               
+            else if (showSmartphone)
+            {
+                var smartphoneSales = _unitOfWork.Smartphones.GetTopSoldProducts(StartTime, EndTime, 10);
+                foreach (var sale in smartphoneSales)
+                {
+                    chartValues.Add(sale.Number);
+                    labels.Add(sale.Name);
+                }
+                series.Add(new RowSeries
+                {
+                    Title = "smartphone",
+                    Values = chartValues,
+                    DataLabels = true,
+                    LabelsPosition = BarLabelPosition.Top,
+                    LabelPoint = point => $"{point.X}",
+                });
+            }
+            else if (showPC)
+            {
+                var pcSales = _unitOfWork.Pcs.GetTopSoldProducts(StartTime, EndTime, 10);
+                foreach (var sale in pcSales)
+                {
+                    chartValues.Add(sale.Number);
+                    labels.Add(sale.Name);
+                }
+                series.Add(new RowSeries
+                {
+                    Title = "pc",
+                    Values = chartValues,
+                    DataLabels = true,
+                    LabelsPosition = BarLabelPosition.Top,
+                    LabelPoint = point => $"{point.X}",
+                });
+            }
+            else if (showCPU)
+            {
+                var cpuSales = _unitOfWork.Pccpus.GetTopSoldProducts(StartTime, EndTime, 10);
+                foreach (var sale in cpuSales)
+                {
+                    chartValues.Add(sale.Number);
+                    labels.Add(sale.Name);
+                }
+                series.Add(new RowSeries
+                {
+                    Title = "cpu",
+                    Values = chartValues,
+                    DataLabels = true,
+                    LabelsPosition = BarLabelPosition.Top,
+                    LabelPoint = point => $"{point.X}",
+                });
+            }
+            else if (showVGA)
+            {
+                var vgaSales = _unitOfWork.Vgas.GetTopSoldProducts(StartTime, EndTime, 10);
+                foreach (var sale in vgaSales)
+                {
+                    chartValues.Add(sale.Number);
+                    labels.Add(sale.Name);
+                }
+                series.Add(new RowSeries
+                {
+                    Title = "vga",
+                    Values = chartValues,
+                    DataLabels = true,
+                    LabelsPosition = BarLabelPosition.Top,
+                    LabelPoint = point => $"{point.X}",
+                });
+            }
+            else if (showMonitor)
+            {
+                var monitorSales = _unitOfWork.Monitors.GetTopSoldProducts(StartTime, EndTime, 10);
+                foreach (var sale in monitorSales)
+                {
+                    chartValues.Add(sale.Number);
+                    labels.Add(sale.Name);
+                }
+                series.Add(new RowSeries
+                {
+                    Title = "monitor",
+                    Values = chartValues,
+                    DataLabels = true,
+                    LabelsPosition = BarLabelPosition.Top,
+                    LabelPoint = point => $"{point.X}",
+                });
+            }
+            else if (showHarddisk)
+            {
+                var harddiskSales = _unitOfWork.Pcharddisks.GetTopSoldProducts(StartTime, EndTime, 10);
+                foreach (var sale in harddiskSales)
+                {
+                    chartValues.Add(sale.Number);
+                    labels.Add(sale.Name);
+                }
+                series.Add(new RowSeries
+                {
+                    Title = "harddisk",
+                    Values = chartValues,
+                    DataLabels = true,
+                    LabelsPosition = BarLabelPosition.Top,
+                    LabelPoint = point => $"{point.X}",
+                });
             }
             Series = series;
         }
-        public ChartValues<int> Sales { get; set; }   
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            StartTime = DateTime.Now.AddMonths(-1);
+            EndTime = DateTime.Now;
+            RaisePropertyChanged(nameof(StartTime));
+            RaisePropertyChanged(nameof(EndTime));
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+
+        }
+
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public bool IsLaptopCheck { get; set; }
@@ -188,13 +229,12 @@ namespace ESM.Modules.Export.ViewModels
         public bool IsVGACheck { get; set; }
         public bool IsMonitorCheck { get; set; }
         public bool IsHarddiskCheck { get; set; }
-        //public object laptopSales { get; set; }
-        //public object smartphoneSales { get; set; }
-        //public object pcSales { get; set; }
-        //public object cpuSales { get; set; }
-        //public object vgaSales { get; set; }
-        //public object monitorSales { get; set; }
-        //public object harddiskSales { get; set; }
-
+        public object LaptopList { get; set; }
+        public object SmartphoneList { get; set; }
+        public object PCList { get; set; }
+        public object CPUList { get; set; }
+        public object VGAList { get; set; }
+        public object MonitorList { get; set; }
+        public object HarddiskList { get; set; }
     }
 }
