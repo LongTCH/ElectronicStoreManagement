@@ -20,12 +20,13 @@ namespace ESM.Modules.DataAccess.Repositories
                 .Include(b => b.BillProducts)
                 .FirstOrDefault();
         }
-        public override void Add(Bill entity)
+        public override object? Add(Bill entity)
         {
             entity.Id = GetNewID();
             foreach (var item in entity.BillProducts)
                 DecreaseRemain(item.ProductId, item.Number);
             _context.Bills.Add(entity);
+            return entity.Id;
         }
         private int GetNewID()
         {

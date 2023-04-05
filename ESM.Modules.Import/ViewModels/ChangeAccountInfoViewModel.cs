@@ -14,6 +14,7 @@ using ESM.Modules.DataAccess.DTOs;
 using System.IO;
 using static ESM.Modules.Import.Utilities.StaticData;
 using ESM.Core.ShareStores;
+using ESM.Modules.DataAccess.Models;
 
 namespace ESM.Modules.Import.ViewModels
 {
@@ -43,6 +44,7 @@ namespace ESM.Modules.Import.ViewModels
             FindAccountCommand = new DelegateCommand(async () => await findAccountCommand());
         }
         private string CurrentAccoutId;
+        private string CurrentAccountPasswordHash;
         private IEnumerable<City>? cities;
         public IEnumerable<City>? Cities
         {
@@ -180,10 +182,10 @@ namespace ESM.Modules.Import.ViewModels
                 _modalService.ShowModal(ModalType.Error, "Phải lớn hơn ngày hiện tại", "Ngày sinh không hợp lệ");
                 return;
             }
-            AccountDTO accountDTO = new()
+            Account accountDTO = new()
             {
                 Id = Id!,
-                PasswordHash = "00000000000000000",
+                PasswordHash = CurrentAccountPasswordHash,
                 FirstName = FirstName!,
                 LastName = LastName!,
                 EmailAddress = Email!,
@@ -223,7 +225,7 @@ namespace ESM.Modules.Import.ViewModels
         }
         private async Task findAccountCommand()
         {
-            Task<AccountDTO> task = new(() => _unitOfWork.Accounts.GetById(Id));
+            Task<Account> task = new(() => _unitOfWork.Accounts.GetById(Id));
             task.Start();
             await task;
             var CurrentAccout = task.Result;
@@ -233,6 +235,7 @@ namespace ESM.Modules.Import.ViewModels
                 return;
             }
             CurrentAccoutId = CurrentAccout.Id;
+            CurrentAccountPasswordHash = CurrentAccout.PasswordHash;
             FirstName = CurrentAccout.FirstName;
             LastName = CurrentAccout.LastName;
             Email = CurrentAccout.EmailAddress;

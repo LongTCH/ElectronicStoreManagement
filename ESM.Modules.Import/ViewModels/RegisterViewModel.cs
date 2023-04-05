@@ -3,6 +3,7 @@ using ESM.Core.ShareServices;
 using ESM.Core.ShareStores.Address;
 using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
+using ESM.Modules.DataAccess.Models;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -168,7 +169,7 @@ namespace ESM.Modules.Import.ViewModels
                 _modalService.ShowModal(ModalType.Error, "Must be earlier than current day", "Birthday Invalid");
                 return;
             }
-            AccountDTO accountDTO = new()
+            Account accountDTO = new()
             {
                 Id = SuggestID!,
                 PasswordHash = "00000000000000000",

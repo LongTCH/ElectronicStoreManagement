@@ -1,4 +1,8 @@
-﻿using System.Windows.Controls;
+﻿using LiveCharts.Wpf;
+using LiveCharts;
+using System;
+using System.Windows.Controls;
+using System.Windows;
 
 namespace ESM.Modules.Export.Views
 {

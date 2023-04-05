@@ -1,12 +1,13 @@
 ﻿using ESM.Modules.DataAccess.DTOs;
+using ESM.Modules.DataAccess.Models;
 using System;
 
 namespace ESM.Core.ShareStores
 {
     public class AccountStore
     {
-        private AccountDTO? _currentAccount;
-        public AccountDTO? CurrentAccount
+        private Account? _currentAccount;
+        public Account? CurrentAccount
         {
             get => _currentAccount;
             set
@@ -18,8 +19,8 @@ namespace ESM.Core.ShareStores
 
         public bool IsLoggedIn => CurrentAccount != null;
         public bool IsAdmin => CurrentAccount != null && CurrentAccount.Id.StartsWith("0");
-        public bool IsSellStaff => CurrentAccount != null && CurrentAccount.Id.StartsWith("1");
-        public bool IsTypingStaff => CurrentAccount != null && CurrentAccount.Id.StartsWith("2");
+        public bool IsSellStaff => CurrentAccount != null && CurrentAccount.Id.StartsWith("1") || IsAdmin;
+        public bool IsTypingStaff => CurrentAccount != null && CurrentAccount.Id.StartsWith("2") || IsAdmin;
 
         public event Action? CurrentStoreChanged;
         public void Logout()

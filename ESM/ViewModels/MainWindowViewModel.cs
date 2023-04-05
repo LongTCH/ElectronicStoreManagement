@@ -1,6 +1,7 @@
 ﻿using ESM.Core;
 using ESM.Core.ShareServices;
 using ESM.Core.ShareStores;
+using ESM.Modules.DataAccess.Infrastructure;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -31,7 +32,6 @@ namespace ESM.ViewModels
             ResetIndexCommand = new(resetIndex);
             _applicationCommand.ResetIndexCommand.RegisterCommand(ResetIndexCommand);
             _applicationCommand.ChangeModalState.RegisterCommand(new DelegateCommand(() => RaisePropertyChanged(nameof(IsModalOpen))));
-            _accountStore.CurrentStoreChanged += () => { if (!_accountStore.IsLoggedIn) _regionManager.ResetTrace(); };
             NavigateCommand = new DelegateCommand<string>(ExecuteNavigateCommand).ObservesCanExecute(() => CanNavigate);
             HostCommand = new(ExecuteHostCommand);
             LogoutCommand = new(ExecutelogoutCommand);
@@ -46,6 +46,7 @@ namespace ESM.ViewModels
                 RaisePropertyChanged(nameof(IsAdmin));
                 RaisePropertyChanged(nameof(IsSellStaff));
                 RaisePropertyChanged(nameof(IsTypingStaff));
+                if (!_accountStore.IsLoggedIn) _regionManager.ResetTrace();
             };
         }
         private bool CanNavigate { get; set; } = true;
@@ -109,7 +110,9 @@ namespace ESM.ViewModels
         private void test()
         {
             //_modalService.ShowModal(ViewNames.ProductDetailView, null);
-            _regionManager.RequestNavigateContentRegionWithTrace(ViewNames.SellView);
+            //_regionManager.RequestNavigateContentRegionWithTrace(ViewNames.SellView);
+            IUnitOfWork t = new UnitOfWork(new Modules.DataAccess.Models.ESMDbContext());
+            var l = t.Pcharddisks.GetSoldNumberMonthDuration(DateTime.Now.AddYears(-2), DateTime.Now);
         }
 
         #region DialogService

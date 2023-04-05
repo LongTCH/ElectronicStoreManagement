@@ -1,17 +1,13 @@
-﻿<UserControl x:Class="ESM.Modules.Export.Views.ReportView"
+﻿<UserControl x:Class="ESM.Modules.Export.Views.TopSellingReport"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:prism="http://prismlibrary.com/"
-             xmlns:localvm="clr-namespace:ESM.Modules.Export.ViewModels"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ESM.Modules.Export.Views"
+             mc:Ignorable="d"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-             mc:Ignorable="d"
-             d:DataContext="{d:DesignInstance localvm:ReportViewModel}"
-             prism:ViewModelLocator.AutoWireViewModel="True"
-             d:DesignHeight="450"
-             d:DesignWidth="800"
+             d:DesignHeight="450" d:DesignWidth="800"
              Background="White">
     <Grid Background="AliceBlue">
         <Grid>
@@ -29,7 +25,7 @@
                         Orientation="Horizontal">
                 <Label Height="30"
                        Padding="0">
-                    <materialDesign:PackIcon Kind="ChartAreaspline"
+                    <materialDesign:PackIcon Kind="BarChart"
                                              Width="30"
                                              Height="30" />
                 </Label>
@@ -72,38 +68,38 @@
                         Background="DodgerBlue"
                         IsDefault="True"
                         Content="ADD"
-                        Command="{Binding AddCommand}" />
-                <CheckBox Name="laptopCheckBox"
+                        Command="{Binding AddCommand}"/>
+                <RadioButton Name="laptopRadioButton"
                           Content="LAPTOP"
                           IsChecked="{Binding IsLaptopCheck, UpdateSourceTrigger=PropertyChanged}"
                           FontWeight="Bold"
                           Margin="5" />
-                <CheckBox Name="smartphoneCheckBox"
+                <RadioButton Name="smartphoneRadioButton"
                           Content="SMARTPHONE"
                           IsChecked="{Binding IsSmartphoneCheck, UpdateSourceTrigger=PropertyChanged}"
                           FontWeight="Bold"
                           Margin="5" />
-                <CheckBox Name="pcCheckBox"
+                <RadioButton Name="pcRadioButton"
                           IsChecked="{Binding IsPCCheck, UpdateSourceTrigger=PropertyChanged}"
                           Content="PC"
                           FontWeight="Bold"
                           Margin="5" />
-                <CheckBox Name="cpuCheckBox"
+                <RadioButton Name="cpuRadioButton"
                           IsChecked="{Binding IsCPUCheck, UpdateSourceTrigger=PropertyChanged}"
                           Content="CPU"
                           FontWeight="Bold"
                           Margin="5" />
-                <CheckBox Name="vgaCheckBox"
+                <RadioButton Name="vgaRadioButton"
                           IsChecked="{Binding IsVGACheck, UpdateSourceTrigger=PropertyChanged}"
                           Content="VGA"
                           FontWeight="Bold"
                           Margin="5" />
-                <CheckBox Name="monitorCheckBox"
+                <RadioButton Name="monitorRadioButton"
                           IsChecked="{Binding IsMonitorCheck,UpdateSourceTrigger=PropertyChanged}"
                           Content="MONITOR"
                           FontWeight="Bold"
                           Margin="5" />
-                <CheckBox Name="harddiskCheckBox"
+                <RadioButton Name="harddiskRadioButton"
                           IsChecked="{Binding IsHarddiskCheck, UpdateSourceTrigger=PropertyChanged}"
                           Content="HARDDISK"
                           FontWeight="Bold"
@@ -116,11 +112,10 @@
                 <TextBlock Text="Sales by catory"
                            FontWeight="Bold"
                            Margin="0 0 0 10" />
-                <lvc:CartesianChart Margin="0,20,0,0"
+                <lvc:CartesianChart LegendLocation="Right"
                                     Series="{Binding Series}"
                                     DataTooltip="{x:Null}"
-                                    Hoverable="False"
-                                    LegendLocation="Right" />
+                                    Hoverable="False"/>
             </Grid>
         </Grid>
     </Grid>

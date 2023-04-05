@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ESM.Modules.Import.ViewModels
 {
-    public class LaptopInputViewModel : BaseProductInputViewModel<LaptopDTO>
+    public class LaptopInputViewModel : BaseProductInputViewModel<Laptop>
     {
         public LaptopInputViewModel(IUnitOfWork unitOfWork, IOpenDialogService openDialogService, IModalService modalService) : base(unitOfWork, openDialogService, modalService)
         {

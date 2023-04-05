@@ -1,4 +1,7 @@
-﻿using ESM.Modules.DataAccess.Models;
+﻿using ESM.Modules.DataAccess.DTOs;
+using ESM.Modules.DataAccess.Models;
+using System.Data.Entity.SqlServer;
+using System.Globalization;
 
 namespace ESM.Modules.DataAccess.Infrastructure
 {
@@ -11,7 +14,7 @@ namespace ESM.Modules.DataAccess.Infrastructure
             _context = context;
         }
 
-        public virtual void Add(T entity)
+        public virtual object? Add(T entity)
         {
             throw new NotImplementedException();
         }
@@ -21,7 +24,7 @@ namespace ESM.Modules.DataAccess.Infrastructure
             throw new NotImplementedException();
         }
 
-        public virtual void Delete(string id)
+        public virtual object? Delete(string id)
         {
             throw new NotImplementedException();
         }
@@ -37,9 +40,10 @@ namespace ESM.Modules.DataAccess.Infrastructure
         }
 
 
-        public virtual void Update(T entity)
+        public virtual object? Update(T entity)
         {
             throw new NotImplementedException();
         }
+        
     }
 }
