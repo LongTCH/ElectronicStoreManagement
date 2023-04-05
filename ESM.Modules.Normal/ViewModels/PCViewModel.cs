@@ -2,6 +2,7 @@
 using ESM.Core.ShareStores;
 using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
+using ESM.Modules.DataAccess.Models;
 using Prism.Regions;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Linq;
 namespace ESM.Modules.Normal.ViewModels
 {
     [RegionMemberLifetime(KeepAlive = false)]
-    public class PCViewModel : BaseProductViewModel<PcDTO>
+    public class PCViewModel : BaseProductViewModel<Pc>
     {
         public HashSet<ProductAttributeStore> CompanyList { get; set; } = new();
         public HashSet<ProductAttributeStore> CPUList { get; set; } = new();
@@ -43,11 +44,11 @@ namespace ESM.Modules.Normal.ViewModels
                 if (e.IsChecked) ListRAM.Add(e.Name);
             foreach (var e in SeriesList)
                 if (e.IsChecked) ListSeries.Add(e.Name);
-            if (ListCompany.Count != 0) ProductList = ((List<PcDTO>)ProductList)!.Where(x => ListCompany.Contains(x.Company)).ToList();
-            if (ListCPU.Count != 0) ProductList = ((List<PcDTO>)ProductList)!.Where(x => ListCPU.Contains(x.Cpu)).ToList();
-            if (ListNeed.Count != 0) ProductList = ((List<PcDTO>)ProductList)!.Where(x => ListNeed.Contains(x.Need)).ToList();
-            if (ListRAM.Count != 0) ProductList = ((List<PcDTO>)ProductList)!.Where(x => ListRAM.Contains(x.Ram)).ToList();
-            if (ListSeries.Count != 0) ProductList = ((List<PcDTO>)ProductList)!.Where(x => ListSeries.Contains(x.Series)).ToList();
+            if (ListCompany.Count != 0) ProductList = ((List<Pc>)ProductList)!.Where(x => ListCompany.Contains(x.Company)).ToList();
+            if (ListCPU.Count != 0) ProductList = ((List<Pc>)ProductList)!.Where(x => ListCPU.Contains(x.Cpu)).ToList();
+            if (ListNeed.Count != 0) ProductList = ((List<Pc>)ProductList)!.Where(x => ListNeed.Contains(x.Need)).ToList();
+            if (ListRAM.Count != 0) ProductList = ((List<Pc>)ProductList)!.Where(x => ListRAM.Contains(x.Ram)).ToList();
+            if (ListSeries.Count != 0) ProductList = ((List<Pc>)ProductList)!.Where(x => ListSeries.Contains(x.Series)).ToList();
         }
         private void getCompanyList()
         {

@@ -86,7 +86,7 @@ namespace ESM.Modules.Export.Views
                         StaffId = _accountStore.CurrentAccount.Id,
                         TotalAmount = TotalAmount,
                     };
-                    BillId = _unitOfWork.Bills.AddBillAndGetID(bill).ToString();
+                    BillId = _unitOfWork.Bills.Add(bill).ToString();
                     _unitOfWork.SaveChange();
                     OnPropertyChanged(nameof(BillId));
                     btnPrint.Visibility = Visibility.Hidden;

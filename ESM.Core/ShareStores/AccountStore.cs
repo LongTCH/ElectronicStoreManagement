@@ -1,12 +1,13 @@
 ﻿using ESM.Modules.DataAccess.DTOs;
+using ESM.Modules.DataAccess.Models;
 using System;
 
 namespace ESM.Core.ShareStores
 {
     public class AccountStore
     {
-        private AccountDTO? _currentAccount;
-        public AccountDTO? CurrentAccount
+        private Account? _currentAccount;
+        public Account? CurrentAccount
         {
             get => _currentAccount;
             set
