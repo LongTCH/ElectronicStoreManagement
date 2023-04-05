@@ -63,7 +63,8 @@ namespace ESM.Modules.Import.ViewModels
                     ImagePath = ImagePath,
                     AvatarPath = AvatarPath,
                     Price = Price,
-                    Unit = Unit
+                    Unit = Unit,
+                    Remain = Remain,
                 };
                 try
                 {
