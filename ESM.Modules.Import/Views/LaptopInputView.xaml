@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
              Tag="{Binding Header}"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              prism:ViewModelLocator.AutoWireViewModel="True">
@@ -53,34 +54,68 @@
                     <StackPanel Grid.Column="1"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center">
+                        <StackPanel HorizontalAlignment="Right"
+                                    Orientation="Horizontal">
+                            <ComboBox Cursor="Hand"
+                                      mah:TextBoxHelper.Watermark="Chọn sản phẩm để chỉnh sửa thông tin"
+                                      Width="300"
+                                      Margin="20,10"
+                                      ItemsSource="{Binding ProductList}"
+                                      DisplayMemberPath="Name"
+                                      SelectedItem="{Binding Product}"
+                                      VerticalContentAlignment="Center"
+                                      HorizontalContentAlignment="Center"
+                                      Style="{StaticResource MahApps.Styles.ComboBox}" />
+                            <Button ToolTip="Find to edit"
+                                    Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                    Command="{Binding FindCommand}">
+                                <iconPacks:PackIconFeatherIcons Kind="Search" />
+                            </Button>
+                        </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <TextBox materialDesign:HintAssist.Hint="Đường dẫn tới thư mục ảnh"
-                                     materialDesign:TextFieldAssist.HasClearButton="True"
                                      Margin="20,10"
-                                     Text="{Binding ProductName, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                     Text="{Binding ImagePath, UpdateSourceTrigger=LostFocus}"
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      FontFamily="Champagne &amp; Limousines"
                                      FontSize="18"
                                      Width="300" />
                             <Button HorizontalAlignment="Right"
+                                    Command="{Binding SelectFolder}"
                                     Style="{StaticResource MaterialDesignFloatingActionMiniButton}">
                                 <materialDesign:PackIcon Kind="Folder" />
                             </Button>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <TextBox materialDesign:HintAssist.Hint="Đường dẫn tới file mô tả"
-                                     materialDesign:TextFieldAssist.HasClearButton="True"
                                      Margin="20,10"
-                                     Text="{Binding ProductName, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                     Text="{Binding DetailPath, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      FontFamily="Champagne &amp; Limousines"
                                      FontSize="18"
                                      Width="300" />
                             <Button HorizontalAlignment="Right"
+                                    Command="{Binding SelectDetail}"
                                     Style="{StaticResource MaterialDesignFloatingActionMiniButton}">
-                                <materialDesign:PackIcon Kind="Folder" />
+                                <materialDesign:PackIcon Kind="File" />
                             </Button>
                         </StackPanel>
+                        <DockPanel Grid.Column="0"
+                                   VerticalAlignment="Center"
+                                   Margin="100,0,100,0">
+                            <materialDesign:PackIcon VerticalAlignment="Bottom"
+                                                     Margin="0,0,0,10"
+                                                     Height="30"
+                                                     Width="30"
+                                                     Kind="Identifier" />
+                            <TextBox Margin="20,10"
+                                     materialDesign:HintAssist.Hint="ID"
+                                     Text="{Binding Id, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, Mode=OneWay}"
+                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                     FontFamily="Champagne &amp; Limousines"
+                                     FontSize="18"
+                                     IsEnabled="False" />
+                        </DockPanel>
                     </StackPanel>
                 </Grid>
                 <Grid>
@@ -97,7 +132,7 @@
                         <TextBox materialDesign:HintAssist.Hint="Tên sản phẩm"
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  Margin="20,10"
-                                 Text="{Binding ProductName, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
@@ -111,7 +146,7 @@
                         <TextBox materialDesign:HintAssist.Hint="CPU"
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  Margin="20,10"
-                                 Text="{Binding CPU, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding Cpu, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
@@ -131,21 +166,21 @@
                         <TextBox materialDesign:HintAssist.Hint="RAM"
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  Margin="20,10"
-                                 Text="{Binding RAM, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding Ram, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
                     </DockPanel>
                     <DockPanel Grid.Column="1">
-                        <materialDesign:PackIcon Kind="ScreenRotation"
+                        <materialDesign:PackIcon Kind="Storage"
                                                  VerticalAlignment="Bottom"
                                                  Margin="0,0,0,10"
                                                  Height="30"
                                                  Width="30" />
-                        <TextBox materialDesign:HintAssist.Hint="Màn hình"
+                        <TextBox materialDesign:HintAssist.Hint="Bộ nhớ"
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  Margin="20,10"
-                                 Text="{Binding Screen, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding Storage, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
@@ -202,7 +237,7 @@
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  materialDesign:TextFieldAssist.SuffixText="%"
                                  Margin="20,10"
-                                 Text="{Binding Discout, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding Discount, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
@@ -296,13 +331,12 @@
                             BorderThickness="0"
                             materialDesign:ButtonAssist.CornerRadius="10"
                             Style="{StaticResource MaterialDesignRaisedButton}"
-                            IsEnabled="{Binding CanClick}"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Background="DodgerBlue"
                             IsDefault="True"
                             Content="LƯU"
-                            Command="{Binding Submit}" />
+                            Command="{Binding SaveCommand}" />
                     <Button Width="150"
                             Grid.Column="1"
                             BorderThickness="0"

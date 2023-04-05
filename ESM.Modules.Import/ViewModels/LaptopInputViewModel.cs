@@ -1,6 +1,7 @@
 ﻿using ESM.Core.ShareServices;
 using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
+using ESM.Modules.DataAccess.Models;
 using Microsoft.Identity.Client.Extensions.Msal;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -27,23 +28,21 @@ namespace ESM.Modules.Import.ViewModels
             set => SetProperty(ref graphic, value);
         }
         private string ram;
-        public string Ram { 
+        public string Ram
+        {
             get => ram;
             set => SetProperty(ref ram, value);
         }
         private string cpu;
-        public string Cpu {
+        public string Cpu
+        {
             get => cpu;
             set => SetProperty(ref cpu, value);
         }
-        private string screen;
-        public string Screen {
-            get => screen;
-            set => SetProperty(ref screen, value);
-        }
 
         private string need;
-        public string Need {
+        public string Need
+        {
             get => need;
             set => SetProperty(ref need, value);
         }
@@ -66,7 +65,7 @@ namespace ESM.Modules.Import.ViewModels
             Product = null;
             Id = _unitOfWork.Pcharddisks.GetSuggestID();
             Company = null; Unit = null; Graphic = null;
-            Name = null; Cpu = null; Screen = null; Need = null;
+            Name = null; Cpu = null; Need = null;
             AvatarPath = null; Price = 0; Discount = 0; Remain = 0;
             Ram = null; ImagePath = null; DetailPath = null; Series = null;
             RaisePropertyChanged(nameof(IsDefault));
@@ -87,7 +86,6 @@ namespace ESM.Modules.Import.ViewModels
             ImagePath = Product.ImagePath;
             Ram = Product.Ram;
             Need = Product.Need;
-            Screen = Product.Screen;
             Remain = Product.Remain;
             Series = Product.Series;
 
@@ -96,44 +94,44 @@ namespace ESM.Modules.Import.ViewModels
         protected override void saveCommand()
         {
             if (Id == null || Company == null || Unit == null ||
-                Name == null || Storage == null || Graphic == null || 
-                Cpu == null || Ram == null || Screen == null)
+                Name == null || Storage == null || Graphic == null ||
+                Cpu == null || Ram == null)
             {
                 _modalService.ShowModal(ModalType.Error, "Enter all required value", "Warning");
                 return;
             }
             Task<bool> task = new(() =>
             {
-                LaptopDTO laptopDTO = new()
+                Laptop laptopDTO = new()
                 {
-                Id = Id,
-                Cpu = Cpu,
-                Company = Company,
-                Unit = Unit,
-                Graphic = Graphic,
-                Name = Name,
-                Price = Price,
-                Discount = Discount,
-                DetailPath = DetailPath,
-                AvatarPath = AvatarPath,
-                ImagePath = ImagePath,
-                Ram = Ram,
-                Need = Need,
-                Screen = Screen,
-                Remain = Remain,
-                Series = Series,
-            };
+                    Id = Id,
+                    Cpu = Cpu,
+                    Company = Company,
+                    Unit = Unit,
+                    Graphic = Graphic,
+                    Name = Name,
+                    Price = Price,
+                    Discount = Discount,
+                    DetailPath = DetailPath,
+                    AvatarPath = AvatarPath,
+                    ImagePath = ImagePath,
+                    Ram = Ram,
+                    Need = Need,
+                    Storage = Storage,
+                    Remain = Remain,
+                    Series = Series,
+                };
                 try
                 {
                     if (Product == null)
-                        _unitOfWork.LaptopDTO.Add(laptopDTO);
+                        _unitOfWork.Laptops.Add(laptopDTO);
                     else
                     {
-                        _unitOfWork.Pcharddisks.Update(pcharddiskDTO);
-                        Product = pcharddiskDTO;
+                        _unitOfWork.Laptops.Update(laptopDTO);
+                        Product = laptopDTO;
                     }
                     _unitOfWork.SaveChange();
-                    ProductList = _unitOfWork.Pcharddisks.GetAll();
+                    ProductList = _unitOfWork.Laptops.GetAll();
                     return true;
                 }
                 catch (Exception)
@@ -156,5 +154,6 @@ namespace ESM.Modules.Import.ViewModels
             {
                 ProductList = _unitOfWork.Laptops.GetAll();
             }
+        }
     }
 }
