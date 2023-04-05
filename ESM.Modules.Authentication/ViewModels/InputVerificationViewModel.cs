@@ -2,6 +2,7 @@
 using ESM.Core.ShareServices;
 using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
+using ESM.Modules.DataAccess.Models;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -60,7 +61,7 @@ namespace ESM.Modules.Authentication.ViewModels
             }
             IsBusy = true;
             BusyContent = "Đang kiểm tra tài khoản...";
-            Task<AccountDTO> CheckAccountExist = new(() => _unitOfWork.Accounts.GetById(Id));
+            Task<Account> CheckAccountExist = new(() => _unitOfWork.Accounts.GetById(Id));
             CheckAccountExist.Start();
             await CheckAccountExist;
             var account = CheckAccountExist.Result;

@@ -3,42 +3,22 @@ using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 
 namespace ESM.Modules.DataAccess.Repositories;
-public interface IPccpuRepository : IBaseRepository<PccpuDTO>, IProductRepository {
-    string GetSuggestID();
+public interface IPccpuRepository : IProductRepository<Pccpu> {
 }
-public class PccpuRepository : BaseRepository<PccpuDTO>, IPccpuRepository
+public class PccpuRepository : ProductRepository<Pccpu>, IPccpuRepository
 {
     public PccpuRepository(ESMDbContext context) : base(context)
     {
     }
-    public override IEnumerable<PccpuDTO>? GetAll()
+    public override IEnumerable<Pccpu>? GetAll()
     {
         return _context.Pccpus.AsQueryable()
                 .Where(p => p.Remain > -1)
-                .Select(pccpu => new PccpuDTO()
-                {
-                    Name = pccpu.Name,
-                    ImagePath = @pccpu.ImagePath,
-                    Price = pccpu.Price,
-                    Company = pccpu.Company,
-                    DetailPath = @pccpu.DetailPath,
-                    Discount = pccpu.Discount,
-                    Id = pccpu.Id,
-                    Need = pccpu.Need,
-                    Remain = pccpu.Remain,
-                    Series = pccpu.Series,
-                    Socket = pccpu.Socket,
-                    AvatarPath = @pccpu.AvatarPath,
-                    Unit = pccpu.Unit
-                }).ToList();
+                .ToList();
     }
     public string GetSuggestID()
     {
-        string? NewID = _context.Pccpus.AsQueryable().OrderBy(p => p.Id).LastOrDefault()?.Id;
-        if (NewID == null) return StaticData.IdPrefix[ProductType.CPU] + "0000000";
-        int counter = Convert.ToInt32(NewID[2..]);
-        ++counter;
-        return StaticData.IdPrefix[ProductType.CPU] + counter.ToString().PadLeft(7, '0');
+        return GetSuggestID(ProductType.CPU);
     }
     public IEnumerable<ReportMock> GetSoldNumberMonthDuration(DateTime startDate, DateTime endDate)
     {

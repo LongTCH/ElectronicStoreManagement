@@ -2,6 +2,7 @@
 using ESM.Core.ShareStores;
 using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
+using ESM.Modules.DataAccess.Models;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -12,7 +13,7 @@ using System.Linq;
 namespace ESM.Modules.Normal.ViewModels
 {
     [RegionMemberLifetime(KeepAlive = false)]
-    public class SmartPhoneViewModel : BaseProductViewModel<SmartphoneDTO>
+    public class SmartPhoneViewModel : BaseProductViewModel<Smartphone>
     {
         public HashSet<ProductAttributeStore> CompanyList { get; set; } = new();
         public HashSet<ProductAttributeStore> CPUList { get; set; } = new();
@@ -46,11 +47,11 @@ namespace ESM.Modules.Normal.ViewModels
                 if (e.IsChecked) ListSeries.Add(e.Name);
             foreach (var e in StorageList)
                 if (e.IsChecked) ListStorage.Add(e.Name);
-            if (ListCompany.Count != 0) ProductList = ((List<SmartphoneDTO>)ProductList).Where(x => ListCompany.Contains(x.Company)).ToList();
-            if (ListCPU.Count != 0) ProductList = ((List<SmartphoneDTO>)ProductList).Where(x => ListCPU.Contains(x.Cpu)).ToList();
-            if (ListRAM.Count != 0) ProductList = ((List<SmartphoneDTO>)ProductList).Where(x => ListRAM.Contains(x.Ram)).ToList();
-            if (ListSeries.Count != 0) ProductList = ((List<SmartphoneDTO>)ProductList).Where(x => ListSeries.Contains(x.Series)).ToList();
-            if (ListStorage.Count != 0) ProductList = ((List<SmartphoneDTO>)ProductList).Where(x => ListStorage.Contains(x.Storage)).ToList();
+            if (ListCompany.Count != 0) ProductList = ((List<Smartphone>)ProductList).Where(x => ListCompany.Contains(x.Company)).ToList();
+            if (ListCPU.Count != 0) ProductList = ((List<Smartphone>)ProductList).Where(x => ListCPU.Contains(x.Cpu)).ToList();
+            if (ListRAM.Count != 0) ProductList = ((List<Smartphone>)ProductList).Where(x => ListRAM.Contains(x.Ram)).ToList();
+            if (ListSeries.Count != 0) ProductList = ((List<Smartphone>)ProductList).Where(x => ListSeries.Contains(x.Series)).ToList();
+            if (ListStorage.Count != 0) ProductList = ((List<Smartphone>)ProductList).Where(x => ListStorage.Contains(x.Storage)).ToList();
         }
         private void getCompanyList()
         {

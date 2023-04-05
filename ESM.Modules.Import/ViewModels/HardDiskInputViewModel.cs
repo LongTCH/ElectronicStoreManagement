@@ -1,13 +1,14 @@
 ﻿using ESM.Core.ShareServices;
 using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
+using ESM.Modules.DataAccess.Models;
 using Prism.Regions;
 using System;
 using System.Threading.Tasks;
 
 namespace ESM.Modules.Import.ViewModels
 {
-    public class HardDiskInputViewModel : BaseProductInputViewModel<PcharddiskDTO>
+    public class HardDiskInputViewModel : BaseProductInputViewModel<Pcharddisk>
     {
         public HardDiskInputViewModel(IUnitOfWork unitOfWork, IOpenDialogService openDialogService, IModalService modalService) : base(unitOfWork, openDialogService, modalService)
         {
@@ -48,7 +49,7 @@ namespace ESM.Modules.Import.ViewModels
             }
             Task<bool> task = new(() =>
             {
-                PcharddiskDTO pcharddiskDTO = new()
+                Pcharddisk pcharddiskDTO = new()
                 {
                     Name = Name,
                     Storage = Storage,

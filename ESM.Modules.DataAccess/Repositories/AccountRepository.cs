@@ -4,36 +4,21 @@ using ESM.Modules.DataAccess.Models;
 
 namespace ESM.Modules.DataAccess.Repositories;
 
-public interface IAccountRepository : IBaseRepository<AccountDTO>
+public interface IAccountRepository : IBaseRepository<Account>
 {
     string GetSuggestAccountId(string prefix);
     void ResetPassword(string ID, string newPasswordHash);
 }
-public class AccountRepository : BaseRepository<AccountDTO>, IAccountRepository
+public class AccountRepository : BaseRepository<Account>, IAccountRepository
 {
     public AccountRepository(ESMDbContext context) : base(context)
     {
     }
-    public override AccountDTO? GetById(string id)
+    public override Account? GetById(string id)
     {
         return _context.Accounts.AsQueryable()
                 .Where(ac => ac.Id == id)
-                .Select(ac => new AccountDTO()
-                {
-                    Id = ac.Id,
-                    AvatarPath = @ac.AvatarPath,
-                    Birthday = ac.Birthday,
-                    City = ac.City,
-                    District = ac.District,
-                    EmailAddress = ac.EmailAddress,
-                    FirstName = ac.FirstName,
-                    LastName = ac.LastName,
-                    PasswordHash = ac.PasswordHash,
-                    Phone = ac.Phone,
-                    Gender = ac.Gender,
-                    Street = ac.Street,
-                    SubDistrict = ac.SubDistrict
-                }).FirstOrDefault();
+                .FirstOrDefault();
     }
     public override bool Any(string id)
     {
@@ -49,7 +34,7 @@ public class AccountRepository : BaseRepository<AccountDTO>, IAccountRepository
         result = result.Insert(0, new('0', 4 - result.Length));
         return prefix + result;
     }
-    public override void Update(AccountDTO accountDTO)
+    public override object? Update(Account accountDTO)
     {
         var account = (from ac in _context.Accounts
                        where ac.Id == accountDTO.Id
@@ -65,26 +50,12 @@ public class AccountRepository : BaseRepository<AccountDTO>, IAccountRepository
         account.District = accountDTO.District;
         account.Street = accountDTO.Street;
         account.Gender = accountDTO.Gender;
+        return null;
     }
-    public override void Add(AccountDTO accountDTO)
+    public override object? Add(Account accountDTO)
     {
-        Account newAccount = new()
-        {
-            AvatarPath = accountDTO.AvatarPath,
-            Birthday = accountDTO.Birthday,
-            City = accountDTO.City,
-            District = accountDTO.District,
-            EmailAddress = accountDTO.EmailAddress,
-            FirstName = accountDTO.FirstName,
-            Id = accountDTO.Id,
-            LastName = accountDTO.LastName,
-            PasswordHash = accountDTO.PasswordHash,
-            Phone = accountDTO.Phone,
-            Gender = accountDTO.Gender,
-            Street = accountDTO.Street,
-            SubDistrict = accountDTO.SubDistrict,
-        };
-        _context.Accounts.Add(newAccount);
+        _context.Accounts.Add(accountDTO);
+        return null;
     }
     public void ResetPassword(string ID, string newPasswordHash)
     {

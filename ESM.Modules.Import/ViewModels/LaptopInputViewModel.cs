@@ -1,6 +1,7 @@
 ﻿using ESM.Core.ShareServices;
 using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
+using ESM.Modules.DataAccess.Models;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -10,7 +11,7 @@ using System.Linq;
 
 namespace ESM.Modules.Import.ViewModels
 {
-    public class LaptopInputViewModel : BaseProductInputViewModel<LaptopDTO>
+    public class LaptopInputViewModel : BaseProductInputViewModel<Laptop>
     {
         public LaptopInputViewModel(IUnitOfWork unitOfWork, IOpenDialogService openDialogService, IModalService modalService) : base(unitOfWork, openDialogService, modalService)
         {

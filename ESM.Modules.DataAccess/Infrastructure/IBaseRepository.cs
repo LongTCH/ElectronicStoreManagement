@@ -6,14 +6,15 @@ namespace ESM.Modules.DataAccess.Infrastructure
     {
         T? GetById(string id);
         IEnumerable<T>? GetAll();
-        void Add(T entity);
-        void Delete(string id);
-        void Update(T entity);
+        object? Add(T entity);
+        object? Delete(string id);
+        object? Update(T entity);
         bool Any(string id);
         
     }
-    public interface IProductRepository
+    public interface IProductRepository<T> : IBaseRepository<T> where T: ProductDTO
     {
+        string GetSuggestID();
         IEnumerable<ReportMock> GetSoldNumberWeekDuration(DateTime startDate, DateTime endDate);
         IEnumerable<ReportMock> GetSoldNumberMonthDuration(DateTime startDate, DateTime endDate);
         IEnumerable<ReportMock> GetSoldNumberQuarterDuration(DateTime startDate, DateTime endDate);

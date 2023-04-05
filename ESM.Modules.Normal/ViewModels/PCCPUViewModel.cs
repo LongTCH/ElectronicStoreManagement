@@ -2,6 +2,7 @@
 using ESM.Core.ShareStores;
 using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
+using ESM.Modules.DataAccess.Models;
 using Prism.Regions;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Linq;
 namespace ESM.Modules.Normal.ViewModels
 {
     [RegionMemberLifetime(KeepAlive = false)]
-    public class PCCPUViewModel : BaseProductViewModel<PccpuDTO>
+    public class PCCPUViewModel : BaseProductViewModel<Pccpu>
     {
         public HashSet<ProductAttributeStore> CompanyList { get; set; } = new();
         public HashSet<ProductAttributeStore> NeedList { get; set; } = new();
@@ -38,10 +39,10 @@ namespace ESM.Modules.Normal.ViewModels
                 if (e.IsChecked) ListNeed.Add(e.Name);
             foreach (var e in SeriesList)
                 if (e.IsChecked) ListSeries.Add(e.Name);
-            if (ListCompany.Count != 0) ProductList = ((List<PccpuDTO>)ProductList).Where(x => ListCompany.Contains(x.Company)).ToList();
-            if (ListSocket.Count != 0) ProductList = ((List<PccpuDTO>)ProductList).Where(x => ListSocket.Contains(x.Socket)).ToList();
-            if (ListNeed.Count != 0) ProductList = ((List<PccpuDTO>)ProductList).Where(x => ListNeed.Contains(x.Need)).ToList();
-            if (ListSeries.Count != 0) ProductList = ((List<PccpuDTO>)ProductList).Where(x => ListSeries.Contains(x.Series)).ToList();
+            if (ListCompany.Count != 0) ProductList = ((List<Pccpu>)ProductList).Where(x => ListCompany.Contains(x.Company)).ToList();
+            if (ListSocket.Count != 0) ProductList = ((List<Pccpu>)ProductList).Where(x => ListSocket.Contains(x.Socket)).ToList();
+            if (ListNeed.Count != 0) ProductList = ((List<Pccpu>)ProductList).Where(x => ListNeed.Contains(x.Need)).ToList();
+            if (ListSeries.Count != 0) ProductList = ((List<Pccpu>)ProductList).Where(x => ListSeries.Contains(x.Series)).ToList();
         }
         private void getCompanyList()
         {
