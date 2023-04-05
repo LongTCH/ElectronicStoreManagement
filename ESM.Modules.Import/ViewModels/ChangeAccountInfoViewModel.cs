@@ -14,6 +14,7 @@ using ESM.Modules.DataAccess.DTOs;
 using System.IO;
 using static ESM.Modules.Import.Utilities.StaticData;
 using ESM.Core.ShareStores;
+using ESM.Modules.DataAccess.Models;
 
 namespace ESM.Modules.Import.ViewModels
 {
@@ -180,7 +181,7 @@ namespace ESM.Modules.Import.ViewModels
                 _modalService.ShowModal(ModalType.Error, "Phải lớn hơn ngày hiện tại", "Ngày sinh không hợp lệ");
                 return;
             }
-            AccountDTO accountDTO = new()
+            Account accountDTO = new()
             {
                 Id = Id!,
                 PasswordHash = "00000000000000000",
@@ -223,7 +224,7 @@ namespace ESM.Modules.Import.ViewModels
         }
         private async Task findAccountCommand()
         {
-            Task<AccountDTO> task = new(() => _unitOfWork.Accounts.GetById(Id));
+            Task<Account> task = new(() => _unitOfWork.Accounts.GetById(Id));
             task.Start();
             await task;
             var CurrentAccout = task.Result;

@@ -3,6 +3,7 @@ using ESM.Core.ShareServices;
 using ESM.Modules.DataAccess;
 using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
+using ESM.Modules.DataAccess.Models;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -45,19 +46,19 @@ namespace ESM.Modules.Normal.ViewModels
         private void GetProductList()
         {
             dynamic list = null;
-            if (typeof(T).Equals(typeof(LaptopDTO)))
+            if (typeof(T).Equals(typeof(Laptop)))
                 list = _unitOfWork.Laptops.GetAll();
-            else if (typeof(T).Equals(typeof(MonitorDTO)))
+            else if (typeof(T).Equals(typeof(Monitor)))
                 list = _unitOfWork.Monitors.GetAll();
-            else if (typeof(T).Equals(typeof(PccpuDTO)))
+            else if (typeof(T).Equals(typeof(Pccpu)))
                 list = _unitOfWork.Pccpus.GetAll();
-            else if (typeof(T).Equals(typeof(PcDTO)))
+            else if (typeof(T).Equals(typeof(Pc)))
                 list = _unitOfWork.Pcs.GetAll();
-            else if (typeof(T).Equals(typeof(SmartphoneDTO)))
+            else if (typeof(T).Equals(typeof(Smartphone)))
                 list = _unitOfWork.Smartphones.GetAll();
-            else if (typeof(T).Equals(typeof(VgaDTO)))
+            else if (typeof(T).Equals(typeof(Vga)))
                 list = _unitOfWork.Vgas.GetAll();
-            else if (typeof(T).Equals(typeof(PcharddiskDTO)))
+            else if (typeof(T).Equals(typeof(Pcharddisk)))
                 list = _unitOfWork.Pcharddisks.GetAll();
             if (list != null && list.Count > 0)
             {

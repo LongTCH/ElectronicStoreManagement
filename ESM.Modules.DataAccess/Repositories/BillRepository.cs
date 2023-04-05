@@ -7,7 +7,6 @@ namespace ESM.Modules.DataAccess.Repositories
 {
     public interface IBillRepository : IBaseRepository<Bill>
     {
-        int AddBillAndGetID(Bill bill);
     }
     public class BillRepository : BaseRepository<Bill>, IBillRepository
     {
@@ -21,12 +20,13 @@ namespace ESM.Modules.DataAccess.Repositories
                 .Include(b => b.BillProducts)
                 .FirstOrDefault();
         }
-        public override void Add(Bill entity)
+        public override object? Add(Bill entity)
         {
             entity.Id = GetNewID();
             foreach (var item in entity.BillProducts)
                 DecreaseRemain(item.ProductId, item.Number);
             _context.Bills.Add(entity);
+            return entity.Id;
         }
         private int GetNewID()
         {
@@ -50,12 +50,6 @@ namespace ESM.Modules.DataAccess.Repositories
                 _context.Smartphones.Where(p => p.Id == id).First().Remain -= number;
             else if (id.StartsWith(StaticData.IdPrefix[ProductType.VGA]))
                 _context.Vgas.Where(p => p.Id == id).First().Remain -= number;
-        }
-
-        public int AddBillAndGetID(Bill bill)
-        {
-            Add(bill);
-            return bill.Id;
         }
     }
 }

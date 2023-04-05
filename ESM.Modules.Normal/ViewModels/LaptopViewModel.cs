@@ -2,12 +2,13 @@
 using ESM.Core.ShareStores;
 using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
+using ESM.Modules.DataAccess.Models;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ESM.Modules.Normal.ViewModels
 {
-    public class LaptopViewModel : BaseProductViewModel<LaptopDTO>
+    public class LaptopViewModel : BaseProductViewModel<Laptop>
     {
         public HashSet<ProductAttributeStore> CompanyList { get; set; } = new();
         public HashSet<ProductAttributeStore> CPUList { get; set; }=new();
@@ -53,13 +54,13 @@ namespace ESM.Modules.Normal.ViewModels
                 if (e.IsChecked) ListSeries.Add(e.Name);
             foreach (var e in StorageList)
                 if (e.IsChecked) ListStorage.Add(e.Name);
-            if (ListCompany.Count != 0) ProductList = ((List<LaptopDTO>)ProductList).Where(x => ListCompany.Contains(x.Company)).ToList();
-            if (ListCPU.Count != 0) ProductList = ((List<LaptopDTO>)ProductList).Where(x => ListCPU.Contains(x.Cpu)).ToList();
-            if (ListGraphic.Count != 0) ProductList = ((List<LaptopDTO>)ProductList).Where(x => ListGraphic.Contains(x.Graphic)).ToList();
-            if (ListNeed.Count != 0) ProductList = ((List<LaptopDTO>)ProductList).Where(x => ListNeed.Contains(x.Need)).ToList();
-            if (ListRAM.Count != 0) ProductList = ((List<LaptopDTO>)ProductList).Where(x => ListRAM.Contains(x.Ram)).ToList();
-            if (ListSeries.Count != 0) ProductList = ((List<LaptopDTO>)ProductList).Where(x => ListSeries.Contains(x.Series)).ToList();
-            if (ListStorage.Count != 0) ProductList = ((List<LaptopDTO>)ProductList).Where(x => ListStorage.Contains(x.Storage)).ToList();
+            if (ListCompany.Count != 0) ProductList = ((List<Laptop>)ProductList).Where(x => ListCompany.Contains(x.Company)).ToList();
+            if (ListCPU.Count != 0) ProductList = ((List<Laptop>)ProductList).Where(x => ListCPU.Contains(x.Cpu)).ToList();
+            if (ListGraphic.Count != 0) ProductList = ((List<Laptop>)ProductList).Where(x => ListGraphic.Contains(x.Graphic)).ToList();
+            if (ListNeed.Count != 0) ProductList = ((List<Laptop>)ProductList).Where(x => ListNeed.Contains(x.Need)).ToList();
+            if (ListRAM.Count != 0) ProductList = ((List<Laptop>)ProductList).Where(x => ListRAM.Contains(x.Ram)).ToList();
+            if (ListSeries.Count != 0) ProductList = ((List<Laptop>)ProductList).Where(x => ListSeries.Contains(x.Series)).ToList();
+            if (ListStorage.Count != 0) ProductList = ((List<Laptop>)ProductList).Where(x => ListStorage.Contains(x.Storage)).ToList();
         }
         private void getCompanyList()
         {

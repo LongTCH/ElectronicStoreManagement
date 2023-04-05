@@ -3,6 +3,7 @@ using ESM.Core.ShareServices;
 using ESM.Core.ShareStores;
 using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
+using ESM.Modules.DataAccess.Models;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -56,7 +57,7 @@ namespace ESM.Modules.Authentication.ViewModels
         public DelegateCommand LoginCommand { get; }
         public DelegateCommand ForgotPasswordNavigationCommand { get; }
 
-        AccountDTO Login()
+        Account Login()
         {
             IsBusy = true;
             ScryptEncoder encoder = new();
@@ -83,7 +84,7 @@ namespace ESM.Modules.Authentication.ViewModels
                 }
                 else
                 {
-                    Task<AccountDTO> task = new(Login);
+                    Task<Account> task = new(Login);
                     task.Start();
                     var account = await task;
                     if (account == null)
