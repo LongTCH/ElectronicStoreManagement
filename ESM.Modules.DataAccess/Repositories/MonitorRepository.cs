@@ -21,6 +21,18 @@ public class MonitorRepository : ProductRepository<Models.Monitor>, IMonitorRepo
     {
         return GetSuggestID(ProductType.MONITOR);
     }
+    public override object? Add(Models.Monitor entity)
+    {
+        _context.Monitors.Add(entity);
+        return null;
+    }
+    public override object? Update(Models.Monitor entity)
+    {
+        var hd = _context.Monitors.AsQueryable()
+               .First(p => p.Id == entity.Id);
+        _context.Entry(hd).CurrentValues.SetValues(entity);
+        return null;
+    }
     public IEnumerable<ReportMock> GetSoldNumberMonthDuration(DateTime startDate, DateTime endDate)
     {
         return GetSoldNumberMonthDuration(startDate, endDate, ProductType.MONITOR);

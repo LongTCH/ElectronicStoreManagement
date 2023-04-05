@@ -17,6 +17,18 @@ public class PcRepository : ProductRepository<Pc>, IPcRepository
                 .Where(pc => pc.Remain > -1)
                 .ToList();
     }
+    public override object? Add(Pc entity)
+    {
+        _context.Pcs.Add(entity);
+        return null;
+    }
+    public override object? Update(Pc entity)
+    {
+        var hd = _context.Pcs.AsQueryable()
+               .First(p => p.Id == entity.Id);
+        _context.Entry(hd).CurrentValues.SetValues(entity);
+        return null;
+    }
     public string GetSuggestID()
     {
         return GetSuggestID(ProductType.PC);

@@ -17,6 +17,18 @@ public class VgaRepository : ProductRepository<Vga>, IVgaRepository
                 .Where(vga => vga.Remain > -1)
                .ToList();
     }
+    public override object? Add(Vga entity)
+    {
+        _context.Vgas.Add(entity);
+        return null;
+    }
+    public override object? Update(Vga entity)
+    {
+        var hd = _context.Vgas.AsQueryable()
+               .First(p => p.Id == entity.Id);
+        _context.Entry(hd).CurrentValues.SetValues(entity);
+        return null;
+    }
     public string GetSuggestID()
     {
         return GetSuggestID(ProductType.VGA);
