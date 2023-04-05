@@ -1,0 +1,195 @@
+﻿<UserControl x:Class="ESM.Modules.Export.Views.ImportBillView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ESM.Modules.Export.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <DockPanel>
+            <TextBox DockPanel.Dock="Top"
+                     Text="HÓA ĐƠN NHẬP HÀNG"
+                     FontSize="20"
+                     FontWeight="Bold"
+                     Foreground="Blue"
+                     BorderBrush="White"
+                     IsEnabled="False"
+                     HorizontalAlignment="Center" />
+            <StackPanel DockPanel.Dock="Top"
+                        Orientation="Vertical">
+                <TextBlock Text="Thông tin đơn vị nhập"
+                           FontWeight="Black"
+                           Margin="10,0,0,0" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <DockPanel>
+                        <TextBox Margin="30,5"
+                                 IsEnabled="False"
+                                 BorderBrush="White"
+                                 Width="100">Đơn vị nhập:</TextBox>
+                        <TextBox Margin="20,5" />
+                    </DockPanel>
+                    <DockPanel Grid.Column="1">
+                        <TextBox Margin="30,5"
+                                 IsEnabled="False"
+                                 BorderBrush="White"
+                                 Width="100">Mã nhập hàng:</TextBox>
+                        <TextBox Margin="20,5" />
+                    </DockPanel>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <DockPanel>
+                        <TextBox Margin="30,5"
+                                 IsEnabled="False"
+                                 BorderBrush="White"
+                                 Width="100">Địa chỉ:</TextBox>
+                        <TextBox Margin="20,5" />
+                    </DockPanel>
+                    <DockPanel Grid.Column="1">
+                        <TextBox Margin="30,5"
+                                 IsEnabled="False"
+                                 BorderBrush="White"
+                                 Width="100">Điệnthoại:</TextBox>
+                        <TextBox Margin="20,5" />
+                    </DockPanel>
+                </Grid>
+            </StackPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0"
+                           FontWeight="Black"
+                           Margin="10,0,0,0">Thông tin sản phẩm nhập kho</TextBlock>
+                <materialDesign:Card DockPanel.Dock="Top"
+                                     Grid.Row="1"
+                                     Margin="5"
+                                     Background="#FFE3F7F7">
+                    <DockPanel>
+                        <StackPanel DockPanel.Dock="Top"
+                                    x:Name="TopPanel"
+                                    HorizontalAlignment="Center"
+                                    Orientation="Horizontal">
+                            <ComboBox Cursor="Hand"
+                                      Margin="5"
+                                      Width="150"
+                                      ItemsSource="{Binding CategoryList}"
+                                      SelectedItem="{Binding Category}"
+                                      VerticalContentAlignment="Center"
+                                      HorizontalContentAlignment="Center"
+                                      Style="{StaticResource MahApps.Styles.ComboBox.Virtualized}"
+                                      mah:TextBoxHelper.Watermark="Danh mục" />
+                            <ComboBox Cursor="Hand"
+                                      Margin="5"
+                                      Width="300"
+                                      ItemsSource="{Binding Products}"
+                                      Style="{StaticResource MahApps.Styles.ComboBox.Virtualized}"
+                                      VerticalContentAlignment="Center"
+                                      HorizontalContentAlignment="Center"
+                                      DisplayMemberPath="Name"
+                                      SelectedItem="{Binding SelectedProduct, UpdateSourceTrigger=PropertyChanged}"
+                                      mah:TextBoxHelper.Watermark="Chọn sản phẩm" />
+                            <Button Content="Thêm"
+                                    Margin="5"
+                                    Cursor="Hand"
+                                    Background="LightBlue"
+                                    Style="{StaticResource MahApps.Styles.Button.Flat}"
+                                    Command="{Binding AddCommand}" />
+                        </StackPanel>
+                        <DataGrid ItemsSource="{Binding }"
+                                  AutoGenerateColumns="False"
+                                  CanUserAddRows="False"
+                                  CanUserDeleteRows="False"
+                                  CanUserReorderColumns="False"
+                                  HorizontalAlignment="Center"
+                                  VerticalGridLinesBrush="DeepSkyBlue"
+                                  HorizontalGridLinesBrush="DeepSkyBlue"
+                                  ScrollViewer.CanContentScroll="True"
+                                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                  SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}"
+                                  x:Name="myDataGrid">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="STT"
+                                                    IsReadOnly="True"
+                                                    Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}},
+                                      Path=Header}" />
+                                <DataGridTextColumn Header="Mã sản phẩm"
+                                                    IsReadOnly="True"
+                                                    Binding="{Binding Id, Mode=OneWay}" />
+                                <DataGridTextColumn Header="Tên sản phẩm"
+                                                    IsReadOnly="True"
+                                                    Binding="{Binding Name, Mode=OneWay}" />
+                                <DataGridTextColumn Header="Đơn giá" />
+                                <DataGridTextColumn Header="Đơn vị"
+                                                    IsReadOnly="True"
+                                                    Binding="{Binding Unit, Mode=OneWay}" />
+                                <DataGridTextColumn Header="Số lượng"
+                                                    Binding="{Binding Number, UpdateSourceTrigger=LostFocus}" />
+                                <DataGridTextColumn Header="Thành tiền"
+                                                    IsReadOnly="True" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </DockPanel>
+                </materialDesign:Card>
+            </Grid>
+        </DockPanel>
+        <StackPanel Grid.Row="1"
+                    VerticalAlignment="Bottom"
+                    Margin="10">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+                <DockPanel Margin="5">
+                    <TextBlock Text="Tổng tiền:"
+                               IsEnabled="False"
+                               Margin="5" />
+                    <TextBox  VerticalAlignment="Center"
+                              BorderBrush="Black"
+                              IsEnabled="False" />
+                </DockPanel>
+                <DockPanel Grid.Column="1"
+                           Margin="5">
+                    <TextBlock Text="Tổng tiền bằng chữ: "
+                               Margin="5"
+                               IsEnabled="False" />
+                    <TextBlock Margin="5"
+                               IsEnabled="False" />
+                </DockPanel>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Button Content="Thêm hóa đơn"
+                        Width="100" />
+                <Button Grid.Column="1"
+                        Content="Lưu hóa đơn"
+                        Width="100" />
+                <Button Grid.Column="2"
+                        Content="In hóa đơn"
+                        Width="100" />
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>
