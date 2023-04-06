@@ -86,7 +86,7 @@
             <!-- Items-->
             <mah:HamburgerMenu.ItemsSource>
                 <mah:HamburgerMenuItemCollection>
-                    <mah:HamburgerMenuIconItem Label="Home"
+                    <mah:HamburgerMenuIconItem Label="Trang chủ"
                                                Command="{Binding NavigateCommand}"
                                                CommandParameter="{x:Static esmcore:ViewNames.HomeView}">
                         <mah:HamburgerMenuIconItem.Icon>
@@ -97,7 +97,7 @@
                                                         Kind="Home" />
                         </mah:HamburgerMenuIconItem.Icon>
                     </mah:HamburgerMenuIconItem>
-                    <mah:HamburgerMenuIconItem Label="Login"
+                    <mah:HamburgerMenuIconItem Label="Đăng nhập"
                                                IsVisible="{Binding IsNotLoggedIn}"
                                                Command="{Binding NavigateCommand}"
                                                CommandParameter="{x:Static esmcore:ViewNames.LoginView}">
@@ -109,7 +109,7 @@
                                                            Kind="SignInAltSolid" />
                         </mah:HamburgerMenuIconItem.Icon>
                     </mah:HamburgerMenuIconItem>
-                    <mah:HamburgerMenuIconItem Label="Account"
+                    <mah:HamburgerMenuIconItem Label="Tài khoản"
                                                IsVisible="{Binding IsLoggedIn}"
                                                Command="{Binding NavigateCommand}"
                                                CommandParameter="{x:Static esmcore:ViewNames.AccountView}">
@@ -121,7 +121,7 @@
                                                        Kind="User" />
                         </mah:HamburgerMenuIconItem.Icon>
                     </mah:HamburgerMenuIconItem>
-                    <mah:HamburgerMenuIconItem Label="Input"
+                    <mah:HamburgerMenuIconItem Label="Nhập liệu"
                                                IsVisible="{Binding }"
                                                Command="{Binding NavigateCommand}"
                                                CommandParameter="{x:Static esmcore:ViewNames.ProductInputView}">
@@ -133,7 +133,19 @@
                                                       VerticalAlignment="Center" />
                         </mah:HamburgerMenuIconItem.Icon>
                     </mah:HamburgerMenuIconItem>
-                    <mah:HamburgerMenuIconItem Label="Sell"
+                    <mah:HamburgerMenuIconItem Label="Nhập hàng"
+                                               IsVisible="{Binding }"
+                                               Command="{Binding NavigateCommand}"
+                                               CommandParameter="{x:Static esmcore:ViewNames.ImportBillView}">
+                        <mah:HamburgerMenuIconItem.Icon>
+                            <iconPacks:PackIconMaterial Kind="HomeImportOutline"
+                                                        Width="22"
+                                                        Height="22"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center" />
+                        </mah:HamburgerMenuIconItem.Icon>
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem Label="Bán hàng"
                                                IsVisible="{Binding IsSellStaff}"
                                                Command="{Binding NavigateCommand}"
                                                CommandParameter="{x:Static esmcore:ViewNames.SellView}">
@@ -167,7 +179,7 @@
             <!--  Options  -->
             <mah:HamburgerMenu.OptionsItemsSource>
                 <mah:HamburgerMenuItemCollection>
-                    <mah:HamburgerMenuIconItem Label="Logout"
+                    <mah:HamburgerMenuIconItem Label="Đăng xuất"
                                                IsVisible="{Binding IsLoggedIn}"
                                                Command="{Binding LogoutCommand}">
                         <mah:HamburgerMenuIconItem.Icon>

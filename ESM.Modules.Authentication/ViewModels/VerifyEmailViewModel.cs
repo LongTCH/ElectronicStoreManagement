@@ -42,7 +42,7 @@ namespace ESM.Modules.Authentication.ViewModels
                         _modalService.ShowModal(ModalType.Error, "Nhập sai nhiều lần", "Thất bại");
                     }
                     else --counter;
-                    throw new ValidationException("Verify Failed");
+                    throw new ValidationException("Thất bại");
                 }
                 else if (VerifyCode == ReceivedCode)
                 {

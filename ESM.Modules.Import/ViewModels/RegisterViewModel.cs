@@ -88,7 +88,7 @@ namespace ESM.Modules.Import.ViewModels
         }
 
         private string? _email;
-        [RegularExpression(@"^[a-z0-9_\+-]+(\.[a-z0-9_\+-]+)*@[a-z0-9-]+(\.[a-z0-9]+)*\.([a-z]{2,4})$", ErrorMessage = "Invalid email format.")]
+        [RegularExpression(@"^[a-z0-9_\+-]+(\.[a-z0-9_\+-]+)*@[a-z0-9-]+(\.[a-z0-9]+)*\.([a-z]{2,4})$", ErrorMessage = "Sai định dạng email")]
         [EmailAddress]
         public string? Email
         {
@@ -156,17 +156,17 @@ namespace ESM.Modules.Import.ViewModels
         {
             if (SelectedCity == null || SelectedDistrict == null || SelectedSub_district == null || Street == null)
             {
-                _modalService.ShowModal(ModalType.Error, "Enter full address", "Warning");
+                _modalService.ShowModal(ModalType.Error, "Nhập đầy đủ địa chỉ", "Cảnh báo");
                 return;
             }
             if (SelectedGender == null)
             {
-                _modalService.ShowModal(ModalType.Error, "Choose your gender", "Warning");
+                _modalService.ShowModal(ModalType.Error, "Chọn giới tính", "Cảnh báo");
                 return;
             }
             if (DateTime.Compare(BirthDay!, DateTime.Today) >= 0)
             {
-                _modalService.ShowModal(ModalType.Error, "Must be earlier than current day", "Birthday Invalid");
+                _modalService.ShowModal(ModalType.Error, "Phải trước ngày hiện tại", "Ngày sinh không hợp lệ");
                 return;
             }
             Account accountDTO = new()
@@ -189,7 +189,7 @@ namespace ESM.Modules.Import.ViewModels
             {
                 _unitOfWork.Accounts.Add(accountDTO);
                 await _unitOfWork.SaveChangesAsync();
-                _modalService.ShowModal(ModalType.Information, "New account created", "Success");
+                _modalService.ShowModal(ModalType.Information, "Tạo tài khoản mới thành công", "Thông báo");
                 _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.RegisterView);
             }
             catch (Exception ex) { _modalService.ShowModal(ModalType.Error, ex.Message, "Error"); }

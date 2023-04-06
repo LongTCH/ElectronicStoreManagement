@@ -23,12 +23,14 @@ namespace ESM.Modules.Export
             _regionManager.RegisterViewWithRegion("ReportTabRegion", typeof(ReportView));
             _regionManager.RegisterViewWithRegion("ReportTabRegion", typeof(TopSellingReport));
             _regionManager.RegisterViewWithContentRegion<TabChartView>();
+            _regionManager.RegisterViewWithContentRegion<ImportBillView>();
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<SellView, SellViewModel>(ViewNames.SellView);
             containerRegistry.RegisterForNavigation<TabChartView, TabChartViewModel>(ViewNames.TabChartView);
+            containerRegistry.RegisterForNavigation<ImportBillView, ImportBillViewModel>(ViewNames.TabChartView);
         }
     }
 }
