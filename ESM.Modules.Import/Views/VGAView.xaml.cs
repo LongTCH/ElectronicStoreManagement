@@ -3,15 +3,13 @@
 namespace ESM.Modules.Import.Views
 {
     /// <summary>
-    /// Interaction logic for LaptopInputView
+    /// Interaction logic for VGAView
     /// </summary>
-    public partial class LaptopInputView : UserControl
+    public partial class VGAView : UserControl
     {
-        public LaptopInputView()
+        public VGAView()
         {
             InitializeComponent();
         }
-
-        
     }
 }
