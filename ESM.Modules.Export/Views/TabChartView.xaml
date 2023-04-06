@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True">
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <ScrollViewer HorizontalScrollBarVisibility="Auto">
         <TabControl Margin="5"
                     Style="{DynamicResource MaterialDesignUniformTabControl}"
                     prism:RegionManager.RegionName="ReportTabRegion"
