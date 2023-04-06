@@ -119,9 +119,7 @@
                            FontWeight="Bold"
                            Margin="0 0 0 10" />
                 <lvc:CartesianChart LegendLocation="Right"
-                                    Series="{Binding Series}"
-                                    DataTooltip="{x:Null}"
-                                    Hoverable="False"/>
+                                    Series="{Binding Series}"/>
             </Grid>
         </Grid>
     </Grid>
