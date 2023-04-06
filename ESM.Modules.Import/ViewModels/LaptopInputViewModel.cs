@@ -97,7 +97,7 @@ namespace ESM.Modules.Import.ViewModels
                 Name == null || Storage == null || Graphic == null ||
                 Cpu == null || Ram == null)
             {
-                _modalService.ShowModal(ModalType.Error, "Enter all required value", "Warning");
+                _modalService.ShowModal(ModalType.Error, "Nhập tất cả thông tin cần thiết", "Cảnh báo");
                 return;
             }
             Task<bool> task = new(() =>
@@ -144,10 +144,10 @@ namespace ESM.Modules.Import.ViewModels
             var res = task.Result;
             if (res)
             {
-                _modalService.ShowModal(ModalType.Information, "Saved", "Success");
+                _modalService.ShowModal(ModalType.Information, "Đã lưu", "Thông báo");
                 clearCommand();
             }
-            else _modalService.ShowModal(ModalType.Error, "Failed to save", "Error");
+            else _modalService.ShowModal(ModalType.Error, "Lưu không thành công", "Lỗi");
         }
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
