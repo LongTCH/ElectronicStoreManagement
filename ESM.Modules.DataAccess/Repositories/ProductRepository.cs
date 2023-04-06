@@ -3,6 +3,7 @@ using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -108,16 +109,95 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         protected IEnumerable<TopSellDTO> GetTopSoldProducts(DateTime startDate, DateTime endDate, ProductType type, int number)
         {
-            return (from x in _context.Bills
-                    join y in _context.BillProducts
-                    on x.Id equals y.BillId
-                    where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate && y.ProductId.StartsWith(StaticData.IdPrefix[type])
-                    group y by y.ProductId into g
-                    select new TopSellDTO()
-                    {
-                        Name = g.Key,
-                        Number = g.Sum(x => x.Number)
-                    }).ToList();
+            IEnumerable<TopSellDTO> res = new List<TopSellDTO>();
+            var list = (from x in _context.Bills
+                        join y in _context.BillProducts
+                        on x.Id equals y.BillId
+                        where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate && y.ProductId.StartsWith(StaticData.IdPrefix[type])
+                        group y by y.ProductId into g
+                        select new 
+                        {
+                            Id = g.Key,
+                            Number = g.Sum(x => x.Number)
+                        }).ToList();
+            if (type == ProductType.LAPTOP)
+            {
+                res = (from x in list
+                       join y in _context.Laptops
+                       on x.Id equals y.Id
+                       select new TopSellDTO()
+                       {
+                           Name = y.Name,
+                           Number = x.Number
+                       });
+            }
+            else if (type == ProductType.MONITOR)
+            {
+                res = (from x in list
+                       join y in _context.Monitors
+                       on x.Id equals y.Id
+                       select new TopSellDTO()
+                       {
+                           Name = y.Name,
+                           Number = x.Number
+                       });
+            }
+            else if (type == ProductType.PC)
+            {
+                res = (from x in list
+                       join y in _context.Pcs
+                       on x.Id equals y.Id
+                       select new TopSellDTO()
+                       {
+                           Name = y.Name,
+                           Number = x.Number
+                       });
+            }
+            else if (type == ProductType.HARDDISK)
+            {
+                res = (from x in list
+                       join y in _context.Pcharddisks
+                       on x.Id equals y.Id
+                       select new TopSellDTO()
+                       {
+                           Name = y.Name,
+                           Number = x.Number
+                       });
+            }
+            else if (type == ProductType.CPU)
+            {
+                res = (from x in list
+                       join y in _context.Pccpus
+                       on x.Id equals y.Id
+                       select new TopSellDTO()
+                       {
+                           Name = y.Name,
+                           Number = x.Number
+                       });
+            }
+            else if (type == ProductType.SMARTPHONE)
+            {
+                res = (from x in list
+                       join y in _context.Smartphones
+                       on x.Id equals y.Id
+                       select new TopSellDTO()
+                       {
+                           Name = y.Name,
+                           Number = x.Number
+                       });
+            }
+            else if (type == ProductType.VGA)
+            {
+                res = (from x in list
+                       join y in _context.Vgas
+                       on x.Id equals y.Id
+                       select new TopSellDTO()
+                       {
+                           Name = y.Name,
+                           Number = x.Number
+                       });
+            }
+            return res.Take(number).ToList();
         }
         protected IEnumerable<RevenueDTO> GetRevenueWeekDuration(DateTime startDate, DateTime endDate, ProductType type)
         {

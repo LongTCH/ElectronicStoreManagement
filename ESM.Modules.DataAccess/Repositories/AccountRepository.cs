@@ -39,17 +39,7 @@ public class AccountRepository : BaseRepository<Account>, IAccountRepository
         var account = (from ac in _context.Accounts
                        where ac.Id == accountDTO.Id
                        select ac).First();
-        account.FirstName = accountDTO.FirstName;
-        account.LastName = accountDTO.LastName;
-        account.EmailAddress = accountDTO.EmailAddress;
-        account.Phone = accountDTO.Phone;
-        account.AvatarPath = accountDTO.AvatarPath;
-        account.Birthday = accountDTO.Birthday;
-        account.City = accountDTO.City;
-        account.SubDistrict = accountDTO.SubDistrict;
-        account.District = accountDTO.District;
-        account.Street = accountDTO.Street;
-        account.Gender = accountDTO.Gender;
+        _context.Entry(account).CurrentValues.SetValues(accountDTO);
         return null;
     }
     public override object? Add(Account accountDTO)

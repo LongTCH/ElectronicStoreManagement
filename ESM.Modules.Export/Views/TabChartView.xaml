@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="ESM.Modules.Export.Views.TabChartView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:prism="http://prismlibrary.com/"             
+             xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <ScrollViewer HorizontalScrollBarVisibility="Auto">
         <TabControl Margin="5"

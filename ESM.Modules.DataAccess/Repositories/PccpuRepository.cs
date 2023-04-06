@@ -16,6 +16,18 @@ public class PccpuRepository : ProductRepository<Pccpu>, IPccpuRepository
                 .Where(p => p.Remain > -1)
                 .ToList();
     }
+    public override object? Add(Pccpu entity)
+    {
+        _context.Pccpus.Add(entity);
+        return null;
+    }
+    public override object? Update(Pccpu entity)
+    {
+        var hd = _context.Pccpus.AsQueryable()
+               .First(p => p.Id == entity.Id);
+        _context.Entry(hd).CurrentValues.SetValues(entity);
+        return null;
+    }
     public string GetSuggestID()
     {
         return GetSuggestID(ProductType.CPU);

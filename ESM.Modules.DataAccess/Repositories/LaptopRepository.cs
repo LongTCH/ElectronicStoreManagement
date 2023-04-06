@@ -18,7 +18,18 @@ public class LaptopRepository : ProductRepository<Laptop>, ILaptopRepository
                 .Where(p => p.Remain > -1)
                 .ToList();
     }
-
+    public override object? Add(Laptop entity)
+    {
+        _context.Laptops.Add(entity);
+        return null;
+    }
+    public override object? Update(Laptop entity)
+    {
+        var hd = _context.Laptops.AsQueryable()
+               .First(p => p.Id == entity.Id);
+        _context.Entry(hd).CurrentValues.SetValues(entity);
+        return null;
+    }
     public IEnumerable<RevenueDTO> GetRevenueWeekDuration(DateTime startDate, DateTime endDate)
     {
         return GetRevenueWeekDuration(startDate, endDate, ProductType.LAPTOP);
