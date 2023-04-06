@@ -28,7 +28,7 @@ namespace ESM.Modules.Export.ViewModels
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IModalService _modalService;
-
+        public string Header => "Bán chạy";
         public TopSellingReportViewModel(IUnitOfWork unitOfWork, IModalService modalService)
         {
             _unitOfWork = unitOfWork;

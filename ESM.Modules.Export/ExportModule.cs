@@ -30,7 +30,7 @@ namespace ESM.Modules.Export
         {
             containerRegistry.RegisterForNavigation<SellView, SellViewModel>(ViewNames.SellView);
             containerRegistry.RegisterForNavigation<TabChartView, TabChartViewModel>(ViewNames.TabChartView);
-            containerRegistry.RegisterForNavigation<ImportBillView, ImportBillViewModel>(ViewNames.TabChartView);
+            containerRegistry.RegisterForNavigation<ImportBillView, ImportBillViewModel>(ViewNames.ImportBillView);
         }
     }
 }
