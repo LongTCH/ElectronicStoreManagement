@@ -193,12 +193,13 @@ namespace ESM.Modules.Export.ViewModels
                 }
                 series.Add(new RowSeries
                 {
-                    Title = "harddisk",
+                    Title = string.Join(", ", labels),
                     Values = chartValues,
                     DataLabels = true,
                     LabelsPosition = BarLabelPosition.Top,
                     LabelPoint = point => $"{point.X}",
-                });
+                    Fill = System.Windows.Media.Brushes.Blue
+                }) ;
             }
             Series = series;
         }
