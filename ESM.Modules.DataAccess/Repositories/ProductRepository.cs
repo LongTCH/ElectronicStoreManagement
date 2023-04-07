@@ -115,7 +115,7 @@ namespace ESM.Modules.DataAccess.Repositories
                         on x.Id equals y.BillId
                         where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate && y.ProductId.StartsWith(StaticData.IdPrefix[type])
                         group y by y.ProductId into g
-                        select new 
+                        select new
                         {
                             Id = g.Key,
                             Number = g.Sum(x => x.Number)
@@ -197,7 +197,7 @@ namespace ESM.Modules.DataAccess.Repositories
                            Number = x.Number
                        });
             }
-            return res.Take(number).ToList();
+            return res.OrderByDescending(x => x.Number).Take(number).ToList();
         }
         protected IEnumerable<RevenueDTO> GetRevenueWeekDuration(DateTime startDate, DateTime endDate, ProductType type)
         {
