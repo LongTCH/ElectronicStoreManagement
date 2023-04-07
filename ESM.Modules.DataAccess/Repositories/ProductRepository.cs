@@ -1,13 +1,7 @@
 ﻿using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ESM.Modules.DataAccess.Repositories
 {
@@ -27,10 +21,10 @@ namespace ESM.Modules.DataAccess.Repositories
             else if (type == ProductType.SMARTPHONE) NewID = _context.Smartphones.OrderBy(p => p.Id).LastOrDefault()?.Id;
             else if (type == ProductType.VGA) NewID = _context.Vgas.OrderBy(p => p.Id).LastOrDefault()?.Id;
 
-            if (NewID == null) return StaticData.IdPrefix[type] + "0000000";
+            if (NewID == null) return DAStaticData.IdPrefix[type] + "0000000";
             int counter = Convert.ToInt32(NewID[2..]);
             ++counter;
-            return StaticData.IdPrefix[type] + counter.ToString().PadLeft(7, '0');
+            return DAStaticData.IdPrefix[type] + counter.ToString().PadLeft(7, '0');
         }
 
         protected IEnumerable<ReportMock> GetSoldNumberWeekDuration(DateTime startDate, DateTime endDate, ProductType type)
@@ -38,7 +32,7 @@ namespace ESM.Modules.DataAccess.Repositories
             var list = _context.BillProducts
     .Join(_context.Bills, bp => bp.BillId, b => b.Id, (bp, b) => new { BillProduct = bp, Bill = b })
     .Where(x => x.Bill.PurchasedTime >= startDate && x.Bill.PurchasedTime <= endDate)
-    .Where(x => x.BillProduct.ProductId.StartsWith(StaticData.IdPrefix[type]))
+    .Where(x => x.BillProduct.ProductId.StartsWith(DAStaticData.IdPrefix[type]))
     .AsEnumerable() // switch to client-side evaluation
     .GroupBy(x => new { Year = x.Bill.PurchasedTime.Year, Week = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(x.Bill.PurchasedTime, CalendarWeekRule.FirstDay, DayOfWeek.Monday) })
     .Select(g => new ReportMock
@@ -56,7 +50,7 @@ namespace ESM.Modules.DataAccess.Repositories
             var list = _context.BillProducts
     .Join(_context.Bills, bp => bp.BillId, b => b.Id, (bp, b) => new { BillProduct = bp, Bill = b })
     .Where(x => x.Bill.PurchasedTime >= startDate && x.Bill.PurchasedTime <= endDate)
-    .Where(x => x.BillProduct.ProductId.StartsWith(StaticData.IdPrefix[type]))
+    .Where(x => x.BillProduct.ProductId.StartsWith(DAStaticData.IdPrefix[type]))
     .AsEnumerable() // switch to client-side evaluation
     .GroupBy(x => new { Year = x.Bill.PurchasedTime.Year, Month = x.Bill.PurchasedTime.Month })
     .Select(g => new ReportMock
@@ -76,7 +70,7 @@ namespace ESM.Modules.DataAccess.Repositories
             var list = _context.BillProducts
     .Join(_context.Bills, bp => bp.BillId, b => b.Id, (bp, b) => new { BillProduct = bp, Bill = b })
     .Where(x => x.Bill.PurchasedTime >= startDate && x.Bill.PurchasedTime <= endDate)
-    .Where(x => x.BillProduct.ProductId.StartsWith(StaticData.IdPrefix[type]))
+    .Where(x => x.BillProduct.ProductId.StartsWith(DAStaticData.IdPrefix[type]))
     .AsEnumerable() // switch to client-side evaluation
     .GroupBy(x => new { Year = x.Bill.PurchasedTime.Year, Quarter = ((x.Bill.PurchasedTime.Month - 1) / 3) + 1 })
     .Select(g => new ReportMock
@@ -95,7 +89,7 @@ namespace ESM.Modules.DataAccess.Repositories
             var list = _context.BillProducts
       .Join(_context.Bills, bp => bp.BillId, b => b.Id, (bp, b) => new { BillProduct = bp, Bill = b })
       .Where(x => x.Bill.PurchasedTime >= startDate && x.Bill.PurchasedTime <= endDate)
-      .Where(x => x.BillProduct.ProductId.StartsWith(StaticData.IdPrefix[type]))
+      .Where(x => x.BillProduct.ProductId.StartsWith(DAStaticData.IdPrefix[type]))
       .AsEnumerable() // switch to client-side evaluation
      .GroupBy(x => new { Year = x.Bill.PurchasedTime.Year })
        .Select(g => new ReportMock
@@ -113,7 +107,7 @@ namespace ESM.Modules.DataAccess.Repositories
             var list = (from x in _context.Bills
                         join y in _context.BillProducts
                         on x.Id equals y.BillId
-                        where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate && y.ProductId.StartsWith(StaticData.IdPrefix[type])
+                        where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate && y.ProductId.StartsWith(DAStaticData.IdPrefix[type])
                         group y by y.ProductId into g
                         select new
                         {
@@ -204,7 +198,7 @@ namespace ESM.Modules.DataAccess.Repositories
             var l = from x in _context.Bills
                     join y in _context.BillProducts
                     on x.Id equals y.BillId
-                    where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate && y.ProductId.StartsWith(StaticData.IdPrefix[type])
+                    where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate && y.ProductId.StartsWith(DAStaticData.IdPrefix[type])
                     select new { Year = x.PurchasedTime.Year, Week = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(x.PurchasedTime, CalendarWeekRule.FirstDay, DayOfWeek.Monday), Revenue = y.Amount };
             return (from x in l
                     group x by new { x.Year, x.Week } into g

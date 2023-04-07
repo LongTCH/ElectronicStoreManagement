@@ -1,10 +1,12 @@
 ﻿using ESM.Core.ShareServices;
+using ESM.Modules.DataAccess;
 using ESM.Modules.DataAccess.Infrastructure;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using System.Windows;
@@ -28,10 +30,12 @@ namespace ESM.Modules.Import.ViewModels
             SelectDetail = new(getDetailPath);
             AddAvatarCommand = new(addAvatarCommand);
             ClearCommand = new(clearCommand);
-            FindCommand = new(findCommand);
+            EditCommand = new(findCommand);
+            AddCommand = new(addCommand);
+            DeleteCommand = new(deleteCommand);
         }
-        private IEnumerable<T> productList;
-        public IEnumerable<T> ProductList
+        private ObservableCollection<T> productList;
+        public ObservableCollection<T> ProductList
         {
             get => productList;
             set => SetProperty(ref productList, value);
@@ -68,7 +72,7 @@ namespace ESM.Modules.Import.ViewModels
             get => discount;
             set => SetProperty(ref discount, value, () => ValidateProperty(value, nameof(Discount)));
         }
-        private int remain;
+        private int remain = -2;
         public int Remain
         {
             get => remain;
@@ -105,15 +109,25 @@ namespace ESM.Modules.Import.ViewModels
             get => imagePath;
             set => SetProperty(ref imagePath, value);
         }
+        private bool isNotInDatabase = true;
+        public bool IsNotInDatabase
+        {
+            get => isNotInDatabase;
+            set => SetProperty(ref isNotInDatabase, value);
+        }
         public DelegateCommand SelectFolder { get; }
         public DelegateCommand SelectDetail { get; }
         public DelegateCommand AddAvatarCommand { get; }
         public DelegateCommand SaveCommand { get; }
         public DelegateCommand ClearCommand { get; }
-        public DelegateCommand FindCommand { get; }
+        public DelegateCommand AddCommand { get; }
+        public DelegateCommand DeleteCommand { get; }
+        public DelegateCommand<ProductDTO> EditCommand { get; }
         protected abstract void saveCommand();
         protected abstract void clearCommand();
-        protected abstract void findCommand();
+        protected abstract void addCommand();
+        protected abstract void deleteCommand();
+        protected abstract void findCommand(ProductDTO productDTO);
         private void getFolderPath()
         {
             ImagePath = _openDialogService.FolderDialog();

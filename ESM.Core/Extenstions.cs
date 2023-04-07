@@ -1,10 +1,4 @@
-﻿using ESM.Core.ShareServices;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Prism.Commands;
-using Prism.Mvvm;
-using Prism.Regions;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using Prism.Regions;
 using System.Linq;
 
 namespace ESM.Core
@@ -63,5 +57,6 @@ namespace ESM.Core
             var view = regionManager.Regions[RegionNames.ContentRegion].Views.First(v => v.GetType().Equals(typeof(T)));
             regionManager.Regions[RegionNames.ContentRegion].Deactivate(view);
         }
+
     }
 }

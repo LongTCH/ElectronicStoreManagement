@@ -36,19 +36,19 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         private void DecreaseRemain(string id, int number)
         {
-            if (id.StartsWith(StaticData.IdPrefix[ProductType.LAPTOP]))
+            if (id.StartsWith(DAStaticData.IdPrefix[ProductType.LAPTOP]))
                 _context.Laptops.Where(p => p.Id == id).First().Remain -= number;
-            else if (id.StartsWith(StaticData.IdPrefix[ProductType.PC]))
+            else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.PC]))
                 _context.Pcs.Where(p => p.Id == id).First().Remain -= number;
-            else if (id.StartsWith(StaticData.IdPrefix[ProductType.MONITOR]))
+            else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.MONITOR]))
                 _context.Monitors.Where(p => p.Id == id).First().Remain -= number;
-            else if (id.StartsWith(StaticData.IdPrefix[ProductType.CPU]))
+            else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.CPU]))
                 _context.Pccpus.Where(p => p.Id == id).First().Remain -= number;
-            else if (id.StartsWith(StaticData.IdPrefix[ProductType.HARDDISK]))
+            else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.HARDDISK]))
                 _context.Pcharddisks.Where(p => p.Id == id).First().Remain -= number;
-            else if (id.StartsWith(StaticData.IdPrefix[ProductType.SMARTPHONE]))
+            else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.SMARTPHONE]))
                 _context.Smartphones.Where(p => p.Id == id).First().Remain -= number;
-            else if (id.StartsWith(StaticData.IdPrefix[ProductType.VGA]))
+            else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.VGA]))
                 _context.Vgas.Where(p => p.Id == id).First().Remain -= number;
         }
     }

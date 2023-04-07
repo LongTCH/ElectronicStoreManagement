@@ -51,9 +51,6 @@ namespace ESM
             containerRegistry.RegisterSingleton<ISendEmailService, SendEmailService>();
             containerRegistry.RegisterSingleton<IApplicationCommand, ApplicationCommand>();
             containerRegistry.RegisterSingleton<ICityListService, CityListService>();
-
-            containerRegistry.RegisterDialogWindow<DialogWindow>();
-            containerRegistry.RegisterDialog<NotificationDialog, NotificationDialogViewModel>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

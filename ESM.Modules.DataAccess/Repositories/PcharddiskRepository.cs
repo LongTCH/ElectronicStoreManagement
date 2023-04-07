@@ -37,10 +37,15 @@ public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRe
         _context.Pcharddisks.Add(entity);
         return null;
     }
-
+    public override object? Delete(string id)
+    {
+        var p = _context.Pcharddisks.SingleOrDefault(p => p.Id == id);
+        p.Remain = -1;
+        return null;
+    }
     public string GetSuggestID()
     {
-        return GetSuggestID(ProductType.CPU);
+        return GetSuggestID(ProductType.HARDDISK);
     }
     public IEnumerable<ReportMock> GetSoldNumberMonthDuration(DateTime startDate, DateTime endDate)
     {

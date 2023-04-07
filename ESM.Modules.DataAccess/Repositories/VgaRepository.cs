@@ -33,6 +33,12 @@ public class VgaRepository : ProductRepository<Vga>, IVgaRepository
     {
         return GetSuggestID(ProductType.VGA);
     }
+    public override object? Delete(string id)
+    {
+        var p = _context.Vgas.SingleOrDefault(p => p.Id == id);
+        p.Remain = -1;
+        return null;
+    }
     public IEnumerable<ReportMock> GetSoldNumberMonthDuration(DateTime startDate, DateTime endDate)
     {
         return GetSoldNumberMonthDuration(startDate, endDate, ProductType.VGA);

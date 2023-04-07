@@ -1,4 +1,5 @@
 ﻿using ESM.Core.ShareServices;
+using ESM.Modules.DataAccess;
 using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
@@ -71,8 +72,9 @@ namespace ESM.Modules.Import.ViewModels
             RaisePropertyChanged(nameof(IsDefault));
         }
 
-        protected override void findCommand()
+        protected override void findCommand(ProductDTO productDTO)
         {
+            Product = (Laptop)productDTO;
             Id = Product.Id;
             Cpu = Product.Cpu;
             Company = Product.Company;
@@ -91,69 +93,83 @@ namespace ESM.Modules.Import.ViewModels
 
         }
 
-        protected override void saveCommand()
+        protected override void addCommand()
         {
             if (Id == null || Company == null || Unit == null ||
-                Name == null || Storage == null || Graphic == null ||
-                Cpu == null || Ram == null)
+               Name == null || Storage == null || Graphic == null ||
+               Cpu == null || Ram == null)
             {
                 _modalService.ShowModal(ModalType.Error, "Nhập tất cả thông tin cần thiết", "Cảnh báo");
                 return;
             }
-            Task<bool> task = new(() =>
+            Laptop laptopDTO = new()
             {
-                Laptop laptopDTO = new()
-                {
-                    Id = Id,
-                    Cpu = Cpu,
-                    Company = Company,
-                    Unit = Unit,
-                    Graphic = Graphic,
-                    Name = Name,
-                    Price = Price,
-                    Discount = Discount,
-                    DetailPath = DetailPath,
-                    AvatarPath = AvatarPath,
-                    ImagePath = ImagePath,
-                    Ram = Ram,
-                    Need = Need,
-                    Storage = Storage,
-                    Remain = Remain,
-                    Series = Series,
-                };
-                try
-                {
-                    if (Product == null)
-                        _unitOfWork.Laptops.Add(laptopDTO);
-                    else
-                    {
-                        _unitOfWork.Laptops.Update(laptopDTO);
-                        Product = laptopDTO;
-                    }
-                    _unitOfWork.SaveChange();
-                    ProductList = _unitOfWork.Laptops.GetAll();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-            });
-            task.Start();
-            task.Await();
-            var res = task.Result;
-            if (res)
+                Id = Id,
+                Cpu = Cpu,
+                Company = Company,
+                Unit = Unit,
+                Graphic = Graphic,
+                Name = Name,
+                Price = Price,
+                Discount = Discount,
+                DetailPath = DetailPath,
+                AvatarPath = AvatarPath,
+                ImagePath = ImagePath,
+                Ram = Ram,
+                Need = Need,
+                Storage = Storage,
+                Remain = Remain,
+                Series = Series,
+            }; 
+            ProductList.Add(laptopDTO);
+        }
+        protected override void saveCommand()
+        {
+            foreach (var item in ProductList)
             {
-                _modalService.ShowModal(ModalType.Information, "Đã lưu", "Thông báo");
-                clearCommand();
+               
             }
-            else _modalService.ShowModal(ModalType.Error, "Lưu không thành công", "Lỗi");
+            //    Task<bool> task = new(() =>
+            //    {
+
+            //        try
+            //        {
+            //            if (Product == null)
+            //                _unitOfWork.Laptops.Add(laptopDTO);
+            //            else
+            //            {
+            //                _unitOfWork.Laptops.Update(laptopDTO);
+            //                Product = laptopDTO;
+            //            }
+            //            _unitOfWork.SaveChange();
+            //            ProductList = _unitOfWork.Laptops.GetAll();
+            //            return true;
+            //        }
+            //        catch (Exception)
+            //        {
+            //            return false;
+            //        }
+            //    });
+            //    task.Start();
+            //    task.Await();
+            //    var res = task.Result;
+            //    if (res)
+            //    {
+            //        _modalService.ShowModal(ModalType.Information, "Đã lưu", "Thông báo");
+            //        clearCommand();
+            //    }
+            //    else _modalService.ShowModal(ModalType.Error, "Lưu không thành công", "Lỗi");
         }
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
             {
-                ProductList = _unitOfWork.Laptops.GetAll();
+                ProductList = new(_unitOfWork.Laptops.GetAll());
             }
+        }
+
+        protected override void deleteCommand()
+        {
+            throw new NotImplementedException();
         }
     }
 }

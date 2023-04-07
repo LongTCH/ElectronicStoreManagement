@@ -14,7 +14,7 @@ public class LaptopRepository : ProductRepository<Laptop>, ILaptopRepository
     }
     public override IEnumerable<Laptop>? GetAll()
     {
-        return _context.Laptops.AsQueryable()
+        return _context.Laptops
                 .Where(p => p.Remain > -1)
                 .ToList();
     }
@@ -28,6 +28,12 @@ public class LaptopRepository : ProductRepository<Laptop>, ILaptopRepository
         var hd = _context.Laptops.AsQueryable()
                .First(p => p.Id == entity.Id);
         _context.Entry(hd).CurrentValues.SetValues(entity);
+        return null;
+    }
+    public override object? Delete(string id)
+    {
+        var p = _context.Laptops.SingleOrDefault(p => p.Id == id);
+        p.Remain = -1;
         return null;
     }
     public IEnumerable<RevenueDTO> GetRevenueWeekDuration(DateTime startDate, DateTime endDate)
@@ -64,4 +70,12 @@ public class LaptopRepository : ProductRepository<Laptop>, ILaptopRepository
     {
         return GetTopSoldProducts(startDate, endDate, ProductType.LAPTOP, number);
     }
+
+    //public object? Save(List<Laptop> laptops)
+    //{
+    //    foreach (var item in laptops)
+    //    {
+    //        var exist = _context.Laptops.SingleOrDefault(x =>x.Id == item.Id);
+    //    }
+    //}
 }

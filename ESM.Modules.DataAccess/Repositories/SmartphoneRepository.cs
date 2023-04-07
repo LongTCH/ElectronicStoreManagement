@@ -29,6 +29,12 @@ namespace ESM.Modules.DataAccess.Repositories
             _context.Entry(hd).CurrentValues.SetValues(entity);
             return null;
         }
+        public override object? Delete(string id)
+        {
+            var p = _context.Smartphones.SingleOrDefault(p => p.Id == id);
+            p.Remain = -1;
+            return null;
+        }
         public string GetSuggestID()
         {
             return GetSuggestID(ProductType.SMARTPHONE);
