@@ -36,6 +36,7 @@ namespace ESM.Modules.Import.ViewModels
 
             WorkType = new[] { "THÊM", "SỬA", "XÓA" };
         }
+        protected HashSet<string> NotInDatabase;
         private ObservableCollection<T> productList;
         public ObservableCollection<T> ProductList
         {
@@ -74,7 +75,7 @@ namespace ESM.Modules.Import.ViewModels
             get => discount;
             set => SetProperty(ref discount, value, () => ValidateProperty(value, nameof(Discount)));
         }
-        private int remain = -2;
+        private int remain;
         public int Remain
         {
             get => remain;

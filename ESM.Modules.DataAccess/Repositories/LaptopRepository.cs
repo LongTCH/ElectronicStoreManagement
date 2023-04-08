@@ -74,11 +74,15 @@ public class LaptopRepository : ProductRepository<Laptop>, ILaptopRepository
         return GetTopSoldProducts(startDate, endDate, ProductType.LAPTOP, number);
     }
 
-    //public object? Save(List<Laptop> laptops)
-    //{
-    //    foreach (var item in laptops)
-    //    {
-    //        var exist = _context.Laptops.SingleOrDefault(x =>x.Id == item.Id);
-    //    }
-    //}
+    public override async Task<object?> AddList(IEnumerable<Laptop> list)
+    {
+        bool res = true;
+        try
+        {
+            await _context.Laptops.AddRangeAsync(list);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex) { res = false; }
+        return res;
+    }
 }

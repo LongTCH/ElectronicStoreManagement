@@ -1,4 +1,5 @@
 ﻿using ESM.Modules.DataAccess.DTOs;
+using ESM.Modules.DataAccess.Models;
 
 namespace ESM.Modules.DataAccess.Infrastructure
 {
@@ -6,7 +7,8 @@ namespace ESM.Modules.DataAccess.Infrastructure
     {
         Task<T?> GetById(string id);
         Task<IEnumerable<T>?> GetAll();
-        Task<object?> Add(T entity);
+        Task<object?> Add(T entity); 
+        Task<object?> AddList(IEnumerable<T> list);
         Task<object?> Delete(string id);
         Task<object?> Update(T entity);
         bool Any(string id);

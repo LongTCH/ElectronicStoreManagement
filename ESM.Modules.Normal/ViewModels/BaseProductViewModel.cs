@@ -45,7 +45,7 @@ namespace ESM.Modules.Normal.ViewModels
         {
             _unitOfWork = unitOfWork;
             _modalService = modalService;
-            GetProductList().Await();
+            
             ProductDetailNavigateCommand = new(navigate);
         }
         protected Action LoadAttribute;
@@ -115,7 +115,7 @@ namespace ESM.Modules.Normal.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-
+            GetProductList().Await();
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

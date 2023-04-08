@@ -125,6 +125,7 @@
                         </DockPanel>
                     </StackPanel>
                 </Grid>
+                <!--#region Content-->
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
@@ -295,6 +296,7 @@
                                  FontSize="18" />
                     </DockPanel>
                 </Grid>
+                <!--#endregion-->
                 <Grid Margin="0,20,0,20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
@@ -324,6 +326,7 @@
                 </Grid>
             </StackPanel>
             <DataGrid ItemsSource="{Binding ProductList}"
+                      IsReadOnly="True"
                       Grid.Row="1"
                       HorizontalAlignment="Stretch"
                       AutoGenerateColumns="False"
@@ -338,36 +341,33 @@
                       x:Name="myDataGrid"
                       MinHeight="100"
                       helper:DataGridBehavior.RowNumbers="True">
+                <DataGrid.CellStyle>
+                    <Style TargetType="{x:Type DataGridCell}"
+                           BasedOn="{StaticResource MaterialDesignDataGridCell}">
+                        <EventSetter Event="PreviewKeyDown"
+                                     Handler="DataGridCell_PreviewKeyDown" />
+                    </Style>
+                </DataGrid.CellStyle>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Mã"
-                                        IsReadOnly="True"
                                         Binding="{Binding Id, Mode=OneWay}" />
                     <DataGridTextColumn Header="Tên"
-                                        IsReadOnly="True"
                                         Binding="{Binding Name, Mode=OneWay}" />
                     <DataGridTextColumn Header="Giá"
-                                        IsReadOnly="True"
                                         Binding="{Binding SellPrice, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
                     <DataGridTextColumn Header="Đơn vị"
-                                        IsReadOnly="True"
                                         Binding="{Binding Unit, Mode=OneWay}" />
                     <DataGridTextColumn Header="Giảm giá"
-                                        IsReadOnly="True"
                                         Binding="{Binding Discount, UpdateSourceTrigger=LostFocus}" />
                     <DataGridTextColumn Header="Bộ nhớ"
-                                        IsReadOnly="True"
                                         Binding="{Binding Storage, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
                     <DataGridTextColumn Header="Chuẩn kết nối"
-                                        IsReadOnly="True"
                                         Binding="{Binding Connect}" />
                     <DataGridTextColumn Header="Loại ổ cứng"
-                                        IsReadOnly="True"
                                         Binding="{Binding Type}" />
                     <DataGridTextColumn Header="Series"
-                                        IsReadOnly="True"
                                         Binding="{Binding Series}" />
                     <DataGridTextColumn Header="Thương hiệu"
-                                        IsReadOnly="True"
                                         Binding="{Binding Company}" />
                     <DataGridTemplateColumn Header="Sửa">
                         <DataGridTemplateColumn.HeaderStyle>
@@ -442,7 +442,7 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <!--<DataGridTextColumn Header="Tinfh trạng"
-                                        IsReadOnly="True"
+                                      
                                         Binding="{Binding State}" />-->
                 </DataGrid.Columns>
             </DataGrid>

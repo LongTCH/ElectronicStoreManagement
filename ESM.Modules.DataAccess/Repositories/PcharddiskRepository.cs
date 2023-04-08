@@ -7,7 +7,6 @@ namespace ESM.Modules.DataAccess.Repositories;
 
 public interface IPcharddiskRepository : IProductRepository<Pcharddisk>
 {
-    Task<object?> AddList(IEnumerable<Pcharddisk> list);
 }
 public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRepository
 {
@@ -87,9 +86,15 @@ public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRe
         return GetRevenueWeekDuration(startDate, endDate, ProductType.HARDDISK);
     }
 
-    public async Task<object?> AddList(IEnumerable<Pcharddisk> list)
+    public override async Task<object?> AddList(IEnumerable<Pcharddisk> list)
     {
-        await _context.Pcharddisks.AddRangeAsync(list);
-        return null;
+        bool res = true;
+        try
+        {
+            await _context.Pcharddisks.AddRangeAsync(list);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex) { res = false; }
+        return res;
     }
 }

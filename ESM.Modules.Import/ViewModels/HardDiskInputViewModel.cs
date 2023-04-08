@@ -18,7 +18,6 @@ namespace ESM.Modules.Import.ViewModels
         {
 
         }
-        HashSet<string> NotInDatabase;
         public string Header => "Hard Disk";
         private string storage;
         public string Storage
@@ -53,7 +52,8 @@ namespace ESM.Modules.Import.ViewModels
                     _modalService.ShowModal(ModalType.Error, "Sai định dạng ID", "Cảnh báo");
                     return;
                 }
-                if (ProductList.Any(x => x.Id == Id))
+                var exist = await _unitOfWork.Bills.IsProductExistInBill(Id);
+                if (ProductList.Any(x => x.Id == Id) || exist)
                 {
                     _modalService.ShowModal(ModalType.Error, "ID đã tồn tại", "Cảnh báo");
                     return;
@@ -65,23 +65,7 @@ namespace ESM.Modules.Import.ViewModels
                     _modalService.ShowModal(ModalType.Error, "Nhập tất cả thông tin cần thiết", "Cảnh báo");
                     return;
                 }
-                Pcharddisk pcharddiskDTO = new()
-                {
-                    Name = Name,
-                    Storage = Storage,
-                    Connect = Connect,
-                    Series = Series,
-                    Type = Type,
-                    Company = Company,
-                    DetailPath = DetailPath,
-                    Discount = Discount,
-                    Id = Id,
-                    ImagePath = ImagePath,
-                    AvatarPath = AvatarPath,
-                    Price = Price,
-                    Unit = Unit,
-                    Remain = 0,
-                };
+                Pcharddisk pcharddiskDTO = GetPcharddisk();
                 ProductList.Add(pcharddiskDTO);
                 NotInDatabase.Add(Id);
                 clearCommand();
@@ -95,36 +79,15 @@ namespace ESM.Modules.Import.ViewModels
                     _modalService.ShowModal(ModalType.Error, "Nhập tất cả thông tin cần thiết", "Cảnh báo");
                     return;
                 }
-                Pcharddisk pcharddiskDTO = new()
-                {
-                    Name = Name,
-                    Storage = Storage,
-                    Connect = Connect,
-                    Series = Series,
-                    Type = Type,
-                    Company = Company,
-                    DetailPath = DetailPath,
-                    Discount = Discount,
-                    Id = Id,
-                    ImagePath = ImagePath,
-                    AvatarPath = AvatarPath,
-                    Price = Price,
-                    Unit = Unit,
-                    Remain = Remain,
-                };
+                var pcharddiskDTO = GetPcharddisk();
+                pcharddiskDTO.Remain = Remain;
                 var res = await _unitOfWork.Pcharddisks.Update(pcharddiskDTO);
                 if ((bool)res)
                 _modalService.ShowModal(ModalType.Information, "Cập nhật thành công", "Thông báo");
                 else _modalService.ShowModal(ModalType.Error, "Có lỗi xảy ra", "Thông báo");
                 // Clear
-                Product = null;
-                Id = null;
-                Company = null; Unit = null; Series = null;
-                Name = null; Storage = null; Connect = null; Type = null;
-                AvatarPath = null; Price = 0; Discount = 0;
-                ImagePath = null; DetailPath = null; Remain = 0;
-                RaisePropertyChanged(nameof(IsDefault));
-                var list = await _unitOfWork.Pcharddisks.GetAll();
+                Empty();
+                 var list = await _unitOfWork.Pcharddisks.GetAll();
                 ProductList = new(list);
             }
         }
@@ -143,13 +106,7 @@ namespace ESM.Modules.Import.ViewModels
         {
             if (SelectedWorkType == "THÊM")
             {
-                Product = null;
-                Id = null;
-                Company = null; Unit = null; Series = null;
-                Name = null; Storage = null; Connect = null; Type = null;
-                AvatarPath = null; Price = 0; Discount = 0;
-                ImagePath = null; DetailPath = null; Remain = 0;
-                RaisePropertyChanged(nameof(IsDefault));
+                Empty();
             }
             else if (SelectedWorkType == "SỬA")
             {
@@ -218,6 +175,36 @@ namespace ESM.Modules.Import.ViewModels
                 }
             }
 
+        }
+        private Pcharddisk GetPcharddisk()
+        {
+            return new()
+            {
+                Name = Name,
+                Storage = Storage,
+                Connect = Connect,
+                Series = Series,
+                Type = Type,
+                Company = Company,
+                DetailPath = DetailPath,
+                Discount = Discount,
+                Id = Id,
+                ImagePath = ImagePath,
+                AvatarPath = AvatarPath,
+                Price = Price,
+                Unit = Unit,
+                Remain = 0,
+            };
+        }
+        private void Empty()
+        {
+            Product = null;
+            Id = null;
+            Company = null; Unit = null; Series = null;
+            Name = null; Storage = null; Connect = null; Type = null;
+            AvatarPath = null; Price = 0; Discount = 0;
+            ImagePath = null; DetailPath = null; Remain = 0;
+            RaisePropertyChanged(nameof(IsDefault));
         }
     }
 }

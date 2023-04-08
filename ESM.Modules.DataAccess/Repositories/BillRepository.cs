@@ -7,6 +7,7 @@ namespace ESM.Modules.DataAccess.Repositories
 {
     public interface IBillRepository : IBaseRepository<Bill>
     {
+        Task<bool> IsProductExistInBill(string productId);
     }
     public class BillRepository : BaseRepository<Bill>, IBillRepository
     {
@@ -50,6 +51,11 @@ namespace ESM.Modules.DataAccess.Repositories
                 _context.Smartphones.Where(p => p.Id == id).First().Remain -= number;
             else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.VGA]))
                 _context.Vgas.Where(p => p.Id == id).First().Remain -= number;
+        }
+
+        public async Task<bool> IsProductExistInBill(string productId)
+        {
+            return await _context.BillProducts.AnyAsync(x=> x.ProductId == productId);
         }
     }
 }

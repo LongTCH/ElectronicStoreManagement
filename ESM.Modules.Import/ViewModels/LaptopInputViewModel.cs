@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ESM.Modules.Import.ViewModels
 {
@@ -63,13 +64,15 @@ namespace ESM.Modules.Import.ViewModels
 
         protected override void clearCommand()
         {
-            Product = null;
-            Id = _unitOfWork.Pcharddisks.GetSuggestID();
-            Company = null; Unit = null; Graphic = null;
-            Name = null; Cpu = null; Need = null;
-            AvatarPath = null; Price = 0; Discount = 0; Remain = 0;
-            Ram = null; ImagePath = null; DetailPath = null; Series = null;
-            RaisePropertyChanged(nameof(IsDefault));
+            if (SelectedWorkType == "THÊM")
+            {
+                Empty();
+            }
+            else if (SelectedWorkType == "SỬA")
+            {
+                Price = 0; Discount = null;
+                if (Product != null) findCommand(Product);
+            }
         }
 
         protected override void findCommand(ProductDTO productDTO)
@@ -102,63 +105,19 @@ namespace ESM.Modules.Import.ViewModels
                 _modalService.ShowModal(ModalType.Error, "Nhập tất cả thông tin cần thiết", "Cảnh báo");
                 return;
             }
-            Laptop laptopDTO = new()
-            {
-                Id = Id,
-                Cpu = Cpu,
-                Company = Company,
-                Unit = Unit,
-                Graphic = Graphic,
-                Name = Name,
-                Price = Price,
-                Discount = Discount,
-                DetailPath = DetailPath,
-                AvatarPath = AvatarPath,
-                ImagePath = ImagePath,
-                Ram = Ram,
-                Need = Need,
-                Storage = Storage,
-                Remain = Remain,
-                Series = Series,
-            }; 
+            Laptop laptopDTO = GetLaptop();
+            laptopDTO.Remain = Remain;
             ProductList.Add(laptopDTO);
         }
         protected override async Task saveCommand()
         {
-            foreach (var item in ProductList)
+            var res = await _unitOfWork.Laptops.AddList(ProductList);
+            if ((bool)res)
             {
-               
+                _modalService.ShowModal(ModalType.Information, "Đã lưu", "Thông báo");
+                ProductList = new();
             }
-            //    Task<bool> task = new(() =>
-            //    {
-
-            //        try
-            //        {
-            //            if (Product == null)
-            //                _unitOfWork.Laptops.Add(laptopDTO);
-            //            else
-            //            {
-            //                _unitOfWork.Laptops.Update(laptopDTO);
-            //                Product = laptopDTO;
-            //            }
-            //           
-            //            ProductList = _unitOfWork.Laptops.GetAll();
-            //            return true;
-            //        }
-            //        catch (Exception)
-            //        {
-            //            return false;
-            //        }
-            //    });
-            //    task.Start();
-            //    task.Await();
-            //    var res = task.Result;
-            //    if (res)
-            //    {
-            //        _modalService.ShowModal(ModalType.Information, "Đã lưu", "Thông báo");
-            //        clearCommand();
-            //    }
-            //    else _modalService.ShowModal(ModalType.Error, "Lưu không thành công", "Lỗi");
+            else _modalService.ShowModal(ModalType.Error, "Lưu không thành công", "Lỗi");
             await Task.CompletedTask;
         }
         public override async void OnNavigatedTo(NavigationContext navigationContext)
@@ -167,14 +126,73 @@ namespace ESM.Modules.Import.ViewModels
             ProductList = new(list);
         }
 
-        protected override void CurrentWorkTypeChanged()
+        protected override async void CurrentWorkTypeChanged()
         {
-            throw new NotImplementedException();
+            if (SelectedWorkType == "THÊM")
+            {
+                ProductList = new();
+            }
+            else
+            {
+                var list = await _unitOfWork.Laptops.GetAll();
+                ProductList = new(list);
+            }
+            clearCommand();
         }
 
-        protected override void deleteCommand(ProductDTO productDTO)
+        protected override async void deleteCommand(ProductDTO productDTO)
         {
-            throw new NotImplementedException();
+            if (SelectedWorkType == "THÊM")
+            {
+                if (NotInDatabase.Contains(productDTO.Id))
+                {
+                    var p = ProductList.Single(x => x.Id == productDTO.Id);
+                    ProductList.Remove(p);
+                    NotInDatabase.Remove(productDTO.Id);
+                }
+            }
+            else
+            {
+                if (MessageBox.Show("Bạn có chắc chắn xóa?", "Cảnh báo", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    await _unitOfWork.Laptops.Delete(productDTO.Id);
+                    var list = await _unitOfWork.Laptops.GetAll();
+                    ProductList = new(list);
+                }
+            }
+        }
+        private Laptop GetLaptop()
+        {
+            return new()
+            {
+                Name = Name,
+                Storage = Storage,
+                Series = Series,
+                Company = Company,
+                DetailPath = DetailPath,
+                Discount = Discount,
+                Id = Id,
+                ImagePath = ImagePath,
+                AvatarPath = AvatarPath,
+                Price = Price,
+                Unit = Unit,
+                Remain = 0,
+                Cpu = Cpu,
+                Graphic =Graphic,
+                Need = Need,
+                Ram = Ram
+            };
+        }
+        private void Empty()
+        {
+            Product = null;
+            Id = null;
+            Company = null; Unit = null; Series = null;
+            Name = null; Storage = null; Graphic = null;
+            Cpu = null; Need = null; Ram = null;
+            AvatarPath = null; Price = 0; Discount = 0;
+            ImagePath = null; DetailPath = null; Remain = 0;
+            RaisePropertyChanged(nameof(IsDefault));
         }
     }
 }

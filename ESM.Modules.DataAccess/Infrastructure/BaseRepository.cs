@@ -16,6 +16,11 @@ namespace ESM.Modules.DataAccess.Infrastructure
             throw new NotImplementedException();
         }
 
+        public virtual Task<object?> AddList(IEnumerable<T> list)
+        {
+            throw new NotImplementedException();
+        }
+
         public virtual bool Any(string id)
         {
             throw new NotImplementedException();
