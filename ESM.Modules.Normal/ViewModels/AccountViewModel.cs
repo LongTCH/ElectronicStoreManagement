@@ -113,7 +113,6 @@ namespace ESM.Modules.Normal.ViewModels
                 RaisePropertyChanged(nameof(Avatar_Path));
             }
             _unitOfWork.Accounts.Update(_accountStore.CurrentAccount!);
-            _unitOfWork.SaveChangesAsync();
         }
     }
 }

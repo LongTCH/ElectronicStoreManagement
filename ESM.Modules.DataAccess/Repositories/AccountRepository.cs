@@ -1,6 +1,7 @@
 ﻿using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ESM.Modules.DataAccess.Repositories;
 
@@ -14,11 +15,11 @@ public class AccountRepository : BaseRepository<Account>, IAccountRepository
     public AccountRepository(ESMDbContext context) : base(context)
     {
     }
-    public override Account? GetById(string id)
+    public override async Task<Account?> GetById(string id)
     {
-        return _context.Accounts.AsQueryable()
+        return await _context.Accounts.AsQueryable()
                 .Where(ac => ac.Id == id)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
     }
     public override bool Any(string id)
     {
@@ -34,17 +35,19 @@ public class AccountRepository : BaseRepository<Account>, IAccountRepository
         result = result.Insert(0, new('0', 4 - result.Length));
         return prefix + result;
     }
-    public override object? Update(Account accountDTO)
+    public override async Task<object?> Update(Account accountDTO)
     {
         var account = (from ac in _context.Accounts
                        where ac.Id == accountDTO.Id
                        select ac).First();
         _context.Entry(account).CurrentValues.SetValues(accountDTO);
+        await _context.SaveChangesAsync();
         return null;
     }
-    public override object? Add(Account accountDTO)
+    public override async Task<object?> Add(Account accountDTO)
     {
-        _context.Accounts.Add(accountDTO);
+        await _context.Accounts.AddAsync(accountDTO);
+        await _context.SaveChangesAsync();
         return null;
     }
     public void ResetPassword(string ID, string newPasswordHash)

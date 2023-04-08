@@ -41,10 +41,11 @@ namespace ESM
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             ViewModelLocationProvider.Register<MainWindow, MainWindowViewModel>();
+            containerRegistry.Register<IUnitOfWork, UnitOfWork>();
+
             containerRegistry.RegisterSingleton<MainWindowViewModel>();
             containerRegistry.RegisterSingleton<MainWindow>();
             containerRegistry.RegisterSingleton<AccountStore>();
-            containerRegistry.RegisterSingleton<IUnitOfWork, UnitOfWork>();
             containerRegistry.RegisterSingleton<IModalService, ModalService>();
             containerRegistry.RegisterSingleton<IOpenDialogService, OpenDialogService>();
             containerRegistry.RegisterSingleton<IDialogCoordinator, DialogCoordinator>();

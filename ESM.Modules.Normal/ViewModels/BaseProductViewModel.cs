@@ -21,8 +21,12 @@ namespace ESM.Modules.Normal.ViewModels
         protected dynamic _productDTOs;
         public dynamic ProductList { get; set; }
         public List<string> Conditions { get; } = StaticData.Conditions;
-        
-        public double MaxPrice { get; set; } = 0;
+        private double maxPrice;
+        public double MaxPrice
+        {
+            get => maxPrice;
+            set => SetProperty(ref maxPrice, value);
+        }
         public double TickFrequency { get; } = 500_000;
         private double upperValue;
         public double UpperValue
@@ -43,23 +47,23 @@ namespace ESM.Modules.Normal.ViewModels
             GetProductList();
             ProductDetailNavigateCommand = new(navigate);
         }
-        private void GetProductList()
+        private async void GetProductList()
         {
             dynamic list = null;
             if (typeof(T).Equals(typeof(Laptop)))
-                list = _unitOfWork.Laptops.GetAll();
+                list = await _unitOfWork.Laptops.GetAll();
             else if (typeof(T).Equals(typeof(Monitor)))
-                list = _unitOfWork.Monitors.GetAll();
+                list = await _unitOfWork.Monitors.GetAll();
             else if (typeof(T).Equals(typeof(Pccpu)))
-                list = _unitOfWork.Pccpus.GetAll();
+                list = await _unitOfWork.Pccpus.GetAll();
             else if (typeof(T).Equals(typeof(Pc)))
-                list = _unitOfWork.Pcs.GetAll();
+                list = await _unitOfWork.Pcs.GetAll();
             else if (typeof(T).Equals(typeof(Smartphone)))
-                list = _unitOfWork.Smartphones.GetAll();
+                list = await _unitOfWork.Smartphones.GetAll();
             else if (typeof(T).Equals(typeof(Vga)))
-                list = _unitOfWork.Vgas.GetAll();
+                list = await _unitOfWork.Vgas.GetAll();
             else if (typeof(T).Equals(typeof(Pcharddisk)))
-                list = _unitOfWork.Pcharddisks.GetAll();
+                list = await _unitOfWork.Pcharddisks.GetAll();
             if (list != null && list.Count > 0)
             {
                 ProductList = list;

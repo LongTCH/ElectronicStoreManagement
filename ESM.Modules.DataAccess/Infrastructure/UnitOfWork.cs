@@ -39,14 +39,18 @@ namespace ESM.Modules.DataAccess.Infrastructure
             Smartphones = new SmartphoneRepository(context);
             Bills = new BillRepository(context);
         }
-
-        public int SaveChange()
-        {
-            return _context.SaveChanges();
-        }
         public async Task<int> SaveChangesAsync()
         {
-            return await _context.SaveChangesAsync();
+            int res;
+            try
+            {
+                res = await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                res = -1;
+            }
+            return res;
         }
         #region Dispose
         protected virtual void Dispose(bool disposing)

@@ -13,19 +13,19 @@ namespace ESM.Modules.DataAccess.Repositories
         public BillRepository(ESMDbContext context) : base(context)
         {
         }
-        public override Bill? GetById(string id)
+        public override async Task<Bill?> GetById(string id)
         {
-            return _context.Bills.AsQueryable()
+            return await _context.Bills.AsQueryable()
                 .Where(b => b.Id == Convert.ToInt32(id))
                 .Include(b => b.BillProducts)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
         }
-        public override object? Add(Bill entity)
+        public override async Task<object?> Add(Bill entity)
         {
             entity.Id = GetNewID();
             foreach (var item in entity.BillProducts)
                 DecreaseRemain(item.ProductId, item.Number);
-            _context.Bills.Add(entity);
+            await _context.Bills.AddAsync(entity);
             return entity.Id;
         }
         private int GetNewID()

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ESM.Modules.Import.ViewModels
 {
@@ -43,48 +44,99 @@ namespace ESM.Modules.Import.ViewModels
             get => type;
             set => SetProperty(ref type, value);
         }
-        protected override void addCommand()
+        protected override async void addCommand()
         {
-            if (Id == null || Id.Length != 9 || !Id.StartsWith(DAStaticData.IdPrefix[ProductType.HARDDISK]) || !Id.All(x => char.IsDigit(x)))
+            if (SelectedWorkType == "THÊM")
             {
-                _modalService.ShowModal(ModalType.Error, "Sai định dạng ID", "Cảnh báo");
-                return;
+                if (Id == null || Id.Length != 9 || !Id.StartsWith(DAStaticData.IdPrefix[ProductType.HARDDISK]) || !Id.All(x => char.IsDigit(x)))
+                {
+                    _modalService.ShowModal(ModalType.Error, "Sai định dạng ID", "Cảnh báo");
+                    return;
+                }
+                if (ProductList.Any(x => x.Id == Id))
+                {
+                    _modalService.ShowModal(ModalType.Error, "ID đã tồn tại", "Cảnh báo");
+                    return;
+                }
+                if (Company == null || Unit == null ||
+                Name == null || Storage == null || Connect == null || Type == null
+                || Price == 0)
+                {
+                    _modalService.ShowModal(ModalType.Error, "Nhập tất cả thông tin cần thiết", "Cảnh báo");
+                    return;
+                }
+                Pcharddisk pcharddiskDTO = new()
+                {
+                    Name = Name,
+                    Storage = Storage,
+                    Connect = Connect,
+                    Series = Series,
+                    Type = Type,
+                    Company = Company,
+                    DetailPath = DetailPath,
+                    Discount = Discount,
+                    Id = Id,
+                    ImagePath = ImagePath,
+                    AvatarPath = AvatarPath,
+                    Price = Price,
+                    Unit = Unit,
+                    Remain = 0,
+                };
+                ProductList.Add(pcharddiskDTO);
+                NotInDatabase.Add(Id);
+                clearCommand();
             }
-            if (ProductList.Any(x => x.Id == Id))
+            else if (SelectedWorkType == "SỬA")
             {
-                _modalService.ShowModal(ModalType.Error, "ID đã tồn tại", "Cảnh báo");
-                return;
+                if (Company == null || Unit == null ||
+                Name == null || Storage == null || Connect == null || Type == null
+                || Price == 0)
+                {
+                    _modalService.ShowModal(ModalType.Error, "Nhập tất cả thông tin cần thiết", "Cảnh báo");
+                    return;
+                }
+                Pcharddisk pcharddiskDTO = new()
+                {
+                    Name = Name,
+                    Storage = Storage,
+                    Connect = Connect,
+                    Series = Series,
+                    Type = Type,
+                    Company = Company,
+                    DetailPath = DetailPath,
+                    Discount = Discount,
+                    Id = Id,
+                    ImagePath = ImagePath,
+                    AvatarPath = AvatarPath,
+                    Price = Price,
+                    Unit = Unit,
+                    Remain = Remain,
+                };
+                await _unitOfWork.Pcharddisks.Update(pcharddiskDTO);
+
+                _modalService.ShowModal(ModalType.Information, "Cập nhật thành công", "Thông báo");
+                // Clear
+                Product = null;
+                Id = null;
+                Company = null; Unit = null; Series = null;
+                Name = null; Storage = null; Connect = null; Type = null;
+                AvatarPath = null; Price = 0; Discount = 0;
+                ImagePath = null; DetailPath = null;
+                RaisePropertyChanged(nameof(IsDefault));
+
+                var list = await _unitOfWork.Pcharddisks.GetAll();
+                ProductList = new(list);
             }
-            if (Company == null || Unit == null ||
-            Name == null || Storage == null || Connect == null || Type == null
-            || Price == 0)
-            {
-                _modalService.ShowModal(ModalType.Error, "Nhập tất cả thông tin cần thiết", "Cảnh báo");
-                return;
-            }
-            Pcharddisk pcharddiskDTO = new()
-            {
-                Name = Name,
-                Storage = Storage,
-                Connect = Connect,
-                Series = Series,
-                Type = Type,
-                Company = Company,
-                DetailPath = DetailPath,
-                Discount = Discount,
-                Id = Id,
-                ImagePath = ImagePath,
-                AvatarPath = AvatarPath,
-                Price = Price,
-                Unit = Unit,
-                Remain = Remain,
-            };
-            ProductList.Add(pcharddiskDTO);
-            NotInDatabase.Add(Id);
-            clearCommand();
         }
-        protected override void saveCommand()
+        protected override async Task saveCommand()
         {
+            var res = await _unitOfWork.Pcharddisks.AddList(ProductList);
+            if ((bool)res)
+            {
+                _modalService.ShowModal(ModalType.Information, "Đã lưu", "Thông báo");
+                ProductList = new();
+            }
+            else _modalService.ShowModal(ModalType.Error, "Lưu không thành công", "Lỗi");
             //Task<bool> task = new(() =>
             //{
 
@@ -97,7 +149,7 @@ namespace ESM.Modules.Import.ViewModels
             //            _unitOfWork.Pcharddisks.Update(pcharddiskDTO);
             //            Product = pcharddiskDTO;
             //        }
-            //        _unitOfWork.SaveChange();
+            //       
             //        ProductList = _unitOfWork.Pcharddisks.GetAll();
             //        return true;
             //    }
@@ -115,17 +167,25 @@ namespace ESM.Modules.Import.ViewModels
             //    clearCommand();
             //}
             //else _modalService.ShowModal(ModalType.Error, "Lưu không thành công", "Lỗi");
+            await Task.CompletedTask;
         }
         protected override void clearCommand()
         {
-            Product = null;
-            Id = null;
-            Company = null; Unit = null; Series = null;
-            Name = null; Storage = null; Connect = null; Type = null;
-            AvatarPath = null; Price = 0; Discount = 0;
-            ImagePath = null; DetailPath = null;
-            IsNotInDatabase = true;
-            RaisePropertyChanged(nameof(IsDefault));
+            if (SelectedWorkType == "THÊM")
+            {
+                Product = null;
+                Id = null;
+                Company = null; Unit = null; Series = null;
+                Name = null; Storage = null; Connect = null; Type = null;
+                AvatarPath = null; Price = 0; Discount = 0;
+                ImagePath = null; DetailPath = null;
+                RaisePropertyChanged(nameof(IsDefault));
+            }
+            else if (SelectedWorkType == "SỬA")
+            {
+                Price = 0; Discount = null;
+                if (Product != null) findCommand(Product);
+            }
         }
 
         protected override void findCommand(ProductDTO productDTO)
@@ -145,25 +205,49 @@ namespace ESM.Modules.Import.ViewModels
             Storage = Product.Storage;
             Type = Product.Type;
             Remain = Product.Remain;
-            IsNotInDatabase = NotInDatabase.Contains(Id);
             RaisePropertyChanged(nameof(IsDefault));
         }
-
+        protected override async void CurrentWorkTypeChanged()
+        {
+            if (SelectedWorkType == "THÊM")
+            {
+                ProductList = new();
+            }
+            else
+            {
+                var list = await _unitOfWork.Pcharddisks.GetAll();
+                ProductList = new(list);
+            }
+            clearCommand();
+        }
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
             //Id = _unitOfWork.Pcharddisks.GetSuggestID();
-            ProductList = new(_unitOfWork.Pcharddisks.GetAll());
+            ProductList = new();
             NotInDatabase = new();
         }
 
-        protected override void deleteCommand()
+        protected override async void deleteCommand(ProductDTO productDTO)
         {
-            if (NotInDatabase.Contains(Id))
+            if (SelectedWorkType == "THÊM")
             {
-                var p = ProductList.Single(x => x.Id == Id);
-                ProductList.Remove(p);
-                NotInDatabase.Remove(Id);
+                if (NotInDatabase.Contains(productDTO.Id))
+                {
+                    var p = ProductList.Single(x => x.Id == productDTO.Id);
+                    ProductList.Remove(p);
+                    NotInDatabase.Remove(productDTO.Id);
+                }
             }
+            else
+            {
+                if (MessageBox.Show("Bạn có chắc chắn xóa?", "Cảnh báo", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    await _unitOfWork.Pcharddisks.Delete(productDTO.Id);
+                    var list = await _unitOfWork.Pcharddisks.GetAll();
+                    ProductList = new(list);
+                }
+            }
+
         }
     }
 }

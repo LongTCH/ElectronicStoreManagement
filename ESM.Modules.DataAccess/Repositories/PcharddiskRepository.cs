@@ -7,40 +7,44 @@ namespace ESM.Modules.DataAccess.Repositories;
 
 public interface IPcharddiskRepository : IProductRepository<Pcharddisk>
 {
+    Task<object?> AddList(IEnumerable<Pcharddisk> list);
 }
 public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRepository
 {
     public PcharddiskRepository(ESMDbContext context) : base(context)
     {
     }
-    public override Pcharddisk? GetById(string id)
+    public override async Task<Pcharddisk?> GetById(string id)
     {
-        return _context.Pcharddisks.AsQueryable()
+        return await _context.Pcharddisks.AsQueryable()
                 .Where(p => p.Id == id)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
     }
-    public override object? Update(Pcharddisk entity)
+    public override async Task<object?> Update(Pcharddisk entity)
     {
-        var hd = _context.Pcharddisks.AsQueryable()
-               .First(p => p.Id == entity.Id);
+        var hd = await _context.Pcharddisks.AsQueryable()
+               .FirstAsync(p => p.Id == entity.Id);
         _context.Entry(hd).CurrentValues.SetValues(entity);
+        await _context.SaveChangesAsync();
         return null;
     }
-    public override IEnumerable<Pcharddisk>? GetAll()
+    public override async Task<IEnumerable<Pcharddisk>?> GetAll()
     {
-        return _context.Pcharddisks.AsQueryable()
+        return await _context.Pcharddisks.AsQueryable()
                 .Where(pcharddisk => pcharddisk.Remain > -1)
-                .ToList();
+                .ToListAsync();
     }
-    public override object? Add(Pcharddisk entity)
+    public override async Task<object?> Add(Pcharddisk entity)
     {
-        _context.Pcharddisks.Add(entity);
+        await _context.Pcharddisks.AddAsync(entity);
+        await _context.SaveChangesAsync();
         return null;
     }
-    public override object? Delete(string id)
+    public override async Task<object?> Delete(string id)
     {
-        var p = _context.Pcharddisks.SingleOrDefault(p => p.Id == id);
+        var p = await _context.Pcharddisks.SingleAsync(p => p.Id == id);
         p.Remain = -1;
+        await _context.SaveChangesAsync();
         return null;
     }
     public string GetSuggestID()
@@ -73,5 +77,15 @@ public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRe
     public IEnumerable<RevenueDTO> GetRevenueWeekDuration(DateTime startDate, DateTime endDate)
     {
         return GetRevenueWeekDuration(startDate, endDate, ProductType.HARDDISK);
+    }
+
+    public async Task<object?> AddList(IEnumerable<Pcharddisk> list)
+    {
+
+        foreach (var item in list)
+        {
+            _context.Pcharddisks.Add(item);
+        }
+        return null;
     }
 }

@@ -87,7 +87,7 @@ namespace ESM.Modules.Export.Views
                         TotalAmount = TotalAmount,
                     };
                     BillId = _unitOfWork.Bills.Add(bill).ToString();
-                    _unitOfWork.SaveChange();
+                   
                     OnPropertyChanged(nameof(BillId));
                     btnPrint.Visibility = Visibility.Hidden;
                     printDialog.PrintVisual(print, "In Hóa đơn");

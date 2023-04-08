@@ -123,7 +123,7 @@ namespace ESM.Modules.Import.ViewModels
             }; 
             ProductList.Add(laptopDTO);
         }
-        protected override void saveCommand()
+        protected override async Task saveCommand()
         {
             foreach (var item in ProductList)
             {
@@ -141,7 +141,7 @@ namespace ESM.Modules.Import.ViewModels
             //                _unitOfWork.Laptops.Update(laptopDTO);
             //                Product = laptopDTO;
             //            }
-            //            _unitOfWork.SaveChange();
+            //           
             //            ProductList = _unitOfWork.Laptops.GetAll();
             //            return true;
             //        }
@@ -159,15 +159,20 @@ namespace ESM.Modules.Import.ViewModels
             //        clearCommand();
             //    }
             //    else _modalService.ShowModal(ModalType.Error, "Lưu không thành công", "Lỗi");
+            await Task.CompletedTask;
         }
-        public override void OnNavigatedTo(NavigationContext navigationContext)
+        public override async void OnNavigatedTo(NavigationContext navigationContext)
         {
-            {
-                ProductList = new(_unitOfWork.Laptops.GetAll());
-            }
+            var list = await _unitOfWork.Laptops.GetAll();
+            ProductList = new(list);
         }
 
-        protected override void deleteCommand()
+        protected override void CurrentWorkTypeChanged()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void deleteCommand(ProductDTO productDTO)
         {
             throw new NotImplementedException();
         }

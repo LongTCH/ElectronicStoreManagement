@@ -57,7 +57,7 @@ namespace ESM.Modules.Authentication.ViewModels
                 {
                     ScryptEncoder encoder = new ScryptEncoder();
                     _unitOfWork.Accounts.ResetPassword(Id, encoder.Encode(NewPassword!));
-                    _unitOfWork.SaveChange();
+                   
                 });
                 t.Start();
                 await t;
