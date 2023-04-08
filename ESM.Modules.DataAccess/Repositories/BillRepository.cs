@@ -55,7 +55,9 @@ namespace ESM.Modules.DataAccess.Repositories
 
         public async Task<bool> IsProductExistInBill(string productId)
         {
-            return await _context.BillProducts.AnyAsync(x=> x.ProductId == productId);
+            // avoid concurrent issue
+            using var context = new ESMDbContext();
+            return await context.BillProducts.AnyAsync(x=> x.ProductId == productId);
         }
     }
 }
