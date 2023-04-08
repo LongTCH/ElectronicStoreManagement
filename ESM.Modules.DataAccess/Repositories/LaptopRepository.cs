@@ -12,28 +12,31 @@ public class LaptopRepository : ProductRepository<Laptop>, ILaptopRepository
     public LaptopRepository(ESMDbContext context) : base(context)
     {
     }
-    public override IEnumerable<Laptop>? GetAll()
+    public override async Task<IEnumerable<Laptop>?> GetAll()
     {
-        return _context.Laptops
+        return await _context.Laptops
                 .Where(p => p.Remain > -1)
-                .ToList();
+                .ToListAsync();
     }
-    public override object? Add(Laptop entity)
+    public override async Task<object?> Add(Laptop entity)
     {
-        _context.Laptops.Add(entity);
+        await _context.Laptops.AddAsync(entity);
+        await _context.SaveChangesAsync();
         return null;
     }
-    public override object? Update(Laptop entity)
+    public override async Task<object?> Update(Laptop entity)
     {
-        var hd = _context.Laptops.AsQueryable()
-               .First(p => p.Id == entity.Id);
+        var hd = await _context.Laptops.AsQueryable()
+               .FirstAsync(p => p.Id == entity.Id);
         _context.Entry(hd).CurrentValues.SetValues(entity);
+        await _context.SaveChangesAsync();
         return null;
     }
-    public override object? Delete(string id)
+    public override async Task<object?> Delete(string id)
     {
-        var p = _context.Laptops.SingleOrDefault(p => p.Id == id);
+        var p = await _context.Laptops.SingleAsync(p => p.Id == id);
         p.Remain = -1;
+        await _context.SaveChangesAsync();
         return null;
     }
     public IEnumerable<RevenueDTO> GetRevenueWeekDuration(DateTime startDate, DateTime endDate)

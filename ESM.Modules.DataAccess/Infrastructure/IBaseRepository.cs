@@ -4,11 +4,11 @@ namespace ESM.Modules.DataAccess.Infrastructure
 {
     public interface IBaseRepository<T> where T : class
     {
-        T? GetById(string id);
-        IEnumerable<T>? GetAll();
-        object? Add(T entity);
-        object? Delete(string id);
-        object? Update(T entity);
+        Task<T?> GetById(string id);
+        Task<IEnumerable<T>?> GetAll();
+        Task<object?> Add(T entity);
+        Task<object?> Delete(string id);
+        Task<object?> Update(T entity);
         bool Any(string id);
         
     }

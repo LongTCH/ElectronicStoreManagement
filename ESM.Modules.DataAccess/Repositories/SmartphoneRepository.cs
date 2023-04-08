@@ -1,6 +1,7 @@
 ﻿using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ESM.Modules.DataAccess.Repositories
 {
@@ -11,28 +12,31 @@ namespace ESM.Modules.DataAccess.Repositories
         public SmartphoneRepository(ESMDbContext context) : base(context)
         {
         }
-        public override IEnumerable<Smartphone>? GetAll()
+        public override async Task<IEnumerable<Smartphone>?> GetAll()
         {
-            return _context.Smartphones.AsQueryable()
+            return await _context.Smartphones.AsQueryable()
                     .Where(smartphone => smartphone.Remain > -1)
-                    .ToList();
+                    .ToListAsync();
         }
-        public override object? Add(Smartphone entity)
+        public override async Task<object?> Add(Smartphone entity)
         {
-            _context.Smartphones.Add(entity);
+            await _context.Smartphones.AddAsync(entity);
+            await _context.SaveChangesAsync();
             return null;
         }
-        public override object? Update(Smartphone entity)
+        public override async Task<object?> Update(Smartphone entity)
         {
-            var hd = _context.Smartphones.AsQueryable()
-                   .First(p => p.Id == entity.Id);
+            var hd = await _context.Smartphones.AsQueryable()
+                   .FirstAsync(p => p.Id == entity.Id);
             _context.Entry(hd).CurrentValues.SetValues(entity);
+            await _context.SaveChangesAsync();
             return null;
         }
-        public override object? Delete(string id)
+        public override async Task<object?> Delete(string id)
         {
-            var p = _context.Smartphones.SingleOrDefault(p => p.Id == id);
+            var p = await _context.Smartphones.SingleAsync(p => p.Id == id);
             p.Remain = -1;
+            await _context.SaveChangesAsync();
             return null;
         }
         public string GetSuggestID()

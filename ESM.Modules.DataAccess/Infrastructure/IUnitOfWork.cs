@@ -13,7 +13,5 @@ namespace ESM.Modules.DataAccess.Infrastructure
         ISmartphoneRepository Smartphones { get; }
         IVgaRepository Vgas { get; }
         IBillRepository Bills { get; }
-        Task<int> SaveChangesAsync();
-        int SaveChange();
     }
 }

@@ -15,6 +15,7 @@
 		<None Remove="ShareImages\error.png" />
 		<None Remove="ShareImages\logo.png" />
 		<None Remove="ShareImages\success.png" />
+		<None Remove="ShareImages\warning.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -48,6 +49,9 @@
 		</Resource>
 		<Resource Include="ShareImages\success.png">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="ShareImages\warning.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
 	</ItemGroup>
 

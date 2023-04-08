@@ -6,6 +6,7 @@
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             Background="White"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto"

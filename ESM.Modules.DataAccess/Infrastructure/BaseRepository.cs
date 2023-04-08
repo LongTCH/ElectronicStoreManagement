@@ -11,7 +11,7 @@ namespace ESM.Modules.DataAccess.Infrastructure
             _context = context;
         }
 
-        public virtual object? Add(T entity)
+        public virtual Task<object?> Add(T entity)
         {
             throw new NotImplementedException();
         }
@@ -21,26 +21,25 @@ namespace ESM.Modules.DataAccess.Infrastructure
             throw new NotImplementedException();
         }
 
-        public virtual object? Delete(string id)
+        public virtual Task<object?> Delete(string id)
         {
             throw new NotImplementedException();
         }
 
-        public virtual IEnumerable<T>? GetAll()
+        public virtual Task<IEnumerable<T>?> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public virtual T? GetById(string id)
+        public virtual Task<T?> GetById(string id)
         {
             throw new NotImplementedException();
         }
 
 
-        public virtual object? Update(T entity)
+        public virtual Task<object?> Update(T entity)
         {
             throw new NotImplementedException();
         }
-        
     }
 }
