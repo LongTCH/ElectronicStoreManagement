@@ -22,11 +22,19 @@ public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRe
     }
     public override async Task<object?> Update(Pcharddisk entity)
     {
-        var hd = await _context.Pcharddisks.AsQueryable()
-               .FirstAsync(p => p.Id == entity.Id);
-        _context.Entry(hd).CurrentValues.SetValues(entity);
-        await _context.SaveChangesAsync();
-        return null;
+        bool res = true;
+        try
+        {
+            var hd = await _context.Pcharddisks.AsQueryable()
+                   .FirstAsync(p => p.Id == entity.Id);
+            _context.Entry(hd).CurrentValues.SetValues(entity);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            res = false;
+        }
+        return res;
     }
     public override async Task<IEnumerable<Pcharddisk>?> GetAll()
     {

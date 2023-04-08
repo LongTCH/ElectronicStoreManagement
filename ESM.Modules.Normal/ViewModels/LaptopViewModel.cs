@@ -11,7 +11,7 @@ namespace ESM.Modules.Normal.ViewModels
     public class LaptopViewModel : BaseProductViewModel<Laptop>
     {
         public HashSet<ProductAttributeStore> CompanyList { get; set; } = new();
-        public HashSet<ProductAttributeStore> CPUList { get; set; }=new();
+        public HashSet<ProductAttributeStore> CPUList { get; set; } = new();
         public HashSet<ProductAttributeStore> GraphicList { get; set; } = new();
         public HashSet<ProductAttributeStore> NeedList { get; set; } = new();
         public HashSet<ProductAttributeStore> SeriesList { get; set; } = new();
@@ -21,7 +21,9 @@ namespace ESM.Modules.Normal.ViewModels
         public LaptopViewModel(IUnitOfWork unitOfWork, IModalService modalService)
             : base(unitOfWork, modalService)
         {
-                Action += OnIsCheckedChanged;
+            Action += OnIsCheckedChanged;
+            LoadAttribute += () =>
+            {
                 getCompanyList();
                 getCPUList();
                 getGraphicList();
@@ -29,6 +31,7 @@ namespace ESM.Modules.Normal.ViewModels
                 getRAMList();
                 getSeriesList();
                 getStorageList();
+            };
 
         }
         private void OnIsCheckedChanged()
@@ -72,6 +75,7 @@ namespace ESM.Modules.Normal.ViewModels
                 laptopCompany.CurrentStoreChanged += FilterProduct;
                 CompanyList.Add(laptopCompany);
             }
+            RaisePropertyChanged(nameof(CompanyList));
         }
         private void getCPUList()
         {
@@ -83,6 +87,7 @@ namespace ESM.Modules.Normal.ViewModels
                 laptopCPU.CurrentStoreChanged += FilterProduct;
                 CPUList.Add(laptopCPU);
             }
+            RaisePropertyChanged(nameof(CPUList));
         }
         private void getGraphicList()
         {
@@ -94,6 +99,7 @@ namespace ESM.Modules.Normal.ViewModels
                 laptopGraphic.CurrentStoreChanged += FilterProduct;
                 GraphicList.Add(laptopGraphic);
             }
+            RaisePropertyChanged(nameof(GraphicList));
         }
         private void getNeedList()
         {
@@ -106,6 +112,7 @@ namespace ESM.Modules.Normal.ViewModels
                 laptopNeed.CurrentStoreChanged += OnIsCheckedChanged;
                 NeedList.Add(laptopNeed);
             }
+            RaisePropertyChanged(nameof(NeedList));
         }
         private void getRAMList()
         {
@@ -129,6 +136,7 @@ namespace ESM.Modules.Normal.ViewModels
                 laptopSeries.CurrentStoreChanged += FilterProduct;
                 SeriesList.Add(laptopSeries);
             }
+            RaisePropertyChanged(nameof(SeriesList));
         }
         private void getStorageList()
         {
@@ -140,6 +148,7 @@ namespace ESM.Modules.Normal.ViewModels
                 laptopStorage.CurrentStoreChanged += FilterProduct;
                 StorageList.Add(laptopStorage);
             }
+            RaisePropertyChanged(nameof(StorageList));
         }
     }
 }

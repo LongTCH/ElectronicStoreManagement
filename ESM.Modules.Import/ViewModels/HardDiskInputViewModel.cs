@@ -112,18 +112,18 @@ namespace ESM.Modules.Import.ViewModels
                     Unit = Unit,
                     Remain = Remain,
                 };
-                await _unitOfWork.Pcharddisks.Update(pcharddiskDTO);
-
+                var res = await _unitOfWork.Pcharddisks.Update(pcharddiskDTO);
+                if ((bool)res)
                 _modalService.ShowModal(ModalType.Information, "Cập nhật thành công", "Thông báo");
+                else _modalService.ShowModal(ModalType.Error, "Có lỗi xảy ra", "Thông báo");
                 // Clear
                 Product = null;
                 Id = null;
                 Company = null; Unit = null; Series = null;
                 Name = null; Storage = null; Connect = null; Type = null;
                 AvatarPath = null; Price = 0; Discount = 0;
-                ImagePath = null; DetailPath = null;
+                ImagePath = null; DetailPath = null; Remain = 0;
                 RaisePropertyChanged(nameof(IsDefault));
-
                 var list = await _unitOfWork.Pcharddisks.GetAll();
                 ProductList = new(list);
             }
@@ -137,36 +137,6 @@ namespace ESM.Modules.Import.ViewModels
                 ProductList = new();
             }
             else _modalService.ShowModal(ModalType.Error, "Lưu không thành công", "Lỗi");
-            //Task<bool> task = new(() =>
-            //{
-
-            //    try
-            //    {
-            //        if (Product == null)
-            //            _unitOfWork.Pcharddisks.Add(pcharddiskDTO);
-            //        else
-            //        {
-            //            _unitOfWork.Pcharddisks.Update(pcharddiskDTO);
-            //            Product = pcharddiskDTO;
-            //        }
-            //       
-            //        ProductList = _unitOfWork.Pcharddisks.GetAll();
-            //        return true;
-            //    }
-            //    catch (Exception)
-            //    {
-            //        return false;
-            //    }
-            //});
-            //task.Start();
-            //task.Await();
-            //var res = task.Result;
-            //if (res)
-            //{
-            //    _modalService.ShowModal(ModalType.Information, "Đã lưu", "Thông báo");
-            //    clearCommand();
-            //}
-            //else _modalService.ShowModal(ModalType.Error, "Lưu không thành công", "Lỗi");
             await Task.CompletedTask;
         }
         protected override void clearCommand()
@@ -178,7 +148,7 @@ namespace ESM.Modules.Import.ViewModels
                 Company = null; Unit = null; Series = null;
                 Name = null; Storage = null; Connect = null; Type = null;
                 AvatarPath = null; Price = 0; Discount = 0;
-                ImagePath = null; DetailPath = null;
+                ImagePath = null; DetailPath = null; Remain = 0;
                 RaisePropertyChanged(nameof(IsDefault));
             }
             else if (SelectedWorkType == "SỬA")

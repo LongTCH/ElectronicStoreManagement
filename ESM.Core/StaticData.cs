@@ -24,6 +24,6 @@ namespace ESM.Core
             "All Files (*.*)|*.*" +
             "|Excel Files|*.xls;*.xlsx;*.xlsm";
         public static readonly string EmailVerificationPrefix = "From : Electronic Store" + "<br>Your verification code : ";
-        public static readonly List<string> Conditions = new() { "None", "Giá tăng dần", "Giá giảm dần", "Bán chạy" };
+        public static readonly List<string> Conditions = new() { "None", "Giá tăng dần", "Giá giảm dần", "Khuyến mãi tốt nhất" };
     }
 }

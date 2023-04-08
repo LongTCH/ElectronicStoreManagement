@@ -94,7 +94,7 @@
                                              Width="30"
                                              Kind="Rename" />
                     <TextBox Margin="20,10"
-                             materialDesign:HintAssist.Hint="Têne"
+                             materialDesign:HintAssist.Hint="Tên"
                              Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              FontFamily="Champagne &amp; Limousines"

@@ -10,6 +10,7 @@ using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ESM.Modules.Normal.ViewModels
 {
@@ -44,10 +45,11 @@ namespace ESM.Modules.Normal.ViewModels
         {
             _unitOfWork = unitOfWork;
             _modalService = modalService;
-            GetProductList();
+            GetProductList().Await();
             ProductDetailNavigateCommand = new(navigate);
         }
-        private async void GetProductList()
+        protected Action LoadAttribute;
+        private async Task GetProductList()
         {
             dynamic list = null;
             if (typeof(T).Equals(typeof(Laptop)))
@@ -70,6 +72,7 @@ namespace ESM.Modules.Normal.ViewModels
                 _productDTOs = list;
                 MaxPrice = Math.Ceiling((double)((List<T>)list).Max(x => x.SellPrice) / TickFrequency) * TickFrequency;
                 UpperValue = MaxPrice;
+                LoadAttribute?.Invoke();
             }
         }
         protected string selectedCondition;
@@ -87,7 +90,7 @@ namespace ESM.Modules.Normal.ViewModels
             };
             _modalService.ShowModal(ViewNames.ProductDetailView, parameter);
         }
-        protected Action? Action { get; set; }
+        protected Action Action { get; set; }
         protected void FilterProduct()
         {
             ProductList = _productDTOs;
@@ -99,7 +102,11 @@ namespace ESM.Modules.Normal.ViewModels
             {
                 ProductList = ((List<T>)ProductList)?.OrderByDescending(x => x.SellPrice).ToList();
             }
-            Action?.Invoke();
+            else if (SelectedCondition == Conditions[3])
+            {
+                ProductList = ((List<T>)ProductList)?.OrderByDescending(x => x.Discount).ToList();
+            }
+                Action?.Invoke();
             ProductList = ((List<T>)ProductList)?
                 .Where(x => (double)x.SellPrice <= UpperValue && (double)x.SellPrice >= LowerValue)
                 .ToList();
