@@ -106,7 +106,7 @@ namespace ESM.Modules.Normal.ViewModels
             {
                 ProductList = ((List<T>)ProductList)?.OrderByDescending(x => x.Discount).ToList();
             }
-                Action?.Invoke();
+            Action?.Invoke();
             ProductList = ((List<T>)ProductList)?
                 .Where(x => (double)x.SellPrice <= UpperValue && (double)x.SellPrice >= LowerValue)
                 .ToList();

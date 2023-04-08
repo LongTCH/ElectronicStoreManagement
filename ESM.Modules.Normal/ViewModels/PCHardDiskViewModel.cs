@@ -60,7 +60,7 @@ namespace ESM.Modules.Normal.ViewModels
             foreach (var pcharddisk in _productDTOs)
             {
                 ProductAttributeStore pcharddiskCompany = new() { Name = pcharddisk.Company };
-                pcharddiskCompany.CurrentStoreChanged += OnIsCheckedChanged;
+                pcharddiskCompany.CurrentStoreChanged += FilterProduct;
                 CompanyList.Add(pcharddiskCompany);
             }
             RaisePropertyChanged(nameof(CompanyList));
