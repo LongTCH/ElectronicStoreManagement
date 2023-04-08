@@ -21,10 +21,6 @@ public class AccountRepository : BaseRepository<Account>, IAccountRepository
                 .Where(ac => ac.Id == id)
                 .FirstOrDefaultAsync();
     }
-    public override bool Any(string id)
-    {
-        return _context.Accounts.Any(a => a.Id == id);
-    }
     public string GetSuggestAccountId(string prefix)
     {
         var MaxValue = _context.Accounts.AsQueryable()

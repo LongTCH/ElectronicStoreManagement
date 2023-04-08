@@ -21,7 +21,7 @@ namespace ESM.Modules.DataAccess.Infrastructure
             throw new NotImplementedException();
         }
 
-        public virtual bool Any(string id)
+        public virtual Task<bool> IsIdExist(string id)
         {
             throw new NotImplementedException();
         }

@@ -30,10 +30,10 @@ namespace ESM.Modules.Import.ViewModels
             SelectDetail = new(getDetailPath);
             AddAvatarCommand = new(addAvatarCommand);
             ClearCommand = new(clearCommand);
-            EditCommand = new(findCommand);
+            EditCommand = new(editCommand);
             AddCommand = new(addCommand);
             DeleteCommand = new(deleteCommand);
-
+            NotInDatabase = new();
             WorkType = new[] { "THÊM", "SỬA", "XÓA" };
         }
         protected HashSet<string> NotInDatabase;
@@ -139,6 +139,7 @@ namespace ESM.Modules.Import.ViewModels
         protected abstract void addCommand();
         protected abstract void deleteCommand(ProductDTO productDTO);
         protected abstract void findCommand(ProductDTO productDTO);
+        protected abstract void editCommand(ProductDTO productDTO);
         private void getFolderPath()
         {
             ImagePath = _openDialogService.FolderDialog();

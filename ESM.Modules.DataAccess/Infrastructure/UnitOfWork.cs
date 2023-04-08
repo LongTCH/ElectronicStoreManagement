@@ -26,61 +26,56 @@ namespace ESM.Modules.DataAccess.Infrastructure
 
         public IBillRepository Bills { get; }
 
-        public UnitOfWork()
+        public UnitOfWork(ESMDbContext context)
         {
-            //_context = context;
-            Accounts = new AccountRepository(new ESMDbContext());
-            Laptops = new LaptopRepository(new ESMDbContext());
-            Monitors = new MonitorRepository(new ESMDbContext());
-            Pcs = new PcRepository(new ESMDbContext());
-            Pccpus = new PccpuRepository(new ESMDbContext());
-            Pcharddisks = new PcharddiskRepository(new ESMDbContext());
-            Vgas = new VgaRepository(new ESMDbContext());
-            Smartphones = new SmartphoneRepository(new ESMDbContext());
-            Bills = new BillRepository(new ESMDbContext());
+            _context = context;
+            Accounts = new AccountRepository(context);
+            Laptops = new LaptopRepository(context);
+            Monitors = new MonitorRepository(context);
+            Pcs = new PcRepository(context);
+            Pccpus = new PccpuRepository(context);
+            Pcharddisks = new PcharddiskRepository(context);
+            Vgas = new VgaRepository(context);
+            Smartphones = new SmartphoneRepository(context);
+            Bills = new BillRepository(context);
         }
+        public async Task<int> SaveChangesAsync()
+        {
+            int res;
+            try
+            {
+                res = await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                res = -1;
+            }
+            return res;
+        }
+        #region Dispose
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _context.Dispose();
+                }
 
+                _disposed = true;
+            }
+        }
         public void Dispose()
         {
-            
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
-        //public async Task<int> SaveChangesAsync()
-        //{
-        //    int res;
-        //    try
-        //    {
-        //        res = await _context.SaveChangesAsync();
-        //    }
-        //    catch (Exception)
-        //    {
-        //        res = -1;
-        //    }
-        //    return res;
-        //}
-        //#region Dispose
-        //protected virtual void Dispose(bool disposing)
-        //{
-        //    if (!_disposed)
-        //    {
-        //        if (disposing)
-        //        {
-        //            _context.Dispose();
-        //        }
-
-        //        _disposed = true;
-        //    }
-        //}
-        //public void Dispose()
-        //{
-        //    Dispose(true);
-        //    GC.SuppressFinalize(this);
-        //}
 
 
-        //~UnitOfWork()
-        //{
-        //    Dispose(false);
-        //}
-        //#endregion
+        ~UnitOfWork()
+        {
+            Dispose(false);
+        }
+        #endregion
     }
 }

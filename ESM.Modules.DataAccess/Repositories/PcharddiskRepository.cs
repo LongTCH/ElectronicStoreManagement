@@ -13,6 +13,10 @@ public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRe
     public PcharddiskRepository(ESMDbContext context) : base(context)
     {
     }
+    public override async Task<bool> IsIdExist(string id)
+    {
+        return await _context.Pcharddisks.AnyAsync(x => x.Id == id);
+    }
     public override async Task<Pcharddisk?> GetById(string id)
     {
         return await _context.Pcharddisks.AsQueryable()
