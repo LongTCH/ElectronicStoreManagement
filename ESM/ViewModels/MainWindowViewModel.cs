@@ -111,7 +111,7 @@ namespace ESM.ViewModels
         {
             //_modalService.ShowModal(ViewNames.ProductDetailView, null);
             //_regionManager.RequestNavigateContentRegionWithTrace(ViewNames.SellView);
-            IUnitOfWork t = new UnitOfWork(new Modules.DataAccess.Models.ESMDbContext());
+            IUnitOfWork t = new UnitOfWork();
             var l = t.Pcharddisks.GetTopSoldProducts(DateTime.Now.AddYears(-2), DateTime.Now, 10);
         }
 
