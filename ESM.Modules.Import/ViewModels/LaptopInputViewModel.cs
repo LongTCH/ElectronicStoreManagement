@@ -75,6 +75,15 @@ namespace ESM.Modules.Import.ViewModels
             }
         }
 
+        protected override void editCommand(ProductDTO productDTO)
+        {
+            if (SelectedWorkType == "THÊM")
+            {
+                ProductList.Remove((Laptop)productDTO);
+                NotInDatabase.Remove(productDTO.Id);
+            }
+            findCommand(productDTO);
+        }
         protected override void findCommand(ProductDTO productDTO)
         {
             Product = (Laptop)productDTO;
@@ -116,6 +125,7 @@ namespace ESM.Modules.Import.ViewModels
             {
                 _modalService.ShowModal(ModalType.Information, "Đã lưu", "Thông báo");
                 ProductList = new();
+                NotInDatabase = new();
             }
             else _modalService.ShowModal(ModalType.Error, "Lưu không thành công", "Lỗi");
             await Task.CompletedTask;
