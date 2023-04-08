@@ -11,7 +11,7 @@ namespace ESM.Modules.DataAccess.Infrastructure
         Task<object?> AddList(IEnumerable<T> list);
         Task<object?> Delete(string id);
         Task<object?> Update(T entity);
-        bool Any(string id);
+        Task<bool> IsIdExist(string id);
         
     }
     public interface IProductRepository<T> : IBaseRepository<T> where T: ProductDTO

@@ -52,7 +52,15 @@ namespace ESM.Modules.Import.ViewModels
                     _modalService.ShowModal(ModalType.Error, "Sai định dạng ID", "Cảnh báo");
                     return;
                 }
-                var exist = await _unitOfWork.Bills.IsProductExistInBill(Id);
+
+                //make the two calls to IsProductExistInBill and IsIdExist concurrently
+                var task1 = _unitOfWork.Bills.IsProductExistInBill(Id);
+                var task2 = _unitOfWork.Pcharddisks.IsIdExist(Id);
+
+                await Task.WhenAll(task1, task2);
+
+                bool exist = task1.Result || task2.Result;
+
                 if (ProductList.Any(x => x.Id == Id) || exist)
                 {
                     _modalService.ShowModal(ModalType.Error, "ID đã tồn tại", "Cảnh báo");
@@ -98,6 +106,7 @@ namespace ESM.Modules.Import.ViewModels
             {
                 _modalService.ShowModal(ModalType.Information, "Đã lưu", "Thông báo");
                 ProductList = new();
+                NotInDatabase = new();
             }
             else _modalService.ShowModal(ModalType.Error, "Lưu không thành công", "Lỗi");
             await Task.CompletedTask;
@@ -115,6 +124,15 @@ namespace ESM.Modules.Import.ViewModels
             }
         }
 
+        protected override void editCommand(ProductDTO productDTO)
+        {
+            if (SelectedWorkType == "THÊM")
+            {
+                ProductList.Remove((Pcharddisk)productDTO);
+                NotInDatabase.Remove(productDTO.Id);
+            }
+            findCommand(productDTO);
+        }
         protected override void findCommand(ProductDTO productDTO)
         {
             Product = (Pcharddisk)productDTO;
@@ -150,8 +168,8 @@ namespace ESM.Modules.Import.ViewModels
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
             //Id = _unitOfWork.Pcharddisks.GetSuggestID();
-            ProductList = new();
-            NotInDatabase = new();
+            //ProductList = new();
+            //NotInDatabase = new();
         }
 
         protected override async void deleteCommand(ProductDTO productDTO)
@@ -206,5 +224,6 @@ namespace ESM.Modules.Import.ViewModels
             ImagePath = null; DetailPath = null; Remain = 0;
             RaisePropertyChanged(nameof(IsDefault));
         }
+
     }
 }
