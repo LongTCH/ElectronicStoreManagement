@@ -121,6 +121,7 @@ namespace ESM.Modules.DataAccess.Repositories
                        on x.Id equals y.Id
                        select new TopSellDTO()
                        {
+                           Id = x.Id,
                            Name = y.Name,
                            Number = x.Number
                        });
@@ -132,6 +133,7 @@ namespace ESM.Modules.DataAccess.Repositories
                        on x.Id equals y.Id
                        select new TopSellDTO()
                        {
+                           Id = x.Id,
                            Name = y.Name,
                            Number = x.Number
                        });
@@ -143,6 +145,7 @@ namespace ESM.Modules.DataAccess.Repositories
                        on x.Id equals y.Id
                        select new TopSellDTO()
                        {
+                           Id = x.Id,
                            Name = y.Name,
                            Number = x.Number
                        });
@@ -154,6 +157,7 @@ namespace ESM.Modules.DataAccess.Repositories
                        on x.Id equals y.Id
                        select new TopSellDTO()
                        {
+                           Id = x.Id,
                            Name = y.Name,
                            Number = x.Number
                        });
@@ -165,6 +169,7 @@ namespace ESM.Modules.DataAccess.Repositories
                        on x.Id equals y.Id
                        select new TopSellDTO()
                        {
+                           Id = x.Id,
                            Name = y.Name,
                            Number = x.Number
                        });
@@ -176,6 +181,7 @@ namespace ESM.Modules.DataAccess.Repositories
                        on x.Id equals y.Id
                        select new TopSellDTO()
                        {
+                           Id = x.Id,
                            Name = y.Name,
                            Number = x.Number
                        });
@@ -187,11 +193,12 @@ namespace ESM.Modules.DataAccess.Repositories
                        on x.Id equals y.Id
                        select new TopSellDTO()
                        {
+                           Id = x.Id,
                            Name = y.Name,
                            Number = x.Number
                        });
             }
-            return res.OrderByDescending(x => x.Number).Take(number).ToList();
+            return res.OrderBy(x => x.Number).Take(number).ToList();
         }
         protected IEnumerable<RevenueDTO> GetRevenueWeekDuration(DateTime startDate, DateTime endDate, ProductType type)
         {

@@ -4,7 +4,7 @@
              xmlns:localvm="clr-namespace:ESM.Modules.Export.ViewModels"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:local="clr-namespace:ESM.Modules.Export.Views"
+             xmlns:tooltip="clr-namespace:Wpf.CartesianChart.CustomTooltipAndLegend"
              mc:Ignorable="d"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
@@ -74,42 +74,42 @@
                         Background="DodgerBlue"
                         IsDefault="True"
                         Content="ADD"
-                        Command="{Binding AddCommand}"/>
+                        Command="{Binding AddCommand}" />
                 <RadioButton Name="laptopRadioButton"
-                          Content="LAPTOP"
-                          IsChecked="{Binding IsLaptopCheck, UpdateSourceTrigger=PropertyChanged}"
-                          FontWeight="Bold"
-                          Margin="5" />
+                             Content="LAPTOP"
+                             IsChecked="{Binding IsLaptopCheck, UpdateSourceTrigger=PropertyChanged}"
+                             FontWeight="Bold"
+                             Margin="5" />
                 <RadioButton Name="smartphoneRadioButton"
-                          Content="SMARTPHONE"
-                          IsChecked="{Binding IsSmartphoneCheck, UpdateSourceTrigger=PropertyChanged}"
-                          FontWeight="Bold"
-                          Margin="5" />
+                             Content="SMARTPHONE"
+                             IsChecked="{Binding IsSmartphoneCheck, UpdateSourceTrigger=PropertyChanged}"
+                             FontWeight="Bold"
+                             Margin="5" />
                 <RadioButton Name="pcRadioButton"
-                          IsChecked="{Binding IsPCCheck, UpdateSourceTrigger=PropertyChanged}"
-                          Content="PC"
-                          FontWeight="Bold"
-                          Margin="5" />
+                             IsChecked="{Binding IsPCCheck, UpdateSourceTrigger=PropertyChanged}"
+                             Content="PC"
+                             FontWeight="Bold"
+                             Margin="5" />
                 <RadioButton Name="cpuRadioButton"
-                          IsChecked="{Binding IsCPUCheck, UpdateSourceTrigger=PropertyChanged}"
-                          Content="CPU"
-                          FontWeight="Bold"
-                          Margin="5" />
+                             IsChecked="{Binding IsCPUCheck, UpdateSourceTrigger=PropertyChanged}"
+                             Content="CPU"
+                             FontWeight="Bold"
+                             Margin="5" />
                 <RadioButton Name="vgaRadioButton"
-                          IsChecked="{Binding IsVGACheck, UpdateSourceTrigger=PropertyChanged}"
-                          Content="VGA"
-                          FontWeight="Bold"
-                          Margin="5" />
+                             IsChecked="{Binding IsVGACheck, UpdateSourceTrigger=PropertyChanged}"
+                             Content="VGA"
+                             FontWeight="Bold"
+                             Margin="5" />
                 <RadioButton Name="monitorRadioButton"
-                          IsChecked="{Binding IsMonitorCheck,UpdateSourceTrigger=PropertyChanged}"
-                          Content="MONITOR"
-                          FontWeight="Bold"
-                          Margin="5" />
+                             IsChecked="{Binding IsMonitorCheck,UpdateSourceTrigger=PropertyChanged}"
+                             Content="MONITOR"
+                             FontWeight="Bold"
+                             Margin="5" />
                 <RadioButton Name="harddiskRadioButton"
-                          IsChecked="{Binding IsHarddiskCheck, UpdateSourceTrigger=PropertyChanged}"
-                          Content="HARDDISK"
-                          FontWeight="Bold"
-                          Margin="5" />
+                             IsChecked="{Binding IsHarddiskCheck, UpdateSourceTrigger=PropertyChanged}"
+                             Content="HARDDISK"
+                             FontWeight="Bold"
+                             Margin="5" />
             </StackPanel>
             <Grid Grid.Row="1"
                   Grid.Column="1"
@@ -118,8 +118,21 @@
                 <TextBlock Text="Sales by catory"
                            FontWeight="Bold"
                            Margin="0 0 0 10" />
-                <lvc:CartesianChart LegendLocation="Right"
-                                    Series="{Binding Series}"/>
+                <lvc:CartesianChart LegendLocation="Top">
+                    <lvc:CartesianChart.Series>
+                        <lvc:RowSeries Values="{Binding Customers}" />
+                    </lvc:CartesianChart.Series>
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis Labels="{Binding Labels}">
+                            <lvc:Axis.Separator>
+                                <lvc:Separator Step="1"></lvc:Separator>
+                            </lvc:Axis.Separator>
+                        </lvc:Axis>
+                    </lvc:CartesianChart.AxisY>
+                    <lvc:CartesianChart.DataTooltip>
+                        <tooltip:CustomersTooltip />
+                    </lvc:CartesianChart.DataTooltip>
+                </lvc:CartesianChart>
             </Grid>
         </Grid>
     </Grid>
