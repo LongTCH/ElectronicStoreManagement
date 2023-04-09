@@ -12,7 +12,9 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto"
                       HorizontalAlignment="Stretch"
                       Grid.Row="1">
-            <StackPanel>
+            
+                    <StackPanel>
+                
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />

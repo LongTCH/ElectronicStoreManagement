@@ -6,11 +6,13 @@ using Microsoft.EntityFrameworkCore;
 namespace ESM.Modules.DataAccess.Repositories;
 public interface ILaptopRepository : IProductRepository<Laptop>
 {
+    Task<object?> AddList(IEnumerable<Laptop> list);
 }
 public class LaptopRepository : ProductRepository<Laptop>, ILaptopRepository
 {
+
     public LaptopRepository(ESMDbContext context) : base(context)
-    {
+    {;
     }
     public override async Task<IEnumerable<Laptop>?> GetAll()
     {
@@ -72,6 +74,11 @@ public class LaptopRepository : ProductRepository<Laptop>, ILaptopRepository
     public IEnumerable<TopSellDTO> GetTopSoldProducts(DateTime startDate, DateTime endDate, int number)
     {
         return GetTopSoldProducts(startDate, endDate, ProductType.LAPTOP, number);
+    }
+
+    public Task<object?> AddList(IEnumerable<Laptop> list)
+    {
+        throw new NotImplementedException();
     }
 
     //public object? Save(List<Laptop> laptops)

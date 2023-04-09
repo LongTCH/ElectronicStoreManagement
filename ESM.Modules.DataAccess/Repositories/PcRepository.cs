@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace ESM.Modules.DataAccess.Repositories;
 public interface IPcRepository : IProductRepository<Pc>
 {
+    Task<object?> AddList(IEnumerable<Pc> list);
 }
 public class PcRepository : ProductRepository<Pc>, IPcRepository
 {
@@ -62,5 +63,10 @@ public class PcRepository : ProductRepository<Pc>, IPcRepository
     public IEnumerable<RevenueDTO> GetRevenueWeekDuration(DateTime startDate, DateTime endDate)
     {
         return GetRevenueWeekDuration(startDate, endDate, ProductType.PC);
+    }
+
+    public Task<object?> AddList(IEnumerable<Pc> list)
+    {
+        throw new NotImplementedException();
     }
 }
