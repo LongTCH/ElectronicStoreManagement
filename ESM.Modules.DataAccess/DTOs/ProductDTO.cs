@@ -15,4 +15,12 @@ public abstract class ProductDTO
     public bool DiscountShow => SellPrice < Price;
     public string State => (Remain == -1) ? "Ngừng kinh doanh" : (Remain >= 0) ? "Đang kinh doanh" : "";
     public string Unit { get; set; }
+    public override bool Equals(object? obj)
+    {
+        return Id == (obj as ProductDTO)?.Id;
+    }
+    public override int GetHashCode()
+    {
+        return Id.GetHashCode();
+    }
 }
