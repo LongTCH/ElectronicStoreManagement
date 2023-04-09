@@ -1,0 +1,292 @@
+﻿<UserControl x:Class="ESM.Modules.Import.Views.ComboInputView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:helper="clr-namespace:ESM.Core.Helper;assembly=ESM.Core"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance localvm:ComboInputViewModel}"
+             xmlns:localvm="clr-namespace:ESM.Modules.Import.ViewModels"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             Background="White"
+             Tag="{Binding Header}"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalAlignment="Stretch">
+        <StackPanel>
+            <ComboBox ItemsSource="{Binding WorkType}"
+                      Cursor="Hand"
+                      x:Name="cbxWorkType"
+                      mah:TextBoxHelper.Watermark="Chọn chế độ"
+                      Width="120"
+                      SelectedItem="{Binding SelectedWorkType, UpdateSourceTrigger=PropertyChanged}"
+                      Style="{StaticResource MahApps.Styles.ComboBox}"
+                      HorizontalAlignment="Left" />
+            <Grid Margin="10"
+                  x:Name="GridAddCombo">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=cbxWorkType, Path=SelectedItem}"
+                                         Value="XÓA">
+                                <Setter Property="Visibility"
+                                        Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="5">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="DANH SÁCH SẢN PHẨM"
+                                   HorizontalAlignment="Center" />
+                        <ComboBox ItemsSource="{Binding ProductType}"
+                                  Cursor="Hand"
+                                  Grid.Column="1"
+                                  HorizontalAlignment="Right"
+                                  mah:TextBoxHelper.Watermark="Chọn loại sản phẩm"
+                                  MinWidth="100"
+                                  MaxWidth="150"
+                                  SelectedItem="{Binding SelectedProductType, UpdateSourceTrigger=PropertyChanged}"
+                                  Style="{StaticResource MahApps.Styles.ComboBox}" />
+                    </Grid>
+                    <DataGrid ItemsSource="{Binding ProductList}"
+                              GridLinesVisibility="All"
+                              BorderThickness="2"
+                              HorizontalAlignment="Stretch"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              CanUserReorderColumns="False"
+                              VerticalGridLinesBrush="DeepSkyBlue"
+                              HorizontalGridLinesBrush="DeepSkyBlue"
+                              ScrollViewer.CanContentScroll="True"
+                              ScrollViewer.VerticalScrollBarVisibility="Auto"
+                              ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                              x:Name="myDataGrid"
+                              Height="400"
+                              Style="{StaticResource MaterialDesignDataGrid}">
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="BorderThickness"
+                                        Value="1" />
+                            </Style>
+                        </DataGrid.CellStyle>
+                        <DataGrid.Columns>
+                            <DataGridCheckBoxColumn Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" />
+                            <DataGridTextColumn Header="Mã"
+                                                IsReadOnly="True"
+                                                Binding="{Binding Id, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Tên"
+                                                IsReadOnly="True"
+                                                Binding="{Binding Name, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Giá"
+                                                IsReadOnly="True"
+                                                Binding="{Binding SellPrice, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
+                            <DataGridTextColumn Header="Đơn vị"
+                                                IsReadOnly="True"
+                                                Binding="{Binding Unit, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Giảm giá"
+                                                IsReadOnly="True"
+                                                Binding="{Binding Discount, UpdateSourceTrigger=LostFocus}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Content="THÊM"
+                            FontWeight="Bold"
+                            HorizontalAlignment="Center"
+                            Background="Silver"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}"
+                            Command="{Binding AddToComboCommand}" />
+                </StackPanel>
+                <StackPanel Grid.Column="2"
+                            Margin="5">
+                    <TextBlock Text="CHI TIẾT COMBO"
+                               HorizontalAlignment="Center" />
+                    <DataGrid ItemsSource="{Binding ComboDetail}"
+                              GridLinesVisibility="All"
+                              IsReadOnly="True"
+                              BorderThickness="2"
+                              HorizontalAlignment="Stretch"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              CanUserReorderColumns="False"
+                              VerticalGridLinesBrush="DeepSkyBlue"
+                              HorizontalGridLinesBrush="DeepSkyBlue"
+                              ScrollViewer.CanContentScroll="True"
+                              ScrollViewer.VerticalScrollBarVisibility="Auto"
+                              ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                              Height="410"
+                              Style="{StaticResource MaterialDesignDataGrid}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Mã"
+                                                Binding="{Binding Id, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Tên"
+                                                Binding="{Binding Name, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Giá"
+                                                Binding="{Binding SellPrice, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
+                            <DataGridTextColumn Header="Đơn vị"
+                                                Binding="{Binding Unit, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Giảm giá"
+                                                Binding="{Binding Discount, UpdateSourceTrigger=LostFocus}" />
+                            <DataGridTemplateColumn Header="Xóa">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Cursor="Hand"
+                                                Foreground="IndianRed"
+                                                Style="{StaticResource MahApps.Styles.Button.Chromeless}"
+                                                Command="{Binding DataContext.RemoveFromComboDetailCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}}"
+                                                CommandParameter="{Binding}">
+                                            <Underline>Xóa</Underline>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Content="LƯU COMBO"
+                            FontWeight="Bold"
+                            HorizontalAlignment="Center"
+                            Background="CornflowerBlue"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}"
+                            Command="{Binding AddToComboCommand}" />
+                </StackPanel>
+            </Grid>
+            <StackPanel Grid.Column="1"
+                        Margin="5">
+                <TextBlock Text="DANH SÁCH COMBO"
+                           HorizontalAlignment="Center" />
+                <DataGrid ItemsSource="{Binding ComboList}"
+                          IsReadOnly="True"
+                          BorderThickness="2"
+                          HorizontalAlignment="Stretch"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          CanUserReorderColumns="False"
+                          VerticalGridLinesBrush="DeepSkyBlue"
+                          HorizontalGridLinesBrush="DeepSkyBlue"
+                          ScrollViewer.CanContentScroll="True"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                          MinHeight="100"
+                          Style="{StaticResource MaterialDesignDataGrid}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Mã"
+                                            Binding="{Binding Id, Mode=OneWay}" />
+                        <DataGridTextColumn Header="Tên"
+                                            Binding="{Binding Name, Mode=OneWay}" />
+                        <DataGridTextColumn Header="Giảm giá"
+                                            Binding="{Binding Discount, UpdateSourceTrigger=LostFocus}" />
+                        <DataGridTextColumn Header="Đơn vị"
+                                            Binding="{Binding Unit, Mode=OneWay}" />
+                        <DataGridTextColumn Header="Giá"
+                                            Binding="{Binding SellPrice, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
+                        <DataGridTemplateColumn Header="Sửa">
+                            <DataGridTemplateColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader"
+                                       BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=cbxWorkType, Path=SelectedItem}"
+                                                     Value="XÓA">
+                                            <Setter Property="Visibility"
+                                                    Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGridTemplateColumn.HeaderStyle>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Cursor="Hand"
+                                            Foreground="MediumBlue"
+                                            Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}}"
+                                            CommandParameter="{Binding}">
+                                        <Underline>Sửa</Underline>
+                                        <Button.Style>
+                                            <Style TargetType="Button"
+                                                   BasedOn="{StaticResource MahApps.Styles.Button.Chromeless}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding ElementName=cbxWorkType, Path=SelectedItem}"
+                                                                 Value="XÓA">
+                                                        <Setter Property="Visibility"
+                                                                Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Xóa">
+                            <DataGridTemplateColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader"
+                                       BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=cbxWorkType, Path=SelectedItem}"
+                                                     Value="SỬA">
+                                            <Setter Property="Visibility"
+                                                    Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGridTemplateColumn.HeaderStyle>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Cursor="Hand"
+                                            Foreground="IndianRed"
+                                            Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}}"
+                                            CommandParameter="{Binding}">
+                                        <Underline>Xóa</Underline>
+                                        <Button.Style>
+                                            <Style TargetType="Button"
+                                                   BasedOn="{StaticResource MahApps.Styles.Button.Chromeless}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding ElementName=cbxWorkType, Path=SelectedItem}"
+                                                                 Value="SỬA">
+                                                        <Setter Property="Visibility"
+                                                                Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button Content="LƯU HẾT"
+                        FontWeight="Bold"
+                        HorizontalAlignment="Center"
+                        Background="YellowGreen"
+                        Command="{Binding AddToComboCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button"
+                               BasedOn="{StaticResource MaterialDesignRaisedLightButton}">
+                            <Setter Property="Visibility"
+                                    Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=cbxWorkType, Path=SelectedItem}"
+                                             Value="THÊM">
+                                    <Setter Property="Visibility"
+                                            Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
