@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace ESM.Modules.Import.ViewModels
 {
-    public class VGAViewModel : BindableBase
+    public class VGAInputViewModel : BindableBase
     {
-        public VGAViewModel()
+        public VGAInputViewModel()
         {
 
         }

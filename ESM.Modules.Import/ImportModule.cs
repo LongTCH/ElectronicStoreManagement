@@ -25,6 +25,9 @@ namespace ESM.Modules.Import
             _regionManager.RegisterViewWithRegion("TabRegion", typeof(LaptopInputView));
             _regionManager.RegisterViewWithRegion("TabRegion", typeof(PCInputView));
             _regionManager.RegisterViewWithRegion("TabRegion", typeof(MonitorInputView));
+            _regionManager.RegisterViewWithRegion("TabRegion", typeof(PhoneInputView));
+            _regionManager.RegisterViewWithRegion("TabRegion", typeof(CPUInputView));
+            _regionManager.RegisterViewWithRegion("TabRegion", typeof(VGAInputView));
 
             _regionManager.RegisterViewWithContentRegion<ProductInputView>();
             _regionManager.RegisterViewWithContentRegion<RegisterView>();
