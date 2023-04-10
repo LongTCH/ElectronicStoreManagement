@@ -272,5 +272,15 @@ namespace ESM.Modules.Import.ViewModels
             else _modalService.ShowModal(ModalType.Error, "Lưu không thành công", "Lỗi");
             await Task.CompletedTask;
         }
+
+        protected override void editCommand(ProductDTO productDTO)
+        {
+            if (SelectedWorkType == "THÊM")
+            {
+                ProductList.Remove((Pc)productDTO);
+                NotInDatabase.Remove(productDTO.Id);
+            }
+            findCommand(productDTO);
+        }
     }
 }

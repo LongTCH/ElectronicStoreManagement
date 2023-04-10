@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace ESM.Modules.DataAccess.Repositories;
 public interface IMonitorRepository : IProductRepository<Models.Monitor>
 {
+    Task<object?> AddList(IEnumerable<Models.Monitor> list);
 }
 public class MonitorRepository : ProductRepository<Models.Monitor>, IMonitorRepository
 {
@@ -61,5 +62,11 @@ public class MonitorRepository : ProductRepository<Models.Monitor>, IMonitorRepo
     public IEnumerable<RevenueDTO> GetRevenueWeekDuration(DateTime startDate, DateTime endDate)
     {
         return GetRevenueWeekDuration(startDate, endDate, ProductType.MONITOR);
+    }
+
+    public async Task<object?> AddList(IEnumerable<Models.Monitor> list)
+    {
+        await _context.Monitors.AddRangeAsync(list);
+        return null;
     }
 }
