@@ -76,9 +76,10 @@ public class LaptopRepository : ProductRepository<Laptop>, ILaptopRepository
         return GetTopSoldProducts(startDate, endDate, ProductType.LAPTOP, number);
     }
 
-    public Task<object?> AddList(IEnumerable<Laptop> list)
+    public async Task<object?> AddList(IEnumerable<Laptop> list)
     {
-        throw new NotImplementedException();
+        await _context.Laptops.AddRangeAsync(list);
+        return null;
     }
 
     //public object? Save(List<Laptop> laptops)

@@ -65,8 +65,9 @@ public class PcRepository : ProductRepository<Pc>, IPcRepository
         return GetRevenueWeekDuration(startDate, endDate, ProductType.PC);
     }
 
-    public Task<object?> AddList(IEnumerable<Pc> list)
+    public async Task<object?> AddList(IEnumerable<Pc> list)
     {
-        throw new NotImplementedException();
+        await _context.Pcs.AddRangeAsync(list);
+        return null;
     }
 }
