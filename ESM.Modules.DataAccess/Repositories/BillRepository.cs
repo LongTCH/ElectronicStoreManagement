@@ -7,25 +7,26 @@ namespace ESM.Modules.DataAccess.Repositories
 {
     public interface IBillRepository : IBaseRepository<Bill>
     {
+        Task<bool> IsProductExistInBill(string productId);
     }
     public class BillRepository : BaseRepository<Bill>, IBillRepository
     {
         public BillRepository(ESMDbContext context) : base(context)
         {
         }
-        public override Bill? GetById(string id)
+        public override async Task<Bill?> GetById(string id)
         {
-            return _context.Bills.AsQueryable()
+            return await _context.Bills.AsQueryable()
                 .Where(b => b.Id == Convert.ToInt32(id))
                 .Include(b => b.BillProducts)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
         }
-        public override object? Add(Bill entity)
+        public override async Task<object?> Add(Bill entity)
         {
             entity.Id = GetNewID();
             foreach (var item in entity.BillProducts)
                 DecreaseRemain(item.ProductId, item.Number);
-            _context.Bills.Add(entity);
+            await _context.Bills.AddAsync(entity);
             return entity.Id;
         }
         private int GetNewID()
@@ -36,20 +37,27 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         private void DecreaseRemain(string id, int number)
         {
-            if (id.StartsWith(StaticData.IdPrefix[ProductType.LAPTOP]))
+            if (id.StartsWith(DAStaticData.IdPrefix[ProductType.LAPTOP]))
                 _context.Laptops.Where(p => p.Id == id).First().Remain -= number;
-            else if (id.StartsWith(StaticData.IdPrefix[ProductType.PC]))
+            else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.PC]))
                 _context.Pcs.Where(p => p.Id == id).First().Remain -= number;
-            else if (id.StartsWith(StaticData.IdPrefix[ProductType.MONITOR]))
+            else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.MONITOR]))
                 _context.Monitors.Where(p => p.Id == id).First().Remain -= number;
-            else if (id.StartsWith(StaticData.IdPrefix[ProductType.CPU]))
+            else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.CPU]))
                 _context.Pccpus.Where(p => p.Id == id).First().Remain -= number;
-            else if (id.StartsWith(StaticData.IdPrefix[ProductType.HARDDISK]))
+            else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.HARDDISK]))
                 _context.Pcharddisks.Where(p => p.Id == id).First().Remain -= number;
-            else if (id.StartsWith(StaticData.IdPrefix[ProductType.SMARTPHONE]))
+            else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.SMARTPHONE]))
                 _context.Smartphones.Where(p => p.Id == id).First().Remain -= number;
-            else if (id.StartsWith(StaticData.IdPrefix[ProductType.VGA]))
+            else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.VGA]))
                 _context.Vgas.Where(p => p.Id == id).First().Remain -= number;
+        }
+
+        public async Task<bool> IsProductExistInBill(string productId)
+        {
+            // avoid concurrent issue
+            using var context = new ESMDbContext();
+            return await context.BillProducts.AnyAsync(x=> x.ProductId == productId);
         }
     }
 }

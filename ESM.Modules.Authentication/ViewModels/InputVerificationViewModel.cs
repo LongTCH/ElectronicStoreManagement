@@ -61,10 +61,7 @@ namespace ESM.Modules.Authentication.ViewModels
             }
             IsBusy = true;
             BusyContent = "Đang kiểm tra tài khoản...";
-            Task<Account> CheckAccountExist = new(() => _unitOfWork.Accounts.GetById(Id));
-            CheckAccountExist.Start();
-            await CheckAccountExist;
-            var account = CheckAccountExist.Result;
+            var account = await _unitOfWork.Accounts.GetById(Id);
             if (account == null)
             {
                 _modalService.ShowModal(ModalType.Error, "Tài khoản không tồn tại", "Lỗi");

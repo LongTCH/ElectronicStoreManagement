@@ -1,10 +1,12 @@
 ﻿using ESM.Core.ShareServices;
+using ESM.Modules.DataAccess;
 using ESM.Modules.DataAccess.Infrastructure;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,15 +25,20 @@ namespace ESM.Modules.Import.ViewModels
             _unitOfWork = unitOfWork;
             _openDialogService = openDialogService;
             _modalService = modalService;
-            SaveCommand = new(saveCommand);
+            SaveCommand = new(async() => await saveCommand());
             SelectFolder = new(getFolderPath);
             SelectDetail = new(getDetailPath);
             AddAvatarCommand = new(addAvatarCommand);
             ClearCommand = new(clearCommand);
-            FindCommand = new(findCommand);
+            EditCommand = new(editCommand);
+            AddCommand = new(addCommand);
+            DeleteCommand = new(deleteCommand);
+            NotInDatabase = new();
+            WorkType = new[] { "THÊM", "SỬA", "XÓA" };
         }
-        private IEnumerable<T> productList;
-        public IEnumerable<T> ProductList
+        protected HashSet<string> NotInDatabase;
+        private ObservableCollection<T> productList;
+        public ObservableCollection<T> ProductList
         {
             get => productList;
             set => SetProperty(ref productList, value);
@@ -105,15 +112,34 @@ namespace ESM.Modules.Import.ViewModels
             get => imagePath;
             set => SetProperty(ref imagePath, value);
         }
+        public bool IsIdEnabled => SelectedWorkType == "THÊM";
+        private string selectedWorkType;
+        public string SelectedWorkType
+        {
+            get => selectedWorkType;
+            set
+            {
+                SetProperty(ref selectedWorkType, value);
+                CurrentWorkTypeChanged();
+                RaisePropertyChanged(nameof(IsIdEnabled));
+            }
+        }
+        protected abstract void CurrentWorkTypeChanged();
+        public IEnumerable<string> WorkType { get; }
         public DelegateCommand SelectFolder { get; }
         public DelegateCommand SelectDetail { get; }
         public DelegateCommand AddAvatarCommand { get; }
         public DelegateCommand SaveCommand { get; }
         public DelegateCommand ClearCommand { get; }
-        public DelegateCommand FindCommand { get; }
-        protected abstract void saveCommand();
+        public DelegateCommand AddCommand { get; }
+        public DelegateCommand<ProductDTO> DeleteCommand { get; }
+        public DelegateCommand<ProductDTO> EditCommand { get; }
+        protected abstract Task saveCommand();
         protected abstract void clearCommand();
-        protected abstract void findCommand();
+        protected abstract void addCommand();
+        protected abstract void deleteCommand(ProductDTO productDTO);
+        protected abstract void findCommand(ProductDTO productDTO);
+        protected abstract void editCommand(ProductDTO productDTO);
         private void getFolderPath()
         {
             ImagePath = _openDialogService.FolderDialog();
@@ -141,7 +167,7 @@ namespace ESM.Modules.Import.ViewModels
 
         public virtual void OnNavigatedTo(NavigationContext navigationContext)
         {
-           
+
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -151,7 +177,7 @@ namespace ESM.Modules.Import.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            
+
         }
     }
 }

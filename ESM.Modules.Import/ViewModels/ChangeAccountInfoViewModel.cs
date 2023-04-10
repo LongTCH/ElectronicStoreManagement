@@ -94,7 +94,7 @@ namespace ESM.Modules.Import.ViewModels
         }
 
         private string? _email;
-        [RegularExpression(@"^[a-z0-9_\+-]+(\.[a-z0-9_\+-]+)*@[a-z0-9-]+(\.[a-z0-9]+)*\.([a-z]{2,4})$", ErrorMessage = "Invalid email format.")]
+        [RegularExpression(@"^[a-z0-9_\+-]+(\.[a-z0-9_\+-]+)*@[a-z0-9-]+(\.[a-z0-9]+)*\.([a-z]{2,4})$", ErrorMessage = "Sai định dạng email")]
         [EmailAddress]
         public string? Email
         {
@@ -201,14 +201,8 @@ namespace ESM.Modules.Import.ViewModels
             try
             {
                 _unitOfWork.Accounts.Update(accountDTO);
-                await _unitOfWork.SaveChangesAsync();
-                Task t = new(() =>
-                {
-                    var id = _accountStore.CurrentAccount.Id;
-                    _accountStore.CurrentAccount = _unitOfWork.Accounts.GetById(id);
-                });
-                t.Start();
-                await t;
+                var id = _accountStore.CurrentAccount.Id;
+                _accountStore.CurrentAccount = await _unitOfWork.Accounts.GetById(id);
                 _modalService.ShowModal(ModalType.Information, "Đã lưu thay đổi", "Thành công");
                 _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.ChangeAccountInfoView);
             }
@@ -225,10 +219,7 @@ namespace ESM.Modules.Import.ViewModels
         }
         private async Task findAccountCommand()
         {
-            Task<Account> task = new(() => _unitOfWork.Accounts.GetById(Id));
-            task.Start();
-            await task;
-            var CurrentAccout = task.Result;
+            var CurrentAccout = await _unitOfWork.Accounts.GetById(Id);
             if (CurrentAccout == null)
             {
                 _modalService.ShowModal(ModalType.Error, "ID không tồn tại", "Lỗi");

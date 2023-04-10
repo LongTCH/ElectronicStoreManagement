@@ -3,11 +3,11 @@
 namespace ESM.Modules.Import.Views
 {
     /// <summary>
-    /// Interaction logic for VGAView
+    /// Interaction logic for ComboInputView
     /// </summary>
-    public partial class VGAView : UserControl
+    public partial class ComboInputView : UserControl
     {
-        public VGAView()
+        public ComboInputView()
         {
             InitializeComponent();
         }

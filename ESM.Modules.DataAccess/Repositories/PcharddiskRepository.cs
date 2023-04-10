@@ -13,34 +13,54 @@ public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRe
     public PcharddiskRepository(ESMDbContext context) : base(context)
     {
     }
-    public override Pcharddisk? GetById(string id)
+    public override async Task<bool> IsIdExist(string id)
     {
-        return _context.Pcharddisks.AsQueryable()
+        return await _context.Pcharddisks.AnyAsync(x => x.Id == id);
+    }
+    public override async Task<Pcharddisk?> GetById(string id)
+    {
+        return await _context.Pcharddisks.AsQueryable()
                 .Where(p => p.Id == id)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
     }
-    public override object? Update(Pcharddisk entity)
+    public override async Task<object?> Update(Pcharddisk entity)
     {
-        var hd = _context.Pcharddisks.AsQueryable()
-               .First(p => p.Id == entity.Id);
-        _context.Entry(hd).CurrentValues.SetValues(entity);
-        return null;
+        bool res = true;
+        try
+        {
+            var hd = await _context.Pcharddisks.AsQueryable()
+                   .FirstAsync(p => p.Id == entity.Id);
+            _context.Entry(hd).CurrentValues.SetValues(entity);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            res = false;
+        }
+        return res;
     }
-    public override IEnumerable<Pcharddisk>? GetAll()
+    public override async Task<IEnumerable<Pcharddisk>?> GetAll()
     {
-        return _context.Pcharddisks.AsQueryable()
+        return await _context.Pcharddisks.AsQueryable()
                 .Where(pcharddisk => pcharddisk.Remain > -1)
-                .ToList();
+                .ToListAsync();
     }
-    public override object? Add(Pcharddisk entity)
+    public override async Task<object?> Add(Pcharddisk entity)
     {
-        _context.Pcharddisks.Add(entity);
+        await _context.Pcharddisks.AddAsync(entity);
+        await _context.SaveChangesAsync();
         return null;
     }
-
+    public override async Task<object?> Delete(string id)
+    {
+        var p = await _context.Pcharddisks.SingleAsync(p => p.Id == id);
+        p.Remain = -1;
+        await _context.SaveChangesAsync();
+        return null;
+    }
     public string GetSuggestID()
     {
-        return GetSuggestID(ProductType.CPU);
+        return GetSuggestID(ProductType.HARDDISK);
     }
     public IEnumerable<ReportMock> GetSoldNumberMonthDuration(DateTime startDate, DateTime endDate)
     {
@@ -68,5 +88,17 @@ public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRe
     public IEnumerable<RevenueDTO> GetRevenueWeekDuration(DateTime startDate, DateTime endDate)
     {
         return GetRevenueWeekDuration(startDate, endDate, ProductType.HARDDISK);
+    }
+
+    public override async Task<object?> AddList(IEnumerable<Pcharddisk> list)
+    {
+        bool res = true;
+        try
+        {
+            await _context.Pcharddisks.AddRangeAsync(list);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex) { res = false; }
+        return res;
     }
 }

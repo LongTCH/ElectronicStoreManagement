@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace ESM.Modules.Export.ViewModels
@@ -82,15 +83,15 @@ namespace ESM.Modules.Export.ViewModels
         public DelegateCommand DeleteAllCommand { get; }
         public DelegateCommand PayCommand { get; }
         public IEnumerable<string> CategoryList { get; } = new[] { "Laptop", "PC", "Monitor", "Hard Disk", "CPU", "VGA", "SmartPhone", "Combo" };
-        private void getProductList()
+        private async Task getProductList()
         {
-            if (Category == "Laptop") Products = _unitOfWork.Laptops.GetAll();
-            else if (Category == "PC") Products = _unitOfWork.Pcs.GetAll();
-            else if (Category == "Monitor") Products = _unitOfWork.Monitors.GetAll();
-            else if (Category == "Hard Disk") Products = _unitOfWork.Pcharddisks.GetAll();
-            else if (Category == "CPU") Products = _unitOfWork.Pccpus.GetAll();
-            else if (Category == "VGA") Products = _unitOfWork.Vgas.GetAll();
-            else if (Category == "SmartPhone") Products = _unitOfWork.Smartphones.GetAll();
+            if (Category == "Laptop") Products = await _unitOfWork.Laptops.GetAll();
+            else if (Category == "PC") Products = await _unitOfWork.Pcs.GetAll();
+            else if (Category == "Monitor") Products = await _unitOfWork.Monitors.GetAll();
+            else if (Category == "Hard Disk") Products = await _unitOfWork.Pcharddisks.GetAll();
+            else if (Category == "CPU") Products = await _unitOfWork.Pccpus.GetAll();
+            else if (Category == "VGA") Products = await _unitOfWork.Vgas.GetAll();
+            else if (Category == "SmartPhone") Products = await _unitOfWork.Smartphones.GetAll();
         }
         private void addCommand()
         {

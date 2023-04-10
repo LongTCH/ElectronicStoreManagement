@@ -11,6 +11,8 @@ using ESM.Modules.Normal;
 using ESM.ViewModels;
 using ESM.Views;
 using MahApps.Metro.Controls.Dialogs;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Mvvm;
@@ -18,7 +20,9 @@ using Prism.Regions;
 using Prism.Unity;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Input;
+using TabControl = System.Windows.Controls.TabControl;
 
 namespace ESM
 {
@@ -41,21 +45,19 @@ namespace ESM
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             ViewModelLocationProvider.Register<MainWindow, MainWindowViewModel>();
+
+            containerRegistry.Register<IUnitOfWork, UnitOfWork>();
+
             containerRegistry.RegisterSingleton<MainWindowViewModel>();
             containerRegistry.RegisterSingleton<MainWindow>();
             containerRegistry.RegisterSingleton<AccountStore>();
-            containerRegistry.RegisterSingleton<IUnitOfWork, UnitOfWork>();
             containerRegistry.RegisterSingleton<IModalService, ModalService>();
             containerRegistry.RegisterSingleton<IOpenDialogService, OpenDialogService>();
             containerRegistry.RegisterSingleton<IDialogCoordinator, DialogCoordinator>();
             containerRegistry.RegisterSingleton<ISendEmailService, SendEmailService>();
             containerRegistry.RegisterSingleton<IApplicationCommand, ApplicationCommand>();
             containerRegistry.RegisterSingleton<ICityListService, CityListService>();
-
-            containerRegistry.RegisterDialogWindow<DialogWindow>();
-            containerRegistry.RegisterDialog<NotificationDialog, NotificationDialogViewModel>();
         }
-
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             base.ConfigureModuleCatalog(moduleCatalog);
@@ -70,6 +72,5 @@ namespace ESM
             base.ConfigureRegionAdapterMappings(regionAdapterMappings);
             regionAdapterMappings.RegisterMapping(typeof(TabControl), Container.Resolve<TabControlAdapter>());
         }
-
     }
 }

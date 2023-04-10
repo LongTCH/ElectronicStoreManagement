@@ -24,11 +24,14 @@ namespace ESM.Modules.Normal.ViewModels
             : base(unitOfWork, modalService)
         {
             Action += OnIsCheckedChanged;
-            getCompanyList();
-            getCPUList();
-            getRAMList();
-            getSeriesList();
-            getStorageList();
+            LoadAttribute += () =>
+            {
+                getCompanyList();
+                getCPUList();
+                getRAMList();
+                getSeriesList();
+                getStorageList();
+            };
         }
         private void OnIsCheckedChanged()
         {
@@ -63,6 +66,7 @@ namespace ESM.Modules.Normal.ViewModels
                 smartphoneCompany.CurrentStoreChanged += FilterProduct;
                 CompanyList.Add(smartphoneCompany);
             }
+            RaisePropertyChanged(nameof(CompanyList));
         }
         private void getCPUList()
         {
@@ -74,6 +78,7 @@ namespace ESM.Modules.Normal.ViewModels
                 smartphoneCPU.CurrentStoreChanged += FilterProduct;
                 CPUList.Add(smartphoneCPU);
             }
+            RaisePropertyChanged(nameof(CPUList));
         }
         private void getRAMList()
         {
@@ -85,6 +90,7 @@ namespace ESM.Modules.Normal.ViewModels
                 smartphoneRAM.CurrentStoreChanged += FilterProduct;
                 RAMList.Add(smartphoneRAM);
             }
+            RaisePropertyChanged(nameof(RAMList));
         }
         private void getSeriesList()
         {
@@ -97,6 +103,7 @@ namespace ESM.Modules.Normal.ViewModels
                 smartphoneSeries.CurrentStoreChanged += FilterProduct;
                 SeriesList.Add(smartphoneSeries);
             }
+            RaisePropertyChanged(nameof(SeriesList));
         }
         private void getStorageList()
         {
@@ -108,6 +115,7 @@ namespace ESM.Modules.Normal.ViewModels
                 smartphoneStorage.CurrentStoreChanged += FilterProduct;
                 StorageList.Add(smartphoneStorage);
             }
+            RaisePropertyChanged(nameof(StorageList));
         }
     }
 }

@@ -21,11 +21,14 @@ namespace ESM.Modules.Normal.ViewModels
             : base(unitOfWork, modalService)
         {
             Action += OnIsCheckedChanged;
-            getCompanyList();
-            getConnectList();
-            getTypeList();
-            getStorageList();
-            getSeriesList();
+            LoadAttribute += () =>
+            {
+                getCompanyList();
+                getConnectList();
+                getTypeList();
+                getStorageList();
+                getSeriesList();
+            };
         }
         private void OnIsCheckedChanged()
         {
@@ -57,9 +60,10 @@ namespace ESM.Modules.Normal.ViewModels
             foreach (var pcharddisk in _productDTOs)
             {
                 ProductAttributeStore pcharddiskCompany = new() { Name = pcharddisk.Company };
-                pcharddiskCompany.CurrentStoreChanged += OnIsCheckedChanged;
+                pcharddiskCompany.CurrentStoreChanged += FilterProduct;
                 CompanyList.Add(pcharddiskCompany);
             }
+            RaisePropertyChanged(nameof(CompanyList));
         }
         private void getConnectList()
         {
@@ -71,6 +75,7 @@ namespace ESM.Modules.Normal.ViewModels
                 pcharddiskCPU.CurrentStoreChanged += FilterProduct;
                 ConnectList.Add(pcharddiskCPU);
             }
+            RaisePropertyChanged(nameof(ConnectList));
         }
         private void getTypeList()
         {
@@ -83,6 +88,7 @@ namespace ESM.Modules.Normal.ViewModels
                 pcharddiskNeed.CurrentStoreChanged += FilterProduct;
                 TypeList.Add(pcharddiskNeed);
             }
+            RaisePropertyChanged(nameof(TypeList));
         }
         private void getStorageList()
         {
@@ -94,6 +100,7 @@ namespace ESM.Modules.Normal.ViewModels
                 pcharddiskRAM.CurrentStoreChanged += FilterProduct;
                 StorageList.Add(pcharddiskRAM);
             }
+            RaisePropertyChanged(nameof(StorageList));
         }
         private void getSeriesList()
         {
@@ -106,6 +113,7 @@ namespace ESM.Modules.Normal.ViewModels
                 pcharddiskSeries.CurrentStoreChanged += FilterProduct;
                 SeriesList.Add(pcharddiskSeries);
             }
+            RaisePropertyChanged(nameof(SeriesList));
         }
     }
 }

@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ESM.Modules.DataAccess.DTOs
+namespace Wpf.CartesianChart.CustomTooltipAndLegend
 {
-    public class TopSellDTO
+    public class CustomerVm
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public int Number { get;set; }
+        public int Number { get; set; }
         public decimal Revenue { get; set; }
     }
 }

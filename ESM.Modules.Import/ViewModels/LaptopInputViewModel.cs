@@ -1,4 +1,5 @@
 ﻿using ESM.Core.ShareServices;
+using ESM.Modules.DataAccess;
 using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
@@ -10,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ESM.Modules.Import.ViewModels
 {
@@ -62,17 +64,29 @@ namespace ESM.Modules.Import.ViewModels
 
         protected override void clearCommand()
         {
-            Product = null;
-            Id = _unitOfWork.Pcharddisks.GetSuggestID();
-            Company = null; Unit = null; Graphic = null;
-            Name = null; Cpu = null; Need = null;
-            AvatarPath = null; Price = 0; Discount = 0; Remain = 0;
-            Ram = null; ImagePath = null; DetailPath = null; Series = null;
-            RaisePropertyChanged(nameof(IsDefault));
+            if (SelectedWorkType == "THÊM")
+            {
+                Empty();
+            }
+            else if (SelectedWorkType == "SỬA")
+            {
+                Price = 0; Discount = null;
+                if (Product != null) findCommand(Product);
+            }
         }
 
-        protected override void findCommand()
+        protected override void editCommand(ProductDTO productDTO)
         {
+            if (SelectedWorkType == "THÊM")
+            {
+                ProductList.Remove((Laptop)productDTO);
+                NotInDatabase.Remove(productDTO.Id);
+            }
+            findCommand(productDTO);
+        }
+        protected override void findCommand(ProductDTO productDTO)
+        {
+            Product = (Laptop)productDTO;
             Id = Product.Id;
             Cpu = Product.Cpu;
             Company = Product.Company;
@@ -91,69 +105,104 @@ namespace ESM.Modules.Import.ViewModels
 
         }
 
-        protected override void saveCommand()
+        protected override void addCommand()
         {
             if (Id == null || Company == null || Unit == null ||
-                Name == null || Storage == null || Graphic == null ||
-                Cpu == null || Ram == null)
+               Name == null || Storage == null || Graphic == null ||
+               Cpu == null || Ram == null)
             {
-                _modalService.ShowModal(ModalType.Error, "Enter all required value", "Warning");
+                _modalService.ShowModal(ModalType.Error, "Nhập tất cả thông tin cần thiết", "Cảnh báo");
                 return;
             }
-            Task<bool> task = new(() =>
-            {
-                Laptop laptopDTO = new()
-                {
-                    Id = Id,
-                    Cpu = Cpu,
-                    Company = Company,
-                    Unit = Unit,
-                    Graphic = Graphic,
-                    Name = Name,
-                    Price = Price,
-                    Discount = Discount,
-                    DetailPath = DetailPath,
-                    AvatarPath = AvatarPath,
-                    ImagePath = ImagePath,
-                    Ram = Ram,
-                    Need = Need,
-                    Storage = Storage,
-                    Remain = Remain,
-                    Series = Series,
-                };
-                try
-                {
-                    if (Product == null)
-                        _unitOfWork.Laptops.Add(laptopDTO);
-                    else
-                    {
-                        _unitOfWork.Laptops.Update(laptopDTO);
-                        Product = laptopDTO;
-                    }
-                    _unitOfWork.SaveChange();
-                    ProductList = _unitOfWork.Laptops.GetAll();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-            });
-            task.Start();
-            task.Await();
-            var res = task.Result;
-            if (res)
-            {
-                _modalService.ShowModal(ModalType.Information, "Saved", "Success");
-                clearCommand();
-            }
-            else _modalService.ShowModal(ModalType.Error, "Failed to save", "Error");
+            Laptop laptopDTO = GetLaptop();
+            laptopDTO.Remain = Remain;
+            ProductList.Add(laptopDTO);
         }
-        public override void OnNavigatedTo(NavigationContext navigationContext)
+        protected override async Task saveCommand()
         {
+            var res = await _unitOfWork.Laptops.AddList(ProductList);
+            if ((bool)res)
             {
-                ProductList = _unitOfWork.Laptops.GetAll();
+                _modalService.ShowModal(ModalType.Information, "Đã lưu", "Thông báo");
+                ProductList = new();
+                NotInDatabase = new();
             }
+            else _modalService.ShowModal(ModalType.Error, "Lưu không thành công", "Lỗi");
+            await Task.CompletedTask;
+        }
+        public override async void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            var list = await _unitOfWork.Laptops.GetAll();
+            ProductList = new(list);
+        }
+
+        protected override async void CurrentWorkTypeChanged()
+        {
+            if (SelectedWorkType == "THÊM")
+            {
+                ProductList = new();
+            }
+            else
+            {
+                var list = await _unitOfWork.Laptops.GetAll();
+                ProductList = new(list);
+            }
+            clearCommand();
+        }
+
+        protected override async void deleteCommand(ProductDTO productDTO)
+        {
+            if (SelectedWorkType == "THÊM")
+            {
+                if (NotInDatabase.Contains(productDTO.Id))
+                {
+                    var p = ProductList.Single(x => x.Id == productDTO.Id);
+                    ProductList.Remove(p);
+                    NotInDatabase.Remove(productDTO.Id);
+                }
+            }
+            else
+            {
+                if (MessageBox.Show("Bạn có chắc chắn xóa?", "Cảnh báo", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    await _unitOfWork.Laptops.Delete(productDTO.Id);
+                    var list = await _unitOfWork.Laptops.GetAll();
+                    ProductList = new(list);
+                }
+            }
+        }
+        private Laptop GetLaptop()
+        {
+            return new()
+            {
+                Name = Name,
+                Storage = Storage,
+                Series = Series,
+                Company = Company,
+                DetailPath = DetailPath,
+                Discount = Discount,
+                Id = Id,
+                ImagePath = ImagePath,
+                AvatarPath = AvatarPath,
+                Price = Price,
+                Unit = Unit,
+                Remain = 0,
+                Cpu = Cpu,
+                Graphic =Graphic,
+                Need = Need,
+                Ram = Ram
+            };
+        }
+        private void Empty()
+        {
+            Product = null;
+            Id = null;
+            Company = null; Unit = null; Series = null;
+            Name = null; Storage = null; Graphic = null;
+            Cpu = null; Need = null; Ram = null;
+            AvatarPath = null; Price = 0; Discount = 0;
+            ImagePath = null; DetailPath = null; Remain = 0;
+            RaisePropertyChanged(nameof(IsDefault));
         }
     }
 }

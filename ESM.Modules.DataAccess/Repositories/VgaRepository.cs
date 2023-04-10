@@ -1,6 +1,7 @@
 ﻿using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ESM.Modules.DataAccess.Repositories;
 
@@ -11,27 +12,36 @@ public class VgaRepository : ProductRepository<Vga>, IVgaRepository
     public VgaRepository(ESMDbContext context) : base(context)
     {
     }
-    public override IEnumerable<Vga>? GetAll()
+    public override async Task<IEnumerable<Vga>?> GetAll()
     {
-        return _context.Vgas.AsQueryable()
+        return await _context.Vgas.AsQueryable()
                 .Where(vga => vga.Remain > -1)
-               .ToList();
+               .ToListAsync();
     }
-    public override object? Add(Vga entity)
+    public override async Task<object?> Add(Vga entity)
     {
-        _context.Vgas.Add(entity);
+        await _context.Vgas.AddAsync(entity);
+        await _context.SaveChangesAsync();
         return null;
     }
-    public override object? Update(Vga entity)
+    public override async Task<object?> Update(Vga entity)
     {
-        var hd = _context.Vgas.AsQueryable()
-               .First(p => p.Id == entity.Id);
+        var hd = await _context.Vgas.AsQueryable()
+               .FirstAsync(p => p.Id == entity.Id);
         _context.Entry(hd).CurrentValues.SetValues(entity);
+        await _context.SaveChangesAsync();
         return null;
     }
     public string GetSuggestID()
     {
         return GetSuggestID(ProductType.VGA);
+    }
+    public override async Task<object?> Delete(string id)
+    {
+        var p = await _context.Vgas.SingleAsync(p => p.Id == id);
+        p.Remain = -1;
+        await _context.SaveChangesAsync();
+        return null;
     }
     public IEnumerable<ReportMock> GetSoldNumberMonthDuration(DateTime startDate, DateTime endDate)
     {

@@ -1,28 +1,25 @@
 ﻿using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ESM.Modules.DataAccess.Repositories;
 
 public interface IAccountRepository : IBaseRepository<Account>
 {
     string GetSuggestAccountId(string prefix);
-    void ResetPassword(string ID, string newPasswordHash);
+    Task<bool> ResetPassword(string ID, string newPasswordHash);
 }
 public class AccountRepository : BaseRepository<Account>, IAccountRepository
 {
     public AccountRepository(ESMDbContext context) : base(context)
     {
     }
-    public override Account? GetById(string id)
+    public override async Task<Account?> GetById(string id)
     {
-        return _context.Accounts.AsQueryable()
+        return await _context.Accounts.AsQueryable()
                 .Where(ac => ac.Id == id)
-                .FirstOrDefault();
-    }
-    public override bool Any(string id)
-    {
-        return _context.Accounts.Any(a => a.Id == id);
+                .FirstOrDefaultAsync();
     }
     public string GetSuggestAccountId(string prefix)
     {
@@ -34,25 +31,33 @@ public class AccountRepository : BaseRepository<Account>, IAccountRepository
         result = result.Insert(0, new('0', 4 - result.Length));
         return prefix + result;
     }
-    public override object? Update(Account accountDTO)
+    public override async Task<object?> Update(Account accountDTO)
     {
         var account = (from ac in _context.Accounts
                        where ac.Id == accountDTO.Id
                        select ac).First();
         _context.Entry(account).CurrentValues.SetValues(accountDTO);
+        await _context.SaveChangesAsync();
         return null;
     }
-    public override object? Add(Account accountDTO)
+    public override async Task<object?> Add(Account accountDTO)
     {
-        _context.Accounts.Add(accountDTO);
+        await _context.Accounts.AddAsync(accountDTO);
+        await _context.SaveChangesAsync();
         return null;
     }
-    public void ResetPassword(string ID, string newPasswordHash)
+    public async Task<bool> ResetPassword(string ID, string newPasswordHash)
     {
-        var account = (from a in _context.Accounts
-                       where a.Id == ID
-                       select a).First();
-
-        account.PasswordHash = newPasswordHash;
+        bool res = true;
+        try
+        {
+            var account = await (from a in _context.Accounts
+                                 where a.Id == ID
+                                 select a).FirstAsync();
+            account.PasswordHash = newPasswordHash;
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex) { res = false; }
+        return res;
     }
 }

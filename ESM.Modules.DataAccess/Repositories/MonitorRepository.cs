@@ -1,6 +1,7 @@
 ﻿using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ESM.Modules.DataAccess.Repositories;
 public interface IMonitorRepository : IProductRepository<Models.Monitor>
@@ -11,26 +12,27 @@ public class MonitorRepository : ProductRepository<Models.Monitor>, IMonitorRepo
     public MonitorRepository(ESMDbContext context) : base(context)
     {
     }
-    public override IEnumerable<Models.Monitor>? GetAll()
+    public override async Task<IEnumerable<Models.Monitor>?> GetAll()
     {
-        return _context.Monitors.AsQueryable()
+        return await _context.Monitors.AsQueryable()
                 .Where(p => p.Remain > -1)
-                .ToList();
+                .ToListAsync();
     }
     public string GetSuggestID()
     {
         return GetSuggestID(ProductType.MONITOR);
     }
-    public override object? Add(Models.Monitor entity)
+    public override async Task<object?> Add(Models.Monitor entity)
     {
-        _context.Monitors.Add(entity);
+        await _context.Monitors.AddAsync(entity);
         return null;
     }
-    public override object? Update(Models.Monitor entity)
+    public override async Task<object?> Update(Models.Monitor entity)
     {
-        var hd = _context.Monitors.AsQueryable()
-               .First(p => p.Id == entity.Id);
+        var hd = await _context.Monitors.AsQueryable()
+               .FirstAsync(p => p.Id == entity.Id);
         _context.Entry(hd).CurrentValues.SetValues(entity);
+        await _context.SaveChangesAsync();
         return null;
     }
     public IEnumerable<ReportMock> GetSoldNumberMonthDuration(DateTime startDate, DateTime endDate)

@@ -20,10 +20,13 @@ namespace ESM.Modules.Normal.ViewModels
             : base(unitOfWork, modalService)
         {
             Action += OnIsCheckedChanged;
-            getCompanyList();
-            getSocketList();
-            getNeedList();
-            getSeriesList();
+            LoadAttribute += () =>
+            {
+                getCompanyList();
+                getSocketList();
+                getNeedList();
+                getSeriesList();
+            };
         }
         private void OnIsCheckedChanged()
         {
@@ -54,6 +57,7 @@ namespace ESM.Modules.Normal.ViewModels
                 pccpuCompany.CurrentStoreChanged += FilterProduct;
                 CompanyList.Add(pccpuCompany);
             }
+            RaisePropertyChanged(nameof(CompanyList));
         }
         private void getSocketList()
         {
@@ -65,6 +69,7 @@ namespace ESM.Modules.Normal.ViewModels
                 pccpusocket.CurrentStoreChanged += FilterProduct;
                 SocketList.Add(pccpusocket);
             }
+            RaisePropertyChanged(nameof(SocketList));
         }
         private void getNeedList()
         {
@@ -77,6 +82,7 @@ namespace ESM.Modules.Normal.ViewModels
                 pccpuNeed.CurrentStoreChanged += FilterProduct;
                 NeedList.Add(pccpuNeed);
             }
+            RaisePropertyChanged(nameof(NeedList));
         }
         private void getSeriesList()
         {
@@ -89,6 +95,7 @@ namespace ESM.Modules.Normal.ViewModels
                 pccpuSeries.CurrentStoreChanged += FilterProduct;
                 SeriesList.Add(pccpuSeries);
             }
+            RaisePropertyChanged(nameof(SeriesList));
         }
     }
 }

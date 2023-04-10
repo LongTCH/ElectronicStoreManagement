@@ -1,6 +1,7 @@
 ﻿using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ESM.Modules.DataAccess.Repositories;
 public interface IPccpuRepository : IProductRepository<Pccpu> {
@@ -10,22 +11,24 @@ public class PccpuRepository : ProductRepository<Pccpu>, IPccpuRepository
     public PccpuRepository(ESMDbContext context) : base(context)
     {
     }
-    public override IEnumerable<Pccpu>? GetAll()
+    public override async Task<IEnumerable<Pccpu>?> GetAll()
     {
-        return _context.Pccpus.AsQueryable()
+        return await _context.Pccpus.AsQueryable()
                 .Where(p => p.Remain > -1)
-                .ToList();
+                .ToListAsync();
     }
-    public override object? Add(Pccpu entity)
+    public override async Task<object?> Add(Pccpu entity)
     {
-        _context.Pccpus.Add(entity);
+        await _context.Pccpus.AddAsync(entity);
+        await _context.SaveChangesAsync();
         return null;
     }
-    public override object? Update(Pccpu entity)
+    public override async Task<object?> Update(Pccpu entity)
     {
-        var hd = _context.Pccpus.AsQueryable()
-               .First(p => p.Id == entity.Id);
+        var hd = await _context.Pccpus.AsQueryable()
+               .FirstAsync(p => p.Id == entity.Id);
         _context.Entry(hd).CurrentValues.SetValues(entity);
+        await _context.SaveChangesAsync();
         return null;
     }
     public string GetSuggestID()

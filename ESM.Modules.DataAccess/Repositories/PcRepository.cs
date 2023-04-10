@@ -1,6 +1,7 @@
 ﻿using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ESM.Modules.DataAccess.Repositories;
 public interface IPcRepository : IProductRepository<Pc>
@@ -11,22 +12,24 @@ public class PcRepository : ProductRepository<Pc>, IPcRepository
     public PcRepository(ESMDbContext context) : base(context)
     {
     }
-    public override IEnumerable<Pc>? GetAll()
+    public override async Task<IEnumerable<Pc>?> GetAll()
     {
-        return _context.Pcs.AsQueryable()
+        return await _context.Pcs.AsQueryable()
                 .Where(pc => pc.Remain > -1)
-                .ToList();
+                .ToListAsync();
     }
-    public override object? Add(Pc entity)
+    public override async Task<object?> Add(Pc entity)
     {
-        _context.Pcs.Add(entity);
+        await _context.Pcs.AddAsync(entity);
+        await _context.SaveChangesAsync();
         return null;
     }
-    public override object? Update(Pc entity)
+    public override async Task<object?> Update(Pc entity)
     {
-        var hd = _context.Pcs.AsQueryable()
-               .First(p => p.Id == entity.Id);
+        var hd = await _context.Pcs.AsQueryable()
+               .FirstAsync(p => p.Id == entity.Id);
         _context.Entry(hd).CurrentValues.SetValues(entity);
+        await _context.SaveChangesAsync();
         return null;
     }
     public string GetSuggestID()

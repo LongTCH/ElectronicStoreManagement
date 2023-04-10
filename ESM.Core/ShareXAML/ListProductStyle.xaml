@@ -5,12 +5,10 @@
     </ResourceDictionary.MergedDictionaries>
     <Style x:Key="listProduct"
            TargetType="{x:Type ListBox}">
-        <Setter Property="MaxHeight"
-                Value="350" />
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility"
-                Value="Auto" />
         <Setter Property="BorderThickness"
                 Value="0" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility"
+                Value="Disabled" />
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate>
@@ -66,7 +64,7 @@
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <WrapPanel />
+                    <WrapPanel Orientation="Horizontal" />
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>

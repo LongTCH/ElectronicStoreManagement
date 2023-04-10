@@ -23,13 +23,16 @@ namespace ESM.Modules.Normal.ViewModels
             : base(unitOfWork, modalService)
         {
             Action += OnIsCheckedChanged;
-            getCompanyList();
-            getChipList();
-            getChipsetList();
-            getNeedList();
-            getVramList();
-            getSeriesList();
-            getGenList();
+            LoadAttribute += () =>
+            {
+                getCompanyList();
+                getChipList();
+                getChipsetList();
+                getNeedList();
+                getVramList();
+                getSeriesList();
+                getGenList();
+            };
         }
         private void OnIsCheckedChanged()
         {
@@ -72,6 +75,7 @@ namespace ESM.Modules.Normal.ViewModels
                 vgaCompany.CurrentStoreChanged += FilterProduct;
                 CompanyList.Add(vgaCompany);
             }
+            RaisePropertyChanged(nameof(CompanyList));
         }
         private void getChipList()
         {
@@ -83,6 +87,7 @@ namespace ESM.Modules.Normal.ViewModels
                 vgaCPU.CurrentStoreChanged += FilterProduct;
                 ChipList.Add(vgaCPU);
             }
+            RaisePropertyChanged(nameof(ChipList));
         }
         private void getChipsetList()
         {
@@ -94,6 +99,7 @@ namespace ESM.Modules.Normal.ViewModels
                 vgaGraphic.CurrentStoreChanged += FilterProduct;
                 ChipsetList.Add(vgaGraphic);
             }
+            RaisePropertyChanged(nameof(ChipsetList));
         }
         private void getNeedList()
         {
@@ -106,6 +112,7 @@ namespace ESM.Modules.Normal.ViewModels
                 vgaNeed.CurrentStoreChanged += FilterProduct;
                 NeedList.Add(vgaNeed);
             }
+            RaisePropertyChanged(nameof(NeedList));
         }
         private void getVramList()
         {
@@ -117,6 +124,7 @@ namespace ESM.Modules.Normal.ViewModels
                 vgaVram.CurrentStoreChanged += FilterProduct;
                 VramList.Add(vgaVram);
             }
+            RaisePropertyChanged(nameof(VramList));
         }
         private void getSeriesList()
         {
@@ -129,6 +137,7 @@ namespace ESM.Modules.Normal.ViewModels
                 vgaSeries.CurrentStoreChanged += FilterProduct;
                 SeriesList.Add(vgaSeries);
             }
+            RaisePropertyChanged(nameof(SeriesList));
         }
         private void getGenList()
         {
@@ -140,6 +149,7 @@ namespace ESM.Modules.Normal.ViewModels
                 vgaGen.CurrentStoreChanged += FilterProduct;
                 GenList.Add(vgaGen);
             }
+            RaisePropertyChanged(nameof(GenList));
         }
     }
 }

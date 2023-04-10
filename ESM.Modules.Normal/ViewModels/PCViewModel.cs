@@ -21,11 +21,14 @@ namespace ESM.Modules.Normal.ViewModels
             : base(unitOfWork, modalService)
         {
             Action += OnIsCheckedChanged;
-            getCompanyList();
-            getCPUList();
-            getNeedList();
-            getRAMList();
-            getSeriesList();
+            LoadAttribute += () =>
+            {
+                getCompanyList();
+                getCPUList();
+                getNeedList();
+                getRAMList();
+                getSeriesList();
+            };
         }
         private void OnIsCheckedChanged()
         {
@@ -60,6 +63,7 @@ namespace ESM.Modules.Normal.ViewModels
                 pcCompany.CurrentStoreChanged += FilterProduct;
                 CompanyList.Add(pcCompany);
             }
+            RaisePropertyChanged(nameof(CompanyList));
         }
         private void getCPUList()
         {
@@ -71,6 +75,7 @@ namespace ESM.Modules.Normal.ViewModels
                 pcCPU.CurrentStoreChanged += FilterProduct;
                 CPUList.Add(pcCPU);
             }
+            RaisePropertyChanged(nameof(CPUList));
         }
         private void getNeedList()
         {
@@ -83,6 +88,7 @@ namespace ESM.Modules.Normal.ViewModels
                 pcNeed.CurrentStoreChanged += FilterProduct;
                 NeedList.Add(pcNeed);
             }
+            RaisePropertyChanged(nameof(NeedList));
         }
         private void getRAMList()
         {
@@ -94,6 +100,7 @@ namespace ESM.Modules.Normal.ViewModels
                 pcRAM.CurrentStoreChanged += FilterProduct;
                 RAMList.Add(pcRAM);
             }
+            RaisePropertyChanged(nameof(RAMList));
         }
         private void getSeriesList()
         {
@@ -106,6 +113,7 @@ namespace ESM.Modules.Normal.ViewModels
                 pcSeries.CurrentStoreChanged += FilterProduct;
                 SeriesList.Add(pcSeries);
             }
+            RaisePropertyChanged(nameof(SeriesList));
         }
     }
 }

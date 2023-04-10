@@ -22,12 +22,15 @@ namespace ESM.Modules.Normal.ViewModels
             : base(unitOfWork, modalService)
         {
             Action += OnIsCheckedChanged;
-            getCompanyList();
-            getPanelList();
-            getNeedList();
-            getRefreshRateList();
-            getSeriesList();
-            getSizeList();
+            LoadAttribute += () =>
+            {
+                getCompanyList();
+                getPanelList();
+                getNeedList();
+                getRefreshRateList();
+                getSeriesList();
+                getSizeList();
+            };
         }
         private void OnIsCheckedChanged()
         {
@@ -66,6 +69,7 @@ namespace ESM.Modules.Normal.ViewModels
                 monitorCompany.CurrentStoreChanged += FilterProduct;
                 CompanyList.Add(monitorCompany);
             }
+            RaisePropertyChanged(nameof(CompanyList));
         }
         private void getPanelList()
         {
@@ -77,6 +81,7 @@ namespace ESM.Modules.Normal.ViewModels
                 monitorCPU.CurrentStoreChanged += OnIsCheckedChanged;
                 PanelList.Add(monitorCPU);
             }
+            RaisePropertyChanged(nameof(PanelList));
         }
         private void getNeedList()
         {
@@ -89,6 +94,7 @@ namespace ESM.Modules.Normal.ViewModels
                 monitorNeed.CurrentStoreChanged += FilterProduct;
                 NeedList.Add(monitorNeed);
             }
+            RaisePropertyChanged(nameof(NeedList));
         }
         private void getRefreshRateList()
         {
@@ -100,6 +106,7 @@ namespace ESM.Modules.Normal.ViewModels
                 monitorRAM.CurrentStoreChanged += FilterProduct;
                 RefreshRateList.Add(monitorRAM);
             }
+            RaisePropertyChanged(nameof(RefreshRateList));
         }
         private void getSeriesList()
         {
@@ -112,6 +119,7 @@ namespace ESM.Modules.Normal.ViewModels
                 monitorSeries.CurrentStoreChanged += FilterProduct;
                 SeriesList.Add(monitorSeries);
             }
+            RaisePropertyChanged(nameof(SeriesList));
         }
         private void getSizeList()
         {
@@ -123,6 +131,7 @@ namespace ESM.Modules.Normal.ViewModels
                 monitorStorage.CurrentStoreChanged += FilterProduct;
                 SizeList.Add(monitorStorage);
             }
+            RaisePropertyChanged(nameof(SizeList));
         }
     }
 }

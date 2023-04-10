@@ -1,7 +1,4 @@
-﻿using ESM.Modules.DataAccess.DTOs;
-using ESM.Modules.DataAccess.Models;
-using System.Data.Entity.SqlServer;
-using System.Globalization;
+﻿using ESM.Modules.DataAccess.Models;
 
 namespace ESM.Modules.DataAccess.Infrastructure
 {
@@ -14,36 +11,40 @@ namespace ESM.Modules.DataAccess.Infrastructure
             _context = context;
         }
 
-        public virtual object? Add(T entity)
+        public virtual Task<object?> Add(T entity)
         {
             throw new NotImplementedException();
         }
 
-        public virtual bool Any(string id)
+        public virtual Task<object?> AddList(IEnumerable<T> list)
         {
             throw new NotImplementedException();
         }
 
-        public virtual object? Delete(string id)
+        public virtual Task<bool> IsIdExist(string id)
         {
             throw new NotImplementedException();
         }
 
-        public virtual IEnumerable<T>? GetAll()
+        public virtual Task<object?> Delete(string id)
         {
             throw new NotImplementedException();
         }
 
-        public virtual T? GetById(string id)
+        public virtual Task<IEnumerable<T>?> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Task<T?> GetById(string id)
         {
             throw new NotImplementedException();
         }
 
 
-        public virtual object? Update(T entity)
+        public virtual Task<object?> Update(T entity)
         {
             throw new NotImplementedException();
         }
-        
     }
 }

@@ -1,9 +1,7 @@
 ﻿using ESM.Core;
 using ESM.Core.ShareServices;
 using ESM.Core.ShareStores;
-using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
-using ESM.Modules.DataAccess.Models;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -56,18 +54,6 @@ namespace ESM.Modules.Authentication.ViewModels
 
         public DelegateCommand LoginCommand { get; }
         public DelegateCommand ForgotPasswordNavigationCommand { get; }
-
-        Account Login()
-        {
-            IsBusy = true;
-            ScryptEncoder encoder = new();
-            var account = _unitOfWork.Accounts.GetById(Id);
-            if (account == null || !encoder.Compare(Password, account.PasswordHash))
-                account = null;
-            _accountStore.CurrentAccount = account;
-            IsBusy = false;
-            return account;
-        }
         private async Task ExecuteLogin()
         {
             try
@@ -84,13 +70,17 @@ namespace ESM.Modules.Authentication.ViewModels
                 }
                 else
                 {
-                    Task<Account> task = new(Login);
-                    task.Start();
-                    var account = await task;
+                    IsBusy = true;
+                    ScryptEncoder encoder = new();
+                    var account = await _unitOfWork.Accounts.GetById(Id);
+                    if (account == null || !encoder.Compare(Password, account.PasswordHash))
+                        account = null;
+                    _accountStore.CurrentAccount = account;
+                    IsBusy = false;
                     if (account == null)
                         _modalService.ShowModal(ModalType.Error, "Sai ID hoặc mật khẩu", "Thất bại");
                     else
-                    {  
+                    {
                         _regionManager.RequestNavigateContentRegionWithTrace(ViewNames.AccountView);
                         _applicationCommand.ResetIndexCommand.Execute(true);
                     }
