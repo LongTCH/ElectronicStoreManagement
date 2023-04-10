@@ -30,11 +30,19 @@ public class MonitorRepository : ProductRepository<Models.Monitor>, IMonitorRepo
     }
     public override async Task<object?> Update(Models.Monitor entity)
     {
-        var hd = await _context.Monitors.AsQueryable()
-               .FirstAsync(p => p.Id == entity.Id);
-        _context.Entry(hd).CurrentValues.SetValues(entity);
-        await _context.SaveChangesAsync();
-        return null;
+        bool res = true;
+        try
+        {
+            var hd = await _context.Monitors.AsQueryable()
+                   .FirstAsync(p => p.Id == entity.Id);
+            _context.Entry(hd).CurrentValues.SetValues(entity);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            res = false;
+        }
+        return res;
     }
     public IEnumerable<ReportMock> GetSoldNumberMonthDuration(DateTime startDate, DateTime endDate)
     {

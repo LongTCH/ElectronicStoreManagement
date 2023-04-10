@@ -354,13 +354,13 @@
                     <DataGridTextColumn Header="Tên"
                                         Binding="{Binding Name, Mode=OneWay}" />
                     <DataGridTextColumn Header="Giá"
-                                        Binding="{Binding SellPrice, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
+                                        Binding="{Binding Price, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
                     <DataGridTextColumn Header="Đơn vị"
                                         Binding="{Binding Unit, Mode=OneWay}" />
                     <DataGridTextColumn Header="Giảm giá"
-                                        Binding="{Binding Discount, UpdateSourceTrigger=LostFocus}" />
+                                        Binding="{Binding Discount}" />
                     <DataGridTextColumn Header="Bộ nhớ"
-                                        Binding="{Binding Storage, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
+                                        Binding="{Binding Storage}" />
                     <DataGridTextColumn Header="Chuẩn kết nối"
                                         Binding="{Binding Connect}" />
                     <DataGridTextColumn Header="Loại ổ cứng"

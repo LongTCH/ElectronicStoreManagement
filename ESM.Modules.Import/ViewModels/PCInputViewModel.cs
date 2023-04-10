@@ -20,9 +20,8 @@ namespace ESM.Modules.Import.ViewModels
     {
         public PCInputViewModel(IUnitOfWork unitOfWork, IOpenDialogService openDialogService, IModalService modalService) : base(unitOfWork, openDialogService, modalService)
         {
-            
+
         }
-        HashSet<string> NotInDatabase;
         public string Header => "PC";
         private string cpu;
         public string Cpu
@@ -42,81 +41,36 @@ namespace ESM.Modules.Import.ViewModels
             get => series;
             set => SetProperty(ref series, value);
         }
-        /*public string Cpu { get; set; } = null!;
-
-        public string? Ram { get; set; }
-
-
-        public string? Series { get; set; }
-
-
-        public string? Need { get; set; }*/
         protected override async void addCommand()
         {
-            /*if (Id == null || Company == null || Unit == null ||
-               Name == null|| Series == null ||
-               Cpu == null || Ram == null)
-            {
-                _modalService.ShowModal(ModalType.Error, "Nhập tất cả thông tin cần thiết", "Cảnh báo");
-                return;
-            }
-            Pc pcDTO = new()
-            {
-                Id = Id,
-                Cpu = Cpu,
-                Company = Company,
-                Unit = Unit,
-                Series = Series,
-                Name = Name,
-                Price = Price,
-                Discount = Discount,
-                DetailPath = DetailPath,
-                AvatarPath = AvatarPath,
-                ImagePath = ImagePath,
-                Ram = Ram,
-                
-                
-                Remain = Remain,
-                
-            };
-            ProductList.Add(pcDTO);*/
             if (SelectedWorkType == "THÊM")
             {
-                if (Id == null || Id.Length != 9 || !Id.StartsWith(DAStaticData.IdPrefix[ProductType.HARDDISK]) || !Id.All(x => char.IsDigit(x)))
+                if (Id == null || Id.Length != 9 || !Id.StartsWith(DAStaticData.IdPrefix[ProductType.PC]) || !Id.All(x => char.IsDigit(x)))
                 {
                     _modalService.ShowModal(ModalType.Error, "Sai định dạng ID", "Cảnh báo");
                     return;
                 }
-                if (ProductList.Any(x => x.Id == Id))
+                //make the two calls to IsProductExistInBill and IsIdExist concurrently
+                var task1 = _unitOfWork.Bills.IsProductExistInBill(Id);
+                var task2 = _unitOfWork.Pcs.IsIdExist(Id);
+
+                await Task.WhenAll(task1, task2);
+
+                bool exist = task1.Result || task2.Result;
+
+                if (ProductList.Any(x => x.Id == Id) || exist)
                 {
                     _modalService.ShowModal(ModalType.Error, "ID đã tồn tại", "Cảnh báo");
                     return;
                 }
-                if (Id == null || Company == null || Unit == null ||
+                if (Company == null || Unit == null ||
                Name == null || Series == null ||
                Cpu == null || Ram == null)
                 {
                     _modalService.ShowModal(ModalType.Error, "Nhập tất cả thông tin cần thiết", "Cảnh báo");
                     return;
                 }
-                Pc pcDTO = new()
-                {
-                    Id = Id,
-                    Cpu = Cpu,
-                    Company = Company,
-                    Unit = Unit,
-                    Series = Series,
-                    Name = Name,
-                    Price = Price,
-                    Discount = Discount,
-                    DetailPath = DetailPath,
-                    AvatarPath = AvatarPath,
-                    ImagePath = ImagePath,
-                    Ram = Ram,
-
-
-                    Remain = 0,
-                };
+                Pc pcDTO = GetPc();
                 ProductList.Add(pcDTO);
                 NotInDatabase.Add(Id);
                 clearCommand();
@@ -130,45 +84,14 @@ namespace ESM.Modules.Import.ViewModels
                     _modalService.ShowModal(ModalType.Error, "Nhập tất cả thông tin cần thiết", "Cảnh báo");
                     return;
                 }
-                Pc pcDTO = new()
-                {
-                    Id = Id,
-                    Cpu = Cpu,
-                    Company = Company,
-                    Unit = Unit,
-                    Series = Series,
-                    Name = Name,
-                    Price = Price,
-                    Discount = Discount,
-                    DetailPath = DetailPath,
-                    AvatarPath = AvatarPath,
-                    ImagePath = ImagePath,
-                    Ram = Ram,
-
-
-                    Remain = Remain,
-                };
+                Pc pcDTO = GetPc();
+                pcDTO.Remain = Remain;
                 var res = await _unitOfWork.Pcs.Update(pcDTO);
                 if ((bool)res)
                     _modalService.ShowModal(ModalType.Information, "Cập nhật thành công", "Thông báo");
                 else _modalService.ShowModal(ModalType.Error, "Có lỗi xảy ra", "Thông báo");
                 // Clear
-                Id = null;
-                    Cpu = null;
-                Company = null;
-                Unit = null;
-                Series = null;
-                Name = null;
-                Price = 0;
-                Discount = 0;
-                    DetailPath = null;
-                AvatarPath = null;
-                ImagePath = null;
-                Ram = null;
-
-
-                Remain = 0;
-                RaisePropertyChanged(nameof(IsDefault));
+                Empty();
                 var list = await _unitOfWork.Pcs.GetAll();
                 ProductList = new(list);
             }
@@ -176,29 +99,14 @@ namespace ESM.Modules.Import.ViewModels
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
             //Id = _unitOfWork.Pcharddisks.GetSuggestID();
-            ProductList = new();
-            NotInDatabase = new();
+            //ProductList = new();
+            //NotInDatabase = new();
         }
         protected override void clearCommand()
         {
             if (SelectedWorkType == "THÊM")
             {
-                Id = null;
-                Cpu = null;
-                Company = null;
-                Unit = null;
-                Series = null;
-                Name = null;
-                Price = 0;
-                Discount = 0;
-                DetailPath = null;
-                AvatarPath = null;
-                ImagePath = null;
-                Ram = null;
-
-
-                Remain = 0;
-                RaisePropertyChanged(nameof(IsDefault));
+                Empty();
             }
             else if (SelectedWorkType == "SỬA")
             {
@@ -281,6 +189,42 @@ namespace ESM.Modules.Import.ViewModels
                 NotInDatabase.Remove(productDTO.Id);
             }
             findCommand(productDTO);
+        }
+        private Pc GetPc()
+        {
+            return new()
+            {
+                Id = Id,
+                Cpu = Cpu,
+                Company = Company,
+                Unit = Unit,
+                Series = Series,
+                Name = Name,
+                Price = Price,
+                Discount = Discount,
+                DetailPath = DetailPath,
+                AvatarPath = AvatarPath,
+                ImagePath = ImagePath,
+                Ram = Ram,
+                Remain = 0,
+            };
+        }
+        private void Empty()
+        {
+            Id = null;
+            Cpu = null;
+            Company = null;
+            Unit = null;
+            Series = null;
+            Name = null;
+            Price = 0;
+            Discount = 0;
+            DetailPath = null;
+            AvatarPath = null;
+            ImagePath = null;
+            Ram = null;
+            Remain = 0;
+            RaisePropertyChanged(nameof(IsDefault));
         }
     }
 }

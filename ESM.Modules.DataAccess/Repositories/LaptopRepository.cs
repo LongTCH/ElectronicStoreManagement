@@ -26,11 +26,19 @@ public class LaptopRepository : ProductRepository<Laptop>, ILaptopRepository
     }
     public override async Task<object?> Update(Laptop entity)
     {
-        var hd = await _context.Laptops.AsQueryable()
-               .FirstAsync(p => p.Id == entity.Id);
-        _context.Entry(hd).CurrentValues.SetValues(entity);
-        await _context.SaveChangesAsync();
-        return null;
+        bool res = true;
+        try
+        {
+            var hd = await _context.Laptops.AsQueryable()
+                   .FirstAsync(p => p.Id == entity.Id);
+            _context.Entry(hd).CurrentValues.SetValues(entity);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            res = false;
+        }
+        return res;
     }
     public override async Task<object?> Delete(string id)
     {

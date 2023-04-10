@@ -25,11 +25,19 @@ public class PccpuRepository : ProductRepository<Pccpu>, IPccpuRepository
     }
     public override async Task<object?> Update(Pccpu entity)
     {
-        var hd = await _context.Pccpus.AsQueryable()
-               .FirstAsync(p => p.Id == entity.Id);
-        _context.Entry(hd).CurrentValues.SetValues(entity);
-        await _context.SaveChangesAsync();
-        return null;
+        bool res = true;
+        try
+        {
+            var hd = await _context.Pccpus.AsQueryable()
+                   .FirstAsync(p => p.Id == entity.Id);
+            _context.Entry(hd).CurrentValues.SetValues(entity);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            res = false;
+        }
+        return res;
     }
     public string GetSuggestID()
     {

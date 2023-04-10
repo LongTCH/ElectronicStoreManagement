@@ -24,36 +24,35 @@ namespace ESM.Modules.Import.ViewModels
         {
 
         }
-        HashSet<string> NotInDatabase;
-        public string size;
+        private string size;
         public string Size
         {
             get => size;
             set => SetProperty(ref size, value);
         }
 
-        public string panel;
+        private string panel;
         public string Panel
         {
             get => panel;
             set => SetProperty(ref panel, value);
         }
 
-        public short refreshRate;
+        private short refreshRate;
         public short RefreshRate
         {
             get => refreshRate;
             set => SetProperty(ref refreshRate, value);
         }
 
-        public string series;
+        private string series;
         public string Series
         {
             get => series;
             set => SetProperty(ref series, value);
         }
 
-        public string need;
+        private string need;
         public string Need
         {
             get => need;
@@ -80,6 +79,7 @@ namespace ESM.Modules.Import.ViewModels
             {
                 _modalService.ShowModal(ModalType.Information, "Đã lưu", "Thông báo");
                 ProductList = new();
+                NotInDatabase = new();
             }
             else _modalService.ShowModal(ModalType.Error, "Lưu không thành công", "Lỗi");
             await Task.CompletedTask;
@@ -89,13 +89,7 @@ namespace ESM.Modules.Import.ViewModels
         {
             if (SelectedWorkType == "THÊM")
             {
-                Product = null;
-                Id = null;
-                Company = null; Unit = null; Series = null;
-                Name = null; size = null; panel = null; RefreshRate = 0;
-                AvatarPath = null; Price = 0; Discount = 0;
-                ImagePath = null; DetailPath = null; Remain = 0; need = null;
-                RaisePropertyChanged(nameof(IsDefault));
+                Empty();
             }
             else if (SelectedWorkType == "SỬA")
             {
@@ -108,41 +102,32 @@ namespace ESM.Modules.Import.ViewModels
         {
             if (SelectedWorkType == "THÊM")
             {
-                if (Id == null || Id.Length != 9 || !Id.StartsWith(DAStaticData.IdPrefix[ProductType.HARDDISK]) || !Id.All(x => char.IsDigit(x)))
+                if (Id == null || Id.Length != 9 || !Id.StartsWith(DAStaticData.IdPrefix[ProductType.MONITOR]) || !Id.All(x => char.IsDigit(x)))
                 {
                     _modalService.ShowModal(ModalType.Error, "Sai định dạng ID", "Cảnh báo");
                     return;
                 }
-                if (ProductList.Any(x => x.Id == Id))
+                //make the two calls to IsProductExistInBill and IsIdExist concurrently
+                var task1 = _unitOfWork.Bills.IsProductExistInBill(Id);
+                var task2 = _unitOfWork.Monitors.IsIdExist(Id);
+
+                await Task.WhenAll(task1, task2);
+
+                bool exist = task1.Result || task2.Result;
+
+                if (ProductList.Any(x => x.Id == Id) || exist)
                 {
                     _modalService.ShowModal(ModalType.Error, "ID đã tồn tại", "Cảnh báo");
                     return;
                 }
                 if (Company == null || Unit == null ||
-                Name == null || size == null || panel == null
+                Name == null || Size == null || Panel == null
                 || Price == 0)
                 {
                     _modalService.ShowModal(ModalType.Error, "Nhập tất cả thông tin cần thiết", "Cảnh báo");
                     return;
                 }
-                Monitor monitorsDTO = new()
-                {
-                    Name = Name,
-                    Size = Size,
-                    Series = Series,
-                    Panel = Panel,
-                    Company = Company,
-                    DetailPath = DetailPath,
-                    Discount = Discount,
-                    Id = Id,
-                    ImagePath = ImagePath,
-                    AvatarPath = AvatarPath,
-                    Price = Price,
-                    Unit = Unit,
-                    Remain = 0,
-                    RefreshRate = RefreshRate,
-                    Need = null
-                };
+                Monitor monitorsDTO = GetMonitor();
                 ProductList.Add(monitorsDTO);
                 NotInDatabase.Add(Id);
                 clearCommand();
@@ -156,36 +141,15 @@ namespace ESM.Modules.Import.ViewModels
                     _modalService.ShowModal(ModalType.Error, "Nhập tất cả thông tin cần thiết", "Cảnh báo");
                     return;
                 }
-                Monitor monitorsDTO = new()
-                {
-                    Name = Name,
-                    Size = Size,
-                    Series = Series,
-                    Panel = Panel,
-                    Company = Company,
-                    DetailPath = DetailPath,
-                    Discount = Discount,
-                    Id = Id,
-                    ImagePath = ImagePath,
-                    AvatarPath = AvatarPath,
-                    Price = Price,
-                    Unit = Unit,
-                    Remain = 0,
-                    RefreshRate = RefreshRate,
-                    Need = null
-                };
+                Monitor monitorsDTO = GetMonitor();
+                monitorsDTO.Remain = Remain;
+                monitorsDTO.Need = Need;
                 var res = await _unitOfWork.Monitors.Update(monitorsDTO);
                 if ((bool)res)
                     _modalService.ShowModal(ModalType.Information, "Cập nhật thành công", "Thông báo");
                 else _modalService.ShowModal(ModalType.Error, "Có lỗi xảy ra", "Thông báo");
                 // Clear
-                Product = null;
-                Id = null;
-                Company = null; Unit = null; Series = null;
-                Name = null; size = null; panel = null; RefreshRate = 0;
-                AvatarPath = null; Price = 0; Discount = 0;
-                ImagePath = null; DetailPath = null; Remain = 0; need = null;
-                RaisePropertyChanged(nameof(IsDefault));
+                Empty();
                 var list = await _unitOfWork.Monitors.GetAll();
                 ProductList = new(list);
             }
@@ -225,15 +189,54 @@ namespace ESM.Modules.Import.ViewModels
             Discount = Product.Discount;
             Id = Product.Id;
             ImagePath = Product.ImagePath;
-                    AvatarPath = Product.AvatarPath;
+            AvatarPath = Product.AvatarPath;
             Price = Product.Price;
             Unit = Product.Unit;
             Remain = Product.Remain;
             RefreshRate = Product.RefreshRate;
-                    Need = Product.Need;
+            Need = Product.Need;
             RaisePropertyChanged(nameof(IsDefault));
         }
 
-
+        protected override void editCommand(ProductDTO productDTO)
+        {
+            if (SelectedWorkType == "THÊM")
+            {
+                ProductList.Remove((Monitor)productDTO);
+                NotInDatabase.Remove(productDTO.Id);
+            }
+            findCommand(productDTO);
+        }
+        private Monitor GetMonitor()
+        {
+            return new()
+            {
+                Name = Name,
+                Size = Size,
+                Series = Series,
+                Panel = Panel,
+                Company = Company,
+                DetailPath = DetailPath,
+                Discount = Discount,
+                Id = Id,
+                ImagePath = ImagePath,
+                AvatarPath = AvatarPath,
+                Price = Price,
+                Unit = Unit,
+                Remain = 0,
+                RefreshRate = RefreshRate,
+                Need = null
+            };
+        }
+        private void Empty()
+        {
+            Product = null;
+            Id = null;
+            Company = null; Unit = null; Series = null;
+            Name = null; size = null; panel = null; RefreshRate = 0;
+            AvatarPath = null; Price = 0; Discount = 0;
+            ImagePath = null; DetailPath = null; Remain = 0; need = null;
+            RaisePropertyChanged(nameof(IsDefault));
+        }
     }
 }

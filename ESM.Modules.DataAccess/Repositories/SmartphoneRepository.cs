@@ -26,11 +26,19 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         public override async Task<object?> Update(Smartphone entity)
         {
-            var hd = await _context.Smartphones.AsQueryable()
-                   .FirstAsync(p => p.Id == entity.Id);
-            _context.Entry(hd).CurrentValues.SetValues(entity);
-            await _context.SaveChangesAsync();
-            return null;
+            bool res = true;
+            try
+            {
+                var hd = await _context.Smartphones.AsQueryable()
+                       .FirstAsync(p => p.Id == entity.Id);
+                _context.Entry(hd).CurrentValues.SetValues(entity);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                res = false;
+            }
+            return res;
         }
         public override async Task<object?> Delete(string id)
         {
