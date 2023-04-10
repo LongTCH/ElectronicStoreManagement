@@ -5,6 +5,7 @@ using ESM.Modules.DataAccess;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using LiveCharts;
+using LiveCharts.Definitions.Charts;
 using LiveCharts.Helpers;
 using LiveCharts.Wpf;
 using LiveCharts.Wpf.Charts.Base;
@@ -80,14 +81,14 @@ namespace ESM.Modules.Export.ViewModels
             bool showHarddisk = IsHarddiskCheck;
             var series = new SeriesCollection();
             var chartValues = new ChartValues<int>();
-            var labels = new List<string>();
+            var Labels = new List<string>();
             if (showLaptop)
             {
                 var laptopSales = _unitOfWork.Laptops.GetTopSoldProducts(StartTime, EndTime, 10);
                 foreach (var sale in laptopSales)
                 {
                     chartValues.Add(sale.Number);
-                    labels.Add(sale.Name);
+                    Labels.Add(sale.Name);
                 }
                 series.Add(new RowSeries
                 {
@@ -104,7 +105,7 @@ namespace ESM.Modules.Export.ViewModels
                 foreach (var sale in smartphoneSales)
                 {
                     chartValues.Add(sale.Number);
-                    labels.Add(sale.Name);
+                    Labels.Add(sale.Name);
                 }
                 series.Add(new RowSeries
                 {
@@ -121,7 +122,7 @@ namespace ESM.Modules.Export.ViewModels
                 foreach (var sale in pcSales)
                 {
                     chartValues.Add(sale.Number);
-                    labels.Add(sale.Name);
+                    Labels.Add(sale.Name);
                 }
                 series.Add(new RowSeries
                 {
@@ -138,7 +139,7 @@ namespace ESM.Modules.Export.ViewModels
                 foreach (var sale in cpuSales)
                 {
                     chartValues.Add(sale.Number);
-                    labels.Add(sale.Name);
+                    Labels.Add(sale.Name);
                 }
                 series.Add(new RowSeries
                 {
@@ -155,7 +156,7 @@ namespace ESM.Modules.Export.ViewModels
                 foreach (var sale in vgaSales)
                 {
                     chartValues.Add(sale.Number);
-                    labels.Add(sale.Name);
+                    Labels.Add(sale.Name);
                 }
                 series.Add(new RowSeries
                 {
@@ -172,7 +173,7 @@ namespace ESM.Modules.Export.ViewModels
                 foreach (var sale in monitorSales)
                 {
                     chartValues.Add(sale.Number);
-                    labels.Add(sale.Name);
+                    Labels.Add(sale.Name);
                 }
                 series.Add(new RowSeries
                 {
@@ -189,19 +190,24 @@ namespace ESM.Modules.Export.ViewModels
                 foreach (var sale in harddiskSales)
                 {
                     chartValues.Add(sale.Number);
-                    labels.Add(sale.Name);
+                    Labels.Add(sale.Name);
                 }
-                series.Add(new RowSeries
+                for (int i = 0; i < Labels.Count; i++)
                 {
-                    Title = string.Join(", ", labels),
-                    Values = chartValues,
-                    DataLabels = true,
-                    LabelsPosition = BarLabelPosition.Top,
-                    LabelPoint = point => $"{point.X}",
-                    Fill = System.Windows.Media.Brushes.Blue
-                }) ;
+                    series.Add(new RowSeries
+                    {
+                        Title = Labels[i],
+                        Values = new ChartValues<int> { chartValues[i] },
+                        DataLabels = true,
+                        LabelsPosition = BarLabelPosition.Top,
+                        LabelPoint = point => $"{point.X}",
+                        MaxRowHeigth = 50,
+                        RowPadding = 20,
+                        
+                    }) ;
+                }
+                Series = series;
             }
-            Series = series;
         }
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
@@ -220,7 +226,7 @@ namespace ESM.Modules.Export.ViewModels
         {
 
         }
-
+        public Func<double, string> Formatter { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public bool IsLaptopCheck { get; set; }

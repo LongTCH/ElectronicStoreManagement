@@ -113,7 +113,20 @@
                            FontWeight="Bold"
                            Margin="0 0 0 10" />
                 <lvc:CartesianChart LegendLocation="Right"
-                                    Series="{Binding Series}"/>
+                                    Series="{Binding Series}"
+                                    Hoverable="False"
+                                    DataTooltip="{x:Null}">
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis MinValue="0"></lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis Labels="{Binding Labels}">
+                            <lvc:Axis.Separator>
+                                <lvc:Separator StrokeThickness="0" />
+                            </lvc:Axis.Separator>
+                        </lvc:Axis>
+                    </lvc:CartesianChart.AxisY>
+                </lvc:CartesianChart>
             </Grid>
         </Grid>
     </Grid>
