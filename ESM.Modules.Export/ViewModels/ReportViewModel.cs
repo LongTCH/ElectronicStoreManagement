@@ -41,21 +41,75 @@ namespace ESM.Modules.Export.ViewModels
                 MessageBox.Show("invalid date range!");
                 return; 
             }
-            if (IsLaptopCheck)
-               LaptopList = _unitOfWork.Laptops.GetSoldNumberWeekDuration(start, end);
-            if (IsSmartphoneCheck)
-               SmartphoneList = _unitOfWork.Smartphones.GetSoldNumberWeekDuration(start, end);
-            if (IsPCCheck)
-                PCList = _unitOfWork.Pcs.GetSoldNumberWeekDuration(start, end);
-            if (IsCPUCheck)
-                CPUList = _unitOfWork.Pccpus.GetSoldNumberWeekDuration(start, end);
-            if (IsVGACheck)
-                VGAList = _unitOfWork.Vgas.GetSoldNumberWeekDuration(start, end);
-            if (IsMonitorCheck)
-                MonitorList = _unitOfWork.Monitors.GetSoldNumberWeekDuration(start, end);
-            if (IsHarddiskCheck)
-                HarddiskList = _unitOfWork.Pcharddisks.GetSoldNumberWeekDuration(start, end);
+            if (IsWeekCheck)
+            {
+                if (IsLaptopCheck)
+                    LaptopList = _unitOfWork.Laptops.GetSoldNumberWeekDuration(start, end);
+                if (IsSmartphoneCheck)
+                    SmartphoneList = _unitOfWork.Smartphones.GetSoldNumberWeekDuration(start, end);
+                if (IsPCCheck)
+                    PCList = _unitOfWork.Pcs.GetSoldNumberWeekDuration(start, end);
+                if (IsCPUCheck)
+                    CPUList = _unitOfWork.Pccpus.GetSoldNumberWeekDuration(start, end);
+                if (IsVGACheck)
+                    VGAList = _unitOfWork.Vgas.GetSoldNumberWeekDuration(start, end);
+                if (IsMonitorCheck)
+                    MonitorList = _unitOfWork.Monitors.GetSoldNumberWeekDuration(start, end);
+                if (IsHarddiskCheck)
+                    HarddiskList = _unitOfWork.Pcharddisks.GetSoldNumberWeekDuration(start, end);
+            }
+            else if (IsMonthCheck)
+            {
+                if (IsLaptopCheck)
+                    LaptopList = _unitOfWork.Laptops.GetSoldNumberMonthDuration(start, end);
+                if (IsSmartphoneCheck)
+                    SmartphoneList = _unitOfWork.Smartphones.GetSoldNumberMonthDuration(start, end);
+                if (IsPCCheck)
+                    PCList = _unitOfWork.Pcs.GetSoldNumberMonthDuration(start, end);
+                if (IsCPUCheck)
+                    CPUList = _unitOfWork.Pccpus.GetSoldNumberMonthDuration(start, end);
+                if (IsVGACheck)
+                    VGAList = _unitOfWork.Vgas.GetSoldNumberMonthDuration(start, end);
+                if (IsMonitorCheck)
+                    MonitorList = _unitOfWork.Monitors.GetSoldNumberMonthDuration(start, end);
+                if (IsHarddiskCheck)
+                    HarddiskList = _unitOfWork.Pcharddisks.GetSoldNumberMonthDuration(start, end);
+            }
+            else if (IsQuarterCheck)
+            {
+                if (IsLaptopCheck)
+                    LaptopList = _unitOfWork.Laptops.GetSoldNumberQuarterDuration(start, end);
+                if (IsSmartphoneCheck)
+                    SmartphoneList = _unitOfWork.Smartphones.GetSoldNumberQuarterDuration(start, end);
+                if (IsPCCheck)
+                    PCList = _unitOfWork.Pcs.GetSoldNumberQuarterDuration(start, end);
+                if (IsCPUCheck)
+                    CPUList = _unitOfWork.Pccpus.GetSoldNumberQuarterDuration(start, end);
+                if (IsVGACheck)
+                    VGAList = _unitOfWork.Vgas.GetSoldNumberQuarterDuration(start, end);
+                if (IsMonitorCheck)
+                    MonitorList = _unitOfWork.Monitors.GetSoldNumberQuarterDuration(start, end);
+                if (IsHarddiskCheck)
+                    HarddiskList = _unitOfWork.Pcharddisks.GetSoldNumberQuarterDuration(start, end);
+            }
+            else if (IsYearCheck)
+            {
 
+                if (IsLaptopCheck)
+                    LaptopList = _unitOfWork.Laptops.GetSoldNumberYearDuration(start, end);
+                if (IsSmartphoneCheck)
+                    SmartphoneList = _unitOfWork.Smartphones.GetSoldNumberYearDuration(start, end);
+                if (IsPCCheck)
+                    PCList = _unitOfWork.Pcs.GetSoldNumberYearDuration(start, end);
+                if (IsCPUCheck)
+                    CPUList = _unitOfWork.Pccpus.GetSoldNumberYearDuration(start, end);
+                if (IsVGACheck)
+                    VGAList = _unitOfWork.Vgas.GetSoldNumberYearDuration(start, end);
+                if (IsMonitorCheck)
+                    MonitorList = _unitOfWork.Monitors.GetSoldNumberYearDuration(start, end);
+                if (IsHarddiskCheck)
+                    HarddiskList = _unitOfWork.Pcharddisks.GetSoldNumberYearDuration(start, end);
+            }
         }
         private SeriesCollection series;
         public SeriesCollection Series
@@ -215,5 +269,32 @@ namespace ESM.Modules.Export.ViewModels
         public object VGAList { get; set; }
         public object MonitorList { get; set; }
         public object HarddiskList { get; set; }
+        private bool _isWeekCheck = true;
+        public bool IsWeekCheck
+        {
+            get => _isWeekCheck;
+            set => SetProperty(ref _isWeekCheck, value);
+        }
+
+        private bool _isMonthCheck = false;
+        public bool IsMonthCheck
+        {
+            get => _isMonthCheck;
+            set => SetProperty(ref _isMonthCheck, value);
+        }
+
+        private bool _isQuarterCheck = false;
+        public bool IsQuarterCheck
+        {
+            get => _isQuarterCheck;
+            set => SetProperty(ref _isQuarterCheck, value);
+        }
+
+        private bool _isYearCheck = false;
+        public bool IsYearCheck
+        {
+            get => _isYearCheck;
+            set => SetProperty(ref _isYearCheck, value);
+        }
     }
 }

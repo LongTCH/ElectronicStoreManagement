@@ -43,7 +43,7 @@
             <StackPanel Grid.Row="1"
                         Grid.Column="0"
                         Margin="10"
-                        Width="200">
+                        Width="250">
                 <TextBlock Text="Filter by:"
                            FontWeight="Bold"
                            Margin="0 0 0 10" />
@@ -65,6 +65,25 @@
                             Grid.Row="1"
                             Grid.Column="1"
                             Margin="5" />
+                <TextBlock Text="Filter by time period:"
+                           FontWeight="Bold"
+                           VerticalAlignment="Center"
+                           Margin="5,5,5,0" />
+                <StackPanel Orientation="Horizontal"
+                            Margin="5">
+                    <RadioButton Content="Week"
+                                 IsChecked="{Binding IsWeekCheck, UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="0,0,5,0" />
+                    <RadioButton Content="Month"
+                                 IsChecked="{Binding IsMonthCheck, UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="0,0,5,0" />
+                    <RadioButton Content="Quarter"
+                                 IsChecked="{Binding IsQuarterCheck, UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="0,0,5,0" />
+                    <RadioButton Content="Year"
+                                 IsChecked="{Binding IsYearCheck, UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="0,0,5,0" />
+                </StackPanel>
                 <Button Width="65"
                         BorderThickness="0"
                         Margin="120,20,10,10"
