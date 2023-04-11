@@ -99,7 +99,7 @@ namespace ESM.Modules.Import.ViewModels
         public string? Email
         {
             get => _email;
-            set => SetProperty(ref _email, value, () => ValidateProperty(value, nameof(Email)));
+            set => SetProperty(ref _email, value, () => this.ValidateProperty(value, nameof(Email)));
         }
         private string? _phone;
         [Phone]
@@ -107,7 +107,7 @@ namespace ESM.Modules.Import.ViewModels
         {
             get => _phone;
             set
-            => SetProperty(ref _phone, value, () => ValidateProperty(value, nameof(Phone)));
+            => SetProperty(ref _phone, value, () => this.ValidateProperty(value, nameof(Phone)));
         }
         public string SelectedGender { get; set; }
         private City? selectedCity;
