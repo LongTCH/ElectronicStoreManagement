@@ -3,6 +3,8 @@ using ESM.Modules.DataAccess;
 using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
@@ -91,11 +93,11 @@ namespace ESM.Modules.Import.ViewModels
                 pcharddiskDTO.Remain = Remain;
                 var res = await _unitOfWork.Pcharddisks.Update(pcharddiskDTO);
                 if ((bool)res)
-                _modalService.ShowModal(ModalType.Information, "Cập nhật thành công", "Thông báo");
+                    _modalService.ShowModal(ModalType.Information, "Cập nhật thành công", "Thông báo");
                 else _modalService.ShowModal(ModalType.Error, "Có lỗi xảy ra", "Thông báo");
                 // Clear
                 Empty();
-                 var list = await _unitOfWork.Pcharddisks.GetAll();
+                var list = await _unitOfWork.Pcharddisks.GetAll();
                 ProductList = new(list);
             }
         }
@@ -185,7 +187,8 @@ namespace ESM.Modules.Import.ViewModels
             }
             else
             {
-                if (MessageBox.Show("Bạn có chắc chắn xóa?", "Cảnh báo", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
+                if (metroWindow.ShowModalMessageExternal("Cảnh báo", "Bạn có chắc chắn xóa?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
                 {
                     await _unitOfWork.Pcharddisks.Delete(productDTO.Id);
                     var list = await _unitOfWork.Pcharddisks.GetAll();

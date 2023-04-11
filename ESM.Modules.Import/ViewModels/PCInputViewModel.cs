@@ -3,6 +3,8 @@ using ESM.Modules.DataAccess;
 using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
+using MahApps.Metro.Controls.Dialogs;
+using MahApps.Metro.Controls;
 using Microsoft.Identity.Client.Extensions.Msal;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -142,7 +144,8 @@ namespace ESM.Modules.Import.ViewModels
             }
             else
             {
-                if (MessageBox.Show("Bạn có chắc chắn xóa?", "Cảnh báo", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
+                if (metroWindow.ShowModalMessageExternal("Cảnh báo", "Bạn có chắc chắn xóa?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
                 {
                     await _unitOfWork.Pcs.Delete(productDTO.Id);
                     var list = await _unitOfWork.Pcs.GetAll();

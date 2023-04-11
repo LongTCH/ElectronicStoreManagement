@@ -3,6 +3,8 @@ using ESM.Core.ShareServices;
 using ESM.Modules.DataAccess;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -54,7 +56,7 @@ namespace ESM.Modules.Import.ViewModels
         }
         public string Header => "COMBO";
         private string comboId;
-        [StringLength(9)]
+        [StringLength(9, MinimumLength =9)]
         [Phone(ErrorMessage = "Not all digits")]
         public string ComboId
         {
@@ -66,7 +68,7 @@ namespace ESM.Modules.Import.ViewModels
         public double Discount
         {
             get => discount;
-            set => SetProperty(ref discount, value, () => this.ValidateProperty(value, nameof(ComboId)));
+            set => SetProperty(ref discount, value, () => this.ValidateProperty(value, nameof(Discount)));
         }
         public IEnumerable<string> WorkType { get; }
         public IEnumerable<string> ProductType { get; }
@@ -118,7 +120,8 @@ namespace ESM.Modules.Import.ViewModels
             }
             else
             {
-                if (MessageBox.Show("Bạn có chắc chắn xóa?", "Cảnh báo", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
+                if (metroWindow.ShowModalMessageExternal("Cảnh báo", "Bạn có chắc chắn xóa?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
                 {
                     await unitOfWork.Combos.Delete(combo.Id);
                     var list = await unitOfWork.Combos.GetAll();
