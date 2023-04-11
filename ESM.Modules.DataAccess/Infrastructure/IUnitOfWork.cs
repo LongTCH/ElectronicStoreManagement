@@ -13,5 +13,7 @@ namespace ESM.Modules.DataAccess.Infrastructure
         ISmartphoneRepository Smartphones { get; }
         IVgaRepository Vgas { get; }
         IBillRepository Bills { get; }
+        IComboRepository Combos { get; }
+        IBillComboRepository BillCombos { get; }
     }
 }

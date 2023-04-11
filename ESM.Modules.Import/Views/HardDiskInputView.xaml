@@ -215,11 +215,11 @@
                                  FontSize="18" />
                     </DockPanel>
                     <DockPanel Grid.Column="1">
-                        <materialDesign:PackIcon Kind="CartPercent"
-                                                 VerticalAlignment="Bottom"
-                                                 Margin="0,0,0,10"
-                                                 Height="30"
-                                                 Width="30" />
+                        <iconPacks:PackIconFontAwesome Kind="PercentSolid"
+                                                       VerticalAlignment="Bottom"
+                                                       Margin="0,0,0,10"
+                                                       Height="30"
+                                                       Width="30" />
                         <TextBox materialDesign:HintAssist.Hint="Giảm giá"
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  materialDesign:TextFieldAssist.SuffixText="%"

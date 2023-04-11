@@ -73,7 +73,7 @@ namespace ESM.Modules.Import.ViewModels
         public double? Discount
         {
             get => discount;
-            set => SetProperty(ref discount, value, () => ValidateProperty(value, nameof(Discount)));
+            set => SetProperty(ref discount, value, () => this.ValidateProperty(value, nameof(Discount)));
         }
         private int remain;
         public int Remain

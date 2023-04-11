@@ -1,4 +1,6 @@
-﻿using Prism.Regions;
+﻿using Prism.Mvvm;
+using Prism.Regions;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace ESM.Core
@@ -56,6 +58,13 @@ namespace ESM.Core
             regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(T));
             var view = regionManager.Regions[RegionNames.ContentRegion].Views.First(v => v.GetType().Equals(typeof(T)));
             regionManager.Regions[RegionNames.ContentRegion].Deactivate(view);
+        }
+        public static void ValidateProperty<TProp>(this BindableBase BASE ,TProp value, string name)
+        {
+            Validator.ValidateProperty(value, new ValidationContext(BASE, null, null)
+            {
+                MemberName = name
+            });
         }
 
     }

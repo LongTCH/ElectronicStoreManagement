@@ -25,6 +25,9 @@ namespace ESM.Modules.DataAccess.Infrastructure
         public IVgaRepository Vgas { get; }
 
         public IBillRepository Bills { get; }
+        public IComboRepository Combos { get; }
+
+        public IBillComboRepository BillCombos { get; }
 
         public UnitOfWork(ESMDbContext context)
         {
@@ -38,6 +41,8 @@ namespace ESM.Modules.DataAccess.Infrastructure
             Vgas = new VgaRepository(context);
             Smartphones = new SmartphoneRepository(context);
             Bills = new BillRepository(context);
+            Combos = new ComboRepository(context);
+            BillCombos = new BillComboRepository(context);
         }
         public async Task<int> SaveChangesAsync()
         {
