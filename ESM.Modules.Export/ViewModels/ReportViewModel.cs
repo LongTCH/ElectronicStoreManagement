@@ -130,10 +130,37 @@ namespace ESM.Modules.Export.ViewModels
             if (showLaptop)
             {
                 var values = new ChartValues<int>();
-                var list = _unitOfWork.Laptops.GetSoldNumberWeekDuration(StartTime, EndTime).Select(x => x.Value).ToList();
-                foreach(var l in list)
+                if (IsWeekCheck)
                 {
-                    values.Add(l);
+                    var list = _unitOfWork.Laptops.GetSoldNumberWeekDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
+                }
+                else if (IsMonthCheck)
+                {
+                    var list = _unitOfWork.Laptops.GetSoldNumberMonthDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
+                }
+                else if (IsQuarterCheck)
+                {
+                    var list = _unitOfWork.Laptops.GetSoldNumberQuarterDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
+                }
+                else if (IsYearCheck)
+                {
+                    var list = _unitOfWork.Laptops.GetSoldNumberYearDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
                 }
                 series.Add(new LineSeries
                 {
@@ -145,10 +172,37 @@ namespace ESM.Modules.Export.ViewModels
             if (showSmartphone)
             {
                 var values = new ChartValues<int>();
-                var list = _unitOfWork.Smartphones.GetSoldNumberWeekDuration(StartTime, EndTime).Select(x => x.Value).ToList();
-                foreach (var l in list)
+                if (IsWeekCheck)
                 {
-                    values.Add(l);
+                    var list = _unitOfWork.Smartphones.GetSoldNumberWeekDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
+                }
+                else if (IsMonthCheck)
+                {
+                    var list = _unitOfWork.Smartphones.GetSoldNumberMonthDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
+                }
+                else if (IsQuarterCheck)
+                {
+                    var list = _unitOfWork.Smartphones.GetSoldNumberQuarterDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
+                }
+                else if (IsYearCheck)
+                {
+                    var list = _unitOfWork.Smartphones.GetSoldNumberYearDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
                 }
                 series.Add(new LineSeries
                 {
@@ -160,10 +214,37 @@ namespace ESM.Modules.Export.ViewModels
             if (showPC)
             {
                 var values = new ChartValues<int>();
-                var list = _unitOfWork.Pcs.GetSoldNumberWeekDuration(StartTime, EndTime).Select(x => x.Value).ToList();
-                foreach (var l in list)
+                if (IsWeekCheck)
                 {
-                    values.Add(l);
+                    var list = _unitOfWork.Pcs.GetSoldNumberWeekDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
+                }
+                else if (IsMonthCheck)
+                {
+                    var list = _unitOfWork.Pcs.GetSoldNumberMonthDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
+                }
+                else if (IsQuarterCheck)
+                {
+                    var list = _unitOfWork.Pcs.GetSoldNumberQuarterDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
+                }
+                else if (IsYearCheck)
+                {
+                    var list = _unitOfWork.Pcs.GetSoldNumberYearDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
                 }
                 series.Add(new LineSeries
                 {
@@ -175,10 +256,37 @@ namespace ESM.Modules.Export.ViewModels
             if (showCPU)
             {
                 var values = new ChartValues<int>();
-                var list = _unitOfWork.Pccpus.GetSoldNumberWeekDuration(StartTime, EndTime).Select(x => x.Value).ToList();
-                foreach (var l in list)
+                if (IsWeekCheck)
                 {
-                    values.Add(l);
+                    var list = _unitOfWork.Pccpus.GetSoldNumberWeekDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
+                }
+                else if (IsMonthCheck)
+                {
+                    var list = _unitOfWork.Pccpus.GetSoldNumberMonthDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
+                }
+                else if (IsQuarterCheck)
+                {
+                    var list = _unitOfWork.Pccpus.GetSoldNumberQuarterDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
+                }
+                else if (IsYearCheck)
+                {
+                    var list = _unitOfWork.Pccpus.GetSoldNumberYearDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
                 }
                 series.Add(new LineSeries
                 {
@@ -190,10 +298,37 @@ namespace ESM.Modules.Export.ViewModels
             if (showVGA)
             {
                 var values = new ChartValues<int>();
-                var list = _unitOfWork.Vgas.GetSoldNumberWeekDuration(StartTime, EndTime).Select(x => x.Value).ToList();
-                foreach (var l in list)
+                if (IsWeekCheck)
                 {
-                    values.Add(l);
+                    var list = _unitOfWork.Vgas.GetSoldNumberWeekDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
+                }
+                else if (IsMonthCheck)
+                {
+                    var list = _unitOfWork.Vgas.GetSoldNumberMonthDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
+                }
+                else if (IsQuarterCheck)
+                {
+                    var list = _unitOfWork.Vgas.GetSoldNumberQuarterDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
+                }
+                else if (IsYearCheck)
+                {
+                    var list = _unitOfWork.Vgas.GetSoldNumberYearDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
                 }
                 series.Add(new LineSeries
                 {
@@ -205,10 +340,37 @@ namespace ESM.Modules.Export.ViewModels
             if (showMonitor)
             {
                 var values = new ChartValues<int>();
-                var list = _unitOfWork.Monitors.GetSoldNumberWeekDuration(StartTime, EndTime).Select(x => x.Value).ToList();
-                foreach (var l in list)
+                if (IsWeekCheck)
                 {
-                    values.Add(l);
+                    var list = _unitOfWork.Monitors.GetSoldNumberWeekDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
+                }
+                else if (IsMonthCheck)
+                {
+                    var list = _unitOfWork.Monitors.GetSoldNumberMonthDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
+                }
+                else if (IsQuarterCheck)
+                {
+                    var list = _unitOfWork.Monitors.GetSoldNumberQuarterDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
+                }
+                else if (IsYearCheck)
+                {
+                    var list = _unitOfWork.Monitors.GetSoldNumberYearDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
                 }
                 series.Add(new LineSeries
                 {
@@ -220,10 +382,37 @@ namespace ESM.Modules.Export.ViewModels
             if (showHarddisk)
             {
                 var values = new ChartValues<int>();
-                var list = _unitOfWork.Pcharddisks.GetSoldNumberWeekDuration(StartTime, EndTime).Select(x => x.Value).ToList();
-                foreach (var l in list)
+                if (IsWeekCheck)
                 {
-                    values.Add(l);
+                    var list = _unitOfWork.Pcharddisks.GetSoldNumberWeekDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
+                }
+                else if (IsMonthCheck)
+                {
+                    var list = _unitOfWork.Pcharddisks.GetSoldNumberMonthDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
+                }
+                else if (IsQuarterCheck)
+                {
+                    var list = _unitOfWork.Pcharddisks.GetSoldNumberQuarterDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
+                }
+                else if (IsYearCheck)
+                {
+                    var list = _unitOfWork.Pcharddisks.GetSoldNumberYearDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
                 }
                 series.Add(new LineSeries
                 {
