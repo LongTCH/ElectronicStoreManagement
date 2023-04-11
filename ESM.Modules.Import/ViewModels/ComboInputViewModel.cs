@@ -1,4 +1,5 @@
-﻿using ESM.Core.ShareServices;
+﻿using ESM.Core;
+using ESM.Core.ShareServices;
 using ESM.Modules.DataAccess;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
@@ -9,6 +10,8 @@ using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,10 +30,41 @@ namespace ESM.Modules.Import.ViewModels
             ProductType = new[] { "LAPTOP", "PC", "HARD DISK", "CPU", "MONITOR", "SMARTPHONE", "VGA" };
             AddToComboCommand = new(addToComboCommand);
             RemoveFromComboDetailCommand = new(executeRemove);
+            AddToComboListCommand = new(async() => await addToComboListCommand());
+            Init().Await();
+        }
+        HashSet<string> NotInDatabase;
+        async Task Init()
+        {
+            Laptops = await unitOfWork.Laptops.GetAll();
+            Monitors = await unitOfWork.Monitors.GetAll();
+            Pcs = await unitOfWork.Pcs.GetAll();
+            HardDisks = await unitOfWork.Pcharddisks.GetAll();
+            Smartphones = await unitOfWork.Smartphones.GetAll();
+            Vgas = await unitOfWork.Vgas.GetAll();
+            CPUs = await unitOfWork.Pccpus.GetAll();
+            ComboDetail = new();
+            ProductList = Array.Empty<SelectableViewModel>();
+            ComboList = new();
+            NotInDatabase = new();
         }
         public string Header => "COMBO";
+        private string comboId;
+        public string ComboId
+        {
+            get => comboId; 
+            set => SetProperty(ref comboId, value, () => this.ValidateProperty(value, nameof(ComboId)));
+        }
+        private double discount;
+        [Range(0,100)]
+        public double Discount
+        {
+            get => discount;
+            set => SetProperty(ref discount, value);
+        }
         public IEnumerable<string> WorkType { get; }
         public IEnumerable<string> ProductType { get; }
+        public Combo CurrentCombo { get;set; }
         public ICollection<SelectableViewModel> productList;
         public ICollection<SelectableViewModel> ProductList
         {
@@ -61,11 +95,89 @@ namespace ESM.Modules.Import.ViewModels
             }
         }
         public DelegateCommand AddToComboCommand { get; }
+        public DelegateCommand AddToComboListCommand { get; }
         public DelegateCommand<SelectableViewModel> RemoveFromComboDetailCommand { get; }
         private void addToComboCommand()
         {
-            foreach (var item in ProductList) {
-                if (item.IsSelected && !ComboDetail.Any(x => x.Id == item.Id)) ComboDetail.Add(item);
+            if (SelectedWorkType == "THÊM")
+            {
+                foreach (var item in ProductList)
+                {
+                    if (item.IsSelected && !ComboDetail.Any(x => x.Id == item.Id)) ComboDetail.Add(item);
+                }
+            }
+        }
+        private async Task addToComboListCommand()
+        {
+            if (SelectedWorkType == "THÊM")
+            {
+                if (ComboId == null || ComboId.Length != 9 || !ComboId.StartsWith(DAStaticData.IdPrefix[DataAccess.ProductType.COMBO]) || !ComboId.All(x => char.IsDigit(x)))
+                {
+                    modalService.ShowModal(ModalType.Error, "Sai định dạng ID", "Cảnh báo");
+                    return;
+                }
+                //make the two calls to IsProductExistInBill and IsIdExist concurrently
+                var task1 = unitOfWork.BillCombos.IsComboExistInBill(ComboId);
+                var task2 = unitOfWork.Combos.IsIdExist(ComboId);
+
+                await Task.WhenAll(task1, task2);
+
+                bool exist = task1.Result || task2.Result;
+
+                if (ProductList.Any(x => x.Id == ComboId) || exist)
+                {
+                    modalService.ShowModal(ModalType.Error, "ID đã tồn tại", "Cảnh báo");
+                    return;
+                }
+                Combo combo = new();
+                List<string> ids = new();
+                foreach (var item in ComboDetail)
+                {
+                    ids.Add(item.Id);
+                }
+                combo.Id = ComboId;
+                combo.Discount = Discount;
+                combo.ProductIdlist = string.Join(' ', ids);
+                combo.Price = await unitOfWork.Combos.GetComboPrice(combo);
+                ComboList.Add(combo);
+                NotInDatabase.Add(ComboId);
+                clearCommand();
+            }
+            else if (SelectedWorkType == "SỬA")
+            {
+
+            }
+        }
+        private void clearCommand()
+        {
+            if (SelectedWorkType == "THÊM")
+            {
+                Empty();
+            }
+            else if (SelectedWorkType == "SỬA")
+            {
+                Discount = 0;
+                if (CurrentCombo != null) findCommand(CurrentCombo);
+            }
+        }
+        private void Empty()
+        {
+
+        }
+        private async void findCommand(Combo combo)
+        {
+            var list = await unitOfWork.Combos.GetListProduct(combo);
+            foreach (var item in list)
+            {
+                ComboDetail.Add(new()
+                {
+                    Id = item.Id,
+                    Discount = item.Discount,
+                    IsSelected = true,
+                    Name = item.Name,
+                    Price = item.Price,
+                    Unit = item.Unit,
+                });
             }
         }
         private void SetProductList()
@@ -157,18 +269,9 @@ namespace ESM.Modules.Import.ViewModels
 
         }
 
-        public async void OnNavigatedTo(NavigationContext navigationContext)
+        public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            Laptops = await unitOfWork.Laptops.GetAll();
-            Monitors = await unitOfWork.Monitors.GetAll();
-            Pcs = await unitOfWork.Pcs.GetAll();
-            HardDisks = await unitOfWork.Pcharddisks.GetAll();
-            Smartphones = await unitOfWork.Smartphones.GetAll();
-            Vgas = await unitOfWork.Vgas.GetAll();
-            CPUs = await unitOfWork.Pccpus.GetAll();
-            ComboDetail = new();
-            ProductList = Array.Empty<SelectableViewModel>();
-            ComboList = new();
+           
         }
         private IEnumerable<Laptop> Laptops;
         private IEnumerable<DataAccess.Models.Monitor> Monitors;
