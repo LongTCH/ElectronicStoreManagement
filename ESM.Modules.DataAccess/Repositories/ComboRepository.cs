@@ -20,7 +20,17 @@ namespace ESM.Modules.DataAccess.Repositories
         public ComboRepository(ESMDbContext context) : base(context)
         {
         }
-
+        public override async Task<object?> AddList(IEnumerable<Combo> list)
+        {
+            bool res = true;
+            try
+            {
+                await _context.Combos.AddRangeAsync(list);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception) { res = false; }
+            return res;
+        }
         public override async Task<Combo?> GetById(string id)
         {
             return await _context.Combos.FirstOrDefaultAsync(x => x.Id == id);
@@ -32,7 +42,11 @@ namespace ESM.Modules.DataAccess.Repositories
             foreach (var item in list)
             {
                 var validItem = await GetRemain(item);
-                if (validItem > -1) result.Add(item);
+                if (validItem > -1)
+                {
+                    item.SellPrice = await GetComboPrice(item);
+                    result.Add(item);
+                }
             }
             return result;
         }
@@ -68,13 +82,13 @@ namespace ESM.Modules.DataAccess.Repositories
                 string[] list = combo.ProductIdlist.Split(' ');
                 foreach (var item in list)
                 {
-                    res += GetProduct(item).Price;
+                    res += GetProduct(item).SellPrice;
                 }
             });
             task.Start();
             await task;
 
-            return res * (decimal)(1 - combo.Discount);
+            return res * (1 - (decimal)combo.Discount / 100);
         }
         private ProductDTO GetProduct(string id)
         {

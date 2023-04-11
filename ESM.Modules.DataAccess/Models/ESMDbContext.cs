@@ -180,6 +180,7 @@ public partial class ESMDbContext : DbContext
                 .HasMaxLength(9)
                 .IsUnicode(false)
                 .IsFixedLength();
+            entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(e => e.ProductIdlist)
                 .HasMaxLength(200)
                 .HasColumnName("ProductIDList");

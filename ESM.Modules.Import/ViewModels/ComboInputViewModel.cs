@@ -37,6 +37,8 @@ namespace ESM.Modules.Import.ViewModels
             AddToComboListCommand = new(async () => await addToComboListCommand());
             CancelCommand = new(clearCommand);
             DeleteCommand = new(deleteCommand);
+            AddCommand = new(async () => await addCommand());
+            EditCommand = new(editCommand);
             Init().Await();
         }
         HashSet<string> NotInDatabase;
@@ -56,7 +58,7 @@ namespace ESM.Modules.Import.ViewModels
         }
         public string Header => "COMBO";
         private string comboId;
-        [StringLength(9, MinimumLength =9)]
+        [StringLength(9, MinimumLength = 9)]
         [Phone(ErrorMessage = "Not all digits")]
         public string ComboId
         {
@@ -69,6 +71,18 @@ namespace ESM.Modules.Import.ViewModels
         {
             get => discount;
             set => SetProperty(ref discount, value, () => this.ValidateProperty(value, nameof(Discount)));
+        }
+        private string comboName;
+        public string ComboName
+        {
+            get => comboName;
+            set => SetProperty(ref comboName, value);
+        }
+        private string comboUnit;
+        public string ComboUnit
+        {
+            get => comboUnit;
+            set => SetProperty(ref comboUnit, value);
         }
         public IEnumerable<string> WorkType { get; }
         public IEnumerable<string> ProductType { get; }
@@ -91,7 +105,30 @@ namespace ESM.Modules.Import.ViewModels
             get => comboList;
             set => SetProperty(ref comboList, value);
         }
-        public string SelectedWorkType { get; set; }
+        private string selectedWorkType;
+        public string SelectedWorkType
+        {
+            get => selectedWorkType;
+            set
+            {
+                SetProperty(ref selectedWorkType, value);
+                OnSelectedWorkTypeChanged();
+            }
+        }
+        private async void OnSelectedWorkTypeChanged()
+        {
+            if (SelectedWorkType == "THÊM")
+            {
+                ComboList = new();
+            }
+            else
+            {
+                var list = await unitOfWork.Combos.GetAll();
+                ComboList = new(list);
+            }
+            clearCommand();
+        }
+
         private string selectedProductType;
         public string SelectedProductType
         {
@@ -105,7 +142,9 @@ namespace ESM.Modules.Import.ViewModels
         public DelegateCommand AddToComboCommand { get; }
         public DelegateCommand AddToComboListCommand { get; }
         public DelegateCommand CancelCommand { get; }
+        public DelegateCommand AddCommand { get; }   
         public DelegateCommand<Combo> DeleteCommand { get; }
+        public DelegateCommand<Combo> EditCommand { get; }
         public DelegateCommand<SelectableViewModel> RemoveFromComboDetailCommand { get; }
         protected async void deleteCommand(Combo combo)
         {
@@ -113,8 +152,8 @@ namespace ESM.Modules.Import.ViewModels
             {
                 if (NotInDatabase.Contains(combo.Id))
                 {
-                    var p = ProductList.Single(x => x.Id == combo.Id);
-                    ProductList.Remove(p);
+                    var p = ComboList.Single(x => x.Id == combo.Id);
+                    ComboList.Remove(p);
                     NotInDatabase.Remove(combo.Id);
                 }
             }
@@ -132,13 +171,25 @@ namespace ESM.Modules.Import.ViewModels
         }
         private void addToComboCommand()
         {
-            if (SelectedWorkType == "THÊM")
+            if (!string.IsNullOrEmpty(SelectedWorkType))
             {
                 foreach (var item in ProductList)
                 {
                     if (item.IsSelected && !ComboDetail.Any(x => x.Id == item.Id)) ComboDetail.Add(item);
                 }
             }
+        }
+        private async Task addCommand()
+        {
+            var res = await unitOfWork.Combos.AddList(ComboList);
+            if ((bool)res)
+            {
+                modalService.ShowModal(ModalType.Information, "Đã lưu", "Thông báo");
+                ComboList = new();
+                NotInDatabase = new();
+            }
+            else modalService.ShowModal(ModalType.Error, "Lưu không thành công", "Lỗi");
+            await Task.CompletedTask;
         }
         private async Task addToComboListCommand()
         {
@@ -157,9 +208,14 @@ namespace ESM.Modules.Import.ViewModels
 
                 bool exist = task1.Result || task2.Result;
 
-                if (ProductList.Any(x => x.Id == ComboId) || exist)
+                if (ComboList.Any(x => x.Id == ComboId) || exist)
                 {
                     modalService.ShowModal(ModalType.Error, "ID đã tồn tại", "Cảnh báo");
+                    return;
+                }
+                if (string.IsNullOrWhiteSpace(ComboName) || string.IsNullOrWhiteSpace(ComboUnit))
+                {
+                    modalService.ShowModal(ModalType.Error, "Điền tất cả thông tin cần thiết", "Thông báo");
                     return;
                 }
                 Combo combo = new();
@@ -170,8 +226,10 @@ namespace ESM.Modules.Import.ViewModels
                 }
                 combo.Id = ComboId;
                 combo.Discount = Discount;
+                combo.Name = ComboName;
+                combo.Unit = ComboUnit;
                 combo.ProductIdlist = string.Join(' ', ids);
-                combo.Price = await unitOfWork.Combos.GetComboPrice(combo);
+                combo.SellPrice = await unitOfWork.Combos.GetComboPrice(combo);
                 ComboList.Add(combo);
                 NotInDatabase.Add(ComboId);
                 clearCommand();
@@ -195,6 +253,15 @@ namespace ESM.Modules.Import.ViewModels
                 ComboList = new(list);
             }
         }
+        private void editCommand(Combo combo)
+        {
+            if (SelectedWorkType == "THÊM")
+            {
+                ComboList.Remove(combo);
+                NotInDatabase.Remove(combo.Id);
+            }
+            findCommand(combo);
+        }
         private void clearCommand()
         {
             if (SelectedWorkType == "THÊM")
@@ -215,6 +282,8 @@ namespace ESM.Modules.Import.ViewModels
         }
         private async void findCommand(Combo combo)
         {
+            CurrentCombo = combo;
+            ComboDetail.Clear();
             var list = await unitOfWork.Combos.GetListProduct(combo);
             foreach (var item in list)
             {
@@ -228,6 +297,10 @@ namespace ESM.Modules.Import.ViewModels
                     Unit = item.Unit,
                 });
             }
+            ComboId = combo.Id;
+            ComboName = combo.Name;
+            Discount = combo.Discount;
+            ComboUnit = combo.Unit;
         }
         private void SetProductList()
         {

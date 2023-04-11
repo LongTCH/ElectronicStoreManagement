@@ -193,15 +193,29 @@
                             <ColumnDefinition />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <DockPanel  Grid.Column="0">
+                        <DockPanel  Grid.Column="0"
+                                    Margin="5">
                             <materialDesign:PackIcon Kind="Identifier"
                                                      Height="22"
                                                      Width="22"
                                                      VerticalAlignment="Center" />
-                            <TextBox Text="{Binding ComboId, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
-                                     Style="{StaticResource MahApps.Styles.TextBox}" />
+                            <TextBox Text="{Binding ComboId, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox"
+                                           BasedOn="{StaticResource MahApps.Styles.TextBox}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=cbxWorkType, Path=SelectedItem}"
+                                                         Value="SỬA">
+                                                <Setter Property="IsEnabled"
+                                                        Value="False" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
                         </DockPanel>
-                        <DockPanel  Grid.Column="1">
+                        <DockPanel  Grid.Column="1"
+                                    Margin="5">
                             <iconPacks:PackIconFontAwesome Kind="PercentSolid"
                                                            Height="22"
                                                            Width="22"
@@ -210,11 +224,39 @@
                                      Style="{StaticResource MahApps.Styles.TextBox}" />
                         </DockPanel>
                     </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <DockPanel Margin="5"
+                                   Grid.Column="0">
+                            <materialDesign:PackIcon Kind="Rename"
+                                                     Height="22"
+                                                     Width="22"
+                                                     VerticalAlignment="Center" />
+                            <TextBox Text="{Binding ComboName, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
+                                     Style="{StaticResource MahApps.Styles.TextBox}" />
+                        </DockPanel>
+                        <DockPanel  Grid.Column="1"
+                                    Margin="5">
+                            <materialDesign:PackIcon Kind="RazorSingleEdge"
+                                                     VerticalAlignment="Center"
+                                                     Height="22"
+                                                     Width="22" />
+                            <TextBox Text="{Binding ComboUnit, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
+                                     Style="{StaticResource MahApps.Styles.TextBox}" />
+                        </DockPanel>
+                    </Grid>
                     <Grid Margin="5">
-                        <Button Content="LƯU COMBO"
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Button Content="HỦY"
                                 FontWeight="Bold"
                                 HorizontalAlignment="Center"
-                                Background="CornflowerBlue"
+                                Background="DimGray"
                                 Command="{Binding CancelCommand}">
                             <Button.Style>
                                 <Style TargetType="Button"
@@ -243,6 +285,7 @@
                             </Button.Style>
                         </Button>
                         <Button Content="LƯU COMBO"
+                                Grid.Column="1"
                                 FontWeight="Bold"
                                 HorizontalAlignment="Center"
                                 Background="CornflowerBlue"
@@ -392,7 +435,7 @@
                         FontWeight="Bold"
                         HorizontalAlignment="Center"
                         Background="YellowGreen"
-                        Command="{Binding AddToComboCommand}">
+                        Command="{Binding AddCommand}">
                     <Button.Style>
                         <Style TargetType="Button"
                                BasedOn="{StaticResource MaterialDesignRaisedLightButton}">
