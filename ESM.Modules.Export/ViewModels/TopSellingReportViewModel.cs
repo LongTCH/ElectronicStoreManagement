@@ -145,7 +145,7 @@ namespace ESM.Modules.Export.ViewModels
         {
 
         }
-
+        public Func<double, string> Formatter { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public bool IsLaptopCheck { get; set; }
