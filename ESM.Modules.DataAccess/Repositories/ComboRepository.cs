@@ -13,6 +13,7 @@ namespace ESM.Modules.DataAccess.Repositories
     {
         Task<decimal> GetComboPrice(Combo combo);
         Task<IEnumerable<ProductDTO>> GetListProduct(Combo combo);
+        Task<int> GetRemain(Combo combo);
     }
     public class ComboRepository : BaseRepository<Combo>, IComboRepository
     {
@@ -23,6 +24,37 @@ namespace ESM.Modules.DataAccess.Repositories
         public override async Task<Combo?> GetById(string id)
         {
             return await _context.Combos.FirstOrDefaultAsync(x => x.Id == id);
+        }
+        public override async Task<IEnumerable<Combo>?> GetAll()
+        {
+            var list = await _context.Combos.ToListAsync();
+            List<Combo>? result = new();
+            foreach (var item in list)
+            {
+                var validItem = await GetRemain(item);
+                if (validItem > -1) result.Add(item);
+            }
+            return result;
+        }
+        public override Task<object?> Add(Combo entity)
+        {
+            return base.Add(entity);
+        }
+        public override async Task<object?> Update(Combo entity)
+        {
+            bool res = true;
+            try
+            {
+                var hd = await _context.Combos.AsQueryable()
+                       .FirstAsync(p => p.Id == entity.Id);
+                _context.Entry(hd).CurrentValues.SetValues(entity);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                res = false;
+            }
+            return res;
         }
         public override async Task<bool> IsIdExist(string id)
         {
@@ -87,6 +119,23 @@ namespace ESM.Modules.DataAccess.Repositories
             task.Start();
             await task;
             return products;
+        }
+
+        public async Task<int> GetRemain(Combo combo)
+        {
+            int res = int.MaxValue;
+            Task task = new(() =>
+            {
+                string[] list = combo.ProductIdlist.Split(' ');
+                foreach (var item in list)
+                {
+                    res = Math.Min(res, GetProduct(item).Remain);
+                }
+            });
+            task.Start();
+            await task;
+
+            return res;
         }
     }
 }

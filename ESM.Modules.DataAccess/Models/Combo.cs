@@ -18,4 +18,6 @@ public partial class Combo
 {
     [NotMapped]
     public decimal Price { get; set; }
+    [NotMapped]
+    public int Remain { get; set; }
 }

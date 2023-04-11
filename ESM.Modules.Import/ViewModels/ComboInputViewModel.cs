@@ -12,8 +12,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.DirectoryServices.ActiveDirectory;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ESM.Modules.Import.ViewModels
 {
@@ -30,7 +32,9 @@ namespace ESM.Modules.Import.ViewModels
             ProductType = new[] { "LAPTOP", "PC", "HARD DISK", "CPU", "MONITOR", "SMARTPHONE", "VGA" };
             AddToComboCommand = new(addToComboCommand);
             RemoveFromComboDetailCommand = new(executeRemove);
-            AddToComboListCommand = new(async() => await addToComboListCommand());
+            AddToComboListCommand = new(async () => await addToComboListCommand());
+            CancelCommand = new(clearCommand);
+            DeleteCommand = new(deleteCommand);
             Init().Await();
         }
         HashSet<string> NotInDatabase;
@@ -50,21 +54,23 @@ namespace ESM.Modules.Import.ViewModels
         }
         public string Header => "COMBO";
         private string comboId;
+        [StringLength(9)]
+        [Phone(ErrorMessage = "Not all digits")]
         public string ComboId
         {
-            get => comboId; 
+            get => comboId;
             set => SetProperty(ref comboId, value, () => this.ValidateProperty(value, nameof(ComboId)));
         }
         private double discount;
-        [Range(0,100)]
+        [Range(0, 100)]
         public double Discount
         {
             get => discount;
-            set => SetProperty(ref discount, value);
+            set => SetProperty(ref discount, value, () => this.ValidateProperty(value, nameof(ComboId)));
         }
         public IEnumerable<string> WorkType { get; }
         public IEnumerable<string> ProductType { get; }
-        public Combo CurrentCombo { get;set; }
+        public Combo CurrentCombo { get; set; }
         public ICollection<SelectableViewModel> productList;
         public ICollection<SelectableViewModel> ProductList
         {
@@ -96,7 +102,31 @@ namespace ESM.Modules.Import.ViewModels
         }
         public DelegateCommand AddToComboCommand { get; }
         public DelegateCommand AddToComboListCommand { get; }
+        public DelegateCommand CancelCommand { get; }
+        public DelegateCommand<Combo> DeleteCommand { get; }
         public DelegateCommand<SelectableViewModel> RemoveFromComboDetailCommand { get; }
+        protected async void deleteCommand(Combo combo)
+        {
+            if (SelectedWorkType == "THÊM")
+            {
+                if (NotInDatabase.Contains(combo.Id))
+                {
+                    var p = ProductList.Single(x => x.Id == combo.Id);
+                    ProductList.Remove(p);
+                    NotInDatabase.Remove(combo.Id);
+                }
+            }
+            else
+            {
+                if (MessageBox.Show("Bạn có chắc chắn xóa?", "Cảnh báo", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    await unitOfWork.Combos.Delete(combo.Id);
+                    var list = await unitOfWork.Combos.GetAll();
+                    ComboList = new(list);
+                }
+            }
+
+        }
         private void addToComboCommand()
         {
             if (SelectedWorkType == "THÊM")
@@ -145,7 +175,21 @@ namespace ESM.Modules.Import.ViewModels
             }
             else if (SelectedWorkType == "SỬA")
             {
-
+                List<string> ids = new();
+                foreach (var item in ComboDetail)
+                {
+                    ids.Add(item.Id);
+                }
+                CurrentCombo.Discount = Discount;
+                CurrentCombo.ProductIdlist = string.Join(" ", ids);
+                var res = await unitOfWork.Combos.Update(CurrentCombo);
+                if ((bool)res)
+                    modalService.ShowModal(ModalType.Information, "Cập nhật thành công", "Thông báo");
+                else modalService.ShowModal(ModalType.Error, "Có lỗi xảy ra", "Thông báo");
+                // Clear
+                Empty();
+                var list = await unitOfWork.Combos.GetAll();
+                ComboList = new(list);
             }
         }
         private void clearCommand()
@@ -162,7 +206,9 @@ namespace ESM.Modules.Import.ViewModels
         }
         private void Empty()
         {
-
+            CurrentCombo = null;
+            Discount = 0;
+            ComboDetail = new();
         }
         private async void findCommand(Combo combo)
         {
@@ -256,7 +302,8 @@ namespace ESM.Modules.Import.ViewModels
                     }).ToList(); break;
             }
         }
-        private void executeRemove(SelectableViewModel obj) {
+        private void executeRemove(SelectableViewModel obj)
+        {
             ComboDetail.Remove(obj);
         }
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -271,7 +318,7 @@ namespace ESM.Modules.Import.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-           
+
         }
         private IEnumerable<Laptop> Laptops;
         private IEnumerable<DataAccess.Models.Monitor> Monitors;
