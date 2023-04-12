@@ -4,8 +4,6 @@ using ESM.Modules.Normal.Views;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
-using ESM.Core.ShareServices;
-using Prism.Mvvm;
 
 namespace ESM.Modules.Normal
 {
@@ -29,6 +27,7 @@ namespace ESM.Modules.Normal
             _regionManager.RegisterViewWithContentRegion<PCHardDiskView>();
             _regionManager.RegisterViewWithContentRegion<SmartPhoneView>();
             _regionManager.RegisterViewWithContentRegion<VGAView>();
+            _regionManager.RegisterViewWithContentRegion<ComboView>();
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
@@ -44,6 +43,7 @@ namespace ESM.Modules.Normal
             containerRegistry.RegisterForNavigation<SmartPhoneView, SmartPhoneViewModel>(ViewNames.SmartPhoneView);
             containerRegistry.RegisterForNavigation<PCHardDiskView, PCHardDiskViewModel>(ViewNames.PCHardDiskView);
             containerRegistry.RegisterForNavigation<VGAView, VGAViewModel>(ViewNames.VGAView);
+            containerRegistry.RegisterForNavigation<ComboView, ComboViewModel>(ViewNames.ComboView);
         }
     }
 }

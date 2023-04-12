@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="ESM.Modules.Normal.Views.ComboView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <StackPanel>
+        <ComboBox Cursor="Hand"
+                  Margin="5"
+                  Width="300"
+                  x:Name="combo"
+                  ItemsSource="{Binding ComboList}"
+                  Style="{StaticResource MahApps.Styles.ComboBox.Virtualized}"
+                  VerticalContentAlignment="Center"
+                  HorizontalContentAlignment="Center"
+                  DisplayMemberPath="Name"
+                  SelectedItem="{Binding SelectedCombo, UpdateSourceTrigger=PropertyChanged}"
+                  mah:TextBoxHelper.Watermark="Chọn combo" />
+        <ListBox ItemsSource="{Binding ProductList}" 
+                 Style="{StaticResource combolist}"/>
+    </StackPanel>
+</UserControl>

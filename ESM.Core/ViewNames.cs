@@ -25,7 +25,8 @@
         public static readonly string ReportView = "ReportView";
         public static readonly string TopSellingReportView = "TopSellingReportView";
         public static readonly string TabChartView = "TabChartView"; 
-        public static readonly string Invoice = "Invoice";
+        public static readonly string Invoice = "Invoice"; 
         public static readonly string ImportBillView = "ImportBillView";
+        public static readonly string ComboView = "ComboView";
     }
 }

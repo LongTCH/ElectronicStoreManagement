@@ -102,7 +102,7 @@
                       Command="{Binding NavigateCommand}"
                       CommandParameter="{x:Static esmcore:ViewNames.VGAView}"
                       mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
-                      Style="{StaticResource SmallTileStyle}"
+                      Style="{StaticResource LargeTileStyle}"
                       TitleFontSize="16"
                       VerticalTitleAlignment="Top">
                 <iconPacks:PackIconMaterial Kind="ExpansionCard"
@@ -113,7 +113,7 @@
                       Background="#1E90FF"
                       mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
                       TitleFontSize="16"
-                      Style="{StaticResource SmallTileStyle}"
+                      Style="{StaticResource LargeTileStyle}"
                       Command="{Binding NavigateCommand}"
                       CommandParameter="{x:Static esmcore:ViewNames.PCHardDiskView}">
                 <iconPacks:PackIconMaterial Kind="Harddisk"
@@ -127,6 +127,16 @@
                       mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
                       Style="{StaticResource LargeTileStyle}">
                 <iconPacks:PackIconFeatherIcons Kind="Monitor"
+                                                Width="40"
+                                                Height="40" />
+            </mah:Tile>
+            <mah:Tile Title="Combo"
+                      Background="YellowGreen"
+                      Command="{Binding NavigateCommand}"
+                      CommandParameter="{x:Static esmcore:ViewNames.ComboView}"
+                      mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                      Style="{StaticResource LargeTileStyle}">
+                <iconPacks:PackIconMaterial Kind="InboxMultiple"
                                                 Width="40"
                                                 Height="40" />
             </mah:Tile>
