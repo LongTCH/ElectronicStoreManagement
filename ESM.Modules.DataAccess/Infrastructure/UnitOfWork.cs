@@ -29,6 +29,8 @@ namespace ESM.Modules.DataAccess.Infrastructure
 
         public IBillComboRepository BillCombos { get; }
 
+        public IImportRepository Imports { get; }
+
         public UnitOfWork(ESMDbContext context)
         {
             _context = context;
@@ -43,6 +45,7 @@ namespace ESM.Modules.DataAccess.Infrastructure
             Bills = new BillRepository(context);
             Combos = new ComboRepository(context);
             BillCombos = new BillComboRepository(context);
+            Imports = new ImportRepository(context);
         }
         public async Task<int> SaveChangesAsync()
         {

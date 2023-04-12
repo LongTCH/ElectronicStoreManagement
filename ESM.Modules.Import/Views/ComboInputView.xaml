@@ -99,6 +99,8 @@
                             <DataGridTextColumn Header="Giảm giá"
                                                 IsReadOnly="True"
                                                 Binding="{Binding Discount, UpdateSourceTrigger=LostFocus}" />
+                            <DataGridTextColumn Header="Tồn kho"
+                                                Binding="{Binding Remain, UpdateSourceTrigger=LostFocus}" />
                         </DataGrid.Columns>
                     </DataGrid>
                     <Button Content="THÊM"
@@ -173,6 +175,8 @@
                                                 Binding="{Binding Unit, Mode=OneWay}" />
                             <DataGridTextColumn Header="Giảm giá"
                                                 Binding="{Binding Discount, UpdateSourceTrigger=LostFocus}" />
+                            <DataGridTextColumn Header="Tồn kho"
+                                                Binding="{Binding Remain, UpdateSourceTrigger=LostFocus}" />
                             <DataGridTemplateColumn Header="Xóa">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>

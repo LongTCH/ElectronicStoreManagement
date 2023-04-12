@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.IdentityModel.Tokens;
+using System;
 
 namespace ESM.Core;
 
@@ -7,11 +8,13 @@ public static class NumberToText
 
     public static string FuncNumberToText(double inputNumber, bool suffix = true)
     {
+        inputNumber = Math.Round(inputNumber);
         char[] separator = { ',', '.' };
         string[] strlist = inputNumber.ToString().Split(separator);
         string result;
         if (strlist.Length < 2) result = IntNumberToText(Convert.ToUInt64(strlist[0]), true);
         else result = IntNumberToText(Convert.ToUInt64(strlist[0]), false) + " phẩy " + IntNumberToText(Convert.ToUInt64(strlist[1]), suffix);
+        if (result.Length > 0)
         result = char.ToUpper(result[0]) + result[1..];
         return result;
     }
@@ -102,6 +105,7 @@ public static class NumberToText
         result = result.Trim();
         if (isNegative) result = "Âm " + result;
         //if (!isNegative) result = char.ToUpper(result[0]) + result.Substring(1);
+        if (result.IsNullOrEmpty()) return "";
         return result + (suffix ? " đồng" : "");
     }
 }

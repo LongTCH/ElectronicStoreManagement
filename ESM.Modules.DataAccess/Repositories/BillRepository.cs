@@ -27,6 +27,7 @@ namespace ESM.Modules.DataAccess.Repositories
             foreach (var item in entity.BillProducts)
                 DecreaseRemain(item.ProductId, item.Number);
             await _context.Bills.AddAsync(entity);
+            await _context.SaveChangesAsync();
             return entity.Id;
         }
         private int GetNewID()

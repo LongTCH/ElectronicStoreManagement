@@ -118,10 +118,7 @@ public partial class ESMDbContext : DbContext
                 .HasColumnName("ComboID");
             entity.Property(e => e.CustomerName).HasMaxLength(50);
             entity.Property(e => e.District).HasMaxLength(50);
-            entity.Property(e => e.PhoneNvarchar30)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("Phone nvarchar(30)");
+            entity.Property(e => e.Phone).HasMaxLength(30);
             entity.Property(e => e.PurchasedTime)
                 .HasPrecision(3)
                 .HasDefaultValueSql("(getutcdate())");
@@ -184,6 +181,7 @@ public partial class ESMDbContext : DbContext
             entity.Property(e => e.ProductIdlist)
                 .HasMaxLength(200)
                 .HasColumnName("ProductIDList");
+            entity.Property(e => e.Unit).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Import>(entity =>

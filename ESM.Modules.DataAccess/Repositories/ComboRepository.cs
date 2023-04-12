@@ -44,6 +44,7 @@ namespace ESM.Modules.DataAccess.Repositories
                 var validItem = await GetRemain(item);
                 if (validItem > -1)
                 {
+                    item.Remain = validItem;
                     item.SellPrice = await GetComboPrice(item);
                     result.Add(item);
                 }

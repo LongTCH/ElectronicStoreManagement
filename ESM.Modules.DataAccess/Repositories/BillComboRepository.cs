@@ -1,11 +1,6 @@
 ﻿using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ESM.Modules.DataAccess.Repositories
 {
@@ -23,6 +18,20 @@ namespace ESM.Modules.DataAccess.Repositories
             // avoid concurrent issue
             using var context = new ESMDbContext();
             return await context.BillCombos.AnyAsync(x => x.ComboId == comboId);
+        }
+        public override async Task<object?> Add(BillCombo entity)
+        {
+            bool res = false;
+            try
+            {
+                await _context.BillCombos.AddAsync(entity);
+                await _context.SaveChangesAsync();
+                res = true;
+            } catch (Exception)
+            {
+
+            }
+            return res;
         }
     }
 }
