@@ -15,11 +15,15 @@ public partial class Combo
     public string Unit { get; set; } = null!;
 
     public virtual ICollection<BillCombo> BillCombos { get; } = new List<BillCombo>();
-}
-public partial class Combo
-{
     [NotMapped]
     public decimal SellPrice { get; set; }
     [NotMapped]
     public int Remain { get; set; }
 }
+//public partial class Combo
+//{
+//    [NotMapped]
+//    public decimal SellPrice { get; set; }
+//    [NotMapped]
+//    public int Remain { get; set; }
+//}

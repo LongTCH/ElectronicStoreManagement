@@ -6,9 +6,9 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
         <TabControl Margin="5"
-                    Style="{DynamicResource MaterialDesignUniformTabControl}"
+                    Style="{DynamicResource MaterialDesignNavigatilRailTabControl}"
                     prism:RegionManager.RegionName="TabRegion"
                     VerticalAlignment="Stretch"
-                    BorderThickness="0" />
+                    BorderThickness="0" TabStripPlacement="Left" />
     </Grid>
 </UserControl>

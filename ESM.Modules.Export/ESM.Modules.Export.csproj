@@ -10,4 +10,9 @@
   <ItemGroup>
     <ProjectReference Include="..\ESM.Core\ESM.Core.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\InvoiceCombo.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
 </Project>

@@ -146,9 +146,9 @@
                         </mah:HamburgerMenuIconItem.Icon>
                     </mah:HamburgerMenuIconItem>
                     <mah:HamburgerMenuIconItem Label="Bán hàng"
-                                               IsVisible="{Binding IsSellStaff}"
+                                               IsVisible="{Binding}"
                                                Command="{Binding NavigateCommand}"
-                                               CommandParameter="{x:Static esmcore:ViewNames.SellView}">
+                                               CommandParameter="{x:Static esmcore:ViewNames.InputSellView}">
                         <mah:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconMaterial Kind="AccountCash"
                                                         Width="22"
@@ -157,7 +157,7 @@
                                                         VerticalAlignment="Center" />
                         </mah:HamburgerMenuIconItem.Icon>
                     </mah:HamburgerMenuIconItem>
-                    <mah:HamburgerMenuIconItem Label="Test"
+                    <mah:HamburgerMenuIconItem Label="Thống kê"
                                                Command="{Binding NavigateCommand}"
                                                CommandParameter="{x:Static esmcore:ViewNames.TabChartView}">
                         <mah:HamburgerMenuIconItem.Icon>

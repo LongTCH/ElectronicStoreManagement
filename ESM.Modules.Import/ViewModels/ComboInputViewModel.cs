@@ -236,6 +236,7 @@ namespace ESM.Modules.Import.ViewModels
             }
             else if (SelectedWorkType == "SỬA")
             {
+                if (CurrentCombo == null) return;
                 List<string> ids = new();
                 foreach (var item in ComboDetail)
                 {
@@ -295,6 +296,7 @@ namespace ESM.Modules.Import.ViewModels
                     Name = item.Name,
                     Price = item.Price,
                     Unit = item.Unit,
+                    Remain = item.Remain,
                 });
             }
             ComboId = combo.Id;
@@ -413,6 +415,7 @@ namespace ESM.Modules.Import.ViewModels
         public double? Discount { get; set; }
         public decimal SellPrice => Discount == null || Discount == 0 ? Price : Price * (1 - (decimal)Discount / 100);
         public string Unit { get; set; }
+        public int Remain { get; set; }
         public override bool Equals(object? obj)
         {
             return Id == (obj as SelectableViewModel)?.Id;

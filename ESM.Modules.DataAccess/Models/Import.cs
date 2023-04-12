@@ -25,7 +25,7 @@ public partial class Import
 
     public decimal TotalAmount { get; set; }
 
-    public virtual ICollection<ImportProduct> ImportProducts { get; } = new List<ImportProduct>();
+    public virtual ICollection<ImportProduct> ImportProducts { get; set; } = new List<ImportProduct>();
 
     public virtual Account Staff { get; set; } = null!;
 }

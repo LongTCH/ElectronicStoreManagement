@@ -3,9 +3,8 @@ using ESM.Core.ShareServices;
 using ESM.Core.ShareStores;
 using ESM.Modules.DataAccess;
 using ESM.Modules.DataAccess.Infrastructure;
-using ESM.Modules.DataAccess.Models;
+using ESM.Modules.Export.Utilities;
 using ESM.Modules.Export.Views;
-using MaterialDesignThemes.Wpf;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -13,7 +12,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 
 namespace ESM.Modules.Export.ViewModels
 {
@@ -34,6 +32,7 @@ namespace ESM.Modules.Export.ViewModels
             ProductBillList.CollectionChanged += (_, _) => OnTotalAmountChanged();
             PayCommand = new(ExecutePay);
         }
+        public string Header => "Bán lẻ";
         private string category;
 
         public string Category
@@ -44,11 +43,11 @@ namespace ESM.Modules.Export.ViewModels
                 SetProperty(ref category, value);
                 try
                 {
-                    getProductList();
+                    getProductList().Await();
                 }
                 catch
                 {
-                    _modalService.ShowModal(ModalType.Error, "Cannot load data", "Failed");
+                    _modalService.ShowModal(ModalType.Error, "Không thể tải dữ liệu", "Lỗi");
                     Products = null;
                 }
             }
@@ -92,12 +91,13 @@ namespace ESM.Modules.Export.ViewModels
             else if (Category == "CPU") Products = await _unitOfWork.Pccpus.GetAll();
             else if (Category == "VGA") Products = await _unitOfWork.Vgas.GetAll();
             else if (Category == "SmartPhone") Products = await _unitOfWork.Smartphones.GetAll();
+            else Products = null;
         }
         private void addCommand()
         {
             if (SelectedProduct == null)
             {
-                _modalService.ShowModal(ModalType.Error, "Choose Product", "Warning");
+                _modalService.ShowModal(ModalType.Error, "Chưa chọn sản phẩm", "Thông báo");
                 return;
             }
             var product = ProductBillList.FirstOrDefault(s => s.Id == SelectedProduct.Id);
@@ -147,51 +147,5 @@ namespace ESM.Modules.Export.ViewModels
             RaisePropertyChanged(nameof(TextFormPrice));
         }
     }
-    public class ProductBill : BindableBase
-    {
-        private readonly IModalService _modalService;
-
-        public ProductBill(IModalService modalService)
-        {
-            _modalService = modalService;
-        }
-
-        public string Id { get; set; }
-        public int Remain { get; set; }
-        private string? number;
-        public string? Number
-        {
-            get => number;
-            set
-            {
-                number = checkValidNumber(value).ToString();
-                RaisePropertyChanged(nameof(Number));
-                RaisePropertyChanged(nameof(Amount));
-                Action?.Invoke();
-            }
-        }
-        public string Name { get; set; }
-        public decimal SellPrice { get; set; }
-        public string Unit { get; set; }
-        public decimal Amount => SellPrice * Convert.ToInt32(Number);
-        public string? Warranty { get; set; }
-        public Action? Action { get; set; }
-        public int checkValidNumber(string? s)
-        {
-            if (!int.TryParse(s, out int n))
-            {
-                _modalService.ShowModal(ModalType.Error, "Không đúng định dạng", "Lỗi");
-            }
-            else if (n <= 0)
-            {
-                _modalService.ShowModal(ModalType.Error, "Số lượng phải lớn hơn 0", "Lỗi");
-            }
-            else if (n > Remain)
-            {
-                _modalService.ShowModal(ModalType.Error, $"Chỉ còn {Remain} sản phẩm", "Không đủ sản phẩm");
-                return Remain;
-            }
-            return (n == 0) ? 1 : n;
-        }
-    }
+   
 }

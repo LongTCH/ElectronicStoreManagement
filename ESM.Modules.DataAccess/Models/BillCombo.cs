@@ -11,7 +11,7 @@ public partial class BillCombo
 
     public string? CustomerName { get; set; }
 
-    public string? PhoneNvarchar30 { get; set; }
+    public string? Phone { get; set; }
 
     public string? City { get; set; }
 

@@ -21,7 +21,7 @@
         public static readonly string RegisterView = "RegisterView"; 
         public static readonly string ChangeAccountInfoView = "ChangeAccountInfoView"; 
         public static readonly string ProductDetailView = "ProductDetailView";
-        public static readonly string SellView = "SellView";
+        public static readonly string InputSellView = "InputSellView";
         public static readonly string ReportView = "ReportView";
         public static readonly string TopSellingReportView = "TopSellingReportView";
         public static readonly string TabChartView = "TabChartView"; 
