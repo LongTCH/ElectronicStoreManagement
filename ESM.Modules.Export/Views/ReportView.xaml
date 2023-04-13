@@ -84,6 +84,7 @@
                                  IsChecked="{Binding IsYearCheck, UpdateSourceTrigger=PropertyChanged}"
                                  Margin="0,0,5,0" />
                 </StackPanel>
+                
                 <Button Width="65"
                         BorderThickness="0"
                         Margin="120,20,10,10"
@@ -128,6 +129,11 @@
                           Content="HARDDISK"
                           FontWeight="Bold"
                           Margin="5" />
+                <CheckBox  x:Name="comboCheckBox"
+                           IsChecked="{Binding IsComboCheck, UpdateSourceTrigger=PropertyChanged}"
+                           Content="COMBO"
+                           FontWeight="Bold"
+                           Margin="5" />
             </StackPanel>
             <Grid Grid.Row="1"
                   Grid.Column="1"
