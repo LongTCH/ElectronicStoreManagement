@@ -292,19 +292,141 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         protected IEnumerable<RevenueDTO> GetRevenueWeekDuration(DateTime startDate, DateTime endDate, ProductType type)
         {
-            var l = from x in _context.Bills
-                    join y in _context.BillProducts
-                    on x.Id equals y.BillId
-                    where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate && y.ProductId.StartsWith(DAStaticData.IdPrefix[type])
-                    select new { Year = x.PurchasedTime.Year, Week = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(x.PurchasedTime, CalendarWeekRule.FirstDay, DayOfWeek.Monday), Revenue = y.Amount };
-            return (from x in l
-                    group x by new { x.Year, x.Week } into g
-                    select new RevenueDTO()
-                    {
-                        Year = g.Key.Year,
-                        Sub = g.Key.Week,
-                        Value = g.Sum(x => x.Revenue)
-                    }).ToList();
+            List<RevenueDTO> res = new();
+            if (type == ProductType.COMBO)
+            {
+                var l = from x in _context.BillCombos
+                        where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate
+                        select new { Year = x.PurchasedTime.Year, Week = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(x.PurchasedTime, CalendarWeekRule.FirstDay, DayOfWeek.Monday), Revenue = x.TotalAmount };
+                res = (from x in l
+                       group x by new { x.Year, x.Week } into g
+                       select new RevenueDTO()
+                       {
+                           Year = g.Key.Year,
+                           Sub = g.Key.Week,
+                           Value = g.Sum(x => x.Revenue)
+                       }).ToList();
+            }
+            else
+            {
+                var l = from x in _context.Bills
+                        join y in _context.BillProducts
+                        on x.Id equals y.BillId
+                        where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate && y.ProductId.StartsWith(DAStaticData.IdPrefix[type])
+                        select new { Year = x.PurchasedTime.Year, Week = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(x.PurchasedTime, CalendarWeekRule.FirstDay, DayOfWeek.Monday), Revenue = y.Amount };
+                res = (from x in l
+                       group x by new { x.Year, x.Week } into g
+                       select new RevenueDTO()
+                       {
+                           Year = g.Key.Year,
+                           Sub = g.Key.Week,
+                           Value = g.Sum(x => x.Revenue)
+                       }).ToList();
+            }
+            return res;
+        }
+        protected IEnumerable<RevenueDTO> GetRevenueMonthDuration(DateTime startDate, DateTime endDate, ProductType type)
+        {
+            List<RevenueDTO> res = new();
+            if (type == ProductType.COMBO)
+            {
+                var l = from x in _context.BillCombos
+                        where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate
+                        select new { Year = x.PurchasedTime.Year, Month = x.PurchasedTime.Month, Revenue = x.TotalAmount };
+                res = (from x in l
+                       group x by new { x.Year, x.Month } into g
+                       select new RevenueDTO()
+                       {
+                           Year = g.Key.Year,
+                           Sub = g.Key.Month,
+                           Value = g.Sum(x => x.Revenue)
+                       }).ToList();
+            }
+            else
+            {
+                var l = from x in _context.Bills
+                        join y in _context.BillProducts
+                        on x.Id equals y.BillId
+                        where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate && y.ProductId.StartsWith(DAStaticData.IdPrefix[type])
+                        select new { Year = x.PurchasedTime.Year, Month = x.PurchasedTime.Month, Revenue = y.Amount };
+                res = (from x in l
+                        group x by new { x.Year, x.Month } into g
+                        select new RevenueDTO()
+                        {
+                            Year = g.Key.Year,
+                            Sub = g.Key.Month,
+                            Value = g.Sum(x => x.Revenue)
+                        }).ToList();
+            }
+            return res;
+        }
+        protected IEnumerable<RevenueDTO> GetRevenueQuaterDuration(DateTime startDate, DateTime endDate, ProductType type)
+        {
+            List<RevenueDTO> res = new();
+            if (type == ProductType.COMBO)
+            {
+                var l = from x in _context.BillCombos
+                        where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate
+                        select new { Year = x.PurchasedTime.Year, Quarter = ((x.PurchasedTime.Month - 1) / 3) + 1, Revenue = x.TotalAmount };
+                res = (from x in l
+                       group x by new { x.Year, x.Quarter } into g
+                       select new RevenueDTO()
+                       {
+                           Year = g.Key.Year,
+                           Sub = g.Key.Quarter,
+                           Value = g.Sum(x => x.Revenue)
+                       }).ToList();
+            }
+            else
+            {
+                var l = from x in _context.Bills
+                        join y in _context.BillProducts
+                        on x.Id equals y.BillId
+                        where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate && y.ProductId.StartsWith(DAStaticData.IdPrefix[type])
+                        select new { Year = x.PurchasedTime.Year, Quarter = ((x.PurchasedTime.Month - 1) / 3) + 1, Revenue = y.Amount };
+                res= (from x in l
+                        group x by new { x.Year, x.Quarter } into g
+                        select new RevenueDTO()
+                        {
+                            Year = g.Key.Year,
+                            Sub = g.Key.Quarter,
+                            Value = g.Sum(x => x.Revenue)
+                        }).ToList();
+            }
+            return res;
+        }
+        protected IEnumerable<RevenueDTO> GetRevenueYearDuration(DateTime startDate, DateTime endDate, ProductType type)
+        {
+            List<RevenueDTO> res = new();
+            if (type == ProductType.COMBO)
+            {
+                var l = from x in _context.BillCombos
+                        where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate
+                        select new { Year = x.PurchasedTime.Year, Quarter = ((x.PurchasedTime.Month - 1) / 3) + 1, Revenue = x.TotalAmount };
+                res = (from x in l
+                       group x by x.Year into g
+                       select new RevenueDTO()
+                       {
+                           Year = g.Key,
+                           Value = g.Sum(x => x.Revenue)
+                       }).ToList();
+            }
+            else
+            {
+                var l = from x in _context.Bills
+                        join y in _context.BillProducts
+                        on x.Id equals y.BillId
+                        where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate && y.ProductId.StartsWith(DAStaticData.IdPrefix[type])
+                        select new { Year = x.PurchasedTime.Year, Revenue = y.Amount };
+                res = (from x in l
+                        group x by x.Year into g
+                        select new RevenueDTO()
+                        {
+                            Year = g.Key,
+                            Value = g.Sum(x => x.Revenue)
+                        }).ToList();
+            }
+            return res;
         }
     }
 }
