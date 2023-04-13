@@ -355,11 +355,13 @@
                                             Binding="{Binding Id, Mode=OneWay}" />
                         <DataGridTextColumn Header="Tên"
                                             Binding="{Binding Name, Mode=OneWay}" />
+                        <DataGridTextColumn Header="Giá ban đầu"
+                                            Binding="{Binding Price, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
                         <DataGridTextColumn Header="Giảm giá"
                                             Binding="{Binding Discount, UpdateSourceTrigger=LostFocus}" />
                         <DataGridTextColumn Header="Đơn vị"
                                             Binding="{Binding Unit, Mode=OneWay}" />
-                        <DataGridTextColumn Header="Giá"
+                        <DataGridTextColumn Header="Giá khuyến mãi"
                                             Binding="{Binding SellPrice, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
                         <DataGridTemplateColumn Header="Sửa">
                             <DataGridTemplateColumn.HeaderStyle>

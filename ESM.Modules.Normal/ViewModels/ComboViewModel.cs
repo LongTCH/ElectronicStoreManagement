@@ -21,22 +21,6 @@ namespace ESM.Modules.Normal.ViewModels
             _unitOfWork = unitOfWork;
             ProductDetailNavigateCommand = new(navigate);
         }
-        private Combo selectedCombo;
-        public Combo SelectedCombo
-        {
-            get => selectedCombo;
-            set
-            {
-                SetProperty(ref selectedCombo, value);
-                GetProduct().Await();
-            }
-        }
-        private IEnumerable<ProductDTO> productList;
-        public IEnumerable<ProductDTO> ProductList
-        {
-            get => productList;
-            set => SetProperty(ref productList, value);
-        }
         public DelegateCommand<ProductDTO> ProductDetailNavigateCommand { get; set; }
         private void navigate(ProductDTO product)
         {
@@ -51,10 +35,6 @@ namespace ESM.Modules.Normal.ViewModels
         {
             get => comboList;
             set => SetProperty(ref comboList, value);
-        }
-        private async Task GetProduct()
-        {
-            ProductList = (await _unitOfWork.Combos.GetListProduct(SelectedCombo));
         }
         public async void OnNavigatedTo(NavigationContext navigationContext)
         {

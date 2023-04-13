@@ -45,7 +45,8 @@ namespace ESM.Modules.DataAccess.Repositories
                 if (validItem > -1)
                 {
                     item.Remain = validItem;
-                    item.SellPrice = await GetComboPrice(item);
+                    item.ListProducts = await GetListProduct(item);
+                    item.Price = await GetComboPrice(item);
                     result.Add(item);
                 }
             }
@@ -89,7 +90,7 @@ namespace ESM.Modules.DataAccess.Repositories
             task.Start();
             await task;
 
-            return res * (1 - (decimal)combo.Discount / 100);
+            return res;
         }
         private ProductDTO GetProduct(string id)
         {

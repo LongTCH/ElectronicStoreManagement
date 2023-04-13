@@ -26,7 +26,7 @@ namespace ESM.Modules.Export.ViewModels
             _unitOfWork = unitOfWork;
             _modalService = modalService;
             _accountStore = accountStore;
-            AddCommand = new(async(x) => await addCommand(x));
+            AddCommand = new(addCommand);
             CancelCommand = new(cancelCommand);
             PayCommand = new(ExecutePay);
         }
@@ -75,7 +75,7 @@ namespace ESM.Modules.Export.ViewModels
                 CustomerPhone = null;
             }
         }
-        private async Task addCommand(Combo combo)
+        private void addCommand(Combo combo)
         {
             if (combo.Remain == 0)
             {
@@ -83,7 +83,7 @@ namespace ESM.Modules.Export.ViewModels
                 return;
             }
             SelectedCombo = combo;
-            ProductList = await _unitOfWork.Combos.GetListProduct(SelectedCombo);
+            ProductList = combo.ListProducts;
             RaisePropertyChanged(nameof(SellPrice));
             RaisePropertyChanged(nameof(TextFormPrice));
             RaisePropertyChanged(nameof(Discount));

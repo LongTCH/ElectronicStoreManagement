@@ -229,7 +229,7 @@ namespace ESM.Modules.Import.ViewModels
                 combo.Name = ComboName;
                 combo.Unit = ComboUnit;
                 combo.ProductIdlist = string.Join(' ', ids);
-                combo.SellPrice = await unitOfWork.Combos.GetComboPrice(combo);
+                combo.Price = await unitOfWork.Combos.GetComboPrice(combo);
                 ComboList.Add(combo);
                 NotInDatabase.Add(ComboId);
                 clearCommand();
