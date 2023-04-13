@@ -1,4 +1,5 @@
-﻿using ESM.Modules.DataAccess.Infrastructure;
+﻿using ESM.Modules.DataAccess.DTOs;
+using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace ESM.Modules.DataAccess.Repositories
 {
-    public interface IComboRepository : IBaseRepository<Combo>
+    public interface IComboRepository : IProductRepository<Combo>
     {
         Task<decimal> GetComboPrice(Combo combo);
         Task<IEnumerable<ProductDTO>> GetListProduct(Combo combo);
         Task<int> GetRemain(Combo combo);
     }
-    public class ComboRepository : BaseRepository<Combo>, IComboRepository
+    public class ComboRepository : ProductRepository<Combo>, IComboRepository
     {
         public ComboRepository(ESMDbContext context) : base(context)
         {
@@ -94,7 +95,7 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         private ProductDTO GetProduct(string id)
         {
-            if (id.StartsWith(DAStaticData.IdPrefix[ProductType.LAPTOP]))
+            if (id.StartsWith(DAStaticData.IdPrefix[ProductType.COMBO]))
             {
                 return _context.Laptops.First(x => x.Id == id);
             }
@@ -152,6 +153,38 @@ namespace ESM.Modules.DataAccess.Repositories
             await task;
 
             return res;
+        }
+        public IEnumerable<RevenueDTO> GetRevenueWeekDuration(DateTime startDate, DateTime endDate)
+        {
+            return GetRevenueWeekDuration(startDate, endDate, ProductType.COMBO);
+        }
+
+        public IEnumerable<ReportMock> GetSoldNumberMonthDuration(DateTime startDate, DateTime endDate)
+        {
+            return GetSoldNumberMonthDuration(startDate, endDate, ProductType.COMBO);
+        }
+
+        public IEnumerable<ReportMock> GetSoldNumberQuarterDuration(DateTime startDate, DateTime endDate)
+        {
+            return GetSoldNumberQuarterDuration(startDate, endDate, ProductType.COMBO);
+        }
+
+        public IEnumerable<ReportMock> GetSoldNumberWeekDuration(DateTime startDate, DateTime endDate)
+        {
+            return GetSoldNumberWeekDuration(startDate, endDate, ProductType.COMBO);
+        }
+
+        public IEnumerable<ReportMock> GetSoldNumberYearDuration(DateTime startDate, DateTime endDate)
+        {
+            return GetSoldNumberYearDuration(startDate, endDate, ProductType.COMBO);
+        }
+        public IEnumerable<TopSellDTO> GetTopSoldProducts(DateTime startDate, DateTime endDate, int number)
+        {
+            return GetTopSoldProducts(startDate, endDate, ProductType.COMBO, number);
+        }
+        public string GetSuggestID()
+        {
+            return GetSuggestID(ProductType.COMBO);
         }
     }
 }
