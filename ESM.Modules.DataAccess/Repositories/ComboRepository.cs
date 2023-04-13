@@ -95,7 +95,7 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         private ProductDTO GetProduct(string id)
         {
-            if (id.StartsWith(DAStaticData.IdPrefix[ProductType.COMBO]))
+            if (id.StartsWith(DAStaticData.IdPrefix[ProductType.LAPTOP]))
             {
                 return _context.Laptops.First(x => x.Id == id);
             }

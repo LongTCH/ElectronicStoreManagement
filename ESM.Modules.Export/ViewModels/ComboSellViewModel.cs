@@ -77,6 +77,7 @@ namespace ESM.Modules.Export.ViewModels
         }
         private void addCommand(Combo combo)
         {
+            if (combo == null) return;
             if (combo.Remain == 0)
             {
                 _modalService.ShowModal(ModalType.Information, "Sản phẩm tạm hết hàng", "Xin lỗi");
