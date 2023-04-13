@@ -146,9 +146,9 @@
                 <lvc:CartesianChart Margin="0,20,0,0"
                                     Series="{Binding Series}"
                                     LegendLocation="Right">
-                    <!--<lvc:CartesianChart.DataTooltip>
+                    <lvc:CartesianChart.DataTooltip>
                         <tooltip:ReportTooltip/>
-                    </lvc:CartesianChart.DataTooltip>-->
+                    </lvc:CartesianChart.DataTooltip>
                 </lvc:CartesianChart>
             </Grid>
         </Grid>

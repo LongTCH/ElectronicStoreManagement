@@ -13,35 +13,15 @@
              Padding="20 10"
              BorderThickness="2"
              BorderBrush="#555555">
-    <ItemsControl ItemsSource="{Binding Data.Points}"
+    <ContentControl Content="{Binding Data.Points}"
                   Grid.IsSharedSizeScope="True">
-        <ItemsControl.ItemTemplate>
+        <ContentControl.ContentTemplate>
             <DataTemplate DataType="{x:Type wpf:DataPointViewModel}">
-                <Grid Margin="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto"
-                                          SharedSizeGroup="Title" />
-                    </Grid.ColumnDefinitions>
-                    <Rectangle Grid.Column="0"
-                               Stroke="{Binding Series.Stroke}"
-                               Fill="{Binding Series.Fill}"
-                               Height="15"
-                               Width="15"></Rectangle>
-                    <StackPanel Grid.Column="1">
-                        <TextBlock Text="{Binding Path=ChartPoint.Instance.Year, Source={StaticResource ReportMockVm}}"
-                                   Margin="5 0 0 0"
-                                   VerticalAlignment="Center"
-                                   Foreground="White" />
-                        <TextBlock Grid.Column="1"
-                                   HorizontalAlignment="Right"
-                                   Text="{Binding ChartPoint.Instance.(local:ReportMockVm.Value), StringFormat='Số lượng: {0}'}"
-                                   Margin="5 0 0 0"
-                                   VerticalAlignment="Center"
-                                   Foreground="White" />
-                    </StackPanel>
-                </Grid>
+                <TextBlock Text="{Binding Path=ChartPoint.Instance.(local:ReportMockVm.Name)}"
+                           Margin="5 0 0 0"
+                           VerticalAlignment="Center"
+                           Foreground="White" />
             </DataTemplate>
-        </ItemsControl.ItemTemplate>
-    </ItemsControl>
+        </ContentControl.ContentTemplate>
+    </ContentControl>
 </UserControl>
