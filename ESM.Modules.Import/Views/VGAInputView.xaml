@@ -1,9 +1,493 @@
 ﻿<UserControl x:Class="ESM.Modules.Import.Views.VGAInputView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:prism="http://prismlibrary.com/"             
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance localvm:VGAInputViewModel}"
+             xmlns:localvm="clr-namespace:ESM.Modules.Import.ViewModels"
+             Tag="{Binding Header}"
+             Background="White"
              prism:ViewModelLocator.AutoWireViewModel="True">
-    <Grid>
-            
-    </Grid>
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalAlignment="Stretch">
+        <StackPanel>
+            <ComboBox ItemsSource="{Binding WorkType}"
+                      Cursor="Hand"
+                      x:Name="cbxWorkType"
+                      mah:TextBoxHelper.Watermark="Chọn chế độ"
+                      Width="120"
+                      SelectedItem="{Binding SelectedWorkType, UpdateSourceTrigger=PropertyChanged}"
+                      Style="{StaticResource MahApps.Styles.ComboBox}"
+                      HorizontalAlignment="Left" />
+            <StackPanel>
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectedWorkType}"
+                                         Value="XÓA">
+                                <Setter Property="Visibility"
+                                        Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Button Height="220"
+                            Margin="50,0,0,0"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Center"
+                            Style="{StaticResource MaterialDesignFlatLightButton}"
+                            Command="{Binding AddAvatarCommand}">
+                        <Button.Content>
+                            <Grid>
+                                <Image Source="pack://application:,,,/ESM.Core;component/ShareImages/addproduct.png"
+                                       Height="200"
+                                       MinWidth="200"
+                                       Visibility="{Binding IsDefault, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                       HorizontalAlignment="Left" />
+                                <Image Source="{Binding AvatarPath}"
+                                       Height="200"
+                                       MinWidth="200"
+                                       HorizontalAlignment="Left">
+                                    <Image.Style>
+                                        <Style TargetType="Image">
+                                            <Setter Property="Visibility"
+                                                    Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsDefault}"
+                                                             Value="False">
+                                                    <Setter Property="Visibility"
+                                                            Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
+                            </Grid>
+                        </Button.Content>
+                    </Button>
+                    <StackPanel Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox materialDesign:HintAssist.Hint="Đường dẫn tới thư mục ảnh"
+                                     Margin="20,10"
+                                     Text="{Binding ImagePath, UpdateSourceTrigger=LostFocus}"
+                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                     FontFamily="Champagne &amp; Limousines"
+                                     FontSize="18"
+                                     Width="300" />
+                            <Button HorizontalAlignment="Right"
+                                    Command="{Binding SelectFolder}"
+                                    Style="{StaticResource MaterialDesignFloatingActionMiniButton}">
+                                <materialDesign:PackIcon Kind="Folder" />
+                            </Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox materialDesign:HintAssist.Hint="Đường dẫn tới file mô tả"
+                                     Margin="20,10"
+                                     Text="{Binding DetailPath, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                     FontFamily="Champagne &amp; Limousines"
+                                     FontSize="18"
+                                     Width="300" />
+                            <Button HorizontalAlignment="Right"
+                                    Command="{Binding SelectDetail}"
+                                    Style="{StaticResource MaterialDesignFloatingActionMiniButton}">
+                                <materialDesign:PackIcon Kind="File" />
+                            </Button>
+                        </StackPanel>
+                        <DockPanel Grid.Column="0"
+                                   VerticalAlignment="Center"
+                                   Margin="100,0,100,0">
+                            <materialDesign:PackIcon VerticalAlignment="Bottom"
+                                                     Margin="0,0,0,10"
+                                                     Height="30"
+                                                     Width="30"
+                                                     Kind="Identifier" />
+                            <TextBox Margin="20,10"
+                                     materialDesign:HintAssist.Hint="ID"
+                                     Text="{Binding Id, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                     IsEnabled="{Binding IsIdEnabled}"
+                                     FontFamily="Champagne &amp; Limousines"
+                                     FontSize="18" />
+                        </DockPanel>
+                    </StackPanel>
+                </Grid>
+                <!--#region Content Region-->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <DockPanel Grid.Column="0">
+                        <materialDesign:PackIcon VerticalAlignment="Bottom"
+                                                 Margin="0,0,0,10"
+                                                 Height="30"
+                                                 Width="30"
+                                                 Kind="Rename" />
+                        <TextBox materialDesign:HintAssist.Hint="Tên sản phẩm"
+                                 materialDesign:TextFieldAssist.HasClearButton="True"
+                                 Margin="20,10"
+                                 Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 FontFamily="Champagne &amp; Limousines"
+                                 FontSize="18" />
+                    </DockPanel>
+                    <DockPanel Grid.Column="1">
+                        <iconPacks:PackIconMaterial Kind="Chip"
+                                                    VerticalAlignment="Bottom"
+                                                    Margin="0,0,0,10"
+                                                    Height="30"
+                                                    Width="30" />
+                        <TextBox materialDesign:HintAssist.Hint="Tên chip đồ họa"
+                                 materialDesign:TextFieldAssist.HasClearButton="True"
+                                 Margin="20,10"
+                                 Text="{Binding Chip, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 FontFamily="Champagne &amp; Limousines"
+                                 FontSize="18" />
+                    </DockPanel>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <DockPanel Grid.Column="0">
+                        <iconPacks:PackIconSimpleIcons Kind="Opsgenie"
+                                                       VerticalAlignment="Bottom"
+                                                       Margin="0,0,0,10"
+                                                       Height="30"
+                                                       Width="30" />
+                        <TextBox materialDesign:HintAssist.Hint="Nhà sản xuất chip đồ họa"
+                                 materialDesign:TextFieldAssist.HasClearButton="True"
+                                 Margin="20,10"
+                                 Text="{Binding Chipset, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 FontFamily="Champagne &amp; Limousines"
+                                 FontSize="18" />
+                    </DockPanel>
+                    <DockPanel Grid.Column="1">
+                        <iconPacks:PackIconMaterial Kind="Memory"
+                                                    VerticalAlignment="Bottom"
+                                                    Margin="0,0,0,10"
+                                                    Height="30"
+                                                    Width="30" />
+                        <TextBox materialDesign:HintAssist.Hint="VRAM"
+                                 materialDesign:TextFieldAssist.HasClearButton="True"
+                                 Margin="20,10"
+                                 Text="{Binding Vram, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 FontFamily="Champagne &amp; Limousines"
+                                 FontSize="18" />
+                    </DockPanel>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <DockPanel Grid.Column="0">
+                        <materialDesign:PackIcon Kind="Storage"
+                                                 VerticalAlignment="Bottom"
+                                                 Margin="0,0,0,10"
+                                                 Height="30"
+                                                 Width="30" />
+                        <TextBox materialDesign:HintAssist.Hint="Thế hệ bộ nhớ"
+                                 materialDesign:TextFieldAssist.HasClearButton="True"
+                                 Margin="20,10"
+                                 Text="{Binding Gen, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 FontFamily="Champagne &amp; Limousines"
+                                 FontSize="18" />
+                    </DockPanel>
+                    <DockPanel Grid.Column="1">
+                        <materialDesign:PackIcon Kind="MergeType"
+                                                 VerticalAlignment="Bottom"
+                                                 Margin="0,0,0,10"
+                                                 Height="30"
+                                                 Width="30" />
+                        <TextBox materialDesign:HintAssist.Hint="Series sản phẩm"
+                                 materialDesign:TextFieldAssist.HasClearButton="True"
+                                 Margin="20,10"
+                                 Text="{Binding Series, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 FontFamily="Champagne &amp; Limousines"
+                                 FontSize="18"></TextBox>
+                    </DockPanel>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <DockPanel Grid.Column="0">
+                        <materialDesign:PackIcon Kind="Cash"
+                                                 VerticalAlignment="Bottom"
+                                                 Margin="0,0,0,10"
+                                                 Height="30"
+                                                 Width="30" />
+                        <TextBox materialDesign:HintAssist.Hint="Giá niêm yết"
+                                 materialDesign:TextFieldAssist.HasClearButton="True"
+                                 materialDesign:TextFieldAssist.SuffixText="VND"
+                                 Margin="20,10"
+                                 Text="{Binding Price, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 FontFamily="Champagne &amp; Limousines"
+                                 FontSize="18" />
+                    </DockPanel>
+                    <DockPanel Grid.Column="1">
+                        <materialDesign:PackIcon Kind="CartPercent"
+                                                 VerticalAlignment="Bottom"
+                                                 Margin="0,0,0,10"
+                                                 Height="30"
+                                                 Width="30" />
+                        <TextBox materialDesign:HintAssist.Hint="Giảm giá"
+                                 materialDesign:TextFieldAssist.HasClearButton="True"
+                                 materialDesign:TextFieldAssist.SuffixText="%"
+                                 Margin="20,10"
+                                 Text="{Binding Discount, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 FontFamily="Champagne &amp; Limousines"
+                                 FontSize="18" />
+                    </DockPanel>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <DockPanel Grid.Column="0">
+                        <materialDesign:PackIcon Kind="PackageVariantClosed"
+                                                 VerticalAlignment="Bottom"
+                                                 Margin="0,0,0,10"
+                                                 Height="30"
+                                                 Width="30" />
+                        <TextBox materialDesign:HintAssist.Hint="Còn lại"
+                                 IsEnabled="False"
+                                 Margin="20,10"
+                                 Text="{Binding Remain, Mode=OneWay}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 FontFamily="Champagne &amp; Limousines"
+                                 FontSize="18" />
+                    </DockPanel>
+                    <DockPanel Grid.Column="1">
+                        <materialDesign:PackIcon Kind="RazorSingleEdge"
+                                                 VerticalAlignment="Bottom"
+                                                 Margin="0,0,0,10"
+                                                 Height="30"
+                                                 Width="30" />
+                        <TextBox materialDesign:TextFieldAssist.HasClearButton="True"
+                                 materialDesign:HintAssist.Hint="Đơn vị tính"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 Text="{Binding Unit, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Margin="20,10"
+                                 FontSize="18" />
+                    </DockPanel>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <DockPanel Grid.Column="0">
+                        <iconPacks:PackIconSimpleIcons Kind="OpenGl"
+                                                       VerticalAlignment="Bottom"
+                                                       Margin="0,0,0,10"
+                                                       Height="30"
+                                                       Width="30" />
+                        <TextBox materialDesign:TextFieldAssist.HasClearButton="True"
+                                 materialDesign:HintAssist.Hint="Thương hiệu"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 Text="{Binding Company, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Margin="20,10"
+                                 FontSize="18" />
+                    </DockPanel>
+                </Grid>
+                <!--#endregion-->
+                <Grid Margin="0,20,0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Button Width="150"
+                            BorderThickness="0"
+                            materialDesign:ButtonAssist.CornerRadius="10"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Background="DarkSeaGreen"
+                            IsDefault="True"
+                            Content="CẬP NHẬT"
+                            Command="{Binding AddCommand}" />
+                    <Button Width="150"
+                            Grid.Column="1"
+                            BorderThickness="0"
+                            materialDesign:ButtonAssist.CornerRadius="10"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Background="Gray"
+                            IsDefault="True"
+                            Content="HỦY"
+                            Command="{Binding ClearCommand}" />
+                </Grid>
+            </StackPanel>
+            <DataGrid ItemsSource="{Binding ProductList}"
+                      IsReadOnly="True"
+                      Grid.Row="1"
+                      HorizontalAlignment="Stretch"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False"
+                      CanUserReorderColumns="False"
+                      VerticalGridLinesBrush="DeepSkyBlue"
+                      HorizontalGridLinesBrush="DeepSkyBlue"
+                      ScrollViewer.CanContentScroll="True"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                      x:Name="myDataGrid"
+                      MinHeight="100">
+                <DataGrid.CellStyle>
+                    <Style TargetType="{x:Type DataGridCell}"
+                           BasedOn="{StaticResource MaterialDesignDataGridCell}">
+                        <EventSetter Event="PreviewKeyDown"
+                                     Handler="DataGridCell_PreviewKeyDown" />
+                    </Style>
+                </DataGrid.CellStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Mã"
+                                        Binding="{Binding Id, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Tên"
+                                        Binding="{Binding Name, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Giá"
+                                        Binding="{Binding SellPrice, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
+                    <DataGridTextColumn Header="Đơn vị"
+                                        Binding="{Binding Unit, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Giảm giá"
+                                        Binding="{Binding Discount, UpdateSourceTrigger=LostFocus}" />
+                    <DataGridTextColumn Header="Tên chip đồ họa"
+                                        Binding="{Binding Chip}" />
+                    <DataGridTextColumn Header="Nhà sản xuất chip đồ họa"
+                                        Binding="{Binding Chipset}" />
+                    <DataGridTextColumn Header="VRAM"
+                                        Binding="{Binding Vram}" />
+                    <DataGridTextColumn Header="Thế hệ bộ nhớ"
+                                        Binding="{Binding Gen}" />
+                    <DataGridTextColumn Header="Series"
+                                        Binding="{Binding Series}" />
+                    <DataGridTextColumn Header="Thương hiệu"
+                                        Binding="{Binding Company}" />
+                    <DataGridTemplateColumn Header="Sửa">
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader"
+                                   BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding DataContext.SelectedWorkType, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"
+                                                 Value="XÓA">
+                                        <Setter Property="Visibility"
+                                                Value="Hidden" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Cursor="Hand"
+                                        Foreground="MediumBlue"
+                                        Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}}"
+                                        CommandParameter="{Binding}">
+                                    <Underline>Sửa</Underline>
+                                    <Button.Style>
+                                        <Style TargetType="Button"
+                                               BasedOn="{StaticResource MahApps.Styles.Button.Chromeless}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding DataContext.SelectedWorkType, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"
+                                                             Value="XÓA">
+                                                    <Setter Property="Visibility"
+                                                            Value="Hidden" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Xóa">
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader"
+                                   BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding DataContext.SelectedWorkType, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"
+                                                 Value="SỬA">
+                                        <Setter Property="Visibility"
+                                                Value="Hidden" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Cursor="Hand"
+                                        Foreground="IndianRed"
+                                        Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}}"
+                                        CommandParameter="{Binding}">
+                                    <Underline>Xóa</Underline>
+                                    <Button.Style>
+                                        <Style TargetType="Button"
+                                               BasedOn="{StaticResource MahApps.Styles.Button.Chromeless}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding DataContext.SelectedWorkType, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"
+                                                             Value="SỬA">
+                                                    <Setter Property="Visibility"
+                                                            Value="Hidden" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button Width="150"
+                    Margin="0,20,0,0"
+                    BorderThickness="0"
+                    materialDesign:ButtonAssist.CornerRadius="10"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="SteelBlue"
+                    IsDefault="True"
+                    Content="LƯU"
+                    Command="{Binding SaveCommand}">
+                <Button.Style>
+                    <Style TargetType="Button"
+                           BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                        <Setter Property="Visibility"
+                                Value="Hidden" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectedWorkType}"
+                                         Value="THÊM">
+                                <Setter Property="Visibility"
+                                        Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

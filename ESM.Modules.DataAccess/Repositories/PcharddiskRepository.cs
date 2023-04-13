@@ -58,6 +58,17 @@ public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRe
         await _context.SaveChangesAsync();
         return null;
     }
+    public override async Task<object?> AddList(IEnumerable<Pcharddisk> list)
+    {
+        bool res = true;
+        try
+        {
+            await _context.Pcharddisks.AddRangeAsync(list);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex) { res = false; }
+        return res;
+    }
     public string GetSuggestID()
     {
         return GetSuggestID(ProductType.HARDDISK);
@@ -88,17 +99,5 @@ public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRe
     public IEnumerable<RevenueDTO> GetRevenueWeekDuration(DateTime startDate, DateTime endDate)
     {
         return GetRevenueWeekDuration(startDate, endDate, ProductType.HARDDISK);
-    }
-
-    public override async Task<object?> AddList(IEnumerable<Pcharddisk> list)
-    {
-        bool res = true;
-        try
-        {
-            await _context.Pcharddisks.AddRangeAsync(list);
-            await _context.SaveChangesAsync();
-        }
-        catch (Exception ex) { res = false; }
-        return res;
     }
 }

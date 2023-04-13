@@ -44,6 +44,21 @@ public class MonitorRepository : ProductRepository<Models.Monitor>, IMonitorRepo
         }
         return res;
     }
+    public override async Task<object?> AddList(IEnumerable<Models.Monitor> list)
+    {
+        bool res = true;
+        try
+        {
+            await _context.Monitors.AddRangeAsync(list);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex) { res = false; }
+        return res;
+    }
+    public override async Task<bool> IsIdExist(string id)
+    {
+        return await _context.Monitors.AnyAsync(p => p.Id == id);
+    }
     public IEnumerable<ReportMock> GetSoldNumberMonthDuration(DateTime startDate, DateTime endDate)
     {
         return GetSoldNumberMonthDuration(startDate, endDate, ProductType.MONITOR);
@@ -70,11 +85,5 @@ public class MonitorRepository : ProductRepository<Models.Monitor>, IMonitorRepo
     public IEnumerable<RevenueDTO> GetRevenueWeekDuration(DateTime startDate, DateTime endDate)
     {
         return GetRevenueWeekDuration(startDate, endDate, ProductType.MONITOR);
-    }
-
-    public async Task<object?> AddList(IEnumerable<Models.Monitor> list)
-    {
-        await _context.Monitors.AddRangeAsync(list);
-        return null;
     }
 }

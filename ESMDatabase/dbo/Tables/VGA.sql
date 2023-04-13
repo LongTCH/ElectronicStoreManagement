@@ -13,7 +13,6 @@
     [Image_Path] NVARCHAR(200) NULL, 
     [Series] NVARCHAR(50) NULL, 
     [Company] NVARCHAR(50) NOT NULL, 
-    [Need] NVARCHAR(50), 
     [Avatar_Path] NVARCHAR(200) NULL, 
     [Unit] NVARCHAR(50) NOT NULL, 
     CONSTRAINT [PK_VGA] PRIMARY KEY ([Id])

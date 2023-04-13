@@ -47,6 +47,21 @@ namespace ESM.Modules.DataAccess.Repositories
             await _context.SaveChangesAsync();
             return null;
         }
+        public override async Task<bool> IsIdExist(string id)
+        {
+            return await _context.Smartphones.AnyAsync(p => p.Id == id);
+        }
+        public override async Task<object?> AddList(IEnumerable<Smartphone> list)
+        {
+            bool res = true;
+            try
+            {
+                await _context.Smartphones.AddRangeAsync(list);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex) { res = false; }
+            return res;
+        }
         public string GetSuggestID()
         {
             return GetSuggestID(ProductType.SMARTPHONE);

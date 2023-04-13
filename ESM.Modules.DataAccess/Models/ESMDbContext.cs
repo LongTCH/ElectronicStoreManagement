@@ -464,7 +464,6 @@ public partial class ESMDbContext : DbContext
                 .HasMaxLength(200)
                 .HasColumnName("Image_Path");
             entity.Property(e => e.Name).HasMaxLength(100);
-            entity.Property(e => e.Need).HasMaxLength(50);
             entity.Property(e => e.Price).HasColumnType("money");
             entity.Property(e => e.Series).HasMaxLength(50);
             entity.Property(e => e.Unit).HasMaxLength(50);

@@ -40,6 +40,21 @@ public class PcRepository : ProductRepository<Pc>, IPcRepository
         }
         return res;
     }
+    public override async Task<object?> AddList(IEnumerable<Pc> list)
+    {
+        bool res = true;
+        try
+        {
+            await _context.Pcs.AddRangeAsync(list);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex) { res = false; }
+        return res;
+    }
+    public override async Task<bool> IsIdExist(string id)
+    {
+        return await _context.Pcs.AnyAsync(x => x.Id == id);
+    }
     public string GetSuggestID()
     {
         return GetSuggestID(ProductType.PC);

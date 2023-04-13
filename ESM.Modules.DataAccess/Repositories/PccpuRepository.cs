@@ -39,6 +39,21 @@ public class PccpuRepository : ProductRepository<Pccpu>, IPccpuRepository
         }
         return res;
     }
+    public override async Task<object?> AddList(IEnumerable<Pccpu> list)
+    {
+        bool res = true;
+        try
+        {
+            await _context.Pccpus.AddRangeAsync(list);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex) { res = false; }
+        return res;
+    }
+    public override async Task<bool> IsIdExist(string id)
+    {
+        return await _context.Pccpus.AnyAsync(p => p.Id == id);
+    }
     public string GetSuggestID()
     {
         return GetSuggestID(ProductType.CPU);

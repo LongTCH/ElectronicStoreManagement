@@ -13,7 +13,6 @@ public abstract class ProductDTO
     public string Company { get; set; }
     public decimal SellPrice => Discount == null || Discount == 0 ? Price : Price * (1 - (decimal)Discount / 100);
     public bool DiscountShow => SellPrice < Price;
-    public string State => (Remain == -1) ? "Ngừng kinh doanh" : (Remain >= 0) ? "Đang kinh doanh" : "";
     public string Unit { get; set; }
     public override bool Equals(object? obj)
     {

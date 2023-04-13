@@ -1,17 +1,10 @@
 ﻿using ESM.Core.ShareServices;
 using ESM.Modules.DataAccess;
-using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
-using Microsoft.Identity.Client.Extensions.Msal;
-using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Regions;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -43,6 +36,12 @@ namespace ESM.Modules.Import.ViewModels
             get => series;
             set => SetProperty(ref series, value);
         }
+        public override void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            //Id = _unitOfWork.Pcharddisks.GetSuggestID();
+            //ProductList = new();
+            //NotInDatabase = new();
+        }
         protected override async void addCommand()
         {
             if (SelectedWorkType == "THÊM")
@@ -65,9 +64,8 @@ namespace ESM.Modules.Import.ViewModels
                     _modalService.ShowModal(ModalType.Error, "ID đã tồn tại", "Cảnh báo");
                     return;
                 }
-                if (Company == null || Unit == null ||
-               Name == null || Series == null ||
-               Cpu == null || Ram == null)
+                if (Company == null || Unit == null || Name == null || 
+                    Cpu == null || Ram == null)
                 {
                     _modalService.ShowModal(ModalType.Error, "Nhập tất cả thông tin cần thiết", "Cảnh báo");
                     return;
@@ -79,9 +77,8 @@ namespace ESM.Modules.Import.ViewModels
             }
             else if (SelectedWorkType == "SỬA")
             {
-                if (Id == null || Company == null || Unit == null ||
-               Name == null || Series == null ||
-               Cpu == null || Ram == null)
+                if (Company == null || Unit == null || Name == null ||
+                   Cpu == null || Ram == null)
                 {
                     _modalService.ShowModal(ModalType.Error, "Nhập tất cả thông tin cần thiết", "Cảnh báo");
                     return;
@@ -97,12 +94,6 @@ namespace ESM.Modules.Import.ViewModels
                 var list = await _unitOfWork.Pcs.GetAll();
                 ProductList = new(list);
             }
-        }
-        public override void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            //Id = _unitOfWork.Pcharddisks.GetSuggestID();
-            //ProductList = new();
-            //NotInDatabase = new();
         }
         protected override void clearCommand()
         {

@@ -9,14 +9,14 @@
              HorizontalContentAlignment="Stretch">
         <ListBox.ItemTemplate>
             <DataTemplate>
-                <Expander Background="CadetBlue"
+                <Expander Background="SkyBlue"
                           BorderThickness="1"
                           Style="{StaticResource MaterialDesignExpander}">
                     <Expander.Header>
                         <StackPanel>
                             <TextBlock Text="{Binding Name, Mode=OneWay}"
                                        FontWeight="Bold"
-                                       Foreground="Silver"
+                                       Foreground="DarkOliveGreen"
                                        FontSize="20" />
                             <!--<TextBlock Text="{Binding Name}"
                                                    TextWrapping="NoWrap"

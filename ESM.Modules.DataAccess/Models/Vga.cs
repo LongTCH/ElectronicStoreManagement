@@ -16,5 +16,4 @@ public partial class Vga : ProductDTO
 
     public string? Series { get; set; }
 
-    public string? Need { get; set; }
 }

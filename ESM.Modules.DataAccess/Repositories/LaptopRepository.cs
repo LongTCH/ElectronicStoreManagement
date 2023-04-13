@@ -93,4 +93,8 @@ public class LaptopRepository : ProductRepository<Laptop>, ILaptopRepository
         catch (Exception ex) { res = false; }
         return res;
     }
+    public override async Task<bool> IsIdExist(string id)
+    {
+        return await _context.Laptops.AnyAsync(x => x.Id == id);
+    }
 }

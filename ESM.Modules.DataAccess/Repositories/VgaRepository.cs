@@ -40,6 +40,21 @@ public class VgaRepository : ProductRepository<Vga>, IVgaRepository
         }
         return res;
     }
+    public override async Task<bool> IsIdExist(string id)
+    {
+        return await _context.Vgas.AnyAsync(p => p.Id == id);
+    }
+    public override async Task<object?> AddList(IEnumerable<Vga> list)
+    {
+        bool res = true;
+        try
+        {
+            await _context.Vgas.AddRangeAsync(list);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex) { res = false; }
+        return res;
+    }
     public string GetSuggestID()
     {
         return GetSuggestID(ProductType.VGA);

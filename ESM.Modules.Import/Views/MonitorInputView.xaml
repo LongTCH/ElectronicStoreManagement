@@ -243,7 +243,7 @@
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  materialDesign:TextFieldAssist.SuffixText="VND"
                                  Margin="20,10"
-                                 Text="{Binding Price, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding Price, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
@@ -258,7 +258,7 @@
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  materialDesign:TextFieldAssist.SuffixText="%"
                                  Margin="20,10"
-                                 Text="{Binding Discount, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding Discount, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
