@@ -38,7 +38,7 @@ namespace ESM.Modules.Export.ViewModels
             DateTime end = EndTime;
             if (StartTime > EndTime)
             {
-                MessageBox.Show("invalid date range!");
+                MessageBox.Show("Phạm vi ngày không hợp lệ!");
                 return; 
             }
             if (IsWeekCheck)
@@ -57,6 +57,8 @@ namespace ESM.Modules.Export.ViewModels
                     MonitorList = _unitOfWork.Monitors.GetSoldNumberWeekDuration(start, end);
                 if (IsHarddiskCheck)
                     HarddiskList = _unitOfWork.Pcharddisks.GetSoldNumberWeekDuration(start, end);
+                if (IsComboCheck)
+                    ComboList = _unitOfWork.Combos.GetSoldNumberWeekDuration(start, end);                       
             }
             else if (IsMonthCheck)
             {
@@ -74,43 +76,50 @@ namespace ESM.Modules.Export.ViewModels
                     MonitorList = _unitOfWork.Monitors.GetSoldNumberMonthDuration(start, end);
                 if (IsHarddiskCheck)
                     HarddiskList = _unitOfWork.Pcharddisks.GetSoldNumberMonthDuration(start, end);
+                if (IsComboCheck)
+                    ComboList = _unitOfWork.Combos.GetSoldNumberMonthDuration(start, end);
             }
             else if (IsQuarterCheck)
             {
                 if (IsLaptopCheck)
-                    LaptopList = _unitOfWork.Laptops.GetSoldNumberQuarterDuration(start, end);
-                if (IsSmartphoneCheck)
-                    SmartphoneList = _unitOfWork.Smartphones.GetSoldNumberQuarterDuration(start, end);
-                if (IsPCCheck)
-                    PCList = _unitOfWork.Pcs.GetSoldNumberQuarterDuration(start, end);
-                if (IsCPUCheck)
-                    CPUList = _unitOfWork.Pccpus.GetSoldNumberQuarterDuration(start, end);
-                if (IsVGACheck)
-                    VGAList = _unitOfWork.Vgas.GetSoldNumberQuarterDuration(start, end);
-                if (IsMonitorCheck)
-                    MonitorList = _unitOfWork.Monitors.GetSoldNumberQuarterDuration(start, end);
-                if (IsHarddiskCheck)
-                    HarddiskList = _unitOfWork.Pcharddisks.GetSoldNumberQuarterDuration(start, end);
+                        LaptopList = _unitOfWork.Laptops.GetSoldNumberQuarterDuration(start, end);
+                    if (IsSmartphoneCheck)
+                        SmartphoneList = _unitOfWork.Smartphones.GetSoldNumberQuarterDuration(start, end);
+                    if (IsPCCheck)
+                        PCList = _unitOfWork.Pcs.GetSoldNumberQuarterDuration(start, end);
+                    if (IsCPUCheck)
+                        CPUList = _unitOfWork.Pccpus.GetSoldNumberQuarterDuration(start, end);
+                    if (IsVGACheck)
+                        VGAList = _unitOfWork.Vgas.GetSoldNumberQuarterDuration(start, end);
+                    if (IsMonitorCheck)
+                        MonitorList = _unitOfWork.Monitors.GetSoldNumberQuarterDuration(start, end);
+                    if (IsHarddiskCheck)
+                        HarddiskList = _unitOfWork.Pcharddisks.GetSoldNumberQuarterDuration(start, end);
+                if (IsComboCheck)
+                    ComboList = _unitOfWork.Combos.GetSoldNumberQuarterDuration(start,end);
+
             }
             else if (IsYearCheck)
             {
-
-                if (IsLaptopCheck)
-                    LaptopList = _unitOfWork.Laptops.GetSoldNumberYearDuration(start, end);
-                if (IsSmartphoneCheck)
-                    SmartphoneList = _unitOfWork.Smartphones.GetSoldNumberYearDuration(start, end);
-                if (IsPCCheck)
-                    PCList = _unitOfWork.Pcs.GetSoldNumberYearDuration(start, end);
-                if (IsCPUCheck)
-                    CPUList = _unitOfWork.Pccpus.GetSoldNumberYearDuration(start, end);
-                if (IsVGACheck)
-                    VGAList = _unitOfWork.Vgas.GetSoldNumberYearDuration(start, end);
-                if (IsMonitorCheck)
-                    MonitorList = _unitOfWork.Monitors.GetSoldNumberYearDuration(start, end);
-                if (IsHarddiskCheck)
-                    HarddiskList = _unitOfWork.Pcharddisks.GetSoldNumberYearDuration(start, end);
+                    if (IsLaptopCheck)
+                        LaptopList = _unitOfWork.Laptops.GetSoldNumberYearDuration(start, end);
+                    if (IsSmartphoneCheck)
+                        SmartphoneList = _unitOfWork.Smartphones.GetSoldNumberYearDuration(start, end);
+                    if (IsPCCheck)
+                        PCList = _unitOfWork.Pcs.GetSoldNumberYearDuration(start, end);
+                    if (IsCPUCheck)
+                        CPUList = _unitOfWork.Pccpus.GetSoldNumberYearDuration(start, end);
+                    if (IsVGACheck)
+                        VGAList = _unitOfWork.Vgas.GetSoldNumberYearDuration(start, end);
+                    if (IsMonitorCheck)
+                        MonitorList = _unitOfWork.Monitors.GetSoldNumberYearDuration(start, end);
+                    if (IsHarddiskCheck)
+                        HarddiskList = _unitOfWork.Pcharddisks.GetSoldNumberYearDuration(start, end);
+                    if (IsComboCheck)
+                        ComboList = _unitOfWork.Combos.GetSoldNumberYearDuration(start, end);
             }
-        }
+            }
+            
         private SeriesCollection series;
         public SeriesCollection Series
         {
@@ -126,6 +135,7 @@ namespace ESM.Modules.Export.ViewModels
             bool showVGA = IsVGACheck;
             bool showMonitor = IsMonitorCheck;
             bool showHarddisk = IsHarddiskCheck;
+            bool showCombo = IsComboCheck;
             var series = new SeriesCollection();
             if (showLaptop)
             {
@@ -421,6 +431,48 @@ namespace ESM.Modules.Export.ViewModels
                     DataLabels = true
                 });
             }
+            if (showCombo)
+            {
+                var values = new ChartValues<int>();
+                if (IsWeekCheck)
+                {
+                    var list = _unitOfWork.Combos.GetSoldNumberWeekDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
+                }
+                else if (IsMonthCheck)
+                {
+                    var list = _unitOfWork.Combos.GetSoldNumberMonthDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
+                }
+                else if (IsQuarterCheck)
+                {
+                    var list = _unitOfWork.Combos.GetSoldNumberQuarterDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
+                }
+                else if (IsYearCheck)
+                {
+                    var list = _unitOfWork.Combos.GetSoldNumberYearDuration(StartTime, EndTime).Select(x => x.Value).ToList();
+                    foreach (var l in list)
+                    {
+                        values.Add(l);
+                    }
+                }
+                series.Add(new LineSeries
+                {
+                    Title = "Combo",
+                    Values = values,
+                    DataLabels = true
+                });
+            }
             Series = series;
         }
 
@@ -431,17 +483,11 @@ namespace ESM.Modules.Export.ViewModels
             RaisePropertyChanged(nameof(StartTime));
             RaisePropertyChanged(nameof(EndTime));
         }
-
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
             return true;
         }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-            
-        }
-
+        public void OnNavigatedFrom(NavigationContext navigationContext) {}
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public bool IsLaptopCheck { get; set; }
@@ -458,32 +504,37 @@ namespace ESM.Modules.Export.ViewModels
         public object VGAList { get; set; }
         public object MonitorList { get; set; }
         public object HarddiskList { get; set; }
+        public object ComboList { get; set; }
+
         private bool _isWeekCheck = true;
         public bool IsWeekCheck
         {
             get => _isWeekCheck;
             set => SetProperty(ref _isWeekCheck, value);
         }
-
         private bool _isMonthCheck = false;
         public bool IsMonthCheck
         {
             get => _isMonthCheck;
             set => SetProperty(ref _isMonthCheck, value);
         }
-
         private bool _isQuarterCheck = false;
         public bool IsQuarterCheck
         {
             get => _isQuarterCheck;
             set => SetProperty(ref _isQuarterCheck, value);
         }
-
         private bool _isYearCheck = false;
         public bool IsYearCheck
         {
             get => _isYearCheck;
             set => SetProperty(ref _isYearCheck, value);
+        }
+        private bool _isComboCheck = false;
+        public bool IsComboCheck
+        {
+            get => _isComboCheck;
+            set => SetProperty(ref _isComboCheck, value);
         }
     }
 }
