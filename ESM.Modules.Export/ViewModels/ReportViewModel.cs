@@ -15,6 +15,7 @@ using System.Windows;
 using ESM.Modules.DataAccess.Models;
 using System.Diagnostics;
 using Prism.Regions;
+using ESM.Modules.Export.Utilities;
 
 namespace ESM.Modules.Export.ViewModels
 {
@@ -82,43 +83,42 @@ namespace ESM.Modules.Export.ViewModels
             else if (IsQuarterCheck)
             {
                 if (IsLaptopCheck)
-                        LaptopList = _unitOfWork.Laptops.GetSoldNumberQuarterDuration(start, end);
-                    if (IsSmartphoneCheck)
-                        SmartphoneList = _unitOfWork.Smartphones.GetSoldNumberQuarterDuration(start, end);
-                    if (IsPCCheck)
-                        PCList = _unitOfWork.Pcs.GetSoldNumberQuarterDuration(start, end);
-                    if (IsCPUCheck)
-                        CPUList = _unitOfWork.Pccpus.GetSoldNumberQuarterDuration(start, end);
-                    if (IsVGACheck)
-                        VGAList = _unitOfWork.Vgas.GetSoldNumberQuarterDuration(start, end);
-                    if (IsMonitorCheck)
-                        MonitorList = _unitOfWork.Monitors.GetSoldNumberQuarterDuration(start, end);
-                    if (IsHarddiskCheck)
-                        HarddiskList = _unitOfWork.Pcharddisks.GetSoldNumberQuarterDuration(start, end);
+                    LaptopList = _unitOfWork.Laptops.GetSoldNumberQuarterDuration(start, end);
+                if (IsSmartphoneCheck)
+                    SmartphoneList = _unitOfWork.Smartphones.GetSoldNumberQuarterDuration(start, end);
+                if (IsPCCheck)
+                    PCList = _unitOfWork.Pcs.GetSoldNumberQuarterDuration(start, end);
+                if (IsCPUCheck)
+                    CPUList = _unitOfWork.Pccpus.GetSoldNumberQuarterDuration(start, end);
+                if (IsVGACheck)
+                    VGAList = _unitOfWork.Vgas.GetSoldNumberQuarterDuration(start, end);
+                if (IsMonitorCheck)
+                    MonitorList = _unitOfWork.Monitors.GetSoldNumberQuarterDuration(start, end);
+                if (IsHarddiskCheck)
+                    HarddiskList = _unitOfWork.Pcharddisks.GetSoldNumberQuarterDuration(start, end);
                 if (IsComboCheck)
                     ComboList = _unitOfWork.Combos.GetSoldNumberQuarterDuration(start,end);
-
             }
             else if (IsYearCheck)
             {
-                    if (IsLaptopCheck)
-                        LaptopList = _unitOfWork.Laptops.GetSoldNumberYearDuration(start, end);
-                    if (IsSmartphoneCheck)
-                        SmartphoneList = _unitOfWork.Smartphones.GetSoldNumberYearDuration(start, end);
-                    if (IsPCCheck)
-                        PCList = _unitOfWork.Pcs.GetSoldNumberYearDuration(start, end);
-                    if (IsCPUCheck)
-                        CPUList = _unitOfWork.Pccpus.GetSoldNumberYearDuration(start, end);
-                    if (IsVGACheck)
-                        VGAList = _unitOfWork.Vgas.GetSoldNumberYearDuration(start, end);
-                    if (IsMonitorCheck)
-                        MonitorList = _unitOfWork.Monitors.GetSoldNumberYearDuration(start, end);
-                    if (IsHarddiskCheck)
-                        HarddiskList = _unitOfWork.Pcharddisks.GetSoldNumberYearDuration(start, end);
-                    if (IsComboCheck)
-                        ComboList = _unitOfWork.Combos.GetSoldNumberYearDuration(start, end);
+                if (IsLaptopCheck)
+                    LaptopList = _unitOfWork.Laptops.GetSoldNumberYearDuration(start, end);
+                if (IsSmartphoneCheck)
+                    SmartphoneList = _unitOfWork.Smartphones.GetSoldNumberYearDuration(start, end);
+                if (IsPCCheck)
+                    PCList = _unitOfWork.Pcs.GetSoldNumberYearDuration(start, end);
+                if (IsCPUCheck)
+                    CPUList = _unitOfWork.Pccpus.GetSoldNumberYearDuration(start, end);
+                if (IsVGACheck)
+                    VGAList = _unitOfWork.Vgas.GetSoldNumberYearDuration(start, end);
+                if (IsMonitorCheck)
+                    MonitorList = _unitOfWork.Monitors.GetSoldNumberYearDuration(start, end);
+                if (IsHarddiskCheck)
+                    HarddiskList = _unitOfWork.Pcharddisks.GetSoldNumberYearDuration(start, end);
+                if (IsComboCheck)
+                    ComboList = _unitOfWork.Combos.GetSoldNumberYearDuration(start, end);
             }
-            }
+        }
             
         private SeriesCollection series;
         public SeriesCollection Series
@@ -127,17 +127,9 @@ namespace ESM.Modules.Export.ViewModels
             set => SetProperty(ref series, value);
         }
          private void addCommand()
-        {
-            bool showLaptop = IsLaptopCheck;
-            bool showSmartphone = IsSmartphoneCheck;
-            bool showPC = IsPCCheck;
-            bool showCPU = IsCPUCheck;
-            bool showVGA = IsVGACheck;
-            bool showMonitor = IsMonitorCheck;
-            bool showHarddisk = IsHarddiskCheck;
-            bool showCombo = IsComboCheck;
-            var series = new SeriesCollection();
-            if (showLaptop)
+         {
+            var series = new SeriesCollection(new Charting().GetConfig<ReportMockVm>(SeriesOrientation.Vertical));
+            if (IsLaptopCheck)
             {
                 var values = new ChartValues<int>();
                 if (IsWeekCheck)
@@ -172,14 +164,16 @@ namespace ESM.Modules.Export.ViewModels
                         values.Add(l);
                     }
                 }
-                series.Add(new LineSeries
+                var laptopSeries = new LineSeries
                 {
                     Title = "Laptop",
                     Values = values,
                     DataLabels = true
-                }); ;
+                };
+                laptopSeries.ToolTip = new ReportTooltip();
+                series.Add(laptopSeries);
             }
-            if (showSmartphone)
+            if (IsSmartphoneCheck)
             {
                 var values = new ChartValues<int>();
                 if (IsWeekCheck)
@@ -214,14 +208,16 @@ namespace ESM.Modules.Export.ViewModels
                         values.Add(l);
                     }
                 }
-                series.Add(new LineSeries
+                var smartphoneSeries = new LineSeries
                 {
                     Title = "Smartphone",
                     Values = values,
                     DataLabels = true
-                }) ;
+                };
+                smartphoneSeries.ToolTip = new ReportTooltip();
+                series.Add(smartphoneSeries);
             }
-            if (showPC)
+            if (IsPCCheck)
             {
                 var values = new ChartValues<int>();
                 if (IsWeekCheck)
@@ -256,14 +252,16 @@ namespace ESM.Modules.Export.ViewModels
                         values.Add(l);
                     }
                 }
-                series.Add(new LineSeries
+                var pcSeries = new LineSeries
                 {
                     Title = "PC",
                     Values = values,
                     DataLabels = true
-                }) ;
+                };
+                pcSeries.ToolTip = new ReportTooltip();
+                series.Add(pcSeries);
             }
-            if (showCPU)
+            if (IsCPUCheck)
             {
                 var values = new ChartValues<int>();
                 if (IsWeekCheck)
@@ -298,14 +296,16 @@ namespace ESM.Modules.Export.ViewModels
                         values.Add(l);
                     }
                 }
-                series.Add(new LineSeries
+                var cpuSeries = new LineSeries
                 {
                     Title = "CPU",
                     Values = values,
                     DataLabels = true
-                }) ;
+                };
+                cpuSeries.ToolTip = new ReportTooltip();
+                series.Add(cpuSeries);
             }
-            if (showVGA)
+            if (IsVGACheck)
             {
                 var values = new ChartValues<int>();
                 if (IsWeekCheck)
@@ -340,14 +340,16 @@ namespace ESM.Modules.Export.ViewModels
                         values.Add(l);
                     }
                 }
-                series.Add(new LineSeries
+                var vgaSeries = new LineSeries
                 {
                     Title = "VGA",
-                    Values = values,              
+                    Values = values,
                     DataLabels = true
-                });
+                };
+                vgaSeries.ToolTip = new ReportTooltip();
+                series.Add(vgaSeries);
             }
-            if (showMonitor)
+            if (IsMonitorCheck)
             {
                 var values = new ChartValues<int>();
                 if (IsWeekCheck)
@@ -382,14 +384,16 @@ namespace ESM.Modules.Export.ViewModels
                         values.Add(l);
                     }
                 }
-                series.Add(new LineSeries
+                var monitorSeries = new LineSeries
                 {
-                    Title = "Monitor",
+                    Title = "PC",
                     Values = values,
                     DataLabels = true
-                });
+                };
+                monitorSeries.ToolTip = new ReportTooltip();
+                series.Add(monitorSeries);
             }
-            if (showHarddisk)
+            if (IsHarddiskCheck)
             {
                 var values = new ChartValues<int>();
                 if (IsWeekCheck)
@@ -424,14 +428,16 @@ namespace ESM.Modules.Export.ViewModels
                         values.Add(l);
                     }
                 }
-                series.Add(new LineSeries
+                var harddiskSeries = new LineSeries
                 {
                     Title = "Harddisk",
-                    Values = values ,
-                    DataLabels = true
-                });
+                    Values = values,
+                    DataLabels = true,
+                    ToolTip = new ReportTooltip()
+                };
+                series.Add(harddiskSeries);
             }
-            if (showCombo)
+            if (IsComboCheck)
             {
                 var values = new ChartValues<int>();
                 if (IsWeekCheck)
@@ -466,12 +472,14 @@ namespace ESM.Modules.Export.ViewModels
                         values.Add(l);
                     }
                 }
-                series.Add(new LineSeries
+                var comboSeries = new LineSeries
                 {
                     Title = "Combo",
                     Values = values,
-                    DataLabels = true
-                });
+                    DataLabels = true,
+                    ToolTip = new ReportTooltip()              
+                };
+                series.Add(comboSeries);
             }
             Series = series;
         }
