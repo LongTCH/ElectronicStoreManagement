@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Wpf.CartesianChart.CustomTooltipAndLegend
+namespace ESM.Modules.Export.Utilities
 {
-    public class CustomerVm
+    public class ReportMockVm
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public int Number { get; set; }
-        public decimal Revenue { get; set; }
+        public double Value { get; set; }
     }
 }

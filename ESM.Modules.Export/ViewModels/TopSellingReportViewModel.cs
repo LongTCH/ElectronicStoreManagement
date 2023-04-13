@@ -1,29 +1,14 @@
-﻿using ESM.Core;
-using ESM.Core.ShareServices;
-using ESM.Core.ShareStores;
-using ESM.Modules.DataAccess;
+﻿using ESM.Core.ShareServices;
 using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
-using ESM.Modules.DataAccess.Models;
+using ESM.Modules.Export.Utilities;
 using LiveCharts;
 using LiveCharts.Configurations;
-using LiveCharts.Helpers;
-using LiveCharts.Wpf;
-using LiveCharts.Wpf.Charts.Base;
-using Newtonsoft.Json.Linq;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Windows;
-using System.Windows.Documents;
-using Wpf.CartesianChart.CustomTooltipAndLegend;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace ESM.Modules.Export.ViewModels
 {
@@ -38,12 +23,12 @@ namespace ESM.Modules.Export.ViewModels
             _modalService = modalService;
             Test = new(execute);
             AddCommand = new(addCommand);
-            var customerVmMapper = new CartesianMapper<CustomerVm>()
+            var customerVmMapper = new CartesianMapper<ReportMockVm>()
                 .Y((value, index) => index) // lets use the position of the item as X
-                .X(value => value.Number); //and PurchasedItems property as Y
+                .X(value => value.Value); //and PurchasedItems property as Y
 
             //lets save the mapper globally
-            Charting.For<CustomerVm>(customerVmMapper, SeriesOrientation.Vertical);
+            Charting.For<ReportMockVm>(customerVmMapper, SeriesOrientation.Vertical);
 
         }
         public DelegateCommand<string> Test { get; }
@@ -81,8 +66,8 @@ namespace ESM.Modules.Export.ViewModels
         }
         private void addCommand()
         {
-            var series = new SeriesCollection(new Charting().GetConfig<CustomerVm>(SeriesOrientation.Vertical));
-            var chartValues = new ChartValues<CustomerVm>();
+            var series = new SeriesCollection(new Charting().GetConfig<ReportMockVm>(SeriesOrientation.Vertical));
+            var chartValues = new ChartValues<ReportMockVm>();
             var labels = new List<string>();
             IEnumerable<TopSellDTO> productList = null;
             if (IsLaptopCheck)
@@ -115,10 +100,10 @@ namespace ESM.Modules.Export.ViewModels
             }
             foreach (var sale in productList)
             {
-                chartValues.Add(new CustomerVm()
+                chartValues.Add(new ReportMockVm()
                 {
                     Name = sale.Name,
-                    Number = sale.Number,
+                    Value = sale.Number,
                 });
                 labels.Add(sale.Id);
             }
@@ -156,6 +141,6 @@ namespace ESM.Modules.Export.ViewModels
         public bool IsMonitorCheck { get; set; }
         public bool IsHarddiskCheck { get; set; }
         public object ProductList { get; set; }
-        public ChartValues<CustomerVm> Customers { get; set; }
+        public ChartValues<ReportMockVm> Customers { get; set; }
     }
 }

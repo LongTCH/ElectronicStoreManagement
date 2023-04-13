@@ -4,7 +4,7 @@
              xmlns:localvm="clr-namespace:ESM.Modules.Export.ViewModels"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:tooltip="clr-namespace:Wpf.CartesianChart.CustomTooltipAndLegend"
+             xmlns:tooltip="clr-namespace:ESM.Modules.Export.Utilities"
              mc:Ignorable="d"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
@@ -130,7 +130,7 @@
                         </lvc:Axis>
                     </lvc:CartesianChart.AxisY>
                     <lvc:CartesianChart.DataTooltip>
-                        <tooltip:CustomersTooltip />
+                        <tooltip:ReportMockTooltip />
                     </lvc:CartesianChart.DataTooltip>
                 </lvc:CartesianChart>
             </Grid>

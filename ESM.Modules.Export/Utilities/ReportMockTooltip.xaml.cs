@@ -16,16 +16,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Wpf.CartesianChart.CustomTooltipAndLegend
+namespace ESM.Modules.Export.Utilities
 {
     /// <summary>
     /// Interaction logic for CustomersTooltip.xaml
     /// </summary>
-    public partial class CustomersTooltip : IChartTooltip
+    public partial class ReportMockTooltip : IChartTooltip
     {
         private TooltipData _data;
 
-        public CustomersTooltip()
+        public ReportMockTooltip()
         {
             InitializeComponent();
 
