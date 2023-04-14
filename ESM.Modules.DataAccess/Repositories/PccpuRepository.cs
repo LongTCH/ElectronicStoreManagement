@@ -85,4 +85,16 @@ public class PccpuRepository : ProductRepository<Pccpu>, IPccpuRepository
     {
         return GetRevenueWeekDuration(startDate, endDate, ProductType.CPU);
     }
+    public IEnumerable<RevenueDTO> GetRevenueMonthDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetRevenueMonthDuration(startDate, endDate, ProductType.CPU);
+    }
+    public IEnumerable<RevenueDTO> GetRevenueQuarterDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetRevenueQuaterDuration(startDate, endDate, ProductType.CPU);
+    }
+    public IEnumerable<RevenueDTO> GetRevenueYearDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetRevenueYearDuration(startDate, endDate, ProductType.CPU);
+    }
 }

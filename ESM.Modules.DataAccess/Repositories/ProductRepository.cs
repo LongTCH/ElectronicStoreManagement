@@ -377,7 +377,7 @@ namespace ESM.Modules.DataAccess.Repositories
                 var l = from x in _context.BillCombos
                         where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate
                         select new { Year = x.PurchasedTime.Year, Week = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(x.PurchasedTime, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday), Revenue = x.TotalAmount };
-                list = (from x in l
+                list = (from x in l.AsEnumerable()
                        group x by new { x.Year, x.Week } into g
                        select new RevenueDTO()
                        {
@@ -393,7 +393,7 @@ namespace ESM.Modules.DataAccess.Repositories
                         on x.Id equals y.BillId
                         where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate && y.ProductId.StartsWith(DAStaticData.IdPrefix[type])
                         select new { Year = x.PurchasedTime.Year, Week = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(x.PurchasedTime, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday), Revenue = y.Amount };
-                list = (from x in l
+                list = (from x in l.AsEnumerable()
                        group x by new { x.Year, x.Week } into g
                        select new RevenueDTO()
                        {
@@ -435,7 +435,7 @@ namespace ESM.Modules.DataAccess.Repositories
                 var l = from x in _context.BillCombos
                         where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate
                         select new { Year = x.PurchasedTime.Year, Month = x.PurchasedTime.Month, Revenue = x.TotalAmount };
-                list = (from x in l
+                list = (from x in l.AsEnumerable()
                        group x by new { x.Year, x.Month } into g
                        select new RevenueDTO()
                        {
@@ -451,7 +451,7 @@ namespace ESM.Modules.DataAccess.Repositories
                         on x.Id equals y.BillId
                         where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate && y.ProductId.StartsWith(DAStaticData.IdPrefix[type])
                         select new { Year = x.PurchasedTime.Year, Month = x.PurchasedTime.Month, Revenue = y.Amount };
-                list = (from x in l
+                list = (from x in l.AsEnumerable()
                        group x by new { x.Year, x.Month } into g
                        select new RevenueDTO()
                        {
@@ -493,7 +493,7 @@ namespace ESM.Modules.DataAccess.Repositories
                 var l = from x in _context.BillCombos
                         where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate
                         select new { Year = x.PurchasedTime.Year, Quarter = ((x.PurchasedTime.Month - 1) / 3) + 1, Revenue = x.TotalAmount };
-                list = (from x in l
+                list = (from x in l.AsEnumerable()
                        group x by new { x.Year, x.Quarter } into g
                        select new RevenueDTO()
                        {
@@ -509,7 +509,7 @@ namespace ESM.Modules.DataAccess.Repositories
                         on x.Id equals y.BillId
                         where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate && y.ProductId.StartsWith(DAStaticData.IdPrefix[type])
                         select new { Year = x.PurchasedTime.Year, Quarter = ((x.PurchasedTime.Month - 1) / 3) + 1, Revenue = y.Amount };
-                list = (from x in l
+                list = (from x in l.AsEnumerable()
                        group x by new { x.Year, x.Quarter } into g
                        select new RevenueDTO()
                        {
@@ -551,7 +551,7 @@ namespace ESM.Modules.DataAccess.Repositories
                 var l = from x in _context.BillCombos
                         where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate
                         select new { Year = x.PurchasedTime.Year, Quarter = ((x.PurchasedTime.Month - 1) / 3) + 1, Revenue = x.TotalAmount };
-                list = (from x in l
+                list = (from x in l.AsEnumerable()
                        group x by x.Year into g
                        select new RevenueDTO()
                        {
@@ -566,7 +566,7 @@ namespace ESM.Modules.DataAccess.Repositories
                         on x.Id equals y.BillId
                         where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate && y.ProductId.StartsWith(DAStaticData.IdPrefix[type])
                         select new { Year = x.PurchasedTime.Year, Revenue = y.Amount };
-                list = (from x in l
+                list = (from x in l.AsEnumerable()
                        group x by x.Year into g
                        select new RevenueDTO()
                        {

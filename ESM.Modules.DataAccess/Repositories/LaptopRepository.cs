@@ -51,7 +51,18 @@ public class LaptopRepository : ProductRepository<Laptop>, ILaptopRepository
     {
         return GetRevenueWeekDuration(startDate, endDate, ProductType.LAPTOP);
     }
-
+    public IEnumerable<RevenueDTO> GetRevenueMonthDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetRevenueMonthDuration(startDate, endDate, ProductType.LAPTOP);
+    }
+    public IEnumerable<RevenueDTO> GetRevenueQuarterDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetRevenueQuaterDuration(startDate, endDate, ProductType.LAPTOP);
+    }
+    public IEnumerable<RevenueDTO> GetRevenueYearDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetRevenueYearDuration(startDate, endDate, ProductType.LAPTOP);
+    }
     public IEnumerable<ReportMock> GetSoldNumberMonthDuration(DateTime startDate, DateTime endDate)
     {
         return GetSoldNumberMonthDuration(startDate, endDate, ProductType.LAPTOP);

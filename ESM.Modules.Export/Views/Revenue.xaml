@@ -5,9 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-             xmlns:local="clr-namespace:ESM.Modules.Export.Views"
+             xmlns:tooltip ="clr-namespace:ESM.Modules.Export.Utilities"
              mc:Ignorable="d"
-             Tag="{Binding Header}"
+             Tag="{Binding Header}"             
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:viewmodels="clr-namespace:ESM.Modules.Export.ViewModels"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             d:DataContext="{d:DesignInstance viewmodels:RevenueViewModel}"
              d:DesignHeight="450" d:DesignWidth="800"
              Background="White">
     <Grid Background="AliceBlue">
@@ -39,7 +43,7 @@
             <StackPanel Grid.Row="1"
                         Grid.Column="0"
                         Margin="10"
-                        Width="200">
+                        Width="250">
                 <TextBlock Text="Filter by:"
                            FontWeight="Bold"
                            Margin="0 0 0 10" />
@@ -48,7 +52,7 @@
                            VerticalAlignment="Center"
                            Margin="5" />
                 <DatePicker Name="startTimePicker"
-                            SelectedDate="{Binding startDate}"
+                            SelectedDate="{Binding StartTime}"
                             Grid.Column="1"
                             Margin="5" />
                 <TextBlock Text="End Time:"
@@ -57,10 +61,29 @@
                            VerticalAlignment="Center"
                            Margin="5" />
                 <DatePicker Name="endTimePicker"
-                            SelectedDate="{Binding endDate}"
+                            SelectedDate="{Binding EndTime}"
                             Grid.Row="1"
                             Grid.Column="1"
                             Margin="5" />
+                <TextBlock Text="Filter by time period:"
+                           FontWeight="Bold"
+                           VerticalAlignment="Center"
+                           Margin="5,5,5,0" />
+                <StackPanel Orientation="Horizontal"
+                            Margin="5">
+                    <RadioButton Content="Week"
+                                 IsChecked="{Binding IsWeekCheck, UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="0,0,5,0" />
+                    <RadioButton Content="Month"
+                                 IsChecked="{Binding IsMonthCheck, UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="0,0,5,0" />
+                    <RadioButton Content="Quarter"
+                                 IsChecked="{Binding IsQuarterCheck, UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="0,0,5,0" />
+                    <RadioButton Content="Year"
+                                 IsChecked="{Binding IsYearCheck, UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="0,0,5,0" />
+                </StackPanel>
                 <Button Width="65"
                         BorderThickness="0"
                         Margin="120,20,10,10"
@@ -105,6 +128,11 @@
                           Content="HARDDISK"
                           FontWeight="Bold"
                           Margin="5" />
+                <CheckBox  x:Name="comboCheckBox"
+                           IsChecked="{Binding IsComboCheck, UpdateSourceTrigger=PropertyChanged}"
+                           Content="COMBO"
+                           FontWeight="Bold"
+                           Margin="5" />
             </StackPanel>
             <Grid Grid.Row="1"
                   Grid.Column="1"
@@ -114,30 +142,13 @@
                            FontWeight="Bold"
                            Margin="0 0 0 10" />
                 <lvc:CartesianChart Margin="0,20,0,0"
-                                    x:Name="ChartPlotter">
-                    <lvc:CartesianChart.Series>
-                        <lvc:LineSeries Name="laptopSeries"
-                                        Title="Laptop"
-                                        Values="{Binding LaptopValues}" />
-                        <lvc:LineSeries Name="smartphoneSeries"
-                                        Title="Smartphone"
-                                        Values="{Binding SmartphoneValues}" />
-                        <lvc:LineSeries Name="pcSeries"
-                                        Title="PC"
-                                        Values="{Binding PCValues}" />
-                        <lvc:LineSeries Name="cpuSeries"
-                                        Title="CPU"
-                                        Values="{Binding CPUValues}" />
-                        <lvc:LineSeries Name="vgaSeries"
-                                        Title="VGA"
-                                        Values="{Binding VGAValues}" />
-                        <lvc:LineSeries Name="monitorSeries"
-                                        Title="Monitor"
-                                        Values="{Binding MonitorValues}" />
-                        <lvc:LineSeries Name="harddiskSeries"
-                                        Title="Harddisk"
-                                        Values="{Binding HarddiskValues}" />
-                    </lvc:CartesianChart.Series>
+                                    Series="{Binding Series}"
+                                    LegendLocation="Right"
+                                    Zoom="Xy"
+                                    x:Name="myChart">
+                    <lvc:CartesianChart.DataTooltip>
+                        <tooltip:ReportTooltip></tooltip:ReportTooltip>
+                    </lvc:CartesianChart.DataTooltip>
                 </lvc:CartesianChart>
             </Grid>
         </Grid>
