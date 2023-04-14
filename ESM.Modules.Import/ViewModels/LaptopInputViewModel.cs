@@ -111,7 +111,7 @@ namespace ESM.Modules.Import.ViewModels
         {
             if (SelectedWorkType == "THÊM")
             {
-                if (Id == null || Id.Length != 9 || !Id.StartsWith(DAStaticData.IdPrefix[ProductType.HARDDISK]) || !Id.All(x => char.IsDigit(x)))
+                if (Id == null || Id.Length != 9 || !Id.StartsWith(DAStaticData.IdPrefix[ProductType.LAPTOP]) || !Id.All(x => char.IsDigit(x)))
                 {
                     _modalService.ShowModal(ModalType.Error, "Sai định dạng ID", "Cảnh báo");
                     return;
