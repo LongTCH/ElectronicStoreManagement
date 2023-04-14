@@ -158,7 +158,18 @@ namespace ESM.Modules.DataAccess.Repositories
         {
             return GetRevenueWeekDuration(startDate, endDate, ProductType.COMBO);
         }
-
+        public IEnumerable<RevenueDTO> GetRevenueMonthDuration(DateTime startDate, DateTime endDate)
+        {
+            return GetRevenueMonthDuration(startDate, endDate, ProductType.COMBO);
+        }
+        public IEnumerable<RevenueDTO> GetRevenueQuarterDuration(DateTime startDate, DateTime endDate)
+        {
+            return GetRevenueQuaterDuration(startDate, endDate, ProductType.COMBO);
+        }
+        public IEnumerable<RevenueDTO> GetRevenueYearDuration(DateTime startDate, DateTime endDate)
+        {
+            return GetRevenueYearDuration(startDate, endDate, ProductType.COMBO);
+        }
         public IEnumerable<ReportMock> GetSoldNumberMonthDuration(DateTime startDate, DateTime endDate)
         {
             return GetSoldNumberMonthDuration(startDate, endDate, ProductType.COMBO);

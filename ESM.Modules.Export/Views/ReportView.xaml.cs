@@ -3,6 +3,7 @@ using LiveCharts;
 using System;
 using System.Windows.Controls;
 using System.Windows;
+using LiveCharts.Wpf.Charts.Base;
 
 namespace ESM.Modules.Export.Views
 {
@@ -14,6 +15,9 @@ namespace ESM.Modules.Export.Views
         public ReportView()
         {
             InitializeComponent();
+            myChart.AxisY.Add(new(
+              ));
+            myChart.AxisY[0].MinValue = 0;
         }
     }
 }

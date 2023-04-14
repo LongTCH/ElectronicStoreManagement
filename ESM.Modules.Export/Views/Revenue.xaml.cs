@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LiveCharts.Wpf.Charts.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,11 @@ namespace ESM.Modules.Export.Views
         public Revenue()
         {
             InitializeComponent();
+            myChart.AxisY.Add(new(
+              ) );
+            myChart.AxisY[0].MinValue = 0;
+           
         }
+
     }
 }
