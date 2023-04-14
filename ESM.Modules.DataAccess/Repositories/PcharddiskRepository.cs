@@ -100,4 +100,27 @@ public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRe
     {
         return GetRevenueWeekDuration(startDate, endDate, ProductType.HARDDISK);
     }
+    public IEnumerable<RevenueDTO> GetRevenueMonthDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetRevenueMonthDuration(startDate, endDate, ProductType.HARDDISK);
+    }
+    public IEnumerable<RevenueDTO> GetRevenueQuarterDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetRevenueQuaterDuration(startDate, endDate, ProductType.HARDDISK);
+    }
+    public IEnumerable<RevenueDTO> GetRevenueYearDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetRevenueYearDuration(startDate, endDate, ProductType.HARDDISK);
+    }
+    public override async Task<object?> AddList(IEnumerable<Pcharddisk> list)
+    {
+        bool res = true;
+        try
+        {
+            await _context.Pcharddisks.AddRangeAsync(list);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex) { res = false; }
+        return res;
+    }
 }

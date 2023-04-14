@@ -86,4 +86,16 @@ public class PcRepository : ProductRepository<Pc>, IPcRepository
     {
         return GetRevenueWeekDuration(startDate, endDate, ProductType.PC);
     }
+    public IEnumerable<RevenueDTO> GetRevenueMonthDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetRevenueMonthDuration(startDate, endDate, ProductType.PC);
+    }
+    public IEnumerable<RevenueDTO> GetRevenueQuarterDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetRevenueQuaterDuration(startDate, endDate, ProductType.PC);
+    }
+    public IEnumerable<RevenueDTO> GetRevenueYearDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetRevenueYearDuration(startDate, endDate, ProductType.PC);
+    }
 }

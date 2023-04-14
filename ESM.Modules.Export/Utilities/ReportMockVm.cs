@@ -8,7 +8,6 @@ namespace ESM.Modules.Export.Utilities
 {
     public class ReportMockVm
     {
-        public string Id { get; set; }
         public string Name { get; set; }
         public double Value { get; set; }
     }

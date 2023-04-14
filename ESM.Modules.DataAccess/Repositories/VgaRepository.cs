@@ -93,4 +93,16 @@ public class VgaRepository : ProductRepository<Vga>, IVgaRepository
     {
         return GetRevenueWeekDuration(startDate, endDate, ProductType.VGA);
     }
+    public IEnumerable<RevenueDTO> GetRevenueMonthDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetRevenueMonthDuration(startDate, endDate, ProductType.VGA);
+    }
+    public IEnumerable<RevenueDTO> GetRevenueQuarterDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetRevenueQuaterDuration(startDate, endDate, ProductType.VGA);
+    }
+    public IEnumerable<RevenueDTO> GetRevenueYearDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetRevenueYearDuration(startDate, endDate, ProductType.VGA);
+    }
 }

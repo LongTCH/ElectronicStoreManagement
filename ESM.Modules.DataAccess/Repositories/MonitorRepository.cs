@@ -86,4 +86,22 @@ public class MonitorRepository : ProductRepository<Models.Monitor>, IMonitorRepo
     {
         return GetRevenueWeekDuration(startDate, endDate, ProductType.MONITOR);
     }
+    public IEnumerable<RevenueDTO> GetRevenueMonthDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetRevenueMonthDuration(startDate, endDate, ProductType.MONITOR);
+    }
+    public IEnumerable<RevenueDTO> GetRevenueQuarterDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetRevenueQuaterDuration(startDate, endDate, ProductType.MONITOR);
+    }
+    public IEnumerable<RevenueDTO> GetRevenueYearDuration(DateTime startDate, DateTime endDate)
+    {
+        return GetRevenueYearDuration(startDate, endDate, ProductType.MONITOR);
+    }
+
+    public async Task<object?> AddList(IEnumerable<Models.Monitor> list)
+    {
+        await _context.Monitors.AddRangeAsync(list);
+        return null;
+    }
 }
