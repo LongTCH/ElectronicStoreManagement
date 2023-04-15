@@ -116,7 +116,7 @@
                                                      Kind="Identifier" />
                             <TextBox Margin="20,10"
                                      materialDesign:HintAssist.Hint="ID"
-                                     Text="{Binding Id, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                     Text="{Binding Id, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      IsEnabled="{Binding IsIdEnabled}"
                                      FontFamily="Champagne &amp; Limousines"
@@ -139,7 +139,7 @@
                         <TextBox materialDesign:HintAssist.Hint="Tên sản phẩm"
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  Margin="20,10"
-                                 Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding Name, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
@@ -153,7 +153,7 @@
                         <TextBox materialDesign:HintAssist.Hint="CPU"
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  Margin="20,10"
-                                 Text="{Binding Cpu, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding Cpu, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
@@ -173,7 +173,7 @@
                         <TextBox materialDesign:HintAssist.Hint="RAM"
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  Margin="20,10"
-                                 Text="{Binding Ram, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding Ram, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
@@ -188,7 +188,7 @@
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  materialDesign:TextFieldAssist.SuffixText="VND"
                                  Margin="20,10"
-                                 Text="{Binding Price, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding Price, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
@@ -209,7 +209,7 @@
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  materialDesign:TextFieldAssist.SuffixText="%"
                                  Margin="20,10"
-                                 Text="{Binding Discount, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding Discount, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
@@ -243,7 +243,7 @@
                         <TextBox materialDesign:TextFieldAssist.HasClearButton="True"
                                  materialDesign:HintAssist.Hint="Đơn vị tính"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding Unit, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding Unit, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
                                  Margin="20,10"
                                  FontSize="18" />
                     </DockPanel>
@@ -256,7 +256,7 @@
                         <TextBox materialDesign:HintAssist.Hint="Series sản phẩm"
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  Margin="20,10"
-                                 Text="{Binding Series, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding Series, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18"></TextBox>
@@ -276,7 +276,7 @@
                         <TextBox materialDesign:TextFieldAssist.HasClearButton="True"
                                  materialDesign:HintAssist.Hint="Thương hiệu"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding Company, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding Company, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
                                  Margin="20,10"
                                  FontSize="18" />
                     </DockPanel>
