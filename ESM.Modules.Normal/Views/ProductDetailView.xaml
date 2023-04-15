@@ -89,24 +89,28 @@
                                HorizontalAlignment="Center" />
                     <busyIndicator:BusyMask IsBusy="{Binding IsBusy, Mode=OneWay}"
                                             IndicatorType="Swirl">
-                        <ListView Background="Transparent"
-                                  Foreground="Black"
-                                  HorizontalAlignment="Center"
-                                  ItemsSource="{Binding DetailSource, Mode=OneWay}">
-                            <ListView.View>
-                                <GridView>
-                                    <GridView.ColumnHeaderContainerStyle>
-                                        <Style TargetType="{x:Type GridViewColumnHeader}">
-                                            <Setter Property="Visibility"
-                                                    Value="Collapsed" />
-                                        </Style>
-                                    </GridView.ColumnHeaderContainerStyle>
-                                    <GridViewColumn DisplayMemberBinding="{Binding Attribute}"
-                                                    Width="100" />
-                                    <GridViewColumn DisplayMemberBinding="{Binding Description}" />
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                            <ListView Background="Transparent"
+                                      Foreground="Black"
+                                      HorizontalAlignment="Center"
+                                      ItemsSource="{Binding DetailSource, Mode=OneWay}">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridView.ColumnHeaderContainerStyle>
+                                            <Style TargetType="{x:Type GridViewColumnHeader}">
+                                                <Setter Property="Visibility"
+                                                        Value="Collapsed" />
+                                                <Setter Property="IsEnabled"
+                                                        Value="True" />
+                                            </Style>
+                                        </GridView.ColumnHeaderContainerStyle>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Attribute}"
+                                                         />
+                                        <GridViewColumn DisplayMemberBinding="{Binding Description}" />
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </ScrollViewer>
                     </busyIndicator:BusyMask>
                 </StackPanel>
             </ScrollViewer>
