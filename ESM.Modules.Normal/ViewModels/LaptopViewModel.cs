@@ -109,7 +109,7 @@ namespace ESM.Modules.Normal.ViewModels
             {
                 if (string.IsNullOrWhiteSpace(laptop.Need)) continue;
                 ProductAttributeStore laptopNeed = new() { Name = laptop.Need };
-                laptopNeed.CurrentStoreChanged += OnIsCheckedChanged;
+                laptopNeed.CurrentStoreChanged += FilterProduct;
                 NeedList.Add(laptopNeed);
             }
             RaisePropertyChanged(nameof(NeedList));
@@ -124,6 +124,7 @@ namespace ESM.Modules.Normal.ViewModels
                 laptopRAM.CurrentStoreChanged += FilterProduct;
                 RAMList.Add(laptopRAM);
             }
+            RaisePropertyChanged(nameof(RAMList));
         }
         private void getSeriesList()
         {

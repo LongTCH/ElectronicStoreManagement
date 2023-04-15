@@ -49,7 +49,7 @@
                                    TextWrapping="Wrap"
                                    FontWeight="Bold"
                                    Foreground="DarkSlateBlue"
-                                   FontSize="30" />
+                                   FontSize="20" />
                         <DockPanel>
                             <DockPanel.Resources>
                                 <Style TargetType="TextBlock">
