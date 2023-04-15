@@ -105,6 +105,7 @@ namespace ESM.Modules.Import.ViewModels
             Remain = Product.Remain;
             Series = Product.Series;
             Storage = Product.Storage;
+            RaisePropertyChanged(nameof(IsDefault));
         }
 
         protected async override void addCommand()
