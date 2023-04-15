@@ -170,7 +170,7 @@
                                                        Margin="0,0,0,10"
                                                        Height="30"
                                                        Width="30" />
-                        <TextBox materialDesign:HintAssist.Hint="Nhà sản xuất chip đồ họa"
+                        <TextBox materialDesign:HintAssist.Hint="Nhà sản xuất chipset"
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  Margin="20,10"
                                  Text="{Binding Chipset, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
