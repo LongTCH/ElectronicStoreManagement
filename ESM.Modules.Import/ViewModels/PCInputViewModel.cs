@@ -36,6 +36,12 @@ namespace ESM.Modules.Import.ViewModels
             get => series;
             set => SetProperty(ref series, value);
         }
+        private string need;
+        public string Need
+        {
+            get => need;
+            set => SetProperty(ref need, value);
+        }
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
             //Id = _unitOfWork.Pcharddisks.GetSuggestID();
@@ -200,7 +206,7 @@ namespace ESM.Modules.Import.ViewModels
                 AvatarPath = AvatarPath,
                 ImagePath = ImagePath,
                 Ram = Ram,
-                Remain = 0,
+                Remain = 0
             };
         }
         private void Empty()
