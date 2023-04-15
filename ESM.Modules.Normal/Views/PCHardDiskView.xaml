@@ -131,6 +131,7 @@
             </StackPanel>
         </ScrollViewer>
         <ScrollViewer VerticalScrollBarVisibility="Auto"
+                      PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
                       Grid.Column="1">
             <StackPanel>
                 <DockPanel>

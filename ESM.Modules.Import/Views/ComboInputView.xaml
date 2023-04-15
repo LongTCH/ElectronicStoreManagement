@@ -15,6 +15,7 @@
              Tag="{Binding Header}"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
                   HorizontalAlignment="Stretch">
         <StackPanel>
             <ComboBox ItemsSource="{Binding WorkType}"
