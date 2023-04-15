@@ -24,6 +24,7 @@
                              Style="{StaticResource sldPrice}" />
         </StackPanel>
         <ScrollViewer VerticalScrollBarVisibility="auto"
+                      PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
                       VerticalContentAlignment="Top"
                       HorizontalAlignment="Stretch">
             <StackPanel Margin="0,50,0,5">

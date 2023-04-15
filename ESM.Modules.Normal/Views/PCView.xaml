@@ -25,6 +25,7 @@
         </StackPanel>
         <ScrollViewer VerticalScrollBarVisibility="auto"
                       VerticalContentAlignment="Top"
+                      PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
                       HorizontalAlignment="Stretch">
             <StackPanel Margin="0,50,0,5">
                 <Expander HorizontalAlignment="Stretch"
