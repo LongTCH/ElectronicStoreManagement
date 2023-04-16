@@ -4,6 +4,7 @@ using ESM.Modules.DataAccess;
 using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
+using ESM.Modules.Normal.Views;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -84,11 +85,12 @@ namespace ESM.Modules.Normal.ViewModels
         public DelegateCommand<ProductDTO> ProductDetailNavigateCommand { get; set; }
         private void navigate(ProductDTO product)
         {
-            NavigationParameters parameter = new()
-            {
-                {"Product" , product}
-            };
-            _modalService.ShowModal(ViewNames.ProductDetailView, parameter);
+            //NavigationParameters parameter = new()
+            //{
+            //    {"Product" , product}
+            //};
+            //_modalService.ShowModal(ViewNames.ProductDetailView, parameter);
+            new ProductDetailView(new ProductDetailViewModel(product)).Show();
         }
         protected Action Action { get; set; }
         protected void FilterProduct()

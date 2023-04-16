@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using ESM.Modules.Normal.ViewModels;
+using MahApps.Metro.Controls;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace ESM.Modules.Normal.Views
@@ -6,11 +8,12 @@ namespace ESM.Modules.Normal.Views
     /// <summary>
     /// Interaction logic for ProductDetailView
     /// </summary>
-    public partial class ProductDetailView : UserControl
+    public partial class ProductDetailView : MetroWindow
     {
-        public ProductDetailView()
+        public ProductDetailView(ProductDetailViewModel context)
         {
             InitializeComponent();
+            DataContext = context;
         }
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {

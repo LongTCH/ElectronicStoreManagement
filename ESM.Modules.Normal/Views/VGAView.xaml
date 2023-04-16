@@ -115,7 +115,7 @@
                     <StackPanel Margin="24,8,24,16"
                                 Orientation="Vertical"
                                 TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
-                        <ListBox ItemsSource="{Binding VramListList}">
+                        <ListBox ItemsSource="{Binding VramList}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <CheckBox Style="{StaticResource ckbFilter}" />

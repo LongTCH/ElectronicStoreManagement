@@ -15,12 +15,31 @@ using System.Threading.Tasks;
 namespace ESM.Modules.Normal.ViewModels
 {
     [RegionMemberLifetime(KeepAlive = false)]
-    public class ProductDetailViewModel : BindableBase, IModal, INavigationAware
+    public class ProductDetailViewModel : BindableBase//, INavigationAware
     {
         private ProductDTO ProductDTO { get; set; }
-        public ProductDetailViewModel(IModalService modalService)
+        public ProductDetailViewModel(ProductDTO product)
         {
-            CloseCommand = new(() => modalService.CloseModal());
+            ProductDTO = product;
+            Task task = new(ReadExcel);
+            task.Start();
+            Name = ProductDTO.Name;
+            Price = ProductDTO.Price;
+            SellPrice = ProductDTO.SellPrice;
+            Discount = ProductDTO.Discount;
+            DiscountShow = ProductDTO.DiscountShow;
+            Remain = ProductDTO.Remain;
+            var path = ProductDTO.ImagePath;
+            if (Directory.Exists(path))
+            {
+                var files = Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly);
+                ImageList = new();
+                foreach (string filename in files)
+                {
+                    if (Regex.IsMatch(filename, StaticData.ImageRegex))
+                        ImageList.Add(filename);
+                }
+            }
         }
         private bool isBusy;
         public bool IsBusy
@@ -114,39 +133,39 @@ namespace ESM.Modules.Normal.ViewModels
             }
             IsBusy = false;
         }
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            ProductDTO = navigationContext.Parameters["Product"] as ProductDTO;
-            Task task = new(ReadExcel);
-            task.Start();
-            Name = ProductDTO.Name;
-            Price = ProductDTO.Price;
-            SellPrice = ProductDTO.SellPrice;
-            Discount = ProductDTO.Discount;
-            DiscountShow = ProductDTO.DiscountShow;
-            Remain = ProductDTO.Remain;
-            var path = ProductDTO.ImagePath;
-            if (Directory.Exists(path))
-            {
-                var files = Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly);
-                ImageList = new();
-                foreach (string filename in files)
-                {
-                    if (Regex.IsMatch(filename, StaticData.ImageRegex))
-                        ImageList.Add(filename);
-                }
-            }
-        }
+        //public void OnNavigatedTo(NavigationContext navigationContext)
+        //{
+        //    ProductDTO = navigationContext.Parameters["Product"] as ProductDTO;
+        //    Task task = new(ReadExcel);
+        //    task.Start();
+        //    Name = ProductDTO.Name;
+        //    Price = ProductDTO.Price;
+        //    SellPrice = ProductDTO.SellPrice;
+        //    Discount = ProductDTO.Discount;
+        //    DiscountShow = ProductDTO.DiscountShow;
+        //    Remain = ProductDTO.Remain;
+        //    var path = ProductDTO.ImagePath;
+        //    if (Directory.Exists(path))
+        //    {
+        //        var files = Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly);
+        //        ImageList = new();
+        //        foreach (string filename in files)
+        //        {
+        //            if (Regex.IsMatch(filename, StaticData.ImageRegex))
+        //                ImageList.Add(filename);
+        //        }
+        //    }
+        //}
 
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return false;
-        }
+        //public bool IsNavigationTarget(NavigationContext navigationContext)
+        //{
+        //    return false;
+        //}
 
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
+        //public void OnNavigatedFrom(NavigationContext navigationContext)
+        //{
 
-        }
+        //}
     }
     public record CustomAtrribute(string? Attribute, string? Description);
 }
