@@ -30,10 +30,10 @@
                                             <EventTrigger.Actions>
                                                 <BeginStoryboard>
                                                     <Storyboard>
-                                                        <DoubleAnimation Duration="0:0:0.300"
+                                                        <DoubleAnimation Duration="0:0:0.150"
                                                                          Storyboard.TargetProperty="Height"
                                                                          To="105" />
-                                                        <DoubleAnimation Duration="0:0:0.300"
+                                                        <DoubleAnimation Duration="0:0:0.150"
                                                                          Storyboard.TargetProperty="Width"
                                                                          To="105" />
                                                     </Storyboard>
@@ -44,10 +44,10 @@
                                             <EventTrigger.Actions>
                                                 <BeginStoryboard>
                                                     <Storyboard>
-                                                        <DoubleAnimation Duration="0:0:0.300"
+                                                        <DoubleAnimation Duration="0:0:0.150"
                                                                          Storyboard.TargetProperty="Height"
                                                                          To="100" />
-                                                        <DoubleAnimation Duration="0:0:0.300"
+                                                        <DoubleAnimation Duration="0:0:0.150"
                                                                          Storyboard.TargetProperty="Width"
                                                                          To="100" />
                                                     </Storyboard>
@@ -68,7 +68,8 @@
                                    VerticalAlignment="Center"
                                    Stretch="UniformToFill" />
                             <StackPanel Grid.Row="1"
-                                        VerticalAlignment="Bottom">
+                                        VerticalAlignment="Bottom"
+                                        Margin="0,0,0,5">
                                 <TextBlock Text="{Binding Company, Mode=OneWay}"
                                            FontWeight="Bold"
                                            Foreground="Silver"

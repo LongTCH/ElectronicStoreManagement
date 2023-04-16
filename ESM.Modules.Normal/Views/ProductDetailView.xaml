@@ -1,119 +1,101 @@
-﻿<UserControl x:Class="ESM.Modules.Normal.Views.ProductDetailView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:prism="http://prismlibrary.com/"
-             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-             xmlns:busyIndicator="https://github.com/Peoky/BusyIndicator"
-             prism:ViewModelLocator.AutoWireViewModel="True"
-             Height="450"
-             Width="800">
+﻿<mah:MetroWindow x:Class="ESM.Modules.Normal.Views.ProductDetailView"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:prism="http://prismlibrary.com/"
+                 xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                 xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                 xmlns:busyIndicator="https://github.com/Peoky/BusyIndicator"
+                 WindowStartupLocation="CenterScreen"
+                 Title="Detail"
+                 prism:ViewModelLocator.AutoWireViewModel="False"
+                 Height="450"
+                 Width="800">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid Background="Aqua" />
-        <Button Command="{Binding CloseCommand}"
-                Style="{StaticResource MaterialDesignFlatButton}"
-                Foreground="OrangeRed"
-                Cursor="Hand"
-                HorizontalAlignment="Right">
-            <iconPacks:PackIconIonicons Kind="CloseiOS" />
-        </Button>
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="1*" />
-            </Grid.ColumnDefinitions>
-            <mah:FlipView ItemsSource="{Binding ImageList}"
-                          ShowIndex="True"
-                          IsBannerEnabled="False"
-                          MouseHoverBorderEnabled="False">
-                <mah:FlipView.ItemTemplate>
-                    <DataTemplate>
-                        <Image Source="{Binding}"
-                               MaxHeight="300"
-                               MaxWidth="300"
-                               Stretch="UniformToFill" />
-                    </DataTemplate>
-                </mah:FlipView.ItemTemplate>
-            </mah:FlipView>
-            <ScrollViewer VerticalScrollBarVisibility="Auto"
-                          PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
-                          Grid.Column="1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <mah:FlipView ItemsSource="{Binding ImageList}"
+                      ShowIndex="True"
+                      IsBannerEnabled="False"
+                      MouseHoverBorderEnabled="False">
+            <mah:FlipView.ItemTemplate>
+                <DataTemplate>
+                    <Image Source="{Binding}"
+                           MaxHeight="300"
+                           MaxWidth="300"
+                           Stretch="UniformToFill" />
+                </DataTemplate>
+            </mah:FlipView.ItemTemplate>
+        </mah:FlipView>
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                      PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
+                      Grid.Column="1">
+            <StackPanel>
                 <StackPanel>
-                    <StackPanel>
-                        <TextBlock Text="{Binding Name}"
-                                   TextWrapping="Wrap"
-                                   FontWeight="Bold"
-                                   Foreground="DarkSlateBlue"
-                                   FontSize="20" />
-                        <DockPanel>
-                            <DockPanel.Resources>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="FontSize"
-                                            Value="20" />
-                                    <Setter Property="Foreground"
-                                            Value="Blue" />
-                                    <Setter Property="FontWeight"
-                                            Value="DemiBold" />
-                                </Style>
-                            </DockPanel.Resources>
-                            <TextBlock Text="{Binding SellPrice, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
-                        </DockPanel>
-                        <DockPanel Visibility="{Binding DiscountShow, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                   LastChildFill="True">
-                            <DockPanel.Resources>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="FontSize"
-                                            Value="16" />
-                                    <Setter Property="FontWeight"
-                                            Value="Thin" />
-                                </Style>
-                            </DockPanel.Resources>
-                            <TextBlock Text="{Binding Price, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}"
-                                       TextDecorations="Strikethrough"
-                                       Foreground="SlateGray" />
-                            <TextBlock Text="{Binding Discount, Mode=OneWay, StringFormat={StaticResource DiscountFormat}}"
-                                       Foreground="CornflowerBlue" />
-                        </DockPanel>
-                        <TextBlock Text="{Binding Remain, Mode=OneWay, StringFormat='Còn lại {0}'}"
+                    <TextBlock Text="{Binding Name}"
+                               TextWrapping="Wrap"
+                               FontWeight="Bold"
+                               Foreground="DarkSlateBlue"
+                               FontSize="20" />
+                    <DockPanel>
+                        <DockPanel.Resources>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="FontSize"
+                                        Value="20" />
+                                <Setter Property="Foreground"
+                                        Value="Blue" />
+                                <Setter Property="FontWeight"
+                                        Value="DemiBold" />
+                            </Style>
+                        </DockPanel.Resources>
+                        <TextBlock Text="{Binding SellPrice, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
+                    </DockPanel>
+                    <DockPanel Visibility="{Binding DiscountShow, Converter={StaticResource BooleanToVisibilityConverter}}"
+                               LastChildFill="True">
+                        <DockPanel.Resources>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="FontSize"
+                                        Value="16" />
+                                <Setter Property="FontWeight"
+                                        Value="Thin" />
+                            </Style>
+                        </DockPanel.Resources>
+                        <TextBlock Text="{Binding Price, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}"
+                                   TextDecorations="Strikethrough"
+                                   Foreground="SlateGray" />
+                        <TextBlock Text="{Binding Discount, Mode=OneWay, StringFormat={StaticResource DiscountFormat}}"
                                    Foreground="CornflowerBlue" />
-                    </StackPanel>
-                    <TextBlock Text="Thông tin chi tiết"
-                               Foreground="DeepSkyBlue"
-                               FontSize="20"
-                               Margin="0,10,0,10"
-                               HorizontalAlignment="Center" />
-                    <busyIndicator:BusyMask IsBusy="{Binding IsBusy, Mode=OneWay}"
-                                            IndicatorType="Swirl">
-                        <ScrollViewer HorizontalScrollBarVisibility="Auto">
-                            <ListView Background="Transparent"
-                                      Foreground="Black"
-                                      HorizontalAlignment="Center"
-                                      ItemsSource="{Binding DetailSource, Mode=OneWay}">
-                                <ListView.View>
-                                    <GridView>
-                                        <GridView.ColumnHeaderContainerStyle>
-                                            <Style TargetType="{x:Type GridViewColumnHeader}">
-                                                <Setter Property="Visibility"
-                                                        Value="Collapsed" />
-                                                <Setter Property="IsEnabled"
-                                                        Value="True" />
-                                            </Style>
-                                        </GridView.ColumnHeaderContainerStyle>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Attribute}"
-                                                         />
-                                        <GridViewColumn DisplayMemberBinding="{Binding Description}" />
-                                    </GridView>
-                                </ListView.View>
-                            </ListView>
-                        </ScrollViewer>
-                    </busyIndicator:BusyMask>
+                    </DockPanel>
+                    <TextBlock Text="{Binding Remain, Mode=OneWay, StringFormat='Còn lại {0}'}"
+                               Foreground="CornflowerBlue" />
                 </StackPanel>
-            </ScrollViewer>
-        </Grid>
+                <TextBlock Text="Thông tin chi tiết"
+                           Foreground="DeepSkyBlue"
+                           FontSize="20"
+                           Margin="0,10,0,10"
+                           HorizontalAlignment="Center" />
+                <busyIndicator:BusyMask IsBusy="{Binding IsBusy, Mode=OneWay}"
+                                        IndicatorType="Swirl">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                        <DataGrid Background="Transparent"
+                                  Foreground="Black"
+                                  HorizontalAlignment="Left"
+                                  AutoGenerateColumns="False"
+                                  materialDesign:DataGridAssist.ApplyMaterialDesignColumnStyles="True"
+                                  ItemsSource="{Binding DetailSource, Mode=OneWay}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Thuộc tính"
+                                                    Binding="{Binding Attribute}"
+                                                    Width="150" />
+                                <DataGridTextColumn Header="Giá trị"
+                                                    Binding="{Binding Description}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </ScrollViewer>
+                </busyIndicator:BusyMask>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
-</UserControl>
+</mah:MetroWindow>
