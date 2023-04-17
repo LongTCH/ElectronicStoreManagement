@@ -17,15 +17,6 @@ namespace ESM.Modules.DataAccess.Infrastructure
     public interface IProductRepository<T> : IBaseRepository<T> where T: class
     {
         string GetSuggestID();
-        IEnumerable<ReportMock> GetSoldNumberWeekDuration(DateTime startDate, DateTime endDate);
-        IEnumerable<ReportMock> GetSoldNumberMonthDuration(DateTime startDate, DateTime endDate);
-        IEnumerable<ReportMock> GetSoldNumberQuarterDuration(DateTime startDate, DateTime endDate);
-        IEnumerable<ReportMock> GetSoldNumberYearDuration(DateTime startDate, DateTime endDate);
-        IEnumerable<TopSellDTO> GetTopSoldProducts(DateTime startDate, DateTime endDate, int number);
-        IEnumerable<RevenueDTO> GetRevenueWeekDuration(DateTime startDate, DateTime endDate);
-        IEnumerable<RevenueDTO> GetRevenueMonthDuration(DateTime startDate, DateTime endDate);
-        IEnumerable<RevenueDTO> GetRevenueQuarterDuration(DateTime startDate, DateTime endDate);
-        IEnumerable<RevenueDTO> GetRevenueYearDuration(DateTime startDate, DateTime endDate);
 
     }
 }

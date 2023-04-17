@@ -16,5 +16,6 @@ namespace ESM.Modules.DataAccess.Infrastructure
         IComboRepository Combos { get; }
         IBillComboRepository BillCombos { get; }
         IImportRepository Imports { get; }
+        IReportRepository Reports { get; }
     }
 }

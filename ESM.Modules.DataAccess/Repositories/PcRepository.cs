@@ -59,43 +59,4 @@ public class PcRepository : ProductRepository<Pc>, IPcRepository
     {
         return GetSuggestID(ProductType.PC);
     }
-    public IEnumerable<ReportMock> GetSoldNumberMonthDuration(DateTime startDate, DateTime endDate)
-    {
-        return GetSoldNumberMonthDuration(startDate, endDate, ProductType.PC);
-    }
-
-    public IEnumerable<ReportMock> GetSoldNumberQuarterDuration(DateTime startDate, DateTime endDate)
-    {
-        return GetSoldNumberQuarterDuration(startDate, endDate, ProductType.PC);
-    }
-
-    public IEnumerable<ReportMock> GetSoldNumberWeekDuration(DateTime startDate, DateTime endDate)
-    {
-        return GetSoldNumberWeekDuration(startDate, endDate, ProductType.PC);
-    }
-
-    public IEnumerable<ReportMock> GetSoldNumberYearDuration(DateTime startDate, DateTime endDate)
-    {
-        return GetSoldNumberYearDuration(startDate, endDate, ProductType.PC);
-    }
-    public IEnumerable<TopSellDTO> GetTopSoldProducts(DateTime startDate, DateTime endDate, int number)
-    {
-        return GetTopSoldProducts(startDate, endDate, ProductType.PC, number);
-    }
-    public IEnumerable<RevenueDTO> GetRevenueWeekDuration(DateTime startDate, DateTime endDate)
-    {
-        return GetRevenueWeekDuration(startDate, endDate, ProductType.PC);
-    }
-    public IEnumerable<RevenueDTO> GetRevenueMonthDuration(DateTime startDate, DateTime endDate)
-    {
-        return GetRevenueMonthDuration(startDate, endDate, ProductType.PC);
-    }
-    public IEnumerable<RevenueDTO> GetRevenueQuarterDuration(DateTime startDate, DateTime endDate)
-    {
-        return GetRevenueQuaterDuration(startDate, endDate, ProductType.PC);
-    }
-    public IEnumerable<RevenueDTO> GetRevenueYearDuration(DateTime startDate, DateTime endDate)
-    {
-        return GetRevenueYearDuration(startDate, endDate, ProductType.PC);
-    }
 }

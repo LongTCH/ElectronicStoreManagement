@@ -73,44 +73,4 @@ public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRe
     {
         return GetSuggestID(ProductType.HARDDISK);
     }
-    public IEnumerable<ReportMock> GetSoldNumberMonthDuration(DateTime startDate, DateTime endDate)
-    {
-        return GetSoldNumberMonthDuration(startDate, endDate, ProductType.HARDDISK);
-    }
-
-    public IEnumerable<ReportMock> GetSoldNumberQuarterDuration(DateTime startDate, DateTime endDate)
-    {
-        return GetSoldNumberQuarterDuration(startDate, endDate, ProductType.HARDDISK);
-    }
-
-    public IEnumerable<ReportMock> GetSoldNumberWeekDuration(DateTime startDate, DateTime endDate)
-    {
-        return GetSoldNumberWeekDuration(startDate, endDate, ProductType.HARDDISK);
-    }
-
-    public IEnumerable<ReportMock> GetSoldNumberYearDuration(DateTime startDate, DateTime endDate)
-    {
-        return GetSoldNumberYearDuration(startDate, endDate, ProductType.HARDDISK);
-    }
-    public IEnumerable<TopSellDTO> GetTopSoldProducts(DateTime startDate, DateTime endDate, int number)
-    {
-        return GetTopSoldProducts(startDate, endDate, ProductType.HARDDISK, number);
-    }
-    public IEnumerable<RevenueDTO> GetRevenueWeekDuration(DateTime startDate, DateTime endDate)
-    {
-        return GetRevenueWeekDuration(startDate, endDate, ProductType.HARDDISK);
-    }
-    public IEnumerable<RevenueDTO> GetRevenueMonthDuration(DateTime startDate, DateTime endDate)
-    {
-        return GetRevenueMonthDuration(startDate, endDate, ProductType.HARDDISK);
-    }
-    public IEnumerable<RevenueDTO> GetRevenueQuarterDuration(DateTime startDate, DateTime endDate)
-    {
-        return GetRevenueQuaterDuration(startDate, endDate, ProductType.HARDDISK);
-    }
-    public IEnumerable<RevenueDTO> GetRevenueYearDuration(DateTime startDate, DateTime endDate)
-    {
-        return GetRevenueYearDuration(startDate, endDate, ProductType.HARDDISK);
-    }
-
 }

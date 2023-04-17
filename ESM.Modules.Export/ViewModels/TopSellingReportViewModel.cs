@@ -1,4 +1,5 @@
 ﻿using ESM.Core.ShareServices;
+using ESM.Modules.DataAccess;
 using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.Export.Utilities;
@@ -31,6 +32,7 @@ namespace ESM.Modules.Export.ViewModels
             Charting.For<ReportMockVm>(customerVmMapper, SeriesOrientation.Vertical);
 
         }
+        public string Legend { get; set; }
         public DelegateCommand<string> Test { get; }
         public DelegateCommand AddCommand { get; }
         private void execute(string w)
@@ -43,19 +45,19 @@ namespace ESM.Modules.Export.ViewModels
                 return;
             }
             if (IsLaptopCheck)
-                ProductList = _unitOfWork.Laptops.GetTopSoldProducts(start, end, 10);
+                ProductList = _unitOfWork.Reports.GetTopSoldProducts(start, end, ProductType.LAPTOP, 10);
             if (IsSmartphoneCheck)
-                ProductList = _unitOfWork.Smartphones.GetTopSoldProducts(start, end, 10);
+                ProductList = _unitOfWork.Reports.GetTopSoldProducts(start, end, ProductType.SMARTPHONE, 10);
             if (IsPCCheck)
-                ProductList = _unitOfWork.Pcs.GetTopSoldProducts(start, end, 10);
+                ProductList = _unitOfWork.Reports.GetTopSoldProducts(start, end, ProductType.PC, 10);
             if (IsCPUCheck)
-                ProductList = _unitOfWork.Pccpus.GetTopSoldProducts(start, end, 10);
+                ProductList = _unitOfWork.Reports.GetTopSoldProducts(start, end, ProductType.CPU, 10);
             if (IsVGACheck)
-                ProductList = _unitOfWork.Vgas.GetTopSoldProducts(start, end, 10);
+                ProductList = _unitOfWork.Reports.GetTopSoldProducts(start, end, ProductType.VGA, 10);
             if (IsMonitorCheck)
-                ProductList = _unitOfWork.Monitors.GetTopSoldProducts(start, end, 10);
+                ProductList = _unitOfWork.Reports.GetTopSoldProducts(start, end, ProductType.MONITOR, 10);
             if (IsHarddiskCheck)
-                ProductList = _unitOfWork.Pcharddisks.GetTopSoldProducts(start, end, 10);
+                ProductList = _unitOfWork.Reports.GetTopSoldProducts(start, end, ProductType.HARDDISK, 10);
 
         }
         private List<string> _labels;
@@ -72,31 +74,45 @@ namespace ESM.Modules.Export.ViewModels
             IEnumerable<TopSellDTO> productList = null;
             if (IsLaptopCheck)
             {
-                productList = _unitOfWork.Laptops.GetTopSoldProducts(StartTime, EndTime, 10);
+                productList = _unitOfWork.Reports.GetTopSoldProducts(StartTime, EndTime, ProductType.LAPTOP, 10);
+                Legend = "Laptop";
+                RaisePropertyChanged(nameof(Legend));
             }
             else if (IsSmartphoneCheck)
             {
-                productList = _unitOfWork.Smartphones.GetTopSoldProducts(StartTime, EndTime, 10);
+                productList = _unitOfWork.Reports.GetTopSoldProducts(StartTime, EndTime, ProductType.SMARTPHONE, 10);
+                Legend = "Smartphone";
+                RaisePropertyChanged(nameof(Legend));
             }
             else if (IsPCCheck)
             {
-                productList = _unitOfWork.Pcs.GetTopSoldProducts(StartTime, EndTime, 10);
+                productList = _unitOfWork.Reports.GetTopSoldProducts(StartTime, EndTime, ProductType.PC, 10);
+                Legend = "PC";
+                RaisePropertyChanged(nameof(Legend));
             }
             else if (IsCPUCheck)
             {
-                productList = _unitOfWork.Pccpus.GetTopSoldProducts(StartTime, EndTime, 10);
+                productList = _unitOfWork.Reports.GetTopSoldProducts(StartTime, EndTime, ProductType.CPU, 10);
+                Legend = "CPU";
+                RaisePropertyChanged(nameof(Legend));
             }
             else if (IsVGACheck)
             {
-                productList = _unitOfWork.Vgas.GetTopSoldProducts(StartTime, EndTime, 10);
+                Legend = "VGA";
+                RaisePropertyChanged(nameof(Legend));
+                productList = _unitOfWork.Reports.GetTopSoldProducts(StartTime, EndTime, ProductType.VGA, 10);
             }
             else if (IsMonitorCheck)
             {
-                productList = _unitOfWork.Monitors.GetTopSoldProducts(StartTime, EndTime, 10);
+                productList = _unitOfWork.Reports.GetTopSoldProducts(StartTime, EndTime, ProductType.MONITOR, 10);
+                Legend = "Monitor";
+                RaisePropertyChanged(nameof(Legend));
             }
             else if (IsHarddiskCheck)
             {
-                productList = _unitOfWork.Pcharddisks.GetTopSoldProducts(StartTime, EndTime, 10);
+                productList = _unitOfWork.Reports.GetTopSoldProducts(StartTime, EndTime, ProductType.HARDDISK, 10);
+                Legend = "Hard Disk";
+                RaisePropertyChanged(nameof(Legend));
             }
             foreach (var sale in productList)
             {

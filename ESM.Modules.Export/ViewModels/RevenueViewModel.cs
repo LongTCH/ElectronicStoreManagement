@@ -5,17 +5,11 @@ using LiveCharts.Configurations;
 using LiveCharts;
 using Prism.Commands;
 using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Prism.Mvvm;
 using Prism.Regions;
-using System.Diagnostics;
 using System.Windows;
 using LiveCharts.Wpf;
-using LiveCharts.Wpf.Charts.Base;
+using ESM.Modules.DataAccess;
 
 namespace ESM.Modules.Export.ViewModels
 {
@@ -28,7 +22,6 @@ namespace ESM.Modules.Export.ViewModels
         {
             _unitOfWork = unitOfWork;
             _modalService = modalService;
-            Test = new(execute);
             AddCommand = new(addCommand);
             var customerVmMapper = new CartesianMapper<ReportMockVm>()
                 .X((value, index) => index) // lets use the position of the item as X
@@ -38,94 +31,7 @@ namespace ESM.Modules.Export.ViewModels
             Charting.For<ReportMockVm>(customerVmMapper, SeriesOrientation.Horizontal);
 
         }
-        public DelegateCommand<string> Test { get; }
         public DelegateCommand AddCommand { get; }
-        private void execute(string w)
-        {
-            DateTime start = StartTime;
-            DateTime end = EndTime;
-            if (StartTime > EndTime)
-            {
-                MessageBox.Show("Phạm vi ngày không hợp lệ!");
-                return;
-            }
-            if (IsWeekCheck)
-            {
-                if (IsLaptopCheck)
-                    LaptopList = _unitOfWork.Laptops.GetRevenueWeekDuration(start, end);
-                if (IsSmartphoneCheck)
-                    SmartphoneList = _unitOfWork.Smartphones.GetRevenueWeekDuration(start, end);
-                if (IsPCCheck)
-                    PCList = _unitOfWork.Pcs.GetRevenueWeekDuration(start, end);
-                if (IsCPUCheck)
-                    CPUList = _unitOfWork.Pccpus.GetRevenueWeekDuration(start, end);
-                if (IsVGACheck)
-                    VGAList = _unitOfWork.Vgas.GetRevenueWeekDuration(start, end);
-                if (IsMonitorCheck)
-                    MonitorList = _unitOfWork.Monitors.GetRevenueWeekDuration(start, end);
-                if (IsHarddiskCheck)
-                    HarddiskList = _unitOfWork.Pcharddisks.GetRevenueWeekDuration(start, end);
-                if (IsComboCheck)
-                    ComboList = _unitOfWork.Combos.GetRevenueWeekDuration(start, end);
-            }
-            else if (IsMonthCheck)
-            {
-                if (IsLaptopCheck)
-                    LaptopList = _unitOfWork.Laptops.GetRevenueMonthDuration(start, end);
-                if (IsSmartphoneCheck)
-                    SmartphoneList = _unitOfWork.Smartphones.GetRevenueMonthDuration(start, end);
-                if (IsPCCheck)
-                    PCList = _unitOfWork.Pcs.GetRevenueMonthDuration(start, end);
-                if (IsCPUCheck)
-                    CPUList = _unitOfWork.Pccpus.GetRevenueMonthDuration(start, end);
-                if (IsVGACheck)
-                    VGAList = _unitOfWork.Vgas.GetRevenueMonthDuration(start, end);
-                if (IsMonitorCheck)
-                    MonitorList = _unitOfWork.Monitors.GetRevenueMonthDuration(start, end);
-                if (IsHarddiskCheck)
-                    HarddiskList = _unitOfWork.Pcharddisks.GetRevenueMonthDuration(start, end);
-                if (IsComboCheck)
-                    ComboList = _unitOfWork.Combos.GetRevenueMonthDuration(start, end);
-            }
-            else if (IsQuarterCheck)
-            {
-                if (IsLaptopCheck)
-                    LaptopList = _unitOfWork.Laptops.GetRevenueQuarterDuration(start, end);
-                if (IsSmartphoneCheck)
-                    SmartphoneList = _unitOfWork.Smartphones.GetRevenueQuarterDuration(start, end);
-                if (IsPCCheck)
-                    PCList = _unitOfWork.Pcs.GetRevenueQuarterDuration(start, end);
-                if (IsCPUCheck)
-                    CPUList = _unitOfWork.Pccpus.GetRevenueQuarterDuration(start, end);
-                if (IsVGACheck)
-                    VGAList = _unitOfWork.Vgas.GetRevenueQuarterDuration(start, end);
-                if (IsMonitorCheck)
-                    MonitorList = _unitOfWork.Monitors.GetRevenueQuarterDuration(start, end);
-                if (IsHarddiskCheck)
-                    HarddiskList = _unitOfWork.Pcharddisks.GetRevenueQuarterDuration(start, end);
-                if (IsComboCheck)
-                    ComboList = _unitOfWork.Combos.GetRevenueQuarterDuration(start, end);
-            }
-            else if (IsYearCheck)
-            {
-                if (IsLaptopCheck)
-                    LaptopList = _unitOfWork.Laptops.GetRevenueYearDuration(start, end);
-                if (IsSmartphoneCheck)
-                    SmartphoneList = _unitOfWork.Smartphones.GetRevenueYearDuration(start, end);
-                if (IsPCCheck)
-                    PCList = _unitOfWork.Pcs.GetRevenueYearDuration(start, end);
-                if (IsCPUCheck)
-                    CPUList = _unitOfWork.Pccpus.GetRevenueYearDuration(start, end);
-                if (IsVGACheck)
-                    VGAList = _unitOfWork.Vgas.GetRevenueYearDuration(start, end);
-                if (IsMonitorCheck)
-                    MonitorList = _unitOfWork.Monitors.GetRevenueYearDuration(start, end);
-                if (IsHarddiskCheck)
-                    HarddiskList = _unitOfWork.Pcharddisks.GetRevenueYearDuration(start, end);
-                if (IsComboCheck)
-                    ComboList = _unitOfWork.Combos.GetRevenueYearDuration(start, end);
-            }
-        }
         private SeriesCollection series;
         public SeriesCollection Series
         {
@@ -140,7 +46,7 @@ namespace ESM.Modules.Export.ViewModels
                 var values = new ChartValues<ReportMockVm>();
                 if (IsWeekCheck)
                 {
-                    var list = _unitOfWork.Laptops.GetRevenueWeekDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueWeekDuration(StartTime, EndTime, ProductType.LAPTOP);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -152,7 +58,7 @@ namespace ESM.Modules.Export.ViewModels
                 }
                 else if (IsMonthCheck)
                 {
-                    var list = _unitOfWork.Laptops.GetRevenueMonthDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueMonthDuration(StartTime, EndTime, ProductType.LAPTOP);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -164,7 +70,7 @@ namespace ESM.Modules.Export.ViewModels
                 }
                 else if (IsQuarterCheck)
                 {
-                    var list = _unitOfWork.Laptops.GetRevenueQuarterDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueQuarterDuration(StartTime, EndTime, ProductType.LAPTOP);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -176,7 +82,7 @@ namespace ESM.Modules.Export.ViewModels
                 }
                 else if (IsYearCheck)
                 {
-                    var list = _unitOfWork.Laptops.GetRevenueYearDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueYearDuration(StartTime, EndTime, ProductType.LAPTOP);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -200,7 +106,7 @@ namespace ESM.Modules.Export.ViewModels
                 var values = new ChartValues<ReportMockVm>();
                 if (IsWeekCheck)
                 {
-                    var list = _unitOfWork.Smartphones.GetRevenueWeekDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueWeekDuration(StartTime, EndTime, ProductType.SMARTPHONE);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -212,7 +118,7 @@ namespace ESM.Modules.Export.ViewModels
                 }
                 else if (IsMonthCheck)
                 {
-                    var list = _unitOfWork.Smartphones.GetRevenueMonthDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueMonthDuration(StartTime, EndTime, ProductType.SMARTPHONE);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -224,7 +130,7 @@ namespace ESM.Modules.Export.ViewModels
                 }
                 else if (IsQuarterCheck)
                 {
-                    var list = _unitOfWork.Smartphones.GetRevenueQuarterDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueQuarterDuration(StartTime, EndTime, ProductType.SMARTPHONE);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -236,7 +142,7 @@ namespace ESM.Modules.Export.ViewModels
                 }
                 else if (IsYearCheck)
                 {
-                    var list = _unitOfWork.Smartphones.GetRevenueYearDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueYearDuration(StartTime, EndTime, ProductType.SMARTPHONE);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -260,7 +166,7 @@ namespace ESM.Modules.Export.ViewModels
                 var values = new ChartValues<ReportMockVm>();
                 if (IsWeekCheck)
                 {
-                    var list = _unitOfWork.Pcs.GetRevenueWeekDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueWeekDuration(StartTime, EndTime, ProductType.PC);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -272,7 +178,7 @@ namespace ESM.Modules.Export.ViewModels
                 }
                 else if (IsMonthCheck)
                 {
-                    var list = _unitOfWork.Pcs.GetRevenueMonthDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueMonthDuration(StartTime, EndTime, ProductType.PC);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -284,7 +190,7 @@ namespace ESM.Modules.Export.ViewModels
                 }
                 else if (IsQuarterCheck)
                 {
-                    var list = _unitOfWork.Pcs.GetRevenueQuarterDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueQuarterDuration(StartTime, EndTime, ProductType.PC);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -296,7 +202,7 @@ namespace ESM.Modules.Export.ViewModels
                 }
                 else if (IsYearCheck)
                 {
-                    var list = _unitOfWork.Pcs.GetRevenueYearDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueYearDuration(StartTime, EndTime, ProductType.PC);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -320,7 +226,7 @@ namespace ESM.Modules.Export.ViewModels
                 var values = new ChartValues<ReportMockVm>();
                 if (IsWeekCheck)
                 {
-                    var list = _unitOfWork.Pccpus.GetRevenueWeekDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueWeekDuration(StartTime, EndTime, ProductType.CPU);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -332,7 +238,7 @@ namespace ESM.Modules.Export.ViewModels
                 }
                 else if (IsMonthCheck)
                 {
-                    var list = _unitOfWork.Pccpus.GetRevenueMonthDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueMonthDuration(StartTime, EndTime, ProductType.CPU);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -344,7 +250,7 @@ namespace ESM.Modules.Export.ViewModels
                 }
                 else if (IsQuarterCheck)
                 {
-                    var list = _unitOfWork.Pccpus.GetRevenueQuarterDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueQuarterDuration(StartTime, EndTime, ProductType.CPU);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -356,7 +262,7 @@ namespace ESM.Modules.Export.ViewModels
                 }
                 else if (IsYearCheck)
                 {
-                    var list = _unitOfWork.Pccpus.GetRevenueYearDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueYearDuration(StartTime, EndTime, ProductType.CPU);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -380,7 +286,7 @@ namespace ESM.Modules.Export.ViewModels
                 var values = new ChartValues<ReportMockVm>();
                 if (IsWeekCheck)
                 {
-                    var list = _unitOfWork.Vgas.GetRevenueWeekDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueWeekDuration(StartTime, EndTime, ProductType.VGA);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -392,7 +298,7 @@ namespace ESM.Modules.Export.ViewModels
                 }
                 else if (IsMonthCheck)
                 {
-                    var list = _unitOfWork.Vgas.GetRevenueMonthDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueMonthDuration(StartTime, EndTime, ProductType.VGA);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -404,7 +310,7 @@ namespace ESM.Modules.Export.ViewModels
                 }
                 else if (IsQuarterCheck)
                 {
-                    var list = _unitOfWork.Vgas.GetRevenueQuarterDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueQuarterDuration(StartTime, EndTime, ProductType.VGA);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -416,7 +322,7 @@ namespace ESM.Modules.Export.ViewModels
                 }
                 else if (IsYearCheck)
                 {
-                    var list = _unitOfWork.Vgas.GetRevenueYearDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueYearDuration(StartTime, EndTime, ProductType.VGA);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -440,7 +346,7 @@ namespace ESM.Modules.Export.ViewModels
                 var values = new ChartValues<ReportMockVm>();
                 if (IsWeekCheck)
                 {
-                    var list = _unitOfWork.Monitors.GetRevenueWeekDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueWeekDuration(StartTime, EndTime, ProductType.MONITOR);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -452,7 +358,7 @@ namespace ESM.Modules.Export.ViewModels
                 }
                 else if (IsMonthCheck)
                 {
-                    var list = _unitOfWork.Monitors.GetRevenueMonthDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueMonthDuration(StartTime, EndTime, ProductType.MONITOR);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -464,7 +370,7 @@ namespace ESM.Modules.Export.ViewModels
                 }
                 else if (IsQuarterCheck)
                 {
-                    var list = _unitOfWork.Monitors.GetRevenueQuarterDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueQuarterDuration(StartTime, EndTime, ProductType.MONITOR);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -476,7 +382,7 @@ namespace ESM.Modules.Export.ViewModels
                 }
                 else if (IsYearCheck)
                 {
-                    var list = _unitOfWork.Monitors.GetRevenueYearDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueYearDuration(StartTime, EndTime, ProductType.MONITOR);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -500,7 +406,7 @@ namespace ESM.Modules.Export.ViewModels
                 var values = new ChartValues<ReportMockVm>();
                 if (IsWeekCheck)
                 {
-                    var list = _unitOfWork.Pcharddisks.GetRevenueWeekDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueWeekDuration(StartTime, EndTime, ProductType.HARDDISK);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -512,7 +418,7 @@ namespace ESM.Modules.Export.ViewModels
                 }
                 else if (IsMonthCheck)
                 {
-                    var list = _unitOfWork.Pcharddisks.GetRevenueMonthDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueMonthDuration(StartTime, EndTime, ProductType.HARDDISK);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -524,7 +430,7 @@ namespace ESM.Modules.Export.ViewModels
                 }
                 else if (IsQuarterCheck)
                 {
-                    var list = _unitOfWork.Pcharddisks.GetRevenueQuarterDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueQuarterDuration(StartTime, EndTime, ProductType.HARDDISK);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -536,7 +442,7 @@ namespace ESM.Modules.Export.ViewModels
                 }
                 else if (IsYearCheck)
                 {
-                    var list = _unitOfWork.Pcharddisks.GetRevenueYearDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueYearDuration(StartTime, EndTime, ProductType.HARDDISK);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -560,7 +466,7 @@ namespace ESM.Modules.Export.ViewModels
                 var values = new ChartValues<ReportMockVm>();
                 if (IsWeekCheck)
                 {
-                    var list = _unitOfWork.Combos.GetRevenueWeekDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueWeekDuration(StartTime, EndTime, ProductType.COMBO);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -572,7 +478,7 @@ namespace ESM.Modules.Export.ViewModels
                 }
                 else if (IsMonthCheck)
                 {
-                    var list = _unitOfWork.Combos.GetRevenueMonthDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueMonthDuration(StartTime, EndTime, ProductType.COMBO);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -584,7 +490,7 @@ namespace ESM.Modules.Export.ViewModels
                 }
                 else if (IsQuarterCheck)
                 {
-                    var list = _unitOfWork.Combos.GetRevenueQuarterDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueQuarterDuration(StartTime, EndTime, ProductType.COMBO);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()
@@ -596,7 +502,7 @@ namespace ESM.Modules.Export.ViewModels
                 }
                 else if (IsYearCheck)
                 {
-                    var list = _unitOfWork.Combos.GetRevenueYearDuration(StartTime, EndTime);
+                    var list = _unitOfWork.Reports.GetRevenueYearDuration(StartTime, EndTime, ProductType.COMBO);
                     foreach (var l in list)
                     {
                         values.Add(new ReportMockVm()

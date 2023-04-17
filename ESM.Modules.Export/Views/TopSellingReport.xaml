@@ -118,7 +118,7 @@
                 <TextBlock Text="Sales by catory"
                            FontWeight="Bold"
                            Margin="0 0 0 10" />
-                <lvc:CartesianChart LegendLocation="Top">
+                <lvc:CartesianChart ChartLegend="{Binding Legend}">
                     <lvc:CartesianChart.Series>
                         <lvc:RowSeries Values="{Binding Customers}" />
                     </lvc:CartesianChart.Series>
