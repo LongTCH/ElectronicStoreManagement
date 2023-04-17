@@ -350,6 +350,7 @@
                           ScrollViewer.VerticalScrollBarVisibility="Auto"
                           ScrollViewer.HorizontalScrollBarVisibility="Auto"
                           MinHeight="100"
+                          MaxHeight="300"
                           Style="{StaticResource MaterialDesignDataGrid}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Mã"

@@ -323,7 +323,8 @@
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
                       ScrollViewer.HorizontalScrollBarVisibility="Auto"
                       x:Name="myDataGrid"
-                      MinHeight="100">
+                      MinHeight="100"
+                      MaxHeight="300">
                 <DataGrid.CellStyle>
                     <Style TargetType="{x:Type DataGridCell}"
                            BasedOn="{StaticResource MaterialDesignDataGridCell}">
