@@ -236,7 +236,7 @@ namespace ESM.Modules.Import.ViewModels
             Product = null;
             Id = null;
             Company = null; Unit = null; Series = null;
-            Name = null; size = null; panel = null; RefreshRate = null;
+            Name = null; Size = null; Panel = null; RefreshRate = null;
             AvatarPath = null; Price = 0; Discount = 0;
             ImagePath = null; DetailPath = null; Remain = 0; Need = null;
             RaisePropertyChanged(nameof(IsDefault));

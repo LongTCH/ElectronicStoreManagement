@@ -81,7 +81,7 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBox materialDesign:HintAssist.Hint="Đường dẫn tới thư mục ảnh"
                                      Margin="20,10"
-                                     Text="{Binding ImagePath, UpdateSourceTrigger=LostFocus}"
+                                     Text="{Binding ImagePath, UpdateSourceTrigger=PropertyChanged}"
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      FontFamily="Champagne &amp; Limousines"
                                      FontSize="18"
@@ -95,7 +95,7 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBox materialDesign:HintAssist.Hint="Đường dẫn tới file mô tả"
                                      Margin="20,10"
-                                     Text="{Binding DetailPath, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                     Text="{Binding DetailPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      FontFamily="Champagne &amp; Limousines"
                                      FontSize="18"
@@ -116,7 +116,7 @@
                                                      Kind="Identifier" />
                             <TextBox Margin="20,10"
                                      materialDesign:HintAssist.Hint="ID"
-                                     Text="{Binding Id, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
+                                     Text="{Binding Id, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      IsEnabled="{Binding IsIdEnabled}"
                                      FontFamily="Champagne &amp; Limousines"
@@ -139,7 +139,7 @@
                         <TextBox materialDesign:HintAssist.Hint="Tên sản phẩm"
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  Margin="20,10"
-                                 Text="{Binding Name, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
+                                 Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
@@ -154,7 +154,7 @@
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  materialDesign:TextFieldAssist.SuffixText="Inch"
                                  Margin="20,10"
-                                 Text="{Binding Size, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
+                                 Text="{Binding Size, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
@@ -175,7 +175,7 @@
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  materialDesign:TextFieldAssist.SuffixText="Hz"
                                  Margin="20,10"
-                                 Text="{Binding RefreshRate, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
+                                 Text="{Binding RefreshRate, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
@@ -189,7 +189,7 @@
                         <TextBox materialDesign:HintAssist.Hint="Tấm nền"
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  Margin="20,10"
-                                 Text="{Binding Panel, UpdateSourceTrigger=LostFocus}"
+                                 Text="{Binding Panel, UpdateSourceTrigger=PropertyChanged}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
@@ -209,7 +209,7 @@
                         <TextBox materialDesign:TextFieldAssist.HasClearButton="True"
                                  materialDesign:HintAssist.Hint="Nhu cầu"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding Need, UpdateSourceTrigger=LostFocus}"
+                                 Text="{Binding Need, UpdateSourceTrigger=PropertyChanged}"
                                  Margin="20,10"
                                  FontSize="18" />
                     </DockPanel>
@@ -222,7 +222,7 @@
                         <TextBox materialDesign:HintAssist.Hint="Series sản phẩm"
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  Margin="20,10"
-                                 Text="{Binding Series, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
+                                 Text="{Binding Series, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18"></TextBox>
@@ -292,7 +292,7 @@
                         <TextBox materialDesign:TextFieldAssist.HasClearButton="True"
                                  materialDesign:HintAssist.Hint="Đơn vị tính"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding Unit, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
+                                 Text="{Binding Unit, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                  Margin="20,10"
                                  FontSize="18" />
                     </DockPanel>
@@ -311,7 +311,7 @@
                         <TextBox materialDesign:TextFieldAssist.HasClearButton="True"
                                  materialDesign:HintAssist.Hint="Thương hiệu"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding Company, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
+                                 Text="{Binding Company, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                  Margin="20,10"
                                  FontSize="18" />
                     </DockPanel>
@@ -378,7 +378,7 @@
                     <DataGridTextColumn Header="Đơn vị"
                                         Binding="{Binding Unit, Mode=OneWay}" />
                     <DataGridTextColumn Header="Giảm giá"
-                                        Binding="{Binding Discount, UpdateSourceTrigger=LostFocus}" />
+                                        Binding="{Binding Discount, UpdateSourceTrigger=PropertyChanged}" />
                     <DataGridTextColumn Header="Kích thước màn hình"
                                         Binding="{Binding Size}" />
                     <DataGridTextColumn Header="Tấm nền"
