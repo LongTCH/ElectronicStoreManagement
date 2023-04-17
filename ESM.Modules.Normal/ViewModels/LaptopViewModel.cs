@@ -10,14 +10,6 @@ namespace ESM.Modules.Normal.ViewModels
 {
     public class LaptopViewModel : BaseProductViewModel<Laptop>
     {
-        public HashSet<ProductAttributeStore> CompanyList { get; set; } = new();
-        public HashSet<ProductAttributeStore> CPUList { get; set; } = new();
-        public HashSet<ProductAttributeStore> GraphicList { get; set; } = new();
-        public HashSet<ProductAttributeStore> NeedList { get; set; } = new();
-        public HashSet<ProductAttributeStore> SeriesList { get; set; } = new();
-        public HashSet<ProductAttributeStore> RAMList { get; set; } = new();
-        public HashSet<ProductAttributeStore> StorageList { get; set; } = new();
-
         public LaptopViewModel(IUnitOfWork unitOfWork, IModalService modalService)
             : base(unitOfWork, modalService)
         {
@@ -60,96 +52,10 @@ namespace ESM.Modules.Normal.ViewModels
             if (ListCompany.Count != 0) ProductList = ((List<Laptop>)ProductList).Where(x => ListCompany.Contains(x.Company)).ToList();
             if (ListCPU.Count != 0) ProductList = ((List<Laptop>)ProductList).Where(x => ListCPU.Contains(x.Cpu)).ToList();
             if (ListGraphic.Count != 0) ProductList = ((List<Laptop>)ProductList).Where(x => ListGraphic.Contains(x.Graphic)).ToList();
-            if (ListNeed.Count != 0) ProductList = ((List<Laptop>)ProductList).Where(x => ListNeed.Contains(x.Need)).ToList();
             if (ListRAM.Count != 0) ProductList = ((List<Laptop>)ProductList).Where(x => ListRAM.Contains(x.Ram)).ToList();
             if (ListSeries.Count != 0) ProductList = ((List<Laptop>)ProductList).Where(x => ListSeries.Contains(x.Series)).ToList();
             if (ListStorage.Count != 0) ProductList = ((List<Laptop>)ProductList).Where(x => ListStorage.Contains(x.Storage)).ToList();
-        }
-        private void getCompanyList()
-        {
-            if (_productDTOs == null) return;
-            CompanyList = new();
-            foreach (var laptop in _productDTOs)
-            {
-                ProductAttributeStore laptopCompany = new() { Name = laptop.Company };
-                laptopCompany.CurrentStoreChanged += FilterProduct;
-                CompanyList.Add(laptopCompany);
-            }
-            RaisePropertyChanged(nameof(CompanyList));
-        }
-        private void getCPUList()
-        {
-            if (_productDTOs == null) return;
-            CPUList = new();
-            foreach (var laptop in _productDTOs)
-            {
-                ProductAttributeStore laptopCPU = new() { Name = laptop.Cpu };
-                laptopCPU.CurrentStoreChanged += FilterProduct;
-                CPUList.Add(laptopCPU);
-            }
-            RaisePropertyChanged(nameof(CPUList));
-        }
-        private void getGraphicList()
-        {
-            if (_productDTOs == null) return;
-            GraphicList = new();
-            foreach (var laptop in _productDTOs)
-            {
-                ProductAttributeStore laptopGraphic = new() { Name = laptop.Graphic };
-                laptopGraphic.CurrentStoreChanged += FilterProduct;
-                GraphicList.Add(laptopGraphic);
-            }
-            RaisePropertyChanged(nameof(GraphicList));
-        }
-        private void getNeedList()
-        {
-            if (_productDTOs == null) return;
-            NeedList = new();
-            foreach (var laptop in _productDTOs)
-            {
-                if (string.IsNullOrWhiteSpace(laptop.Need)) continue;
-                ProductAttributeStore laptopNeed = new() { Name = laptop.Need };
-                laptopNeed.CurrentStoreChanged += FilterProduct;
-                NeedList.Add(laptopNeed);
-            }
-            RaisePropertyChanged(nameof(NeedList));
-        }
-        private void getRAMList()
-        {
-            if (_productDTOs == null) return;
-            RAMList = new();
-            foreach (var laptop in _productDTOs)
-            {
-                ProductAttributeStore laptopRAM = new() { Name = laptop.Ram };
-                laptopRAM.CurrentStoreChanged += FilterProduct;
-                RAMList.Add(laptopRAM);
-            }
-            RaisePropertyChanged(nameof(RAMList));
-        }
-        private void getSeriesList()
-        {
-            if (_productDTOs == null) return;
-            SeriesList = new();
-            foreach (var laptop in _productDTOs)
-            {
-                if (string.IsNullOrWhiteSpace(laptop.Series)) continue;
-                ProductAttributeStore laptopSeries = new() { Name = laptop.Series };
-                laptopSeries.CurrentStoreChanged += FilterProduct;
-                SeriesList.Add(laptopSeries);
-            }
-            RaisePropertyChanged(nameof(SeriesList));
-        }
-        private void getStorageList()
-        {
-            if (_productDTOs == null) return;
-            StorageList = new();
-            foreach (var laptop in _productDTOs)
-            {
-                ProductAttributeStore laptopStorage = new() { Name = laptop.Storage };
-                laptopStorage.CurrentStoreChanged += FilterProduct;
-                StorageList.Add(laptopStorage);
-            }
-            RaisePropertyChanged(nameof(StorageList));
+            if (ListNeed.Count != 0) ProductList = ((List<Laptop>)ProductList).Where(x => IsInListNeed(ListNeed, x.Need)).ToList();
         }
     }
 }

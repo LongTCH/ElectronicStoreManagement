@@ -12,11 +12,6 @@ namespace ESM.Modules.Normal.ViewModels
     [RegionMemberLifetime(KeepAlive = false)]
     public class PCViewModel : BaseProductViewModel<Pc>
     {
-        public HashSet<ProductAttributeStore> CompanyList { get; set; } = new();
-        public HashSet<ProductAttributeStore> CPUList { get; set; } = new();
-        public HashSet<ProductAttributeStore> NeedList { get; set; } = new();
-        public HashSet<ProductAttributeStore> SeriesList { get; set; } = new();
-        public HashSet<ProductAttributeStore> RAMList { get; set; } = new();
         public PCViewModel(IUnitOfWork unitOfWork, IModalService modalService)
             : base(unitOfWork, modalService)
         {
@@ -49,71 +44,9 @@ namespace ESM.Modules.Normal.ViewModels
                 if (e.IsChecked) ListSeries.Add(e.Name);
             if (ListCompany.Count != 0) ProductList = ((List<Pc>)ProductList)!.Where(x => ListCompany.Contains(x.Company)).ToList();
             if (ListCPU.Count != 0) ProductList = ((List<Pc>)ProductList)!.Where(x => ListCPU.Contains(x.Cpu)).ToList();
-            if (ListNeed.Count != 0) ProductList = ((List<Pc>)ProductList)!.Where(x => ListNeed.Contains(x.Need)).ToList();
+            if (ListNeed.Count != 0) ProductList = ((List<Pc>)ProductList)!.Where(x => IsInListNeed(ListNeed, x.Need)).ToList();
             if (ListRAM.Count != 0) ProductList = ((List<Pc>)ProductList)!.Where(x => ListRAM.Contains(x.Ram)).ToList();
             if (ListSeries.Count != 0) ProductList = ((List<Pc>)ProductList)!.Where(x => ListSeries.Contains(x.Series)).ToList();
-        }
-        private void getCompanyList()
-        {
-            if (_productDTOs == null) return;
-            CompanyList = new();
-            foreach (var pc in _productDTOs)
-            {
-                ProductAttributeStore pcCompany = new() { Name = pc.Company };
-                pcCompany.CurrentStoreChanged += FilterProduct;
-                CompanyList.Add(pcCompany);
-            }
-            RaisePropertyChanged(nameof(CompanyList));
-        }
-        private void getCPUList()
-        {
-            if (_productDTOs == null) return;
-            CPUList = new();
-            foreach (var pc in _productDTOs)
-            {
-                ProductAttributeStore pcCPU = new() { Name = pc.Cpu };
-                pcCPU.CurrentStoreChanged += FilterProduct;
-                CPUList.Add(pcCPU);
-            }
-            RaisePropertyChanged(nameof(CPUList));
-        }
-        private void getNeedList()
-        {
-            if (_productDTOs == null) return;
-            NeedList = new();
-            foreach (var pc in _productDTOs)
-            {
-                if (string.IsNullOrWhiteSpace(pc.Need)) continue;
-                ProductAttributeStore pcNeed = new() { Name = pc.Need };
-                pcNeed.CurrentStoreChanged += FilterProduct;
-                NeedList.Add(pcNeed);
-            }
-            RaisePropertyChanged(nameof(NeedList));
-        }
-        private void getRAMList()
-        {
-            if (_productDTOs == null) return;
-            RAMList = new();
-            foreach (var pc in _productDTOs)
-            {
-                ProductAttributeStore pcRAM = new() { Name = pc.Ram };
-                pcRAM.CurrentStoreChanged += FilterProduct;
-                RAMList.Add(pcRAM);
-            }
-            RaisePropertyChanged(nameof(RAMList));
-        }
-        private void getSeriesList()
-        {
-            if (_productDTOs == null) return;
-            SeriesList = new();
-            foreach (var pc in _productDTOs)
-            {
-                if (string.IsNullOrWhiteSpace(pc.Series)) continue;
-                ProductAttributeStore pcSeries = new() { Name = pc.Series };
-                pcSeries.CurrentStoreChanged += FilterProduct;
-                SeriesList.Add(pcSeries);
-            }
-            RaisePropertyChanged(nameof(SeriesList));
         }
     }
 }

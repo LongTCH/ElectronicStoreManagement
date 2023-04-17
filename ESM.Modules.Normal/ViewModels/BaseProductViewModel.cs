@@ -1,5 +1,6 @@
 ﻿using ESM.Core;
 using ESM.Core.ShareServices;
+using ESM.Core.ShareStores;
 using ESM.Modules.DataAccess;
 using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
@@ -22,6 +23,23 @@ namespace ESM.Modules.Normal.ViewModels
         protected readonly IModalService _modalService;
         protected dynamic _productDTOs;
         public dynamic ProductList { get; set; }
+        public HashSet<ProductAttributeStore> CompanyList { get; set; } = new();
+        public HashSet<ProductAttributeStore> CPUList { get; set; } = new();
+        public HashSet<ProductAttributeStore> GraphicList { get; set; } = new();
+        public HashSet<ProductAttributeStore> NeedList { get; set; } = new();
+        public HashSet<ProductAttributeStore> SeriesList { get; set; } = new();
+        public HashSet<ProductAttributeStore> RAMList { get; set; } = new();
+        public HashSet<ProductAttributeStore> StorageList { get; set; } = new();
+        public HashSet<ProductAttributeStore> PanelList { get; set; } = new();
+        public HashSet<ProductAttributeStore> RefreshRateList { get; set; } = new();
+        public HashSet<ProductAttributeStore> SizeList { get; set; } = new(); 
+        public HashSet<ProductAttributeStore> SocketList { get; set; } = new();
+        public HashSet<ProductAttributeStore> ConnectList { get; set; } = new();
+        public HashSet<ProductAttributeStore> TypeList { get; set; } = new();
+        public HashSet<ProductAttributeStore> ChipList { get; set; } = new();
+        public HashSet<ProductAttributeStore> ChipsetList { get; set; } = new();
+        public HashSet<ProductAttributeStore> VramList { get; set; } = new();
+        public HashSet<ProductAttributeStore> GenList { get; set; } = new();
         public List<string> Conditions { get; } = StaticData.Conditions;
         private double maxPrice;
         public double MaxPrice
@@ -46,7 +64,7 @@ namespace ESM.Modules.Normal.ViewModels
         {
             _unitOfWork = unitOfWork;
             _modalService = modalService;
-            
+
             ProductDetailNavigateCommand = new(navigate);
         }
         protected Action LoadAttribute;
@@ -114,7 +132,225 @@ namespace ESM.Modules.Normal.ViewModels
                 .ToList();
             RaisePropertyChanged(nameof(ProductList));
         }
-
+        protected bool IsInListNeed(List<string> listNeed, string need)
+        {
+            foreach (var item in listNeed)
+            {
+                if (need.Contains(item)) return true;
+            }
+            return false;
+        }
+        protected void getNeedList()
+        {
+            if (_productDTOs == null) return;
+            NeedList = new();
+            foreach (var laptop in _productDTOs)
+            {
+                if (string.IsNullOrWhiteSpace(laptop.Need)) continue;
+                var listNeed = laptop.Need.Split(", ");
+                foreach (var item in listNeed)
+                {
+                    ProductAttributeStore laptopNeed = new() { Name = item };
+                    laptopNeed.CurrentStoreChanged += FilterProduct;
+                    NeedList.Add(laptopNeed);
+                }
+            }
+            RaisePropertyChanged(nameof(NeedList));
+        }
+        protected void getCompanyList()
+        {
+            if (_productDTOs == null) return;
+            CompanyList = new();
+            foreach (var laptop in _productDTOs)
+            {
+                ProductAttributeStore laptopCompany = new() { Name = laptop.Company };
+                laptopCompany.CurrentStoreChanged += FilterProduct;
+                CompanyList.Add(laptopCompany);
+            }
+            RaisePropertyChanged(nameof(CompanyList));
+        }
+        protected void getCPUList()
+        {
+            if (_productDTOs == null) return;
+            CPUList = new();
+            foreach (var laptop in _productDTOs)
+            {
+                ProductAttributeStore laptopCPU = new() { Name = laptop.Cpu };
+                laptopCPU.CurrentStoreChanged += FilterProduct;
+                CPUList.Add(laptopCPU);
+            }
+            RaisePropertyChanged(nameof(CPUList));
+        }
+        protected void getGraphicList()
+        {
+            if (_productDTOs == null) return;
+            GraphicList = new();
+            foreach (var laptop in _productDTOs)
+            {
+                ProductAttributeStore laptopGraphic = new() { Name = laptop.Graphic };
+                laptopGraphic.CurrentStoreChanged += FilterProduct;
+                GraphicList.Add(laptopGraphic);
+            }
+            RaisePropertyChanged(nameof(GraphicList));
+        }
+        protected void getRAMList()
+        {
+            if (_productDTOs == null) return;
+            RAMList = new();
+            foreach (var laptop in _productDTOs)
+            {
+                ProductAttributeStore laptopRAM = new() { Name = laptop.Ram };
+                laptopRAM.CurrentStoreChanged += FilterProduct;
+                RAMList.Add(laptopRAM);
+            }
+            RaisePropertyChanged(nameof(RAMList));
+        }
+        protected void getSeriesList()
+        {
+            if (_productDTOs == null) return;
+            SeriesList = new();
+            foreach (var laptop in _productDTOs)
+            {
+                if (string.IsNullOrWhiteSpace(laptop.Series)) continue;
+                ProductAttributeStore laptopSeries = new() { Name = laptop.Series };
+                laptopSeries.CurrentStoreChanged += FilterProduct;
+                SeriesList.Add(laptopSeries);
+            }
+            RaisePropertyChanged(nameof(SeriesList));
+        }
+        protected void getStorageList()
+        {
+            if (_productDTOs == null) return;
+            StorageList = new();
+            foreach (var laptop in _productDTOs)
+            {
+                ProductAttributeStore laptopStorage = new() { Name = laptop.Storage };
+                laptopStorage.CurrentStoreChanged += FilterProduct;
+                StorageList.Add(laptopStorage);
+            }
+            RaisePropertyChanged(nameof(StorageList));
+        }
+        protected void getPanelList()
+        {
+            if (_productDTOs == null) return;
+            PanelList = new();
+            foreach (var monitor in _productDTOs)
+            {
+                ProductAttributeStore monitorCPU = new() { Name = monitor.Panel };
+                monitorCPU.CurrentStoreChanged += FilterProduct;
+                PanelList.Add(monitorCPU);
+            }
+            RaisePropertyChanged(nameof(PanelList));
+        }
+        protected void getRefreshRateList()
+        {
+            if (_productDTOs == null) return;
+            RefreshRateList = new();
+            foreach (var monitor in _productDTOs)
+            {
+                ProductAttributeStore monitorRAM = new() { Name = monitor.RefreshRate.ToString() };
+                monitorRAM.CurrentStoreChanged += FilterProduct;
+                RefreshRateList.Add(monitorRAM);
+            }
+            RaisePropertyChanged(nameof(RefreshRateList));
+        }
+        protected void getSizeList()
+        {
+            if (_productDTOs == null) return;
+            SizeList = new();
+            foreach (var monitor in _productDTOs)
+            {
+                ProductAttributeStore monitorStorage = new() { Name = monitor.Size };
+                monitorStorage.CurrentStoreChanged += FilterProduct;
+                SizeList.Add(monitorStorage);
+            }
+            RaisePropertyChanged(nameof(SizeList));
+        }
+        protected void getSocketList()
+        {
+            if (_productDTOs == null) return;
+            SocketList = new();
+            foreach (var pccpu in _productDTOs)
+            {
+                ProductAttributeStore pccpusocket = new() { Name = pccpu.Socket };
+                pccpusocket.CurrentStoreChanged += FilterProduct;
+                SocketList.Add(pccpusocket);
+            }
+            RaisePropertyChanged(nameof(SocketList));
+        }
+        protected void getConnectList()
+        {
+            if (_productDTOs == null) return;
+            ConnectList = new();
+            foreach (var pcharddisk in _productDTOs)
+            {
+                ProductAttributeStore pcharddiskCPU = new() { Name = pcharddisk.Connect };
+                pcharddiskCPU.CurrentStoreChanged += FilterProduct;
+                ConnectList.Add(pcharddiskCPU);
+            }
+            RaisePropertyChanged(nameof(ConnectList));
+        }
+        protected void getTypeList()
+        {
+            if (_productDTOs == null) return;
+            TypeList = new();
+            foreach (var pcharddisk in _productDTOs)
+            {
+                if (string.IsNullOrWhiteSpace(pcharddisk.Type)) continue;
+                ProductAttributeStore pcharddiskNeed = new() { Name = pcharddisk.Type };
+                pcharddiskNeed.CurrentStoreChanged += FilterProduct;
+                TypeList.Add(pcharddiskNeed);
+            }
+            RaisePropertyChanged(nameof(TypeList));
+        }
+        protected void getChipList()
+        {
+            if (_productDTOs == null) return;
+            ChipList = new();
+            foreach (var vga in _productDTOs)
+            {
+                ProductAttributeStore vgaCPU = new() { Name = vga.Chip };
+                vgaCPU.CurrentStoreChanged += FilterProduct;
+                ChipList.Add(vgaCPU);
+            }
+            RaisePropertyChanged(nameof(ChipList));
+        }
+        protected void getChipsetList()
+        {
+            if (_productDTOs == null) return;
+            ChipsetList = new();
+            foreach (var vga in _productDTOs)
+            {
+                ProductAttributeStore vgaGraphic = new() { Name = vga.Chipset };
+                vgaGraphic.CurrentStoreChanged += FilterProduct;
+                ChipsetList.Add(vgaGraphic);
+            }
+            RaisePropertyChanged(nameof(ChipsetList));
+        }
+        protected void getVramList()
+        {
+            if (_productDTOs == null) return;
+            VramList = new();
+            foreach (var vga in _productDTOs)
+            {
+                ProductAttributeStore vgaVram = new() { Name = vga.Vram };
+                vgaVram.CurrentStoreChanged += FilterProduct;
+                VramList.Add(vgaVram);
+            }
+            RaisePropertyChanged(nameof(VramList));
+        }
+        protected void getGenList()
+        {
+            if (_productDTOs == null) return;
+            GenList = new();
+            foreach (var vga in _productDTOs)
+            {
+                ProductAttributeStore vgaGen = new() { Name = vga.Gen };
+                vgaGen.CurrentStoreChanged += FilterProduct;
+                GenList.Add(vgaGen);
+            }
+            RaisePropertyChanged(nameof(GenList));
+        }
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             GetProductList().Await();

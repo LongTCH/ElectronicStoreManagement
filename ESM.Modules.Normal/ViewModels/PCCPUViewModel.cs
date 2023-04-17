@@ -12,10 +12,6 @@ namespace ESM.Modules.Normal.ViewModels
     [RegionMemberLifetime(KeepAlive = false)]
     public class PCCPUViewModel : BaseProductViewModel<Pccpu>
     {
-        public HashSet<ProductAttributeStore> CompanyList { get; set; } = new();
-        public HashSet<ProductAttributeStore> NeedList { get; set; } = new();
-        public HashSet<ProductAttributeStore> SocketList { get; set; } = new();
-        public HashSet<ProductAttributeStore> SeriesList { get; set; } = new();
         public PCCPUViewModel(IUnitOfWork unitOfWork, IModalService modalService)
             : base(unitOfWork, modalService)
         {
@@ -44,58 +40,8 @@ namespace ESM.Modules.Normal.ViewModels
                 if (e.IsChecked) ListSeries.Add(e.Name);
             if (ListCompany.Count != 0) ProductList = ((List<Pccpu>)ProductList).Where(x => ListCompany.Contains(x.Company)).ToList();
             if (ListSocket.Count != 0) ProductList = ((List<Pccpu>)ProductList).Where(x => ListSocket.Contains(x.Socket)).ToList();
-            if (ListNeed.Count != 0) ProductList = ((List<Pccpu>)ProductList).Where(x => ListNeed.Contains(x.Need)).ToList();
+            if (ListNeed.Count != 0) ProductList = ((List<Pccpu>)ProductList).Where(x => IsInListNeed(ListNeed, x.Need)).ToList();
             if (ListSeries.Count != 0) ProductList = ((List<Pccpu>)ProductList).Where(x => ListSeries.Contains(x.Series)).ToList();
-        }
-        private void getCompanyList()
-        {
-            if (_productDTOs == null) return;
-            CompanyList = new();
-            foreach (var pccpu in _productDTOs)
-            {
-                ProductAttributeStore pccpuCompany = new() { Name = pccpu.Company };
-                pccpuCompany.CurrentStoreChanged += FilterProduct;
-                CompanyList.Add(pccpuCompany);
-            }
-            RaisePropertyChanged(nameof(CompanyList));
-        }
-        private void getSocketList()
-        {
-            if (_productDTOs == null) return;
-            SocketList = new();
-            foreach (var pccpu in _productDTOs)
-            {
-                ProductAttributeStore pccpusocket = new() { Name = pccpu.Socket };
-                pccpusocket.CurrentStoreChanged += FilterProduct;
-                SocketList.Add(pccpusocket);
-            }
-            RaisePropertyChanged(nameof(SocketList));
-        }
-        private void getNeedList()
-        {
-            if (_productDTOs == null) return;
-            NeedList = new();
-            foreach (var pccpu in _productDTOs)
-            {
-                if (string.IsNullOrWhiteSpace(pccpu.Need)) continue;
-                ProductAttributeStore pccpuNeed = new() { Name = pccpu.Need };
-                pccpuNeed.CurrentStoreChanged += FilterProduct;
-                NeedList.Add(pccpuNeed);
-            }
-            RaisePropertyChanged(nameof(NeedList));
-        }
-        private void getSeriesList()
-        {
-            if (_productDTOs == null) return;
-            SeriesList = new();
-            foreach (var pccpu in _productDTOs)
-            {
-                if (string.IsNullOrWhiteSpace(pccpu.Series)) continue;
-                ProductAttributeStore pccpuSeries = new() { Name = pccpu.Series };
-                pccpuSeries.CurrentStoreChanged += FilterProduct;
-                SeriesList.Add(pccpuSeries);
-            }
-            RaisePropertyChanged(nameof(SeriesList));
         }
     }
 }
