@@ -262,8 +262,8 @@ public partial class ESMDbContext : DbContext
             entity.Property(e => e.ImagePath)
                 .HasMaxLength(200)
                 .HasColumnName("Image_Path");
-            entity.Property(e => e.Name).HasMaxLength(100);
-            entity.Property(e => e.Need).HasMaxLength(50);
+            entity.Property(e => e.Name).HasMaxLength(200);
+            entity.Property(e => e.Need).HasMaxLength(100);
             entity.Property(e => e.Price).HasColumnType("money");
             entity.Property(e => e.Ram)
                 .HasMaxLength(50)
@@ -296,8 +296,8 @@ public partial class ESMDbContext : DbContext
             entity.Property(e => e.ImagePath)
                 .HasMaxLength(200)
                 .HasColumnName("Image_Path");
-            entity.Property(e => e.Name).HasMaxLength(100);
-            entity.Property(e => e.Need).HasMaxLength(50);
+            entity.Property(e => e.Name).HasMaxLength(200);
+            entity.Property(e => e.Need).HasMaxLength(100);
             entity.Property(e => e.Panel)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -330,8 +330,8 @@ public partial class ESMDbContext : DbContext
             entity.Property(e => e.ImagePath)
                 .HasMaxLength(200)
                 .HasColumnName("Image_Path");
-            entity.Property(e => e.Name).HasMaxLength(100);
-            entity.Property(e => e.Need).HasMaxLength(50);
+            entity.Property(e => e.Name).HasMaxLength(200);
+            entity.Property(e => e.Need).HasMaxLength(100);
             entity.Property(e => e.Price).HasColumnType("money");
             entity.Property(e => e.Ram)
                 .HasMaxLength(50)
@@ -359,8 +359,8 @@ public partial class ESMDbContext : DbContext
             entity.Property(e => e.ImagePath)
                 .HasMaxLength(200)
                 .HasColumnName("Image_Path");
-            entity.Property(e => e.Name).HasMaxLength(100);
-            entity.Property(e => e.Need).HasMaxLength(50);
+            entity.Property(e => e.Name).HasMaxLength(200);
+            entity.Property(e => e.Need).HasMaxLength(100);
             entity.Property(e => e.Price).HasColumnType("money");
             entity.Property(e => e.Series).HasMaxLength(50);
             entity.Property(e => e.Socket)
@@ -390,7 +390,7 @@ public partial class ESMDbContext : DbContext
             entity.Property(e => e.ImagePath)
                 .HasMaxLength(200)
                 .HasColumnName("Image_Path");
-            entity.Property(e => e.Name).HasMaxLength(100);
+            entity.Property(e => e.Name).HasMaxLength(200);
             entity.Property(e => e.Price).HasColumnType("money");
             entity.Property(e => e.Series).HasMaxLength(50);
             entity.Property(e => e.Storage)
@@ -423,7 +423,7 @@ public partial class ESMDbContext : DbContext
             entity.Property(e => e.ImagePath)
                 .HasMaxLength(200)
                 .HasColumnName("Image_Path");
-            entity.Property(e => e.Name).HasMaxLength(100);
+            entity.Property(e => e.Name).HasMaxLength(200);
             entity.Property(e => e.Price).HasColumnType("money");
             entity.Property(e => e.Ram)
                 .HasMaxLength(50)
@@ -463,7 +463,7 @@ public partial class ESMDbContext : DbContext
             entity.Property(e => e.ImagePath)
                 .HasMaxLength(200)
                 .HasColumnName("Image_Path");
-            entity.Property(e => e.Name).HasMaxLength(100);
+            entity.Property(e => e.Name).HasMaxLength(200);
             entity.Property(e => e.Price).HasColumnType("money");
             entity.Property(e => e.Series).HasMaxLength(50);
             entity.Property(e => e.Unit).HasMaxLength(50);
