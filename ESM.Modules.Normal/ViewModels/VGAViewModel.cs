@@ -12,13 +12,6 @@ namespace ESM.Modules.Normal.ViewModels
     [RegionMemberLifetime(KeepAlive = false)]
     public class VGAViewModel : BaseProductViewModel<Vga>
     {
-        public HashSet<ProductAttributeStore> CompanyList { get; set; } = new();
-        public HashSet<ProductAttributeStore> ChipList { get; set; } = new();
-        public HashSet<ProductAttributeStore> ChipsetList { get; set; } = new();
-        public HashSet<ProductAttributeStore> SeriesList { get; set; } = new();
-        public HashSet<ProductAttributeStore> VramList { get; set; } = new();
-        public HashSet<ProductAttributeStore> GenList { get; set; } = new();
-
         public VGAViewModel(IUnitOfWork unitOfWork, IModalService modalService)
             : base(unitOfWork, modalService)
         {
@@ -59,79 +52,6 @@ namespace ESM.Modules.Normal.ViewModels
             if (ListVram.Count != 0) ProductList = ((List<Vga>?)ProductList).Where(x => ListVram.Contains(x.Vram)).ToList();
             if (ListSeries.Count != 0) ProductList = ((List<Vga>?)ProductList).Where(x => ListSeries.Contains(x.Series)).ToList();
             if (ListGen.Count != 0) ProductList = ((List<Vga>?)ProductList).Where(x => ListGen.Contains(x.Gen)).ToList();
-        }
-        private void getCompanyList()
-        {
-            if (_productDTOs == null) return;
-            CompanyList = new();
-            foreach (var vga in _productDTOs)
-            {
-                ProductAttributeStore vgaCompany = new() { Name = vga.Company };
-                vgaCompany.CurrentStoreChanged += FilterProduct;
-                CompanyList.Add(vgaCompany);
-            }
-            RaisePropertyChanged(nameof(CompanyList));
-        }
-        private void getChipList()
-        {
-            if (_productDTOs == null) return;
-            ChipList = new();
-            foreach (var vga in _productDTOs)
-            {
-                ProductAttributeStore vgaCPU = new() { Name = vga.Chip };
-                vgaCPU.CurrentStoreChanged += FilterProduct;
-                ChipList.Add(vgaCPU);
-            }
-            RaisePropertyChanged(nameof(ChipList));
-        }
-        private void getChipsetList()
-        {
-            if (_productDTOs == null) return;
-            ChipsetList = new();
-            foreach (var vga in _productDTOs)
-            {
-                ProductAttributeStore vgaGraphic = new() { Name = vga.Chipset };
-                vgaGraphic.CurrentStoreChanged += FilterProduct;
-                ChipsetList.Add(vgaGraphic);
-            }
-            RaisePropertyChanged(nameof(ChipsetList));
-        }
-        private void getVramList()
-        {
-            if (_productDTOs == null) return;
-            VramList = new();
-            foreach (var vga in _productDTOs)
-            {
-                ProductAttributeStore vgaVram = new() { Name = vga.Vram };
-                vgaVram.CurrentStoreChanged += FilterProduct;
-                VramList.Add(vgaVram);
-            }
-            RaisePropertyChanged(nameof(VramList));
-        }
-        private void getSeriesList()
-        {
-            if (_productDTOs == null) return;
-            SeriesList = new();
-            foreach (var vga in _productDTOs)
-            {
-                if (string.IsNullOrWhiteSpace(vga.Series)) continue;
-                ProductAttributeStore vgaSeries = new() { Name = vga.Series };
-                vgaSeries.CurrentStoreChanged += FilterProduct;
-                SeriesList.Add(vgaSeries);
-            }
-            RaisePropertyChanged(nameof(SeriesList));
-        }
-        private void getGenList()
-        {
-            if (_productDTOs == null) return;
-            GenList = new();
-            foreach (var vga in _productDTOs)
-            {
-                ProductAttributeStore vgaGen = new() { Name = vga.Gen };
-                vgaGen.CurrentStoreChanged += FilterProduct;
-                GenList.Add(vgaGen);
-            }
-            RaisePropertyChanged(nameof(GenList));
         }
     }
 }

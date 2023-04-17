@@ -12,12 +12,6 @@ namespace ESM.Modules.Normal.ViewModels
     [RegionMemberLifetime(KeepAlive = false)]
     public class MonitorViewModel : BaseProductViewModel<Monitor>
     {
-        public HashSet<ProductAttributeStore> CompanyList { get; set; } = new();
-        public HashSet<ProductAttributeStore> NeedList { get; set; }=new();
-        public HashSet<ProductAttributeStore> PanelList { get; set; } = new();
-        public HashSet<ProductAttributeStore> SeriesList { get; set; } = new();
-        public HashSet<ProductAttributeStore> RefreshRateList { get; set; } = new();
-        public HashSet<ProductAttributeStore> SizeList { get; set; } = new();
         public MonitorViewModel(IUnitOfWork unitOfWork, IModalService modalService)
             : base(unitOfWork, modalService)
         {
@@ -54,84 +48,10 @@ namespace ESM.Modules.Normal.ViewModels
                 if (e.IsChecked) ListSize.Add(e.Name);
             if (ListCompany.Count != 0) ProductList = ((List<Monitor>)ProductList).Where(x => ListCompany.Contains(x.Company)).ToList();
             if (ListPanel.Count != 0) ProductList = ((List<Monitor>)ProductList).Where(x => ListPanel.Contains(x.Panel)).ToList();
-            if (ListNeed.Count != 0) ProductList = ((List<Monitor>)ProductList).Where(x => ListNeed.Contains(x.Need)).ToList();
+            if (ListNeed.Count != 0) ProductList = ((List<Monitor>)ProductList).Where(x => IsInListNeed(ListNeed, x.Need)).ToList();
             if (ListRefreshRate.Count != 0) ProductList = ((List<Monitor>)ProductList).Where(x => ListRefreshRate.Contains(x.RefreshRate.ToString())).ToList();
             if (ListSeries.Count != 0) ProductList = ((List<Monitor>)ProductList).Where(x => ListSeries.Contains(x.Series)).ToList();
             if (ListSize.Count != 0) ProductList = ((List<Monitor>)ProductList).Where(x => ListSize.Contains(x.Size)).ToList();
-        }
-        private void getCompanyList()
-        {
-            if (_productDTOs == null) return;
-            CompanyList = new();
-            foreach (var monitor in _productDTOs)
-            {
-                ProductAttributeStore monitorCompany = new() { Name = monitor.Company };
-                monitorCompany.CurrentStoreChanged += FilterProduct;
-                CompanyList.Add(monitorCompany);
-            }
-            RaisePropertyChanged(nameof(CompanyList));
-        }
-        private void getPanelList()
-        {
-            if (_productDTOs == null) return;
-            PanelList = new();
-            foreach (var monitor in _productDTOs)
-            {
-                ProductAttributeStore monitorCPU = new() { Name = monitor.Panel };
-                monitorCPU.CurrentStoreChanged += OnIsCheckedChanged;
-                PanelList.Add(monitorCPU);
-            }
-            RaisePropertyChanged(nameof(PanelList));
-        }
-        private void getNeedList()
-        {
-            if (_productDTOs == null) return;
-            NeedList = new();
-            foreach (var monitor in _productDTOs)
-            {
-                if (string.IsNullOrWhiteSpace(monitor.Need)) continue;
-                ProductAttributeStore monitorNeed = new() { Name = monitor.Need };
-                monitorNeed.CurrentStoreChanged += FilterProduct;
-                NeedList.Add(monitorNeed);
-            }
-            RaisePropertyChanged(nameof(NeedList));
-        }
-        private void getRefreshRateList()
-        {
-            if (_productDTOs == null) return;
-            RefreshRateList = new();
-            foreach (var monitor in _productDTOs)
-            {
-                ProductAttributeStore monitorRAM = new() { Name = monitor.RefreshRate.ToString() };
-                monitorRAM.CurrentStoreChanged += FilterProduct;
-                RefreshRateList.Add(monitorRAM);
-            }
-            RaisePropertyChanged(nameof(RefreshRateList));
-        }
-        private void getSeriesList()
-        {
-            if (_productDTOs == null) return;
-            SeriesList = new();
-            foreach (var monitor in _productDTOs)
-            {
-                if (string.IsNullOrWhiteSpace(monitor.Series)) continue;
-                ProductAttributeStore monitorSeries = new() { Name = monitor.Series };
-                monitorSeries.CurrentStoreChanged += FilterProduct;
-                SeriesList.Add(monitorSeries);
-            }
-            RaisePropertyChanged(nameof(SeriesList));
-        }
-        private void getSizeList()
-        {
-            if (_productDTOs == null) return;
-            SizeList = new();
-            foreach (var monitor in _productDTOs)
-            {
-                ProductAttributeStore monitorStorage = new() { Name = monitor.Size };
-                monitorStorage.CurrentStoreChanged += FilterProduct;
-                SizeList.Add(monitorStorage);
-            }
-            RaisePropertyChanged(nameof(SizeList));
         }
     }
 }

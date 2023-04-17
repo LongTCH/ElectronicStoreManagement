@@ -15,11 +15,6 @@ namespace ESM.Modules.Normal.ViewModels
     [RegionMemberLifetime(KeepAlive = false)]
     public class SmartPhoneViewModel : BaseProductViewModel<Smartphone>
     {
-        public HashSet<ProductAttributeStore> CompanyList { get; set; } = new();
-        public HashSet<ProductAttributeStore> CPUList { get; set; } = new();
-        public HashSet<ProductAttributeStore> SeriesList { get; set; } = new();
-        public HashSet<ProductAttributeStore> RAMList { get; set; } = new();
-        public HashSet<ProductAttributeStore> StorageList { get; set; } = new();
         public SmartPhoneViewModel(IUnitOfWork unitOfWork, IModalService modalService)
             : base(unitOfWork, modalService)
         {
@@ -55,67 +50,6 @@ namespace ESM.Modules.Normal.ViewModels
             if (ListRAM.Count != 0) ProductList = ((List<Smartphone>)ProductList).Where(x => ListRAM.Contains(x.Ram)).ToList();
             if (ListSeries.Count != 0) ProductList = ((List<Smartphone>)ProductList).Where(x => ListSeries.Contains(x.Series)).ToList();
             if (ListStorage.Count != 0) ProductList = ((List<Smartphone>)ProductList).Where(x => ListStorage.Contains(x.Storage)).ToList();
-        }
-        private void getCompanyList()
-        {
-            if (_productDTOs == null) return;
-            CompanyList = new();
-            foreach (var smartphone in _productDTOs)
-            {
-                ProductAttributeStore smartphoneCompany = new() { Name = smartphone.Company };
-                smartphoneCompany.CurrentStoreChanged += FilterProduct;
-                CompanyList.Add(smartphoneCompany);
-            }
-            RaisePropertyChanged(nameof(CompanyList));
-        }
-        private void getCPUList()
-        {
-            if (_productDTOs == null) return;
-            CPUList = new();
-            foreach (var smartphone in _productDTOs)
-            {
-                ProductAttributeStore smartphoneCPU = new() { Name = smartphone.Cpu };
-                smartphoneCPU.CurrentStoreChanged += FilterProduct;
-                CPUList.Add(smartphoneCPU);
-            }
-            RaisePropertyChanged(nameof(CPUList));
-        }
-        private void getRAMList()
-        {
-            if (_productDTOs == null) return;
-            RAMList = new();
-            foreach (var smartphone in _productDTOs)
-            {
-                ProductAttributeStore smartphoneRAM = new() { Name = smartphone.Ram };
-                smartphoneRAM.CurrentStoreChanged += FilterProduct;
-                RAMList.Add(smartphoneRAM);
-            }
-            RaisePropertyChanged(nameof(RAMList));
-        }
-        private void getSeriesList()
-        {
-            if (_productDTOs == null) return;
-            SeriesList = new();
-            foreach (var smartphone in _productDTOs)
-            {
-                if (string.IsNullOrWhiteSpace(smartphone.Series)) continue;
-                ProductAttributeStore smartphoneSeries = new() { Name = smartphone.Series };
-                smartphoneSeries.CurrentStoreChanged += FilterProduct;
-                SeriesList.Add(smartphoneSeries);
-            }
-            RaisePropertyChanged(nameof(SeriesList));
-        }
-        private void getStorageList()
-        {
-            if (_productDTOs == null) return;
-            StorageList = new();
-            foreach (var smartphone in _productDTOs)
-            {
-                ProductAttributeStore smartphoneStorage = new() { Name = smartphone.Storage };
-                smartphoneStorage.CurrentStoreChanged += FilterProduct;
-                StorageList.Add(smartphoneStorage);
-            }
-            RaisePropertyChanged(nameof(StorageList));
         }
     }
 }

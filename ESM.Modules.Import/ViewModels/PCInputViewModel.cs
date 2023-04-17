@@ -206,6 +206,7 @@ namespace ESM.Modules.Import.ViewModels
                 AvatarPath = AvatarPath,
                 ImagePath = ImagePath,
                 Ram = Ram,
+                Need = Need,
                 Remain = 0
             };
         }
@@ -223,6 +224,7 @@ namespace ESM.Modules.Import.ViewModels
             AvatarPath = null;
             ImagePath = null;
             Ram = null;
+            Need = null;
             Remain = 0;
             RaisePropertyChanged(nameof(IsDefault));
         }
