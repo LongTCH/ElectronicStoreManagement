@@ -10,7 +10,7 @@ public partial class Monitor : ProductDTO
 
     public string Panel { get; set; } = null!;
 
-    public short RefreshRate { get; set; }
+    public string RefreshRate { get; set; } = null!;
 
     public string? Series { get; set; }
 

@@ -42,12 +42,6 @@ namespace ESM.Modules.Import.ViewModels
             get => need;
             set => SetProperty(ref need, value);
         }
-        public override void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            //Id = _unitOfWork.Pcharddisks.GetSuggestID();
-            //ProductList = new();
-            //NotInDatabase = new();
-        }
         protected override async void addCommand()
         {
             if (SelectedWorkType == "THÊM")

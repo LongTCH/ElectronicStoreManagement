@@ -4,7 +4,7 @@
     [Name] NVARCHAR(300) NOT NULL, 
     [Size] VARCHAR(50) NOT NULL, 
     [Panel] VARCHAR(50) NOT NULL, 
-    [RefreshRate] SMALLINT NOT NULL, 
+    [RefreshRate] NVARCHAR(50) NOT NULL, 
     [Price] MONEY NOT NULL, 
     [Discount] FLOAT NULL, 
     [Remain] INT NOT NULL, 

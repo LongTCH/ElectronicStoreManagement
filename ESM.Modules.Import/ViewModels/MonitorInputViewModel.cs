@@ -40,8 +40,8 @@ namespace ESM.Modules.Import.ViewModels
             set => SetProperty(ref panel, value);
         }
 
-        private short refreshRate;
-        public short RefreshRate
+        private string refreshRate;
+        public string RefreshRate
         {
             get => refreshRate;
             set => SetProperty(ref refreshRate, value);
@@ -236,9 +236,9 @@ namespace ESM.Modules.Import.ViewModels
             Product = null;
             Id = null;
             Company = null; Unit = null; Series = null;
-            Name = null; size = null; panel = null; RefreshRate = 0;
+            Name = null; size = null; panel = null; RefreshRate = null;
             AvatarPath = null; Price = 0; Discount = 0;
-            ImagePath = null; DetailPath = null; Remain = 0; need = null;
+            ImagePath = null; DetailPath = null; Remain = 0; Need = null;
             RaisePropertyChanged(nameof(IsDefault));
         }
     }

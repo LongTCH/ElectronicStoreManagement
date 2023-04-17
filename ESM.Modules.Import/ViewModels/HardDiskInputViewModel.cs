@@ -167,12 +167,6 @@ namespace ESM.Modules.Import.ViewModels
             }
             clearCommand();
         }
-        public override void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            //Id = _unitOfWork.Pcharddisks.GetSuggestID();
-            //ProductList = new();
-            //NotInDatabase = new();
-        }
 
         protected override async void deleteCommand(ProductDTO productDTO)
         {

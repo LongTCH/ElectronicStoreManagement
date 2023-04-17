@@ -396,7 +396,7 @@ namespace ESM.Modules.Import.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-
+            SelectedWorkType = "THÊM";
         }
         private IEnumerable<Laptop> Laptops;
         private IEnumerable<DataAccess.Models.Monitor> Monitors;

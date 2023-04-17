@@ -189,7 +189,7 @@
                         <TextBox materialDesign:HintAssist.Hint="Tấm nền"
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  Margin="20,10"
-                                 Text="{Binding Panel, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
+                                 Text="{Binding Panel, UpdateSourceTrigger=LostFocus}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
@@ -209,7 +209,7 @@
                         <TextBox materialDesign:TextFieldAssist.HasClearButton="True"
                                  materialDesign:HintAssist.Hint="Nhu cầu"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding Need, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
+                                 Text="{Binding Need, UpdateSourceTrigger=LostFocus}"
                                  Margin="20,10"
                                  FontSize="18" />
                     </DockPanel>

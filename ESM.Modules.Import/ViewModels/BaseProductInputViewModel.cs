@@ -165,9 +165,9 @@ namespace ESM.Modules.Import.ViewModels
             });
         }
 
-        public virtual void OnNavigatedTo(NavigationContext navigationContext)
+        public void OnNavigatedTo(NavigationContext navigationContext)
         {
-
+            SelectedWorkType = "THÊM";
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
