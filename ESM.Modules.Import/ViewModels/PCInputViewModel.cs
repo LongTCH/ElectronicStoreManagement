@@ -166,6 +166,7 @@ namespace ESM.Modules.Import.ViewModels
             ImagePath = Product.ImagePath;
             Cpu = Product.Cpu;
             Ram = Product.Ram;
+            Need = Product.Need;
             RaisePropertyChanged(nameof(IsDefault));
         }
 

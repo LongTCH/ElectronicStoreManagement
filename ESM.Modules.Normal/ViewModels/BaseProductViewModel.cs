@@ -2,10 +2,10 @@
 using ESM.Core.ShareServices;
 using ESM.Core.ShareStores;
 using ESM.Modules.DataAccess;
-using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using ESM.Modules.Normal.Views;
+using Microsoft.IdentityModel.Tokens;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -134,6 +134,7 @@ namespace ESM.Modules.Normal.ViewModels
         }
         protected bool IsInListNeed(List<string> listNeed, string need)
         {
+            if (string.IsNullOrWhiteSpace(need)) return false;
             foreach (var item in listNeed)
             {
                 if (need.Contains(item)) return true;

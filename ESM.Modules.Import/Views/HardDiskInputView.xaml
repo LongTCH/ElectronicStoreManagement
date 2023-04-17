@@ -327,6 +327,7 @@
             </StackPanel>
             <DataGrid ItemsSource="{Binding ProductList}"
                       IsReadOnly="True"
+                      
                       Grid.Row="1"
                       HorizontalAlignment="Stretch"
                       AutoGenerateColumns="False"
@@ -340,6 +341,7 @@
                       ScrollViewer.HorizontalScrollBarVisibility="Auto"
                       x:Name="myDataGrid"
                       MinHeight="100"
+                      MaxHeight="300"
                       helper:DataGridBehavior.RowNumbers="True">
                 <DataGrid.CellStyle>
                     <Style TargetType="{x:Type DataGridCell}"
