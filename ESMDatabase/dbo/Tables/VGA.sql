@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[VGA]
 (
 	[Id] CHAR(9) NOT NULL ,
-    [Name] NVARCHAR(100) NOT NULL, 
+    [Name] NVARCHAR(200) NOT NULL, 
     [Chip] VARCHAR(50) NOT NULL, 
     [Chipset] VARCHAR(10) NOT NULL, 
     [VRAM] VARCHAR(50) NOT NULL, 
