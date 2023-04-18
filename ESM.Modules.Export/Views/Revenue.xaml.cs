@@ -24,10 +24,7 @@ namespace ESM.Modules.Export.Views
         public Revenue()
         {
             InitializeComponent();
-            myChart.AxisY.Add(new(
-              ) );
-            myChart.AxisY[0].MinValue = 0;
-           
+            myChart.AxisY.Add(new() { MinValue = 0 });
         }
 
     }

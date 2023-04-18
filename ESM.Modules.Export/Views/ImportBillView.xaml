@@ -34,29 +34,33 @@
                         Orientation="Vertical">
                 <TextBlock Text="Thông tin đơn vị nhập"
                            FontWeight="Black"
+                           HorizontalAlignment="Center"
                            Margin="10,0,0,0" />
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
                         <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
-                    <DockPanel>
+                    <DockPanel HorizontalAlignment="Right">
                         <TextBox Margin="30,5"
                                  IsEnabled="False"
                                  BorderBrush="White"
                                  VerticalAlignment="Center"
                                  Width="120">Nhà phân phối:</TextBox>
                         <TextBox Margin="5"
+                                 Width="200"
                                  Text="{Binding ProviderName, UpdateSourceTrigger=PropertyChanged}"
                                  VerticalAlignment="Center" />
                     </DockPanel>
-                    <DockPanel Grid.Column="1">
+                    <DockPanel Grid.Column="1"
+                               HorizontalAlignment="Left">
                         <TextBox Margin="30,5"
                                  IsEnabled="False"
                                  BorderBrush="White"
                                  VerticalAlignment="Center"
                                  Width="120">Mã đơn nhập hàng:</TextBox>
                         <TextBox Margin="5"
+                                 Width="200"
                                  Text="{Binding ImportBillId}"
                                  VerticalAlignment="Center" />
                     </DockPanel>
@@ -66,14 +70,13 @@
                         <ColumnDefinition Width="1*" />
                         <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
-                    <DockPanel>
+                    <DockPanel HorizontalAlignment="Right">
                         <TextBox Margin="30,5"
                                  IsEnabled="False"
                                  BorderBrush="White"
                                  VerticalAlignment="Center"
                                  Width="120">Thời gian thanh toán:</TextBox>
-                        <DatePicker FontSize="18"
-                                    Margin="20,10"
+                        <DatePicker Width="210"
                                     SelectedDateFormat="Short"
                                     xml:lang="vi-VN"
                                     SelectedDate="{Binding ImportDate, UpdateSourceTrigger=PropertyChanged}" />
@@ -88,6 +91,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0"
                            FontWeight="Black"
+                           Width="200"
                            Margin="10,0,0,0">Thông tin sản phẩm nhập kho</TextBlock>
             </Grid>
         </StackPanel>

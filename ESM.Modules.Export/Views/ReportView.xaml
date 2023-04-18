@@ -15,7 +15,7 @@
              d:DesignHeight="450"
              d:DesignWidth="800"
              Background="White">
-    <Grid Background="AliceBlue">
+    <Grid>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -85,7 +85,6 @@
                                  IsChecked="{Binding IsYearCheck, UpdateSourceTrigger=PropertyChanged}"
                                  Margin="0,0,5,0" />
                 </StackPanel>
-                
                 <Button Width="65"
                         BorderThickness="0"
                         Margin="120,20,10,10"
@@ -149,7 +148,7 @@
                                     Zoom="X"
                                     x:Name="myChart">
                     <lvc:CartesianChart.DataTooltip>
-                        <tooltip:ReportTooltip/>
+                        <tooltip:ReportTooltip />
                     </lvc:CartesianChart.DataTooltip>
                 </lvc:CartesianChart>
             </Grid>
