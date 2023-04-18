@@ -348,10 +348,21 @@
                           HorizontalGridLinesBrush="DeepSkyBlue"
                           ScrollViewer.CanContentScroll="True"
                           ScrollViewer.VerticalScrollBarVisibility="Auto"
-                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                          MinHeight="100"
-                          MaxHeight="300"
-                          Style="{StaticResource MaterialDesignDataGrid}">
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                    <DataGrid.Style>
+                        <Style TargetType="DataGrid"
+                               BasedOn="{StaticResource MaterialDesignDataGrid}">
+                            <Setter Property="Height"
+                                    Value="300" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=cbxWorkType, Path=SelectedItem}"
+                                             Value="XÓA">
+                                    <Setter Property="Height"
+                                            Value="auto" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.Style>
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Mã"
                                             Binding="{Binding Id, Mode=OneWay}" />
