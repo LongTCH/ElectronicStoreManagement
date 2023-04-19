@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace ESM.Modules.DataAccess.Repositories
 {
+    internal enum TypeOfDuration { WEEK, MONTH, QUARTER, YEAR }
     public interface IReportRepository
     {
         IEnumerable<ReportMock> GetSoldNumberWeekDuration(DateTime startDate, DateTime endDate, ProductType type);
@@ -16,10 +17,10 @@ namespace ESM.Modules.DataAccess.Repositories
         IEnumerable<ReportMock> GetSoldNumberQuarterDuration(DateTime startDate, DateTime endDate, ProductType type);
         IEnumerable<ReportMock> GetSoldNumberYearDuration(DateTime startDate, DateTime endDate, ProductType type);
         IEnumerable<TopSellDTO> GetTopSoldProducts(DateTime startDate, DateTime endDate, ProductType type, int number);
-        IEnumerable<RevenueDTO> GetRevenueWeekDuration(DateTime startDate, DateTime endDate, ProductType type);
-        IEnumerable<RevenueDTO> GetRevenueMonthDuration(DateTime startDate, DateTime endDate, ProductType type);
-        IEnumerable<RevenueDTO> GetRevenueQuarterDuration(DateTime startDate, DateTime endDate, ProductType type);
-        IEnumerable<RevenueDTO> GetRevenueYearDuration(DateTime startDate, DateTime endDate, ProductType type);
+        IEnumerable<ReportMock> GetRevenueWeekDuration(DateTime startDate, DateTime endDate, ProductType type);
+        IEnumerable<ReportMock> GetRevenueMonthDuration(DateTime startDate, DateTime endDate, ProductType type);
+        IEnumerable<ReportMock> GetRevenueQuarterDuration(DateTime startDate, DateTime endDate, ProductType type);
+        IEnumerable<ReportMock> GetRevenueYearDuration(DateTime startDate, DateTime endDate, ProductType type);
     }
     public class ReportRepository : IReportRepository
     {
@@ -60,31 +61,8 @@ namespace ESM.Modules.DataAccess.Repositories
                     }).ToList();
             }
             list.Sort();
-            List<ReportMock> listRes = new();
-            for (var date = startDate; date <= endDate; date = date.AddDays(1))
-            {
-                listRes.Add(new()
-                {
-                    Year = date.Year,
-                    Sub = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(date, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday)
-                });
-            }
-            listRes = listRes.GroupBy(x => new { x.Year, x.Sub })
-                    .Select(g => new ReportMock { Year = g.Key.Year, Sub = g.Key.Sub })
-                    .ToList();
-            if (listRes.Count == 0 || list.Count == 0) return listRes;
-            int list_index = 0, listRes_index = 0;
-            while (listRes_index < listRes.Count)
-            {
-                if (listRes[listRes_index].Equals(list[list_index]))
-                {
-                    listRes[listRes_index] = list[list_index];
-                    list_index++;
-                    if (list_index == list.Count) break;
-                }
-                listRes_index++;
-            }
-            return listRes;
+            List<ReportMock> listRes = GetListResult(startDate, endDate, TypeOfDuration.WEEK);
+            return Merge(listRes, list);
         }
         public IEnumerable<ReportMock> GetSoldNumberMonthDuration(DateTime startDate, DateTime endDate, ProductType type)
         {
@@ -118,31 +96,8 @@ namespace ESM.Modules.DataAccess.Repositories
                     }).ToList();
             }
             list.Sort();
-            List<ReportMock> listRes = new();
-            for (var date = startDate; date <= endDate; date = date.AddDays(1))
-            {
-                listRes.Add(new()
-                {
-                    Year = date.Year,
-                    Sub = date.Month
-                });
-            }
-            listRes = listRes.GroupBy(x => new { x.Year, x.Sub })
-                    .Select(g => new ReportMock { Year = g.Key.Year, Sub = g.Key.Sub })
-                    .ToList();
-            if (listRes.Count == 0 || list.Count == 0) return listRes;
-            int list_index = 0, listRes_index = 0;
-            while (listRes_index < listRes.Count)
-            {
-                if (listRes[listRes_index].Equals(list[list_index]))
-                {
-                    listRes[listRes_index] = list[list_index];
-                    list_index++;
-                    if (list_index == list.Count) break;
-                }
-                listRes_index++;
-            }
-            return listRes;
+            List<ReportMock> listRes = GetListResult(startDate, endDate, TypeOfDuration.MONTH);
+            return Merge(listRes, list);
         }
         public IEnumerable<ReportMock> GetSoldNumberQuarterDuration(DateTime startDate, DateTime endDate, ProductType type)
         {
@@ -176,31 +131,8 @@ namespace ESM.Modules.DataAccess.Repositories
                     }).ToList();
             }
             list.Sort();
-            List<ReportMock> listRes = new();
-            for (var date = startDate; date <= endDate; date = date.AddDays(1))
-            {
-                listRes.Add(new()
-                {
-                    Year = date.Year,
-                    Sub = ((date.Month - 1) / 3) + 1
-                });
-            }
-            listRes = listRes.GroupBy(x => new { x.Year, x.Sub })
-                    .Select(g => new ReportMock { Year = g.Key.Year, Sub = g.Key.Sub })
-                    .ToList();
-            if (listRes.Count == 0 || list.Count == 0) return listRes;
-            int list_index = 0, listRes_index = 0;
-            while (listRes_index < listRes.Count)
-            {
-                if (listRes[listRes_index].Equals(list[list_index]))
-                {
-                    listRes[listRes_index] = list[list_index];
-                    list_index++;
-                    if (list_index == list.Count) break;
-                }
-                listRes_index++;
-            }
-            return listRes;
+            List<ReportMock> listRes = GetListResult(startDate, endDate, TypeOfDuration.QUARTER);
+            return Merge(listRes, list);
         }
         public IEnumerable<ReportMock> GetSoldNumberYearDuration(DateTime startDate, DateTime endDate, ProductType type)
         {
@@ -232,30 +164,8 @@ namespace ESM.Modules.DataAccess.Repositories
                     }).ToList();
             }
             list.Sort();
-            List<ReportMock> listRes = new();
-            for (var date = startDate; date <= endDate; date = date.AddDays(1))
-            {
-                listRes.Add(new()
-                {
-                    Year = date.Year,
-                });
-            }
-            listRes = listRes.GroupBy(x => x.Year)
-                    .Select(g => new ReportMock { Year = g.Key })
-                    .ToList();
-            if (listRes.Count == 0 || list.Count == 0) return listRes;
-            int list_index = 0, listRes_index = 0;
-            while (listRes_index < listRes.Count)
-            {
-                if (listRes[listRes_index].Equals(list[list_index]))
-                {
-                    listRes[listRes_index] = list[list_index];
-                    list_index++;
-                    if (list_index == list.Count) break;
-                }
-                listRes_index++;
-            }
-            return listRes;
+            List<ReportMock> listRes = GetListResult(startDate, endDate, TypeOfDuration.YEAR);
+            return Merge(listRes, list);
         }
         public IEnumerable<TopSellDTO> GetTopSoldProducts(DateTime startDate, DateTime endDate, ProductType type, int number)
         {
@@ -373,9 +283,38 @@ namespace ESM.Modules.DataAccess.Repositories
             }
             return res.OrderBy(x => x.Number).Take(number).ToList();
         }
-        public IEnumerable<RevenueDTO> GetRevenueWeekDuration(DateTime startDate, DateTime endDate, ProductType type)
+        public IEnumerable<ReportMock> GetRevenueWeekDuration(DateTime startDate, DateTime endDate, ProductType type)
         {
-            List<RevenueDTO> list = new();
+            List<ReportMock> listRes = GetListResult(startDate, endDate, TypeOfDuration.WEEK);
+            List<ReportMock> list = new();
+            if (type == ProductType.TOTAL)
+            {
+                var l = from x in _context.BillCombos
+                        where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate
+                        select new { Year = x.PurchasedTime.Year, Week = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(x.PurchasedTime, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday), Revenue = x.TotalAmount };
+                list = (from x in l.AsEnumerable()
+                        group x by new { x.Year, x.Week } into g
+                        select new ReportMock()
+                        {
+                            Year = g.Key.Year,
+                            Sub = g.Key.Week,
+                            Value = g.Sum(x => x.Revenue)
+                        }).ToList();
+                listRes = Merge(listRes, list);
+                var ll = from x in _context.Bills
+                        where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate
+                        select new { Year = x.PurchasedTime.Year, Week = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(x.PurchasedTime, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday), Revenue = x.TotalAmount };
+                list = (from x in ll.AsEnumerable()
+                        group x by new { x.Year, x.Week } into g
+                        select new ReportMock()
+                        {
+                            Year = g.Key.Year,
+                            Sub = g.Key.Week,
+                            Value = g.Sum(x => x.Revenue)
+                        }).ToList();
+                listRes = Merge(listRes, list);
+                return listRes;
+            }
             if (type == ProductType.COMBO)
             {
                 var l = from x in _context.BillCombos
@@ -383,7 +322,7 @@ namespace ESM.Modules.DataAccess.Repositories
                         select new { Year = x.PurchasedTime.Year, Week = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(x.PurchasedTime, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday), Revenue = x.TotalAmount };
                 list = (from x in l.AsEnumerable()
                         group x by new { x.Year, x.Week } into g
-                        select new RevenueDTO()
+                        select new ReportMock()
                         {
                             Year = g.Key.Year,
                             Sub = g.Key.Week,
@@ -399,42 +338,46 @@ namespace ESM.Modules.DataAccess.Repositories
                         select new { Year = x.PurchasedTime.Year, Week = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(x.PurchasedTime, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday), Revenue = y.Amount };
                 list = (from x in l.AsEnumerable()
                         group x by new { x.Year, x.Week } into g
-                        select new RevenueDTO()
+                        select new ReportMock()
                         {
                             Year = g.Key.Year,
                             Sub = g.Key.Week,
                             Value = g.Sum(x => x.Revenue)
                         }).ToList();
             }
-            List<RevenueDTO> listRes = new();
-            for (var date = startDate; date <= endDate; date = date.AddDays(1))
-            {
-                listRes.Add(new()
-                {
-                    Year = date.Year,
-                    Sub = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(date, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday)
-                });
-            }
-            listRes = listRes.GroupBy(x => new { x.Year, x.Sub })
-                    .Select(g => new RevenueDTO { Year = g.Key.Year, Sub = g.Key.Sub })
-                    .ToList();
-            if (listRes.Count == 0 || list.Count == 0) return listRes;
-            int list_index = 0, listRes_index = 0;
-            while (listRes_index < listRes.Count)
-            {
-                if (listRes[listRes_index].Equals(list[list_index]))
-                {
-                    listRes[listRes_index] = list[list_index];
-                    list_index++;
-                    if (list_index == list.Count) break;
-                }
-                listRes_index++;
-            }
-            return listRes;
+            return Merge(listRes, list);
         }
-        public IEnumerable<RevenueDTO> GetRevenueMonthDuration(DateTime startDate, DateTime endDate, ProductType type)
+        public IEnumerable<ReportMock> GetRevenueMonthDuration(DateTime startDate, DateTime endDate, ProductType type)
         {
-            List<RevenueDTO> list = new();
+            List<ReportMock> listRes = GetListResult(startDate, endDate, TypeOfDuration.MONTH);
+            List<ReportMock> list = new();
+            if (type == ProductType.TOTAL)
+            {
+                var l = from x in _context.BillCombos
+                        where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate
+                        select new { Year = x.PurchasedTime.Year, Month = x.PurchasedTime.Month, Revenue = x.TotalAmount };
+                list = (from x in l.AsEnumerable()
+                        group x by new { x.Year, x.Month } into g
+                        select new ReportMock()
+                        {
+                            Year = g.Key.Year,
+                            Sub = g.Key.Month,
+                            Value = g.Sum(x => x.Revenue)
+                        }).ToList();
+                Merge(listRes, list);
+                var ll = from x in _context.Bills
+                        where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate
+                        select new { Year = x.PurchasedTime.Year, Month = x.PurchasedTime.Month, Revenue = x.TotalAmount };
+                list = (from x in ll.AsEnumerable()
+                        group x by new { x.Year, x.Month } into g
+                        select new ReportMock()
+                        {
+                            Year = g.Key.Year,
+                            Sub = g.Key.Month,
+                            Value = g.Sum(x => x.Revenue)
+                        }).ToList();
+                return Merge(listRes, list);
+            }
             if (type == ProductType.COMBO)
             {
                 var l = from x in _context.BillCombos
@@ -442,7 +385,7 @@ namespace ESM.Modules.DataAccess.Repositories
                         select new { Year = x.PurchasedTime.Year, Month = x.PurchasedTime.Month, Revenue = x.TotalAmount };
                 list = (from x in l.AsEnumerable()
                         group x by new { x.Year, x.Month } into g
-                        select new RevenueDTO()
+                        select new ReportMock()
                         {
                             Year = g.Key.Year,
                             Sub = g.Key.Month,
@@ -458,42 +401,46 @@ namespace ESM.Modules.DataAccess.Repositories
                         select new { Year = x.PurchasedTime.Year, Month = x.PurchasedTime.Month, Revenue = y.Amount };
                 list = (from x in l.AsEnumerable()
                         group x by new { x.Year, x.Month } into g
-                        select new RevenueDTO()
+                        select new ReportMock()
                         {
                             Year = g.Key.Year,
                             Sub = g.Key.Month,
                             Value = g.Sum(x => x.Revenue)
                         }).ToList();
             }
-            List<RevenueDTO> listRes = new();
-            for (var date = startDate; date <= endDate; date = date.AddDays(1))
-            {
-                listRes.Add(new()
-                {
-                    Year = date.Year,
-                    Sub = date.Month
-                });
-            }
-            listRes = listRes.GroupBy(x => new { x.Year, x.Sub })
-                    .Select(g => new RevenueDTO { Year = g.Key.Year, Sub = g.Key.Sub })
-                    .ToList();
-            if (listRes.Count == 0 || list.Count == 0) return listRes;
-            int list_index = 0, listRes_index = 0;
-            while (listRes_index < listRes.Count)
-            {
-                if (listRes[listRes_index].Equals(list[list_index]))
-                {
-                    listRes[listRes_index] = list[list_index];
-                    list_index++;
-                    if (list_index == list.Count) break;
-                }
-                listRes_index++;
-            }
             return listRes;
         }
-        public IEnumerable<RevenueDTO> GetRevenueQuarterDuration(DateTime startDate, DateTime endDate, ProductType type)
+        public IEnumerable<ReportMock> GetRevenueQuarterDuration(DateTime startDate, DateTime endDate, ProductType type)
         {
-            List<RevenueDTO> list = new();
+            List<ReportMock> listRes = GetListResult(startDate, endDate, TypeOfDuration.QUARTER);
+            List<ReportMock> list = new();
+            if (type == ProductType.TOTAL)
+            {
+                var l = from x in _context.BillCombos
+                        where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate
+                        select new { Year = x.PurchasedTime.Year, Quarter = ((x.PurchasedTime.Month - 1) / 3) + 1, Revenue = x.TotalAmount };
+                list = (from x in l.AsEnumerable()
+                        group x by new { x.Year, x.Quarter } into g
+                        select new ReportMock()
+                        {
+                            Year = g.Key.Year,
+                            Sub = g.Key.Quarter,
+                            Value = g.Sum(x => x.Revenue)
+                        }).ToList();
+                Merge(listRes, list);
+                var ll = from x in _context.Bills
+                        where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate
+                        select new { Year = x.PurchasedTime.Year, Quarter = ((x.PurchasedTime.Month - 1) / 3) + 1, Revenue = x.TotalAmount };
+                list = (from x in ll.AsEnumerable()
+                        group x by new { x.Year, x.Quarter } into g
+                        select new ReportMock()
+                        {
+                            Year = g.Key.Year,
+                            Sub = g.Key.Quarter,
+                            Value = g.Sum(x => x.Revenue)
+                        }).ToList();
+                return Merge(listRes, list);
+            }
             if (type == ProductType.COMBO)
             {
                 var l = from x in _context.BillCombos
@@ -501,7 +448,7 @@ namespace ESM.Modules.DataAccess.Repositories
                         select new { Year = x.PurchasedTime.Year, Quarter = ((x.PurchasedTime.Month - 1) / 3) + 1, Revenue = x.TotalAmount };
                 list = (from x in l.AsEnumerable()
                         group x by new { x.Year, x.Quarter } into g
-                        select new RevenueDTO()
+                        select new ReportMock()
                         {
                             Year = g.Key.Year,
                             Sub = g.Key.Quarter,
@@ -517,42 +464,44 @@ namespace ESM.Modules.DataAccess.Repositories
                         select new { Year = x.PurchasedTime.Year, Quarter = ((x.PurchasedTime.Month - 1) / 3) + 1, Revenue = y.Amount };
                 list = (from x in l.AsEnumerable()
                         group x by new { x.Year, x.Quarter } into g
-                        select new RevenueDTO()
+                        select new ReportMock()
                         {
                             Year = g.Key.Year,
                             Sub = g.Key.Quarter,
                             Value = g.Sum(x => x.Revenue)
                         }).ToList();
             }
-            List<RevenueDTO> listRes = new();
-            for (var date = startDate; date <= endDate; date = date.AddDays(1))
-            {
-                listRes.Add(new()
-                {
-                    Year = date.Year,
-                    Sub = ((date.Month - 1) / 3) + 1
-                });
-            }
-            listRes = listRes.GroupBy(x => new { x.Year, x.Sub })
-                    .Select(g => new RevenueDTO { Year = g.Key.Year, Sub = g.Key.Sub })
-                    .ToList();
-            if (listRes.Count == 0 || list.Count == 0) return listRes;
-            int list_index = 0, listRes_index = 0;
-            while (listRes_index < listRes.Count)
-            {
-                if (listRes[listRes_index].Equals(list[list_index]))
-                {
-                    listRes[listRes_index] = list[list_index];
-                    list_index++;
-                    if (list_index == list.Count) break;
-                }
-                listRes_index++;
-            }
-            return listRes;
+            return Merge(listRes, list);
         }
-        public IEnumerable<RevenueDTO> GetRevenueYearDuration(DateTime startDate, DateTime endDate, ProductType type)
+        public IEnumerable<ReportMock> GetRevenueYearDuration(DateTime startDate, DateTime endDate, ProductType type)
         {
-            List<RevenueDTO> list = new();
+            List<ReportMock> listRes = GetListResult(startDate, endDate, TypeOfDuration.YEAR);
+            List<ReportMock> list = new();
+            if (type == ProductType.TOTAL)
+            {
+                var l = from x in _context.BillCombos
+                        where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate
+                        select new { Year = x.PurchasedTime.Year, Quarter = ((x.PurchasedTime.Month - 1) / 3) + 1, Revenue = x.TotalAmount };
+                list = (from x in l.AsEnumerable()
+                        group x by x.Year into g
+                        select new ReportMock()
+                        {
+                            Year = g.Key,
+                            Value = g.Sum(x => x.Revenue)
+                        }).ToList();
+                Merge(listRes, list);
+                var ll = from x in _context.Bills
+                        where x.PurchasedTime >= startDate && x.PurchasedTime <= endDate
+                        select new { Year = x.PurchasedTime.Year, Quarter = ((x.PurchasedTime.Month - 1) / 3) + 1, Revenue = x.TotalAmount };
+                list = (from x in ll.AsEnumerable()
+                        group x by x.Year into g
+                        select new ReportMock()
+                        {
+                            Year = g.Key,
+                            Value = g.Sum(x => x.Revenue)
+                        }).ToList();
+                return Merge(listRes, list);
+            }
             if (type == ProductType.COMBO)
             {
                 var l = from x in _context.BillCombos
@@ -560,7 +509,7 @@ namespace ESM.Modules.DataAccess.Repositories
                         select new { Year = x.PurchasedTime.Year, Quarter = ((x.PurchasedTime.Month - 1) / 3) + 1, Revenue = x.TotalAmount };
                 list = (from x in l.AsEnumerable()
                         group x by x.Year into g
-                        select new RevenueDTO()
+                        select new ReportMock()
                         {
                             Year = g.Key,
                             Value = g.Sum(x => x.Revenue)
@@ -575,34 +524,86 @@ namespace ESM.Modules.DataAccess.Repositories
                         select new { Year = x.PurchasedTime.Year, Revenue = y.Amount };
                 list = (from x in l.AsEnumerable()
                         group x by x.Year into g
-                        select new RevenueDTO()
+                        select new ReportMock()
                         {
                             Year = g.Key,
                             Value = g.Sum(x => x.Revenue)
                         }).ToList();
             }
-            List<RevenueDTO> listRes = new();
-            for (var date = startDate; date <= endDate; date = date.AddDays(1))
-            {
-                listRes.Add(new()
-                {
-                    Year = date.Year,
-                });
-            }
-            listRes = listRes.GroupBy(x => x.Year)
-                    .Select(g => new RevenueDTO { Year = g.Key })
-                    .ToList();
+            return listRes;
+        }
+        List<ReportMock> Merge(List<ReportMock> listRes, List<ReportMock> list)
+        {
             if (listRes.Count == 0 || list.Count == 0) return listRes;
             int list_index = 0, listRes_index = 0;
             while (listRes_index < listRes.Count)
             {
                 if (listRes[listRes_index].Equals(list[list_index]))
                 {
-                    listRes[listRes_index] = list[list_index];
+                    listRes[listRes_index] = listRes[listRes_index] + list[list_index];
                     list_index++;
                     if (list_index == list.Count) break;
                 }
                 listRes_index++;
+            }
+            return listRes;
+        }
+        List<ReportMock> GetListResult(DateTime startDate, DateTime endDate, TypeOfDuration type)
+        {
+            List<ReportMock> listRes = new();
+            switch (type)
+            {
+                case TypeOfDuration.WEEK:
+                    for (var date = startDate; date <= endDate; date = date.AddDays(1))
+                    {
+                        listRes.Add(new()
+                        {
+                            Year = date.Year,
+                            Sub = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(date, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday)
+                        });
+                    }
+                    listRes = listRes.GroupBy(x => new { x.Year, x.Sub })
+                            .Select(g => new ReportMock { Year = g.Key.Year, Sub = g.Key.Sub })
+                            .ToList();
+                    break;
+                case TypeOfDuration.MONTH:
+                    for (var date = startDate; date <= endDate; date = date.AddDays(1))
+                    {
+                        listRes.Add(new()
+                        {
+                            Year = date.Year,
+                            Sub = date.Month
+                        });
+                    }
+                    listRes = listRes.GroupBy(x => new { x.Year, x.Sub })
+                            .Select(g => new ReportMock { Year = g.Key.Year, Sub = g.Key.Sub })
+                            .ToList();
+                    break;
+                case TypeOfDuration.QUARTER:
+                    for (var date = startDate; date <= endDate; date = date.AddDays(1))
+                    {
+                        listRes.Add(new()
+                        {
+                            Year = date.Year,
+                            Sub = ((date.Month - 1) / 3) + 1
+                        });
+                    }
+                    listRes = listRes.GroupBy(x => new { x.Year, x.Sub })
+                            .Select(g => new ReportMock { Year = g.Key.Year, Sub = g.Key.Sub })
+                            .ToList();
+                    break;
+                default:
+                    for (var date = startDate; date <= endDate; date = date.AddDays(1))
+                    {
+                        listRes.Add(new()
+                        {
+                            Year = date.Year,
+                        });
+                    }
+                    listRes = listRes.GroupBy(x => x.Year)
+                            .Select(g => new ReportMock { Year = g.Key })
+                            .ToList();
+                    break;
             }
             return listRes;
         }

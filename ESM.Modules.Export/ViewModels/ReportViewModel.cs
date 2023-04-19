@@ -51,7 +51,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)(double)l.Value,
                             Name = $"Năm {l.Year} tuần {l.Sub}"
                         });
                     }
@@ -63,7 +63,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)(double)l.Value,
                             Name = $"Năm {l.Year} tháng {l.Sub}"
                         });
                     }
@@ -75,7 +75,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)(double)l.Value,
                             Name = $"Năm {l.Year} quý {l.Sub}"
                         });
                     }
@@ -87,7 +87,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)(double)l.Value,
                             Name = $"Năm {l.Year}"
                         });
                     }
@@ -111,7 +111,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)(double)l.Value,
                             Name = $"Năm {l.Year} tuần {l.Sub}"
                         });
                     }
@@ -123,7 +123,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)l.Value,
                             Name = $"Năm {l.Year} tháng {l.Sub}"
                         });
                     }
@@ -135,7 +135,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)l.Value,
                             Name = $"Năm {l.Year} quý {l.Sub}"
                         });
                     }
@@ -147,7 +147,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)l.Value,
                             Name = $"Năm {l.Year}"
                         });
                     }
@@ -171,7 +171,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)l.Value,
                             Name = $"Năm {l.Year} tuần {l.Sub}"
                         });
                     }
@@ -183,7 +183,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)l.Value,
                             Name = $"Năm {l.Year} tháng {l.Sub}"
                         });
                     }
@@ -195,7 +195,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)l.Value,
                             Name = $"Năm {l.Year} quý {l.Sub}"
                         });
                     }
@@ -207,7 +207,7 @@ namespace ESM.Modules.Export.ViewModels
                     {                     
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)l.Value,
                             Name = $"Năm {l.Year}"
                         });
                     }
@@ -231,7 +231,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)l.Value,
                             Name = $"Năm {l.Year} tuần {l.Sub}"
                         });
                     }
@@ -243,7 +243,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)l.Value,
                             Name = $"Năm {l.Year} tháng {l.Sub}"
                         });
                     }
@@ -255,7 +255,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)l.Value,
                             Name = $"Năm {l.Year} quý {l.Sub}"
                         });
                     }
@@ -267,7 +267,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)l.Value,
                             Name = $"Năm {l.Year}"
                         });
                     }
@@ -291,7 +291,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)l.Value,
                             Name = $"Năm {l.Year} tuần {l.Sub}"
                         });
                     }
@@ -303,7 +303,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)l.Value,
                             Name = $"Năm {l.Year} tháng {l.Sub}"
                         });
                     }
@@ -315,7 +315,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)l.Value,
                             Name = $"Năm {l.Year} quý {l.Sub}"
                         });
                     }
@@ -327,7 +327,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)l.Value,
                             Name = $"Năm {l.Year}"
                         });
                     }
@@ -351,7 +351,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)l.Value,
                             Name = $"Năm {l.Year} tuần {l.Sub}"
                         });
                     }
@@ -363,7 +363,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)l.Value,
                             Name = $"Năm {l.Year} tháng {l.Sub}"
                         });
                     }
@@ -375,7 +375,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)l.Value,
                             Name = $"Năm {l.Year} quý {l.Sub}"
                         });
                     }
@@ -387,7 +387,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)l.Value,
                             Name = $"Năm {l.Year}"
                         });
                     }
@@ -411,7 +411,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)l.Value,
                             Name = $"Năm {l.Year} tuần {l.Sub}"
                         });
                     }
@@ -424,7 +424,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)l.Value,
                             Name = $"Năm {l.Year} tháng {l.Sub}"
                         });
                     }
@@ -436,7 +436,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)l.Value,
                             Name = $"Năm {l.Year} quý {l.Sub}"
                         });
                     }
@@ -448,7 +448,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)l.Value,
                             Name = $"Năm {l.Year}",
                         });
                     }
@@ -472,7 +472,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)l.Value,
                             Name = $"Năm {l.Year} tuần {l.Sub}"
                         });
                     }
@@ -484,7 +484,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)l.Value,
                             Name = $"Năm {l.Year} tháng {l.Sub}"
                         });
                     }
@@ -496,7 +496,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)l.Value,
                             Name = $"Năm {l.Year} quý {l.Sub}"
                         });
                     }
@@ -508,7 +508,7 @@ namespace ESM.Modules.Export.ViewModels
                     {
                         values.Add(new ReportMockVm()
                         {
-                            Value = l.Value,
+                            Value = (double)l.Value,
                             Name = $"Năm {l.Year}"
                         });
                     }

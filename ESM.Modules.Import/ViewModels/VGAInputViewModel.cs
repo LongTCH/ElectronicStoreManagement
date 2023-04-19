@@ -19,31 +19,31 @@ namespace ESM.Modules.Import.ViewModels
         private string chip;
         public string Chip
         {
-            get => chip;
+            get => chip?.Trim();
             set => SetProperty(ref chip, value);
         }
         private string chipset;
         public string Chipset
         {
-            get => chipset;
+            get => chipset?.Trim();
             set => SetProperty(ref chipset, value);
         }
         private string vram;
         public string Vram
         {
-            get => vram;
+            get => vram?.Trim();
             set => SetProperty(ref vram, value);
         }
         private string gen;
         public string Gen
         {
-            get => gen;
+            get => gen?.Trim();
             set => SetProperty(ref gen, value);
         }
         private string series;
         public string Series
         {
-            get => series;
+            get => series?.Trim();
             set => SetProperty(ref series, value);
         }
         protected override async void addCommand()

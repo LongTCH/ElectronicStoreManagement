@@ -19,19 +19,19 @@ namespace ESM.Modules.Import.ViewModels
         private string cpu;
         public string Cpu
         {
-            get => cpu;
+            get => cpu?.Trim();
             set => SetProperty(ref cpu, value);
         }
         private string ram;
         public string Ram
         {
-            get => ram;
+            get => ram?.Trim();
             set => SetProperty(ref ram, value);
         }
         private string series;
         public string Series
         {
-            get => series;
+            get => series?.Trim();
             set => SetProperty(ref series, value);
         }
         private string storage;
@@ -39,7 +39,7 @@ namespace ESM.Modules.Import.ViewModels
 
         public string Storage
         {
-            get => storage;
+            get => storage?.Trim();
             set => SetProperty(ref storage, value);
         }
 
