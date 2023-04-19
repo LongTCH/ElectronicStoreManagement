@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace ESM.Modules.Normal.ViewModels
 {
+    [RegionMemberLifetime(KeepAlive = false)]
     public class ComboViewModel : BindableBase, INavigationAware
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -41,7 +42,7 @@ namespace ESM.Modules.Normal.ViewModels
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
-            return true;
+            return false;
         }
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
