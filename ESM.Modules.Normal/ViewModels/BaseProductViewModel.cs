@@ -5,7 +5,6 @@ using ESM.Modules.DataAccess;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using ESM.Modules.Normal.Views;
-using Microsoft.IdentityModel.Tokens;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -16,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace ESM.Modules.Normal.ViewModels
 {
+    [RegionMemberLifetime(KeepAlive = false)]
     public abstract class BaseProductViewModel<T> : BindableBase, INavigationAware
     where T : ProductDTO
     {
@@ -359,7 +359,7 @@ namespace ESM.Modules.Normal.ViewModels
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
-            return true;
+            return false;
         }
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
