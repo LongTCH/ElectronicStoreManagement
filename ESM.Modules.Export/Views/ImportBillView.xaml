@@ -22,16 +22,14 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <StackPanel>
-            <TextBox DockPanel.Dock="Top"
-                     Text="HÓA ĐƠN NHẬP HÀNG"
+            <TextBox Text="HÓA ĐƠN NHẬP HÀNG"
                      FontSize="20"
                      FontWeight="Bold"
                      Foreground="Blue"
                      BorderBrush="White"
                      IsEnabled="False"
                      HorizontalAlignment="Center" />
-            <StackPanel DockPanel.Dock="Top"
-                        Orientation="Vertical">
+            <StackPanel Orientation="Vertical">
                 <TextBlock Text="Thông tin đơn vị nhập"
                            FontWeight="Black"
                            HorizontalAlignment="Center"
