@@ -35,6 +35,7 @@ namespace ESM.Modules.Normal.ViewModels
         }
         public async void OnNavigatedTo(NavigationContext navigationContext)
         {
+            ComboList = null;
             ComboList = await _unitOfWork.Combos.GetAll();
         }
 
