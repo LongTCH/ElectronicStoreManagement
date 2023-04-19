@@ -5,16 +5,13 @@ using ESM.Modules.DataAccess;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using ESM.Modules.Export.Utilities;
-using ESM.Modules.Export.Views;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace ESM.Modules.Export.ViewModels
 {
@@ -87,7 +84,7 @@ namespace ESM.Modules.Export.ViewModels
         public DelegateCommand DeleteCommand { get; }
         public DelegateCommand DeleteAllCommand { get; }
         public DelegateCommand PayCommand { get; }
-        public IEnumerable<string> CategoryList { get; } = new[] { "Laptop", "PC", "Monitor", "Hard Disk", "CPU", "VGA", "SmartPhone", "Combo" };
+        public IEnumerable<string> CategoryList { get; } = new[] { "Laptop", "PC", "Monitor", "Hard Disk", "CPU", "VGA", "SmartPhone" };
         private async Task getProductList()
         {
             if (Category == "Laptop") Products = await _unitOfWork.Laptops.GetAll();
@@ -129,6 +126,21 @@ namespace ESM.Modules.Export.ViewModels
         }
         private async Task ExecutePay()
         {
+            if (string.IsNullOrWhiteSpace(ProviderName))
+            {
+                _modalService.ShowModal(ModalType.Error, "Nhập tên nhà cung cấp", "Thông báo");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(ImportBillId))
+            {
+                _modalService.ShowModal(ModalType.Error, "Nhập mã hóa đơn nhập hàng", "Thông báo");
+                return;
+            }
+            if (!ImportDate.HasValue)
+            {
+                _modalService.ShowModal(ModalType.Error, "Nhập ngày nhập hàng", "Thông báo");
+                return;
+            }
             ICollection<ImportProduct> billProducts = new List<ImportProduct>();
             foreach (var item in ProductBillList)
             {
