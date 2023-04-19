@@ -1,18 +1,9 @@
-﻿using ControlzEx.Standard;
-using ESM.Core.ShareServices;
+﻿using ESM.Core.ShareServices;
 using ESM.Modules.DataAccess;
-using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
-using Microsoft.Identity.Client.Extensions.Msal;
-using Prism.Commands;
-using Prism.Mvvm;
-using Prism.Regions;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -29,35 +20,35 @@ namespace ESM.Modules.Import.ViewModels
         private string size;
         public string Size
         {
-            get => size;
+            get => size?.Trim();
             set => SetProperty(ref size, value);
         }
 
         private string panel;
         public string Panel
         {
-            get => panel;
+            get => panel?.Trim();
             set => SetProperty(ref panel, value);
         }
 
         private string refreshRate;
         public string RefreshRate
         {
-            get => refreshRate;
+            get => refreshRate?.Trim();
             set => SetProperty(ref refreshRate, value);
         }
 
         private string series;
         public string Series
         {
-            get => series;
+            get => series?.Trim();
             set => SetProperty(ref series, value);
         }
 
         private string need;
         public string Need
         {
-            get => need;
+            get => need?.Trim();
             set => SetProperty(ref need, value);
         }
         protected override async void CurrentWorkTypeChanged()

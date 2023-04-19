@@ -187,7 +187,7 @@ namespace ESM.Modules.Import.ViewModels
             };
             try
             {
-                _unitOfWork.Accounts.Add(accountDTO);
+                await _unitOfWork.Accounts.Add(accountDTO);
                 
                 _modalService.ShowModal(ModalType.Information, "Tạo tài khoản mới thành công", "Thông báo");
                 _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.RegisterView);

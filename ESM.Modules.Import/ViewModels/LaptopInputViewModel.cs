@@ -1,16 +1,9 @@
 ﻿using ESM.Core.ShareServices;
 using ESM.Modules.DataAccess;
-using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
-using Microsoft.Identity.Client.Extensions.Msal;
-using Prism.Commands;
-using Prism.Mvvm;
-using Prism.Regions;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -28,39 +21,39 @@ namespace ESM.Modules.Import.ViewModels
         private string graphic;
         public string Graphic
         {
-            get => graphic;
+            get => graphic?.Trim();
             set => SetProperty(ref graphic, value);
         }
         private string ram;
         public string Ram
         {
-            get => ram;
+            get => ram?.Trim();
             set => SetProperty(ref ram, value);
         }
         private string cpu;
         public string Cpu
         {
-            get => cpu;
+            get => cpu?.Trim();
             set => SetProperty(ref cpu, value);
         }
 
         private string need;
         public string Need
         {
-            get => need;
+            get => need?.Trim();
             set => SetProperty(ref need, value);
         }
 
         private string series;
         public string Series
         {
-            get => series;
+            get => series?.Trim();
             set => SetProperty(ref series, value);
         }
         private string storage;
         public string Storage
         {
-            get => storage;
+            get => storage?.Trim();
             set => SetProperty(ref storage, value);
         }
 

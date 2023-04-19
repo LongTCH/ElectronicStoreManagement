@@ -52,13 +52,13 @@ namespace ESM.Modules.Import.ViewModels
         private string id;
         public string Id
         {
-            get => id;
+            get => id?.Trim();
             set => SetProperty(ref id, value);
         }
         private string name;
         public string Name
         {
-            get => name;
+            get => name?.Trim();
             set => SetProperty(ref name, value);
         }
         protected decimal price;
@@ -84,32 +84,32 @@ namespace ESM.Modules.Import.ViewModels
         private string detailPath;
         public string DetailPath
         {
-            get => detailPath;
+            get => detailPath?.Trim();
             set => SetProperty(ref detailPath, value);
         }
         private string avatarPath;
         public string AvatarPath
         {
-            get => avatarPath;
+            get => avatarPath?.Trim();
             set => SetProperty(ref avatarPath, value);
         }
         private string company;
         public string Company
         {
-            get => company;
+            get => company?.Trim();
             set => SetProperty(ref company, value);
         }
         private string unit;
         public string Unit
         {
-            get => unit;
+            get => unit?.Trim();
             set => SetProperty(ref unit, value);
         }
         public bool IsDefault => AvatarPath == null;
         private string imagePath;
         public string ImagePath
         {
-            get => imagePath;
+            get => imagePath?.Trim();
             set => SetProperty(ref imagePath, value);
         }
         public bool IsIdEnabled => SelectedWorkType == "THÊM";

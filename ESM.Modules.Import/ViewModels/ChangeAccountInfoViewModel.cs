@@ -200,7 +200,7 @@ namespace ESM.Modules.Import.ViewModels
             };
             try
             {
-                _unitOfWork.Accounts.Update(accountDTO);
+                await _unitOfWork.Accounts.Update(accountDTO);
                 var id = _accountStore.CurrentAccount.Id;
                 _accountStore.CurrentAccount = await _unitOfWork.Accounts.GetById(id);
                 _modalService.ShowModal(ModalType.Information, "Đã lưu thay đổi", "Thành công");

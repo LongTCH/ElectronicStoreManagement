@@ -5,7 +5,6 @@ using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -13,8 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using System.DirectoryServices.ActiveDirectory;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -62,7 +59,7 @@ namespace ESM.Modules.Import.ViewModels
         [Phone(ErrorMessage = "Not all digits")]
         public string ComboId
         {
-            get => comboId;
+            get => comboId?.Trim();
             set => SetProperty(ref comboId, value, () => this.ValidateProperty(value, nameof(ComboId)));
         }
         private double discount;
@@ -75,13 +72,13 @@ namespace ESM.Modules.Import.ViewModels
         private string comboName;
         public string ComboName
         {
-            get => comboName;
+            get => comboName?.Trim();
             set => SetProperty(ref comboName, value);
         }
         private string comboUnit;
         public string ComboUnit
         {
-            get => comboUnit;
+            get => comboUnit?.Trim();
             set => SetProperty(ref comboUnit, value);
         }
         public IEnumerable<string> WorkType { get; }

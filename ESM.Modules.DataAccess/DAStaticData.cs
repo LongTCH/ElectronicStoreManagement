@@ -4,7 +4,7 @@ namespace ESM.Modules.DataAccess
 {
     public enum ProductType
     {
-        LAPTOP, CPU, MONITOR, HARDDISK, VGA, SMARTPHONE, PC, COMBO
+        LAPTOP, CPU, MONITOR, HARDDISK, VGA, SMARTPHONE, PC, COMBO, TOTAL
     }
     public enum ReportDuration
     { WEEK, MONTH, QUARTER, YEAR }

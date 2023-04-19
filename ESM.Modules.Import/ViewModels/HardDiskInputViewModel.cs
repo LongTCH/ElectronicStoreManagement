@@ -1,13 +1,9 @@
 ﻿using ESM.Core.ShareServices;
 using ESM.Modules.DataAccess;
-using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
-using Prism.Regions;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,25 +20,25 @@ namespace ESM.Modules.Import.ViewModels
         private string storage;
         public string Storage
         {
-            get => storage;
+            get => storage?.Trim();
             set => SetProperty(ref storage, value);
         }
         private string connect;
         public string Connect
         {
-            get => connect;
+            get => connect?.Trim();
             set => SetProperty(ref connect, value);
         }
         private string series;
         public string Series
         {
-            get => series;
+            get => series?.Trim();
             set => SetProperty(ref series, value);
         }
         private string type;
         public string Type
         {
-            get => type;
+            get => type?.Trim();
             set => SetProperty(ref type, value);
         }
         protected override async void addCommand()

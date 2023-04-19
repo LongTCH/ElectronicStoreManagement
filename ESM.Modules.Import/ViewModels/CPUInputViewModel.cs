@@ -20,21 +20,21 @@ namespace ESM.Modules.Import.ViewModels
         private string socket;
         public string Socket
         {
-            get => socket;
+            get => socket?.Trim();
             set => SetProperty(ref socket, value);
         }
 
         private string need;
         public string Need
         {
-            get => need;
+            get => need?.Trim();
             set => SetProperty(ref need, value);
         }
 
         private string series;
         public string Series
         {
-            get => series;
+            get => series?.Trim();
             set => SetProperty(ref series, value);
         }
         protected override async void addCommand()
