@@ -36,6 +36,7 @@ namespace ESM.Modules.Normal.ViewModels
         public async void OnNavigatedTo(NavigationContext navigationContext)
         {
             ComboList = await _unitOfWork.Combos.GetAll();
+            RaisePropertyChanged(nameof(ComboList));
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

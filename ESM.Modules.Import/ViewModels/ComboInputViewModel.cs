@@ -36,7 +36,6 @@ namespace ESM.Modules.Import.ViewModels
             DeleteCommand = new(deleteCommand);
             AddCommand = new(async () => await addCommand());
             EditCommand = new(editCommand);
-            Init().Await();
         }
         HashSet<string> NotInDatabase;
         async Task Init()
@@ -159,7 +158,8 @@ namespace ESM.Modules.Import.ViewModels
                 MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
                 if (metroWindow.ShowModalMessageExternal("Cảnh báo", "Bạn có chắc chắn xóa?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
                 {
-                    await unitOfWork.Combos.Delete(combo.Id);
+                    var res = await unitOfWork.Combos.Delete(combo.Id);
+                    if ((bool)res == false) modalService.ShowModal(ModalType.Error, "Không thể xóa", "Lỗi");
                     var list = await unitOfWork.Combos.GetAll();
                     ComboList = new(list);
                 }
@@ -277,6 +277,10 @@ namespace ESM.Modules.Import.ViewModels
             CurrentCombo = null;
             Discount = 0;
             ComboDetail = new();
+            ComboId = null;
+            ComboName = null;
+            Discount = 0;
+            ComboUnit = null;
         }
         private async void findCommand(Combo combo)
         {
@@ -313,6 +317,7 @@ namespace ESM.Modules.Import.ViewModels
                         Discount = x.Discount,
                         Price = x.Price,
                         Unit = x.Unit,
+                        Remain= x.Remain,
                         IsSelected = ComboDetail.Any(p => p.Id == x.Id),
                     }).ToList(); break;
                 case "PC":
@@ -323,6 +328,7 @@ namespace ESM.Modules.Import.ViewModels
                         Discount = x.Discount,
                         Price = x.Price,
                         Unit = x.Unit,
+                        Remain = x.Remain,
                         IsSelected = ComboDetail.Any(p => p.Id == x.Id),
                     }).ToList(); break;
                 case "HARD DISK":
@@ -333,6 +339,7 @@ namespace ESM.Modules.Import.ViewModels
                         Discount = x.Discount,
                         Price = x.Price,
                         Unit = x.Unit,
+                        Remain = x.Remain,
                         IsSelected = ComboDetail.Any(p => p.Id == x.Id),
                     }).ToList(); break;
                 case "CPU":
@@ -342,6 +349,7 @@ namespace ESM.Modules.Import.ViewModels
                         Name = x.Name,
                         Discount = x.Discount,
                         Price = x.Price,
+                        Remain = x.Remain,
                         Unit = x.Unit,
                         IsSelected = ComboDetail.Any(p => p.Id == x.Id),
                     }).ToList(); break;
@@ -353,6 +361,7 @@ namespace ESM.Modules.Import.ViewModels
                         Discount = x.Discount,
                         Price = x.Price,
                         Unit = x.Unit,
+                        Remain = x.Remain,
                         IsSelected = ComboDetail.Any(p => p.Id == x.Id),
                     }).ToList(); break;
                 case "SMARTPHONE":
@@ -363,6 +372,7 @@ namespace ESM.Modules.Import.ViewModels
                         Discount = x.Discount,
                         Price = x.Price,
                         Unit = x.Unit,
+                        Remain = x.Remain,
                         IsSelected = ComboDetail.Any(p => p.Id == x.Id),
                     }).ToList(); break;
                 default:
@@ -373,6 +383,7 @@ namespace ESM.Modules.Import.ViewModels
                         Discount = x.Discount,
                         Price = x.Price,
                         Unit = x.Unit,
+                        Remain = x.Remain,
                         IsSelected = ComboDetail.Any(p => p.Id == x.Id),
                     }).ToList(); break;
             }
@@ -391,9 +402,10 @@ namespace ESM.Modules.Import.ViewModels
 
         }
 
-        public void OnNavigatedTo(NavigationContext navigationContext)
+        public async void OnNavigatedTo(NavigationContext navigationContext)
         {
             SelectedWorkType = "THÊM";
+            await Init();
         }
         private IEnumerable<Laptop> Laptops;
         private IEnumerable<DataAccess.Models.Monitor> Monitors;

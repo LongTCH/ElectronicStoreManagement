@@ -99,9 +99,9 @@
                                                 Binding="{Binding Unit, Mode=OneWay}" />
                             <DataGridTextColumn Header="Giảm giá"
                                                 IsReadOnly="True"
-                                                Binding="{Binding Discount, UpdateSourceTrigger=LostFocus}" />
+                                                Binding="{Binding Discount}" />
                             <DataGridTextColumn Header="Tồn kho"
-                                                Binding="{Binding Remain, UpdateSourceTrigger=LostFocus}" />
+                                                Binding="{Binding Remain}" />
                         </DataGrid.Columns>
                     </DataGrid>
                     <Button Content="THÊM"

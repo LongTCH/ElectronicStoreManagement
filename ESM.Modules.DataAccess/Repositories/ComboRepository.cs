@@ -53,10 +53,6 @@ namespace ESM.Modules.DataAccess.Repositories
             }
             return result;
         }
-        public override Task<object?> Add(Combo entity)
-        {
-            return base.Add(entity);
-        }
         public override async Task<object?> Update(Combo entity)
         {
             bool res = true;
@@ -92,6 +88,20 @@ namespace ESM.Modules.DataAccess.Repositories
             await task;
 
             return res;
+        }
+        public override async Task<object?> Delete(string id)
+        {
+            var res = false;
+            try
+            {
+                var item = await _context.Combos.FirstAsync(x => x.Id == id);
+                _context.Combos.Remove(item);
+                await _context.SaveChangesAsync();
+                res = true;
+            }
+            catch { }
+            return res;
+
         }
         private ProductDTO GetProduct(string id)
         {
