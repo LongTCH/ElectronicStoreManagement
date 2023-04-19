@@ -49,7 +49,7 @@
                                  Width="120">Nhà phân phối:</TextBox>
                         <TextBox Margin="5"
                                  Width="200"
-                                 Text="{Binding ProviderName, UpdateSourceTrigger=PropertyChanged}"
+                                 Text="{Binding ProviderName, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
                                  VerticalAlignment="Center" />
                     </DockPanel>
                     <DockPanel Grid.Column="1"
@@ -61,7 +61,7 @@
                                  Width="120">Mã đơn nhập hàng:</TextBox>
                         <TextBox Margin="5"
                                  Width="200"
-                                 Text="{Binding ImportBillId}"
+                                 Text="{Binding ImportBillId ,ValidatesOnExceptions=True}"
                                  VerticalAlignment="Center" />
                     </DockPanel>
                 </Grid>
@@ -79,7 +79,7 @@
                         <DatePicker Width="210"
                                     SelectedDateFormat="Short"
                                     xml:lang="vi-VN"
-                                    SelectedDate="{Binding ImportDate, UpdateSourceTrigger=PropertyChanged}" />
+                                    SelectedDate="{Binding ImportDate, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" />
                     </DockPanel>
                 </Grid>
             </StackPanel>

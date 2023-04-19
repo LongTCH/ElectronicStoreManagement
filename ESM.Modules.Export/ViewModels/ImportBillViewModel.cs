@@ -58,25 +58,22 @@ namespace ESM.Modules.Export.ViewModels
         public decimal TotalAmount => ProductBillList.Sum(s => s.Amount);
         public string TextFormPrice => NumberToText.FuncNumberToText((double)TotalAmount);
         private string providerName;
-        [Required(ErrorMessage = "Điền tên nhà phân phối")]
         public string ProviderName
         {
             get => providerName;
-            set => SetProperty(ref providerName, value, () => this.ValidateProperty(value, nameof(ProviderName)));
+            set => SetProperty(ref providerName, value);
         }
         private string importBillId;
-        [Required(ErrorMessage = "Điền mã hóa đơn nhập hàng")]
         public string ImportBillId
         {
             get => importBillId;
-            set => SetProperty(ref importBillId, value, () => this.ValidateProperty(value, nameof(ImportBillId)));
+            set => SetProperty(ref importBillId, value);
         }
         private DateTime? importDate;
-        [Required(ErrorMessage = "Điền thời gian thanh toán")]
         public DateTime? ImportDate
         {
             get => importDate;
-            set => SetProperty(ref importDate, value, () => this.ValidateProperty(value, nameof(ImportDate)));
+            set => SetProperty(ref importDate, value);
         }
         public ProductDTO SelectedProduct { get; set; }
         private IEnumerable<ProductDTO> products;
@@ -161,12 +158,12 @@ namespace ESM.Modules.Export.ViewModels
                     Street = ""
                 };
                 await _unitOfWork.Imports.Add(bill);
-                _modalService.ShowModal(ModalType.Information, "In thành công", "Thông báo");
+                _modalService.ShowModal(ModalType.Information, "Nhập thành công", "Thông báo");
 
             }
             catch (Exception)
             {
-                _modalService.ShowModal(ModalType.Error, "Đơn hàng không thành công", "Thông báo");
+                _modalService.ShowModal(ModalType.Error, "Nhập không thành công", "Thông báo");
 
             }
             ProductBillList.Clear();
