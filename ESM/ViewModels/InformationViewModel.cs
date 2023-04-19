@@ -1,10 +1,7 @@
-﻿using ESM.Core;
-using ESM.Core.ShareServices;
-using ESM.Views;
+﻿using ESM.Core.ShareServices;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
-using System.Linq;
 
 namespace ESM.ViewModels
 {
