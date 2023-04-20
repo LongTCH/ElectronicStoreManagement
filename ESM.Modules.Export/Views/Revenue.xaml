@@ -133,6 +133,11 @@
                            Content="COMBO"
                            FontWeight="Bold"
                            Margin="5" />
+                <CheckBox  x:Name="totalCheckBox"
+                           IsChecked="{Binding IsTotalCheck, UpdateSourceTrigger=PropertyChanged}"
+                           Content="DOANH THU TỔNG"
+                           FontWeight="Bold"
+                           Margin="5" />
             </StackPanel>
             <Grid Grid.Row="1"
                   Grid.Column="1"
@@ -144,7 +149,6 @@
                 <lvc:CartesianChart Margin="0,20,0,0"
                                     Series="{Binding Series}"
                                     LegendLocation="Right"
-                                    Zoom="Xy"
                                     x:Name="myChart">
                     <lvc:CartesianChart.DataTooltip>
                         <tooltip:ReportTooltip></tooltip:ReportTooltip>

@@ -98,6 +98,7 @@ namespace ESM.Modules.Export.ViewModels
                     Values = values,
                     DataLabels = true,
                     LineSmoothness = 0,
+                    LabelPoint = point => $"{point.Y:N0} đ"
                 };
                 series.Add(laptopSeries);
             }
@@ -158,6 +159,7 @@ namespace ESM.Modules.Export.ViewModels
                     Values = values,
                     DataLabels = true,
                     LineSmoothness = 0,
+                    LabelPoint = point => $"{point.Y:N0} đ"
                 };
                 series.Add(smartphoneSeries);
             }
@@ -218,6 +220,7 @@ namespace ESM.Modules.Export.ViewModels
                     Values = values,
                     DataLabels = true,
                     LineSmoothness = 0,
+                    LabelPoint = point => $"{point.Y:N0} đ"
                 };
                 series.Add(pcSeries);
             }
@@ -278,6 +281,7 @@ namespace ESM.Modules.Export.ViewModels
                     Values = values,
                     DataLabels = true,
                     LineSmoothness = 0,
+                    LabelPoint = point => $"{point.Y:N0} đ"
                 };
                 series.Add(cpuSeries);
             }
@@ -338,6 +342,7 @@ namespace ESM.Modules.Export.ViewModels
                     Values = values,
                     DataLabels = true,
                     LineSmoothness = 0,
+                    LabelPoint = point => $"{point.Y:N0} đ"
                 };
                 series.Add(vgaSeries);
             }
@@ -398,6 +403,7 @@ namespace ESM.Modules.Export.ViewModels
                     Values = values,
                     DataLabels = true,
                     LineSmoothness = 0,
+                    LabelPoint = point => $"{point.Y:N0} đ"
                 };
                 series.Add(monitorSeries);
             }
@@ -457,7 +463,8 @@ namespace ESM.Modules.Export.ViewModels
                     Title = "Harddisk",
                     Values = values,
                     DataLabels = true,
-                    LineSmoothness=0,          
+                    LineSmoothness=0,
+                    LabelPoint = point => $"{point.Y:N0} đ"
                 };
                 series.Add(harddiskSeries);
             }
@@ -517,10 +524,73 @@ namespace ESM.Modules.Export.ViewModels
                     Title = "Combo",
                     Values = values,
                     DataLabels = true,
-                    LineSmoothness=0,  
-                    LabelPoint = point => point.Y.ToString("C")
+                    LineSmoothness=0,
+                    LabelPoint = point => $"{point.Y:N0} đ"
                 };
+                series.Add(comboSeries);
             }
+            if (IsTotalCheck)
+            {
+                var values = new ChartValues<ReportMockVm>();
+                if (IsWeekCheck)
+                {
+                    var list = _unitOfWork.Reports.GetRevenueWeekDuration(StartTime, EndTime, ProductType.TOTAL);
+                    foreach (var l in list)
+                    {
+                        values.Add(new ReportMockVm()
+                        {
+                            Value = (double)l.Value,
+                            Name = $"Năm {l.Year} tuần {l.Sub}"
+                        });
+                    }
+                }
+                else if (IsMonthCheck)
+                {
+                    var list = _unitOfWork.Reports.GetRevenueMonthDuration(StartTime, EndTime, ProductType.TOTAL);
+                    foreach (var l in list)
+                    {
+                        values.Add(new ReportMockVm()
+                        {
+                            Value = (double)l.Value,
+                            Name = $"Năm {l.Year} tháng {l.Sub}"
+                        });
+                    }
+                }
+                else if (IsQuarterCheck)
+                {
+                    var list = _unitOfWork.Reports.GetRevenueQuarterDuration(StartTime, EndTime, ProductType.TOTAL);
+                    foreach (var l in list)
+                    {
+                        values.Add(new ReportMockVm()
+                        {
+                            Value = (double)l.Value,
+                            Name = $"Năm {l.Year} quý {l.Sub}"
+                        });
+                    }
+                }
+                else if (IsYearCheck)
+                {
+                    var list = _unitOfWork.Reports.GetRevenueYearDuration(StartTime, EndTime, ProductType.TOTAL);
+                    foreach (var l in list)
+                    {
+                        values.Add(new ReportMockVm()
+                        {
+                            Value = (double)l.Value,
+                            Name = $"Năm {l.Year}"
+                        });
+                    }
+                }
+                var totalSeries = new LineSeries
+                {
+                    Title = "Total",
+                    Values = values,
+                    DataLabels = true,
+                    LineSmoothness = 0,
+                    LabelPoint = point => $"{point.Y:N0} đ"
+                };
+                series.Add(totalSeries);
+            }
+
             Series = series;
         }
         public void OnNavigatedTo(NavigationContext navigationContext)
@@ -553,6 +623,7 @@ namespace ESM.Modules.Export.ViewModels
         public object MonitorList { get; set; }
         public object HarddiskList { get; set; }
         public object ComboList { get; set; }
+        public object TotalList { get; set; }
 
         private bool _isWeekCheck = true;
         public bool IsWeekCheck
@@ -583,6 +654,12 @@ namespace ESM.Modules.Export.ViewModels
         {
             get => _isComboCheck;
             set => SetProperty(ref _isComboCheck, value);
+        }
+        private bool _isTotalCheck = false;
+        public bool IsTotalCheck
+        {
+            get => _isTotalCheck;
+            set => SetProperty(ref _isTotalCheck, value);
         }
     }
 }

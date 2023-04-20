@@ -145,7 +145,6 @@
                 <lvc:CartesianChart Margin="0,20,0,0"
                                     Series="{Binding Series}"
                                     LegendLocation="Right"
-                                    Zoom="X"
                                     x:Name="myChart">
                     <lvc:CartesianChart.DataTooltip>
                         <tooltip:ReportTooltip />
