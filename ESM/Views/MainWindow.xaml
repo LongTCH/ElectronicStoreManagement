@@ -123,7 +123,7 @@
                         </mah:HamburgerMenuIconItem.Icon>
                     </mah:HamburgerMenuIconItem>
                     <mah:HamburgerMenuIconItem Label="Nhập liệu"
-                                               IsVisible="{Binding }"
+                                               IsVisible="{Binding IsTypingStaff}"
                                                Command="{Binding NavigateCommand}"
                                                CommandParameter="{x:Static esmcore:ViewNames.ProductInputView}">
                         <mah:HamburgerMenuIconItem.Icon>
@@ -159,6 +159,7 @@
                         </mah:HamburgerMenuIconItem.Icon>
                     </mah:HamburgerMenuIconItem>
                     <mah:HamburgerMenuIconItem Label="Thống kê"
+                                               IsVisible="{Binding IsAdmin}"
                                                Command="{Binding NavigateCommand}"
                                                CommandParameter="{x:Static esmcore:ViewNames.TabChartView}">
                         <mah:HamburgerMenuIconItem.Icon>
