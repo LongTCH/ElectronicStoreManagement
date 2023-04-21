@@ -24,6 +24,13 @@ public class PcRepository : ProductRepository<Pc>, IPcRepository
         await _context.SaveChangesAsync();
         return null;
     }
+    public override async Task<object?> Delete(string id)
+    {
+        var p = await _context.Pcs.SingleAsync(p => p.Id == id);
+        p.Remain = -1;
+        await _context.SaveChangesAsync();
+        return null;
+    }
     public override async Task<object?> Update(Pc entity)
     {
         bool res = true;

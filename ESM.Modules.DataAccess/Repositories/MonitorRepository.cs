@@ -59,5 +59,11 @@ public class MonitorRepository : ProductRepository<Models.Monitor>, IMonitorRepo
     {
         return await _context.Monitors.AnyAsync(p => p.Id == id);
     }
-
+    public override async Task<object?> Delete(string id)
+    {
+        var p = await _context.Monitors.SingleAsync(p => p.Id == id);
+        p.Remain = -1;
+        await _context.SaveChangesAsync();
+        return null;
+    }
 }

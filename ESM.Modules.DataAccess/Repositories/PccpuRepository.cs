@@ -58,4 +58,11 @@ public class PccpuRepository : ProductRepository<Pccpu>, IPccpuRepository
     {
         return GetSuggestID(ProductType.CPU);
     }
+    public override async Task<object?> Delete(string id)
+    {
+        var p = await _context.Pccpus.SingleAsync(p => p.Id == id);
+        p.Remain = -1;
+        await _context.SaveChangesAsync();
+        return null;
+    }
 }
