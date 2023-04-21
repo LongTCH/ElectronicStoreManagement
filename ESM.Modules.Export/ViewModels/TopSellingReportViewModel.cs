@@ -47,7 +47,7 @@ namespace ESM.Modules.Export.ViewModels
         {
             if (StartTime > EndTime)
             {
-                string message = "TG bắt đầu phải bé hơn TG kết thúc";
+                string message = "Nhập khoảng thời gian hợp lệ";
                 string title = "Time Error";
                 _modalService.ShowModal(ModalType.Error, message, title);
                 return;
