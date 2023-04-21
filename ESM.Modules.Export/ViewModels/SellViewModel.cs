@@ -82,7 +82,7 @@ namespace ESM.Modules.Export.ViewModels
         public DelegateCommand DeleteCommand { get; }
         public DelegateCommand DeleteAllCommand { get; }
         public DelegateCommand PayCommand { get; }
-        public IEnumerable<string> CategoryList { get; } = new[] { "Laptop", "PC", "Monitor", "Hard Disk", "CPU", "VGA", "SmartPhone", "Combo" };
+        public IEnumerable<string> CategoryList { get; } = new[] { "Laptop", "PC", "Monitor", "Hard Disk", "CPU", "VGA", "SmartPhone" };
         private async Task getProductList()
         {
             Products = null;
