@@ -33,8 +33,20 @@ namespace ESM.Modules.Export.Utilities
         }
         public string Name { get; set; }
         public decimal SellPrice { get; set; }
+        private string importPrice;
+        public string ImportPrice
+        {
+            get => importPrice;
+            set
+            {
+                importPrice = checkValidPrice(value).ToString();
+                RaisePropertyChanged(nameof(ImportPrice));
+                RaisePropertyChanged(nameof(Amount));
+                Action?.Invoke();
+            }
+        }
         public string Unit { get; set; }
-        public decimal Amount => SellPrice * Convert.ToInt32(Number);
+        public decimal Amount => Convert.ToDecimal(ImportPrice) * Convert.ToInt32(Number);
         public string? Warranty { get; set; }
         public Action? Action { get; set; }
         public int checkValidNumber(string? s)
@@ -53,6 +65,14 @@ namespace ESM.Modules.Export.Utilities
                 return Remain;
             }
             return (n == 0) ? 1 : n;
+        }
+        public decimal checkValidPrice(string? s)
+        {
+            if (!decimal.TryParse(s, out decimal n))
+            {
+                _modalService.ShowModal(ModalType.Error, "Không đúng định dạng", "Lỗi");
+            }
+            return n;
         }
     }
 }

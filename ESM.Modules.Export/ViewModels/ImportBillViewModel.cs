@@ -7,6 +7,7 @@ using ESM.Modules.DataAccess.Models;
 using ESM.Modules.Export.Utilities;
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,7 +16,8 @@ using System.Threading.Tasks;
 
 namespace ESM.Modules.Export.ViewModels
 {
-    public class ImportBillViewModel : BindableBase
+    [RegionMemberLifetime(KeepAlive = false)]
+    public class ImportBillViewModel : BindableBase, INavigationAware
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IModalService _modalService;
@@ -87,6 +89,7 @@ namespace ESM.Modules.Export.ViewModels
         public IEnumerable<string> CategoryList { get; } = new[] { "Laptop", "PC", "Monitor", "Hard Disk", "CPU", "VGA", "SmartPhone" };
         private async Task getProductList()
         {
+            Products = null;
             if (Category == "Laptop") Products = await _unitOfWork.Laptops.GetAll();
             else if (Category == "PC") Products = await _unitOfWork.Pcs.GetAll();
             else if (Category == "Monitor") Products = await _unitOfWork.Monitors.GetAll();
@@ -94,7 +97,6 @@ namespace ESM.Modules.Export.ViewModels
             else if (Category == "CPU") Products = await _unitOfWork.Pccpus.GetAll();
             else if (Category == "VGA") Products = await _unitOfWork.Vgas.GetAll();
             else if (Category == "SmartPhone") Products = await _unitOfWork.Smartphones.GetAll();
-            else Products = null;
         }
         private void addCommand()
         {
@@ -116,7 +118,7 @@ namespace ESM.Modules.Export.ViewModels
                     Id = SelectedProduct.Id,
                     Remain = int.MaxValue,
                     Number = "1",
-                    SellPrice = SelectedProduct.SellPrice,
+                    SellPrice = 0,
                     Unit = SelectedProduct.Unit,
                     Name = SelectedProduct.Name,
                 };
@@ -148,7 +150,7 @@ namespace ESM.Modules.Export.ViewModels
                 {
                     Amount = item.Amount,
                     Number = Convert.ToInt32(item.Number),
-                    SellPrice = item.SellPrice,
+                    SellPrice = Convert.ToDecimal(item.ImportPrice),
                     Warranty = item.Warranty,
                     ProductId = item.Id,
                     Unit = item.Unit,
@@ -189,6 +191,21 @@ namespace ESM.Modules.Export.ViewModels
         {
             RaisePropertyChanged(nameof(TotalAmount));
             RaisePropertyChanged(nameof(TextFormPrice));
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return false;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+
         }
     }
 }

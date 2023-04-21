@@ -150,8 +150,8 @@
                                     IsReadOnly="True"
                                     Binding="{Binding Name, Mode=OneWay}" />
                 <DataGridTextColumn Header="Giá"
-                                    IsReadOnly="True"
-                                    Binding="{Binding SellPrice, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
+                                    MinWidth="90"
+                                    Binding="{Binding ImportPrice, UpdateSourceTrigger=LostFocus}" />
                 <DataGridTextColumn Header="Đơn vị"
                                     IsReadOnly="True"
                                     Binding="{Binding Unit, Mode=OneWay}" />

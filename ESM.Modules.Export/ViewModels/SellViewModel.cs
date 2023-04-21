@@ -7,6 +7,7 @@ using ESM.Modules.Export.Utilities;
 using ESM.Modules.Export.Views;
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace ESM.Modules.Export.ViewModels
 {
-    public class SellViewModel : BindableBase
+    public class SellViewModel : BindableBase, INavigationAware
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IModalService _modalService;
@@ -84,6 +85,7 @@ namespace ESM.Modules.Export.ViewModels
         public IEnumerable<string> CategoryList { get; } = new[] { "Laptop", "PC", "Monitor", "Hard Disk", "CPU", "VGA", "SmartPhone", "Combo" };
         private async Task getProductList()
         {
+            Products = null;
             if (Category == "Laptop") Products = await _unitOfWork.Laptops.GetAll();
             else if (Category == "PC") Products = await _unitOfWork.Pcs.GetAll();
             else if (Category == "Monitor") Products = await _unitOfWork.Monitors.GetAll();
@@ -91,7 +93,6 @@ namespace ESM.Modules.Export.ViewModels
             else if (Category == "CPU") Products = await _unitOfWork.Pccpus.GetAll();
             else if (Category == "VGA") Products = await _unitOfWork.Vgas.GetAll();
             else if (Category == "SmartPhone") Products = await _unitOfWork.Smartphones.GetAll();
-            else Products = null;
         }
         private void addCommand()
         {
@@ -145,6 +146,24 @@ namespace ESM.Modules.Export.ViewModels
         {
             RaisePropertyChanged(nameof(TotalAmount));
             RaisePropertyChanged(nameof(TextFormPrice));
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            ProductBillList.Clear();
+            Category = null;
+            CustomerName = null;
+            CustomerPhone = null;
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            
         }
     }
    
