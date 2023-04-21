@@ -54,7 +54,7 @@ namespace ESM.Modules.Export.ViewModels
             }
         }
         public int SelectedIndex { get; set; }
-        public decimal TotalAmount => ProductBillList.Sum(s => s.Amount);
+        public decimal TotalAmount => ProductBillList.Sum(s => s.ImportAmount);
         public string TextFormPrice => NumberToText.FuncNumberToText((double)TotalAmount);
         private string providerName;
         public string ProviderName
@@ -148,7 +148,7 @@ namespace ESM.Modules.Export.ViewModels
             {
                 billProducts.Add(new ImportProduct()
                 {
-                    Amount = item.Amount,
+                    Amount = item.ImportAmount,
                     Number = Convert.ToInt32(item.Number),
                     SellPrice = Convert.ToDecimal(item.ImportPrice),
                     Warranty = item.Warranty,
