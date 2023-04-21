@@ -118,7 +118,7 @@ namespace ESM.Modules.Export.ViewModels
                     Id = SelectedProduct.Id,
                     Remain = int.MaxValue,
                     Number = "1",
-                    SellPrice = 0,
+                    ImportPrice = "0",
                     Unit = SelectedProduct.Unit,
                     Name = SelectedProduct.Name,
                 };
