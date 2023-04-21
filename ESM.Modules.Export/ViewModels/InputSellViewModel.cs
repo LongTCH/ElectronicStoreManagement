@@ -1,14 +1,27 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Prism.Mvvm;
+using Prism.Regions;
 
 namespace ESM.Modules.Export.ViewModels
 {
-    public class InputSellViewModel : BindableBase
+    [RegionMemberLifetime(KeepAlive = false)]
+    public class InputSellViewModel : BindableBase, INavigationAware
     {
         public InputSellViewModel()
+        {
+
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return false;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
         {
 
         }

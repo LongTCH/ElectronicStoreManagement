@@ -28,7 +28,7 @@ namespace ESM.Modules.Export.ViewModels
             _accountStore = accountStore;
             AddCommand = new(addCommand);
             CancelCommand = new(cancelCommand);
-            PayCommand = new(ExecutePay);
+            PayCommand = new(async() => await ExecutePay());
         }
         public string Header => "Combo";
         private Combo SelectedCombo;
@@ -53,7 +53,7 @@ namespace ESM.Modules.Export.ViewModels
         public DelegateCommand<Combo> AddCommand { get; }
         public DelegateCommand CancelCommand { get; }
         public DelegateCommand PayCommand { get; }
-        private void ExecutePay()
+        private async Task ExecutePay()
         {
             if (SelectedCombo == null) return;
             ProductBillList = new List<ProductBill>();
@@ -71,6 +71,7 @@ namespace ESM.Modules.Export.ViewModels
             if (Result == true)
             {
                 ProductBillList.Clear();
+                ComboList = await _unitOfWork.Combos.GetAll();
                 CustomerName = null;
                 CustomerPhone = null;
             }
