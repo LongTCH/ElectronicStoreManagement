@@ -35,6 +35,7 @@ namespace ESM.Modules.Import.ViewModels
             DeleteCommand = new(deleteCommand);
             NotInDatabase = new();
             WorkType = new[] { "THÊM", "SỬA", "XÓA" };
+            SelectedWorkType = "THÊM";
         }
         protected HashSet<string> NotInDatabase;
         private ObservableCollection<T> productList;
@@ -167,7 +168,7 @@ namespace ESM.Modules.Import.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            SelectedWorkType = "THÊM";
+            
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

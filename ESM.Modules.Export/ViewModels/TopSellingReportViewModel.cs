@@ -24,6 +24,9 @@ namespace ESM.Modules.Export.ViewModels
             _unitOfWork = unitOfWork;
             _modalService = modalService;
             AddCommand = new(async()=> await addCommand());
+            StartTime = DateTime.Now.AddMonths(-1);
+            EndTime = DateTime.Now;
+            IsHarddiskCheck = true;
             var customerVmMapper = new CartesianMapper<ReportMockVm>()
                 .Y((value, index) => index) // lets use the position of the item as X
                 .X(value => value.Value); //and PurchasedItems property as Y
@@ -50,43 +53,43 @@ namespace ESM.Modules.Export.ViewModels
             {
                 productList = await _unitOfWork.Reports.GetTopSoldProducts(StartTime, EndTime, ProductType.LAPTOP, 10);
                 Legend = "Laptop";
-                RaisePropertyChanged(nameof(Legend));
+                
             }
             else if (IsSmartphoneCheck)
             {
                 productList = await _unitOfWork.Reports.GetTopSoldProducts(StartTime, EndTime, ProductType.SMARTPHONE, 10);
                 Legend = "Smartphone";
-                RaisePropertyChanged(nameof(Legend));
+                
             }
             else if (IsPCCheck)
             {
                 productList = await _unitOfWork.Reports.GetTopSoldProducts(StartTime, EndTime, ProductType.PC, 10);
                 Legend = "PC";
-                RaisePropertyChanged(nameof(Legend));
+                
             }
             else if (IsCPUCheck)
             {
                 productList = await _unitOfWork.Reports.GetTopSoldProducts(StartTime, EndTime, ProductType.CPU, 10);
                 Legend = "CPU";
-                RaisePropertyChanged(nameof(Legend));
+                
             }
             else if (IsVGACheck)
             {
                 Legend = "VGA";
-                RaisePropertyChanged(nameof(Legend));
+                
                 productList = await _unitOfWork.Reports.GetTopSoldProducts(StartTime, EndTime, ProductType.VGA, 10);
             }
             else if (IsMonitorCheck)
             {
                 productList = await _unitOfWork.Reports.GetTopSoldProducts(StartTime, EndTime, ProductType.MONITOR, 10);
                 Legend = "Monitor";
-                RaisePropertyChanged(nameof(Legend));
+                
             }
             else if (IsHarddiskCheck)
             {
                 productList = await _unitOfWork.Reports.GetTopSoldProducts(StartTime, EndTime, ProductType.HARDDISK, 10);
                 Legend = "Hard Disk";
-                RaisePropertyChanged(nameof(Legend));
+                
             }
             foreach (var sale in productList)
             {
@@ -99,21 +102,17 @@ namespace ESM.Modules.Export.ViewModels
             }
             Customers = chartValues;
             RaisePropertyChanged(nameof(Customers));
+            RaisePropertyChanged(nameof(Legend));
             Labels = labels;
         }
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            StartTime = DateTime.Now.AddMonths(-1);
-            EndTime = DateTime.Now;
-            IsHarddiskCheck = true;
-            RaisePropertyChanged(nameof(IsHarddiskCheck));
-            RaisePropertyChanged(nameof(StartTime));
-            RaisePropertyChanged(nameof(EndTime));
+            
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
-            return true;
+            return false;
         }
 
         public void OnNavigatedFrom(NavigationContext navigationContext)

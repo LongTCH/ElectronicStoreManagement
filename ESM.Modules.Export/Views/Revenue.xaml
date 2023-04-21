@@ -150,6 +150,9 @@
                                     Series="{Binding Series}"
                                     LegendLocation="Right"
                                     x:Name="myChart">
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis MinValue="0" />
+                    </lvc:CartesianChart.AxisY>
                     <lvc:CartesianChart.DataTooltip>
                         <tooltip:ReportTooltip></tooltip:ReportTooltip>
                     </lvc:CartesianChart.DataTooltip>

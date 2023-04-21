@@ -7,7 +7,6 @@ using Prism.Commands;
 using System;
 using Prism.Mvvm;
 using Prism.Regions;
-using System.Windows;
 using LiveCharts.Wpf;
 using ESM.Modules.DataAccess;
 using System.Threading.Tasks;
@@ -24,6 +23,8 @@ namespace ESM.Modules.Export.ViewModels
             _unitOfWork = unitOfWork;
             _modalService = modalService;
             AddCommand = new(async() => await addCommand());
+            StartTime = DateTime.Now.AddMonths(-1);
+            EndTime = DateTime.Now;
             var customerVmMapper = new CartesianMapper<ReportMockVm>()
                 .X((value, index) => index) // lets use the position of the item as X
                 .Y(value => value.Value); //and PurchasedItems property as Y
@@ -596,14 +597,10 @@ namespace ESM.Modules.Export.ViewModels
         }
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            StartTime = DateTime.Now.AddMonths(-1);
-            EndTime = DateTime.Now;
-            RaisePropertyChanged(nameof(StartTime));
-            RaisePropertyChanged(nameof(EndTime));
         }
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
-            return true;
+            return false;
         }
         public void OnNavigatedFrom(NavigationContext navigationContext) { }
 

@@ -123,6 +123,9 @@
                     <lvc:CartesianChart.Series>
                         <lvc:RowSeries Values="{Binding Customers}" />
                     </lvc:CartesianChart.Series>
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis MinValue="0" />
+                    </lvc:CartesianChart.AxisX>
                     <lvc:CartesianChart.AxisY>
                         <lvc:Axis Labels="{Binding Labels}">
                             <lvc:Axis.Separator>

@@ -10,7 +10,6 @@ namespace ESM.Modules.Export.Views
         public TopSellingReport()
         {
             InitializeComponent();
-            myChart.AxisX.Add(new() { MinValue = 0 });
         }
     }
 }

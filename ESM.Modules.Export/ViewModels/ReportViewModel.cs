@@ -24,6 +24,8 @@ namespace ESM.Modules.Export.ViewModels
             _unitOfWork = unitOfWork;
             _modalService = modalService;
             AddCommand = new(async() => await addCommand());
+            StartTime = DateTime.Now.AddMonths(-1);
+            EndTime = DateTime.Now;
             var customerVmMapper = new CartesianMapper<ReportMockVm>()
                 .X((value, index) => index) // lets use the position of the item as X
                 .Y(value => value.Value); //and PurchasedItems property as Y
@@ -523,14 +525,11 @@ namespace ESM.Modules.Export.ViewModels
                 };
                 series.Add(comboSeries);
             }
+            
             Series = series;
         }
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            StartTime = DateTime.Now.AddMonths(-1);
-            EndTime = DateTime.Now;
-            RaisePropertyChanged(nameof(StartTime));
-            RaisePropertyChanged(nameof(EndTime));
         }
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {

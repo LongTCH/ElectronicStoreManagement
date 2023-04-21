@@ -15,7 +15,6 @@ namespace ESM.Modules.Export.Views
         public ReportView()
         {
             InitializeComponent();
-            myChart.AxisY.Add(new() { MinValue = 0 });
         }
     }
 }
