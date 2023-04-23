@@ -7,6 +7,7 @@ using MahApps.Metro.Controls;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Prism.Regions;
 
 namespace ESM.Modules.Import.ViewModels
 {
@@ -51,128 +52,74 @@ namespace ESM.Modules.Import.ViewModels
             get => need?.Trim();
             set => SetProperty(ref need, value);
         }
-        protected override async void CurrentWorkTypeChanged()
-        {
-            if (SelectedWorkType == "THÊM")
-            {
-                ProductList = new();
-            }
-            else
-            {
-                var list = await _unitOfWork.Monitors.GetAll();
-                ProductList = new(list);
-            }
-            clearCommand();
-        }
 
         protected override async Task saveCommand()
         {
-            var res = await _unitOfWork.Monitors.AddList(ProductList);
-            if ((bool)res)
-            {
-                _modalService.ShowModal(ModalType.Information, "Đã lưu", "Thông báo");
-                ProductList = new();
-                NotInDatabase = new();
-            }
-            else _modalService.ShowModal(ModalType.Error, "Lưu không thành công", "Lỗi");
-            await Task.CompletedTask;
-        }
-
-        protected override void clearCommand()
-        {
-            if (SelectedWorkType == "THÊM")
-            {
-                Empty();
-            }
-            else if (SelectedWorkType == "SỬA")
-            {
-                Price = 0; Discount = null;
-                if (Product != null) findCommand(Product);
-            }
-        }
-
-        protected override async void addCommand()
-        {
-            if (SelectedWorkType == "THÊM")
-            {
-                if (Id == null || Id.Length != 9 || !Id.StartsWith(DAStaticData.IdPrefix[ProductType.MONITOR]) || !Id.All(x => char.IsDigit(x)))
-                {
-                    _modalService.ShowModal(ModalType.Error, "Sai định dạng ID", "Cảnh báo");
-                    return;
-                }
-                //make the two calls to IsProductExistInBill and IsIdExist concurrently
-                var task1 = _unitOfWork.Bills.IsProductExistInBill(Id);
-                var task2 = _unitOfWork.Monitors.IsIdExist(Id);
-
-                await Task.WhenAll(task1, task2);
-
-                bool exist = task1.Result || task2.Result;
-
-                if (ProductList.Any(x => x.Id == Id) || exist)
-                {
-                    _modalService.ShowModal(ModalType.Error, "ID đã tồn tại", "Cảnh báo");
-                    return;
-                }
-                if (Company == null || Unit == null ||
-                Name == null || Size == null || Panel == null
-                || Price == 0)
-                {
-                    _modalService.ShowModal(ModalType.Error, "Nhập tất cả thông tin cần thiết", "Cảnh báo");
-                    return;
-                }
-                Monitor monitorsDTO = GetMonitor();
-                ProductList.Add(monitorsDTO);
-                NotInDatabase.Add(Id);
-                clearCommand();
-            }
-            else if (SelectedWorkType == "SỬA")
-            {
-                if (Company == null || Unit == null ||
+            if (Company == null || Unit == null ||
                 Name == null || size == null || panel == null
                 || Price == 0)
+            {
+                _modalService.ShowModal(ModalType.Error, "Nhập tất cả thông tin cần thiết", "Cảnh báo");
+                return;
+            }
+            MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
+            if (metroWindow.ShowModalMessageExternal("Thông báo", "Bạn có chắc chắn lưu?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
+            {
+                var p = GetMonitor(Id, Remain);
+                if (Product.InMemory)
                 {
-                    _modalService.ShowModal(ModalType.Error, "Nhập tất cả thông tin cần thiết", "Cảnh báo");
-                    return;
+                    var res = await _unitOfWork.Monitors.Update(p);
+                    if ((bool)res)
+                    {
+                        _modalService.ShowModal(ModalType.Information, "Cập nhật thành công", "Thông báo");
+                        // Clear
+                        Empty();
+                        var index = ProductList.IndexOf(Product);
+                        ProductList.RemoveAt(index);
+                        ProductList.Insert(index, Product);
+                    }
+                    else _modalService.ShowModal(ModalType.Error, "Có lỗi xảy ra", "Thông báo");
                 }
-                Monitor monitorsDTO = GetMonitor();
-                monitorsDTO.Remain = Remain;
-                monitorsDTO.Need = Need;
-                var res = await _unitOfWork.Monitors.Update(monitorsDTO);
-                if ((bool)res)
-                    _modalService.ShowModal(ModalType.Information, "Cập nhật thành công", "Thông báo");
-                else _modalService.ShowModal(ModalType.Error, "Có lỗi xảy ra", "Thông báo");
-                // Clear
-                Empty();
-                var list = await _unitOfWork.Monitors.GetAll();
-                ProductList = new(list);
+                else
+                {
+                    var res = await _unitOfWork.Monitors.Add(p);
+                    if ((bool)res)
+                    {
+                        _modalService.ShowModal(ModalType.Information, "Đã lưu", "Thông báo");
+                        // Clear
+                        Empty();
+                        ProductList.Remove(ProductList.Last());
+                        ProductList.Add(p);
+                    }
+                    else _modalService.ShowModal(ModalType.Error, "Lưu không thành công", "Lỗi");
+                    await Task.CompletedTask;
+                }
             }
         }
 
-        protected override async void deleteCommand(ProductDTO productDTO)
+        protected override void addCommand()
         {
-            if (SelectedWorkType == "THÊM")
+            Monitor pccpuDTO = GetMonitor(GetNewID(ProductType.MONITOR), 0);
+            pccpuDTO.InMemory = false;
+            ProductList.Add(pccpuDTO);
+            findCommand(pccpuDTO);
+            TurnOnEditCommand.Execute();
+        }
+
+        protected override async void deleteCommand()
+        {
+            MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
+            if (metroWindow.ShowModalMessageExternal("Cảnh báo", "Bạn có chắc chắn xóa?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
             {
-                if (NotInDatabase.Contains(productDTO.Id))
-                {
-                    var p = ProductList.Single(x => x.Id == productDTO.Id);
-                    ProductList.Remove(p);
-                    NotInDatabase.Remove(productDTO.Id);
-                }
-            }
-            else
-            {
-                MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
-                if (metroWindow.ShowModalMessageExternal("Cảnh báo", "Bạn có chắc chắn xóa?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
-                {
-                    await _unitOfWork.Monitors.Delete(productDTO.Id);
-                    var list = await _unitOfWork.Monitors.GetAll();
-                    ProductList = new(list);
-                }
+                if (Product.InMemory) await _unitOfWork.Monitors.Delete(Product.Id);
+                ProductList.Remove(Product);
+                Empty();
             }
         }
 
         protected override void findCommand(ProductDTO productDTO)
         {
+            if (productDTO == null) return;
             Product = (Monitor)productDTO;
             Name = Product.Name;
             Size = Product.Size;
@@ -191,17 +138,11 @@ namespace ESM.Modules.Import.ViewModels
             Need = Product.Need;
             RaisePropertyChanged(nameof(IsDefault));
         }
-
-        protected override void editCommand(ProductDTO productDTO)
+        protected override void clear()
         {
-            if (SelectedWorkType == "THÊM")
-            {
-                ProductList.Remove((Monitor)productDTO);
-                NotInDatabase.Remove(productDTO.Id);
-            }
-            findCommand(productDTO);
+            findCommand(Product);
         }
-        private Monitor GetMonitor()
+        private Monitor GetMonitor(string id, int remain)
         {
             return new()
             {
@@ -212,12 +153,12 @@ namespace ESM.Modules.Import.ViewModels
                 Company = Company,
                 DetailPath = DetailPath,
                 Discount = Discount,
-                Id = Id,
+                Id = id,
                 ImagePath = ImagePath,
                 AvatarPath = AvatarPath,
                 Price = Price,
                 Unit = Unit,
-                Remain = 0,
+                Remain = remain,
                 RefreshRate = RefreshRate,
                 Need = null
             };
@@ -231,6 +172,12 @@ namespace ESM.Modules.Import.ViewModels
             AvatarPath = null; Price = 0; Discount = 0;
             ImagePath = null; DetailPath = null; Remain = 0; Need = null;
             RaisePropertyChanged(nameof(IsDefault));
+        }
+
+        public override async void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            clear();
+            ProductList = new(await _unitOfWork.Monitors.GetAll());
         }
     }
 }

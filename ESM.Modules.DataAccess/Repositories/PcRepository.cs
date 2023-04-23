@@ -20,9 +20,14 @@ public class PcRepository : ProductRepository<Pc>, IPcRepository
     }
     public override async Task<object?> Add(Pc entity)
     {
-        await _context.Pcs.AddAsync(entity);
-        await _context.SaveChangesAsync();
-        return null;
+        bool res = true;
+        try
+        {
+            await _context.Pcs.AddAsync(entity);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception) { res = false; }
+        return res;
     }
     public override async Task<object?> Delete(string id)
     {
@@ -62,8 +67,8 @@ public class PcRepository : ProductRepository<Pc>, IPcRepository
     {
         return await _context.Pcs.AnyAsync(x => x.Id == id);
     }
-    public string GetSuggestID()
+    public async Task<string> GetSuggestID()
     {
-        return GetSuggestID(ProductType.PC);
+        return await GetSuggestID(ProductType.PC);
     }
 }

@@ -16,7 +16,6 @@ namespace ESM.Modules.DataAccess.Infrastructure
     }
     public interface IProductRepository<T> : IBaseRepository<T> where T: class
     {
-        string GetSuggestID();
-
+        Task<string> GetSuggestID();
     }
 }

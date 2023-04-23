@@ -2,6 +2,7 @@
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace ESM.Modules.DataAccess.Repositories;
 public interface ILaptopRepository : IProductRepository<Laptop>
@@ -20,9 +21,14 @@ public class LaptopRepository : ProductRepository<Laptop>, ILaptopRepository
     }
     public override async Task<object?> Add(Laptop entity)
     {
-        await _context.Laptops.AddAsync(entity);
-        await _context.SaveChangesAsync();
-        return null;
+        bool res = true;
+        try
+        {
+            await _context.Laptops.AddAsync(entity);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception) { res = false; }
+        return res;
     }
     public override async Task<object?> Update(Laptop entity)
     {
@@ -47,9 +53,9 @@ public class LaptopRepository : ProductRepository<Laptop>, ILaptopRepository
         await _context.SaveChangesAsync();
         return null;
     }
-    public string GetSuggestID()
+    public async Task<string> GetSuggestID()
     {
-        return GetSuggestID(ProductType.LAPTOP);
+        return await GetSuggestID(ProductType.LAPTOP);
     }
 
     public override async Task<object?> AddList(IEnumerable<Laptop> list)
