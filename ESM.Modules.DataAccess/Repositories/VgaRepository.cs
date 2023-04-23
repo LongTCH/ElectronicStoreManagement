@@ -20,9 +20,14 @@ public class VgaRepository : ProductRepository<Vga>, IVgaRepository
     }
     public override async Task<object?> Add(Vga entity)
     {
-        await _context.Vgas.AddAsync(entity);
-        await _context.SaveChangesAsync();
-        return null;
+        bool res = true;
+        try
+        {
+            await _context.Vgas.AddAsync(entity);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception) { res = false; }
+        return res;
     }
     public override async Task<object?> Update(Vga entity)
     {
@@ -52,12 +57,12 @@ public class VgaRepository : ProductRepository<Vga>, IVgaRepository
             await _context.Vgas.AddRangeAsync(list);
             await _context.SaveChangesAsync();
         }
-        catch (Exception ex) { res = false; }
+        catch (Exception) { res = false; }
         return res;
     }
-    public string GetSuggestID()
+    public async Task<string> GetSuggestID()
     {
-        return GetSuggestID(ProductType.VGA);
+        return await GetSuggestID(ProductType.VGA);
     }
     public override async Task<object?> Delete(string id)
     {

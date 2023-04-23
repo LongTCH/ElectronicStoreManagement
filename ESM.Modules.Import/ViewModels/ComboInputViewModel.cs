@@ -122,7 +122,7 @@ namespace ESM.Modules.Import.ViewModels
                 var list = await unitOfWork.Combos.GetAll();
                 ComboList = new(list);
             }
-            clearCommand();
+            clear();
         }
 
         private string selectedProductType;
@@ -138,25 +138,25 @@ namespace ESM.Modules.Import.ViewModels
         public DelegateCommand AddToComboCommand { get; }
         public DelegateCommand AddToComboListCommand { get; }
         public DelegateCommand CancelCommand { get; }
-        public DelegateCommand AddCommand { get; }   
+        public DelegateCommand AddCommand { get; }
         public DelegateCommand<Combo> DeleteCommand { get; }
         public DelegateCommand<Combo> EditCommand { get; }
         public DelegateCommand<SelectableViewModel> RemoveFromComboDetailCommand { get; }
         protected async void deleteCommand(Combo combo)
         {
-            if (SelectedWorkType == "THÊM")
+            MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
+            if (metroWindow.ShowModalMessageExternal("Cảnh báo", "Bạn có chắc chắn xóa?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
             {
-                if (NotInDatabase.Contains(combo.Id))
+                if (SelectedWorkType == "THÊM")
                 {
-                    var p = ComboList.Single(x => x.Id == combo.Id);
-                    ComboList.Remove(p);
-                    NotInDatabase.Remove(combo.Id);
+                    if (NotInDatabase.Contains(combo.Id))
+                    {
+                        var p = ComboList.Single(x => x.Id == combo.Id);
+                        ComboList.Remove(p);
+                        NotInDatabase.Remove(combo.Id);
+                    }
                 }
-            }
-            else
-            {
-                MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
-                if (metroWindow.ShowModalMessageExternal("Cảnh báo", "Bạn có chắc chắn xóa?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
+                else
                 {
                     var res = await unitOfWork.Combos.Delete(combo.Id);
                     if ((bool)res == false) modalService.ShowModal(ModalType.Error, "Không thể xóa", "Lỗi");
@@ -178,15 +178,19 @@ namespace ESM.Modules.Import.ViewModels
         }
         private async Task addCommand()
         {
-            var res = await unitOfWork.Combos.AddList(ComboList);
-            if ((bool)res)
+            MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
+            if (metroWindow.ShowModalMessageExternal("Thông báo", "Bạn có chắc chắn lưu?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
             {
-                modalService.ShowModal(ModalType.Information, "Đã lưu", "Thông báo");
-                ComboList = new();
-                NotInDatabase = new();
+                var res = await unitOfWork.Combos.AddList(ComboList);
+                if ((bool)res)
+                {
+                    modalService.ShowModal(ModalType.Information, "Đã lưu", "Thông báo");
+                    ComboList = new();
+                    NotInDatabase = new();
+                }
+                else modalService.ShowModal(ModalType.Error, "Lưu không thành công", "Lỗi");
+                await Task.CompletedTask;
             }
-            else modalService.ShowModal(ModalType.Error, "Lưu không thành công", "Lỗi");
-            await Task.CompletedTask;
         }
         private async Task addToComboListCommand()
         {
@@ -229,7 +233,7 @@ namespace ESM.Modules.Import.ViewModels
                 combo.Price = await unitOfWork.Combos.GetComboPrice(combo);
                 ComboList.Add(combo);
                 NotInDatabase.Add(ComboId);
-                clearCommand();
+                clear();
             }
             else if (SelectedWorkType == "SỬA")
             {
@@ -261,6 +265,14 @@ namespace ESM.Modules.Import.ViewModels
             findCommand(combo);
         }
         private void clearCommand()
+        {
+            MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
+            if (metroWindow.ShowModalMessageExternal("Cảnh báo", "Bạn có chắc chắn hủy bỏ thông tin?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
+            {
+                clear();
+            }
+        }
+        private void clear()
         {
             if (SelectedWorkType == "THÊM")
             {
@@ -317,7 +329,7 @@ namespace ESM.Modules.Import.ViewModels
                         Discount = x.Discount,
                         Price = x.Price,
                         Unit = x.Unit,
-                        Remain= x.Remain,
+                        Remain = x.Remain,
                         IsSelected = ComboDetail.Any(p => p.Id == x.Id),
                     }).ToList(); break;
                 case "PC":

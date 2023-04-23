@@ -137,7 +137,7 @@
                         Margin="30,0,0,0"
                         Background="IndianRed"
                         Command="{Binding DeleteAllCommand}" />
-                <Button Content="Xác nhận"
+                <Button Content="XEM HÓA ĐƠN"
                         Background="DarkOliveGreen"
                         Command="{Binding PayCommand}"
                         Margin="40,0,0,0" />

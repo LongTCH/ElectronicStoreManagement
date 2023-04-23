@@ -41,11 +41,6 @@ namespace ESM.Modules.Import
             containerRegistry.RegisterForNavigation<ProductInputView, ProductInputViewModel>(ViewNames.ProductInputView);
             containerRegistry.RegisterForNavigation<RegisterView, RegisterViewModel>(ViewNames.RegisterView);
             containerRegistry.RegisterForNavigation<ChangeAccountInfoView, ChangeAccountInfoViewModel>(ViewNames.ChangeAccountInfoView);
-
-            containerRegistry.RegisterForNavigation<HardDiskInputView, HardDiskInputViewModel>();
-            containerRegistry.RegisterForNavigation<LaptopInputView, LaptopInputViewModel>();
-            containerRegistry.RegisterForNavigation<PCInputView, PCInputViewModel>();
-            containerRegistry.RegisterForNavigation<MonitorInputView, MonitorInputViewModel>();
         }
     }
 }

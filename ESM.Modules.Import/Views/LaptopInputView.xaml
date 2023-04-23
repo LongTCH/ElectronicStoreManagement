@@ -7,6 +7,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance localvm:LaptopInputViewModel}"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:localvm="clr-namespace:ESM.Modules.Import.ViewModels"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -18,26 +19,32 @@
                       HorizontalAlignment="Stretch"
                       Grid.Row="1">
             <StackPanel>
-                <ComboBox ItemsSource="{Binding WorkType}"
-                          Cursor="Hand"
-                          x:Name="cbxWorkType"
-                          mah:TextBoxHelper.Watermark="Chọn chế độ"
-                          Width="120"
-                          SelectedItem="{Binding SelectedWorkType, UpdateSourceTrigger=PropertyChanged}"
-                          Style="{StaticResource MahApps.Styles.ComboBox}"
-                          HorizontalAlignment="Left" />
+                <TextBlock Text="{Binding Header, Mode=OneWay,StringFormat='NHẬP THÔNG TIN {0}'}"
+                           HorizontalAlignment="Center"
+                           FontSize="30"
+                           FontWeight="Bold"
+                           Foreground="CornflowerBlue" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Button Content="THÊM"
+                            Width="100"
+                            Background="Green"
+                            Command="{Binding AddCommand}" />
+                    <Button Content="SỬA"
+                            Grid.Column="1"
+                            Width="100"
+                            Command="{Binding TurnOnEditCommand}" />
+                    <Button Content="XÓA"
+                            Grid.Column="2"
+                            Width="100"
+                            Background="Red"
+                            Command="{Binding DeleteCommand}" />
+                </Grid>
                 <StackPanel>
-                    <StackPanel.Style>
-                        <Style TargetType="StackPanel">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding SelectedWorkType}"
-                                             Value="XÓA">
-                                    <Setter Property="Visibility"
-                                            Value="Collapsed" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </StackPanel.Style>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*" />
@@ -47,6 +54,7 @@
                                 Margin="50,0,0,0"
                                 VerticalAlignment="Top"
                                 HorizontalAlignment="Center"
+                                IsEnabled="{Binding IsEditable}"
                                 Style="{StaticResource MaterialDesignFlatLightButton}"
                                 Command="{Binding AddAvatarCommand}">
                             <Button.Content>
@@ -86,9 +94,11 @@
                                          Text="{Binding ImagePath, UpdateSourceTrigger=PropertyChanged}"
                                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                          FontFamily="Champagne &amp; Limousines"
+                                         IsEnabled="{Binding IsEditable}"
                                          FontSize="18"
                                          Width="300" />
                                 <Button HorizontalAlignment="Right"
+                                        IsEnabled="{Binding IsEditable}"
                                         Command="{Binding SelectFolder}"
                                         Style="{StaticResource MaterialDesignFloatingActionMiniButton}">
                                     <materialDesign:PackIcon Kind="Folder" />
@@ -97,12 +107,14 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBox materialDesign:HintAssist.Hint="Đường dẫn tới file mô tả"
                                          Margin="20,10"
+                                         IsEnabled="{Binding IsEditable}"
                                          Text="{Binding DetailPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                          FontFamily="Champagne &amp; Limousines"
                                          FontSize="18"
                                          Width="300" />
                                 <Button HorizontalAlignment="Right"
+                                        IsEnabled="{Binding IsEditable}"
                                         Command="{Binding SelectDetail}"
                                         Style="{StaticResource MaterialDesignFloatingActionMiniButton}">
                                     <materialDesign:PackIcon Kind="File" />
@@ -118,9 +130,9 @@
                                                          Kind="Identifier" />
                                 <TextBox Margin="20,10"
                                          materialDesign:HintAssist.Hint="ID"
-                                         Text="{Binding Id, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                         Text="{Binding Id}"
                                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                         IsEnabled="{Binding IsIdEnabled}"
+                                         IsReadOnly="True"
                                          FontFamily="Champagne &amp; Limousines"
                                          FontSize="18" />
                             </DockPanel>
@@ -141,6 +153,7 @@
                             <TextBox materialDesign:HintAssist.Hint="Tên sản phẩm"
                                      materialDesign:TextFieldAssist.HasClearButton="True"
                                      Margin="20,10"
+                                     IsEnabled="{Binding IsEditable}"
                                      Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      FontFamily="Champagne &amp; Limousines"
@@ -155,6 +168,7 @@
                             <TextBox materialDesign:HintAssist.Hint="CPU"
                                      materialDesign:TextFieldAssist.HasClearButton="True"
                                      Margin="20,10"
+                                     IsEnabled="{Binding IsEditable}"
                                      Text="{Binding Cpu, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      FontFamily="Champagne &amp; Limousines"
@@ -175,6 +189,7 @@
                             <TextBox materialDesign:HintAssist.Hint="RAM"
                                      materialDesign:TextFieldAssist.HasClearButton="True"
                                      Margin="20,10"
+                                     IsEnabled="{Binding IsEditable}"
                                      Text="{Binding Ram, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      FontFamily="Champagne &amp; Limousines"
@@ -189,6 +204,7 @@
                             <TextBox materialDesign:HintAssist.Hint="Bộ nhớ"
                                      materialDesign:TextFieldAssist.HasClearButton="True"
                                      Margin="20,10"
+                                     IsEnabled="{Binding IsEditable}"
                                      Text="{Binding Storage, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      FontFamily="Champagne &amp; Limousines"
@@ -209,6 +225,7 @@
                             <TextBox materialDesign:HintAssist.Hint="Graphic"
                                      materialDesign:TextFieldAssist.HasClearButton="True"
                                      Margin="20,10"
+                                     IsEnabled="{Binding IsEditable}"
                                      Text="{Binding Graphic, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      FontFamily="Champagne &amp; Limousines"
@@ -224,6 +241,7 @@
                                      materialDesign:TextFieldAssist.HasClearButton="True"
                                      materialDesign:TextFieldAssist.SuffixText="VND"
                                      Margin="20,10"
+                                     IsEnabled="{Binding IsEditable}"
                                      Text="{Binding Price, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      FontFamily="Champagne &amp; Limousines"
@@ -245,6 +263,7 @@
                                      materialDesign:TextFieldAssist.HasClearButton="True"
                                      materialDesign:TextFieldAssist.SuffixText="%"
                                      Margin="20,10"
+                                     IsEnabled="{Binding IsEditable}"
                                      Text="{Binding Discount, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      FontFamily="Champagne &amp; Limousines"
@@ -281,6 +300,7 @@
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      Text="{Binding Unit, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                      Margin="20,10"
+                                     IsEnabled="{Binding IsEditable}"
                                      FontSize="18" />
                         </DockPanel>
                         <DockPanel Grid.Column="1">
@@ -292,6 +312,7 @@
                             <TextBox materialDesign:HintAssist.Hint="Series sản phẩm"
                                      materialDesign:TextFieldAssist.HasClearButton="True"
                                      Margin="20,10"
+                                     IsEnabled="{Binding IsEditable}"
                                      Text="{Binding Series, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      FontFamily="Champagne &amp; Limousines"
@@ -314,6 +335,7 @@
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      Text="{Binding Company, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                      Margin="20,10"
+                                     IsEnabled="{Binding IsEditable}"
                                      FontSize="18" />
                         </DockPanel>
                         <DockPanel Grid.Column="1">
@@ -327,6 +349,7 @@
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      Text="{Binding Need, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                      Margin="20,10"
+                                     IsEnabled="{Binding IsEditable}"
                                      FontSize="18" />
                         </DockPanel>
                     </Grid>
@@ -339,13 +362,12 @@
                         <Button Width="150"
                                 BorderThickness="0"
                                 materialDesign:ButtonAssist.CornerRadius="10"
-                                Style="{StaticResource MaterialDesignRaisedButton}"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Background="DarkSeaGreen"
                                 IsDefault="True"
-                                Content="CẬP NHẬT"
-                                Command="{Binding AddCommand}" />
+                                Content="LƯU"
+                                Command="{Binding SaveCommand}" />
                         <Button Width="150"
                                 Grid.Column="1"
                                 BorderThickness="0"
@@ -372,21 +394,8 @@
                           ScrollViewer.CanContentScroll="True"
                           ScrollViewer.VerticalScrollBarVisibility="Auto"
                           ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                          x:Name="myDataGrid">
-                    <DataGrid.Style>
-                        <Style TargetType="DataGrid"
-                               BasedOn="{StaticResource MaterialDesignDataGrid}">
-                            <Setter Property="Height"
-                                    Value="300" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=cbxWorkType, Path=SelectedItem}"
-                                             Value="XÓA">
-                                    <Setter Property="Height"
-                                            Value="auto" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </DataGrid.Style>
+                          x:Name="myDataGrid"
+                          MaxHeight="300">
                     <DataGrid.CellStyle>
                         <Style TargetType="{x:Type DataGridCell}"
                                BasedOn="{StaticResource MaterialDesignDataGridCell}">
@@ -394,6 +403,20 @@
                                          Handler="DataGridCell_PreviewKeyDown" />
                         </Style>
                     </DataGrid.CellStyle>
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow"
+                               BasedOn="{StaticResource MaterialDesignDataGridRow}">
+                            <Setter Property="Background"
+                                    Value="White" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding InMemory}"
+                                             Value="False">
+                                    <Setter Property="Background"
+                                            Value="LightGreen" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.RowStyle>
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Mã"
                                             Binding="{Binding Id, Mode=OneWay}" />
@@ -417,105 +440,14 @@
                                             Binding="{Binding Series}" />
                         <DataGridTextColumn Header="Thương hiệu"
                                             Binding="{Binding Company}" />
-                        <DataGridTemplateColumn Header="Sửa">
-                            <DataGridTemplateColumn.HeaderStyle>
-                                <Style TargetType="DataGridColumnHeader"
-                                       BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding DataContext.SelectedWorkType, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"
-                                                     Value="XÓA">
-                                            <Setter Property="Visibility"
-                                                    Value="Hidden" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </DataGridTemplateColumn.HeaderStyle>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button Cursor="Hand"
-                                            Foreground="MediumBlue"
-                                            Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}}"
-                                            CommandParameter="{Binding}">
-                                        <Underline>Sửa</Underline>
-                                        <Button.Style>
-                                            <Style TargetType="Button"
-                                                   BasedOn="{StaticResource MahApps.Styles.Button.Chromeless}">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding DataContext.SelectedWorkType, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"
-                                                                 Value="XÓA">
-                                                        <Setter Property="Visibility"
-                                                                Value="Hidden" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Button.Style>
-                                    </Button>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Xóa">
-                            <DataGridTemplateColumn.HeaderStyle>
-                                <Style TargetType="DataGridColumnHeader"
-                                       BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding DataContext.SelectedWorkType, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"
-                                                     Value="SỬA">
-                                            <Setter Property="Visibility"
-                                                    Value="Hidden" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </DataGridTemplateColumn.HeaderStyle>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button Cursor="Hand"
-                                            Foreground="IndianRed"
-                                            Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}}"
-                                            CommandParameter="{Binding}">
-                                        <Underline>Xóa</Underline>
-                                        <Button.Style>
-                                            <Style TargetType="Button"
-                                                   BasedOn="{StaticResource MahApps.Styles.Button.Chromeless}">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding DataContext.SelectedWorkType, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"
-                                                                 Value="SỬA">
-                                                        <Setter Property="Visibility"
-                                                                Value="Hidden" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Button.Style>
-                                    </Button>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding FindCommand}"
+                                                   CommandParameter="{Binding ElementName=myDataGrid,Path=SelectedItem}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                 </DataGrid>
-                <Button Width="150"
-                        Margin="0,20,0,0"
-                        BorderThickness="0"
-                        materialDesign:ButtonAssist.CornerRadius="10"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Background="SteelBlue"
-                        IsDefault="True"
-                        Content="LƯU"
-                        Command="{Binding SaveCommand}">
-                    <Button.Style>
-                        <Style TargetType="Button"
-                               BasedOn="{StaticResource MaterialDesignRaisedButton}">
-                            <Setter Property="Visibility"
-                                    Value="Hidden" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding SelectedWorkType}"
-                                             Value="THÊM">
-                                    <Setter Property="Visibility"
-                                            Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
             </StackPanel>
         </ScrollViewer>
     </Grid>

@@ -20,9 +20,14 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         public override async Task<object?> Add(Smartphone entity)
         {
-            await _context.Smartphones.AddAsync(entity);
-            await _context.SaveChangesAsync();
-            return null;
+            bool res = true;
+            try
+            {
+                await _context.Smartphones.AddAsync(entity);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception) { res = false; }
+            return res;
         }
         public override async Task<object?> Update(Smartphone entity)
         {
@@ -62,9 +67,9 @@ namespace ESM.Modules.DataAccess.Repositories
             catch (Exception ex) { res = false; }
             return res;
         }
-        public string GetSuggestID()
+        public async Task<string> GetSuggestID()
         {
-            return GetSuggestID(ProductType.SMARTPHONE);
+            return await GetSuggestID(ProductType.SMARTPHONE);
         }
     }
 }

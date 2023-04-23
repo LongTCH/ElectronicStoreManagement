@@ -19,14 +19,20 @@ public class MonitorRepository : ProductRepository<Models.Monitor>, IMonitorRepo
                 .Where(p => p.Remain > -1)
                 .ToListAsync();
     }
-    public string GetSuggestID()
+    public async Task<string> GetSuggestID()
     {
-        return GetSuggestID(ProductType.MONITOR);
+        return await GetSuggestID(ProductType.MONITOR);
     }
     public override async Task<object?> Add(Models.Monitor entity)
     {
-        await _context.Monitors.AddAsync(entity);
-        return null;
+        bool res = true;
+        try
+        {
+            await _context.Monitors.AddAsync(entity);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception) { res = false; }
+        return res;
     }
     public override async Task<object?> Update(Models.Monitor entity)
     {

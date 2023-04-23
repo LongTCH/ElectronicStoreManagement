@@ -19,9 +19,14 @@ public class PccpuRepository : ProductRepository<Pccpu>, IPccpuRepository
     }
     public override async Task<object?> Add(Pccpu entity)
     {
-        await _context.Pccpus.AddAsync(entity);
-        await _context.SaveChangesAsync();
-        return null;
+        bool res = true;
+        try
+        {
+            await _context.Pccpus.AddAsync(entity);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception) { res = false; }
+        return res;
     }
     public override async Task<object?> Update(Pccpu entity)
     {
@@ -54,9 +59,9 @@ public class PccpuRepository : ProductRepository<Pccpu>, IPccpuRepository
     {
         return await _context.Pccpus.AnyAsync(p => p.Id == id);
     }
-    public string GetSuggestID()
+    public async Task<string> GetSuggestID()
     {
-        return GetSuggestID(ProductType.CPU);
+        return await GetSuggestID(ProductType.CPU);
     }
     public override async Task<object?> Delete(string id)
     {

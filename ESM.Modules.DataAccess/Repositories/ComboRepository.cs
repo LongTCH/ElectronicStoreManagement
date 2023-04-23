@@ -164,9 +164,9 @@ namespace ESM.Modules.DataAccess.Repositories
 
             return res;
         }
-        public string GetSuggestID()
+        public async Task<string> GetSuggestID()
         {
-            return GetSuggestID(ProductType.COMBO);
+            return await GetSuggestID(ProductType.COMBO);
         }
     }
 }

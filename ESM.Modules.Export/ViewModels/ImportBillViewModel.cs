@@ -5,6 +5,8 @@ using ESM.Modules.DataAccess;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using ESM.Modules.Export.Utilities;
+using MahApps.Metro.Controls.Dialogs;
+using MahApps.Metro.Controls;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -13,6 +15,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ESM.Modules.Export.ViewModels
 {
@@ -128,63 +131,67 @@ namespace ESM.Modules.Export.ViewModels
         }
         private async Task ExecutePay()
         {
-            if (string.IsNullOrWhiteSpace(ProviderName))
+            MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
+            if (metroWindow.ShowModalMessageExternal("Thông báo", "Bạn có chắc chắn lưu?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
             {
-                _modalService.ShowModal(ModalType.Error, "Nhập tên nhà cung cấp", "Thông báo");
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(ImportBillId))
-            {
-                _modalService.ShowModal(ModalType.Error, "Nhập mã hóa đơn nhập hàng", "Thông báo");
-                return;
-            }
-            if (!ImportDate.HasValue)
-            {
-                _modalService.ShowModal(ModalType.Error, "Nhập ngày nhập hàng", "Thông báo");
-                return;
-            }
-            ICollection<ImportProduct> billProducts = new List<ImportProduct>();
-            foreach (var item in ProductBillList)
-            {
-                billProducts.Add(new ImportProduct()
+                if (string.IsNullOrWhiteSpace(ProviderName))
                 {
-                    Amount = item.ImportAmount,
-                    Number = Convert.ToInt32(item.Number),
-                    SellPrice = Convert.ToDecimal(item.ImportPrice),
-                    Warranty = item.Warranty,
-                    ProductId = item.Id,
-                    Unit = item.Unit,
-                });
-            }
-            try
-            {
-                Import bill = new()
+                    _modalService.ShowModal(ModalType.Error, "Nhập tên nhà cung cấp", "Thông báo");
+                    return;
+                }
+                if (string.IsNullOrWhiteSpace(ImportBillId))
                 {
-                    Provider = ProviderName,
-                    ProviderBillId = ImportBillId,
-                    ImportProducts = billProducts,
-                    ImportDate = (DateTime)ImportDate,
-                    StaffId = _accountStore.CurrentAccount.Id,
-                    TotalAmount = TotalAmount,
-                    City = "",
-                    District = "",
-                    SubDistrict = "",
-                    Street = ""
-                };
-                await _unitOfWork.Imports.Add(bill);
-                _modalService.ShowModal(ModalType.Information, "Nhập thành công", "Thông báo");
+                    _modalService.ShowModal(ModalType.Error, "Nhập mã hóa đơn nhập hàng", "Thông báo");
+                    return;
+                }
+                if (!ImportDate.HasValue)
+                {
+                    _modalService.ShowModal(ModalType.Error, "Nhập ngày nhập hàng", "Thông báo");
+                    return;
+                }
+                ICollection<ImportProduct> billProducts = new List<ImportProduct>();
+                foreach (var item in ProductBillList)
+                {
+                    billProducts.Add(new ImportProduct()
+                    {
+                        Amount = item.ImportAmount,
+                        Number = Convert.ToInt32(item.Number),
+                        SellPrice = Convert.ToDecimal(item.ImportPrice),
+                        Warranty = item.Warranty,
+                        ProductId = item.Id,
+                        Unit = item.Unit,
+                    });
+                }
+                try
+                {
+                    Import bill = new()
+                    {
+                        Provider = ProviderName,
+                        ProviderBillId = ImportBillId,
+                        ImportProducts = billProducts,
+                        ImportDate = (DateTime)ImportDate,
+                        StaffId = _accountStore.CurrentAccount.Id,
+                        TotalAmount = TotalAmount,
+                        City = "",
+                        District = "",
+                        SubDistrict = "",
+                        Street = ""
+                    };
+                    await _unitOfWork.Imports.Add(bill);
+                    _modalService.ShowModal(ModalType.Information, "Nhập thành công", "Thông báo");
 
-            }
-            catch (Exception)
-            {
-                _modalService.ShowModal(ModalType.Error, "Nhập không thành công", "Thông báo");
+                }
+                catch (Exception)
+                {
+                    _modalService.ShowModal(ModalType.Error, "Nhập không thành công", "Thông báo");
 
+                }
+                ProductBillList.Clear();
+                Category = null;
+                ProviderName = null;
+                ImportBillId = null;
+                ImportDate = null;
             }
-            ProductBillList.Clear();
-            Category = null;
-            ProviderName = null;
-            ImportBillId = null;
-            ImportDate = null;
         }
 
         private void OnTotalAmountChanged()

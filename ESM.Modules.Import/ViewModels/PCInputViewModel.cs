@@ -4,10 +4,10 @@ using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
-using Prism.Regions;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Prism.Regions;
 
 namespace ESM.Modules.Import.ViewModels
 {
@@ -42,111 +42,33 @@ namespace ESM.Modules.Import.ViewModels
             get => need?.Trim();
             set => SetProperty(ref need, value);
         }
-        protected override async void addCommand()
+        protected override void addCommand()
         {
-            if (SelectedWorkType == "THÊM")
-            {
-                if (Id == null || Id.Length != 9 || !Id.StartsWith(DAStaticData.IdPrefix[ProductType.PC]) || !Id.All(x => char.IsDigit(x)))
-                {
-                    _modalService.ShowModal(ModalType.Error, "Sai định dạng ID", "Cảnh báo");
-                    return;
-                }
-                //make the two calls to IsProductExistInBill and IsIdExist concurrently
-                var task1 = _unitOfWork.Bills.IsProductExistInBill(Id);
-                var task2 = _unitOfWork.Pcs.IsIdExist(Id);
-
-                await Task.WhenAll(task1, task2);
-
-                bool exist = task1.Result || task2.Result;
-
-                if (ProductList.Any(x => x.Id == Id) || exist)
-                {
-                    _modalService.ShowModal(ModalType.Error, "ID đã tồn tại", "Cảnh báo");
-                    return;
-                }
-                if (Company == null || Unit == null || Name == null || 
-                    Cpu == null || Ram == null)
-                {
-                    _modalService.ShowModal(ModalType.Error, "Nhập tất cả thông tin cần thiết", "Cảnh báo");
-                    return;
-                }
-                Pc pcDTO = GetPc();
-                ProductList.Add(pcDTO);
-                NotInDatabase.Add(Id);
-                clearCommand();
-            }
-            else if (SelectedWorkType == "SỬA")
-            {
-                if (Company == null || Unit == null || Name == null ||
-                   Cpu == null || Ram == null)
-                {
-                    _modalService.ShowModal(ModalType.Error, "Nhập tất cả thông tin cần thiết", "Cảnh báo");
-                    return;
-                }
-                Pc pcDTO = GetPc();
-                pcDTO.Remain = Remain;
-                var res = await _unitOfWork.Pcs.Update(pcDTO);
-                if ((bool)res)
-                    _modalService.ShowModal(ModalType.Information, "Cập nhật thành công", "Thông báo");
-                else _modalService.ShowModal(ModalType.Error, "Có lỗi xảy ra", "Thông báo");
-                // Clear
-                Empty();
-                var list = await _unitOfWork.Pcs.GetAll();
-                ProductList = new(list);
-            }
+            Pc p = new();
+            p.Id = GetNewID(ProductType.PC);
+            p.InMemory = false;
+            ProductList.Add(p);
+            findCommand(p);
+            TurnOnEditCommand.Execute();
         }
-        protected override void clearCommand()
+
+        protected override async void deleteCommand()
         {
-            if (SelectedWorkType == "THÊM")
+            MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
+            if (metroWindow.ShowModalMessageExternal("Cảnh báo", "Bạn có chắc chắn xóa?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
             {
+                if (Product.InMemory) await _unitOfWork.Pcs.Delete(Product.Id);
+                ProductList.Remove(Product);
                 Empty();
             }
-            else if (SelectedWorkType == "SỬA")
-            {
-                Price = 0; Discount = null;
-                if (Product != null) findCommand(Product);
-            }
         }
-
-        protected override async void CurrentWorkTypeChanged()
+        protected override void clear()
         {
-            if (SelectedWorkType == "THÊM")
-            {
-                ProductList = new();
-            }
-            else
-            {
-                var list = await _unitOfWork.Pcs.GetAll();
-                ProductList = new(list);
-            }
-            clearCommand();
+            findCommand(Product);
         }
-
-        protected override async void deleteCommand(ProductDTO productDTO)
-        {
-            if (SelectedWorkType == "THÊM")
-            {
-                if (NotInDatabase.Contains(productDTO.Id))
-                {
-                    var p = ProductList.Single(x => x.Id == productDTO.Id);
-                    ProductList.Remove(p);
-                    NotInDatabase.Remove(productDTO.Id);
-                }
-            }
-            else
-            {
-                MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
-                if (metroWindow.ShowModalMessageExternal("Cảnh báo", "Bạn có chắc chắn xóa?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
-                {
-                    await _unitOfWork.Pcs.Delete(productDTO.Id);
-                    var list = await _unitOfWork.Pcs.GetAll();
-                    ProductList = new(list);
-                }
-            }
-        }
-
         protected override void findCommand(ProductDTO productDTO)
         {
+            if (productDTO == null) return;
             Product = (Pc)productDTO;
             Id = Product.Id;
             Company = Product.Company;
@@ -162,34 +84,59 @@ namespace ESM.Modules.Import.ViewModels
             Ram = Product.Ram;
             Need = Product.Need;
             RaisePropertyChanged(nameof(IsDefault));
+            RaisePropertyChanged(nameof(IsEditable));
         }
 
         protected override async Task saveCommand()
         {
-            var res = await _unitOfWork.Pcs.AddList(ProductList);
-            if ((bool)res)
+            if (Company == null || Unit == null || Name == null ||
+                    Cpu == null || Ram == null)
             {
-                _modalService.ShowModal(ModalType.Information, "Đã lưu", "Thông báo");
-                ProductList = new();
+                _modalService.ShowModal(ModalType.Error, "Nhập tất cả thông tin cần thiết", "Cảnh báo");
+                return;
             }
-            else _modalService.ShowModal(ModalType.Error, "Lưu không thành công", "Lỗi");
-            await Task.CompletedTask;
+            MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
+            if (metroWindow.ShowModalMessageExternal("Thông báo", "Bạn có chắc chắn lưu?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
+            {
+                var p = GetPc(Id, Remain);
+                if (Product.InMemory)
+                {
+                    var res = await _unitOfWork.Pcs.Update(p);
+                    if ((bool)res)
+                    {
+                        _modalService.ShowModal(ModalType.Information, "Cập nhật thành công", "Thông báo");
+                        // Clear
+                        var index = ProductList.IndexOf(Product);
+                        ProductList.RemoveAt(index);
+                        ProductList.Insert(index, p);
+                        Empty();
+                    }
+                    else _modalService.ShowModal(ModalType.Error, "Có lỗi xảy ra", "Thông báo");
+                }
+                else
+                {
+                    var res = await _unitOfWork.Pcs.Add(p);
+                    if ((bool)res)
+                    {
+                        _modalService.ShowModal(ModalType.Information, "Đã lưu", "Thông báo");
+                        // Clear
+                        Empty();
+                        var index = ProductList.IndexOf(ProductList.Where(x => x.Id == p.Id).First());
+                        ProductList.RemoveAt(index);
+                        ProductList.Insert(index, p);
+                    }
+                    else _modalService.ShowModal(ModalType.Error, "Lưu không thành công", "Lỗi");
+                    await Task.CompletedTask;
+                }
+            }
         }
 
-        protected override void editCommand(ProductDTO productDTO)
-        {
-            if (SelectedWorkType == "THÊM")
-            {
-                ProductList.Remove((Pc)productDTO);
-                NotInDatabase.Remove(productDTO.Id);
-            }
-            findCommand(productDTO);
-        }
-        private Pc GetPc()
+
+        private Pc GetPc(string id, int remain)
         {
             return new()
             {
-                Id = Id,
+                Id = id,
                 Cpu = Cpu,
                 Company = Company,
                 Unit = Unit,
@@ -202,11 +149,12 @@ namespace ESM.Modules.Import.ViewModels
                 ImagePath = ImagePath,
                 Ram = Ram,
                 Need = Need,
-                Remain = 0
+                Remain = remain
             };
         }
         private void Empty()
         {
+            Product = null;
             Id = null;
             Cpu = null;
             Company = null;
@@ -221,7 +169,14 @@ namespace ESM.Modules.Import.ViewModels
             Ram = null;
             Need = null;
             Remain = 0;
+            RaisePropertyChanged(nameof(IsEditable));
             RaisePropertyChanged(nameof(IsDefault));
+        }
+
+        public override async void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            clear();
+            ProductList = new(await _unitOfWork.Pcs.GetAll());
         }
     }
 }

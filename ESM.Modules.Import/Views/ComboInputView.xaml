@@ -18,14 +18,21 @@
                   PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
                   HorizontalAlignment="Stretch">
         <StackPanel>
-            <ComboBox ItemsSource="{Binding WorkType}"
-                      Cursor="Hand"
-                      x:Name="cbxWorkType"
-                      mah:TextBoxHelper.Watermark="Chọn chế độ"
-                      Width="120"
-                      SelectedItem="{Binding SelectedWorkType, UpdateSourceTrigger=PropertyChanged}"
-                      Style="{StaticResource MahApps.Styles.ComboBox}"
-                      HorizontalAlignment="Left" />
+            <Grid>
+                <ComboBox ItemsSource="{Binding WorkType}"
+                          Cursor="Hand"
+                          x:Name="cbxWorkType"
+                          mah:TextBoxHelper.Watermark="Chọn chế độ"
+                          Width="120"
+                          SelectedItem="{Binding SelectedWorkType, UpdateSourceTrigger=PropertyChanged}"
+                          Style="{StaticResource MahApps.Styles.ComboBox}"
+                          HorizontalAlignment="Left" />
+                <TextBlock Text="{Binding Header, Mode=OneWay,StringFormat='NHẬP THÔNG TIN {0}'}"
+                           HorizontalAlignment="Center"
+                           FontSize="30"
+                           FontWeight="Bold"
+                           Foreground="CornflowerBlue" />
+            </Grid>
             <Grid Margin="10"
                   x:Name="GridAddCombo">
                 <Grid.Style>
@@ -104,7 +111,7 @@
                                                 Binding="{Binding Remain}" />
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Button Content="THÊM"
+                    <Button Content="THÊM VÀO COMBO"
                             FontWeight="Bold"
                             HorizontalAlignment="Center"
                             Background="Silver"
@@ -338,6 +345,7 @@
                            HorizontalAlignment="Center" />
                 <DataGrid ItemsSource="{Binding ComboList}"
                           IsReadOnly="True"
+                          MaxHeight="300"
                           BorderThickness="2"
                           HorizontalAlignment="Stretch"
                           AutoGenerateColumns="False"
@@ -349,20 +357,7 @@
                           ScrollViewer.CanContentScroll="True"
                           ScrollViewer.VerticalScrollBarVisibility="Auto"
                           ScrollViewer.HorizontalScrollBarVisibility="Auto">
-                    <DataGrid.Style>
-                        <Style TargetType="DataGrid"
-                               BasedOn="{StaticResource MaterialDesignDataGrid}">
-                            <Setter Property="Height"
-                                    Value="300" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=cbxWorkType, Path=SelectedItem}"
-                                             Value="XÓA">
-                                    <Setter Property="Height"
-                                            Value="auto" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </DataGrid.Style>
+                    
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Mã"
                                             Binding="{Binding Id, Mode=OneWay}" />

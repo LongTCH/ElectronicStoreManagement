@@ -47,9 +47,14 @@ public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRe
     }
     public override async Task<object?> Add(Pcharddisk entity)
     {
-        await _context.Pcharddisks.AddAsync(entity);
-        await _context.SaveChangesAsync();
-        return null;
+        bool res = true;
+        try
+        {
+            await _context.Pcharddisks.AddAsync(entity);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception) { res = false; }
+        return res;
     }
     public override async Task<object?> Delete(string id)
     {
@@ -69,8 +74,8 @@ public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRe
         catch (Exception ex) { res = false; }
         return res;
     }
-    public string GetSuggestID()
+    public async Task<string> GetSuggestID()
     {
-        return GetSuggestID(ProductType.HARDDISK);
+        return await GetSuggestID(ProductType.HARDDISK);
     }
 }

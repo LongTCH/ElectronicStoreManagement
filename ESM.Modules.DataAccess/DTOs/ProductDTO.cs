@@ -1,4 +1,6 @@
-﻿namespace ESM.Modules.DataAccess;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ESM.Modules.DataAccess;
 
 public abstract class ProductDTO
 {
@@ -14,6 +16,10 @@ public abstract class ProductDTO
     public decimal SellPrice => Discount == null || Discount == 0 ? Price : Price * (1 - (decimal)Discount / 100);
     public bool DiscountShow => SellPrice < Price;
     public string Unit { get; set; }
+    [NotMapped]
+    public bool InMemory { get; set; } = true;
+    [NotMapped]
+    public bool EditMode { get; set; } = false;
     public override bool Equals(object? obj)
     {
         return Id == (obj as ProductDTO)?.Id;

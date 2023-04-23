@@ -86,7 +86,7 @@
             <!-- Items-->
             <mah:HamburgerMenu.ItemsSource>
                 <mah:HamburgerMenuItemCollection>
-                    <mah:HamburgerMenuIconItem Label="Trang chủ"
+                    <mah:HamburgerMenuIconItem Label="Giới thiệu"
                                                Command="{Binding NavigateCommand}"
                                                CommandParameter="{x:Static esmcore:ViewNames.HomeView}">
                         <mah:HamburgerMenuIconItem.Icon>
