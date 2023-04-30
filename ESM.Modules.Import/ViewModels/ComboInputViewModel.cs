@@ -27,17 +27,16 @@ namespace ESM.Modules.Import.ViewModels
         {
             this.unitOfWork = unitOfWork;
             this.modalService = modalService;
-            WorkType = new[] { "THÊM", "SỬA", "XÓA" };
             ProductType = new[] { "LAPTOP", "PC", "HARD DISK", "CPU", "MONITOR", "SMARTPHONE", "VGA" };
+            AddCommand = new(addToComboListCommand);
             AddToComboCommand = new(addToComboCommand);
             RemoveFromComboDetailCommand = new(executeRemove);
-            AddToComboListCommand = new(async () => await addToComboListCommand());
+            AddToComboListCommand = new(addToComboListCommand);
             CancelCommand = new(clearCommand);
             DeleteCommand = new(deleteCommand);
-            AddCommand = new(async () => await addCommand());
-            EditCommand = new(editCommand);
+            FindCommand = new(findCommand);
+            SaveCommand = new(async () => await saveCommand());
         }
-        HashSet<string> NotInDatabase;
         async Task Init()
         {
             Laptops = await unitOfWork.Laptops.GetAll();
@@ -50,7 +49,6 @@ namespace ESM.Modules.Import.ViewModels
             ComboDetail = new();
             ProductList = Array.Empty<SelectableViewModel>();
             ComboList = new();
-            NotInDatabase = new();
         }
         public string Header => "COMBO";
         private string comboId;
@@ -80,7 +78,6 @@ namespace ESM.Modules.Import.ViewModels
             get => comboUnit?.Trim();
             set => SetProperty(ref comboUnit, value);
         }
-        public IEnumerable<string> WorkType { get; }
         public IEnumerable<string> ProductType { get; }
         public Combo CurrentCombo { get; set; }
         public ICollection<SelectableViewModel> productList;
@@ -101,29 +98,6 @@ namespace ESM.Modules.Import.ViewModels
             get => comboList;
             set => SetProperty(ref comboList, value);
         }
-        private string selectedWorkType;
-        public string SelectedWorkType
-        {
-            get => selectedWorkType;
-            set
-            {
-                SetProperty(ref selectedWorkType, value);
-                OnSelectedWorkTypeChanged();
-            }
-        }
-        private async void OnSelectedWorkTypeChanged()
-        {
-            if (SelectedWorkType == "THÊM")
-            {
-                ComboList = new();
-            }
-            else
-            {
-                var list = await unitOfWork.Combos.GetAll();
-                ComboList = new(list);
-            }
-            clear();
-        }
 
         private string selectedProductType;
         public string SelectedProductType
@@ -135,133 +109,81 @@ namespace ESM.Modules.Import.ViewModels
                 SetProductList();
             }
         }
+        public DelegateCommand AddCommand { get; }
         public DelegateCommand AddToComboCommand { get; }
         public DelegateCommand AddToComboListCommand { get; }
         public DelegateCommand CancelCommand { get; }
-        public DelegateCommand AddCommand { get; }
-        public DelegateCommand<Combo> DeleteCommand { get; }
-        public DelegateCommand<Combo> EditCommand { get; }
+        public DelegateCommand SaveCommand { get; }
+        public DelegateCommand DeleteCommand { get; }
+        public DelegateCommand<Combo> FindCommand { get; }
         public DelegateCommand<SelectableViewModel> RemoveFromComboDetailCommand { get; }
-        protected async void deleteCommand(Combo combo)
+        private async void deleteCommand()
         {
             MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
             if (metroWindow.ShowModalMessageExternal("Cảnh báo", "Bạn có chắc chắn xóa?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
             {
-                if (SelectedWorkType == "THÊM")
-                {
-                    if (NotInDatabase.Contains(combo.Id))
-                    {
-                        var p = ComboList.Single(x => x.Id == combo.Id);
-                        ComboList.Remove(p);
-                        NotInDatabase.Remove(combo.Id);
-                    }
-                }
-                else
-                {
-                    var res = await unitOfWork.Combos.Delete(combo.Id);
-                    if ((bool)res == false) modalService.ShowModal(ModalType.Error, "Không thể xóa", "Lỗi");
-                    var list = await unitOfWork.Combos.GetAll();
-                    ComboList = new(list);
-                }
+                if (CurrentCombo.InMemory) await unitOfWork.Combos.Delete(CurrentCombo.Id);
+                ComboList.Remove(CurrentCombo);
+                Empty();
             }
-
         }
         private void addToComboCommand()
         {
-            if (!string.IsNullOrEmpty(SelectedWorkType))
+            foreach (var item in ProductList)
             {
-                foreach (var item in ProductList)
-                {
-                    if (item.IsSelected && !ComboDetail.Any(x => x.Id == item.Id)) ComboDetail.Add(item);
-                }
+                if (item.IsSelected && !ComboDetail.Any(x => x.Id == item.Id)) ComboDetail.Add(item);
             }
         }
-        private async Task addCommand()
+        private async Task saveCommand()
         {
+            if (CurrentCombo == null) return;
+            if (ComboName == null || ComboUnit == null)
+            {
+                modalService.ShowModal(ModalType.Error, "Nhập tất cả thông tin cần thiết", "Cảnh báo");
+                return;
+            }
             MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
             if (metroWindow.ShowModalMessageExternal("Thông báo", "Bạn có chắc chắn lưu?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
             {
-                var res = await unitOfWork.Combos.AddList(ComboList);
-                if ((bool)res)
+                var p = await GetCombo();
+                if (CurrentCombo.InMemory)
                 {
-                    modalService.ShowModal(ModalType.Information, "Đã lưu", "Thông báo");
-                    ComboList = new();
-                    NotInDatabase = new();
+                    var res = await unitOfWork.Combos.Update(p);
+                    if ((bool)res)
+                    {
+                        modalService.ShowModal(ModalType.Information, "Cập nhật thành công", "Thông báo");
+
+                        var index = ComboList.IndexOf(CurrentCombo);
+                        ComboList.RemoveAt(index);
+                        ComboList.Insert(index, p);
+                        // Clear
+                        Empty();
+                    }
+                    else modalService.ShowModal(ModalType.Error, "Có lỗi xảy ra", "Thông báo");
                 }
-                else modalService.ShowModal(ModalType.Error, "Lưu không thành công", "Lỗi");
-                await Task.CompletedTask;
+                else
+                {
+                    var res = await unitOfWork.Combos.Add(p);
+                    if ((bool)res)
+                    {
+                        modalService.ShowModal(ModalType.Information, "Đã lưu", "Thông báo");
+                        // Clear
+                        Empty();
+                        var index = ComboList.IndexOf(ComboList.Where(x => x.Id == p.Id).First());
+                        ComboList.RemoveAt(index);
+                        ComboList.Insert(index, p);
+                    }
+                    else modalService.ShowModal(ModalType.Error, "Lưu không thành công", "Lỗi");
+                    await Task.CompletedTask;
+                }
             }
         }
-        private async Task addToComboListCommand()
+        private void addToComboListCommand()
         {
-            if (SelectedWorkType == "THÊM")
-            {
-                if (ComboId == null || ComboId.Length != 9 || !ComboId.StartsWith(DAStaticData.IdPrefix[DataAccess.ProductType.COMBO]) || !ComboId.All(x => char.IsDigit(x)))
-                {
-                    modalService.ShowModal(ModalType.Error, "Sai định dạng ID", "Cảnh báo");
-                    return;
-                }
-                //make the two calls to IsProductExistInBill and IsIdExist concurrently
-                var task1 = unitOfWork.BillCombos.IsComboExistInBill(ComboId);
-                var task2 = unitOfWork.Combos.IsIdExist(ComboId);
-
-                await Task.WhenAll(task1, task2);
-
-                bool exist = task1.Result || task2.Result;
-
-                if (ComboList.Any(x => x.Id == ComboId) || exist)
-                {
-                    modalService.ShowModal(ModalType.Error, "ID đã tồn tại", "Cảnh báo");
-                    return;
-                }
-                if (string.IsNullOrWhiteSpace(ComboName) || string.IsNullOrWhiteSpace(ComboUnit))
-                {
-                    modalService.ShowModal(ModalType.Error, "Điền tất cả thông tin cần thiết", "Thông báo");
-                    return;
-                }
-                Combo combo = new();
-                List<string> ids = new();
-                foreach (var item in ComboDetail)
-                {
-                    ids.Add(item.Id);
-                }
-                combo.Id = ComboId;
-                combo.Discount = Discount;
-                combo.Name = ComboName;
-                combo.Unit = ComboUnit;
-                combo.ProductIdlist = string.Join(' ', ids);
-                combo.Price = await unitOfWork.Combos.GetComboPrice(combo);
-                ComboList.Add(combo);
-                NotInDatabase.Add(ComboId);
-                clear();
-            }
-            else if (SelectedWorkType == "SỬA")
-            {
-                if (CurrentCombo == null) return;
-                List<string> ids = new();
-                foreach (var item in ComboDetail)
-                {
-                    ids.Add(item.Id);
-                }
-                CurrentCombo.Discount = Discount;
-                CurrentCombo.ProductIdlist = string.Join(" ", ids);
-                var res = await unitOfWork.Combos.Update(CurrentCombo);
-                if ((bool)res)
-                    modalService.ShowModal(ModalType.Information, "Cập nhật thành công", "Thông báo");
-                else modalService.ShowModal(ModalType.Error, "Có lỗi xảy ra", "Thông báo");
-                // Clear
-                Empty();
-                var list = await unitOfWork.Combos.GetAll();
-                ComboList = new(list);
-            }
-        }
-        private void editCommand(Combo combo)
-        {
-            if (SelectedWorkType == "THÊM")
-            {
-                ComboList.Remove(combo);
-                NotInDatabase.Remove(combo.Id);
-            }
+            Combo combo = new();
+            combo.Id = GetNewID(DataAccess.ProductType.COMBO);
+            combo.InMemory = false;
+            ComboList.Add(combo);
             findCommand(combo);
         }
         private void clearCommand()
@@ -272,17 +194,16 @@ namespace ESM.Modules.Import.ViewModels
                 clear();
             }
         }
-        private void clear()
+        private async void clear()
         {
-            if (SelectedWorkType == "THÊM")
+            Combo combo = null;
+            if (CurrentCombo != null)
             {
-                Empty();
+                combo = await unitOfWork.Combos.GetById(CurrentCombo.Id);
             }
-            else if (SelectedWorkType == "SỬA")
-            {
-                Discount = 0;
-                if (CurrentCombo != null) findCommand(CurrentCombo);
-            }
+
+            Empty();
+            if (combo != null) findCommand(combo);
         }
         private void Empty()
         {
@@ -296,6 +217,7 @@ namespace ESM.Modules.Import.ViewModels
         }
         private async void findCommand(Combo combo)
         {
+            if (combo == null) return;
             CurrentCombo = combo;
             ComboDetail.Clear();
             var list = await unitOfWork.Combos.GetListProduct(combo);
@@ -316,6 +238,30 @@ namespace ESM.Modules.Import.ViewModels
             ComboName = combo.Name;
             Discount = combo.Discount;
             ComboUnit = combo.Unit;
+        }
+        private async Task<Combo> GetCombo()
+        {
+            Combo combo = new();
+            List<string> ids = new();
+            foreach (var item in ComboDetail)
+            {
+                ids.Add(item.Id);
+            }
+            combo.Id = ComboId;
+            combo.Discount = Discount;
+            combo.Name = ComboName;
+            combo.Unit = ComboUnit;
+            combo.ProductIdlist = string.Join(' ', ids);
+            combo.Price = await unitOfWork.Combos.GetComboPrice(combo);
+            return combo;
+        }
+        protected string GetNewID(ProductType type)
+        {
+            var previousID = ComboList.OrderBy(x => x.Id).LastOrDefault()?.Id;
+            if (previousID == null) return DAStaticData.IdPrefix[type] + "0000000";
+            int counter = Convert.ToInt32(previousID[2..]);
+            ++counter;
+            return DAStaticData.IdPrefix[type] + counter.ToString().PadLeft(7, '0');
         }
         private void SetProductList()
         {
@@ -416,11 +362,12 @@ namespace ESM.Modules.Import.ViewModels
 
         public async void OnNavigatedTo(NavigationContext navigationContext)
         {
-            SelectedWorkType = "THÊM";
+            clear();
             await Init();
+            ComboList = new(await unitOfWork.Combos.GetAll());
         }
         private IEnumerable<Laptop> Laptops;
-        private IEnumerable<DataAccess.Models.Monitor> Monitors;
+        private IEnumerable<Monitor> Monitors;
         private IEnumerable<Pc> Pcs;
         private IEnumerable<Pcharddisk> HardDisks;
         private IEnumerable<Vga> Vgas;

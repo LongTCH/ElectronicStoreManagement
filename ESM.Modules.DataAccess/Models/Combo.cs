@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using static Azure.Core.HttpHeader;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ESM.Modules.DataAccess.Models;
 
@@ -23,11 +20,8 @@ public partial class Combo
     public int Remain { get; set; }
     [NotMapped]
     public IEnumerable<ProductDTO>? ListProducts { get; set; }
+    [NotMapped]
+    public bool InMemory { get; set; } = true;
+    [NotMapped]
+    public bool EditMode { get; set; } = false;
 }
-//public partial class Combo
-//{
-//    [NotMapped]
-//    public decimal SellPrice { get; set; }
-//    [NotMapped]
-//    public int Remain { get; set; }
-//}

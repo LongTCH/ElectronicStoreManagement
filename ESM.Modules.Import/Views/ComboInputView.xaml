@@ -7,6 +7,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              d:DataContext="{d:DesignInstance localvm:ComboInputViewModel}"
              xmlns:localvm="clr-namespace:ESM.Modules.Import.ViewModels"
              xmlns:prism="http://prismlibrary.com/"
@@ -18,34 +19,29 @@
                   PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
                   HorizontalAlignment="Stretch">
         <StackPanel>
+            <TextBlock Text="{Binding Header, Mode=OneWay,StringFormat='NHẬP THÔNG TIN {0}'}"
+                       HorizontalAlignment="Center"
+                       FontSize="30"
+                       FontWeight="Bold"
+                       Foreground="CornflowerBlue" />
             <Grid>
-                <ComboBox ItemsSource="{Binding WorkType}"
-                          Cursor="Hand"
-                          x:Name="cbxWorkType"
-                          mah:TextBoxHelper.Watermark="Chọn chế độ"
-                          Width="120"
-                          SelectedItem="{Binding SelectedWorkType, UpdateSourceTrigger=PropertyChanged}"
-                          Style="{StaticResource MahApps.Styles.ComboBox}"
-                          HorizontalAlignment="Left" />
-                <TextBlock Text="{Binding Header, Mode=OneWay,StringFormat='NHẬP THÔNG TIN {0}'}"
-                           HorizontalAlignment="Center"
-                           FontSize="30"
-                           FontWeight="Bold"
-                           Foreground="CornflowerBlue" />
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Button Content="THÊM"
+                        Width="100"
+                        Background="Green"
+                        Command="{Binding AddCommand}" />
+                <Button Content="XÓA"
+                        Grid.Column="2"
+                        Width="100"
+                        Background="Red"
+                        Command="{Binding DeleteCommand}" />
             </Grid>
             <Grid Margin="10"
                   x:Name="GridAddCombo">
-                <Grid.Style>
-                    <Style TargetType="Grid">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding ElementName=cbxWorkType, Path=SelectedItem}"
-                                         Value="XÓA">
-                                <Setter Property="Visibility"
-                                        Value="Collapsed" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Grid.Style>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
                     <ColumnDefinition Width="1*" />
@@ -115,41 +111,7 @@
                             FontWeight="Bold"
                             HorizontalAlignment="Center"
                             Background="Silver"
-                            Command="{Binding AddToComboCommand}">
-                        <Button.Style>
-                            <Style TargetType="Button"
-                                   BasedOn="{StaticResource MaterialDesignRaisedLightButton}">
-                                <Setter Property="Visibility"
-                                        Value="Hidden" />
-                                <Style.Triggers>
-                                    <MultiDataTrigger>
-                                        <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding ElementName=cbxWorkType, Path=SelectedItem}"
-                                                       Value="THÊM" />
-                                        </MultiDataTrigger.Conditions>
-                                        <Setter Property="Visibility"
-                                                Value="Visible" />
-                                    </MultiDataTrigger>
-                                    <MultiDataTrigger>
-                                        <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding ElementName=cbxWorkType, Path=SelectedItem}"
-                                                       Value="SỬA" />
-                                        </MultiDataTrigger.Conditions>
-                                        <Setter Property="Visibility"
-                                                Value="Visible" />
-                                    </MultiDataTrigger>
-                                    <MultiDataTrigger>
-                                        <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding ElementName=cbxWorkType, Path=SelectedItem}"
-                                                       Value="XÓA" />
-                                        </MultiDataTrigger.Conditions>
-                                        <Setter Property="Visibility"
-                                                Value="Visible" />
-                                    </MultiDataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
+                            Command="{Binding AddToComboCommand}" />
                 </StackPanel>
                 <StackPanel Grid.Column="2"
                             Margin="5">
@@ -211,20 +173,8 @@
                                                      Height="22"
                                                      Width="22"
                                                      VerticalAlignment="Center" />
-                            <TextBox Text="{Binding ComboId, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}">
-                                <TextBox.Style>
-                                    <Style TargetType="TextBox"
-                                           BasedOn="{StaticResource MahApps.Styles.TextBox}">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=cbxWorkType, Path=SelectedItem}"
-                                                         Value="SỬA">
-                                                <Setter Property="IsEnabled"
-                                                        Value="False" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBox.Style>
-                            </TextBox>
+                            <TextBox Text="{Binding ComboId}"
+                                     IsReadOnly="True"/>
                         </DockPanel>
                         <DockPanel  Grid.Column="1"
                                     Margin="5">
@@ -269,73 +219,13 @@
                                 FontWeight="Bold"
                                 HorizontalAlignment="Center"
                                 Background="DimGray"
-                                Command="{Binding CancelCommand}">
-                            <Button.Style>
-                                <Style TargetType="Button"
-                                       BasedOn="{StaticResource MaterialDesignRaisedLightButton}">
-                                    <Setter Property="Visibility"
-                                            Value="Hidden" />
-                                    <Style.Triggers>
-                                        <MultiDataTrigger>
-                                            <MultiDataTrigger.Conditions>
-                                                <Condition Binding="{Binding ElementName=cbxWorkType, Path=SelectedItem}"
-                                                           Value="THÊM" />
-                                            </MultiDataTrigger.Conditions>
-                                            <Setter Property="Visibility"
-                                                    Value="Visible" />
-                                        </MultiDataTrigger>
-                                        <MultiDataTrigger>
-                                            <MultiDataTrigger.Conditions>
-                                                <Condition Binding="{Binding ElementName=cbxWorkType, Path=SelectedItem}"
-                                                           Value="SỬA" />
-                                            </MultiDataTrigger.Conditions>
-                                            <Setter Property="Visibility"
-                                                    Value="Visible" />
-                                        </MultiDataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
-                        <Button Content="LƯU COMBO"
+                                Command="{Binding CancelCommand}" />
+                        <Button Content="LƯU"
                                 Grid.Column="1"
                                 FontWeight="Bold"
                                 HorizontalAlignment="Center"
                                 Background="CornflowerBlue"
-                                Command="{Binding AddToComboListCommand}">
-                            <Button.Style>
-                                <Style TargetType="Button"
-                                       BasedOn="{StaticResource MaterialDesignRaisedLightButton}">
-                                    <Setter Property="Visibility"
-                                            Value="Hidden" />
-                                    <Style.Triggers>
-                                        <MultiDataTrigger>
-                                            <MultiDataTrigger.Conditions>
-                                                <Condition Binding="{Binding ElementName=cbxWorkType, Path=SelectedItem}"
-                                                           Value="THÊM" />
-                                            </MultiDataTrigger.Conditions>
-                                            <Setter Property="Visibility"
-                                                    Value="Visible" />
-                                        </MultiDataTrigger>
-                                        <MultiDataTrigger>
-                                            <MultiDataTrigger.Conditions>
-                                                <Condition Binding="{Binding ElementName=cbxWorkType, Path=SelectedItem}"
-                                                           Value="SỬA" />
-                                            </MultiDataTrigger.Conditions>
-                                            <Setter Property="Visibility"
-                                                    Value="Visible" />
-                                        </MultiDataTrigger>
-                                        <MultiDataTrigger>
-                                            <MultiDataTrigger.Conditions>
-                                                <Condition Binding="{Binding ElementName=cbxWorkType, Path=SelectedItem}"
-                                                           Value="XÓA" />
-                                            </MultiDataTrigger.Conditions>
-                                            <Setter Property="Visibility"
-                                                    Value="Visible" />
-                                        </MultiDataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
+                                Command="{Binding SaveCommand}" />
                     </Grid>
                 </StackPanel>
             </Grid>
@@ -345,7 +235,6 @@
                            HorizontalAlignment="Center" />
                 <DataGrid ItemsSource="{Binding ComboList}"
                           IsReadOnly="True"
-                          MaxHeight="300"
                           BorderThickness="2"
                           HorizontalAlignment="Stretch"
                           AutoGenerateColumns="False"
@@ -356,8 +245,29 @@
                           HorizontalGridLinesBrush="DeepSkyBlue"
                           ScrollViewer.CanContentScroll="True"
                           ScrollViewer.VerticalScrollBarVisibility="Auto"
-                          ScrollViewer.HorizontalScrollBarVisibility="Auto">
-                    
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                          MaxHeight="300"
+                          x:Name="myComboDataGrid">
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow"
+                               BasedOn="{StaticResource MaterialDesignDataGridRow}">
+                            <Setter Property="Background"
+                                    Value="White" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding InMemory}"
+                                             Value="False">
+                                    <Setter Property="Background"
+                                            Value="LightGreen" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.RowStyle>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding FindCommand}"
+                                                   CommandParameter="{Binding ElementName=myComboDataGrid,Path=SelectedItem}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Mã"
                                             Binding="{Binding Id, Mode=OneWay}" />
@@ -371,100 +281,8 @@
                                             Binding="{Binding Unit, Mode=OneWay}" />
                         <DataGridTextColumn Header="Giá khuyến mãi"
                                             Binding="{Binding SellPrice, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
-                        <DataGridTemplateColumn Header="Sửa">
-                            <DataGridTemplateColumn.HeaderStyle>
-                                <Style TargetType="DataGridColumnHeader"
-                                       BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=cbxWorkType, Path=SelectedItem}"
-                                                     Value="XÓA">
-                                            <Setter Property="Visibility"
-                                                    Value="Collapsed" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </DataGridTemplateColumn.HeaderStyle>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button Cursor="Hand"
-                                            Foreground="MediumBlue"
-                                            Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}}"
-                                            CommandParameter="{Binding}">
-                                        <Underline>Sửa</Underline>
-                                        <Button.Style>
-                                            <Style TargetType="Button"
-                                                   BasedOn="{StaticResource MahApps.Styles.Button.Chromeless}">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding ElementName=cbxWorkType, Path=SelectedItem}"
-                                                                 Value="XÓA">
-                                                        <Setter Property="Visibility"
-                                                                Value="Collapsed" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Button.Style>
-                                    </Button>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Xóa">
-                            <DataGridTemplateColumn.HeaderStyle>
-                                <Style TargetType="DataGridColumnHeader"
-                                       BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=cbxWorkType, Path=SelectedItem}"
-                                                     Value="SỬA">
-                                            <Setter Property="Visibility"
-                                                    Value="Collapsed" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </DataGridTemplateColumn.HeaderStyle>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button Cursor="Hand"
-                                            Foreground="IndianRed"
-                                            Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}}"
-                                            CommandParameter="{Binding}">
-                                        <Underline>Xóa</Underline>
-                                        <Button.Style>
-                                            <Style TargetType="Button"
-                                                   BasedOn="{StaticResource MahApps.Styles.Button.Chromeless}">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding ElementName=cbxWorkType, Path=SelectedItem}"
-                                                                 Value="SỬA">
-                                                        <Setter Property="Visibility"
-                                                                Value="Collapsed" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Button.Style>
-                                    </Button>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <Button Content="LƯU HẾT"
-                        FontWeight="Bold"
-                        HorizontalAlignment="Center"
-                        Background="YellowGreen"
-                        Command="{Binding AddCommand}">
-                    <Button.Style>
-                        <Style TargetType="Button"
-                               BasedOn="{StaticResource MaterialDesignRaisedLightButton}">
-                            <Setter Property="Visibility"
-                                    Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=cbxWorkType, Path=SelectedItem}"
-                                             Value="THÊM">
-                                    <Setter Property="Visibility"
-                                            Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
             </StackPanel>
         </StackPanel>
     </ScrollViewer>
