@@ -13,11 +13,19 @@ public class LaptopRepository : ProductRepository<Laptop>, ILaptopRepository
     public LaptopRepository(ESMDbContext context) : base(context)
     {
     }
+    public override async Task<Laptop?> GetById(string id)
+    {
+        var p = await _context.Laptops.FirstOrDefaultAsync(x => x.Id == id);
+        if (p != null) p.Discount = await GetDiscount(id); 
+        return p;
+    }
     public override async Task<IEnumerable<Laptop>?> GetAll()
     {
-        return await _context.Laptops
+        var list = await _context.Laptops
                 .Where(p => p.Remain > -1)
                 .ToListAsync();
+        foreach (var item in list) item.Discount = await GetDiscount(item.Id);
+        return list;
     }
     public override async Task<object?> Add(Laptop entity)
     {

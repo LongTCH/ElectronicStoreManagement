@@ -6,18 +6,26 @@ using Microsoft.EntityFrameworkCore;
 namespace ESM.Modules.DataAccess.Repositories;
 public interface IMonitorRepository : IProductRepository<Models.Monitor>
 {
-    Task<object?> AddList(IEnumerable<Models.Monitor> list);
+    
 }
 public class MonitorRepository : ProductRepository<Models.Monitor>, IMonitorRepository
 {
     public MonitorRepository(ESMDbContext context) : base(context)
     {
     }
+    public override async Task<Models.Monitor?> GetById(string id)
+    {
+        var p = await _context.Monitors.FirstOrDefaultAsync(x => x.Id == id);
+        if (p != null) p.Discount = await GetDiscount(id);
+        return p;
+    }
     public override async Task<IEnumerable<Models.Monitor>?> GetAll()
     {
-        return await _context.Monitors.AsQueryable()
+        var list = await _context.Monitors.AsQueryable()
                 .Where(p => p.Remain > -1)
                 .ToListAsync();
+        foreach (var item in list) item.Discount = await GetDiscount(item.Id);
+        return list;
     }
     public async Task<string> GetSuggestID()
     {

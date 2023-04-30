@@ -11,11 +11,19 @@ public class PccpuRepository : ProductRepository<Pccpu>, IPccpuRepository
     public PccpuRepository(ESMDbContext context) : base(context)
     {
     }
+    public override async Task<Pccpu?> GetById(string id)
+    {
+        var p = await _context.Pccpus.FirstOrDefaultAsync(x => x.Id == id);
+        if (p != null) p.Discount = await GetDiscount(id);
+        return p;
+    }
     public override async Task<IEnumerable<Pccpu>?> GetAll()
     {
-        return await _context.Pccpus.AsQueryable()
+        var list = await _context.Pccpus.AsQueryable()
                 .Where(p => p.Remain > -1)
                 .ToListAsync();
+        foreach (var item in list) item.Discount = await GetDiscount(item.Id);
+        return list;
     }
     public override async Task<object?> Add(Pccpu entity)
     {

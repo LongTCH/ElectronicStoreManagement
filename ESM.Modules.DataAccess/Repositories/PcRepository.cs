@@ -12,11 +12,19 @@ public class PcRepository : ProductRepository<Pc>, IPcRepository
     public PcRepository(ESMDbContext context) : base(context)
     {
     }
+    public override async Task<Pc?> GetById(string id)
+    {
+        var p = await _context.Pcs.FirstOrDefaultAsync(x => x.Id == id);
+        if (p != null) p.Discount = await GetDiscount(id);
+        return p;
+    }
     public override async Task<IEnumerable<Pc>?> GetAll()
     {
-        return await _context.Pcs.AsQueryable()
+        var list = await _context.Pcs.AsQueryable()
                 .Where(pc => pc.Remain > -1)
                 .ToListAsync();
+        foreach (var item in list) item.Discount = await GetDiscount(item.Id);
+        return list;
     }
     public override async Task<object?> Add(Pc entity)
     {

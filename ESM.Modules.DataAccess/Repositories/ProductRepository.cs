@@ -29,5 +29,12 @@ namespace ESM.Modules.DataAccess.Repositories
             ++counter;
             return DAStaticData.IdPrefix[type] + counter.ToString().PadLeft(7, '0');
         }
+        protected async Task<double> GetDiscount(string id)
+        {
+            double? res = 0;
+            var list = await _context.Discounts.Where(x => EF.Functions.Like(x.ProductIdlist, $"%{id}%")).ToListAsync();
+            foreach (var item in list) res += item.Discount1;
+            return (double)res;
+        }
     }
 }

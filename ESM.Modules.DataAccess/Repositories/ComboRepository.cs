@@ -1,12 +1,6 @@
-﻿using ESM.Modules.DataAccess.DTOs;
-using ESM.Modules.DataAccess.Infrastructure;
+﻿using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ESM.Modules.DataAccess.Repositories
 {
@@ -21,6 +15,17 @@ namespace ESM.Modules.DataAccess.Repositories
         public ComboRepository(ESMDbContext context) : base(context)
         {
         }
+        public override async Task<object?> Add(Combo entity)
+        {
+            bool res = true;
+            try
+            {
+                await _context.Combos.AddAsync(entity);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception) { res = false; }
+            return res;
+        }
         public override async Task<object?> AddList(IEnumerable<Combo> list)
         {
             bool res = true;
@@ -34,7 +39,9 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         public override async Task<Combo?> GetById(string id)
         {
-            return await _context.Combos.FirstOrDefaultAsync(x => x.Id == id);
+            var res = await _context.Combos.FirstOrDefaultAsync(x => x.Id == id);
+            if (res != null) res.Discount = await GetDiscount(res.Id);
+            return res;
         }
         public override async Task<IEnumerable<Combo>?> GetAll()
         {
@@ -81,7 +88,7 @@ namespace ESM.Modules.DataAccess.Repositories
                 string[] list = combo.ProductIdlist.Split(' ');
                 foreach (var item in list)
                 {
-                    res += GetProduct(item).SellPrice;
+                    res += GetProduct(item).Price;
                 }
             });
             task.Start();
@@ -137,6 +144,7 @@ namespace ESM.Modules.DataAccess.Repositories
             List<ProductDTO> products = new();
             Task task = new(() =>
             {
+                if (string.IsNullOrWhiteSpace(combo.ProductIdlist)) return;
                 var list = combo.ProductIdlist.Split(' ');
                 foreach (var item in list)
                 {

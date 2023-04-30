@@ -12,11 +12,19 @@ public class VgaRepository : ProductRepository<Vga>, IVgaRepository
     public VgaRepository(ESMDbContext context) : base(context)
     {
     }
+    public override async Task<Vga?> GetById(string id)
+    {
+        var p = await _context.Vgas.FirstOrDefaultAsync(x => x.Id == id);
+        if (p != null) p.Discount = await GetDiscount(id);
+        return p;
+    }
     public override async Task<IEnumerable<Vga>?> GetAll()
     {
-        return await _context.Vgas.AsQueryable()
+        var list = await _context.Vgas.AsQueryable()
                 .Where(vga => vga.Remain > -1)
                .ToListAsync();
+        foreach (var item in list) item.Discount = await GetDiscount(item.Id);
+        return list;
     }
     public override async Task<object?> Add(Vga entity)
     {

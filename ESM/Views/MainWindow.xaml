@@ -122,22 +122,10 @@
                                                        Kind="User" />
                         </mah:HamburgerMenuIconItem.Icon>
                     </mah:HamburgerMenuIconItem>
-                    <mah:HamburgerMenuIconItem Label="Nhập liệu"
-                                               IsVisible="{Binding IsTypingStaff}"
+                    <mah:HamburgerMenuIconItem Label="Quản lí sản phẩm"
+                                               IsVisible="{Binding }"
                                                Command="{Binding NavigateCommand}"
-                                               CommandParameter="{x:Static esmcore:ViewNames.ProductInputView}">
-                        <mah:HamburgerMenuIconItem.Icon>
-                            <iconPacks:PackIconZondicons Kind="NewsPaper"
-                                                         Width="22"
-                                                         Height="22"
-                                                         HorizontalAlignment="Center"
-                                                         VerticalAlignment="Center" />
-                        </mah:HamburgerMenuIconItem.Icon>
-                    </mah:HamburgerMenuIconItem>
-                    <mah:HamburgerMenuIconItem Label="Nhập hàng"
-                                               IsVisible="{Binding IsTypingStaff}"
-                                               Command="{Binding NavigateCommand}"
-                                               CommandParameter="{x:Static esmcore:ViewNames.ImportBillView}">
+                                               CommandParameter="{x:Static esmcore:ViewNames.ProductManagement}">
                         <mah:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconMaterial Kind="HomeImportOutline"
                                                         Width="22"
