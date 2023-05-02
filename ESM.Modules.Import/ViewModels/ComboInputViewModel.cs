@@ -3,6 +3,7 @@ using ESM.Core.ShareServices;
 using ESM.Modules.DataAccess;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
+using ESM.Modules.Import.Utilities;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
@@ -373,24 +374,5 @@ namespace ESM.Modules.Import.ViewModels
         private IEnumerable<Vga> Vgas;
         private IEnumerable<Smartphone> Smartphones;
         private IEnumerable<Pccpu> CPUs;
-    }
-    public class SelectableViewModel : BindableBase
-    {
-        public bool IsSelected { get; set; }
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public decimal Price { get; set; }
-        public double? Discount { get; set; }
-        public decimal SellPrice => Discount == null || Discount == 0 ? Price : Price * (1 - (decimal)Discount / 100);
-        public string Unit { get; set; }
-        public int Remain { get; set; }
-        public override bool Equals(object? obj)
-        {
-            return Id == (obj as SelectableViewModel)?.Id;
-        }
-        public override int GetHashCode()
-        {
-            return Id.GetHashCode();
-        }
     }
 }

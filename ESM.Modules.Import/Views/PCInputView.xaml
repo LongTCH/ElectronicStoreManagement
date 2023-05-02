@@ -17,7 +17,7 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto"
                   HorizontalAlignment="Stretch">
         <StackPanel>
-            <TextBlock Text="{Binding Header, Mode=OneWay,StringFormat='NHẬP THÔNG TIN {0}'}"
+            <TextBlock Text="NHẬP THÔNG TIN PC"
                        HorizontalAlignment="Center"
                        FontSize="30"
                        FontWeight="Bold"

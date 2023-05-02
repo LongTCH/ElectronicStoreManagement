@@ -110,35 +110,6 @@ namespace ESM.Modules.DataAccess.Repositories
             return res;
 
         }
-        private ProductDTO GetProduct(string id)
-        {
-            if (id.StartsWith(DAStaticData.IdPrefix[ProductType.LAPTOP]))
-            {
-                return _context.Laptops.First(x => x.Id == id);
-            }
-            else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.MONITOR]))
-            {
-                return _context.Monitors.First(x => x.Id == id);
-            }
-            else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.HARDDISK]))
-            {
-                return _context.Pcharddisks.First(x => x.Id == id);
-            }
-            else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.CPU]))
-            {
-                return _context.Pccpus.First(x => x.Id == id);
-            }
-            else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.SMARTPHONE]))
-            {
-                return _context.Smartphones.First(x => x.Id == id);
-            }
-            else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.VGA]))
-            {
-                return _context.Vgas.First(x => x.Id == id);
-            }
-            return _context.Pcs.First(x => x.Id == id);
-        }
-
         public async Task<IEnumerable<ProductDTO>> GetListProduct(Combo combo)
         {
             List<ProductDTO> products = new();
@@ -155,7 +126,6 @@ namespace ESM.Modules.DataAccess.Repositories
             await task;
             return products;
         }
-
         public async Task<int> GetRemain(Combo combo)
         {
             int res = int.MaxValue;
@@ -176,5 +146,6 @@ namespace ESM.Modules.DataAccess.Repositories
         {
             return await GetSuggestID(ProductType.COMBO);
         }
+
     }
 }

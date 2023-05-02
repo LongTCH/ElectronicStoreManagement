@@ -1,9 +1,6 @@
-﻿using ESM.Modules.DataAccess.DTOs;
-using ESM.Modules.DataAccess.Infrastructure;
+﻿using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Globalization;
 
 namespace ESM.Modules.DataAccess.Repositories
 {
@@ -32,7 +29,9 @@ namespace ESM.Modules.DataAccess.Repositories
         protected async Task<double> GetDiscount(string id)
         {
             double? res = 0;
-            var list = await _context.Discounts.Where(x => EF.Functions.Like(x.ProductIdlist, $"%{id}%")).ToListAsync();
+            var list = await _context.Discounts
+                .Where(x => ((DateTime)x.StartDate!).Date <= DateTime.Now.Date && ((DateTime)x.EndDate!) >= DateTime.Now)
+                .Where(x => EF.Functions.Like(x.ProductIdlist!, $"%{id}%")).ToListAsync();
             foreach (var item in list) res += item.Discount1;
             return (double)res;
         }

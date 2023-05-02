@@ -11,6 +11,7 @@ using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,7 +29,7 @@ namespace ESM.Modules.Export.ViewModels
             _accountStore = accountStore;
             AddCommand = new(addCommand);
             CancelCommand = new(cancelCommand);
-            PayCommand = new(async() => await ExecutePay());
+            PayCommand = new(async () => await ExecutePay());
         }
         public string Header => "Combo";
         private Combo SelectedCombo;
@@ -45,11 +46,17 @@ namespace ESM.Modules.Export.ViewModels
             set => SetProperty(ref comboList, value);
         }
         private ICollection<ProductBill> ProductBillList;
-        public decimal SellPrice => (SelectedCombo == null)? 0: SelectedCombo.SellPrice;
-        public double Discount => (SelectedCombo == null)? 0: SelectedCombo.Discount;
+        public decimal SellPrice => (SelectedCombo == null) ? 0 : SelectedCombo.SellPrice;
+        public double Discount => (SelectedCombo == null) ? 0 : SelectedCombo.Discount;
         public string TextFormPrice => NumberToText.FuncNumberToText((double)SellPrice);
         public string CustomerName { get; set; }
-        public string CustomerPhone { get; set; }
+        private string customerPhone;
+        [Phone(ErrorMessage = "Số điện thoại không hợp lệ")]
+        public string CustomerPhone
+        {
+            get => customerPhone;
+            set => SetProperty(ref customerPhone, value, () => this.ValidateProperty(value, nameof(CustomerPhone)));
+        }
         public DelegateCommand<Combo> AddCommand { get; }
         public DelegateCommand CancelCommand { get; }
         public DelegateCommand PayCommand { get; }
@@ -94,6 +101,8 @@ namespace ESM.Modules.Export.ViewModels
         {
             SelectedCombo = null;
             ProductList = null;
+            CustomerName = null;
+            CustomerPhone = null;
             RaisePropertyChanged(nameof(SellPrice));
             RaisePropertyChanged(nameof(TextFormPrice));
             RaisePropertyChanged(nameof(Discount));
@@ -113,7 +122,7 @@ namespace ESM.Modules.Export.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            
+
         }
     }
 }

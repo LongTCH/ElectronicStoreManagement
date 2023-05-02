@@ -1,9 +1,284 @@
 ﻿<UserControl x:Class="ESM.Modules.Import.Views.DiscountInputView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:prism="http://prismlibrary.com/"             
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance localvm:DiscountInputViewModel}"
+             xmlns:localvm="clr-namespace:ESM.Modules.Import.ViewModels"
              prism:ViewModelLocator.AutoWireViewModel="True">
-    <Grid>
-            
-    </Grid>
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
+                  HorizontalAlignment="Stretch">
+        <StackPanel>
+            <TextBlock Text="NHẬP THÔNG TIN KHUYẾN MÃI"
+                       HorizontalAlignment="Center"
+                       FontSize="30"
+                       FontWeight="Bold"
+                       Foreground="CornflowerBlue" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Button Content="THÊM"
+                        Width="100"
+                        Background="Green"
+                        Command="{Binding AddCommand}" />
+                <Button Content="XÓA"
+                        Grid.Column="2"
+                        Width="100"
+                        Background="Red"
+                        Command="{Binding DeleteCommand}" />
+            </Grid>
+            <Grid Margin="10"
+                  x:Name="GridAddCombo">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="5">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="DANH SÁCH SẢN PHẨM"
+                                   HorizontalAlignment="Center" />
+                        <ComboBox ItemsSource="{Binding ProductType}"
+                                  Cursor="Hand"
+                                  Grid.Column="1"
+                                  HorizontalAlignment="Right"
+                                  mah:TextBoxHelper.Watermark="Chọn loại sản phẩm"
+                                  MinWidth="100"
+                                  MaxWidth="150"
+                                  SelectedItem="{Binding SelectedProductType, UpdateSourceTrigger=PropertyChanged}"
+                                  Style="{StaticResource MahApps.Styles.ComboBox}" />
+                    </Grid>
+                    <DataGrid ItemsSource="{Binding ProductList}"
+                              GridLinesVisibility="All"
+                              BorderThickness="2"
+                              HorizontalAlignment="Stretch"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              CanUserReorderColumns="False"
+                              VerticalGridLinesBrush="DeepSkyBlue"
+                              HorizontalGridLinesBrush="DeepSkyBlue"
+                              ScrollViewer.CanContentScroll="True"
+                              ScrollViewer.VerticalScrollBarVisibility="Auto"
+                              ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                              x:Name="myDataGrid"
+                              Height="400"
+                              Style="{StaticResource MaterialDesignDataGrid}">
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="BorderThickness"
+                                        Value="1" />
+                            </Style>
+                        </DataGrid.CellStyle>
+                        <DataGrid.Columns>
+                            <DataGridCheckBoxColumn Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" />
+                            <DataGridTextColumn Header="Mã"
+                                                IsReadOnly="True"
+                                                Binding="{Binding Id, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Tên"
+                                                IsReadOnly="True"
+                                                Binding="{Binding Name, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Giá"
+                                                IsReadOnly="True"
+                                                Binding="{Binding SellPrice, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
+                            <DataGridTextColumn Header="Đơn vị"
+                                                IsReadOnly="True"
+                                                Binding="{Binding Unit, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Giảm giá"
+                                                IsReadOnly="True"
+                                                Binding="{Binding Discount}" />
+                            <DataGridTextColumn Header="Tồn kho"
+                                                Binding="{Binding Remain}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Content="THÊM VÀO KHUYẾN MÃI"
+                            FontWeight="Bold"
+                            HorizontalAlignment="Center"
+                            Background="Silver"
+                            Command="{Binding AddToDiscountCommand}" />
+                </StackPanel>
+                <StackPanel Grid.Column="2"
+                            Margin="5">
+                    <TextBlock Text="CHI TIẾT KHUYẾN MÃI"
+                               Grid.Column="0"
+                               HorizontalAlignment="Center" />
+                    <DataGrid ItemsSource="{Binding DiscountDetail}"
+                              GridLinesVisibility="All"
+                              IsReadOnly="True"
+                              BorderThickness="2"
+                              HorizontalAlignment="Stretch"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              CanUserReorderColumns="False"
+                              VerticalGridLinesBrush="DeepSkyBlue"
+                              HorizontalGridLinesBrush="DeepSkyBlue"
+                              ScrollViewer.CanContentScroll="True"
+                              ScrollViewer.VerticalScrollBarVisibility="Auto"
+                              ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                              Height="350"
+                              Style="{StaticResource MaterialDesignDataGrid}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Mã"
+                                                Binding="{Binding Id, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Tên"
+                                                Binding="{Binding Name, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Giá"
+                                                Binding="{Binding SellPrice, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
+                            <DataGridTextColumn Header="Đơn vị"
+                                                Binding="{Binding Unit, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Giảm giá"
+                                                Binding="{Binding Discount, UpdateSourceTrigger=LostFocus}" />
+                            <DataGridTextColumn Header="Tồn kho"
+                                                Binding="{Binding Remain, UpdateSourceTrigger=LostFocus}" />
+                            <DataGridTemplateColumn Header="Xóa">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Cursor="Hand"
+                                                Foreground="IndianRed"
+                                                Style="{StaticResource MahApps.Styles.Button.Chromeless}"
+                                                Command="{Binding DataContext.RemoveFromComboDetailCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}}"
+                                                CommandParameter="{Binding}">
+                                            <Underline>Xóa</Underline>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <DockPanel  Grid.Column="0"
+                                    Margin="5">
+                            <TextBlock Text="Ngày bắt đầu"
+                                       Margin="0,0,5,0"
+                                       VerticalAlignment="Center" />
+                            <DatePicker IsTodayHighlighted="True"
+                                        SelectedDate="{Binding StartDate}" />
+                        </DockPanel>
+                        <DockPanel  Grid.Column="1"
+                                    Margin="5">
+                            <iconPacks:PackIconFontAwesome Kind="PercentSolid"
+                                                           Height="22"
+                                                           Width="22"
+                                                           VerticalAlignment="Center" />
+                            <TextBox Text="{Binding DiscountName, UpdateSourceTrigger=LostFocus}"
+                                     Style="{StaticResource MahApps.Styles.TextBox}"
+                                     mah:TextBoxHelper.Watermark="Tên khuyến mãi" />
+                        </DockPanel>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <DockPanel Margin="5"
+                                   Grid.Column="0">
+                            <TextBlock Text="Ngày kết thúc"
+                                       Margin="0,0,5,0"
+                                       VerticalAlignment="Center" />
+                            <DatePicker IsTodayHighlighted="True"
+                                        SelectedDate="{Binding EndDate}" />
+                        </DockPanel>
+                        <DockPanel  Grid.Column="1"
+                                    Margin="5">
+                            <materialDesign:PackIcon Kind="RazorSingleEdge"
+                                                     VerticalAlignment="Center"
+                                                     Height="22"
+                                                     Width="22" />
+                            <TextBox Text="{Binding Discount, UpdateSourceTrigger=LostFocus,ValidatesOnExceptions=True}"
+                                     Style="{StaticResource MahApps.Styles.TextBox}"
+                                     mah:TextBoxHelper.Watermark="Phần trăm khuyến mãi" />
+                        </DockPanel>
+                    </Grid>
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Button Content="HỦY"
+                                FontWeight="Bold"
+                                HorizontalAlignment="Center"
+                                Background="DimGray"
+                                Command="{Binding CancelCommand}" />
+                        <Button Content="LƯU"
+                                Grid.Column="1"
+                                FontWeight="Bold"
+                                HorizontalAlignment="Center"
+                                Background="CornflowerBlue"
+                                Command="{Binding SaveCommand}" />
+                    </Grid>
+                </StackPanel>
+            </Grid>
+            <StackPanel Grid.Column="1"
+                        Margin="5">
+                <TextBlock Text="DANH SÁCH COMBO"
+                           HorizontalAlignment="Center" />
+                <DataGrid ItemsSource="{Binding DiscountList}"
+                          IsReadOnly="True"
+                          BorderThickness="2"
+                          HorizontalAlignment="Stretch"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          CanUserReorderColumns="False"
+                          VerticalGridLinesBrush="DeepSkyBlue"
+                          HorizontalGridLinesBrush="DeepSkyBlue"
+                          ScrollViewer.CanContentScroll="True"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                          MaxHeight="300"
+                          x:Name="myComboDataGrid">
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow"
+                               BasedOn="{StaticResource MaterialDesignDataGridRow}">
+                            <Setter Property="Background"
+                                    Value="White" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding InMemory}"
+                                             Value="False">
+                                    <Setter Property="Background"
+                                            Value="LightGreen" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.RowStyle>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding FindCommand}"
+                                                   CommandParameter="{Binding ElementName=myComboDataGrid,Path=SelectedItem}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Mã"
+                                            Binding="{Binding Id, Mode=OneWay}" />
+                        <DataGridTextColumn Header="Tên"
+                                            Binding="{Binding Name, Mode=OneWay}" />
+                        <DataGridTextColumn Header="Giá ban đầu"
+                                            Binding="{Binding Discount1, Mode=OneWay}" />
+                        <DataGridTextColumn Header="Giảm giá"
+                                            Binding="{Binding StartDate, Mode=OneWay}" />
+                        <DataGridTextColumn Header="Đơn vị"
+                                            Binding="{Binding EndDate, Mode=OneWay}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

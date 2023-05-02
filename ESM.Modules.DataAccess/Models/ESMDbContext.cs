@@ -190,8 +190,10 @@ public partial class ESMDbContext : DbContext
         {
             entity.ToTable("DISCOUNT");
 
+            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Discount1).HasColumnName("Discount");
             entity.Property(e => e.EndDate).HasPrecision(3);
+            entity.Property(e => e.Name).HasMaxLength(200);
             entity.Property(e => e.ProductIdlist)
                 .HasMaxLength(200)
                 .HasColumnName("ProductIDList");

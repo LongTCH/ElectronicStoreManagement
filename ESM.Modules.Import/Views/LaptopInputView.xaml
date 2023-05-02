@@ -19,7 +19,7 @@
                       HorizontalAlignment="Stretch"
                       Grid.Row="1">
             <StackPanel>
-                <TextBlock Text="{Binding Header, Mode=OneWay,StringFormat='NHẬP THÔNG TIN {0}'}"
+                <TextBlock Text="NHẬP THÔNG TIN LAPTOP"
                            HorizontalAlignment="Center"
                            FontSize="30"
                            FontWeight="Bold"

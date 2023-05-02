@@ -69,21 +69,6 @@
                            OptionsItemTemplate="{StaticResource HamburgerOptionsMenuItem}"
                            HamburgerWidth="48"
                            Cursor="Hand">
-            <!--<mah:HamburgerMenu.Style>
-                <Style TargetType="mah:HamburgerMenu" />
-            </mah:HamburgerMenu.Style>-->
-            <!-- Header-->
-            <!--<mah:HamburgerMenu.HamburgerMenuHeaderTemplate>
-                <DataTemplate>
-                    <TextBlock HorizontalAlignment="Left"
-                               VerticalAlignment="Center"
-                               FontSize="20"
-                               Margin="10,0,0,0"
-                               Foreground="GreenYellow"
-                               Text="Tool Bar" />
-                </DataTemplate>
-            </mah:HamburgerMenu.HamburgerMenuHeaderTemplate>-->
-            <!-- Items-->
             <mah:HamburgerMenu.ItemsSource>
                 <mah:HamburgerMenuItemCollection>
                     <mah:HamburgerMenuIconItem Label="Giới thiệu"
@@ -135,7 +120,7 @@
                         </mah:HamburgerMenuIconItem.Icon>
                     </mah:HamburgerMenuIconItem>
                     <mah:HamburgerMenuIconItem Label="Bán hàng"
-                                               IsVisible="{Binding IsSellStaff}"
+                                               IsVisible="{Binding }"
                                                Command="{Binding NavigateCommand}"
                                                CommandParameter="{x:Static esmcore:ViewNames.InputSellView}">
                         <mah:HamburgerMenuIconItem.Icon>

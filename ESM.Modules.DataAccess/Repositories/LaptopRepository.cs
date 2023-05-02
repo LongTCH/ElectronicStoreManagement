@@ -1,8 +1,6 @@
-﻿using ESM.Modules.DataAccess.DTOs;
-using ESM.Modules.DataAccess.Infrastructure;
+﻿using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
 namespace ESM.Modules.DataAccess.Repositories;
 public interface ILaptopRepository : IProductRepository<Laptop>

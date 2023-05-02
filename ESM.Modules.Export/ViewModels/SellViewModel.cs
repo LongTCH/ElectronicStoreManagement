@@ -11,6 +11,7 @@ using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -62,10 +63,11 @@ namespace ESM.Modules.Export.ViewModels
             set => SetProperty(ref customerName, value);
         }
         private string customerPhone;
+        [Phone(ErrorMessage = "Số điện thoại không hợp lệ")]
         public string CustomerPhone
         {
             get => customerPhone;
-            set => SetProperty(ref customerPhone, value);
+            set => SetProperty(ref customerPhone, value, () => this.ValidateProperty(value, nameof(CustomerPhone)));
         }
         public int SelectedIndex { get; set; }
         public decimal TotalAmount => ProductBillList.Sum(s => s.Amount);

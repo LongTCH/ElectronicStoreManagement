@@ -13,40 +13,64 @@
              d:DesignWidth="800"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0"
-                    Orientation="Vertical"
-                    HorizontalAlignment="Center">
-            <TextBlock Text="Thông Tin Khách Hàng"
-                       IsEnabled="False"
-                       HorizontalAlignment="Center"
-                       FontSize="20"
-                       Foreground="#FF68BD2C"
-                       FontFamily="Arial Black" />
-            <DockPanel>
-                <TextBox Margin="30,5,0,0"
-                         IsEnabled="False"
-                         BorderBrush="White"
-                         Background="White"
-                         Width="150"
-                         FontSize="13">Tên khách hàng:</TextBox>
-                <TextBox Margin="0,5"
-                         Width="200"
-                         Text="{Binding CustomerName, UpdateSourceTrigger=PropertyChanged}" />
-            </DockPanel>
-            <DockPanel>
-                <TextBox Margin="30,5,0,0"
-                         IsEnabled="False"
-                         BorderBrush="White"
-                         Width="150">Điện thoại:</TextBox>
-                <TextBox Margin="0,5"
-                         Text="{Binding CustomerPhone, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" />
-            </DockPanel>
-        </StackPanel>
-        <Grid Grid.Row="1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="3*" />
+            </Grid.RowDefinitions>
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <TextBlock Text="QUÁN LÍ"
+                           IsEnabled="False"
+                           HorizontalAlignment="Center"
+                           FontSize="25"
+                           Foreground="Black"
+                           FontFamily="Arial Black" />
+                <TextBlock Text="BÁN HÀNG"
+                           IsEnabled="False"
+                           HorizontalAlignment="Center"
+                           FontSize="25"
+                           Foreground="Black"
+                           FontFamily="Arial Black" />
+            </StackPanel>
+            <StackPanel Grid.Row="1">
+                <TextBlock Text="Thông Tin Khách Hàng"
+                           IsEnabled="False"
+                           HorizontalAlignment="Center"
+                           FontSize="20"
+                           Foreground="#FF68BD2C"
+                           FontFamily="Arial" />
+                <StackPanel>
+                    <TextBox Margin="5"
+                             HorizontalAlignment="Left"
+                             IsEnabled="False"
+                             BorderBrush="White"
+                             Background="White"
+                             Width="150"
+                             FontSize="13">Tên khách hàng:</TextBox>
+                    <TextBox Margin="5"
+                             HorizontalAlignment="Left"
+                             Width="200"
+                             Text="{Binding CustomerName, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+                <StackPanel>
+                    <TextBox Margin="5"
+                             HorizontalAlignment="Left"
+                             IsEnabled="False"
+                             BorderBrush="White"
+                             Width="150">Điện thoại:</TextBox>
+                    <TextBox Margin="5"
+                             Width="200"
+                             HorizontalAlignment="Left"
+                             Text="{Binding CustomerPhone, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
@@ -59,7 +83,7 @@
                        HorizontalAlignment="Center"
                        FontSize="20"
                        Foreground="#FF68BD2C"
-                       FontFamily="Arial Black" />
+                       FontFamily="Arial" />
             <StackPanel Grid.Row="1"
                         x:Name="TopPanel"
                         HorizontalAlignment="Center"
@@ -79,8 +103,8 @@
                         Cursor="Hand"
                         Background="LightBlue"
                         Style="{StaticResource MahApps.Styles.Button.Flat}"
-                        Command="{Binding AddCommand}" 
-                        CommandParameter="{Binding ElementName=combo, Path=SelectedItem}"/>
+                        Command="{Binding AddCommand}"
+                        CommandParameter="{Binding ElementName=combo, Path=SelectedItem}" />
             </StackPanel>
             <DataGrid ItemsSource="{Binding ProductList}"
                       MinWidth="600"
@@ -155,12 +179,12 @@
                 </StackPanel>
             </StackPanel>
             <TextBlock Grid.Row="4"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Foreground="DarkBlue"
-                           FontSize="16"
-                           Margin="0,0,0,10"
-                           Text="{Binding TextFormPrice, Mode=OneWay}" />
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Foreground="DarkBlue"
+                       FontSize="16"
+                       Margin="0,0,0,10"
+                       Text="{Binding TextFormPrice, Mode=OneWay}" />
         </Grid>
     </Grid>
 </UserControl>
