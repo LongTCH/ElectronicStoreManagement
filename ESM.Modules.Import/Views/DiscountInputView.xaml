@@ -1,25 +1,22 @@
-﻿<UserControl x:Class="ESM.Modules.Import.Views.ComboInputView"
+﻿<UserControl x:Class="ESM.Modules.Import.Views.DiscountInputView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:helper="clr-namespace:ESM.Core.Helper;assembly=ESM.Core"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             d:DataContext="{d:DesignInstance localvm:ComboInputViewModel}"
+             d:DataContext="{d:DesignInstance localvm:DiscountInputViewModel}"
              xmlns:localvm="clr-namespace:ESM.Modules.Import.ViewModels"
-             xmlns:prism="http://prismlibrary.com/"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             Background="White"
-             Tag="{Binding Header}"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <ScrollViewer VerticalScrollBarVisibility="Auto"
                   PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
                   HorizontalAlignment="Stretch">
         <StackPanel>
-            <TextBlock Text="NHẬP THÔNG TIN COMBO"
+            <TextBlock Text="NHẬP THÔNG TIN KHUYẾN MÃI"
                        HorizontalAlignment="Center"
                        FontSize="30"
                        FontWeight="Bold"
@@ -107,18 +104,18 @@
                                                 Binding="{Binding Remain}" />
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Button Content="THÊM VÀO COMBO"
+                    <Button Content="THÊM VÀO KHUYẾN MÃI"
                             FontWeight="Bold"
                             HorizontalAlignment="Center"
                             Background="Silver"
-                            Command="{Binding AddToComboCommand}" />
+                            Command="{Binding AddToDiscountCommand}" />
                 </StackPanel>
                 <StackPanel Grid.Column="2"
                             Margin="5">
-                    <TextBlock Text="CHI TIẾT COMBO"
+                    <TextBlock Text="CHI TIẾT KHUYẾN MÃI"
                                Grid.Column="0"
                                HorizontalAlignment="Center" />
-                    <DataGrid ItemsSource="{Binding ComboDetail}"
+                    <DataGrid ItemsSource="{Binding DiscountDetail}"
                               GridLinesVisibility="All"
                               IsReadOnly="True"
                               BorderThickness="2"
@@ -169,12 +166,11 @@
                         </Grid.ColumnDefinitions>
                         <DockPanel  Grid.Column="0"
                                     Margin="5">
-                            <materialDesign:PackIcon Kind="Identifier"
-                                                     Height="22"
-                                                     Width="22"
-                                                     VerticalAlignment="Center" />
-                            <TextBox Text="{Binding ComboId}"
-                                     IsReadOnly="True"/>
+                            <TextBlock Text="Ngày bắt đầu"
+                                       Margin="0,0,5,0"
+                                       VerticalAlignment="Center" />
+                            <DatePicker IsTodayHighlighted="True"
+                                        SelectedDate="{Binding StartDate}" />
                         </DockPanel>
                         <DockPanel  Grid.Column="1"
                                     Margin="5">
@@ -182,8 +178,9 @@
                                                            Height="22"
                                                            Width="22"
                                                            VerticalAlignment="Center" />
-                            <TextBox Text="{Binding Discount, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
-                                     Style="{StaticResource MahApps.Styles.TextBox}" />
+                            <TextBox Text="{Binding DiscountName, UpdateSourceTrigger=LostFocus}"
+                                     Style="{StaticResource MahApps.Styles.TextBox}"
+                                     mah:TextBoxHelper.Watermark="Tên khuyến mãi" />
                         </DockPanel>
                     </Grid>
                     <Grid>
@@ -193,12 +190,11 @@
                         </Grid.ColumnDefinitions>
                         <DockPanel Margin="5"
                                    Grid.Column="0">
-                            <materialDesign:PackIcon Kind="Rename"
-                                                     Height="22"
-                                                     Width="22"
-                                                     VerticalAlignment="Center" />
-                            <TextBox Text="{Binding ComboName, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
-                                     Style="{StaticResource MahApps.Styles.TextBox}" />
+                            <TextBlock Text="Ngày kết thúc"
+                                       Margin="0,0,5,0"
+                                       VerticalAlignment="Center" />
+                            <DatePicker IsTodayHighlighted="True"
+                                        SelectedDate="{Binding EndDate}" />
                         </DockPanel>
                         <DockPanel  Grid.Column="1"
                                     Margin="5">
@@ -206,8 +202,9 @@
                                                      VerticalAlignment="Center"
                                                      Height="22"
                                                      Width="22" />
-                            <TextBox Text="{Binding ComboUnit, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
-                                     Style="{StaticResource MahApps.Styles.TextBox}" />
+                            <TextBox Text="{Binding Discount, UpdateSourceTrigger=LostFocus,ValidatesOnExceptions=True}"
+                                     Style="{StaticResource MahApps.Styles.TextBox}"
+                                     mah:TextBoxHelper.Watermark="Phần trăm khuyến mãi" />
                         </DockPanel>
                     </Grid>
                     <Grid Margin="5">
@@ -233,7 +230,7 @@
                         Margin="5">
                 <TextBlock Text="DANH SÁCH COMBO"
                            HorizontalAlignment="Center" />
-                <DataGrid ItemsSource="{Binding ComboList}"
+                <DataGrid ItemsSource="{Binding DiscountList}"
                           IsReadOnly="True"
                           BorderThickness="2"
                           HorizontalAlignment="Stretch"
@@ -274,13 +271,11 @@
                         <DataGridTextColumn Header="Tên"
                                             Binding="{Binding Name, Mode=OneWay}" />
                         <DataGridTextColumn Header="Giá ban đầu"
-                                            Binding="{Binding Price, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
+                                            Binding="{Binding Discount1, Mode=OneWay}" />
                         <DataGridTextColumn Header="Giảm giá"
-                                            Binding="{Binding Discount, UpdateSourceTrigger=LostFocus}" />
+                                            Binding="{Binding StartDate, Mode=OneWay}" />
                         <DataGridTextColumn Header="Đơn vị"
-                                            Binding="{Binding Unit, Mode=OneWay}" />
-                        <DataGridTextColumn Header="Giá khuyến mãi"
-                                            Binding="{Binding SellPrice, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
+                                            Binding="{Binding EndDate, Mode=OneWay}" />
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>

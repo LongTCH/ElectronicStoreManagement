@@ -2,6 +2,7 @@
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace ESM.Modules.DataAccess.Repositories
 {
@@ -12,17 +13,30 @@ namespace ESM.Modules.DataAccess.Repositories
         public SmartphoneRepository(ESMDbContext context) : base(context)
         {
         }
+        public override async Task<Smartphone?> GetById(string id)
+        {
+            var p = await _context.Smartphones.FirstOrDefaultAsync(x => x.Id == id);
+            if (p != null) p.Discount = await GetDiscount(id);
+            return p;
+        }
         public override async Task<IEnumerable<Smartphone>?> GetAll()
         {
-            return await _context.Smartphones.AsQueryable()
+            var list = await _context.Smartphones.AsQueryable()
                     .Where(smartphone => smartphone.Remain > -1)
                     .ToListAsync();
+            foreach (var item in list) item.Discount = await GetDiscount(item.Id);
+            return list;
         }
         public override async Task<object?> Add(Smartphone entity)
         {
-            await _context.Smartphones.AddAsync(entity);
-            await _context.SaveChangesAsync();
-            return null;
+            bool res = true;
+            try
+            {
+                await _context.Smartphones.AddAsync(entity);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception) { res = false; }
+            return res;
         }
         public override async Task<object?> Update(Smartphone entity)
         {
@@ -62,9 +76,9 @@ namespace ESM.Modules.DataAccess.Repositories
             catch (Exception ex) { res = false; }
             return res;
         }
-        public string GetSuggestID()
+        public async Task<string> GetSuggestID()
         {
-            return GetSuggestID(ProductType.SMARTPHONE);
+            return await GetSuggestID(ProductType.SMARTPHONE);
         }
     }
 }

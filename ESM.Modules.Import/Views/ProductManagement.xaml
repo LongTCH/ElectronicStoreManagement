@@ -1,0 +1,105 @@
+﻿<UserControl x:Class="ESM.Modules.Import.Views.ProductManagement"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:esmcore="clr-namespace:ESM.Core;assembly=ESM.Core"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="LargeTileStyle"
+                   TargetType="mah:Tile">
+                <Setter Property="Height"
+                        Value="125" />
+                <Setter Property="Cursor"
+                        Value="Hand" />
+                <Setter Property="TextOptions.TextFormattingMode"
+                        Value="Display" />
+                <Setter Property="TextOptions.TextRenderingMode"
+                        Value="ClearType" />
+                <Setter Property="TitleFontSize"
+                        Value="14" />
+                <Setter Property="Width"
+                        Value="300" />
+            </Style>
+            <Style x:Key="SmallTileStyle"
+                   TargetType="mah:Tile">
+                <Setter Property="Height"
+                        Value="125" />
+                <Setter Property="Cursor"
+                        Value="Hand" />
+                <Setter Property="TextOptions.TextFormattingMode"
+                        Value="Ideal" />
+                <Setter Property="TextOptions.TextRenderingMode"
+                        Value="ClearType" />
+                <Setter Property="TitleFontSize"
+                        Value="10" />
+                <Setter Property="Width"
+                        Value="147" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid HorizontalAlignment="Center"
+          VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <mah:Tile Title="Quản lí nhập liệu"
+                  Grid.Column="0"
+                  Grid.Row="0"
+                  Margin="3"
+                  mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                  Background="Teal"
+                  HorizontalTitleAlignment="Right"
+                  Style="{StaticResource LargeTileStyle}"
+                  Command="{Binding NavigateCommand}"
+                  CommandParameter="{x:Static esmcore:ViewNames.ProductInputView}">
+            <iconPacks:PackIconPicolIcons Kind="Computer"
+                                          Width="40"
+                                          Height="40" />
+        </mah:Tile>
+        <mah:Tile Title="Quản lí nhập kho"
+                  Grid.Column="1"
+                  Grid.Row="0"
+                  Margin="3"
+                  Command="{Binding NavigateCommand}"
+                  CommandParameter="{x:Static esmcore:ViewNames.ImportBillView}"
+                  mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                  Style="{StaticResource LargeTileStyle}">
+            <iconPacks:PackIconJamIcons Kind="Computer"
+                                        Width="40"
+                                        Height="40" />
+        </mah:Tile>
+        <mah:Tile Title="Quản lí khuyến mãi"
+                  Grid.Column="0"
+                  Grid.Row="1"
+                  Background="DimGray"
+                  Command="{Binding NavigateCommand}"
+                  CommandParameter="{x:Static esmcore:ViewNames.DiscountInputView}"
+                  mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                  Style="{StaticResource LargeTileStyle}">
+            <iconPacks:PackIconMaterialDesign Kind="PhoneIphone"
+                                              Width="40"
+                                              Height="40" />
+        </mah:Tile>
+        <mah:Tile Title="Quản lí hóa đơn"
+                  Grid.Column="1"
+                  Grid.Row="1"
+                  Background="#D2691E"
+                  Command="{Binding NavigateCommand}"
+                  CommandParameter="{x:Static esmcore:ViewNames.PCCPUView}"
+                  mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                  HorizontalTitleAlignment="Right"
+                  Style="{StaticResource LargeTileStyle}">
+            <iconPacks:PackIconBootstrapIcons Kind="Cpu"
+                                              Width="40"
+                                              Height="40" />
+        </mah:Tile>
+    </Grid>
+</UserControl>

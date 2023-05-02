@@ -34,6 +34,8 @@ namespace ESM.Modules.Import
             _regionManager.RegisterViewWithContentRegion<ProductInputView>();
             _regionManager.RegisterViewWithContentRegion<RegisterView>();
             _regionManager.RegisterViewWithContentRegion<ChangeAccountInfoView>();
+            _regionManager.RegisterViewWithContentRegion<ProductManagement>();
+            _regionManager.RegisterViewWithContentRegion<DiscountInputView>();
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
@@ -41,11 +43,8 @@ namespace ESM.Modules.Import
             containerRegistry.RegisterForNavigation<ProductInputView, ProductInputViewModel>(ViewNames.ProductInputView);
             containerRegistry.RegisterForNavigation<RegisterView, RegisterViewModel>(ViewNames.RegisterView);
             containerRegistry.RegisterForNavigation<ChangeAccountInfoView, ChangeAccountInfoViewModel>(ViewNames.ChangeAccountInfoView);
-
-            containerRegistry.RegisterForNavigation<HardDiskInputView, HardDiskInputViewModel>();
-            containerRegistry.RegisterForNavigation<LaptopInputView, LaptopInputViewModel>();
-            containerRegistry.RegisterForNavigation<PCInputView, PCInputViewModel>();
-            containerRegistry.RegisterForNavigation<MonitorInputView, MonitorInputViewModel>();
+            containerRegistry.RegisterForNavigation<ProductManagement, ProductManagementViewModel>(ViewNames.ProductManagement);
+            containerRegistry.RegisterForNavigation<DiscountInputView, DiscountInputViewModel>(ViewNames.ProductManagement);
         }
     }
 }

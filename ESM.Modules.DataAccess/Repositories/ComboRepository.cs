@@ -1,12 +1,6 @@
-﻿using ESM.Modules.DataAccess.DTOs;
-using ESM.Modules.DataAccess.Infrastructure;
+﻿using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ESM.Modules.DataAccess.Repositories
 {
@@ -21,6 +15,17 @@ namespace ESM.Modules.DataAccess.Repositories
         public ComboRepository(ESMDbContext context) : base(context)
         {
         }
+        public override async Task<object?> Add(Combo entity)
+        {
+            bool res = true;
+            try
+            {
+                await _context.Combos.AddAsync(entity);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception) { res = false; }
+            return res;
+        }
         public override async Task<object?> AddList(IEnumerable<Combo> list)
         {
             bool res = true;
@@ -34,7 +39,9 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         public override async Task<Combo?> GetById(string id)
         {
-            return await _context.Combos.FirstOrDefaultAsync(x => x.Id == id);
+            var res = await _context.Combos.FirstOrDefaultAsync(x => x.Id == id);
+            if (res != null) res.Discount = await GetDiscount(res.Id);
+            return res;
         }
         public override async Task<IEnumerable<Combo>?> GetAll()
         {
@@ -81,7 +88,7 @@ namespace ESM.Modules.DataAccess.Repositories
                 string[] list = combo.ProductIdlist.Split(' ');
                 foreach (var item in list)
                 {
-                    res += GetProduct(item).SellPrice;
+                    res += GetProduct(item).Price;
                 }
             });
             task.Start();
@@ -103,40 +110,12 @@ namespace ESM.Modules.DataAccess.Repositories
             return res;
 
         }
-        private ProductDTO GetProduct(string id)
-        {
-            if (id.StartsWith(DAStaticData.IdPrefix[ProductType.LAPTOP]))
-            {
-                return _context.Laptops.First(x => x.Id == id);
-            }
-            else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.MONITOR]))
-            {
-                return _context.Monitors.First(x => x.Id == id);
-            }
-            else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.HARDDISK]))
-            {
-                return _context.Pcharddisks.First(x => x.Id == id);
-            }
-            else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.CPU]))
-            {
-                return _context.Pccpus.First(x => x.Id == id);
-            }
-            else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.SMARTPHONE]))
-            {
-                return _context.Smartphones.First(x => x.Id == id);
-            }
-            else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.VGA]))
-            {
-                return _context.Vgas.First(x => x.Id == id);
-            }
-            return _context.Pcs.First(x => x.Id == id);
-        }
-
         public async Task<IEnumerable<ProductDTO>> GetListProduct(Combo combo)
         {
             List<ProductDTO> products = new();
             Task task = new(() =>
             {
+                if (string.IsNullOrWhiteSpace(combo.ProductIdlist)) return;
                 var list = combo.ProductIdlist.Split(' ');
                 foreach (var item in list)
                 {
@@ -147,7 +126,6 @@ namespace ESM.Modules.DataAccess.Repositories
             await task;
             return products;
         }
-
         public async Task<int> GetRemain(Combo combo)
         {
             int res = int.MaxValue;
@@ -164,9 +142,10 @@ namespace ESM.Modules.DataAccess.Repositories
 
             return res;
         }
-        public string GetSuggestID()
+        public async Task<string> GetSuggestID()
         {
-            return GetSuggestID(ProductType.COMBO);
+            return await GetSuggestID(ProductType.COMBO);
         }
+
     }
 }

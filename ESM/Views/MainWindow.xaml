@@ -69,24 +69,9 @@
                            OptionsItemTemplate="{StaticResource HamburgerOptionsMenuItem}"
                            HamburgerWidth="48"
                            Cursor="Hand">
-            <!--<mah:HamburgerMenu.Style>
-                <Style TargetType="mah:HamburgerMenu" />
-            </mah:HamburgerMenu.Style>-->
-            <!-- Header-->
-            <!--<mah:HamburgerMenu.HamburgerMenuHeaderTemplate>
-                <DataTemplate>
-                    <TextBlock HorizontalAlignment="Left"
-                               VerticalAlignment="Center"
-                               FontSize="20"
-                               Margin="10,0,0,0"
-                               Foreground="GreenYellow"
-                               Text="Tool Bar" />
-                </DataTemplate>
-            </mah:HamburgerMenu.HamburgerMenuHeaderTemplate>-->
-            <!-- Items-->
             <mah:HamburgerMenu.ItemsSource>
                 <mah:HamburgerMenuItemCollection>
-                    <mah:HamburgerMenuIconItem Label="Trang chủ"
+                    <mah:HamburgerMenuIconItem Label="Giới thiệu"
                                                Command="{Binding NavigateCommand}"
                                                CommandParameter="{x:Static esmcore:ViewNames.HomeView}">
                         <mah:HamburgerMenuIconItem.Icon>
@@ -122,22 +107,10 @@
                                                        Kind="User" />
                         </mah:HamburgerMenuIconItem.Icon>
                     </mah:HamburgerMenuIconItem>
-                    <mah:HamburgerMenuIconItem Label="Nhập liệu"
-                                               IsVisible="{Binding IsTypingStaff}"
+                    <mah:HamburgerMenuIconItem Label="Quản lí sản phẩm"
+                                               IsVisible="{Binding }"
                                                Command="{Binding NavigateCommand}"
-                                               CommandParameter="{x:Static esmcore:ViewNames.ProductInputView}">
-                        <mah:HamburgerMenuIconItem.Icon>
-                            <iconPacks:PackIconZondicons Kind="NewsPaper"
-                                                         Width="22"
-                                                         Height="22"
-                                                         HorizontalAlignment="Center"
-                                                         VerticalAlignment="Center" />
-                        </mah:HamburgerMenuIconItem.Icon>
-                    </mah:HamburgerMenuIconItem>
-                    <mah:HamburgerMenuIconItem Label="Nhập hàng"
-                                               IsVisible="{Binding IsTypingStaff}"
-                                               Command="{Binding NavigateCommand}"
-                                               CommandParameter="{x:Static esmcore:ViewNames.ImportBillView}">
+                                               CommandParameter="{x:Static esmcore:ViewNames.ProductManagement}">
                         <mah:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconMaterial Kind="HomeImportOutline"
                                                         Width="22"
@@ -147,7 +120,7 @@
                         </mah:HamburgerMenuIconItem.Icon>
                     </mah:HamburgerMenuIconItem>
                     <mah:HamburgerMenuIconItem Label="Bán hàng"
-                                               IsVisible="{Binding IsSellStaff}"
+                                               IsVisible="{Binding }"
                                                Command="{Binding NavigateCommand}"
                                                CommandParameter="{x:Static esmcore:ViewNames.InputSellView}">
                         <mah:HamburgerMenuIconItem.Icon>

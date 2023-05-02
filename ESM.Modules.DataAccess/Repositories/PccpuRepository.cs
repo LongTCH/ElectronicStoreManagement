@@ -11,17 +11,30 @@ public class PccpuRepository : ProductRepository<Pccpu>, IPccpuRepository
     public PccpuRepository(ESMDbContext context) : base(context)
     {
     }
+    public override async Task<Pccpu?> GetById(string id)
+    {
+        var p = await _context.Pccpus.FirstOrDefaultAsync(x => x.Id == id);
+        if (p != null) p.Discount = await GetDiscount(id);
+        return p;
+    }
     public override async Task<IEnumerable<Pccpu>?> GetAll()
     {
-        return await _context.Pccpus.AsQueryable()
+        var list = await _context.Pccpus.AsQueryable()
                 .Where(p => p.Remain > -1)
                 .ToListAsync();
+        foreach (var item in list) item.Discount = await GetDiscount(item.Id);
+        return list;
     }
     public override async Task<object?> Add(Pccpu entity)
     {
-        await _context.Pccpus.AddAsync(entity);
-        await _context.SaveChangesAsync();
-        return null;
+        bool res = true;
+        try
+        {
+            await _context.Pccpus.AddAsync(entity);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception) { res = false; }
+        return res;
     }
     public override async Task<object?> Update(Pccpu entity)
     {
@@ -54,9 +67,9 @@ public class PccpuRepository : ProductRepository<Pccpu>, IPccpuRepository
     {
         return await _context.Pccpus.AnyAsync(p => p.Id == id);
     }
-    public string GetSuggestID()
+    public async Task<string> GetSuggestID()
     {
-        return GetSuggestID(ProductType.CPU);
+        return await GetSuggestID(ProductType.CPU);
     }
     public override async Task<object?> Delete(string id)
     {

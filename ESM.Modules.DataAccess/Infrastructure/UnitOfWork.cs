@@ -32,6 +32,7 @@ namespace ESM.Modules.DataAccess.Infrastructure
         public IImportRepository Imports { get; }
 
         public IReportRepository Reports { get; }
+        public IDiscountRepository Discounts { get; }
 
         public UnitOfWork(ESMDbContext context)
         {
@@ -49,6 +50,7 @@ namespace ESM.Modules.DataAccess.Infrastructure
             BillCombos = new BillComboRepository(context);
             Imports = new ImportRepository(context);
             Reports = new ReportRepository(context);
+            Discounts = new DiscountRepository(context);
         }
         public async Task<int> SaveChangesAsync()
         {

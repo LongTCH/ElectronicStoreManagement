@@ -53,14 +53,8 @@ namespace ESM.Modules.Authentication.ViewModels
             }
             try
             {
-                Task t = new(() =>
-                {
-                    ScryptEncoder encoder = new ScryptEncoder();
-                    _unitOfWork.Accounts.ResetPassword(Id, encoder.Encode(NewPassword!));
-                   
-                });
-                t.Start();
-                await t;
+                ScryptEncoder encoder = new ScryptEncoder();
+                await _unitOfWork.Accounts.ResetPassword(Id, encoder.Encode(NewPassword!));
                 _modalService.ShowModal(ModalType.Information, "Đăng nhập lại", "Thành công");
             }
             catch (Exception)

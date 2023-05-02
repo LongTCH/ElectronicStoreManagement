@@ -1,5 +1,4 @@
-﻿using ESM.Modules.DataAccess.DTOs;
-using ESM.Modules.DataAccess.Infrastructure;
+﻿using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,17 +11,30 @@ public class LaptopRepository : ProductRepository<Laptop>, ILaptopRepository
     public LaptopRepository(ESMDbContext context) : base(context)
     {
     }
+    public override async Task<Laptop?> GetById(string id)
+    {
+        var p = await _context.Laptops.FirstOrDefaultAsync(x => x.Id == id);
+        if (p != null) p.Discount = await GetDiscount(id); 
+        return p;
+    }
     public override async Task<IEnumerable<Laptop>?> GetAll()
     {
-        return await _context.Laptops
+        var list = await _context.Laptops
                 .Where(p => p.Remain > -1)
                 .ToListAsync();
+        foreach (var item in list) item.Discount = await GetDiscount(item.Id);
+        return list;
     }
     public override async Task<object?> Add(Laptop entity)
     {
-        await _context.Laptops.AddAsync(entity);
-        await _context.SaveChangesAsync();
-        return null;
+        bool res = true;
+        try
+        {
+            await _context.Laptops.AddAsync(entity);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception) { res = false; }
+        return res;
     }
     public override async Task<object?> Update(Laptop entity)
     {
@@ -47,9 +59,9 @@ public class LaptopRepository : ProductRepository<Laptop>, ILaptopRepository
         await _context.SaveChangesAsync();
         return null;
     }
-    public string GetSuggestID()
+    public async Task<string> GetSuggestID()
     {
-        return GetSuggestID(ProductType.LAPTOP);
+        return await GetSuggestID(ProductType.LAPTOP);
     }
 
     public override async Task<object?> AddList(IEnumerable<Laptop> list)
