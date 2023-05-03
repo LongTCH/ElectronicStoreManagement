@@ -24,6 +24,7 @@ public partial class BillCombo
     public DateTime PurchasedTime { get; set; }
 
     public decimal TotalAmount { get; set; }
+    public int Number { get; set; }
 
     public string ComboId { get; set; } = null!;
 

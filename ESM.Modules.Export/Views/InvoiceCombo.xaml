@@ -103,26 +103,35 @@
                      ItemsSource="{Binding ListProduct}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel HorizontalAlignment="Stretch">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
                             <TextBlock Text="{Binding Name}"
-                                       FontSize="20" />
-                            <Grid Width="400">
+                                       FontSize="20" 
+                                       TextWrapping="NoWrap"/>
+                            <Grid Grid.Row="1"
+                                  HorizontalAlignment="Left"
+                                  Width="400">
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*" />
                                     <ColumnDefinition Width="1*" />
-                                    <ColumnDefinition Width="2*" />
                                     <ColumnDefinition Width="3*" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding Number}"
-                                           FontSize="18" />
+                                <TextBlock Text="{Binding SellPrice, StringFormat={StaticResource CurrencyFormat}}"
+                                           FontSize="18"
+                                           HorizontalAlignment="Left" />
                                 <TextBlock Grid.Column="1"
-                                           Text="{Binding SellPrice, StringFormat={StaticResource CurrencyFormat}}"
-                                           FontSize="18" />
+                                           Text="{Binding Number}"
+                                           FontSize="18"
+                                           HorizontalAlignment="Left" />
                                 <TextBlock Grid.Column="2"
                                            Text="{Binding Amount, StringFormat={StaticResource CurrencyFormat}}"
                                            HorizontalAlignment="Right"
                                            FontSize="18" />
                             </Grid>
-                        </StackPanel>
+                        </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

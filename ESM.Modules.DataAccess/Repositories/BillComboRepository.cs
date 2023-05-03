@@ -20,7 +20,7 @@ namespace ESM.Modules.DataAccess.Repositories
             entity.Id = GetNewID();
             var list = (await _context.Combos.FirstAsync(x => x.Id == entity.ComboId)).ProductIdlist.Split(' ');
             foreach (var item in list)
-                DecreaseRemain(item, 1);
+                DecreaseRemain(item, entity.Number);
             await _context.BillCombos.AddAsync(entity);
             await _context.SaveChangesAsync();
             return entity.Id;
@@ -49,6 +49,7 @@ namespace ESM.Modules.DataAccess.Repositories
                 _context.Smartphones.Where(p => p.Id == id).First().Remain -= number;
             else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.VGA]))
                 _context.Vgas.Where(p => p.Id == id).First().Remain -= number;
+            _context.SaveChanges();
         }
     }
 }

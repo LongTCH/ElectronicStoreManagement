@@ -6,8 +6,8 @@ using ESM.Modules.Export.Utilities;
 using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -23,7 +23,7 @@ namespace ESM.Modules.Export.Views
         private readonly AccountStore _accountStore;
         private Combo _combo;
         public InvoiceCombo(IModalService modalService, IUnitOfWork unitOfWork, AccountStore accountStore,
-            string customerName, string phone, ICollection<ProductBill> list, Combo combo)
+            string customerName, string phone, ICollection<ProductBill> list, Combo combo, int number)
         {
             _modalService = modalService;
             _unitOfWork = unitOfWork;
@@ -33,12 +33,14 @@ namespace ESM.Modules.Export.Views
             CustomerPhone = phone;
             CustomerName = customerName;
             ListProduct = list;
-            TotalAmount = combo.SellPrice;
+            Number = number;
+            TotalAmount = combo.SellPrice * Convert.ToDecimal(number);
             ComboName = combo.Name;
             _combo = combo;
             SellDay = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString();
-            this.Height = 600 + 62 * ListProduct.Count;
+            this.Height = 600 + 70 * ListProduct.Count;
         }
+        private int Number;
         public string BillId { get; set; } = null;
         public string SellDay { get; }
         public string CustomerName { get; }
@@ -67,6 +69,7 @@ namespace ESM.Modules.Export.Views
                         Phone = CustomerPhone,
                         PurchasedTime = DateTime.Now,
                         TotalAmount = TotalAmount,
+                        Number = Number
                     };
                     BillId = (await _unitOfWork.BillCombos.Add(bill)).ToString();
 

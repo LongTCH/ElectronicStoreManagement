@@ -3,24 +3,13 @@ using ESM.Core.ShareStores;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using ESM.Modules.Export.Utilities;
-using ESM.Modules.Export.ViewModels;
 using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ESM.Modules.Export.Views
 {
@@ -45,7 +34,7 @@ namespace ESM.Modules.Export.Views
             ListProduct = list;
             TotalAmount = totalAmount;
             SellDay = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString();
-            this.Height = 600 + 62 * ListProduct.Count;
+            this.Height = 600 + 70 * ListProduct.Count;
         }
         public string BillId { get; set; } = null;
         public string SellDay { get; set; }

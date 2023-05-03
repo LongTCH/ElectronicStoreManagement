@@ -52,6 +52,7 @@ namespace ESM.Modules.DataAccess.Repositories
                 _context.Smartphones.Where(p => p.Id == id).First().Remain += number;
             else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.VGA]))
                 _context.Vgas.Where(p => p.Id == id).First().Remain += number;
+            _context.SaveChanges();
         }
     }
 }

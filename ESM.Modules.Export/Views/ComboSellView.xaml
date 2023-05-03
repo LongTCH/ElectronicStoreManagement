@@ -24,7 +24,7 @@
             </Grid.RowDefinitions>
             <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center">
-                <TextBlock Text="QUÁN LÍ"
+                <TextBlock Text="QUẢN LÍ"
                            IsEnabled="False"
                            HorizontalAlignment="Center"
                            FontSize="25"
@@ -98,7 +98,12 @@
                           HorizontalContentAlignment="Center"
                           DisplayMemberPath="Name"
                           mah:TextBoxHelper.Watermark="Chọn combo" />
-                <Button Content="Thêm"
+                <mah:NumericUpDown Maximum="{Binding ElementName=combo, Path=SelectedItem.Remain}"
+                                   Minimum="1"
+                                   Value="{Binding Number, UpdateSourceTrigger=PropertyChanged}"
+                                   FontSize="20"
+                                   VerticalAlignment="Center" />
+                <Button Content="Chọn"
                         Margin="5"
                         Cursor="Hand"
                         Background="LightBlue"
@@ -106,7 +111,7 @@
                         Command="{Binding AddCommand}"
                         CommandParameter="{Binding ElementName=combo, Path=SelectedItem}" />
             </StackPanel>
-            <DataGrid ItemsSource="{Binding ProductList}"
+            <DataGrid ItemsSource="{Binding ProductBillList}"
                       MinWidth="600"
                       Grid.Row="2"
                       AutoGenerateColumns="False"
@@ -119,7 +124,6 @@
                       ScrollViewer.CanContentScroll="True"
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
                       ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                      SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}"
                       x:Name="myDataGrid"
                       helper:DataGridBehavior.RowNumbers="True">
                 <DataGrid.Columns>
@@ -139,6 +143,9 @@
                     <DataGridTextColumn Header="Đơn vị"
                                         IsReadOnly="True"
                                         Binding="{Binding Unit, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Số lượng"
+                                        IsReadOnly="True"
+                                        Binding="{Binding Number, Mode=OneWay}" />
                 </DataGrid.Columns>
             </DataGrid>
             <StackPanel Grid.Row="3">

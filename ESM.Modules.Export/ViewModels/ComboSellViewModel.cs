@@ -11,8 +11,8 @@ using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ESM.Modules.Export.ViewModels
@@ -32,6 +32,7 @@ namespace ESM.Modules.Export.ViewModels
             PayCommand = new(async () => await ExecutePay());
         }
         public string Header => "Combo";
+        public double Number { get; set; } = 1;
         private Combo SelectedCombo;
         private IEnumerable<ProductDTO> productList;
         public IEnumerable<ProductDTO> ProductList
@@ -45,8 +46,13 @@ namespace ESM.Modules.Export.ViewModels
             get => comboList;
             set => SetProperty(ref comboList, value);
         }
-        private ICollection<ProductBill> ProductBillList;
-        public decimal SellPrice => (SelectedCombo == null) ? 0 : SelectedCombo.SellPrice;
+        private ObservableCollection<ProductBill> productBillList;
+        public ObservableCollection<ProductBill> ProductBillList
+        {
+            get => productBillList;
+            set => SetProperty(ref productBillList, value);
+        }
+        public decimal SellPrice => (SelectedCombo == null) ? 0 : SelectedCombo.SellPrice * (decimal)Number;
         public double Discount => (SelectedCombo == null) ? 0 : SelectedCombo.Discount;
         public string TextFormPrice => NumberToText.FuncNumberToText((double)SellPrice);
         public string CustomerName { get; set; }
@@ -62,22 +68,12 @@ namespace ESM.Modules.Export.ViewModels
         public DelegateCommand PayCommand { get; }
         private async Task ExecutePay()
         {
-            if (SelectedCombo == null) return;
-            ProductBillList = new List<ProductBill>();
-            foreach (var product in ProductList)
-            {
-                ProductBillList.Add(new(null)
-                {
-                    Name = product.Name,
-                    SellPrice = product.SellPrice,
-                    Remain = product.Remain,
-                    Number = "1",
-                });
-            };
-            var Result = new InvoiceCombo(_modalService, _unitOfWork, _accountStore, CustomerName, CustomerPhone, ProductBillList, SelectedCombo).ShowDialog();
+            if (ProductBillList == null || ProductBillList.Count == 0) return;
+            var Result = new InvoiceCombo(_modalService, _unitOfWork, _accountStore, CustomerName, CustomerPhone, ProductBillList, SelectedCombo, (int)Number).ShowDialog();
             if (Result == true)
             {
                 ProductBillList.Clear();
+                ComboList = null;
                 ComboList = await _unitOfWork.Combos.GetAll();
                 CustomerName = null;
                 CustomerPhone = null;
@@ -93,6 +89,19 @@ namespace ESM.Modules.Export.ViewModels
             }
             SelectedCombo = combo;
             ProductList = combo.ListProducts;
+            ProductBillList = new();
+            foreach (var product in ProductList)
+            {
+                ProductBillList.Add(new(_modalService)
+                {
+                    Id = product.Id,
+                    Unit = product.Unit,
+                    Name = product.Name,
+                    SellPrice = product.Price,
+                    Remain = product.Remain,
+                    Number = Math.Min((int)Number, combo.Remain) + "",
+                });
+            };
             RaisePropertyChanged(nameof(SellPrice));
             RaisePropertyChanged(nameof(TextFormPrice));
             RaisePropertyChanged(nameof(Discount));

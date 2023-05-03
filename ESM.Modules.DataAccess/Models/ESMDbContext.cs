@@ -120,6 +120,7 @@ public partial class ESMDbContext : DbContext
                 .HasColumnName("ComboID");
             entity.Property(e => e.CustomerName).HasMaxLength(50);
             entity.Property(e => e.District).HasMaxLength(50);
+            entity.Property(e => e.Number).HasDefaultValueSql("((1))");
             entity.Property(e => e.Phone).HasMaxLength(30);
             entity.Property(e => e.PurchasedTime)
                 .HasPrecision(3)
