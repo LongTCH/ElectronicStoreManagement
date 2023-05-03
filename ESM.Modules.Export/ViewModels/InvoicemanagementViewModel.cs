@@ -31,7 +31,6 @@ namespace ESM.Modules.Export.ViewModels
             _unitOfWork = unitOfWork;
             _modalService = modalService;
             AddCommand = new(async () => await addCommand());
-            //SearchCommand = new DelegateCommand(ExecuteSearchCommand);
             StartTime = DateTime.Now.AddMonths(-1);
             EndTime = DateTime.Now;
         }
