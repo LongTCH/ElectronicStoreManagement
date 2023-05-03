@@ -8,11 +8,9 @@ public interface IVgaRepository : IProductRepository<Vga>{
 }
 public class VgaRepository : ProductRepository<Vga>, IVgaRepository
 {
-    public VgaRepository(ESMDbContext context) : base(context)
-    {
-    }
     public override async Task<Vga?> GetById(string id)
     {
+        using var _context = new ESMDbContext();
         var p = await _context.Vgas.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         if (p != null)
         {
@@ -23,6 +21,7 @@ public class VgaRepository : ProductRepository<Vga>, IVgaRepository
     }
     public override async Task<IEnumerable<Vga>?> GetAll()
     {
+        using var _context = new ESMDbContext();
         var list = await _context.Vgas.AsNoTracking()
                 .Where(vga => vga.Remain > -1)
                .ToListAsync();
@@ -35,6 +34,7 @@ public class VgaRepository : ProductRepository<Vga>, IVgaRepository
     }
     public override async Task<object?> Add(Vga entity)
     {
+        using var _context = new ESMDbContext();
         bool res = true;
         try
         {
@@ -46,6 +46,7 @@ public class VgaRepository : ProductRepository<Vga>, IVgaRepository
     }
     public override async Task<object?> Update(Vga entity)
     {
+        using var _context = new ESMDbContext();
         bool res = true;
         try
         {
@@ -62,10 +63,12 @@ public class VgaRepository : ProductRepository<Vga>, IVgaRepository
     }
     public override async Task<bool> IsIdExist(string id)
     {
+        using var _context = new ESMDbContext();
         return await _context.Vgas.AnyAsync(p => p.Id == id);
     }
     public override async Task<object?> AddList(IEnumerable<Vga> list)
     {
+        using var _context = new ESMDbContext();
         bool res = true;
         try
         {
@@ -81,6 +84,7 @@ public class VgaRepository : ProductRepository<Vga>, IVgaRepository
     }
     public override async Task<object?> Delete(string id)
     {
+        using var _context = new ESMDbContext();
         var p = await _context.Vgas.SingleAsync(p => p.Id == id);
         p.Remain = -1;
         await _context.SaveChangesAsync();

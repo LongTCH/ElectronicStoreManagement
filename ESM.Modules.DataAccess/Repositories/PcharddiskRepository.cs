@@ -9,15 +9,14 @@ public interface IPcharddiskRepository : IProductRepository<Pcharddisk>
 }
 public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRepository
 {
-    public PcharddiskRepository(ESMDbContext context) : base(context)
-    {
-    }
     public override async Task<bool> IsIdExist(string id)
     {
+        using var _context = new ESMDbContext();
         return await _context.Pcharddisks.AnyAsync(x => x.Id == id);
     }
     public override async Task<Pcharddisk?> GetById(string id)
     {
+        using var _context = new ESMDbContext();
         var p = await _context.Pcharddisks.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         if (p != null)
         {
@@ -28,6 +27,7 @@ public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRe
     }
     public override async Task<object?> Update(Pcharddisk entity)
     {
+        using var _context = new ESMDbContext();
         bool res = true;
         try
         {
@@ -44,6 +44,7 @@ public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRe
     }
     public override async Task<IEnumerable<Pcharddisk>?> GetAll()
     {
+        using var _context = new ESMDbContext();
         var list = await _context.Pcharddisks.AsNoTracking()
                 .Where(pcharddisk => pcharddisk.Remain > -1)
                 .ToListAsync();
@@ -56,6 +57,7 @@ public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRe
     }
     public override async Task<object?> Add(Pcharddisk entity)
     {
+        using var _context = new ESMDbContext();
         bool res = true;
         try
         {
@@ -67,6 +69,7 @@ public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRe
     }
     public override async Task<object?> Delete(string id)
     {
+        using var _context = new ESMDbContext();
         var p = await _context.Pcharddisks.SingleAsync(p => p.Id == id);
         p.Remain = -1;
         await _context.SaveChangesAsync();
@@ -74,6 +77,7 @@ public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRe
     }
     public override async Task<object?> AddList(IEnumerable<Pcharddisk> list)
     {
+        using var _context = new ESMDbContext();
         bool res = true;
         try
         {

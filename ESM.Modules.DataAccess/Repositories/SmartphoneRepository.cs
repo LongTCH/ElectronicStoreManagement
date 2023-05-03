@@ -10,11 +10,9 @@ namespace ESM.Modules.DataAccess.Repositories
     }
     public class SmartphoneRepository : ProductRepository<Smartphone>,  ISmartphoneRepository
     {
-        public SmartphoneRepository(ESMDbContext context) : base(context)
-        {
-        }
         public override async Task<Smartphone?> GetById(string id)
         {
+            using var _context = new ESMDbContext();
             var p = await _context.Smartphones.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
             if (p != null)
             {
@@ -25,6 +23,7 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         public override async Task<IEnumerable<Smartphone>?> GetAll()
         {
+            using var _context = new ESMDbContext();
             var list = await _context.Smartphones.AsNoTracking()
                     .Where(smartphone => smartphone.Remain > -1)
                     .ToListAsync();
@@ -37,6 +36,7 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         public override async Task<object?> Add(Smartphone entity)
         {
+            using var _context = new ESMDbContext();
             bool res = true;
             try
             {
@@ -48,6 +48,7 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         public override async Task<object?> Update(Smartphone entity)
         {
+            using var _context = new ESMDbContext();
             bool res = true;
             try
             {
@@ -64,6 +65,7 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         public override async Task<object?> Delete(string id)
         {
+            using var _context = new ESMDbContext();
             var p = await _context.Smartphones.SingleAsync(p => p.Id == id);
             p.Remain = -1;
             await _context.SaveChangesAsync();
@@ -71,10 +73,12 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         public override async Task<bool> IsIdExist(string id)
         {
+            using var _context = new ESMDbContext();
             return await _context.Smartphones.AnyAsync(p => p.Id == id);
         }
         public override async Task<object?> AddList(IEnumerable<Smartphone> list)
         {
+            using var _context = new ESMDbContext();
             bool res = true;
             try
             {

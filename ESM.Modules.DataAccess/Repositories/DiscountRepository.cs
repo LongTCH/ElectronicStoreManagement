@@ -10,29 +10,29 @@ namespace ESM.Modules.DataAccess.Repositories
     }
     public class DiscountRepository : BaseRepository<Discount>, IDiscountRepository
     {
-        public DiscountRepository(ESMDbContext context) : base(context)
-        {
-        }
         public override async Task<object?> Add(Discount entity)
         {
-            int res = 0;
+            using var _context = new ESMDbContext();
+            bool res = false;
             try
             {
-                var e = await _context.Discounts.AddAsync(entity);
-                res = e.Entity.Id;
+                await _context.Discounts.AddAsync(entity);
                 await _context.SaveChangesAsync();
+                res = true;
             }
             catch (Exception) { }
             return res;
         }
         public override async Task<Discount?> GetById(string id)
         {
-            var res = await _context.Discounts.FirstOrDefaultAsync(x => x.Id == Convert.ToInt32(id));
+            using var _context = new ESMDbContext();
+            var res = await _context.Discounts.AsNoTracking().FirstOrDefaultAsync(x => x.Id == Convert.ToInt32(id));
             return res;
         }
         public override async Task<IEnumerable<Discount>?> GetAll()
         {
-            var list = await _context.Discounts.ToListAsync();
+            using var _context = new ESMDbContext();
+            var list = await _context.Discounts.AsNoTracking().ToListAsync();
             List<Discount>? result = new();
             foreach (var item in list)
             {
@@ -43,6 +43,7 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         public override async Task<object?> Update(Discount entity)
         {
+            using var _context = new ESMDbContext();
             bool res = true;
             try
             {
@@ -59,6 +60,7 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         public override async Task<object?> Delete(string id)
         {
+            using var _context = new ESMDbContext();
             var res = false;
             try
             {

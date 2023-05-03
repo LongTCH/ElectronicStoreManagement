@@ -13,7 +13,6 @@ using System.Windows;
 using System.Linq;
 using ESM.Modules.DataAccess.Models;
 using ESM.Core;
-using System.ComponentModel;
 
 namespace ESM.Modules.Import.ViewModels
 {
@@ -38,7 +37,7 @@ namespace ESM.Modules.Import.ViewModels
             SelectDetail = new(getDetailPath);
             AddAvatarCommand = new(addAvatarCommand);
             ClearCommand = new(async (p) => await clearCommand(p));
-            AddCommand = new(addCommand);
+            AddCommand = new(async() => await addCommand());
             DeleteCommand = new(deleteCommand);
         }
         private ObservableCollection<T> productList;
@@ -57,23 +56,36 @@ namespace ESM.Modules.Import.ViewModels
         protected abstract Task saveCommand(T product);
         private async Task clearCommand(T product)
         {
+            if (product == null) return;
             MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
             if (metroWindow.ShowModalMessageExternal("Cảnh báo", "Bạn có chắc chắn hủy bỏ thông tin?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
             {
-                if (product is Laptop)
-                    product = (T)(object)await _unitOfWork.Laptops.GetById(product.Id);
-                else if (product is Monitor)
-                    product = (T)(object)await _unitOfWork.Monitors.GetById(product.Id);
-                else if (product is Pcharddisk)
-                    product = (T)(object)await _unitOfWork.Pcharddisks.GetById(product.Id);
-                else if (product is Pc)
-                    product = (T)(object)await _unitOfWork.Pcs.GetById(product.Id);
-                else if (product is Pccpu)
-                    product = (T)(object)await _unitOfWork.Pccpus.GetById(product.Id);
-                else if (product is Smartphone)
-                    product = (T)(object)await _unitOfWork.Smartphones.GetById(product.Id);
-                else if (product is Vga)
-                    product = (T)(object)await _unitOfWork.Vgas.GetById(product.Id);
+                if (product.IdExist)
+                {
+                    if (product is Laptop)
+                        product = (T)(object)await _unitOfWork.Laptops.GetById(product.Id);
+                    else if (product is Monitor)
+                        product = (T)(object)await _unitOfWork.Monitors.GetById(product.Id);
+                    else if (product is Pcharddisk)
+                        product = (T)(object)await _unitOfWork.Pcharddisks.GetById(product.Id);
+                    else if (product is Pc)
+                        product = (T)(object)await _unitOfWork.Pcs.GetById(product.Id);
+                    else if (product is Pccpu)
+                        product = (T)(object)await _unitOfWork.Pccpus.GetById(product.Id);
+                    else if (product is Smartphone)
+                        product = (T)(object)await _unitOfWork.Smartphones.GetById(product.Id);
+                    else if (product is Vga)
+                        product = (T)(object)await _unitOfWork.Vgas.GetById(product.Id);
+                }
+                else
+                {
+                    product = new()
+                    {
+                        Id = product.Id,
+                        IdExist = false,
+                        InMemory = false
+                    };
+                }
                 ProductList[ProductList.IndexOf(product)] = product;
                 ProductList.Refresh();
             }
@@ -125,20 +137,29 @@ namespace ESM.Modules.Import.ViewModels
             }
             ProductList.Refresh();
         }
-        protected string GetNewID(ProductType type)
+        protected async Task<string> GetNewID(ProductType type)
         {
             var previousID = ProductList.OrderBy(x => x.Id).LastOrDefault()?.Id;
             if (previousID == null) return DAStaticData.IdPrefix[type] + "0000000";
             int counter = Convert.ToInt32(previousID[2..]);
+            string cs = "0";
+            if (type == ProductType.LAPTOP) cs = await _unitOfWork.Laptops.GetSuggestID();
+            else if (type == ProductType.MONITOR) cs = await _unitOfWork.Monitors.GetSuggestID();
+            else if (type == ProductType.HARDDISK) cs = await _unitOfWork.Pcharddisks.GetSuggestID();
+            else if (type == ProductType.CPU) cs = await _unitOfWork.Pccpus.GetSuggestID();
+            else if (type == ProductType.PC) cs = await _unitOfWork.Pcs.GetSuggestID();
+            else if (type == ProductType.SMARTPHONE) cs = await _unitOfWork.Smartphones.GetSuggestID();
+            else if (type == ProductType.VGA) cs = await _unitOfWork.Vgas.GetSuggestID();
+            counter = Math.Max(counter, int.Parse(cs[2..]));
             ++counter;
             return DAStaticData.IdPrefix[type] + counter.ToString().PadLeft(7, '0');
         }
-        private void addCommand()
+        private async Task addCommand()
         {
             T p = new()
             {
                 IdExist = false,
-                Id = GetNewID(ProductType.CPU),
+                Id = await GetNewID(ProductType.CPU),
                 InMemory = false
             };
             ProductList.Add(p);

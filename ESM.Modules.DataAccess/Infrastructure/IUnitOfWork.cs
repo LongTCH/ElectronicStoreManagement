@@ -2,7 +2,7 @@
 
 namespace ESM.Modules.DataAccess.Infrastructure
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork
     {
         IAccountRepository Accounts { get; }
         ILaptopRepository Laptops { get; }

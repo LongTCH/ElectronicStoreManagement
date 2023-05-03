@@ -8,11 +8,9 @@ public interface IPcRepository : IProductRepository<Pc>
 }
 public class PcRepository : ProductRepository<Pc>, IPcRepository
 {
-    public PcRepository(ESMDbContext context) : base(context)
-    {
-    }
     public override async Task<Pc?> GetById(string id)
     {
+        using var _context = new ESMDbContext();
         var p = await _context.Pcs.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         if (p != null)
         {
@@ -23,6 +21,7 @@ public class PcRepository : ProductRepository<Pc>, IPcRepository
     }
     public override async Task<IEnumerable<Pc>?> GetAll()
     {
+        using var _context = new ESMDbContext();
         var list = await _context.Pcs.AsNoTracking()
                 .Where(pc => pc.Remain > -1)
                 .ToListAsync();
@@ -35,6 +34,7 @@ public class PcRepository : ProductRepository<Pc>, IPcRepository
     }
     public override async Task<object?> Add(Pc entity)
     {
+        using var _context = new ESMDbContext();
         bool res = true;
         try
         {
@@ -46,6 +46,7 @@ public class PcRepository : ProductRepository<Pc>, IPcRepository
     }
     public override async Task<object?> Delete(string id)
     {
+        using var _context = new ESMDbContext();
         var p = await _context.Pcs.SingleAsync(p => p.Id == id);
         p.Remain = -1;
         await _context.SaveChangesAsync();
@@ -53,6 +54,7 @@ public class PcRepository : ProductRepository<Pc>, IPcRepository
     }
     public override async Task<object?> Update(Pc entity)
     {
+        using var _context = new ESMDbContext();
         bool res = true;
         try
         {
@@ -69,6 +71,7 @@ public class PcRepository : ProductRepository<Pc>, IPcRepository
     }
     public override async Task<object?> AddList(IEnumerable<Pc> list)
     {
+        using var _context = new ESMDbContext();
         bool res = true;
         try
         {
@@ -80,6 +83,7 @@ public class PcRepository : ProductRepository<Pc>, IPcRepository
     }
     public override async Task<bool> IsIdExist(string id)
     {
+        using var _context = new ESMDbContext();
         return await _context.Pcs.AnyAsync(x => x.Id == id);
     }
     public async Task<string> GetSuggestID()

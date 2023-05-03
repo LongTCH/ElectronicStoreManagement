@@ -11,11 +11,9 @@ namespace ESM.Modules.DataAccess.Repositories
     }
     public class BillRepository : BaseRepository<Bill>, IBillRepository
     {
-        public BillRepository(ESMDbContext context) : base(context)
-        {
-        }
         public override async Task<Bill?> GetById(string id)
         {
+            using var _context = new ESMDbContext();
             return await _context.Bills.AsQueryable()
                 .Where(b => b.Id == Convert.ToInt32(id))
                 .Include(b => b.BillProducts)
@@ -23,6 +21,7 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         public override async Task<object?> Add(Bill entity)
         {
+            using var _context = new ESMDbContext();
             entity.Id = GetNewID();
             foreach (var item in entity.BillProducts)
                 DecreaseRemain(item.ProductId, item.Number);
@@ -32,12 +31,14 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         private int GetNewID()
         {
+            using var _context = new ESMDbContext();
             var lastbill = _context.Bills.OrderBy(b => b.Id).LastOrDefault();
             if (lastbill == null) return 0;
             return lastbill.Id + 1;
         }
         private void DecreaseRemain(string id, int number)
         {
+            using var _context = new ESMDbContext();
             if (id.StartsWith(DAStaticData.IdPrefix[ProductType.LAPTOP]))
                 _context.Laptops.Where(p => p.Id == id).First().Remain -= number;
             else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.PC]))
@@ -56,9 +57,8 @@ namespace ESM.Modules.DataAccess.Repositories
 
         public async Task<bool> IsProductExistInBill(string productId)
         {
-            // avoid concurrent issue
-            using var context = new ESMDbContext();
-            return await context.BillProducts.AnyAsync(x=> x.ProductId == productId);
+            using var _context = new ESMDbContext();
+            return await _context.BillProducts.AnyAsync(x=> x.ProductId == productId);
         }
     }
 }

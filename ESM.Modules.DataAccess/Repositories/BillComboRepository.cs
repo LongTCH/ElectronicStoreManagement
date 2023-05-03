@@ -9,18 +9,14 @@ namespace ESM.Modules.DataAccess.Repositories
     }
     public class BillComboRepository : BaseRepository<BillCombo>, IBillComboRepository
     {
-        public BillComboRepository(ESMDbContext context) : base(context)
-        {
-        }
-
         public async Task<bool> IsComboExistInBill(string comboId)
         {
-            // avoid concurrent issue
-            using var context = new ESMDbContext();
-            return await context.BillCombos.AnyAsync(x => x.ComboId == comboId);
+            using var _context = new ESMDbContext();
+            return await _context.BillCombos.AnyAsync(x => x.ComboId == comboId);
         }
         public override async Task<object?> Add(BillCombo entity)
         {
+            using var _context = new ESMDbContext();
             entity.Id = GetNewID();
             var list = (await _context.Combos.FirstAsync(x => x.Id == entity.ComboId)).ProductIdlist.Split(' ');
             foreach (var item in list)
@@ -31,12 +27,14 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         private int GetNewID()
         {
+            using var _context = new ESMDbContext();
             var lastbill = _context.BillCombos.OrderBy(b => b.Id).LastOrDefault();
             if (lastbill == null) return 0;
             return lastbill.Id + 1;
         }
         private void DecreaseRemain(string id, int number)
         {
+            using var _context = new ESMDbContext();
             if (id.StartsWith(DAStaticData.IdPrefix[ProductType.LAPTOP]))
                 _context.Laptops.Where(p => p.Id == id).First().Remain -= number;
             else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.PC]))

@@ -6,11 +6,9 @@ namespace ESM.Modules.DataAccess.Repositories
 {
     public class ProductRepository<T> : BaseRepository<T> where T : class
     {
-        public ProductRepository(ESMDbContext context) : base(context)
-        {
-        }
         protected async Task<string> GetSuggestID(ProductType type)
         {
+            using var _context = new ESMDbContext();
             string? NewID = null;
             if (type == ProductType.LAPTOP) NewID = (await _context.Laptops.OrderBy(p => p.Id).LastOrDefaultAsync())?.Id;
             else if (type == ProductType.MONITOR) NewID = (await _context.Monitors.OrderBy(p => p.Id).LastOrDefaultAsync())?.Id;
@@ -28,12 +26,13 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         protected async Task<double> GetDiscount(string id)
         {
-            double? res = 0;
+            using var _context = new ESMDbContext();
+            double res = 0;
             var list = await _context.Discounts
                 .Where(x => ((DateTime)x.StartDate!).Date <= DateTime.Now.Date && ((DateTime)x.EndDate!) >= DateTime.Now)
                 .Where(x => EF.Functions.Like(x.ProductIdlist!, $"%{id}%")).ToListAsync();
-            foreach (var item in list) res += item.Discount1;
-            return (double)res;
+            foreach (var item in list) res += item.Discount1 ?? 0 ;
+            return res;
         }
     }
 }

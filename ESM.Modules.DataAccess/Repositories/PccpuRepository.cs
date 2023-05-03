@@ -7,11 +7,9 @@ public interface IPccpuRepository : IProductRepository<Pccpu> {
 }
 public class PccpuRepository : ProductRepository<Pccpu>, IPccpuRepository
 {
-    public PccpuRepository(ESMDbContext context) : base(context)
-    {
-    }
     public override async Task<Pccpu?> GetById(string id)
     {
+        using var _context = new ESMDbContext();
         var p = await _context.Pccpus.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         if (p != null)
         {
@@ -22,6 +20,7 @@ public class PccpuRepository : ProductRepository<Pccpu>, IPccpuRepository
     }
     public override async Task<IEnumerable<Pccpu>?> GetAll()
     {
+        using var _context = new ESMDbContext();
         var list = await _context.Pccpus.AsNoTracking()
                 .Where(p => p.Remain > -1)
                 .ToListAsync();
@@ -34,6 +33,7 @@ public class PccpuRepository : ProductRepository<Pccpu>, IPccpuRepository
     }
     public override async Task<object?> Add(Pccpu entity)
     {
+        using var _context = new ESMDbContext();
         bool res = true;
         try
         {
@@ -45,6 +45,7 @@ public class PccpuRepository : ProductRepository<Pccpu>, IPccpuRepository
     }
     public override async Task<object?> Update(Pccpu entity)
     {
+        using var _context = new ESMDbContext();
         bool res = true;
         try
         {
@@ -61,6 +62,7 @@ public class PccpuRepository : ProductRepository<Pccpu>, IPccpuRepository
     }
     public override async Task<object?> AddList(IEnumerable<Pccpu> list)
     {
+        using var _context = new ESMDbContext();
         bool res = true;
         try
         {
@@ -72,6 +74,7 @@ public class PccpuRepository : ProductRepository<Pccpu>, IPccpuRepository
     }
     public override async Task<bool> IsIdExist(string id)
     {
+        using var _context = new ESMDbContext();
         return await _context.Pccpus.AnyAsync(p => p.Id == id);
     }
     public async Task<string> GetSuggestID()
@@ -80,6 +83,7 @@ public class PccpuRepository : ProductRepository<Pccpu>, IPccpuRepository
     }
     public override async Task<object?> Delete(string id)
     {
+        using var _context = new ESMDbContext();
         var p = await _context.Pccpus.SingleAsync(p => p.Id == id);
         p.Remain = -1;
         await _context.SaveChangesAsync();

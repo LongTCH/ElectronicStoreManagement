@@ -19,14 +19,9 @@ namespace ESM.Modules.DataAccess.Repositories
     }
     public class ReportRepository : IReportRepository
     {
-        private readonly ESMDbContext _context;
-
-        public ReportRepository(ESMDbContext context)
-        {
-            _context = context;
-        }
         public async Task<IEnumerable<ReportMock>> GetSoldNumberWeekDuration(DateTime startDate, DateTime endDate, ProductType type)
         {
+            using var _context = new ESMDbContext();
             var list = new List<ReportMock>();
             List<ReportMock> listRes = GetListResult(startDate, endDate, TypeOfDuration.WEEK);
             await Task.Run(() =>
@@ -66,6 +61,7 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         public async Task<IEnumerable<ReportMock>> GetSoldNumberMonthDuration(DateTime startDate, DateTime endDate, ProductType type)
         {
+            using var _context = new ESMDbContext();
             var list = new List<ReportMock>();
             List<ReportMock> listRes = GetListResult(startDate, endDate, TypeOfDuration.MONTH);
             await Task.Run(() =>
@@ -105,6 +101,7 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         public async Task<IEnumerable<ReportMock>> GetSoldNumberQuarterDuration(DateTime startDate, DateTime endDate, ProductType type)
         {
+            using var _context = new ESMDbContext();
             var list = new List<ReportMock>();
             List<ReportMock> listRes = GetListResult(startDate, endDate, TypeOfDuration.QUARTER);
             await Task.Run(() =>
@@ -144,6 +141,7 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         public async Task<IEnumerable<ReportMock>> GetSoldNumberYearDuration(DateTime startDate, DateTime endDate, ProductType type)
         {
+            using var _context = new ESMDbContext();
             var list = new List<ReportMock>();
             List<ReportMock> listRes = GetListResult(startDate, endDate, TypeOfDuration.YEAR);
             await Task.Run(() =>
@@ -181,6 +179,7 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         public async Task<IEnumerable<TopSellDTO>> GetTopSoldProducts(DateTime startDate, DateTime endDate, ProductType type, int number)
         {
+            using var _context = new ESMDbContext();
             IEnumerable<TopSellDTO> res = new List<TopSellDTO>();
             await Task.Run(() =>
             {
@@ -301,6 +300,7 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         public async Task<IEnumerable<ReportMock>> GetRevenueWeekDuration(DateTime startDate, DateTime endDate, ProductType type)
         {
+            using var _context = new ESMDbContext();
             List<ReportMock> listRes = GetListResult(startDate, endDate, TypeOfDuration.WEEK);
             List<ReportMock> list = new();
             await Task.Run(() =>
@@ -369,6 +369,7 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         public async Task<IEnumerable<ReportMock>> GetRevenueMonthDuration(DateTime startDate, DateTime endDate, ProductType type)
         {
+            using var _context = new ESMDbContext();
             List<ReportMock> listRes = GetListResult(startDate, endDate, TypeOfDuration.MONTH);
             List<ReportMock> list = new();
             await Task.Run(() =>
@@ -437,6 +438,7 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         public async Task<IEnumerable<ReportMock>> GetRevenueQuarterDuration(DateTime startDate, DateTime endDate, ProductType type)
         {
+            using var _context = new ESMDbContext();
             List<ReportMock> listRes = GetListResult(startDate, endDate, TypeOfDuration.QUARTER);
             List<ReportMock> list = new();
             await Task.Run(() =>
@@ -505,6 +507,7 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         public async Task<IEnumerable<ReportMock>> GetRevenueYearDuration(DateTime startDate, DateTime endDate, ProductType type)
         {
+            using var _context = new ESMDbContext();
             List<ReportMock> listRes = GetListResult(startDate, endDate, TypeOfDuration.YEAR);
             List<ReportMock> list = new();
             await Task.Run(() =>

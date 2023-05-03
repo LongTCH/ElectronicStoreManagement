@@ -3,7 +3,6 @@ using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using Prism.Mvvm;
 using System.Threading.Tasks;
-using System;
 using System.Collections.Generic;
 using ESM.Modules.Import.Utilities;
 using System.Collections.ObjectModel;
@@ -12,7 +11,6 @@ using Prism.Commands;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
 using ESM.Core;
-using System.ComponentModel.DataAnnotations;
 using System.Windows;
 using Prism.Regions;
 
@@ -27,46 +25,26 @@ namespace ESM.Modules.Import.ViewModels
         {
             _unitOfWork = unitOfWork;
             _modalService = modalService;
+            DiscountDetail = new();
             ProductType = new[] { "LAPTOP", "PC", "HARD DISK", "CPU", "MONITOR", "SMARTPHONE", "VGA" };
             AddCommand = new(addToDiscountListCommand);
             AddToDiscountCommand = new(addToDiscountCommand);
             RemoveFromDiscountDetailCommand = new(executeRemove);
             AddToDiscountListCommand = new(addToDiscountListCommand);
             CancelCommand = new(clearCommand);
-            DeleteCommand = new(deleteCommand);
+            DeleteCommand = new(async (p) => await deleteCommand(p));
             FindCommand = new(findCommand);
-            SaveCommand = new(async () => await saveCommand());
-        }
-        async Task Init()
-        {
-            Laptops = await _unitOfWork.Laptops.GetAll();
-            Monitors = await _unitOfWork.Monitors.GetAll();
-            Pcs = await _unitOfWork.Pcs.GetAll();
-            HardDisks = await _unitOfWork.Pcharddisks.GetAll();
-            Smartphones = await _unitOfWork.Smartphones.GetAll();
-            Vgas = await _unitOfWork.Vgas.GetAll();
-            CPUs = await _unitOfWork.Pccpus.GetAll();
-            DiscountDetail = new();
-            ProductList = Array.Empty<SelectableViewModel>();
-            DiscountList = new();
+            SaveCommand = new(async (p) => await saveCommand(p));
         }
         public DelegateCommand AddCommand { get; }
         public DelegateCommand AddToDiscountCommand { get; }
         public DelegateCommand AddToDiscountListCommand { get; }
-        public DelegateCommand CancelCommand { get; }
-        public DelegateCommand SaveCommand { get; }
-        public DelegateCommand DeleteCommand { get; }
+        public DelegateCommand<Discount> CancelCommand { get; }
+        public DelegateCommand<Discount> SaveCommand { get; }
+        public DelegateCommand<Discount> DeleteCommand { get; }
         public DelegateCommand<Discount> FindCommand { get; }
         public DelegateCommand<SelectableViewModel> RemoveFromDiscountDetailCommand { get; }
         public IEnumerable<string> ProductType { get; }
-        public Discount CurrentDiscount { get; set; }
-        private IEnumerable<Laptop> Laptops;
-        private IEnumerable<Monitor> Monitors;
-        private IEnumerable<Pc> Pcs;
-        private IEnumerable<Pcharddisk> HardDisks;
-        private IEnumerable<Vga> Vgas;
-        private IEnumerable<Smartphone> Smartphones;
-        private IEnumerable<Pccpu> CPUs;
         public ICollection<SelectableViewModel> productList;
         public ICollection<SelectableViewModel> ProductList
         {
@@ -95,37 +73,12 @@ namespace ESM.Modules.Import.ViewModels
                 SetProductList();
             }
         }
-        private double? discount;
-        [Range(0, 100)]
-        public double? Discount
-        {
-            get => discount;
-            set => SetProperty(ref discount, value, () => this.ValidateProperty(value, nameof(Discount)));
-        }
-        private string discountName;
-        public string DiscountName
-        {
-            get => discountName?.Trim();
-            set => SetProperty(ref discountName, value);
-        }
-        private DateTime startDate;
-        public DateTime StartDate
-        {
-            get => startDate;
-            set => SetProperty(ref startDate, value);
-        }
-        private DateTime endDate;
-        public DateTime EndDate
-        {
-            get => endDate;
-            set => SetProperty(ref endDate, value);
-        }
-        private void SetProductList()
+        private async void SetProductList()
         {
             switch (SelectedProductType)
             {
                 case "LAPTOP":
-                    ProductList = Laptops.Select(x => new SelectableViewModel()
+                    ProductList = (await _unitOfWork.Laptops.GetAll()).Select(x => new SelectableViewModel()
                     {
                         Id = x.Id,
                         Name = x.Name,
@@ -136,7 +89,7 @@ namespace ESM.Modules.Import.ViewModels
                         IsSelected = DiscountDetail.Any(p => p.Id == x.Id),
                     }).ToList(); break;
                 case "PC":
-                    ProductList = Pcs.Select(x => new SelectableViewModel()
+                    ProductList = (await _unitOfWork.Pcs.GetAll()).Select(x => new SelectableViewModel()
                     {
                         Id = x.Id,
                         Name = x.Name,
@@ -147,7 +100,7 @@ namespace ESM.Modules.Import.ViewModels
                         IsSelected = DiscountDetail.Any(p => p.Id == x.Id),
                     }).ToList(); break;
                 case "HARD DISK":
-                    ProductList = HardDisks.Select(x => new SelectableViewModel()
+                    ProductList = (await _unitOfWork.Pcharddisks.GetAll()).Select(x => new SelectableViewModel()
                     {
                         Id = x.Id,
                         Name = x.Name,
@@ -158,7 +111,7 @@ namespace ESM.Modules.Import.ViewModels
                         IsSelected = DiscountDetail.Any(p => p.Id == x.Id),
                     }).ToList(); break;
                 case "CPU":
-                    ProductList = CPUs.Select(x => new SelectableViewModel()
+                    ProductList = (await _unitOfWork.Pccpus.GetAll()).Select(x => new SelectableViewModel()
                     {
                         Id = x.Id,
                         Name = x.Name,
@@ -169,7 +122,7 @@ namespace ESM.Modules.Import.ViewModels
                         IsSelected = DiscountDetail.Any(p => p.Id == x.Id),
                     }).ToList(); break;
                 case "MONITOR":
-                    ProductList = Monitors.Select(x => new SelectableViewModel()
+                    ProductList = (await _unitOfWork.Monitors.GetAll()).Select(x => new SelectableViewModel()
                     {
                         Id = x.Id,
                         Name = x.Name,
@@ -180,7 +133,7 @@ namespace ESM.Modules.Import.ViewModels
                         IsSelected = DiscountDetail.Any(p => p.Id == x.Id),
                     }).ToList(); break;
                 case "SMARTPHONE":
-                    ProductList = Smartphones.Select(x => new SelectableViewModel()
+                    ProductList = (await _unitOfWork.Smartphones.GetAll()).Select(x => new SelectableViewModel()
                     {
                         Id = x.Id,
                         Name = x.Name,
@@ -191,7 +144,7 @@ namespace ESM.Modules.Import.ViewModels
                         IsSelected = DiscountDetail.Any(p => p.Id == x.Id),
                     }).ToList(); break;
                 default:
-                    ProductList = Vgas.Select(x => new SelectableViewModel()
+                    ProductList = (await _unitOfWork.Vgas.GetAll()).Select(x => new SelectableViewModel()
                     {
                         Id = x.Id,
                         Name = x.Name,
@@ -203,37 +156,40 @@ namespace ESM.Modules.Import.ViewModels
                     }).ToList(); break;
             }
         }
-        private async void deleteCommand()
+        private async Task deleteCommand(Discount discount)
         {
+            if (discount == null) return;
             MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
             if (metroWindow.ShowModalMessageExternal("Cảnh báo", "Bạn có chắc chắn xóa?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
             {
-                if (CurrentDiscount.InMemory) await _unitOfWork.Discounts.Delete(CurrentDiscount.Id.ToString());
-                DiscountList.Remove(CurrentDiscount);
-                Empty();
+                if (discount.InMemory) await _unitOfWork.Discounts.Delete(discount.Id.ToString());
+                DiscountList.Remove(discount);
+                DiscountDetail.Clear();
+                DiscountList.Refresh();
             }
         }
         private void addToDiscountCommand()
         {
+            if (ProductList == null) return;
             foreach (var item in ProductList)
             {
                 if (item.IsSelected && !DiscountDetail.Any(x => x.Id == item.Id)) DiscountDetail.Add(item);
             }
         }
-        private async Task saveCommand()
+        private async Task saveCommand(Discount discount)
         {
-            if (CurrentDiscount == null) return;
-            if (DiscountName == null)
+            if (discount == null) return;
+            if (discount.Name == null)
             {
                 _modalService.ShowModal(ModalType.Error, "Nhập tên khuyến mãi", "Cảnh báo");
                 return;
             }
-            if (StartDate >= EndDate)
+            if (discount.StartDate == null || discount.EndDate == null || discount.StartDate >= discount.EndDate)
             {
                 _modalService.ShowModal(ModalType.Error, "Nhập thời gian khuyến mãi hợp lệ", "Cảnh báo");
                 return;
             }
-            if (Discount < 0 || Discount > 100)
+            if (discount.Discount1 < 0 || discount.Discount1 > 100)
             {
                 _modalService.ShowModal(ModalType.Error, "Nhập giá trị khuyến mãi từ 0 đến 100", "Cảnh báo");
                 return;
@@ -241,36 +197,31 @@ namespace ESM.Modules.Import.ViewModels
             MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
             if (metroWindow.ShowModalMessageExternal("Thông báo", "Bạn có chắc chắn lưu?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
             {
-                var p = GetDiscount(CurrentDiscount.Id);
-                if (CurrentDiscount.InMemory)
+                discount.ProductIdlist = GetDiscountDetail();
+                bool res;
+                if (discount.InMemory)
                 {
-                    var res = await _unitOfWork.Discounts.Update(p);
-                    if ((bool)res)
+                    res = (bool)await _unitOfWork.Discounts.Update(discount);
+                    if (res)
                     {
                         _modalService.ShowModal(ModalType.Information, "Cập nhật thành công", "Thông báo");
-
-                        var index = DiscountList.IndexOf(CurrentDiscount);
-                        DiscountList.RemoveAt(index);
-                        DiscountList.Insert(index, p);
-                        // Clear
-                        Empty();
                     }
                     else _modalService.ShowModal(ModalType.Error, "Có lỗi xảy ra", "Thông báo");
                 }
                 else
                 {
-                    var res = (int)await _unitOfWork.Discounts.Add(p);
-                    if (res > 0)
+                    res = (bool)await _unitOfWork.Discounts.Add(discount);
+                    if (res)
                     {
                         _modalService.ShowModal(ModalType.Information, "Đã lưu", "Thông báo");
-                        // Clear
-                        Empty();
-                        var index = DiscountList.IndexOf(DiscountList.Where(x => x.Id == p.Id).First());
-                        DiscountList.RemoveAt(index);
-                        DiscountList.Insert(index, p);
                     }
                     else _modalService.ShowModal(ModalType.Error, "Lưu không thành công", "Lỗi");
                     await Task.CompletedTask;
+                }
+                if (res)
+                {
+                    discount.InMemory = true;
+                    DiscountList.Refresh();
                 }
             }
         }
@@ -282,42 +233,27 @@ namespace ESM.Modules.Import.ViewModels
                 InMemory = false
             };
             DiscountList.Add(discount);
-            findCommand(discount);
         }
-        private void clearCommand()
+        private async void clearCommand(Discount discount)
         {
             MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
             if (metroWindow.ShowModalMessageExternal("Cảnh báo", "Bạn có chắc chắn hủy bỏ thông tin?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
             {
-                clear();
+                if (discount.InMemory) discount = await _unitOfWork.Discounts.GetById(discount.Id.ToString());
+                else discount = new()
+                {
+                    Id = discount.Id,
+                    InMemory = false
+                };
+                DiscountList[DiscountList.IndexOf(discount)] = discount;
+                DiscountDetail?.Clear();
+                DiscountList.Refresh();
             }
-        }
-        private async void clear()
-        {
-            Discount Discount = null;
-            if (CurrentDiscount != null)
-            {
-                Discount = await _unitOfWork.Discounts.GetById(CurrentDiscount.Id.ToString());
-            }
-
-            Empty();
-            if (Discount != null) findCommand(Discount);
-        }
-        private void Empty()
-        {
-            CurrentDiscount = null;
-            Discount = 0;
-            DiscountDetail = new();
-            DiscountName = null;
-            Discount = 0;
-            StartDate = DateTime.Now;
-            EndDate = StartDate.AddMonths(1);
         }
         private async void findCommand(Discount discount)
         {
             if (discount == null) return;
-            CurrentDiscount = discount;
-            DiscountDetail.Clear();
+            DiscountDetail?.Clear();
             var list = await _unitOfWork.Discounts.GetListProduct(discount);
             foreach (var item in list)
             {
@@ -332,24 +268,15 @@ namespace ESM.Modules.Import.ViewModels
                     Remain = item.Remain,
                 });
             }
-            DiscountName = discount.Name;
-            Discount = discount.Discount1 == null ? 0 : discount.Discount1;
         }
-        private Discount GetDiscount(int id)
+        private string GetDiscountDetail()
         {
-            Discount discount = new();
             List<string> ids = new();
             foreach (var item in DiscountDetail)
             {
                 ids.Add(item.Id);
             }
-            discount.Id = id;
-            discount.Discount1 = Discount;
-            discount.Name = DiscountName;
-            discount.StartDate = StartDate;
-            discount.EndDate = EndDate;
-            discount.ProductIdlist = string.Join(' ', ids);
-            return discount;
+            return string.Join(' ', ids);
         }
         private int GetNewID()
         {
@@ -373,10 +300,7 @@ namespace ESM.Modules.Import.ViewModels
 
         public async void OnNavigatedTo(NavigationContext navigationContext)
         {
-            clear();
-            await Init();
             DiscountList = new(await _unitOfWork.Discounts.GetAll());
-            Discount = 0;
         }
     }
 }

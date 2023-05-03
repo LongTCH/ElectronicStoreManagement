@@ -12,17 +12,16 @@ public interface IAccountRepository : IBaseRepository<Account>
 }
 public class AccountRepository : BaseRepository<Account>, IAccountRepository
 {
-    public AccountRepository(ESMDbContext context) : base(context)
-    {
-    }
     public override async Task<Account?> GetById(string id)
     {
+        using var _context = new ESMDbContext();
         return await _context.Accounts.AsQueryable()
                 .Where(ac => ac.Id == id)
                 .FirstOrDefaultAsync();
     }
     public string GetSuggestAccountId(string prefix)
     {
+        using var _context = new ESMDbContext();
         var MaxValue = _context.Accounts.AsQueryable()
                     .Where(a => a.Id.StartsWith(prefix))
                     .OrderBy(x => Convert.ToInt32(x.Id.Substring(5)))
@@ -33,6 +32,7 @@ public class AccountRepository : BaseRepository<Account>, IAccountRepository
     }
     public override async Task<object?> Update(Account accountDTO)
     {
+        using var _context = new ESMDbContext();
         var account = (from ac in _context.Accounts
                        where ac.Id == accountDTO.Id
                        select ac).First();
@@ -42,12 +42,14 @@ public class AccountRepository : BaseRepository<Account>, IAccountRepository
     }
     public override async Task<object?> Add(Account accountDTO)
     {
+        using var _context = new ESMDbContext();
         await _context.Accounts.AddAsync(accountDTO);
         await _context.SaveChangesAsync();
         return null;
     }
     public async Task<bool> ResetPassword(string ID, string newPasswordHash)
     {
+        using var _context = new ESMDbContext();
         bool res = true;
         try
         {

@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace ESM.Modules.DataAccess.Models;
 
@@ -181,6 +183,7 @@ public partial class ESMDbContext : DbContext
             entity.Property(e => e.ProductIdlist)
                 .HasMaxLength(200)
                 .HasColumnName("ProductIDList");
+            entity.Property(e => e.Status).HasDefaultValueSql("((1))");
             entity.Property(e => e.Unit).HasMaxLength(50);
         });
 

@@ -25,6 +25,7 @@ public abstract class ProductDTO : BindableBase, IEquatable<ProductDTO>
         {
             price = value;
             InMemory = false;
+            ValidateProperty(value, nameof(Price));
         }
     }
     [NotMapped]

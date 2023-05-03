@@ -10,11 +10,9 @@ namespace ESM.Modules.DataAccess.Repositories
     }
     public class ImportRepository : BaseRepository<Import>, IImportRepository
     {
-        public ImportRepository(ESMDbContext context) : base(context)
-        {
-        }
         public override async Task<Import?> GetById(string id)
         {
+            using var _context = new ESMDbContext();
             return await _context.Imports.AsQueryable()
                 .Where(b => b.Id == Convert.ToInt32(id))
                 .Include(b => b.ImportProducts)
@@ -22,6 +20,7 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         public override async Task<object?> Add(Import entity)
         {
+            using var _context = new ESMDbContext();
             entity.Id = GetNewID();
             foreach (var item in entity.ImportProducts)
                 IncreaseRemain(item.ProductId, item.Number);
@@ -31,12 +30,14 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         private int GetNewID()
         {
+            using var _context = new ESMDbContext();
             var lastbill = _context.Imports.OrderBy(b => b.Id).LastOrDefault();
             if (lastbill == null) return 0;
             return lastbill.Id + 1;
         }
         private void IncreaseRemain(string id, int number)
         {
+            using var _context = new ESMDbContext();
             if (id.StartsWith(DAStaticData.IdPrefix[ProductType.LAPTOP]))
                 _context.Laptops.Where(p => p.Id == id).First().Remain += number;
             else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.PC]))

@@ -38,7 +38,8 @@
                         Grid.Column="2"
                         Width="100"
                         Background="Red"
-                        Command="{Binding DeleteCommand}" />
+                        Command="{Binding DeleteCommand}"
+                        CommandParameter="{Binding ElementName=myComboDataGrid,Path=SelectedItem}" />
             </Grid>
             <Grid Margin="10"
                   x:Name="GridAddCombo">
@@ -173,7 +174,7 @@
                                                      Height="22"
                                                      Width="22"
                                                      VerticalAlignment="Center" />
-                            <TextBox Text="{Binding ComboId}"
+                            <TextBox Text="{Binding ElementName=myComboDataGrid,Path=SelectedItem.Id}"
                                      IsReadOnly="True"/>
                         </DockPanel>
                         <DockPanel  Grid.Column="1"
@@ -182,8 +183,9 @@
                                                            Height="22"
                                                            Width="22"
                                                            VerticalAlignment="Center" />
-                            <TextBox Text="{Binding Discount, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
-                                     Style="{StaticResource MahApps.Styles.TextBox}" />
+                            <TextBox Text="{Binding ElementName=myComboDataGrid,Path=SelectedItem.Discount, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
+                                     Style="{StaticResource MahApps.Styles.TextBox}"
+                                     mah:TextBoxHelper.Watermark="Phần trăm khuyến mãi"/>
                         </DockPanel>
                     </Grid>
                     <Grid>
@@ -197,8 +199,9 @@
                                                      Height="22"
                                                      Width="22"
                                                      VerticalAlignment="Center" />
-                            <TextBox Text="{Binding ComboName, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
-                                     Style="{StaticResource MahApps.Styles.TextBox}" />
+                            <TextBox Text="{Binding ElementName=myComboDataGrid,Path=SelectedItem.Name, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
+                                     Style="{StaticResource MahApps.Styles.TextBox}"
+                                     mah:TextBoxHelper.Watermark="Tên combo" />
                         </DockPanel>
                         <DockPanel  Grid.Column="1"
                                     Margin="5">
@@ -206,8 +209,9 @@
                                                      VerticalAlignment="Center"
                                                      Height="22"
                                                      Width="22" />
-                            <TextBox Text="{Binding ComboUnit, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
-                                     Style="{StaticResource MahApps.Styles.TextBox}" />
+                            <TextBox Text="{Binding ElementName=myComboDataGrid,Path=SelectedItem.Unit, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
+                                     Style="{StaticResource MahApps.Styles.TextBox}"
+                                     mah:TextBoxHelper.Watermark="Đơn vị tính" />
                         </DockPanel>
                     </Grid>
                     <Grid Margin="5">
@@ -219,13 +223,15 @@
                                 FontWeight="Bold"
                                 HorizontalAlignment="Center"
                                 Background="DimGray"
-                                Command="{Binding CancelCommand}" />
+                                Command="{Binding CancelCommand}"
+                                CommandParameter="{Binding ElementName=myComboDataGrid,Path=SelectedItem}" />
                         <Button Content="LƯU"
                                 Grid.Column="1"
                                 FontWeight="Bold"
                                 HorizontalAlignment="Center"
                                 Background="CornflowerBlue"
-                                Command="{Binding SaveCommand}" />
+                                Command="{Binding SaveCommand}"
+                                CommandParameter="{Binding ElementName=myComboDataGrid,Path=SelectedItem}" />
                     </Grid>
                 </StackPanel>
             </Grid>

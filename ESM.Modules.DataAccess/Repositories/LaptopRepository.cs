@@ -8,11 +8,9 @@ public interface ILaptopRepository : IProductRepository<Laptop>
 }
 public class LaptopRepository : ProductRepository<Laptop>, ILaptopRepository
 {
-    public LaptopRepository(ESMDbContext context) : base(context)
-    {
-    }
     public override async Task<Laptop?> GetById(string id)
     {
+        using var _context = new ESMDbContext();
         var p = await _context.Laptops.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         if (p != null)
         {
@@ -23,6 +21,7 @@ public class LaptopRepository : ProductRepository<Laptop>, ILaptopRepository
     }
     public override async Task<IEnumerable<Laptop>?> GetAll()
     {
+        using var _context = new ESMDbContext();
         var list = await _context.Laptops
                 .Where(p => p.Remain > -1)
                 .ToListAsync();
@@ -35,6 +34,7 @@ public class LaptopRepository : ProductRepository<Laptop>, ILaptopRepository
     }
     public override async Task<object?> Add(Laptop entity)
     {
+        using var _context = new ESMDbContext();
         bool res = true;
         try
         {
@@ -46,6 +46,7 @@ public class LaptopRepository : ProductRepository<Laptop>, ILaptopRepository
     }
     public override async Task<object?> Update(Laptop entity)
     {
+        using var _context = new ESMDbContext();
         bool res = true;
         try
         {
@@ -62,6 +63,7 @@ public class LaptopRepository : ProductRepository<Laptop>, ILaptopRepository
     }
     public override async Task<object?> Delete(string id)
     {
+        using var _context = new ESMDbContext();
         var p = await _context.Laptops.SingleAsync(p => p.Id == id);
         p.Remain = -1;
         await _context.SaveChangesAsync();
@@ -74,6 +76,7 @@ public class LaptopRepository : ProductRepository<Laptop>, ILaptopRepository
 
     public override async Task<object?> AddList(IEnumerable<Laptop> list)
     {
+        using var _context = new ESMDbContext();
         bool res = true;
         try
         {
@@ -85,6 +88,7 @@ public class LaptopRepository : ProductRepository<Laptop>, ILaptopRepository
     }
     public override async Task<bool> IsIdExist(string id)
     {
+        using var _context = new ESMDbContext();
         return await _context.Laptops.AnyAsync(x => x.Id == id);
     }
 }

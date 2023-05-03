@@ -5,8 +5,6 @@ namespace ESM.Modules.DataAccess.Infrastructure
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly ESMDbContext _context;
-        private bool _disposed = false;
 
         public IAccountRepository Accounts { get; }
 
@@ -34,61 +32,22 @@ namespace ESM.Modules.DataAccess.Infrastructure
         public IReportRepository Reports { get; }
         public IDiscountRepository Discounts { get; }
 
-        public UnitOfWork(ESMDbContext context)
+        public UnitOfWork()
         {
-            _context = context;
-            Accounts = new AccountRepository(context);
-            Laptops = new LaptopRepository(context);
-            Monitors = new MonitorRepository(context);
-            Pcs = new PcRepository(context);
-            Pccpus = new PccpuRepository(context);
-            Pcharddisks = new PcharddiskRepository(context);
-            Vgas = new VgaRepository(context);
-            Smartphones = new SmartphoneRepository(context);
-            Bills = new BillRepository(context);
-            Combos = new ComboRepository(context);
-            BillCombos = new BillComboRepository(context);
-            Imports = new ImportRepository(context);
-            Reports = new ReportRepository(context);
-            Discounts = new DiscountRepository(context);
+            Accounts = new AccountRepository();
+            Laptops = new LaptopRepository();
+            Monitors = new MonitorRepository();
+            Pcs = new PcRepository();
+            Pccpus = new PccpuRepository();
+            Pcharddisks = new PcharddiskRepository();
+            Vgas = new VgaRepository();
+            Smartphones = new SmartphoneRepository();
+            Bills = new BillRepository();
+            Combos = new ComboRepository();
+            BillCombos = new BillComboRepository();
+            Imports = new ImportRepository();
+            Reports = new ReportRepository();
+            Discounts = new DiscountRepository();
         }
-        public async Task<int> SaveChangesAsync()
-        {
-            int res;
-            try
-            {
-                res = await _context.SaveChangesAsync();
-            }
-            catch (Exception)
-            {
-                res = -1;
-            }
-            return res;
-        }
-        #region Dispose
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposed)
-            {
-                if (disposing)
-                {
-                    _context.Dispose();
-                }
-
-                _disposed = true;
-            }
-        }
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-
-        ~UnitOfWork()
-        {
-            Dispose(false);
-        }
-        #endregion
     }
 }

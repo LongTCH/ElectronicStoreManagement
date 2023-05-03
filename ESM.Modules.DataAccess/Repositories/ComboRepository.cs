@@ -12,11 +12,9 @@ namespace ESM.Modules.DataAccess.Repositories
     }
     public class ComboRepository : ProductRepository<Combo>, IComboRepository
     {
-        public ComboRepository(ESMDbContext context) : base(context)
-        {
-        }
         public override async Task<object?> Add(Combo entity)
         {
+            using var _context = new ESMDbContext();
             bool res = true;
             try
             {
@@ -28,6 +26,7 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         public override async Task<object?> AddList(IEnumerable<Combo> list)
         {
+            using var _context = new ESMDbContext();
             bool res = true;
             try
             {
@@ -39,13 +38,25 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         public override async Task<Combo?> GetById(string id)
         {
+            using var _context = new ESMDbContext();
             var res = await _context.Combos.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
-            if (res != null) res.Discount = await GetDiscount(res.Id);
+            if (res != null)
+            {
+                var validItem = await GetRemain(res);
+                if (validItem > -1)
+                {
+                    res.Remain = validItem;
+                    res.ListProducts = await GetListProduct(res);
+                    res.Price = await GetComboPrice(res);
+                }
+                else res = null;
+            }
             return res;
         }
         public override async Task<IEnumerable<Combo>?> GetAll()
         {
-            var list = await _context.Combos.AsNoTracking().ToListAsync();
+            using var _context = new ESMDbContext();
+            var list = await _context.Combos.AsNoTracking().Where(x => x.Status == true).ToListAsync();
             List<Combo>? result = new();
             foreach (var item in list)
             {
@@ -62,6 +73,7 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         public override async Task<object?> Update(Combo entity)
         {
+            using var _context = new ESMDbContext();
             bool res = true;
             try
             {
@@ -78,12 +90,13 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         public override async Task<bool> IsIdExist(string id)
         {
+            using var _context = new ESMDbContext();
             return await _context.Combos.AnyAsync(x => x.Id == id);
         }
         public async Task<decimal> GetComboPrice(Combo combo)
         {
             decimal res = 0;
-            Task task = new(() =>
+            await Task.Run(() =>
             {
                 string[] list = combo.ProductIdlist.Split(' ');
                 foreach (var item in list)
@@ -91,18 +104,16 @@ namespace ESM.Modules.DataAccess.Repositories
                     res += GetProduct(item).Price;
                 }
             });
-            task.Start();
-            await task;
-
             return res;
         }
         public override async Task<object?> Delete(string id)
         {
+            using var _context = new ESMDbContext();
             var res = false;
             try
             {
                 var item = await _context.Combos.FirstAsync(x => x.Id == id);
-                _context.Combos.Remove(item);
+                item.Status = false;
                 await _context.SaveChangesAsync();
                 res = true;
             }

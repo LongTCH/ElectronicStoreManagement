@@ -4,12 +4,6 @@ namespace ESM.Modules.DataAccess.Infrastructure
 {
     public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
     {
-        protected readonly ESMDbContext _context;
-
-        protected BaseRepository(ESMDbContext context)
-        {
-            _context = context;
-        }
 
         public virtual Task<object?> Add(T entity)
         {
@@ -48,6 +42,7 @@ namespace ESM.Modules.DataAccess.Infrastructure
         }
         protected ProductDTO GetProduct(string id)
         {
+            using var _context = new ESMDbContext();
             if (id.StartsWith(DAStaticData.IdPrefix[ProductType.LAPTOP]))
             {
                 return _context.Laptops.First(x => x.Id == id);
