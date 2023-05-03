@@ -32,15 +32,12 @@
                         Width="100"
                         Background="Green"
                         Command="{Binding AddCommand}" />
-                <Button Content="SỬA"
-                        Grid.Column="1"
-                        Width="100"
-                        Command="{Binding TurnOnEditCommand}" />
                 <Button Content="XÓA"
                         Grid.Column="2"
                         Width="100"
                         Background="Red"
-                        Command="{Binding DeleteCommand}" />
+                        Command="{Binding DeleteCommand}"
+                        CommandParameter="{Binding ElementName=myDataGrid, Path=SelectedItem}" />
             </Grid>
             <StackPanel>
                 <Grid>
@@ -52,17 +49,17 @@
                             Margin="50,0,0,0"
                             VerticalAlignment="Top"
                             HorizontalAlignment="Center"
-                            IsEnabled="{Binding IsEditable}"
                             Style="{StaticResource MaterialDesignFlatLightButton}"
-                            Command="{Binding AddAvatarCommand}">
+                            Command="{Binding AddAvatarCommand}"
+                            CommandParameter="{Binding ElementName=myDataGrid, Path=SelectedItem}">
                         <Button.Content>
                             <Grid>
                                 <Image Source="pack://application:,,,/ESM.Core;component/ShareImages/addproduct.png"
                                        Height="200"
                                        MinWidth="200"
-                                       Visibility="{Binding IsDefault, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                       Visibility="{Binding ElementName=myDataGrid, Path=SelectedItem.IsDefault, Converter={StaticResource BooleanToVisibilityConverter}}"
                                        HorizontalAlignment="Left" />
-                                <Image Source="{Binding AvatarPath}"
+                                <Image Source="{Binding ElementName=myDataGrid, Path=SelectedItem.AvatarPath}"
                                        Height="200"
                                        MinWidth="200"
                                        HorizontalAlignment="Left">
@@ -71,7 +68,7 @@
                                             <Setter Property="Visibility"
                                                     Value="Collapsed" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsDefault}"
+                                                <DataTrigger Binding="{Binding ElementName=myDataGrid, Path=SelectedItem.IsDefault}"
                                                              Value="False">
                                                     <Setter Property="Visibility"
                                                             Value="Visible" />
@@ -89,15 +86,14 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBox materialDesign:HintAssist.Hint="Đường dẫn tới thư mục ảnh"
                                      Margin="20,10"
-                                     Text="{Binding ImagePath, UpdateSourceTrigger=PropertyChanged}"
+                                     Text="{Binding ElementName=myDataGrid, Path=SelectedItem.ImagePath, UpdateSourceTrigger=PropertyChanged}"
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      FontFamily="Champagne &amp; Limousines"
-                                     IsEnabled="{Binding IsEditable}"
                                      FontSize="18"
                                      Width="300" />
                             <Button HorizontalAlignment="Right"
-                                    IsEnabled="{Binding IsEditable}"
                                     Command="{Binding SelectFolder}"
+                                    CommandParameter="{Binding ElementName=myDataGrid, Path=SelectedItem}"
                                     Style="{StaticResource MaterialDesignFloatingActionMiniButton}">
                                 <materialDesign:PackIcon Kind="Folder" />
                             </Button>
@@ -105,15 +101,14 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBox materialDesign:HintAssist.Hint="Đường dẫn tới file mô tả"
                                      Margin="20,10"
-                                     IsEnabled="{Binding IsEditable}"
-                                     Text="{Binding DetailPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     Text="{Binding ElementName=myDataGrid, Path=SelectedItem.DetailPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      FontFamily="Champagne &amp; Limousines"
                                      FontSize="18"
                                      Width="300" />
                             <Button HorizontalAlignment="Right"
-                                    IsEnabled="{Binding IsEditable}"
                                     Command="{Binding SelectDetail}"
+                                    CommandParameter="{Binding ElementName=myDataGrid, Path=SelectedItem}"
                                     Style="{StaticResource MaterialDesignFloatingActionMiniButton}">
                                 <materialDesign:PackIcon Kind="File" />
                             </Button>
@@ -128,7 +123,7 @@
                                                      Kind="Identifier" />
                             <TextBox Margin="20,10"
                                      materialDesign:HintAssist.Hint="ID"
-                                     Text="{Binding Id}"
+                                     Text="{Binding ElementName=myDataGrid, Path=SelectedItem.Id}"
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      IsReadOnly="True"
                                      FontFamily="Champagne &amp; Limousines"
@@ -151,8 +146,7 @@
                         <TextBox materialDesign:HintAssist.Hint="Tên sản phẩm"
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  Margin="20,10"
-                                 IsEnabled="{Binding IsEditable}"
-                                 Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding ElementName=myDataGrid, Path=SelectedItem.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
@@ -167,8 +161,7 @@
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  materialDesign:TextFieldAssist.SuffixText="Inch"
                                  Margin="20,10"
-                                 IsEnabled="{Binding IsEditable}"
-                                 Text="{Binding Size, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding ElementName=myDataGrid, Path=SelectedItem.Size, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
@@ -189,8 +182,7 @@
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  materialDesign:TextFieldAssist.SuffixText="Hz"
                                  Margin="20,10"
-                                 IsEnabled="{Binding IsEditable}"
-                                 Text="{Binding RefreshRate, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding ElementName=myDataGrid, Path=SelectedItem.RefreshRate, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
@@ -204,8 +196,7 @@
                         <TextBox materialDesign:HintAssist.Hint="Tấm nền"
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  Margin="20,10"
-                                 IsEnabled="{Binding IsEditable}"
-                                 Text="{Binding Panel, UpdateSourceTrigger=PropertyChanged}"
+                                 Text="{Binding ElementName=myDataGrid, Path=SelectedItem.Panel, UpdateSourceTrigger=PropertyChanged}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
@@ -225,9 +216,8 @@
                         <TextBox materialDesign:TextFieldAssist.HasClearButton="True"
                                  materialDesign:HintAssist.Hint="Nhu cầu"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding Need, UpdateSourceTrigger=PropertyChanged}"
+                                 Text="{Binding ElementName=myDataGrid, Path=SelectedItem.Need, UpdateSourceTrigger=PropertyChanged}"
                                  Margin="20,10"
-                                 IsEnabled="{Binding IsEditable}"
                                  FontSize="18" />
                     </DockPanel>
                     <DockPanel Grid.Column="1">
@@ -239,8 +229,7 @@
                         <TextBox materialDesign:HintAssist.Hint="Series sản phẩm"
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  Margin="20,10"
-                                 IsEnabled="{Binding IsEditable}"
-                                 Text="{Binding Series, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding ElementName=myDataGrid, Path=SelectedItem.Series, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18"></TextBox>
@@ -261,8 +250,7 @@
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  materialDesign:TextFieldAssist.SuffixText="VND"
                                  Margin="20,10"
-                                 IsEnabled="{Binding IsEditable}"
-                                 Text="{Binding Price, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
+                                 Text="{Binding ElementName=myDataGrid, Path=SelectedItem.Price, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
@@ -277,8 +265,8 @@
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  materialDesign:TextFieldAssist.SuffixText="%"
                                  Margin="20,10"
-                                 IsEnabled="{Binding IsEditable}"
-                                 Text="{Binding Discount, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
+                                 IsEnabled="False"
+                                 Text="{Binding ElementName=myDataGrid, Path=SelectedItem.Discount, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
@@ -298,7 +286,7 @@
                         <TextBox materialDesign:HintAssist.Hint="Còn lại"
                                  IsEnabled="False"
                                  Margin="20,10"
-                                 Text="{Binding Remain, Mode=OneWay}"
+                                 Text="{Binding ElementName=myDataGrid, Path=SelectedItem.Remain, Mode=OneWay}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
@@ -312,9 +300,8 @@
                         <TextBox materialDesign:TextFieldAssist.HasClearButton="True"
                                  materialDesign:HintAssist.Hint="Đơn vị tính"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding Unit, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding ElementName=myDataGrid, Path=SelectedItem.Unit, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                  Margin="20,10"
-                                 IsEnabled="{Binding IsEditable}"
                                  FontSize="18" />
                     </DockPanel>
                 </Grid>
@@ -332,9 +319,8 @@
                         <TextBox materialDesign:TextFieldAssist.HasClearButton="True"
                                  materialDesign:HintAssist.Hint="Thương hiệu"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding Company, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding ElementName=myDataGrid, Path=SelectedItem.Company, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                  Margin="20,10"
-                                 IsEnabled="{Binding IsEditable}"
                                  FontSize="18" />
                     </DockPanel>
                 </Grid>
@@ -352,7 +338,8 @@
                             Background="DarkSeaGreen"
                             IsDefault="True"
                             Content="LƯU"
-                            Command="{Binding SaveCommand}" />
+                            Command="{Binding SaveCommand}"
+                            CommandParameter="{Binding ElementName=myDataGrid, Path=SelectedItem}" />
                     <Button Width="150"
                             Grid.Column="1"
                             BorderThickness="0"
@@ -363,7 +350,8 @@
                             Background="Gray"
                             IsDefault="True"
                             Content="HỦY"
-                            Command="{Binding ClearCommand}" />
+                            Command="{Binding ClearCommand}"
+                            CommandParameter="{Binding ElementName=myDataGrid, Path=SelectedItem}" />
                 </Grid>
             </StackPanel>
             <DataGrid ItemsSource="{Binding ProductList}"

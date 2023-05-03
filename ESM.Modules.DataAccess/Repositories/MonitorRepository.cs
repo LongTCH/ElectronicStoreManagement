@@ -1,5 +1,4 @@
-﻿using ESM.Modules.DataAccess.DTOs;
-using ESM.Modules.DataAccess.Infrastructure;
+﻿using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,16 +14,24 @@ public class MonitorRepository : ProductRepository<Models.Monitor>, IMonitorRepo
     }
     public override async Task<Models.Monitor?> GetById(string id)
     {
-        var p = await _context.Monitors.FirstOrDefaultAsync(x => x.Id == id);
-        if (p != null) p.Discount = await GetDiscount(id);
+        var p = await _context.Monitors.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+        if (p != null)
+        {
+            p.Discount = await GetDiscount(id);
+            p.InMemory = true;
+        }
         return p;
     }
     public override async Task<IEnumerable<Models.Monitor>?> GetAll()
     {
-        var list = await _context.Monitors.AsQueryable()
+        var list = await _context.Monitors.AsNoTracking()
                 .Where(p => p.Remain > -1)
                 .ToListAsync();
-        foreach (var item in list) item.Discount = await GetDiscount(item.Id);
+        foreach (var item in list)
+        {
+            item.InMemory = true;
+            item.Discount = await GetDiscount(item.Id);
+        }
         return list;
     }
     public async Task<string> GetSuggestID()
@@ -47,7 +54,7 @@ public class MonitorRepository : ProductRepository<Models.Monitor>, IMonitorRepo
         bool res = true;
         try
         {
-            var hd = await _context.Monitors.AsQueryable()
+            var hd = await _context.Monitors.AsNoTracking()
                    .FirstAsync(p => p.Id == entity.Id);
             _context.Entry(hd).CurrentValues.SetValues(entity);
             await _context.SaveChangesAsync();

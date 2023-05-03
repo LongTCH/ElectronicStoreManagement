@@ -5,7 +5,6 @@
     [CPU] NVARCHAR(50) NOT NULL, 
     [RAM] VARCHAR(50) NULL, 
     [Price] MONEY NOT NULL, 
-    [Discount] FLOAT NULL, 
     [Remain] INT NOT NULL, 
     [Detail_Path] NVARCHAR(200) NULL, 
     [Image_Path] NVARCHAR(200) NULL, 

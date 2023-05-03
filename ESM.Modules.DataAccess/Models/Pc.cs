@@ -1,19 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ESM.Modules.DataAccess.Models;
+﻿namespace ESM.Modules.DataAccess.Models;
 
 public partial class Pc : ProductDTO
 {
 
-    public string Cpu { get; set; } = null!;
-
-    public string? Ram { get; set; }
-
-
-    public string? Series { get; set; }
-
-
-    public string? Need { get; set; }
-
+    private string? cpu;
+    public string? Cpu
+    {
+        get => cpu;
+        set
+        {
+            cpu = value;
+            InMemory = false;
+        }
+    }
+    private string? ram;
+    public string? Ram
+    {
+        get => ram;
+        set
+        {
+            ram = value;
+            InMemory = false;
+        }
+    }
+    private string? serires;
+    public string? Series
+    {
+        get => serires;
+        set
+        {
+            serires = value;
+            InMemory = false;
+        }
+    }
+    private string? need;
+    public string? Need
+    {
+        get => need;
+        set
+        {
+            need = value;
+            InMemory = false;
+        }
+    }
 }

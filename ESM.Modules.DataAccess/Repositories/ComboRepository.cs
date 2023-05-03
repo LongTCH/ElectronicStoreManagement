@@ -39,13 +39,13 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         public override async Task<Combo?> GetById(string id)
         {
-            var res = await _context.Combos.FirstOrDefaultAsync(x => x.Id == id);
+            var res = await _context.Combos.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
             if (res != null) res.Discount = await GetDiscount(res.Id);
             return res;
         }
         public override async Task<IEnumerable<Combo>?> GetAll()
         {
-            var list = await _context.Combos.ToListAsync();
+            var list = await _context.Combos.AsNoTracking().ToListAsync();
             List<Combo>? result = new();
             foreach (var item in list)
             {

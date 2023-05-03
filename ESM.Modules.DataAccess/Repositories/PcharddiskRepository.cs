@@ -1,5 +1,4 @@
-﻿using ESM.Modules.DataAccess.DTOs;
-using ESM.Modules.DataAccess.Infrastructure;
+﻿using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,8 +18,12 @@ public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRe
     }
     public override async Task<Pcharddisk?> GetById(string id)
     {
-        var p = await _context.Pcharddisks.FirstOrDefaultAsync(x => x.Id == id);
-        if (p != null) p.Discount = await GetDiscount(id);
+        var p = await _context.Pcharddisks.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+        if (p != null)
+        {
+            p.Discount = await GetDiscount(id);
+            p.InMemory = true;
+        }
         return p;
     }
     public override async Task<object?> Update(Pcharddisk entity)
@@ -41,10 +44,14 @@ public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRe
     }
     public override async Task<IEnumerable<Pcharddisk>?> GetAll()
     {
-        var list = await _context.Pcharddisks.AsQueryable()
+        var list = await _context.Pcharddisks.AsNoTracking()
                 .Where(pcharddisk => pcharddisk.Remain > -1)
                 .ToListAsync();
-        foreach (var item in list) item.Discount = await GetDiscount(item.Id);
+        foreach (var item in list)
+        {
+            item.InMemory = true;
+            item.Discount = await GetDiscount(item.Id);
+        }
         return list;
     }
     public override async Task<object?> Add(Pcharddisk entity)

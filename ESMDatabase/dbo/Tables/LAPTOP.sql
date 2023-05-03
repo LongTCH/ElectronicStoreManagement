@@ -7,7 +7,6 @@
     [Storage] VARCHAR(50) NOT NULL, 
     [Graphic] VARCHAR(50) NOT NULL,  
     [Price] MONEY NOT NULL, 
-    [Discount] FLOAT NULL, 
     [Remain] INT NOT NULL, 
     [Detail_Path] NVARCHAR(200) NULL, 
     [Image_Path] NVARCHAR(200) NULL, 

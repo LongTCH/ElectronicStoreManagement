@@ -1,15 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ESM.Modules.DataAccess.Models;
+﻿namespace ESM.Modules.DataAccess.Models;
 
 public partial class Pccpu : ProductDTO
 {
-
-    public string Socket { get; set; } = null!;
-
-    public string? Series { get; set; }
-
-    public string? Need { get; set; }
-
+    private string? socket;
+    public string? Socket
+    {
+        get => socket;
+        set
+        {
+            socket = value;
+            InMemory = false;
+        }
+    }
+    private string? serires;
+    public string? Series
+    {
+        get => serires;
+        set
+        {
+            serires = value;
+            InMemory = false;
+        }
+    }
+    private string? need;
+    public string? Need
+    {
+        get => need;
+        set
+        {
+            need = value;
+            InMemory = false;
+        }
+    }
 }

@@ -1,5 +1,4 @@
-﻿using ESM.Modules.DataAccess.DTOs;
-using ESM.Modules.DataAccess.Infrastructure;
+﻿using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,16 +13,24 @@ public class VgaRepository : ProductRepository<Vga>, IVgaRepository
     }
     public override async Task<Vga?> GetById(string id)
     {
-        var p = await _context.Vgas.FirstOrDefaultAsync(x => x.Id == id);
-        if (p != null) p.Discount = await GetDiscount(id);
+        var p = await _context.Vgas.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+        if (p != null)
+        {
+            p.Discount = await GetDiscount(id);
+            p.InMemory = true;
+        }
         return p;
     }
     public override async Task<IEnumerable<Vga>?> GetAll()
     {
-        var list = await _context.Vgas.AsQueryable()
+        var list = await _context.Vgas.AsNoTracking()
                 .Where(vga => vga.Remain > -1)
                .ToListAsync();
-        foreach (var item in list) item.Discount = await GetDiscount(item.Id);
+        foreach (var item in list)
+        {
+            item.InMemory = true;
+            item.Discount = await GetDiscount(item.Id);
+        }
         return list;
     }
     public override async Task<object?> Add(Vga entity)

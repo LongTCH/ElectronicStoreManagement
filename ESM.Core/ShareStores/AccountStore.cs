@@ -1,5 +1,4 @@
-﻿using ESM.Modules.DataAccess.DTOs;
-using ESM.Modules.DataAccess.Models;
+﻿using ESM.Modules.DataAccess.Models;
 using System;
 
 namespace ESM.Core.ShareStores

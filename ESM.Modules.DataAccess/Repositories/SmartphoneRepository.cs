@@ -15,16 +15,24 @@ namespace ESM.Modules.DataAccess.Repositories
         }
         public override async Task<Smartphone?> GetById(string id)
         {
-            var p = await _context.Smartphones.FirstOrDefaultAsync(x => x.Id == id);
-            if (p != null) p.Discount = await GetDiscount(id);
+            var p = await _context.Smartphones.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+            if (p != null)
+            {
+                p.Discount = await GetDiscount(id);
+                p.InMemory = true;
+            }
             return p;
         }
         public override async Task<IEnumerable<Smartphone>?> GetAll()
         {
-            var list = await _context.Smartphones.AsQueryable()
+            var list = await _context.Smartphones.AsNoTracking()
                     .Where(smartphone => smartphone.Remain > -1)
                     .ToListAsync();
-            foreach (var item in list) item.Discount = await GetDiscount(item.Id);
+            foreach (var item in list)
+            {
+                item.InMemory = true;
+                item.Discount = await GetDiscount(item.Id);
+            }
             return list;
         }
         public override async Task<object?> Add(Smartphone entity)

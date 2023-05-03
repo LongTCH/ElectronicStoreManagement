@@ -29,6 +29,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\ESM.Modules.DataAccess\ESM.Modules.DataAccess.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Resource Include="ShareImages\addproduct.png">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
@@ -53,10 +57,6 @@
 		<Resource Include="ShareImages\warning.png">
 		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\ESM.Modules.DataAccess\ESM.Modules.DataAccess.csproj" />
 	</ItemGroup>
 
 </Project>

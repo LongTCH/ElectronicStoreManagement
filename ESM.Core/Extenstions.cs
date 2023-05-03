@@ -1,7 +1,9 @@
 ﻿using Prism.Mvvm;
 using Prism.Regions;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Windows.Data;
 
 namespace ESM.Core
 {
@@ -66,6 +68,9 @@ namespace ESM.Core
                 MemberName = name
             });
         }
-
+        public static void Refresh<T>(this ObservableCollection<T> value)
+        {
+            CollectionViewSource.GetDefaultView(value).Refresh();
+        }
     }
 }

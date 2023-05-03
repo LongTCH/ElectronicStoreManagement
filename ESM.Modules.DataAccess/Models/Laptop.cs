@@ -1,21 +1,65 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ESM.Modules.DataAccess.Models;
+﻿namespace ESM.Modules.DataAccess.Models;
 
 public partial class Laptop : ProductDTO
 {
-
-    public string Cpu { get; set; } = null!;
-
-    public string Ram { get; set; } = null!;
-
-    public string Storage { get; set; } = null!;
-
-    public string Graphic { get; set; } = null!;
-
-
-    public string? Series { get; set; }
-
-    public string? Need { get; set; }
+    private string? cpu;
+    public string? Cpu
+    {
+        get => cpu;
+        set
+        {
+            cpu = value;
+            InMemory = false;
+        }
+    }
+    private string? ram;
+    public string? Ram
+    {
+        get => ram;
+        set
+        {
+            ram = value;
+            InMemory = false;
+        }
+    }
+    private string? storage;
+    public string? Storage
+    {
+        get => storage;
+        set
+        {
+            storage = value;
+            InMemory = false;
+        }
+    }
+    private string? graphic;
+    public string? Graphic
+    {
+        get => graphic;
+        set
+        {
+            graphic = value;
+            InMemory = false;
+        }
+    }
+    private string? serires;
+    public string? Series
+    {
+        get => serires;
+        set
+        {
+            serires = value;
+            InMemory = false;
+        }
+    }
+    private string? need;
+    public string? Need
+    {
+        get => need;
+        set
+        {
+            need = value;
+            InMemory = false;
+        }
+    }
 }

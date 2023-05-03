@@ -8,14 +8,16 @@ using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Linq;
+using ESM.Modules.DataAccess.Models;
+using ESM.Core;
+using System.ComponentModel;
 
 namespace ESM.Modules.Import.ViewModels
 {
-    public abstract class BaseProductInputViewModel<T> : BindableBase, INavigationAware where T : ProductDTO
+    public abstract class BaseProductInputViewModel<T> : BindableBase, INavigationAware where T : ProductDTO, new()
     {
         protected readonly IUnitOfWork _unitOfWork;
         protected readonly IOpenDialogService _openDialogService;
@@ -27,24 +29,17 @@ namespace ESM.Modules.Import.ViewModels
             _unitOfWork = unitOfWork;
             _openDialogService = openDialogService;
             _modalService = modalService;
-            SaveCommand = new(async () =>
+            SaveCommand = new(async (p) =>
             {
-                if (Product == null || Product.EditMode == false) return;
-                await saveCommand();
+                if (p == null) return;
+                await saveCommand(p);
             });
             SelectFolder = new(getFolderPath);
             SelectDetail = new(getDetailPath);
             AddAvatarCommand = new(addAvatarCommand);
-            ClearCommand = new(clearCommand);
-            FindCommand = new(findCommand);
+            ClearCommand = new(async (p) => await clearCommand(p));
             AddCommand = new(addCommand);
-            DeleteCommand = new(() => { if (Id != null) deleteCommand(); });
-            TurnOnEditCommand = new(() =>
-            {
-                if (Product == null) return;
-                Product.EditMode = true;
-                RaisePropertyChanged(nameof(IsEditable));
-            });
+            DeleteCommand = new(deleteCommand);
         }
         private ObservableCollection<T> productList;
         public ObservableCollection<T> ProductList
@@ -52,123 +47,83 @@ namespace ESM.Modules.Import.ViewModels
             get => productList;
             set => SetProperty(ref productList, value);
         }
-        private T product;
-        public T Product
-        {
-            get => product;
-            set => SetProperty(ref product, value);
-        }
-        public bool IsEditable => Product != null && Product.EditMode;
-        private string id;
-        public string Id
-        {
-            get => id?.Trim();
-            set => SetProperty(ref id, value);
-        }
-        private string name;
-        public string Name
-        {
-            get => name?.Trim();
-            set => SetProperty(ref name, value);
-        }
-        protected decimal price;
-        public decimal Price
-        {
-            get => price;
-            set => SetProperty(ref price, value);
-        }
-        protected double? discount;
-        [Range(0, 100)]
-        public double? Discount
-        {
-            get => discount;
-            set => SetProperty(ref discount, value, () => this.ValidateProperty(value, nameof(Discount)));
-        }
-        private int remain;
-        public int Remain
-        {
-            get => remain;
-            set => SetProperty(ref remain, value);
-        }
-        private string detailPath;
-        public string DetailPath
-        {
-            get => detailPath?.Trim();
-            set => SetProperty(ref detailPath, value);
-        }
-        private string avatarPath;
-        public string AvatarPath
-        {
-            get => avatarPath?.Trim();
-            set => SetProperty(ref avatarPath, value);
-        }
-        private string company;
-        public string Company
-        {
-            get => company?.Trim();
-            set => SetProperty(ref company, value);
-        }
-        private string unit;
-        public string Unit
-        {
-            get => unit?.Trim();
-            set => SetProperty(ref unit, value);
-        }
-        public bool IsDefault => AvatarPath == null;
-        private string imagePath;
-        public string ImagePath
-        {
-            get => imagePath?.Trim();
-            set => SetProperty(ref imagePath, value);
-        }
-        public DelegateCommand SelectFolder { get; }
-        public DelegateCommand SelectDetail { get; }
-        public DelegateCommand AddAvatarCommand { get; }
-        public DelegateCommand SaveCommand { get; }
-        public DelegateCommand ClearCommand { get; }
+        public DelegateCommand<T> SelectFolder { get; }
+        public DelegateCommand<T> SelectDetail { get; }
+        public DelegateCommand<T> AddAvatarCommand { get; }
+        public DelegateCommand<T> SaveCommand { get; }
+        public DelegateCommand<T> ClearCommand { get; }
         public DelegateCommand AddCommand { get; }
-        public DelegateCommand TurnOnEditCommand { get; }
-        public DelegateCommand DeleteCommand { get; }
-        public DelegateCommand<ProductDTO> FindCommand { get; }
-        protected abstract Task saveCommand();
-        protected abstract void addCommand();
-        protected abstract void deleteCommand();
-        protected abstract void findCommand(ProductDTO productDTO);
-        protected abstract void clear();
-        private void clearCommand()
+        public DelegateCommand<T> DeleteCommand { get; }
+        protected abstract Task saveCommand(T product);
+        private async Task clearCommand(T product)
         {
-            if (Product == null || Product.EditMode == false) return;
             MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
             if (metroWindow.ShowModalMessageExternal("Cảnh báo", "Bạn có chắc chắn hủy bỏ thông tin?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
             {
-                Product.EditMode = false;
-                RaisePropertyChanged(nameof(IsEditable));
-                clear();
+                if (product is Laptop)
+                    product = (T)(object)await _unitOfWork.Laptops.GetById(product.Id);
+                else if (product is Monitor)
+                    product = (T)(object)await _unitOfWork.Monitors.GetById(product.Id);
+                else if (product is Pcharddisk)
+                    product = (T)(object)await _unitOfWork.Pcharddisks.GetById(product.Id);
+                else if (product is Pc)
+                    product = (T)(object)await _unitOfWork.Pcs.GetById(product.Id);
+                else if (product is Pccpu)
+                    product = (T)(object)await _unitOfWork.Pccpus.GetById(product.Id);
+                else if (product is Smartphone)
+                    product = (T)(object)await _unitOfWork.Smartphones.GetById(product.Id);
+                else if (product is Vga)
+                    product = (T)(object)await _unitOfWork.Vgas.GetById(product.Id);
+                ProductList[ProductList.IndexOf(product)] = product;
+                ProductList.Refresh();
             }
         }
-        private void getFolderPath()
+        private async void deleteCommand(T product)
         {
-            ImagePath = _openDialogService.FolderDialog();
+            if (product is null) return;
+            MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
+            if (metroWindow.ShowModalMessageExternal("Cảnh báo", "Bạn có chắc chắn xóa?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
+            {
+                if (product.IdExist)
+                {
+                    if (product is Laptop)
+                        await _unitOfWork.Laptops.Delete(product.Id);
+                    else if (product is Monitor)
+                        await _unitOfWork.Monitors.Delete(product.Id);
+                    else if (product is Pcharddisk)
+                        await _unitOfWork.Pcharddisks.Delete(product.Id);
+                    else if (product is Pc)
+                        await _unitOfWork.Pcs.Delete(product.Id);
+                    else if (product is Pccpu)
+                        await _unitOfWork.Pccpus.Delete(product.Id);
+                    else if (product is Smartphone)
+                        await _unitOfWork.Smartphones.Delete(product.Id);
+                    else if (product is Vga)
+                        await _unitOfWork.Vgas.Delete(product.Id);
+                }
+                ProductList.Remove(product);
+            }
         }
-        private void getDetailPath()
+        private void getFolderPath(T product)
         {
-            DetailPath = _openDialogService.FileDialog(FileType.Excel);
+            product.ImagePath = _openDialogService.FolderDialog();
+            ProductList.Refresh();
         }
-        private void addAvatarCommand()
+        private void getDetailPath(T product)
         {
+            product.DetailPath = _openDialogService.FileDialog(FileType.Excel);
+            ProductList.Refresh();
+        }
+        private void addAvatarCommand(T product)
+        {
+            if (product == null) return;
             var avatar = _openDialogService.FileDialog(FileType.Image);
             if (avatar != null)
             {
-                AvatarPath = avatar;
-                RaisePropertyChanged(nameof(IsDefault));
+                product.AvatarPath = avatar;
+                
             }
-        }
-        protected void ValidateProperty<TProp>(TProp value, string name)
-        {
-            Validator.ValidateProperty(value, new ValidationContext(this, null, null)
-            {
-                MemberName = name
-            });
+            ProductList.Refresh();
         }
         protected string GetNewID(ProductType type)
         {
@@ -178,9 +133,18 @@ namespace ESM.Modules.Import.ViewModels
             ++counter;
             return DAStaticData.IdPrefix[type] + counter.ToString().PadLeft(7, '0');
         }
+        private void addCommand()
+        {
+            T p = new()
+            {
+                IdExist = false,
+                Id = GetNewID(ProductType.CPU),
+                InMemory = false
+            };
+            ProductList.Add(p);
+        }
         public virtual void OnNavigatedTo(NavigationContext navigationContext)
         {
-
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

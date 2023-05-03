@@ -1,5 +1,4 @@
-﻿using ESM.Modules.DataAccess.DTOs;
-using ESM.Modules.DataAccess.Infrastructure;
+﻿using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,16 +12,24 @@ public class PccpuRepository : ProductRepository<Pccpu>, IPccpuRepository
     }
     public override async Task<Pccpu?> GetById(string id)
     {
-        var p = await _context.Pccpus.FirstOrDefaultAsync(x => x.Id == id);
-        if (p != null) p.Discount = await GetDiscount(id);
+        var p = await _context.Pccpus.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+        if (p != null)
+        {
+            p.Discount = await GetDiscount(id);
+            p.InMemory = true;
+        }
         return p;
     }
     public override async Task<IEnumerable<Pccpu>?> GetAll()
     {
-        var list = await _context.Pccpus.AsQueryable()
+        var list = await _context.Pccpus.AsNoTracking()
                 .Where(p => p.Remain > -1)
                 .ToListAsync();
-        foreach (var item in list) item.Discount = await GetDiscount(item.Id);
+        foreach (var item in list)
+        {
+            item.InMemory = true;
+            item.Discount = await GetDiscount(item.Id);
+        }
         return list;
     }
     public override async Task<object?> Add(Pccpu entity)

@@ -1,19 +1,55 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ESM.Modules.DataAccess.Models;
+﻿namespace ESM.Modules.DataAccess.Models;
 
 public partial class Monitor : ProductDTO
 {
-
-    public string Size { get; set; } = null!;
-
-    public string Panel { get; set; } = null!;
-
-    public string RefreshRate { get; set; } = null!;
-
-    public string? Series { get; set; }
-
-    public string? Need { get; set; }
-
+    private string? size;
+    public string? Size
+    {
+        get => size;
+        set
+        {
+            size = value;
+            InMemory = false;
+        }
+    }
+    private string? panel;
+    public string? Panel
+    {
+        get => panel;
+        set
+        {
+            panel = value;
+            InMemory = false;
+        }
+    }
+    private string? refreshRate;
+    public string? RefreshRate
+    {
+        get => refreshRate;
+        set
+        {
+            refreshRate = value;
+            InMemory = false;
+        }
+    }
+    private string? serires;
+    public string? Series
+    {
+        get => serires;
+        set
+        {
+            serires = value;
+            InMemory = false;
+        }
+    }
+    private string? need;
+    public string? Need
+    {
+        get => need;
+        set
+        {
+            need = value;
+            InMemory = false;
+        }
+    }
 }
