@@ -10,8 +10,8 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
-            <RowDefinition/>
-            <RowDefinition />
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="4*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
@@ -107,7 +107,10 @@
                   CanUserReorderColumns="False"
                   HorizontalAlignment="Center"
                   VerticalGridLinesBrush="DeepSkyBlue"
-                  HorizontalGridLinesBrush="DeepSkyBlue">
+                  HorizontalGridLinesBrush="DeepSkyBlue"
+                  ScrollViewer.CanContentScroll="True"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Mã nhà cung cấp"
                                     IsReadOnly="True"
