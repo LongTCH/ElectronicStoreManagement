@@ -60,16 +60,9 @@ namespace ESM.Modules.Export.ViewModels
             set { SetProperty(ref _invoiceType, value); }
         }
 
-        public DelegateCommand SearchCommand { get; }
-
         private async Task addCommand()
         {
-            //var invoices = await _unitOfWork.Bills.GetInvoicesByDateAsync(StartTime, EndTime);
-            //if (!string.IsNullOrEmpty(InvoiceType))
-            //{
-            //    invoices = invoices.Where(x => x.Type.Equals(InvoiceType)).ToList();
-            //}
-            //Invoices = new ObservableCollection<Invoice>(invoices);
+            
         }
     }
 }
