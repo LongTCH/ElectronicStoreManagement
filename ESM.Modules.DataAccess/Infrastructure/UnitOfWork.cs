@@ -31,6 +31,7 @@ namespace ESM.Modules.DataAccess.Infrastructure
 
         public IReportRepository Reports { get; }
         public IDiscountRepository Discounts { get; }
+        public IProviderRepository Providers { get; }
 
         public UnitOfWork()
         {
@@ -48,6 +49,7 @@ namespace ESM.Modules.DataAccess.Infrastructure
             Imports = new ImportRepository();
             Reports = new ReportRepository();
             Discounts = new DiscountRepository();
+            Providers = new ProviderRepository();
         }
     }
 }

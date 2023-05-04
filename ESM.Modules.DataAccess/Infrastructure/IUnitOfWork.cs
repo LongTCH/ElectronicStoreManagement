@@ -18,5 +18,6 @@ namespace ESM.Modules.DataAccess.Infrastructure
         IImportRepository Imports { get; }
         IReportRepository Reports { get; }
         IDiscountRepository Discounts { get; }
+        IProviderRepository Providers { get; }
     }
 }

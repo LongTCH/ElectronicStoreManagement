@@ -45,6 +45,13 @@ namespace ESM.Modules.Export.ViewModels
         }
         private async Task addCommand()
         {
+            if (StartTime > EndTime)
+            {
+                string message = "Nhập khoảng thời gian hợp lệ";
+                string title = "Time Error";
+                _modalService.ShowModal(ModalType.Error, message, title);
+                return;
+            }
             var series = new SeriesCollection(new Charting().GetConfig<ReportMockVm>(SeriesOrientation.Vertical));
             var chartValues = new ChartValues<ReportMockVm>();
             var labels = new List<string>();

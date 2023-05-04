@@ -59,11 +59,12 @@ namespace ESM.Modules.Export.ViewModels
         public int SelectedIndex { get; set; }
         public decimal TotalAmount => ProductBillList.Sum(s => s.ImportAmount);
         public string TextFormPrice => NumberToText.FuncNumberToText((double)TotalAmount);
-        private string providerName;
-        public string ProviderName
+        public List<Provider> ProviderList { get; set; }
+        private Provider selectedProvider;
+        public Provider SelectedProvider
         {
-            get => providerName;
-            set => SetProperty(ref providerName, value);
+            get => selectedProvider;
+            set => SetProperty(ref selectedProvider, value);
         }
         private string importBillId;
         public string ImportBillId
@@ -134,9 +135,9 @@ namespace ESM.Modules.Export.ViewModels
             MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
             if (metroWindow.ShowModalMessageExternal("Thông báo", "Bạn có chắc chắn lưu?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
             {
-                if (string.IsNullOrWhiteSpace(ProviderName))
+                if (SelectedProvider == null)
                 {
-                    _modalService.ShowModal(ModalType.Error, "Nhập tên nhà cung cấp", "Thông báo");
+                    _modalService.ShowModal(ModalType.Error, "Chọn nhà cung cấp", "Thông báo");
                     return;
                 }
                 if (string.IsNullOrWhiteSpace(ImportBillId))
@@ -166,7 +167,7 @@ namespace ESM.Modules.Export.ViewModels
                 {
                     Import bill = new()
                     {
-                        Provider = ProviderName,
+                        ProviderId = SelectedProvider.Id,
                         ProviderBillId = ImportBillId,
                         ImportProducts = billProducts,
                         ImportDate = (DateTime)ImportDate,
@@ -188,7 +189,7 @@ namespace ESM.Modules.Export.ViewModels
                 }
                 ProductBillList.Clear();
                 Category = null;
-                ProviderName = null;
+                SelectedProvider = null;
                 ImportBillId = null;
                 ImportDate = null;
             }

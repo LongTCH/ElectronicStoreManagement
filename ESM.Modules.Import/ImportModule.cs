@@ -36,6 +36,7 @@ namespace ESM.Modules.Import
             _regionManager.RegisterViewWithContentRegion<ChangeAccountInfoView>();
             _regionManager.RegisterViewWithContentRegion<ProductManagement>();
             _regionManager.RegisterViewWithContentRegion<DiscountInputView>();
+            _regionManager.RegisterViewWithContentRegion<DistributorView>();
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
@@ -45,6 +46,7 @@ namespace ESM.Modules.Import
             containerRegistry.RegisterForNavigation<ChangeAccountInfoView, ChangeAccountInfoViewModel>(ViewNames.ChangeAccountInfoView);
             containerRegistry.RegisterForNavigation<ProductManagement, ProductManagementViewModel>(ViewNames.ProductManagement);
             containerRegistry.RegisterForNavigation<DiscountInputView, DiscountInputViewModel>(ViewNames.ProductManagement);
+            containerRegistry.RegisterForNavigation<DistributorView, DistributorViewModel>(ViewNames.DistributorView);
         }
     }
 }
