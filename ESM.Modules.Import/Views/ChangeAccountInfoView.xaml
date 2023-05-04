@@ -16,6 +16,11 @@
                     MinWidth="800"
                     MaxWidth="1000"
                     VerticalAlignment="Center">
+            <TextBlock Text="TÀI KHOẢN CÁ NHÂN"
+                       HorizontalAlignment="Center"
+                       FontSize="30"
+                       FontWeight="Bold"
+                       Foreground="CornflowerBlue" />
             <DockPanel>
                 <Button Height="220"
                         Width="220"

@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ESM.Views
+namespace ESM.Modules.Export.Views
 {
     /// <summary>
-    /// Interaction logic for WarningWindow.xaml
+    /// Interaction logic for ImportInvoice.xaml
     /// </summary>
-    public partial class WarningWindow : Window
+    public partial class ImportInvoice : UserControl
     {
-        public WarningWindow()
+        public ImportInvoice()
         {
             InitializeComponent();
         }

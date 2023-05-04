@@ -19,9 +19,9 @@ public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRe
     }
     public override async Task<Pcharddisk?> GetById(string id)
     {
-        return await _context.Pcharddisks.AsQueryable()
-                .Where(p => p.Id == id)
-                .FirstOrDefaultAsync();
+        var p = await _context.Pcharddisks.FirstOrDefaultAsync(x => x.Id == id);
+        if (p != null) p.Discount = await GetDiscount(id);
+        return p;
     }
     public override async Task<object?> Update(Pcharddisk entity)
     {
@@ -41,15 +41,22 @@ public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRe
     }
     public override async Task<IEnumerable<Pcharddisk>?> GetAll()
     {
-        return await _context.Pcharddisks.AsQueryable()
+        var list = await _context.Pcharddisks.AsQueryable()
                 .Where(pcharddisk => pcharddisk.Remain > -1)
                 .ToListAsync();
+        foreach (var item in list) item.Discount = await GetDiscount(item.Id);
+        return list;
     }
     public override async Task<object?> Add(Pcharddisk entity)
     {
-        await _context.Pcharddisks.AddAsync(entity);
-        await _context.SaveChangesAsync();
-        return null;
+        bool res = true;
+        try
+        {
+            await _context.Pcharddisks.AddAsync(entity);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception) { res = false; }
+        return res;
     }
     public override async Task<object?> Delete(string id)
     {
@@ -69,8 +76,8 @@ public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRe
         catch (Exception ex) { res = false; }
         return res;
     }
-    public string GetSuggestID()
+    public async Task<string> GetSuggestID()
     {
-        return GetSuggestID(ProductType.HARDDISK);
+        return await GetSuggestID(ProductType.HARDDISK);
     }
 }

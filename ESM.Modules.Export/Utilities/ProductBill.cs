@@ -41,12 +41,13 @@ namespace ESM.Modules.Export.Utilities
             {
                 importPrice = checkValidPrice(value).ToString();
                 RaisePropertyChanged(nameof(ImportPrice));
-                RaisePropertyChanged(nameof(Amount));
+                RaisePropertyChanged(nameof(ImportAmount));
                 Action?.Invoke();
             }
         }
         public string Unit { get; set; }
-        public decimal Amount => Convert.ToDecimal(ImportPrice) * Convert.ToInt32(Number);
+        public decimal Amount => SellPrice * Convert.ToInt32(Number);
+        public decimal ImportAmount => Convert.ToDecimal(ImportPrice) * Convert.ToInt32(Number);
         public string? Warranty { get; set; }
         public Action? Action { get; set; }
         public int checkValidNumber(string? s)

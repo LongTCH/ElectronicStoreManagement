@@ -6,27 +6,41 @@ using Microsoft.EntityFrameworkCore;
 namespace ESM.Modules.DataAccess.Repositories;
 public interface IMonitorRepository : IProductRepository<Models.Monitor>
 {
-    Task<object?> AddList(IEnumerable<Models.Monitor> list);
+    
 }
 public class MonitorRepository : ProductRepository<Models.Monitor>, IMonitorRepository
 {
     public MonitorRepository(ESMDbContext context) : base(context)
     {
     }
+    public override async Task<Models.Monitor?> GetById(string id)
+    {
+        var p = await _context.Monitors.FirstOrDefaultAsync(x => x.Id == id);
+        if (p != null) p.Discount = await GetDiscount(id);
+        return p;
+    }
     public override async Task<IEnumerable<Models.Monitor>?> GetAll()
     {
-        return await _context.Monitors.AsQueryable()
+        var list = await _context.Monitors.AsQueryable()
                 .Where(p => p.Remain > -1)
                 .ToListAsync();
+        foreach (var item in list) item.Discount = await GetDiscount(item.Id);
+        return list;
     }
-    public string GetSuggestID()
+    public async Task<string> GetSuggestID()
     {
-        return GetSuggestID(ProductType.MONITOR);
+        return await GetSuggestID(ProductType.MONITOR);
     }
     public override async Task<object?> Add(Models.Monitor entity)
     {
-        await _context.Monitors.AddAsync(entity);
-        return null;
+        bool res = true;
+        try
+        {
+            await _context.Monitors.AddAsync(entity);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception) { res = false; }
+        return res;
     }
     public override async Task<object?> Update(Models.Monitor entity)
     {
@@ -59,5 +73,11 @@ public class MonitorRepository : ProductRepository<Models.Monitor>, IMonitorRepo
     {
         return await _context.Monitors.AnyAsync(p => p.Id == id);
     }
-
+    public override async Task<object?> Delete(string id)
+    {
+        var p = await _context.Monitors.SingleAsync(p => p.Id == id);
+        p.Remain = -1;
+        await _context.SaveChangesAsync();
+        return null;
+    }
 }

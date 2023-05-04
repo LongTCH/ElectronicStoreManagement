@@ -1,19 +1,21 @@
 ﻿using ESM.Core.ShareServices;
 using ESM.Modules.DataAccess;
 using ESM.Modules.DataAccess.Infrastructure;
+using MahApps.Metro.Controls.Dialogs;
+using MahApps.Metro.Controls;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Linq;
 
 namespace ESM.Modules.Import.ViewModels
 {
-    public abstract class BaseProductInputViewModel<T> : BindableBase, INavigationAware
+    public abstract class BaseProductInputViewModel<T> : BindableBase, INavigationAware where T : ProductDTO
     {
         protected readonly IUnitOfWork _unitOfWork;
         protected readonly IOpenDialogService _openDialogService;
@@ -25,19 +27,25 @@ namespace ESM.Modules.Import.ViewModels
             _unitOfWork = unitOfWork;
             _openDialogService = openDialogService;
             _modalService = modalService;
-            SaveCommand = new(async() => await saveCommand());
+            SaveCommand = new(async () =>
+            {
+                if (Product == null || Product.EditMode == false) return;
+                await saveCommand();
+            });
             SelectFolder = new(getFolderPath);
             SelectDetail = new(getDetailPath);
             AddAvatarCommand = new(addAvatarCommand);
             ClearCommand = new(clearCommand);
-            EditCommand = new(editCommand);
+            FindCommand = new(findCommand);
             AddCommand = new(addCommand);
-            DeleteCommand = new(deleteCommand);
-            NotInDatabase = new();
-            WorkType = new[] { "THÊM", "SỬA", "XÓA" };
-            SelectedWorkType = "THÊM";
+            DeleteCommand = new(() => { if (Id != null) deleteCommand(); });
+            TurnOnEditCommand = new(() =>
+            {
+                if (Product == null) return;
+                Product.EditMode = true;
+                RaisePropertyChanged(nameof(IsEditable));
+            });
         }
-        protected HashSet<string> NotInDatabase;
         private ObservableCollection<T> productList;
         public ObservableCollection<T> ProductList
         {
@@ -50,6 +58,7 @@ namespace ESM.Modules.Import.ViewModels
             get => product;
             set => SetProperty(ref product, value);
         }
+        public bool IsEditable => Product != null && Product.EditMode;
         private string id;
         public string Id
         {
@@ -63,7 +72,6 @@ namespace ESM.Modules.Import.ViewModels
             set => SetProperty(ref name, value);
         }
         protected decimal price;
-        [Required]
         public decimal Price
         {
             get => price;
@@ -113,34 +121,31 @@ namespace ESM.Modules.Import.ViewModels
             get => imagePath?.Trim();
             set => SetProperty(ref imagePath, value);
         }
-        public bool IsIdEnabled => SelectedWorkType == "THÊM";
-        private string selectedWorkType;
-        public string SelectedWorkType
-        {
-            get => selectedWorkType;
-            set
-            {
-                SetProperty(ref selectedWorkType, value);
-                CurrentWorkTypeChanged();
-                RaisePropertyChanged(nameof(IsIdEnabled));
-            }
-        }
-        protected abstract void CurrentWorkTypeChanged();
-        public IEnumerable<string> WorkType { get; }
         public DelegateCommand SelectFolder { get; }
         public DelegateCommand SelectDetail { get; }
         public DelegateCommand AddAvatarCommand { get; }
         public DelegateCommand SaveCommand { get; }
         public DelegateCommand ClearCommand { get; }
         public DelegateCommand AddCommand { get; }
-        public DelegateCommand<ProductDTO> DeleteCommand { get; }
-        public DelegateCommand<ProductDTO> EditCommand { get; }
+        public DelegateCommand TurnOnEditCommand { get; }
+        public DelegateCommand DeleteCommand { get; }
+        public DelegateCommand<ProductDTO> FindCommand { get; }
         protected abstract Task saveCommand();
-        protected abstract void clearCommand();
         protected abstract void addCommand();
-        protected abstract void deleteCommand(ProductDTO productDTO);
+        protected abstract void deleteCommand();
         protected abstract void findCommand(ProductDTO productDTO);
-        protected abstract void editCommand(ProductDTO productDTO);
+        protected abstract void clear();
+        private void clearCommand()
+        {
+            if (Product == null || Product.EditMode == false) return;
+            MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
+            if (metroWindow.ShowModalMessageExternal("Cảnh báo", "Bạn có chắc chắn hủy bỏ thông tin?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
+            {
+                Product.EditMode = false;
+                RaisePropertyChanged(nameof(IsEditable));
+                clear();
+            }
+        }
         private void getFolderPath()
         {
             ImagePath = _openDialogService.FolderDialog();
@@ -165,10 +170,17 @@ namespace ESM.Modules.Import.ViewModels
                 MemberName = name
             });
         }
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
+        protected string GetNewID(ProductType type)
         {
-            
+            var previousID = ProductList.OrderBy(x => x.Id).LastOrDefault()?.Id;
+            if (previousID == null) return DAStaticData.IdPrefix[type] + "0000000";
+            int counter = Convert.ToInt32(previousID[2..]);
+            ++counter;
+            return DAStaticData.IdPrefix[type] + counter.ToString().PadLeft(7, '0');
+        }
+        public virtual void OnNavigatedTo(NavigationContext navigationContext)
+        {
+
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
