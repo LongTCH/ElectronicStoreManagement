@@ -30,7 +30,9 @@
         public static readonly string Invoice = "Invoice"; 
         public static readonly string ImportBillView = "ImportBillView"; 
         public static readonly string ComboView = "ComboView"; 
-        public static readonly string ProductManagement = "ProductManagement";
-        public static readonly string DiscountInputView = "DiscountInputView";
+        public static readonly string ProductManagement = "ProductManagement"; 
+        public static readonly string DiscountInputView = "DiscountInputView"; 
+        public static readonly string DistributorView = "DistributorView";
+        public static readonly string Invoicemanagement = "Invoicemanagement";
     }
 }

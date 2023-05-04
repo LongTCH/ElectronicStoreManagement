@@ -41,6 +41,8 @@ public partial class ESMDbContext : DbContext
 
     public virtual DbSet<Pcharddisk> Pcharddisks { get; set; }
 
+    public virtual DbSet<Provider> Providers { get; set; }
+
     public virtual DbSet<Smartphone> Smartphones { get; set; }
 
     public virtual DbSet<Vga> Vgas { get; set; }
@@ -210,7 +212,6 @@ public partial class ESMDbContext : DbContext
             entity.Property(e => e.City).HasMaxLength(50);
             entity.Property(e => e.District).HasMaxLength(50);
             entity.Property(e => e.ImportDate).HasColumnType("date");
-            entity.Property(e => e.Provider).HasMaxLength(100);
             entity.Property(e => e.ProviderBillId)
                 .HasMaxLength(100)
                 .HasColumnName("Provider_Bill_ID");
@@ -224,6 +225,11 @@ public partial class ESMDbContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("Sub_district");
             entity.Property(e => e.TotalAmount).HasColumnType("money");
+
+            entity.HasOne(d => d.Provider).WithMany(p => p.Imports)
+                .HasForeignKey(d => d.ProviderId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_IMPORT_PROVIDER");
 
             entity.HasOne(d => d.Staff).WithMany(p => p.Imports)
                 .HasForeignKey(d => d.StaffId)
@@ -419,6 +425,15 @@ public partial class ESMDbContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.Unit).HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<Provider>(entity =>
+        {
+            entity.ToTable("PROVIDER");
+
+            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Phone).HasMaxLength(50);
+            entity.Property(e => e.ProviderName).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Smartphone>(entity =>

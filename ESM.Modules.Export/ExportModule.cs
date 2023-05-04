@@ -23,11 +23,13 @@ namespace ESM.Modules.Export
             _regionManager.RegisterViewWithRegion("ReportTabRegion", typeof(ReportView)); 
             _regionManager.RegisterViewWithRegion("ReportTabRegion", typeof(TopSellingReport));
             _regionManager.RegisterViewWithRegion("ReportTabRegion", typeof(Revenue));
-            _regionManager.RegisterViewWithRegion("ReportTabRegion", typeof(Invoicemanagement));
             _regionManager.RegisterViewWithRegion("SellTabRegion", typeof(SellView));
             _regionManager.RegisterViewWithRegion("SellTabRegion", typeof(ComboSellView));
+            _regionManager.RegisterViewWithContentRegion<InputSellView>();
             _regionManager.RegisterViewWithContentRegion<TabChartView>();
             _regionManager.RegisterViewWithContentRegion<ImportBillView>();
+            
+            _regionManager.RegisterViewWithContentRegion<Invoicemanagement>();
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
@@ -35,6 +37,8 @@ namespace ESM.Modules.Export
             containerRegistry.RegisterForNavigation<InputSellView, InputSellViewModel>(ViewNames.InputSellView);
             containerRegistry.RegisterForNavigation<TabChartView, TabChartViewModel>(ViewNames.TabChartView);
             containerRegistry.RegisterForNavigation<ImportBillView, ImportBillViewModel>(ViewNames.ImportBillView);
+
+            containerRegistry.RegisterForNavigation<Invoicemanagement, InvoiceManagementViewModel>(ViewNames.Invoicemanagement);
         }
     }
 }

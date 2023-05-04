@@ -140,6 +140,16 @@
                                                         Kind="AreaChart" />
                         </mah:HamburgerMenuIconItem.Icon>
                     </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem Label="Nhà phân phối"
+                                               IsVisible="{Binding }"
+                                               Command="{Binding NavigateCommand}"
+                                               CommandParameter="{x:Static esmcore:ViewNames.DistributorView}">
+                        <mah:HamburgerMenuIconItem.Icon>
+                            <iconPacks:PackIconVaadinIcons Kind="Package"
+                                                           Width="22"
+                                                           Height="22" />
+                        </mah:HamburgerMenuIconItem.Icon>
+                    </mah:HamburgerMenuIconItem>
                 </mah:HamburgerMenuItemCollection>
             </mah:HamburgerMenu.ItemsSource>
             <!--  Options  -->

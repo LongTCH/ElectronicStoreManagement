@@ -9,8 +9,6 @@ public partial class Import
 
     public string StaffId { get; set; } = null!;
 
-    public string Provider { get; set; } = null!;
-
     public string ProviderBillId { get; set; } = null!;
 
     public string City { get; set; } = null!;
@@ -25,7 +23,11 @@ public partial class Import
 
     public decimal TotalAmount { get; set; }
 
+    public int ProviderId { get; set; }
+
     public virtual ICollection<ImportProduct> ImportProducts { get; set; } = new List<ImportProduct>();
+
+    public virtual Provider Provider { get; set; } = null!;
 
     public virtual Account Staff { get; set; } = null!;
 }

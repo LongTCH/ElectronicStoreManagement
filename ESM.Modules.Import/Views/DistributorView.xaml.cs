@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ESM.Modules.Export.Views
+namespace ESM.Modules.Import.Views
 {
     /// <summary>
     /// Interaction logic for DistributorView.xaml
