@@ -75,7 +75,11 @@ namespace ESM.Modules.Export.Views
 
                     OnPropertyChanged(nameof(BillId));
                     btnPrint.Visibility = Visibility.Hidden;
-                    printDialog.PrintVisual(print, "In Hóa đơn");
+                    try
+                    {
+                        printDialog.PrintVisual(print, "In Hóa đơn");
+                    }
+                    catch { }
                     _modalService.ShowModal(ModalType.Information, "In thành công", "Thông báo");
                     DialogResult = true;
                 }
