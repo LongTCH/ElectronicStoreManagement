@@ -43,4 +43,17 @@ public partial class Smartphone : ProductDTO
             InMemory = false;
         }
     }
+    public override void Copy(ProductDTO other)
+    {
+        var o = (Smartphone)other;
+        Cpu = o.Cpu;
+        Ram = o.Ram;
+        Storage = o.Storage;
+        Series = o.Series;
+        RaisePropertyChanged(nameof(Cpu));
+        RaisePropertyChanged(nameof(Ram));
+        RaisePropertyChanged(nameof(Storage));
+        RaisePropertyChanged(nameof(Series));
+        base.Copy(other);
+    }
 }

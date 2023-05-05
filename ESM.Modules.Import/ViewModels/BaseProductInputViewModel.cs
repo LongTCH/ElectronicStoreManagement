@@ -86,8 +86,7 @@ namespace ESM.Modules.Import.ViewModels
                         InMemory = false
                     };
                 }
-                ProductList[ProductList.IndexOf(product)] = product;
-                ProductList.Refresh();
+                ProductList[ProductList.IndexOf(product)].Copy(product);
             }
         }
         private async void deleteCommand(T product)
@@ -114,17 +113,16 @@ namespace ESM.Modules.Import.ViewModels
                         await _unitOfWork.Vgas.Delete(product.Id);
                 }
                 ProductList.Remove(product);
+
             }
         }
         private void getFolderPath(T product)
         {
             product.ImagePath = _openDialogService.FolderDialog();
-            ProductList.Refresh();
         }
         private void getDetailPath(T product)
         {
             product.DetailPath = _openDialogService.FileDialog(FileType.Excel);
-            ProductList.Refresh();
         }
         private void addAvatarCommand(T product)
         {
@@ -135,7 +133,6 @@ namespace ESM.Modules.Import.ViewModels
                 product.AvatarPath = avatar;
                 
             }
-            ProductList.Refresh();
         }
         protected async Task<string> GetNewID(ProductType type)
         {

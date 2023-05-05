@@ -32,7 +32,7 @@ namespace ESM.Modules.Import.ViewModels
             if (metroWindow.ShowModalMessageExternal("Thông báo", "Bạn có chắc chắn lưu?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
             {
                 bool res;
-                if (product.InMemory)
+                if (product.IdExist)
                 {
                     res = (bool)await _unitOfWork.Laptops.Update(product);
                     if (res)
@@ -55,7 +55,9 @@ namespace ESM.Modules.Import.ViewModels
                 }
                 if (res)
                 {
-                    ProductList.Refresh();
+                    var index = ProductList.IndexOf(product);
+                    ProductList.RemoveAt(index);
+                    ProductList.Insert(index, product);
                 }
             }
         }

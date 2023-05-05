@@ -45,10 +45,10 @@
                                  BorderBrush="White"
                                  VerticalAlignment="Center"
                                  Width="120">Nhà phân phối:</TextBox>
-                        <TextBox Margin="5"
-                                 Width="200"
-                                 Text="{Binding ProviderName, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
-                                 VerticalAlignment="Center" />
+                        <ComboBox SelectedItem="{Binding Provider}"
+                                  ItemsSource="{Binding Providers}"
+                                  Width="200"
+                                  IsEditable="False" />
                     </DockPanel>
                     <DockPanel Grid.Column="1"
                                HorizontalAlignment="Left">
@@ -159,7 +159,7 @@
                                     Binding="{Binding Number, UpdateSourceTrigger=LostFocus}" />
                 <DataGridTextColumn Header="Thành tiền"
                                     IsReadOnly="True"
-                                    Binding="{Binding Amount, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
+                                    Binding="{Binding ImportAmount, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
                 <DataGridTextColumn Header="Bảo hành"
                                     Binding="{Binding Warranty}" />
                 <DataGridTemplateColumn Header="Xóa">

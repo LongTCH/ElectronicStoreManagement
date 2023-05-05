@@ -97,6 +97,15 @@
                                Margin="5"
                                FontWeight="DemiBold" />
                 </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Nhân viên: "
+                               FontSize="20"
+                               Margin="5" />
+                    <TextBlock Text="{Binding StaffId}"
+                               FontSize="20"
+                               Margin="5"
+                               FontWeight="DemiBold" />
+                </StackPanel>
             </StackPanel>
             <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                      HorizontalAlignment="Stretch"

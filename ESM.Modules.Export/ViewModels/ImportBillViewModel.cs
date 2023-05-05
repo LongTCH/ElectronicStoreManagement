@@ -59,12 +59,12 @@ namespace ESM.Modules.Export.ViewModels
         public int SelectedIndex { get; set; }
         public decimal TotalAmount => ProductBillList.Sum(s => s.ImportAmount);
         public string TextFormPrice => NumberToText.FuncNumberToText((double)TotalAmount);
-        public List<Provider> ProviderList { get; set; }
-        private Provider selectedProvider;
-        public Provider SelectedProvider
+        public IEnumerable<Provider> Providers { get; set; }
+        private Provider provider;
+        public Provider Provider
         {
-            get => selectedProvider;
-            set => SetProperty(ref selectedProvider, value);
+            get => provider;
+            set => SetProperty(ref provider, value);
         }
         private string importBillId;
         public string ImportBillId
@@ -132,24 +132,25 @@ namespace ESM.Modules.Export.ViewModels
         }
         private async Task ExecutePay()
         {
+            if (Provider == null)
+            {
+                _modalService.ShowModal(ModalType.Error, "Chọn nhà cung cấp", "Thông báo");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(ImportBillId))
+            {
+                _modalService.ShowModal(ModalType.Error, "Nhập mã hóa đơn nhập hàng", "Thông báo");
+                return;
+            }
+            if (!ImportDate.HasValue)
+            {
+                _modalService.ShowModal(ModalType.Error, "Nhập ngày nhập hàng", "Thông báo");
+                return;
+            }
             MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
             if (metroWindow.ShowModalMessageExternal("Thông báo", "Bạn có chắc chắn lưu?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
             {
-                if (SelectedProvider == null)
-                {
-                    _modalService.ShowModal(ModalType.Error, "Chọn nhà cung cấp", "Thông báo");
-                    return;
-                }
-                if (string.IsNullOrWhiteSpace(ImportBillId))
-                {
-                    _modalService.ShowModal(ModalType.Error, "Nhập mã hóa đơn nhập hàng", "Thông báo");
-                    return;
-                }
-                if (!ImportDate.HasValue)
-                {
-                    _modalService.ShowModal(ModalType.Error, "Nhập ngày nhập hàng", "Thông báo");
-                    return;
-                }
+
                 ICollection<ImportProduct> billProducts = new List<ImportProduct>();
                 foreach (var item in ProductBillList)
                 {
@@ -167,7 +168,7 @@ namespace ESM.Modules.Export.ViewModels
                 {
                     Import bill = new()
                     {
-                        ProviderId = SelectedProvider.Id,
+                        ProviderId = Provider.Id,
                         ProviderBillId = ImportBillId,
                         ImportProducts = billProducts,
                         ImportDate = (DateTime)ImportDate,
@@ -189,7 +190,7 @@ namespace ESM.Modules.Export.ViewModels
                 }
                 ProductBillList.Clear();
                 Category = null;
-                SelectedProvider = null;
+                Provider = null;
                 ImportBillId = null;
                 ImportDate = null;
             }
@@ -201,9 +202,10 @@ namespace ESM.Modules.Export.ViewModels
             RaisePropertyChanged(nameof(TextFormPrice));
         }
 
-        public void OnNavigatedTo(NavigationContext navigationContext)
+        public async void OnNavigatedTo(NavigationContext navigationContext)
         {
-
+            Providers = await _unitOfWork.Providers.GetAll();
+            RaisePropertyChanged(nameof(Providers));
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

@@ -62,4 +62,21 @@ public partial class Laptop : ProductDTO
             InMemory = false;
         }
     }
+    public override void Copy(ProductDTO other)
+    {
+        var o = (Laptop)other;
+        Cpu = o.Cpu;
+        Ram = o.Ram;
+        Storage = o.Storage;
+        Graphic = o.Graphic;
+        Series = o.Series;
+        Need = o.Need;
+        RaisePropertyChanged(nameof(Cpu));
+        RaisePropertyChanged(nameof(Ram));
+        RaisePropertyChanged(nameof(Storage));
+        RaisePropertyChanged(nameof(Graphic));
+        RaisePropertyChanged(nameof(Series));
+        RaisePropertyChanged(nameof(Need));
+        base.Copy(other);
+    }
 }

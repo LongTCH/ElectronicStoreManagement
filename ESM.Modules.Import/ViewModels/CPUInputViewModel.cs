@@ -50,7 +50,9 @@ namespace ESM.Modules.Import.ViewModels
                 }
                 if (res)
                 {
-                    ProductList.Refresh();
+                    var index = ProductList.IndexOf(product);
+                    ProductList.RemoveAt(index);
+                    ProductList.Insert(index, product);
                 }
             }
         }
