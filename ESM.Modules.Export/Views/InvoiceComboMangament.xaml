@@ -121,35 +121,33 @@
                                             Binding="{Binding}" />
                     </DataGrid.Columns>
                 </DataGrid>
-                <Grid Grid.Row="2"
-                      Margin="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
+                <StackPanel Grid.Row="2"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Left"
+                            Margin="5">
                     <Button Grid.Column="0"
-                            Width="100"
                             Content="Tìm kiếm"
+                            FontSize="20"
                             Background="Blue"
                             HorizontalAlignment="Center" />
                     <TextBox Grid.Column="1"
+                             Margin="20,0"
+                             FontSize="20"
+                             Width="300"
                              VerticalAlignment="Center" />
                     <RadioButton Grid.Column="2"
                                  Content="Mã hoá đơn"
-                                 Width="100"
+                                 FontSize="20"
                                  IsChecked="{Binding MaHDCheck, UpdateSourceTrigger=PropertyChanged}"
                                  FontWeight="Bold"
                                  Margin="5" />
                     <RadioButton Grid.Column="3"
                                  Content="Mã khách hàng"
-                                 Width="120"
+                                 FontSize="20"
                                  IsChecked="{Binding IsSmartphoneCheck, UpdateSourceTrigger=PropertyChanged}"
                                  FontWeight="Bold"
                                  Margin="5" />
-                </Grid>
+                </StackPanel>
                 <TextBlock Text="Danh sách hoá đơn"
                            Grid.Row="3"
                            IsEnabled="False"

@@ -107,7 +107,7 @@
                         </mah:HamburgerMenuIconItem.Icon>
                     </mah:HamburgerMenuIconItem>
                     <mah:HamburgerMenuIconItem Label="Quản lí sản phẩm"
-                                               IsVisible="{Binding }"
+                                               IsVisible="{Binding IsTypingStaff}"
                                                Command="{Binding NavigateCommand}"
                                                CommandParameter="{x:Static esmcore:ViewNames.ProductManagement}">
                         <mah:HamburgerMenuIconItem.Icon>
@@ -119,7 +119,7 @@
                         </mah:HamburgerMenuIconItem.Icon>
                     </mah:HamburgerMenuIconItem>
                     <mah:HamburgerMenuIconItem Label="Quản lí bán hàng"
-                                               IsVisible="{Binding }"
+                                               IsVisible="{Binding IsSellStaff}"
                                                Command="{Binding NavigateCommand}"
                                                CommandParameter="{x:Static esmcore:ViewNames.InputSellView}">
                         <mah:HamburgerMenuIconItem.Icon>
@@ -141,7 +141,7 @@
                         </mah:HamburgerMenuIconItem.Icon>
                     </mah:HamburgerMenuIconItem>
                     <mah:HamburgerMenuIconItem Label="Quản lí nhà phân phối"
-                                               IsVisible="{Binding }"
+                                               IsVisible="{Binding IsAdmin}"
                                                Command="{Binding NavigateCommand}"
                                                CommandParameter="{x:Static esmcore:ViewNames.DistributorView}">
                         <mah:HamburgerMenuIconItem.Icon>
@@ -151,7 +151,7 @@
                         </mah:HamburgerMenuIconItem.Icon>
                     </mah:HamburgerMenuIconItem>
                     <mah:HamburgerMenuIconItem Label="Quản lí hóa đơn"
-                                               IsVisible="{Binding }"
+                                               IsVisible="{Binding IsAdmin}"
                                                Command="{Binding NavigateCommand}"
                                                CommandParameter="{x:Static esmcore:ViewNames.InvoiceManagementWorkplace}">
                         <mah:HamburgerMenuIconItem.Icon>

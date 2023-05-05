@@ -78,6 +78,7 @@
         </mah:Tile>
         <mah:Tile Title="Quản lí khuyến mãi"
                   Grid.Column="0"
+                  Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}}"
                   Grid.Row="1"
                   Background="DimGray"
                   Command="{Binding NavigateCommand}"
