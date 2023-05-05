@@ -32,7 +32,10 @@
         public static readonly string ComboView = "ComboView"; 
         public static readonly string ProductManagement = "ProductManagement"; 
         public static readonly string DiscountInputView = "DiscountInputView"; 
-        public static readonly string DistributorView = "DistributorView";
-        public static readonly string Invoicemanagement = "Invoicemanagement";
+        public static readonly string DistributorView = "DistributorView"; 
+        public static readonly string Invoicemanagement = "Invoicemanagement"; 
+        public static readonly string ImportInvoice = "ImportInvoice"; 
+        public static readonly string InvoiceManagementWorkplace = "InvoiceManagementWorkplace";
+        public static readonly string InvoiceComboMangament = "InvoiceComboMangament";
     }
 }

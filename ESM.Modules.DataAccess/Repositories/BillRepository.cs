@@ -7,6 +7,7 @@ namespace ESM.Modules.DataAccess.Repositories
 {
     public interface IBillRepository : IBaseRepository<Bill>
     {
+        public Task<IEnumerable<Bill>?> GetAll(DateTime start, DateTime end);
         Task<bool> IsProductExistInBill(string productId);
     }
     public class BillRepository : BaseRepository<Bill>, IBillRepository
@@ -60,6 +61,11 @@ namespace ESM.Modules.DataAccess.Repositories
         {
             using var _context = new ESMDbContext();
             return await _context.BillProducts.AnyAsync(x=> x.ProductId == productId);
+        }
+        public async Task<IEnumerable<Bill>?> GetAll(DateTime start, DateTime end)
+        {
+            using var _context = new ESMDbContext();
+            return await _context.Bills.Include(x => x.BillProducts).AsNoTracking().ToListAsync();
         }
     }
 }

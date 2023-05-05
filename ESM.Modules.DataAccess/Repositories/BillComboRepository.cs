@@ -4,8 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ESM.Modules.DataAccess.Repositories
 {
-    public interface IBillComboRepository : IBaseRepository<BillCombo> {
+    public interface IBillComboRepository : IBaseRepository<BillCombo>
+    {
         Task<bool> IsComboExistInBill(string comboId);
+        public Task<IEnumerable<BillCombo>?> GetAll(DateTime start, DateTime end);
     }
     public class BillComboRepository : BaseRepository<BillCombo>, IBillComboRepository
     {
@@ -50,6 +52,11 @@ namespace ESM.Modules.DataAccess.Repositories
             else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.VGA]))
                 _context.Vgas.Where(p => p.Id == id).First().Remain -= number;
             _context.SaveChanges();
+        }
+        public async Task<IEnumerable<BillCombo>?> GetAll(DateTime start, DateTime end)
+        {
+            using var _context = new ESMDbContext();
+            return await _context.BillCombos.Include(x => x.Combo).AsNoTracking().ToListAsync();
         }
     }
 }

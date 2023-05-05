@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ESM.Modules.DataAccess.Models;
+﻿namespace ESM.Modules.DataAccess.Models;
 
 public partial class BillCombo
 {

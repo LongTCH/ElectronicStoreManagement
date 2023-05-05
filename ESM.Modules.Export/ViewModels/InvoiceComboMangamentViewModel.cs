@@ -1,27 +1,25 @@
 ﻿using ESM.Core.ShareServices;
 using ESM.Modules.DataAccess.Infrastructure;
+using ESM.Modules.DataAccess.Models;
+using Prism.Commands;
+using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using Prism.Mvvm;
-using Prism.Commands;
-using ESM.Modules.DataAccess.Models;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace ESM.Modules.Export.ViewModels
 {
-    public class InvoiceManagementViewModel : BindableBase
+    public class InvoiceComboMangamentViewModel : BindableBase
     {
+
         private readonly IUnitOfWork _unitOfWork;
         private readonly IModalService _modalService;
-        public string Header => "";
 
-        private ObservableCollection<Bill> _bills;
+        private ObservableCollection<BillCombo> _bills;
         private DateTime _startDate;
         private DateTime _endDate;
 
-        public InvoiceManagementViewModel(IUnitOfWork unitOfWork, IModalService modalService)
+        public InvoiceComboMangamentViewModel(IUnitOfWork unitOfWork, IModalService modalService)
         {
             _unitOfWork = unitOfWork;
             _modalService = modalService;
@@ -31,8 +29,8 @@ namespace ESM.Modules.Export.ViewModels
             EndTime = DateTime.Now;
         }
         public DelegateCommand GetCommand { get; }
-        public DelegateCommand<ICollection<BillProduct>> ShowCommand { get; }
-        public ObservableCollection<Bill> Bills
+        public DelegateCommand<BillCombo> ShowCommand { get; }
+        public ObservableCollection<BillCombo> Bills
         {
             get { return _bills; }
             set { SetProperty(ref _bills, value); }
@@ -53,15 +51,20 @@ namespace ESM.Modules.Export.ViewModels
         private async Task getCommand()
         {
             Bills = new();
-            var list = await _unitOfWork.Bills.GetAll(StartTime, EndTime);
+            var list = await _unitOfWork.BillCombos.GetAll(StartTime, EndTime);
             foreach (var item in list) Bills.Add(item);
         }
-        public ICollection<BillProduct> BillProducts { get;set; }
-        private void showCommand(ICollection<BillProduct> list)
+        private ObservableCollection<string> productIdList;
+        public ObservableCollection<string> ProductIdList
         {
-            BillProducts = null;
-            BillProducts = list;
-            RaisePropertyChanged(nameof(BillProducts));
+            get => productIdList ??= new();
+            set => SetProperty(ref productIdList, value);
+        }
+        private void showCommand(BillCombo billCombo)
+        {
+            ProductIdList = new();
+            var list = billCombo.Combo.ProductIdlist.Split(' ');
+            foreach (var item in list) ProductIdList.Add(item);
         }
     }
 }
