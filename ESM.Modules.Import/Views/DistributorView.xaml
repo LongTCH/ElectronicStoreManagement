@@ -40,6 +40,7 @@
                                VerticalAlignment="Center"
                                Width="180">Mã Nhà Phân Phối:</TextBlock>
                     <TextBox Margin="5"
+                             FontSize="20"
                              Text="{Binding ElementName=myDatagrid,Path=SelectedItem.Id}"
                              Width="200"
                              IsReadOnly="True"
@@ -52,6 +53,7 @@
                                VerticalAlignment="Center"
                                Width="180">Tên Nhà Phân Phối:</TextBlock>
                     <TextBox Margin="5"
+                             FontSize="20"
                              Width="200"
                              Text="{Binding ElementName=myDatagrid,Path=SelectedItem.ProviderName}"
                              VerticalAlignment="Center" />
@@ -63,6 +65,7 @@
                                VerticalAlignment="Center"
                                Width="180">Điện Thoại:</TextBlock>
                     <TextBox Margin="5"
+                             FontSize="20"
                              Text="{Binding ElementName=myDatagrid,Path=SelectedItem.Phone, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                              Width="200"
                              VerticalAlignment="Center" />
@@ -78,12 +81,14 @@
                 <Button Content="THÊM"
                         Grid.Row="0"
                         Width="100"
+                        FontSize="20"
                         Background="Green"
                         Margin="5"
                         Command="{Binding AddCommand}" />
                 <Button Content="XÓA"
                         Grid.Row="2"
                         Width="100"
+                        FontSize="20"
                         Margin="5"
                         Background="Red"
                         Command="{Binding DeleteCommand}"
@@ -101,11 +106,13 @@
             <Button Grid.Column="1"
                     Content="LƯU"
                     Background="Blue"
+                    FontSize="20"
                     HorizontalAlignment="Center"
                     Command="{Binding SaveCommand}"
                     CommandParameter="{Binding ElementName=myDatagrid, Path=SelectedItem}" />
             <Button Grid.Column="2"
                     Content="HỦY"
+                    FontSize="20"
                     Background="Gray"
                     HorizontalAlignment="Center"
                     Command="{Binding CancelCommand}"

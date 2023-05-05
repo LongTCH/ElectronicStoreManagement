@@ -6,7 +6,7 @@ namespace ESM.Modules.DataAccess.Repositories
 {
     public interface IImportRepository : IBaseRepository<Import>
     {
-
+        Task<IEnumerable<Import>?> GetAll(DateTime start, DateTime end);
     }
     public class ImportRepository : BaseRepository<Import>, IImportRepository
     {
@@ -53,6 +53,15 @@ namespace ESM.Modules.DataAccess.Repositories
             else if (id.StartsWith(DAStaticData.IdPrefix[ProductType.VGA]))
                 _context.Vgas.Where(p => p.Id == id).First().Remain += number;
             _context.SaveChanges();
+        }
+        public async Task<IEnumerable<Import>?> GetAll(DateTime start, DateTime end)
+        {
+            using var _context = new ESMDbContext();
+            return await _context.Imports
+                .Include(x => x.ImportProducts)
+                .Include(x => x.Provider)
+                .Where(x => x.ImportDate.Date >= start.Date && x.ImportDate.Date <= end.Date)
+                .AsNoTracking().ToListAsync();
         }
     }
 }
