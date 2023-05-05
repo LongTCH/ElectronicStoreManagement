@@ -54,6 +54,8 @@
                                  FontSize="20">Start Date:</TextBox>
                         <DatePicker x:Name="StartTime"
                                     Width="180"
+                                    Language="vi-VN"
+                                    helper:DatePickerDateFormat.DateFormat="dd/MM/yyyy"
                                     SelectedDate="{Binding StartTime}"
                                     Margin="0,0,10,0" />
                     </StackPanel>
@@ -66,6 +68,8 @@
                                  Width="150">End Date:</TextBox>
                         <DatePicker x:Name="EndTime"
                                     Width="180"
+                                    Language="vi-VN"
+                                    helper:DatePickerDateFormat.DateFormat="dd/MM/yyyy"
                                     SelectedDate="{Binding EndTime}"
                                     Margin="0,0,10,0" />
                     </StackPanel>
@@ -160,7 +164,7 @@
                                             Binding="{Binding CustomerName, Mode=OneWay}" />
                         <DataGridTextColumn Header="Ngày bán"
                                             IsReadOnly="True"
-                                            Binding="{Binding PurchasedTime, Mode=OneWay}" />
+                                            Binding="{Binding PurchasedTime, Mode=OneWay, StringFormat='{}{0:dd.MM.yyyy HH&quot;H&quot;mm&quot;M&quot;}'}" />
                         <DataGridTextColumn Header="Combo ID"
                                             IsReadOnly="True"
                                             Binding="{Binding ComboId, Mode=OneWay}" />
@@ -169,7 +173,7 @@
                                             Binding="{Binding Number, Mode=OneWay}" />
                         <DataGridTextColumn Header="Tổng tiền"
                                             IsReadOnly="True"
-                                            Binding="{Binding TotalAmount, Mode=OneWay}" />
+                                            Binding="{Binding TotalAmount, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

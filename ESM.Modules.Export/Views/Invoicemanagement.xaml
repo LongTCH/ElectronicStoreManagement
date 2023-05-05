@@ -6,6 +6,7 @@
              mc:Ignorable="d"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:helper="clr-namespace:ESM.Core.Helper;assembly=ESM.Core"
              xmlns:viewmodels="clr-namespace:ESM.Modules.Export.ViewModels"
              prism:ViewModelLocator.AutoWireViewModel="True"
              d:DataContext="{d:DesignInstance viewmodels:InvoiceManagementViewModel}"
@@ -54,6 +55,8 @@
                                  FontSize="13">Start Date:</TextBox>
                         <DatePicker x:Name="StartTime"
                                     Width="180"
+                                    Language="vi-VN"
+                                    helper:DatePickerDateFormat.DateFormat="dd/MM/yyyy"
                                     SelectedDate="{Binding StartTime}"
                                     Margin="0,0,10,0" />
                     </StackPanel>
@@ -65,6 +68,8 @@
                                  Width="150">End Date:</TextBox>
                         <DatePicker x:Name="EndTime"
                                     Width="180"
+                                    Language="vi-VN"
+                                    helper:DatePickerDateFormat.DateFormat="dd/MM/yyyy"
                                     SelectedDate="{Binding EndTime}"
                                     Margin="0,0,10,0" />
                     </StackPanel>
@@ -73,7 +78,8 @@
                             HorizontalAlignment="Center" />
                 </StackPanel>
             </Grid>
-            <Grid Grid.Column="1">
+            <Grid Grid.Column="1"
+                  Margin="0,20,0,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="*" />
@@ -83,7 +89,7 @@
                 <TextBlock Text="Chi tiết hoá đơn"
                            IsEnabled="False"
                            HorizontalAlignment="Left"
-                           FontSize="18"
+                           FontSize="24"
                            Foreground="#FF68BD2C"
                            FontFamily="Arial" />
                 <!-- Invoice details -->
@@ -126,7 +132,7 @@
                            Grid.Row="2"
                            IsEnabled="False"
                            HorizontalAlignment="Left"
-                           FontSize="18"
+                           FontSize="24"
                            Foreground="#FF68BD2C"
                            FontFamily="Arial" />
                 <DataGrid MinWidth="800"
