@@ -30,6 +30,9 @@ namespace ESM.Modules.Export
             _regionManager.RegisterViewWithContentRegion<ImportBillView>();
             
             _regionManager.RegisterViewWithContentRegion<Invoicemanagement>();
+            _regionManager.RegisterViewWithContentRegion<ImportInvoice>();
+            _regionManager.RegisterViewWithContentRegion<InvoiceManagementWorkplace>();
+            _regionManager.RegisterViewWithContentRegion<InvoiceComboMangament>();
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
@@ -39,6 +42,9 @@ namespace ESM.Modules.Export
             containerRegistry.RegisterForNavigation<ImportBillView, ImportBillViewModel>(ViewNames.ImportBillView);
 
             containerRegistry.RegisterForNavigation<Invoicemanagement, InvoiceManagementViewModel>(ViewNames.Invoicemanagement);
+            containerRegistry.RegisterForNavigation<ImportInvoice, ImportInvoiceViewModel>(ViewNames.Invoicemanagement);
+            containerRegistry.RegisterForNavigation<InvoiceComboMangament, InvoiceComboMangamentViewModel>(ViewNames.InvoiceComboMangament);
+            containerRegistry.RegisterForNavigation<InvoiceManagementWorkplace, InvoiceManagementWorkplaceViewModel>(ViewNames.InvoiceManagementWorkplace);
         }
     }
 }

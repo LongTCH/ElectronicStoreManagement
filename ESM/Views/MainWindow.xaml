@@ -63,7 +63,7 @@
                                          Margin="50,0,0,0" />
         <mah:HamburgerMenu x:Name="HamburgerMenuControl"
                            DisplayMode="CompactOverlay"
-                           OpenPaneLength="200"
+                           OpenPaneLength="210"
                            SelectedIndex="{Binding Index, UpdateSourceTrigger=PropertyChanged}"
                            ItemTemplate="{StaticResource MenuItemTemplate}"
                            OptionsItemTemplate="{StaticResource HamburgerOptionsMenuItem}"
@@ -140,7 +140,7 @@
                                                         Kind="AreaChart" />
                         </mah:HamburgerMenuIconItem.Icon>
                     </mah:HamburgerMenuIconItem>
-                    <mah:HamburgerMenuIconItem Label="Nhà phân phối"
+                    <mah:HamburgerMenuIconItem Label="Quản lí nhà phân phối"
                                                IsVisible="{Binding }"
                                                Command="{Binding NavigateCommand}"
                                                CommandParameter="{x:Static esmcore:ViewNames.DistributorView}">
@@ -148,6 +148,16 @@
                             <iconPacks:PackIconVaadinIcons Kind="Package"
                                                            Width="22"
                                                            Height="22" />
+                        </mah:HamburgerMenuIconItem.Icon>
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem Label="Quản lí hóa đơn"
+                                               IsVisible="{Binding }"
+                                               Command="{Binding NavigateCommand}"
+                                               CommandParameter="{x:Static esmcore:ViewNames.InvoiceManagementWorkplace}">
+                        <mah:HamburgerMenuIconItem.Icon>
+                            <iconPacks:PackIconRemixIcon Kind="BillFill"
+                                                         Width="22"
+                                                         Height="22" />
                         </mah:HamburgerMenuIconItem.Icon>
                     </mah:HamburgerMenuIconItem>
                 </mah:HamburgerMenuItemCollection>
