@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using ESM.Modules.DataAccess.Models;
+using Prism.Mvvm;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -111,6 +112,29 @@ public abstract class ProductDTO : BindableBase, IEquatable<ProductDTO>
     public override int GetHashCode()
     {
         return Id.GetHashCode();
+    }
+    public virtual void Copy(ProductDTO other)
+    {
+        Id = other.Id;
+        Price = other.Price;
+        Discount = other.Discount;
+        Name = other.Name;
+        Remain = other.Remain;
+        DetailPath = other.DetailPath;
+        AvatarPath = other.AvatarPath;
+        ImagePath = other.ImagePath;
+        Company = other.Company;
+        IdExist = other.IdExist;
+        InMemory = true;
+        RaisePropertyChanged(nameof(Id));
+        RaisePropertyChanged(nameof(Name));
+        RaisePropertyChanged(nameof(Remain));
+        RaisePropertyChanged(nameof(Price));
+        RaisePropertyChanged(nameof(Discount));
+        RaisePropertyChanged(nameof(DiscountShow));
+        RaisePropertyChanged(nameof(Company));
+        RaisePropertyChanged(nameof(SellPrice));
+        RaisePropertyChanged(nameof(IdExist));
     }
     void ValidateProperty<TProp>(TProp value, string name)
     {

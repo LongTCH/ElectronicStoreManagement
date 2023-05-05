@@ -52,4 +52,19 @@ public partial class Monitor : ProductDTO
             InMemory = false;
         }
     }
+    public override void Copy(ProductDTO other)
+    {
+        var o = (Monitor)other;
+        Size = o.Size;
+        Panel = o.Panel;
+        RefreshRate = o.RefreshRate;
+        Need = o.Need;
+        Series = o.Series;
+        RaisePropertyChanged(nameof(Size));
+        RaisePropertyChanged(nameof(Panel));
+        RaisePropertyChanged(nameof(RefreshRate));
+        RaisePropertyChanged(nameof(Need));
+        RaisePropertyChanged(nameof(Series));
+        base.Copy(other);
+    }
 }

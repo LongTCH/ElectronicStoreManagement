@@ -24,45 +24,44 @@
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Row="0"
+                        Margin="40"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center">
-                <TextBlock Text="THÔNG TIN NHÀ CUNG CẤP"
+                <TextBlock Text="THÔNG TIN NHÀ PHÂN PHỐI"
                            IsEnabled="False"
                            HorizontalAlignment="Center"
                            FontSize="25"
                            Foreground="Black"
                            FontFamily="Arial Black" />
                 <DockPanel HorizontalAlignment="Right">
-                    <TextBox Margin="30,5"
-                             IsEnabled="False"
-                             FontWeight="Bold"
-                             FontSize="18"
-                             VerticalAlignment="Center"
-                             Width="180">Mã Nhà Cung Cấp:</TextBox>
+                    <TextBlock Margin="30,5"
+                               FontWeight="Bold"
+                               FontSize="18"
+                               VerticalAlignment="Center"
+                               Width="180">Mã Nhà Phân Phối:</TextBlock>
                     <TextBox Margin="5"
                              Text="{Binding ElementName=myDatagrid,Path=SelectedItem.Id}"
                              Width="200"
+                             IsReadOnly="True"
                              VerticalAlignment="Center" />
                 </DockPanel>
                 <DockPanel HorizontalAlignment="Right">
-                    <TextBox Margin="30,5"
-                             IsEnabled="False"
-                             FontWeight="Bold"
-                             FontSize="18"
-                             VerticalAlignment="Center"
-                             Width="180">Tên Nhà Cung Cấp:</TextBox>
+                    <TextBlock Margin="30,5"
+                               FontWeight="Bold"
+                               FontSize="18"
+                               VerticalAlignment="Center"
+                               Width="180">Tên Nhà Phân Phối:</TextBlock>
                     <TextBox Margin="5"
                              Width="200"
                              Text="{Binding ElementName=myDatagrid,Path=SelectedItem.ProviderName}"
                              VerticalAlignment="Center" />
                 </DockPanel>
                 <DockPanel HorizontalAlignment="Right">
-                    <TextBox Margin="30,5"
-                             IsEnabled="False"
-                             FontWeight="Bold"
-                             FontSize="18"
-                             VerticalAlignment="Center"
-                             Width="180">Điện Thoại:</TextBox>
+                    <TextBlock Margin="30,5"
+                               FontWeight="Bold"
+                               FontSize="18"
+                               VerticalAlignment="Center"
+                               Width="180">Điện Thoại:</TextBlock>
                     <TextBox Margin="5"
                              Text="{Binding ElementName=myDatagrid,Path=SelectedItem.Phone, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                              Width="200"
@@ -87,8 +86,8 @@
                         Width="100"
                         Margin="5"
                         Background="Red"
-                        Command="{Binding DeleteCommand}" 
-                        CommandParameter="{Binding ElementName=myDatagrid, Path=SelectedItem}"/>
+                        Command="{Binding DeleteCommand}"
+                        CommandParameter="{Binding ElementName=myDatagrid, Path=SelectedItem}" />
             </Grid>
         </Grid>
         <Grid Grid.Row="1">
@@ -103,8 +102,8 @@
                     Content="LƯU"
                     Background="Blue"
                     HorizontalAlignment="Center"
-                    Command="{Binding SaveCommand}" 
-                    CommandParameter="{Binding ElementName=myDatagrid, Path=SelectedItem}"/>
+                    Command="{Binding SaveCommand}"
+                    CommandParameter="{Binding ElementName=myDatagrid, Path=SelectedItem}" />
             <Button Grid.Column="2"
                     Content="HỦY"
                     Background="Gray"
@@ -116,6 +115,8 @@
                   ItemsSource="{Binding Providers}"
                   x:Name="myDatagrid"
                   MinWidth="600"
+                  Height="400"
+                  Background="Transparent"
                   AutoGenerateColumns="False"
                   CanUserAddRows="False"
                   CanUserDeleteRows="False"
@@ -126,11 +127,17 @@
                   ScrollViewer.CanContentScroll="True"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"
                   ScrollViewer.HorizontalScrollBarVisibility="Auto">
+            <DataGrid.Style>
+                <Style TargetType="DataGrid">
+                    <Setter Property="FontSize"
+                            Value="20" />
+                </Style>
+            </DataGrid.Style>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Mã nhà cung cấp"
+                <DataGridTextColumn Header="Mã nhà phân phối"
                                     IsReadOnly="True"
                                     Binding="{Binding Id}" />
-                <DataGridTextColumn Header="Tên nhà cung cấp"
+                <DataGridTextColumn Header="Tên nhà phân phối"
                                     IsReadOnly="True"
                                     Binding="{Binding ProviderName}" />
                 <DataGridTextColumn Header="Điện thoại"

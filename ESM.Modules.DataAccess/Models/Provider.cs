@@ -26,6 +26,19 @@ public partial class Provider : BindableBase, IEquatable<Provider>
         if (other is null) return false;
         return Id == other.Id;
     }
+    public override string ToString()
+    {
+        return Id + " " + ProviderName;
+    }
+    public void Copy(Provider other)
+    {
+        Id = other.Id;
+        ProviderName = other.ProviderName;
+        Phone = other.Phone;
+        RaisePropertyChanged(nameof(Id));
+        RaisePropertyChanged(nameof(ProviderName));
+        RaisePropertyChanged(nameof(Phone));
+    }
     void ValidateProperty<TProp>(TProp value, string name)
     {
         Validator.ValidateProperty(value, new ValidationContext(this, null, null)

@@ -29,13 +29,15 @@ namespace ESM.Modules.Export.Views
             _accountStore = accountStore;
             InitializeComponent();
             DataContext = this;
+            StaffId = accountStore.CurrentAccount.Id;
             CustomerPhone = phone;
             CustomerName = customerName;
             ListProduct = list;
             TotalAmount = totalAmount;
             SellDay = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString();
-            this.Height = 600 + 70 * ListProduct.Count;
+            this.Height = 650 + 70 * ListProduct.Count;
         }
+        public string StaffId { get;set; } 
         public string BillId { get; set; } = null;
         public string SellDay { get; set; }
         public string CustomerName { get; set; }

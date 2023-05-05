@@ -58,10 +58,10 @@ namespace ESM.Modules.Import.ViewModels
             {
                 if (await _unitOfWork.Providers.IsIdExist(provider.Id.ToString()))
                 {
-                    Providers[Providers.IndexOf(provider)] = await _unitOfWork.Providers.GetById(provider.Id.ToString());
+                    Providers[Providers.IndexOf(provider)].Copy(await _unitOfWork.Providers.GetById(provider.Id.ToString()));
                 }
-                else Providers[Providers.IndexOf(provider)] = new() { Id = provider.Id };
-                Providers.Refresh();
+                else Providers[Providers.IndexOf(provider)].Copy(new() { Id = provider.Id });
+
             }
         }
         private async Task saveCommand(Provider provider)
@@ -88,10 +88,6 @@ namespace ESM.Modules.Import.ViewModels
                     if (res) _modalService.ShowModal(ModalType.Information, "Thêm thành công", "Thông báo");
                     else _modalService.ShowModal(ModalType.Error, "Có lỗi xảy ra", "Thất bại");
                 }
-                if (res)
-                {
-                    Providers.Refresh();
-                }
             }
         }
 
@@ -106,25 +102,24 @@ namespace ESM.Modules.Import.ViewModels
                     await _unitOfWork.Providers.Delete(provider.Id.ToString());
                 }
                 Providers.Remove(provider);
-                Providers.Refresh();
             }
         }
-            public async void OnNavigatedTo(NavigationContext navigationContext)
-            {
-                Providers = new();
-                var list = await _unitOfWork.Providers.GetAll();
-                foreach (var item in list) Providers.Add(item);
-            }
-
-            public bool IsNavigationTarget(NavigationContext navigationContext)
-            {
-                return true;
-            }
-
-            public void OnNavigatedFrom(NavigationContext navigationContext)
-            {
-
-            }
+        public async void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            Providers = new();
+            var list = await _unitOfWork.Providers.GetAll();
+            foreach (var item in list) Providers.Add(item);
         }
 
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+
+        }
     }
+
+}

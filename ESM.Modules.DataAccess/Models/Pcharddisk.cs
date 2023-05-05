@@ -43,4 +43,17 @@ public partial class Pcharddisk : ProductDTO
             InMemory = false;
         }
     }
+    public override void Copy(ProductDTO other)
+    {
+        var o =(Pcharddisk)other;
+        Storage = o.Storage;
+        Connect = o.Connect;
+        Type = o.Type;
+        Series = o.Series;
+        RaisePropertyChanged(nameof(Storage));
+        RaisePropertyChanged(nameof(Connect));
+        RaisePropertyChanged(nameof(Type));
+        RaisePropertyChanged(nameof(Series));
+        base.Copy(other);
+    }
 }

@@ -43,4 +43,17 @@ public partial class Pc : ProductDTO
             InMemory = false;
         }
     }
+    public override void Copy(ProductDTO other)
+    {
+        var o = (Pc)other;
+        Cpu = o.Cpu;
+        Ram = o.Ram;
+        Series = o.Series;
+        Need = o.Need;
+        RaisePropertyChanged(nameof(Cpu));
+        RaisePropertyChanged(nameof(Series));
+        RaisePropertyChanged(nameof(Ram));
+        RaisePropertyChanged(nameof(Need));
+        base.Copy(other);
+    }
 }

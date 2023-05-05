@@ -11,7 +11,7 @@
                  Title="PrintPage"
                  FontFamily="Roboto"
                  Width="550"
-                 MinHeight="600"
+                 MinHeight="650"
                  Background="White">
     <StackPanel x:Name="print"
                 Height="auto">
@@ -84,6 +84,15 @@
                                FontSize="20"
                                Margin="5" />
                     <TextBlock Text="{Binding BillId}"
+                               FontSize="20"
+                               Margin="5"
+                               FontWeight="DemiBold" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Nhân viên: "
+                               FontSize="20"
+                               Margin="5" />
+                    <TextBlock Text="{Binding StaffId}"
                                FontSize="20"
                                Margin="5"
                                FontWeight="DemiBold" />

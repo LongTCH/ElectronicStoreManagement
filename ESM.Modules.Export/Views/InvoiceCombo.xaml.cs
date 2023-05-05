@@ -7,7 +7,6 @@ using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -30,7 +29,8 @@ namespace ESM.Modules.Export.Views
             _accountStore = accountStore;
             InitializeComponent();
             DataContext = this;
-            CustomerPhone = phone;
+            CustomerPhone = phone; 
+            StaffId = accountStore.CurrentAccount.Id;
             CustomerName = customerName;
             ListProduct = list;
             Number = number;
@@ -38,8 +38,9 @@ namespace ESM.Modules.Export.Views
             ComboName = combo.Name;
             _combo = combo;
             SellDay = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString();
-            this.Height = 600 + 70 * ListProduct.Count;
+            this.Height = 650 + 70 * ListProduct.Count;
         }
+        public string StaffId { get; set; }
         private int Number;
         public string BillId { get; set; } = null;
         public string SellDay { get; }

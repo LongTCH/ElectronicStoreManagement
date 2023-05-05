@@ -1,4 +1,6 @@
-﻿namespace ESM.Modules.DataAccess.Models;
+﻿using System.Numerics;
+
+namespace ESM.Modules.DataAccess.Models;
 
 public partial class Vga : ProductDTO
 {
@@ -52,5 +54,20 @@ public partial class Vga : ProductDTO
             InMemory = false;
         }
     }
+    public override void Copy(ProductDTO o)
+    {
+        var other = (Vga)o;
+        Series = other.Series;
+        Gen = other.Gen;
+        Chip = other.Chip;
+        Chipset = other.Chipset;
+        Vram = other.Vram;
+        RaisePropertyChanged(nameof(Chip));
+        RaisePropertyChanged(nameof(Chipset));
+        RaisePropertyChanged(nameof(Vram));
+        RaisePropertyChanged(nameof(Gen));
+        RaisePropertyChanged(nameof(Series));
 
+        base.Copy(o);
+    }
 }

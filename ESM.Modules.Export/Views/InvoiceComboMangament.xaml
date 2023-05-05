@@ -162,6 +162,9 @@
                         <DataGridTextColumn Header="Tên khách hàng"
                                             IsReadOnly="True"
                                             Binding="{Binding CustomerName, Mode=OneWay}" />
+                        <DataGridTextColumn Header="Mã nhân viên bán hàng"
+                                            IsReadOnly="True"
+                                            Binding="{Binding StaffId, Mode=OneWay}" />
                         <DataGridTextColumn Header="Ngày bán"
                                             IsReadOnly="True"
                                             Binding="{Binding PurchasedTime, Mode=OneWay, StringFormat='{}{0:dd.MM.yyyy HH&quot;H&quot;mm&quot;M&quot;}'}" />
