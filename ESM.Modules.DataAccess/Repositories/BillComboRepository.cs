@@ -56,7 +56,9 @@ namespace ESM.Modules.DataAccess.Repositories
         public async Task<IEnumerable<BillCombo>?> GetAll(DateTime start, DateTime end)
         {
             using var _context = new ESMDbContext();
-            return await _context.BillCombos.Include(x => x.Combo).AsNoTracking().ToListAsync();
+            return await _context.BillCombos.Include(x => x.Combo)
+                .Where(x => x.PurchasedTime.Date >= start.Date && x.PurchasedTime.Date <= end.Date)
+                .AsNoTracking().ToListAsync();
         }
     }
 }

@@ -118,7 +118,7 @@
                                                            VerticalAlignment="Center" />
                         </mah:HamburgerMenuIconItem.Icon>
                     </mah:HamburgerMenuIconItem>
-                    <mah:HamburgerMenuIconItem Label="Bán hàng"
+                    <mah:HamburgerMenuIconItem Label="Quản lí bán hàng"
                                                IsVisible="{Binding }"
                                                Command="{Binding NavigateCommand}"
                                                CommandParameter="{x:Static esmcore:ViewNames.InputSellView}">

@@ -15,7 +15,6 @@ namespace ESM.Modules.Export.ViewModels
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IModalService _modalService;
-        public string Header => "";
 
         private ObservableCollection<Bill> _bills;
         private DateTime _startDate;

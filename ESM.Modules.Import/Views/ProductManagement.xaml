@@ -88,18 +88,5 @@
                                               Width="40"
                                               Height="40" />
         </mah:Tile>
-        <mah:Tile Title="Quản lí hóa đơn"
-                  Grid.Column="1"
-                  Grid.Row="1"
-                  Background="#D2691E"
-                  Command="{Binding NavigateCommand}"
-                  CommandParameter="{x:Static esmcore:ViewNames.PCCPUView}"
-                  mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
-                  HorizontalTitleAlignment="Right"
-                  Style="{StaticResource LargeTileStyle}">
-            <iconPacks:PackIconBootstrapIcons Kind="Cpu"
-                                              Width="40"
-                                              Height="40" />
-        </mah:Tile>
     </Grid>
 </UserControl>

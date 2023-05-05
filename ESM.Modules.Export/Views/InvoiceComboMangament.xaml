@@ -55,6 +55,7 @@
                         <DatePicker x:Name="StartTime"
                                     Width="180"
                                     Language="vi-VN"
+                                    FontSize="20"
                                     helper:DatePickerDateFormat.DateFormat="dd/MM/yyyy"
                                     SelectedDate="{Binding StartTime}"
                                     Margin="0,0,10,0" />
@@ -69,6 +70,7 @@
                         <DatePicker x:Name="EndTime"
                                     Width="180"
                                     Language="vi-VN"
+                                    FontSize="20"
                                     helper:DatePickerDateFormat.DateFormat="dd/MM/yyyy"
                                     SelectedDate="{Binding EndTime}"
                                     Margin="0,0,10,0" />

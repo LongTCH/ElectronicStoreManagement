@@ -3,14 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:viewmodels="clr-namespace:ESM.Modules.Export.ViewModels"
+             d:DataContext="{d:DesignInstance viewmodels:ImportInvoiceViewModel}"
              xmlns:helper="clr-namespace:ESM.Core.Helper;assembly=ESM.Core"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:ESM.Modules.Export.Views"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             mc:Ignorable="d"
-             d:DesignHeight="450"
-             d:DesignWidth="800">
+             Background="White">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
@@ -50,9 +52,12 @@
                              BorderBrush="White"
                              Background="White"
                              Width="150"
-                             FontSize="13">Start Date:</TextBox>
+                             FontSize="20">Start Date:</TextBox>
                     <DatePicker x:Name="StartTime"
                                 Width="180"
+                                Language="vi-VN"
+                                FontSize="20"
+                                helper:DatePickerDateFormat.DateFormat="dd/MM/yyyy"
                                 SelectedDate="{Binding StartTime}"
                                 Margin="0,0,10,0" />
                 </StackPanel>
@@ -60,10 +65,14 @@
                     <TextBox Margin="5"
                              HorizontalAlignment="Left"
                              IsEnabled="False"
+                             FontSize="20"
                              BorderBrush="White"
                              Width="150">End Date:</TextBox>
                     <DatePicker x:Name="EndTime"
                                 Width="180"
+                                Language="vi-VN"
+                                FontSize="20"
+                                helper:DatePickerDateFormat.DateFormat="dd/MM/yyyy"
                                 SelectedDate="{Binding EndTime}"
                                 Margin="0,0,10,0" />
                 </StackPanel>
@@ -72,7 +81,8 @@
                         HorizontalAlignment="Center" />
             </StackPanel>
         </Grid>
-        <Grid Grid.Column="1">
+        <Grid Grid.Column="1"
+              Margin="0,20,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
@@ -81,79 +91,103 @@
             </Grid.RowDefinitions>
             <TextBlock Text="Chi tiết hoá đơn nhập"
                        IsEnabled="False"
-                       HorizontalAlignment="Center"
-                       FontSize="18"
+                       HorizontalAlignment="Left"
+                       FontSize="24"
                        Foreground="#FF68BD2C"
                        FontFamily="Arial" />
             <!-- Invoice details -->
             <DataGrid x:Name="InvoiceDataGrid"
+                      ItemsSource="{Binding BillProducts}"
                       Margin="5"
                       Grid.Row="1"
                       MinWidth="600"
+                      Height="400"
+                      Background="Transparent"
                       AutoGenerateColumns="False"
                       CanUserAddRows="False"
                       CanUserDeleteRows="False"
                       CanUserReorderColumns="False"
-                      HorizontalAlignment="Center"
+                      HorizontalAlignment="Left"
                       VerticalGridLinesBrush="DeepSkyBlue"
                       HorizontalGridLinesBrush="DeepSkyBlue">
+                <DataGrid.Style>
+                    <Style TargetType="DataGrid">
+                        <Setter Property="FontSize"
+                                Value="20" />
+                    </Style>
+                </DataGrid.Style>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Mã hoá đơn"
-                                        Binding="{Binding InvoiceNumber}" />
                     <DataGridTextColumn Header="Mã sản phẩm"
-                                        Binding="{Binding ProductNumber}" />
-                    <DataGridTextColumn Header="Tên sản phẩm"
-                                        Binding="{Binding CustomerName}" />
-                    <DataGridTextColumn Header="Đơn giá"
-                                        Binding="{Binding Price}" />
+                                        Binding="{Binding ProductId}" />
+                    <DataGridTextColumn Header="Giá nhập kho"
+                                        Binding="{Binding SellPrice, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
                     <DataGridTextColumn Header="Số lượng"
                                         Binding="{Binding Number}" />
-                    <DataGridTextColumn Header="Ngày nhập"
-                                        Binding="{Binding InvoiceDate}" />
+                    <DataGridTextColumn Header="Đơn vị"
+                                        Binding="{Binding Unit}" />
+                    <DataGridTextColumn Header="Thành tiền"
+                                        Binding="{Binding Amount, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
                     <DataGridTextColumn Header="Bảo hành"
                                         Binding="{Binding Warranty}" />
-                    <DataGridTextColumn Header="Tổng tiền"
-                                        Binding="{Binding TotalAmount}" />
                 </DataGrid.Columns>
             </DataGrid>
             <TextBlock Text="Danh sách hoá đơn nhập"
                        Grid.Row="2"
                        IsEnabled="False"
-                       HorizontalAlignment="Center"
-                       FontSize="18"
+                       HorizontalAlignment="Left"
+                       FontSize="24"
                        Foreground="#FF68BD2C"
                        FontFamily="Arial" />
-            <DataGrid MinWidth="600"
+            <DataGrid MinWidth="800"
+                      Height="400"
+                      ItemsSource="{Binding Bills}"
                       Grid.Row="4"
+                      Background="Transparent"
                       AutoGenerateColumns="False"
                       CanUserAddRows="False"
                       CanUserDeleteRows="False"
                       CanUserReorderColumns="False"
-                      HorizontalAlignment="Center"
+                      HorizontalAlignment="Left"
                       VerticalGridLinesBrush="DeepSkyBlue"
                       HorizontalGridLinesBrush="DeepSkyBlue"
                       ScrollViewer.CanContentScroll="True"
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
                       ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                      x:Name="InvoiceListGrid"
-                      helper:DataGridBehavior.RowNumbers="True">
+                      x:Name="InvoiceListGrid">
+                <DataGrid.Style>
+                    <Style TargetType="DataGrid">
+                        <Setter Property="FontSize"
+                                Value="20" />
+                    </Style>
+                </DataGrid.Style>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding ShowCommand}"
+                                               CommandParameter="{Binding ElementName=InvoiceListGrid, Path=SelectedItem.ImportProducts}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="STT"
+                    <DataGridTextColumn Header="Mã nhập"
                                         IsReadOnly="True"
-                                        Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}},
-                                        Path=Header}" />
-                    <DataGridTextColumn Header="Mã Hoá Đơn"
+                                        Binding="{Binding Id, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Mã hóa đơn nhập"
                                         IsReadOnly="True"
-                                        Binding="{Binding InvoiceNumber, Mode=OneWay}" />
-                    <DataGridTextColumn Header="Tên sản phẩm"
+                                        Binding="{Binding ProviderBillId, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Mã nhà phân phối"
                                         IsReadOnly="True"
-                                        Binding="{Binding ProductName, Mode=OneWay}" />
+                                        Binding="{Binding ProviderId, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Tên nhà phân phối"
+                                        IsReadOnly="True"
+                                        Binding="{Binding Provider.ProviderName, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Mã nhân viên nhập hàng"
+                                        IsReadOnly="True"
+                                        Binding="{Binding StaffId, Mode=OneWay}" />
                     <DataGridTextColumn Header="Ngày nhập"
                                         IsReadOnly="True"
-                                        Binding="{Binding InvoiceDate, Mode=OneWay}" />
+                                        Binding="{Binding ImportDate, Mode=OneWay, StringFormat='{}{0:dd.MM.yyyy}'}" />
                     <DataGridTextColumn Header="Tổng tiền"
                                         IsReadOnly="True"
-                                        Binding="{Binding TotalAmount, Mode=OneWay}" />
+                                        Binding="{Binding TotalAmount, Mode=OneWay,StringFormat={StaticResource CurrencyFormat}}" />
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

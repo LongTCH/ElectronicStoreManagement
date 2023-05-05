@@ -9,15 +9,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             d:DesignHeight="450"
-             d:DesignWidth="800"
+             Background="White"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
-        <Grid>
+        <Grid HorizontalAlignment="Center"
+              Margin="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*" />
                 <RowDefinition Height="3*" />
@@ -30,7 +30,7 @@
                            FontSize="25"
                            Foreground="Black"
                            FontFamily="Arial Black" />
-                <TextBlock Text="BÁN HÀNG"
+                <TextBlock Text="BÁN COMBO"
                            IsEnabled="False"
                            HorizontalAlignment="Center"
                            FontSize="25"
@@ -41,7 +41,7 @@
                 <TextBlock Text="Thông Tin Khách Hàng"
                            IsEnabled="False"
                            HorizontalAlignment="Center"
-                           FontSize="20"
+                           FontSize="24"
                            Foreground="#FF68BD2C"
                            FontFamily="Arial" />
                 <StackPanel>
@@ -51,20 +51,23 @@
                              BorderBrush="White"
                              Background="White"
                              Width="150"
-                             FontSize="13">Tên khách hàng:</TextBox>
+                             FontSize="20">Tên khách hàng:</TextBox>
                     <TextBox Margin="5"
                              HorizontalAlignment="Left"
                              Width="200"
+                             FontSize="20"
                              Text="{Binding CustomerName, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
                 <StackPanel>
                     <TextBox Margin="5"
                              HorizontalAlignment="Left"
                              IsEnabled="False"
+                             FontSize="20"
                              BorderBrush="White"
                              Width="150">Điện thoại:</TextBox>
                     <TextBox Margin="5"
                              Width="200"
+                             FontSize="20"
                              HorizontalAlignment="Left"
                              Text="{Binding CustomerPhone, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" />
                 </StackPanel>
@@ -81,7 +84,7 @@
             <TextBlock Text="Danh Sách Sản Phẩm"
                        IsEnabled="False"
                        HorizontalAlignment="Center"
-                       FontSize="20"
+                       FontSize="24"
                        Foreground="#FF68BD2C"
                        FontFamily="Arial" />
             <StackPanel Grid.Row="1"
@@ -91,6 +94,7 @@
                 <ComboBox Cursor="Hand"
                           Margin="5"
                           Width="300"
+                          FontSize="20"
                           x:Name="combo"
                           ItemsSource="{Binding ComboList}"
                           Style="{StaticResource MahApps.Styles.ComboBox.Virtualized}"
@@ -105,6 +109,7 @@
                                    VerticalAlignment="Center" />
                 <Button Content="Chọn"
                         Margin="5"
+                        FontSize="20"
                         Cursor="Hand"
                         Background="LightBlue"
                         Style="{StaticResource MahApps.Styles.Button.Flat}"
@@ -112,13 +117,15 @@
                         CommandParameter="{Binding ElementName=combo, Path=SelectedItem}" />
             </StackPanel>
             <DataGrid ItemsSource="{Binding ProductBillList}"
-                      MinWidth="600"
+                      Background="Transparent"
+                      MinWidth="1000"
                       Grid.Row="2"
                       AutoGenerateColumns="False"
                       CanUserAddRows="False"
                       CanUserDeleteRows="False"
                       CanUserReorderColumns="False"
                       HorizontalAlignment="Center"
+                      FontSize="20"
                       VerticalGridLinesBrush="DeepSkyBlue"
                       HorizontalGridLinesBrush="DeepSkyBlue"
                       ScrollViewer.CanContentScroll="True"
@@ -153,7 +160,7 @@
                             HorizontalAlignment="Center"
                             Orientation="Horizontal">
                     <TextBlock Text="{Binding Discount, StringFormat='Giảm giá: {0}%'}"
-                               FontSize="18"
+                               FontSize="20"
                                FontWeight="Black"
                                VerticalAlignment="Center"
                                Margin="30, 0, 0 ,0" />
@@ -163,23 +170,25 @@
                             HorizontalAlignment="Center"
                             Orientation="Horizontal">
                     <TextBlock Text="Tổng tiền:"
-                               FontSize="18"
+                               FontSize="20"
                                FontWeight="Black"
                                VerticalAlignment="Center"
                                Margin="30, 0, 0 ,0" />
                     <materialDesign:Card Margin="3">
                         <TextBox  VerticalAlignment="Center"
                                   Width="300"
+                                  FontSize="20"
                                   Text="{Binding SellPrice, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}"
                                   BorderThickness="0"
-                                  FontSize="18"
                                   IsEnabled="False" />
                     </materialDesign:Card>
                     <Button Content="HỦY"
+                            FontSize="20"
                             Margin="30,0,0,0"
                             Background="IndianRed"
                             Command="{Binding CancelCommand}" />
                     <Button Content="XEM HÓA ĐƠN"
+                            FontSize="20"
                             Background="DarkOliveGreen"
                             Command="{Binding PayCommand}"
                             Margin="40,0,0,0" />
@@ -189,7 +198,7 @@
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
                        Foreground="DarkBlue"
-                       FontSize="16"
+                       FontSize="20"
                        Margin="0,0,0,10"
                        Text="{Binding TextFormPrice, Mode=OneWay}" />
         </Grid>
