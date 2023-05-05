@@ -7,7 +7,7 @@ public partial class Vga : ProductDTO
     private string? chip;
     public string? Chip
     {
-        get => chip;
+        get => chip?.Trim();
         set
         {
             chip = value;
@@ -17,7 +17,7 @@ public partial class Vga : ProductDTO
     private string? chipset;
     public string? Chipset
     {
-        get => chipset;
+        get => chipset?.Trim();
         set
         {
             chipset = value;
@@ -27,7 +27,7 @@ public partial class Vga : ProductDTO
     private string? vram;
     public string? Vram
     {
-        get => vram;
+        get => vram?.Trim();
         set
         {
             vram = value;
@@ -37,7 +37,7 @@ public partial class Vga : ProductDTO
     private string? gen;
     public string? Gen
     {
-        get => gen;
+        get => gen?.Trim();
         set
         {
             gen = value;
@@ -47,7 +47,7 @@ public partial class Vga : ProductDTO
     private string? serires;
     public string? Series
     {
-        get => serires;
+        get => serires?.Trim();
         set
         {
             serires = value;

@@ -6,7 +6,7 @@ public partial class Pcharddisk : ProductDTO
     private string? storage;
     public string? Storage
     {
-        get => storage;
+        get => storage?.Trim();
         set
         {
             storage = value;
@@ -16,7 +16,7 @@ public partial class Pcharddisk : ProductDTO
     private string? connect;
     public string? Connect
     {
-        get => connect;
+        get => connect?.Trim();
         set
         {
             connect = value;
@@ -26,7 +26,7 @@ public partial class Pcharddisk : ProductDTO
     private string? type;
     public string? Type
     {
-        get => type;
+        get => type?.Trim();
         set
         {
             type = value;
@@ -36,7 +36,7 @@ public partial class Pcharddisk : ProductDTO
     private string? serires;
     public string? Series
     {
-        get => serires;
+        get => serires?.Trim();
         set
         {
             serires = value;

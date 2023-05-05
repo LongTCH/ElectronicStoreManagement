@@ -66,7 +66,7 @@ public abstract class ProductDTO : BindableBase, IEquatable<ProductDTO>
     private string? company;
     public string? Company
     {
-        get => company;
+        get => company?.Trim();
         set
         {
             company = value;
@@ -79,7 +79,7 @@ public abstract class ProductDTO : BindableBase, IEquatable<ProductDTO>
     private string? unit;
     public string? Unit
     {
-        get => unit;
+        get => unit.Trim();
         set
         {
             unit = value;

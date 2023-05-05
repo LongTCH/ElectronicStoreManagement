@@ -55,7 +55,12 @@ namespace ESM.Modules.Export.ViewModels
         public decimal SellPrice => (SelectedCombo == null) ? 0 : SelectedCombo.SellPrice * (decimal)Number;
         public double Discount => (SelectedCombo == null) ? 0 : SelectedCombo.Discount;
         public string TextFormPrice => NumberToText.FuncNumberToText((double)SellPrice);
-        public string CustomerName { get; set; }
+        private string customerName;
+        public string CustomerName
+        {
+            get => customerName;
+            set => SetProperty(ref customerName, value);
+        }
         private string customerPhone;
         [Phone(ErrorMessage = "Số điện thoại không hợp lệ")]
         public string CustomerPhone
@@ -75,8 +80,7 @@ namespace ESM.Modules.Export.ViewModels
                 ProductBillList.Clear();
                 ComboList = null;
                 ComboList = await _unitOfWork.Combos.GetAll();
-                CustomerName = null;
-                CustomerPhone = null;
+                cancelCommand();
             }
         }
         private void addCommand(Combo combo)

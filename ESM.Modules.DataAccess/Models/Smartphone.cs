@@ -6,7 +6,7 @@ public partial class Smartphone : ProductDTO
     private string? cpu;
     public string? Cpu
     {
-        get => cpu;
+        get => cpu?.Trim();
         set
         {
             cpu = value;
@@ -16,7 +16,7 @@ public partial class Smartphone : ProductDTO
     private string? ram;
     public string? Ram
     {
-        get => ram;
+        get => ram?.Trim();
         set
         {
             ram = value;
@@ -26,7 +26,7 @@ public partial class Smartphone : ProductDTO
     private string? storage;
     public string? Storage
     {
-        get => storage;
+        get => storage?.Trim();
         set
         {
             storage = value;
@@ -36,7 +36,7 @@ public partial class Smartphone : ProductDTO
     private string? serires;
     public string? Series
     {
-        get => serires;
+        get => serires?.Trim();
         set
         {
             serires = value;
