@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Prism.Mvvm;
 using Prism.Commands;
 using ESM.Modules.DataAccess.Models;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace ESM.Modules.Export.ViewModels
@@ -26,10 +25,12 @@ namespace ESM.Modules.Export.ViewModels
             _modalService = modalService;
             GetCommand = new(async () => await getCommand());
             ShowCommand = new(showCommand);
+            FindCommand = new(findCommand);
             StartTime = DateTime.Now.AddMonths(-1);
             EndTime = DateTime.Now;
         }
         public DelegateCommand GetCommand { get; }
+        public DelegateCommand FindCommand { get; }
         public DelegateCommand<ICollection<BillProduct>> ShowCommand { get; }
         public ObservableCollection<Bill> Bills
         {
@@ -48,7 +49,9 @@ namespace ESM.Modules.Export.ViewModels
             get { return _endDate; }
             set { SetProperty(ref _endDate, value); }
         }
-
+        public string Value { get; set; }
+        public bool IsId { get; set; }
+        public bool IsName { get; set; }
         private async Task getCommand()
         {
             Bills = new();
@@ -61,6 +64,21 @@ namespace ESM.Modules.Export.ViewModels
             BillProducts = null;
             BillProducts = list;
             RaisePropertyChanged(nameof(BillProducts));
+        }
+        private async void findCommand()
+        {
+            if (IsId)
+            {
+                Bills = new();
+                var list = await _unitOfWork.Bills.GetAll(Convert.ToInt32(Value));
+                foreach (var item in list) Bills.Add(item);
+            }
+            else if (IsName)
+            {
+                Bills = new();
+                var list = await _unitOfWork.Bills.GetAll(Value);
+                foreach (var item in list) Bills.Add(item);
+            }
         }
     }
 }

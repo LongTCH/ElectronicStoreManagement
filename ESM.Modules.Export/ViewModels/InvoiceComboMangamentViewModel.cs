@@ -25,10 +25,15 @@ namespace ESM.Modules.Export.ViewModels
             _modalService = modalService;
             GetCommand = new(async () => await getCommand());
             ShowCommand = new(showCommand);
+            FindCommand = new(findCommand);
             StartTime = DateTime.Now.AddMonths(-1);
             EndTime = DateTime.Now;
         }
+        public string Value { get; set; }
+        public bool IsId { get;set; }
+        public bool IsName { get;set; }
         public DelegateCommand GetCommand { get; }
+        public DelegateCommand FindCommand { get; }
         public DelegateCommand<BillCombo> ShowCommand { get; }
         public ObservableCollection<BillCombo> Bills
         {
@@ -62,9 +67,26 @@ namespace ESM.Modules.Export.ViewModels
         }
         private void showCommand(BillCombo billCombo)
         {
-            ProductIdList = new();
-            var list = billCombo.Combo.ProductIdlist.Split(' ');
-            foreach (var item in list) ProductIdList.Add(item);
+            if (billCombo != null)
+            {
+                ProductIdList = new();
+                var list = billCombo.Combo.ProductIdlist.Split(' ');
+                foreach (var item in list) ProductIdList.Add(item);
+            }
+        }
+        private async void findCommand()
+        {
+            if (IsId)
+            {
+                Bills = new();
+                var list = await _unitOfWork.BillCombos.GetAll(Convert.ToInt32(Value));
+                foreach (var item in list) Bills.Add(item);
+            }else if(IsName)
+            {
+                Bills = new();
+                var list = await _unitOfWork.BillCombos.GetAll(Value);
+                foreach (var item in list) Bills.Add(item);
+            }
         }
     }
 }

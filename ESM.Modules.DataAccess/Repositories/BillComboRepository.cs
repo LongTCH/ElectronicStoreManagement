@@ -7,6 +7,8 @@ namespace ESM.Modules.DataAccess.Repositories
     public interface IBillComboRepository : IBaseRepository<BillCombo>
     {
         Task<bool> IsComboExistInBill(string comboId);
+        public Task<IEnumerable<BillCombo>?> GetAll(string cusName);
+        public Task<IEnumerable<BillCombo>?> GetAll(int? id);
         public Task<IEnumerable<BillCombo>?> GetAll(DateTime start, DateTime end);
     }
     public class BillComboRepository : BaseRepository<BillCombo>, IBillComboRepository
@@ -59,6 +61,25 @@ namespace ESM.Modules.DataAccess.Repositories
             return await _context.BillCombos.Include(x => x.Combo)
                 .Where(x => x.PurchasedTime.Date >= start.Date && x.PurchasedTime.Date <= end.Date)
                 .AsNoTracking().ToListAsync();
+        }
+
+        public async Task<IEnumerable<BillCombo>?> GetAll(string cusName)
+        {
+            using var _context = new ESMDbContext();
+            return await _context.BillCombos.Include(x => x.Combo)
+                .Where(x => x.CustomerName != null && x.CustomerName == cusName)
+                .AsNoTracking().ToListAsync();
+        }
+
+        public async Task<IEnumerable<BillCombo>?> GetAll(int? id)
+        {
+            if (id.HasValue)
+            {
+                using var _context = new ESMDbContext();
+                return await _context.BillCombos.Include(x => x.Combo)
+                    .Where(x => x.Id == id)
+                    .AsNoTracking().ToListAsync();
+            }else return Enumerable.Empty<BillCombo>();
         }
     }
 }

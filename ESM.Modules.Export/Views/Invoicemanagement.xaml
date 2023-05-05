@@ -140,22 +140,24 @@
                             FontSize="20"
                             Content="Tìm kiếm"
                             Background="Blue"
-                            HorizontalAlignment="Center" />
+                            HorizontalAlignment="Center"
+                            Command="{Binding FindCommand}"/>
                     <TextBox Grid.Column="1"
                              Width="300"
+                             Text="{Binding Value}"
                              Margin="20,0"
                              FontSize="20"
                              VerticalAlignment="Center" />
                     <RadioButton Grid.Column="2"
                                  Content="Mã hoá đơn"
                                  FontSize="20"
-                                 IsChecked="{Binding MaHDCheck, UpdateSourceTrigger=PropertyChanged}"
+                                 IsChecked="{Binding IsId, UpdateSourceTrigger=PropertyChanged}"
                                  FontWeight="Bold"
                                  Margin="5" />
                     <RadioButton Grid.Column="3"
-                                 Content="Mã khách hàng"
+                                 Content="Tên khách hàng"
                                  FontSize="20"
-                                 IsChecked="{Binding IsSmartphoneCheck, UpdateSourceTrigger=PropertyChanged}"
+                                 IsChecked="{Binding IsName, UpdateSourceTrigger=PropertyChanged}"
                                  FontWeight="Bold"
                                  Margin="5" />
                 </StackPanel>

@@ -8,6 +8,8 @@ namespace ESM.Modules.DataAccess.Repositories
     public interface IBillRepository : IBaseRepository<Bill>
     {
         public Task<IEnumerable<Bill>?> GetAll(DateTime start, DateTime end);
+        public Task<IEnumerable<Bill>?> GetAll(string cusName);
+        public Task<IEnumerable<Bill>?> GetAll(int? id);
         Task<bool> IsProductExistInBill(string productId);
     }
     public class BillRepository : BaseRepository<Bill>, IBillRepository
@@ -68,6 +70,25 @@ namespace ESM.Modules.DataAccess.Repositories
             return await _context.Bills.Include(x => x.BillProducts)
                 .Where(x => x.PurchasedTime.Date >= start.Date && x.PurchasedTime.Date <= end.Date)
                 .AsNoTracking().ToListAsync();
+        }
+        public async Task<IEnumerable<Bill>?> GetAll(string cusName)
+        {
+            using var _context = new ESMDbContext();
+            return await _context.Bills.Include(x => x.BillProducts)
+                .Where(x => x.CustomerName != null && x.CustomerName == cusName)
+                .AsNoTracking().ToListAsync();
+        }
+
+        public async Task<IEnumerable<Bill>?> GetAll(int? id)
+        {
+            if (id.HasValue)
+            {
+                using var _context = new ESMDbContext();
+                return await _context.Bills.Include(x => x.BillProducts)
+                    .Where(x => x.Id == id)
+                    .AsNoTracking().ToListAsync();
+            }
+            else return Enumerable.Empty<Bill>();
         }
     }
 }
