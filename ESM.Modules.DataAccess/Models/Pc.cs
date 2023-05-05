@@ -6,7 +6,7 @@ public partial class Pc : ProductDTO
     private string? cpu;
     public string? Cpu
     {
-        get => cpu;
+        get => cpu?.Trim();
         set
         {
             cpu = value;
@@ -16,7 +16,7 @@ public partial class Pc : ProductDTO
     private string? ram;
     public string? Ram
     {
-        get => ram;
+        get => ram?.Trim();
         set
         {
             ram = value;
@@ -26,7 +26,7 @@ public partial class Pc : ProductDTO
     private string? serires;
     public string? Series
     {
-        get => serires;
+        get => serires?.Trim();
         set
         {
             serires = value;
@@ -36,7 +36,7 @@ public partial class Pc : ProductDTO
     private string? need;
     public string? Need
     {
-        get => need;
+        get => need?.Trim();
         set
         {
             need = value;

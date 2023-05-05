@@ -5,7 +5,7 @@ public partial class Monitor : ProductDTO
     private string? size;
     public string? Size
     {
-        get => size;
+        get => size?.Trim();
         set
         {
             size = value;
@@ -15,7 +15,7 @@ public partial class Monitor : ProductDTO
     private string? panel;
     public string? Panel
     {
-        get => panel;
+        get => panel?.Trim();
         set
         {
             panel = value;
@@ -25,7 +25,7 @@ public partial class Monitor : ProductDTO
     private string? refreshRate;
     public string? RefreshRate
     {
-        get => refreshRate;
+        get => refreshRate?.Trim();
         set
         {
             refreshRate = value;
@@ -35,7 +35,7 @@ public partial class Monitor : ProductDTO
     private string? serires;
     public string? Series
     {
-        get => serires;
+        get => serires?.Trim();
         set
         {
             serires = value;
@@ -45,7 +45,7 @@ public partial class Monitor : ProductDTO
     private string? need;
     public string? Need
     {
-        get => need;
+        get => need?.Trim();
         set
         {
             need = value;

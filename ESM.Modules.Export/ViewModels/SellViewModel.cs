@@ -141,6 +141,7 @@ namespace ESM.Modules.Export.ViewModels
                 Category = null;
                 CustomerName = null;
                 CustomerPhone = null;
+                RaisePropertyChanged(nameof(TextFormPrice));
             }
         }
 

@@ -5,7 +5,7 @@ public partial class Pccpu : ProductDTO
     private string? socket;
     public string? Socket
     {
-        get => socket;
+        get => socket?.Trim();
         set
         {
             socket = value;
@@ -15,7 +15,7 @@ public partial class Pccpu : ProductDTO
     private string? serires;
     public string? Series
     {
-        get => serires;
+        get => serires?.Trim();
         set
         {
             serires = value;
@@ -25,7 +25,7 @@ public partial class Pccpu : ProductDTO
     private string? need;
     public string? Need
     {
-        get => need;
+        get => need?.Trim();
         set
         {
             need = value;
