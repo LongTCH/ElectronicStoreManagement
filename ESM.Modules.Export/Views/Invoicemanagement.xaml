@@ -130,6 +130,7 @@
                         <ColumnDefinition Width="1*" />
                         <ColumnDefinition Width="1*" />
                         <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
                     <Button Grid.Column="0"
                             Width="100"
@@ -137,15 +138,16 @@
                             Background="Blue"
                             HorizontalAlignment="Center"/>
                     <TextBox Grid.Column="1"
-                             MinWidth="200"
                              VerticalAlignment="Center" />
                     <RadioButton Grid.Column="2"
                                  Content="Mã hoá đơn"
+                                 Width="100"
                                  IsChecked="{Binding MaHDCheck, UpdateSourceTrigger=PropertyChanged}"
                                  FontWeight="Bold"
                                  Margin="5" />
                     <RadioButton Grid.Column="3"
                                  Content="Mã khách hàng"
+                                 Width="120"
                                  IsChecked="{Binding IsSmartphoneCheck, UpdateSourceTrigger=PropertyChanged}"
                                  FontWeight="Bold"
                                  Margin="5" />

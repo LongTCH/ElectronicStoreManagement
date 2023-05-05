@@ -130,7 +130,6 @@
                             Background="Blue"
                             HorizontalAlignment="Center" />
                     <TextBox Grid.Column="1"
-                             MinWidth="200"
                              VerticalAlignment="Center" />
                     <RadioButton Grid.Column="2"
                                  Content="Mã hoá đơn"
@@ -143,7 +142,7 @@
                                  Width="120"
                                  IsChecked="{Binding IsSmartphoneCheck, UpdateSourceTrigger=PropertyChanged}"
                                  FontWeight="Bold"
-                                 Margin="5 5 100 5" />
+                                 Margin="5" />
                 </Grid>
                 <TextBlock Text="Danh sách hoá đơn"
                            Grid.Row="3"
