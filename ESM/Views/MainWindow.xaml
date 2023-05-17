@@ -106,10 +106,10 @@
                                                        Kind="User" />
                         </mah:HamburgerMenuIconItem.Icon>
                     </mah:HamburgerMenuIconItem>
-                    <mah:HamburgerMenuIconItem Label="Quản lí sản phẩm"
-                                               IsVisible="{Binding IsTypingStaff}"
+                    <mah:HamburgerMenuIconItem Label="Trang quản lí"
+                                               IsVisible="{Binding }"
                                                Command="{Binding NavigateCommand}"
-                                               CommandParameter="{x:Static esmcore:ViewNames.ProductManagement}">
+                                               CommandParameter="{x:Static esmcore:ViewNames.ManagementView}">
                         <mah:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconFontAwesome Kind="CubesSolid"
                                                            Width="22"
@@ -118,10 +118,22 @@
                                                            VerticalAlignment="Center" />
                         </mah:HamburgerMenuIconItem.Icon>
                     </mah:HamburgerMenuIconItem>
-                    <mah:HamburgerMenuIconItem Label="Quản lí bán hàng"
-                                               IsVisible="{Binding IsSellStaff}"
+                    <mah:HamburgerMenuIconItem Label="Bán lẻ"
+                                               IsVisible="{Binding }"
                                                Command="{Binding NavigateCommand}"
-                                               CommandParameter="{x:Static esmcore:ViewNames.InputSellView}">
+                                               CommandParameter="{x:Static esmcore:ViewNames.SellView}">
+                        <mah:HamburgerMenuIconItem.Icon>
+                            <iconPacks:PackIconMaterial Kind="AccountCash"
+                                                        Width="22"
+                                                        Height="22"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center" />
+                        </mah:HamburgerMenuIconItem.Icon>
+                    </mah:HamburgerMenuIconItem>
+                    <mah:HamburgerMenuIconItem Label="Bán combo"
+                                               IsVisible="{Binding }"
+                                               Command="{Binding NavigateCommand}"
+                                               CommandParameter="{x:Static esmcore:ViewNames.ComboSellView}">
                         <mah:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconMaterial Kind="AccountCash"
                                                         Width="22"
@@ -140,20 +152,20 @@
                                                         Kind="AreaChart" />
                         </mah:HamburgerMenuIconItem.Icon>
                     </mah:HamburgerMenuIconItem>
-                    <mah:HamburgerMenuIconItem Label="Quản lí nhà phân phối"
-                                               IsVisible="{Binding IsAdmin}"
+                    <mah:HamburgerMenuIconItem Label="Thông tin sản phẩm"
+                                               IsVisible="{Binding }"
                                                Command="{Binding NavigateCommand}"
-                                               CommandParameter="{x:Static esmcore:ViewNames.DistributorView}">
+                                               CommandParameter="{x:Static esmcore:ViewNames.ProductInputView}">
                         <mah:HamburgerMenuIconItem.Icon>
-                            <iconPacks:PackIconVaadinIcons Kind="Package"
-                                                           Width="22"
-                                                           Height="22" />
+                            <iconPacks:PackIconRemixIcon Kind="BillFill"
+                                                         Width="22"
+                                                         Height="22" />
                         </mah:HamburgerMenuIconItem.Icon>
                     </mah:HamburgerMenuIconItem>
-                    <mah:HamburgerMenuIconItem Label="Quản lí hóa đơn"
-                                               IsVisible="{Binding IsAdmin}"
+                    <mah:HamburgerMenuIconItem Label="Quản lí nhập kho"
+                                               IsVisible="{Binding }"
                                                Command="{Binding NavigateCommand}"
-                                               CommandParameter="{x:Static esmcore:ViewNames.InvoiceManagementWorkplace}">
+                                               CommandParameter="{x:Static esmcore:ViewNames.ImportBillView}">
                         <mah:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconRemixIcon Kind="BillFill"
                                                          Width="22"

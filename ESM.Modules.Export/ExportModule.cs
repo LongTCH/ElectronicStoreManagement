@@ -23,28 +23,28 @@ namespace ESM.Modules.Export
             _regionManager.RegisterViewWithRegion("ReportTabRegion", typeof(ReportView)); 
             _regionManager.RegisterViewWithRegion("ReportTabRegion", typeof(TopSellingReport));
             _regionManager.RegisterViewWithRegion("ReportTabRegion", typeof(Revenue));
-            _regionManager.RegisterViewWithRegion("SellTabRegion", typeof(SellView));
-            _regionManager.RegisterViewWithRegion("SellTabRegion", typeof(ComboSellView));
-            _regionManager.RegisterViewWithContentRegion<InputSellView>();
+
+            _regionManager.RegisterViewWithContentRegion<SellView>();
+            _regionManager.RegisterViewWithContentRegion<ComboSellView>();
             _regionManager.RegisterViewWithContentRegion<TabChartView>();
             _regionManager.RegisterViewWithContentRegion<ImportBillView>();
             
             _regionManager.RegisterViewWithContentRegion<Invoicemanagement>();
             _regionManager.RegisterViewWithContentRegion<ImportInvoice>();
-            _regionManager.RegisterViewWithContentRegion<InvoiceManagementWorkplace>();
             _regionManager.RegisterViewWithContentRegion<InvoiceComboMangament>();
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<InputSellView, InputSellViewModel>(ViewNames.InputSellView);
+            
             containerRegistry.RegisterForNavigation<TabChartView, TabChartViewModel>(ViewNames.TabChartView);
             containerRegistry.RegisterForNavigation<ImportBillView, ImportBillViewModel>(ViewNames.ImportBillView);
+            containerRegistry.RegisterForNavigation<SellView, SellViewModel>(ViewNames.SellView);
+            containerRegistry.RegisterForNavigation<ComboSellView, ComboSellViewModel>(ViewNames.ImportBillView);
 
             containerRegistry.RegisterForNavigation<Invoicemanagement, InvoiceManagementViewModel>(ViewNames.Invoicemanagement);
-            containerRegistry.RegisterForNavigation<ImportInvoice, ImportInvoiceViewModel>(ViewNames.Invoicemanagement);
+            containerRegistry.RegisterForNavigation<ImportInvoice, ImportInvoiceViewModel>(ViewNames.ImportBillView);
             containerRegistry.RegisterForNavigation<InvoiceComboMangament, InvoiceComboMangamentViewModel>(ViewNames.InvoiceComboMangament);
-            containerRegistry.RegisterForNavigation<InvoiceManagementWorkplace, InvoiceManagementWorkplaceViewModel>(ViewNames.InvoiceManagementWorkplace);
         }
     }
 }

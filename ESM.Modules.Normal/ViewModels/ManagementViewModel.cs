@@ -4,13 +4,13 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 
-namespace ESM.Modules.Import.ViewModels
+namespace ESM.Modules.Normal.ViewModels
 {
-    public class ProductManagementViewModel : BindableBase
+    public class ManagementViewModel : BindableBase
     {
         private readonly IRegionManager _regionManager;
         private readonly AccountStore _accountStores;
-        public ProductManagementViewModel(IRegionManager regionManager, AccountStore accountStore)
+        public ManagementViewModel(IRegionManager regionManager, AccountStore accountStore)
         {
             _regionManager = regionManager;
             _accountStores = accountStore;

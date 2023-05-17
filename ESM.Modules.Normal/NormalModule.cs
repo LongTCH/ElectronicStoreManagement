@@ -28,12 +28,14 @@ namespace ESM.Modules.Normal
             _regionManager.RegisterViewWithContentRegion<SmartPhoneView>();
             _regionManager.RegisterViewWithContentRegion<VGAView>();
             _regionManager.RegisterViewWithContentRegion<ComboView>();
+            _regionManager.RegisterViewWithContentRegion<ManagementView>();
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<HomeView, HomeViewModel>(ViewNames.HomeView);
             containerRegistry.RegisterForNavigation<AccountView, AccountViewModel>(ViewNames.AccountView);
+            containerRegistry.RegisterForNavigation<ManagementView, ManagementViewModel>(ViewNames.ManagementView);
 
             containerRegistry.RegisterForNavigation<ProductDetailView, ProductDetailViewModel>(ViewNames.ProductDetailView);
             containerRegistry.RegisterForNavigation<LaptopView, LaptopViewModel>(ViewNames.LaptopView);
