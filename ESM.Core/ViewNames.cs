@@ -21,7 +21,6 @@
         public static readonly string RegisterView = "RegisterView"; 
         public static readonly string ChangeAccountInfoView = "ChangeAccountInfoView"; 
         public static readonly string ProductDetailView = "ProductDetailView";
-        public static readonly string InputSellView = "InputSellView";
         public static readonly string ReportView = "ReportView";
         public static readonly string TopSellingReportView = "TopSellingReportView";
         public static readonly string RevenueView = "RevenueView";
@@ -35,7 +34,9 @@
         public static readonly string DistributorView = "DistributorView"; 
         public static readonly string Invoicemanagement = "Invoicemanagement"; 
         public static readonly string ImportInvoice = "ImportInvoice"; 
-        public static readonly string InvoiceManagementWorkplace = "InvoiceManagementWorkplace";
         public static readonly string InvoiceComboMangament = "InvoiceComboMangament";
+        public static readonly string ManagementView = "ManagementView"; 
+        public static readonly string SellView = "SellView";
+        public static readonly string ComboSellView = "ComboSellView";
     }
 }

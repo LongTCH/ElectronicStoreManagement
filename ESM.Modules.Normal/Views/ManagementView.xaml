@@ -1,0 +1,103 @@
+﻿<UserControl x:Class="ESM.Modules.Normal.Views.ManagementView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             Background="White"
+             xmlns:esmcore="clr-namespace:ESM.Core;assembly=ESM.Core">
+    <StackPanel>
+        <TextBlock Text="TRANG QUẢN TRỊ"
+                   HorizontalAlignment="Center"
+                   Style="{StaticResource MahApps.Styles.TextBlock}" />
+        <TextBlock Text="1. Quản lí sản phẩm"
+                   Style="{StaticResource MahApps.Styles.TextBlock}" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <Button Content="Quản lí thông tin sản phẩm"
+                    Cursor="Hand"
+                    Style="{StaticResource MahApps.Styles.Button.Chromeless}"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="{x:Static esmcore:ViewNames.ProductInputView}" />
+            <Button Content="Quản lí nhập kho"
+                    Grid.Column="1"
+                    Cursor="Hand"
+                    Style="{StaticResource MahApps.Styles.Button.Chromeless}"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="{x:Static esmcore:ViewNames.ImportBillView}" />
+            <Button Content="Quản lí khuyến mãi"
+                    Grid.Row="1"
+                    Cursor="Hand"
+                    Style="{StaticResource MahApps.Styles.Button.Chromeless}"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="{x:Static esmcore:ViewNames.DiscountInputView}" />
+        </Grid>
+        <TextBlock Text="2. Quản lí bán hàng"
+                   Style="{StaticResource MahApps.Styles.TextBlock}" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Button Content="Bán lẻ"
+                    Cursor="Hand"
+                    Style="{StaticResource MahApps.Styles.Button.Chromeless}"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="{x:Static esmcore:ViewNames.SellView}" />
+            <Button Content="Bán combo"
+                    Grid.Column="1"
+                    Cursor="Hand"
+                    Style="{StaticResource MahApps.Styles.Button.Chromeless}"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="{x:Static esmcore:ViewNames.ComboSellView}" />
+        </Grid>
+        <TextBlock Text="3. Quản lí nhà cung cấp"
+                   Style="{StaticResource MahApps.Styles.TextBlock}" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Button Content="Quản lí thông tin nhà cung cấp"
+                    Cursor="Hand"
+                    Style="{StaticResource MahApps.Styles.Button.Chromeless}"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="{x:Static esmcore:ViewNames.DistributorView}" />
+        </Grid>
+        <TextBlock Text="3. Quản lí hóa đơn"
+                   Style="{StaticResource MahApps.Styles.TextBlock}" />
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Button Content="Quản lí hóa đơn bán lẻ"
+                    Cursor="Hand"
+                    Style="{StaticResource MahApps.Styles.Button.Chromeless}"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="{x:Static esmcore:ViewNames.Invoicemanagement}" />
+            <Button Content="Quản lí hóa đơn nhập hàng"
+                    Grid.Column="1"
+                    Cursor="Hand"
+                    Style="{StaticResource MahApps.Styles.Button.Chromeless}"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="{x:Static esmcore:ViewNames.ImportInvoice}" />
+            <Button Content="Quản lí hóa đơn bán Combo"
+                    Grid.Row="1"
+                    Cursor="Hand"
+                    Style="{StaticResource MahApps.Styles.Button.Chromeless}"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="{x:Static esmcore:ViewNames.InvoiceComboMangament}" />
+        </Grid>
+    </StackPanel>
+</UserControl>

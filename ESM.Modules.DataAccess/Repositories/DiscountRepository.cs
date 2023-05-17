@@ -64,8 +64,8 @@ namespace ESM.Modules.DataAccess.Repositories
             var res = false;
             try
             {
-                var item = await _context.Combos.FirstAsync(x => x.Id == id);
-                _context.Combos.Remove(item);
+                var item = await _context.Discounts.FirstAsync(x => x.Id.ToString() == id);
+                _context.Discounts.Remove(item);
                 await _context.SaveChangesAsync();
                 res = true;
             }
