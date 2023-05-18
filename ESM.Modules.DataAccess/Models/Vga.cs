@@ -11,7 +11,6 @@ public partial class Vga : ProductDTO
         set
         {
             chip = value;
-            InMemory = false;
         }
     }
     private string? chipset;
@@ -21,7 +20,6 @@ public partial class Vga : ProductDTO
         set
         {
             chipset = value;
-            InMemory = false;
         }
     }
     private string? vram;
@@ -31,7 +29,6 @@ public partial class Vga : ProductDTO
         set
         {
             vram = value;
-            InMemory = false;
         }
     }
     private string? gen;
@@ -41,7 +38,6 @@ public partial class Vga : ProductDTO
         set
         {
             gen = value;
-            InMemory = false;
         }
     }
     private string? serires;
@@ -51,23 +47,6 @@ public partial class Vga : ProductDTO
         set
         {
             serires = value;
-            InMemory = false;
         }
-    }
-    public override void Copy(ProductDTO o)
-    {
-        var other = (Vga)o;
-        Series = other.Series;
-        Gen = other.Gen;
-        Chip = other.Chip;
-        Chipset = other.Chipset;
-        Vram = other.Vram;
-        RaisePropertyChanged(nameof(Chip));
-        RaisePropertyChanged(nameof(Chipset));
-        RaisePropertyChanged(nameof(Vram));
-        RaisePropertyChanged(nameof(Gen));
-        RaisePropertyChanged(nameof(Series));
-
-        base.Copy(o);
     }
 }

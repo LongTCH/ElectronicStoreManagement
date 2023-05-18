@@ -9,7 +9,6 @@ public partial class Laptop : ProductDTO
         set
         {
             cpu = value;
-            InMemory = false;
         }
     }
     private string? ram;
@@ -19,7 +18,6 @@ public partial class Laptop : ProductDTO
         set
         {
             ram = value;
-            InMemory = false;
         }
     }
     private string? storage;
@@ -29,7 +27,6 @@ public partial class Laptop : ProductDTO
         set
         {
             storage = value;
-            InMemory = false;
         }
     }
     private string? graphic;
@@ -39,7 +36,6 @@ public partial class Laptop : ProductDTO
         set
         {
             graphic = value;
-            InMemory = false;
         }
     }
     private string? serires;
@@ -49,7 +45,6 @@ public partial class Laptop : ProductDTO
         set
         {
             serires = value;
-            InMemory = false;
         }
     }
     private string? need;
@@ -59,24 +54,6 @@ public partial class Laptop : ProductDTO
         set
         {
             need = value;
-            InMemory = false;
         }
-    }
-    public override void Copy(ProductDTO other)
-    {
-        var o = (Laptop)other;
-        Cpu = o.Cpu;
-        Ram = o.Ram;
-        Storage = o.Storage;
-        Graphic = o.Graphic;
-        Series = o.Series;
-        Need = o.Need;
-        RaisePropertyChanged(nameof(Cpu));
-        RaisePropertyChanged(nameof(Ram));
-        RaisePropertyChanged(nameof(Storage));
-        RaisePropertyChanged(nameof(Graphic));
-        RaisePropertyChanged(nameof(Series));
-        RaisePropertyChanged(nameof(Need));
-        base.Copy(other);
     }
 }

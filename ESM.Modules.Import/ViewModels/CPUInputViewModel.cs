@@ -4,9 +4,7 @@ using ESM.Modules.DataAccess.Models;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
 using System.Windows;
-using Prism.Regions;
 using System.Threading.Tasks;
-using ESM.Core;
 
 namespace ESM.Modules.Import.ViewModels
 {
@@ -16,9 +14,9 @@ namespace ESM.Modules.Import.ViewModels
         {
         }
         public string Header => "CPU";
-        protected override async Task saveCommand(Pccpu product)
+        protected override async Task saveCommand()
         {
-            if (product.Company == null || product.Unit == null || product.Name == null || product.Socket == null)
+            if (SelectedProduct.Company == null || SelectedProduct.Unit == null || SelectedProduct.Name == null || SelectedProduct.Socket == null)
             {
                 _modalService.ShowModal(ModalType.Error, "Nhập tất cả thông tin cần thiết", "Cảnh báo");
                 return;
@@ -27,36 +25,35 @@ namespace ESM.Modules.Import.ViewModels
             if (metroWindow.ShowModalMessageExternal("Thông báo", "Bạn có chắc chắn lưu?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
             {
                 bool res;
-                if (product.IdExist)
+                if (await _unitOfWork.Pccpus.IsIdExist(SelectedProduct.Id))
                 {
-                    res = (bool)await _unitOfWork.Pccpus.Update(product);
+                    res = (bool)await _unitOfWork.Pccpus.Update(SelectedProduct);
                     if (res)
                     {
                         _modalService.ShowModal(ModalType.Information, "Cập nhật thành công", "Thông báo");
-                        product.InMemory = true;
+                        
                     }
                     else _modalService.ShowModal(ModalType.Error, "Có lỗi xảy ra", "Thông báo");
                 }
                 else
                 {
-                    res = (bool)await _unitOfWork.Pccpus.Add(product);
+                    res = (bool)await _unitOfWork.Pccpus.Add(SelectedProduct);
                     if (res)
                     {
                         _modalService.ShowModal(ModalType.Information, "Đã lưu", "Thông báo");
-                        product.IdExist = true;
-                        product.InMemory = true;
+                        SelectedProduct.IdExist = true;
+                        
                     }
                     else _modalService.ShowModal(ModalType.Error, "Lưu không thành công", "Lỗi");
                 }
                 if (res)
                 {
-                    var index = ProductList.IndexOf(product);
-                    ProductList.RemoveAt(index);
-                    ProductList.Insert(index, product);
+                    GetProductList();
+                    IsEditMode = false;
                 }
             }
         }
-        public override async void OnNavigatedTo(NavigationContext navigationContext)
+        protected override async void GetProductList()
         {
             ProductList = new(await _unitOfWork.Pccpus.GetAll());
         }

@@ -16,7 +16,6 @@ public class MonitorRepository : ProductRepository<Models.Monitor>, IMonitorRepo
         if (p != null)
         {
             p.Discount = await GetDiscount(id);
-            p.InMemory = true;
         }
         return p;
     }
@@ -28,7 +27,7 @@ public class MonitorRepository : ProductRepository<Models.Monitor>, IMonitorRepo
                 .ToListAsync();
         foreach (var item in list)
         {
-            item.InMemory = true;
+            
             item.Discount = await GetDiscount(item.Id);
         }
         return list;

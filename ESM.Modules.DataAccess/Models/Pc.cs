@@ -10,7 +10,6 @@ public partial class Pc : ProductDTO
         set
         {
             cpu = value;
-            InMemory = false;
         }
     }
     private string? ram;
@@ -20,7 +19,6 @@ public partial class Pc : ProductDTO
         set
         {
             ram = value;
-            InMemory = false;
         }
     }
     private string? serires;
@@ -30,7 +28,6 @@ public partial class Pc : ProductDTO
         set
         {
             serires = value;
-            InMemory = false;
         }
     }
     private string? need;
@@ -40,20 +37,6 @@ public partial class Pc : ProductDTO
         set
         {
             need = value;
-            InMemory = false;
         }
-    }
-    public override void Copy(ProductDTO other)
-    {
-        var o = (Pc)other;
-        Cpu = o.Cpu;
-        Ram = o.Ram;
-        Series = o.Series;
-        Need = o.Need;
-        RaisePropertyChanged(nameof(Cpu));
-        RaisePropertyChanged(nameof(Series));
-        RaisePropertyChanged(nameof(Ram));
-        RaisePropertyChanged(nameof(Need));
-        base.Copy(other);
     }
 }

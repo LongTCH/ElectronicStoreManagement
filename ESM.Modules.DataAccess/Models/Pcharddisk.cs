@@ -10,7 +10,6 @@ public partial class Pcharddisk : ProductDTO
         set
         {
             storage = value;
-            InMemory = false;
         }
     }
     private string? connect;
@@ -20,7 +19,6 @@ public partial class Pcharddisk : ProductDTO
         set
         {
             connect = value;
-            InMemory = false;
         }
     }
     private string? type;
@@ -30,7 +28,6 @@ public partial class Pcharddisk : ProductDTO
         set
         {
             type = value;
-            InMemory = false;
         }
     }
     private string? serires;
@@ -40,20 +37,6 @@ public partial class Pcharddisk : ProductDTO
         set
         {
             serires = value;
-            InMemory = false;
         }
-    }
-    public override void Copy(ProductDTO other)
-    {
-        var o =(Pcharddisk)other;
-        Storage = o.Storage;
-        Connect = o.Connect;
-        Type = o.Type;
-        Series = o.Series;
-        RaisePropertyChanged(nameof(Storage));
-        RaisePropertyChanged(nameof(Connect));
-        RaisePropertyChanged(nameof(Type));
-        RaisePropertyChanged(nameof(Series));
-        base.Copy(other);
     }
 }

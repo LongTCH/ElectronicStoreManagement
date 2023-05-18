@@ -22,24 +22,7 @@
                        FontSize="30"
                        FontWeight="Bold"
                        Foreground="CornflowerBlue" />
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="1*" />
-                </Grid.ColumnDefinitions>
-                <Button Content="THÊM"
-                        Width="100"
-                        Background="Green"
-                        Command="{Binding AddCommand}" />
-                <Button Content="XÓA"
-                        Grid.Column="2"
-                        Width="100"
-                        Background="Red"
-                        Command="{Binding DeleteCommand}"
-                        CommandParameter="{Binding ElementName=myDataGrid, Path=SelectedItem}" />
-            </Grid>
-            <StackPanel>
+            <StackPanel IsHitTestVisible="{Binding IsEditMode}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
@@ -50,16 +33,15 @@
                             VerticalAlignment="Top"
                             HorizontalAlignment="Center"
                             Style="{StaticResource MaterialDesignFlatLightButton}"
-                            Command="{Binding AddAvatarCommand}"
-                            CommandParameter="{Binding ElementName=myDataGrid, Path=SelectedItem}">
+                            Command="{Binding AddAvatarCommand}">
                         <Button.Content>
                             <Grid>
                                 <Image Source="pack://application:,,,/ESM.Core;component/ShareImages/addproduct.png"
                                        Height="200"
                                        MinWidth="200"
-                                       Visibility="{Binding ElementName=myDataGrid, Path=SelectedItem.IsDefault, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                       Visibility="{Binding SelectedProduct.IsDefault, Converter={StaticResource BooleanToVisibilityConverter}}"
                                        HorizontalAlignment="Left" />
-                                <Image Source="{Binding ElementName=myDataGrid, Path=SelectedItem.AvatarPath}"
+                                <Image Source="{Binding SelectedProduct.AvatarPath}"
                                        Height="200"
                                        MinWidth="200"
                                        HorizontalAlignment="Left">
@@ -68,7 +50,7 @@
                                             <Setter Property="Visibility"
                                                     Value="Collapsed" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding ElementName=myDataGrid, Path=SelectedItem.IsDefault}"
+                                                <DataTrigger Binding="{Binding SelectedProduct.IsDefault}"
                                                              Value="False">
                                                     <Setter Property="Visibility"
                                                             Value="Visible" />
@@ -86,14 +68,13 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBox materialDesign:HintAssist.Hint="Đường dẫn tới thư mục ảnh"
                                      Margin="20,10"
-                                     Text="{Binding ElementName=myDataGrid, Path=SelectedItem.ImagePath, UpdateSourceTrigger=PropertyChanged}"
+                                     Text="{Binding SelectedProduct.ImagePath, UpdateSourceTrigger=PropertyChanged}"
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      FontFamily="Champagne &amp; Limousines"
                                      FontSize="18"
                                      Width="300" />
                             <Button HorizontalAlignment="Right"
                                     Command="{Binding SelectFolder}"
-                                    CommandParameter="{Binding ElementName=myDataGrid, Path=SelectedItem}"
                                     Style="{StaticResource MaterialDesignFloatingActionMiniButton}">
                                 <materialDesign:PackIcon Kind="Folder" />
                             </Button>
@@ -101,14 +82,13 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBox materialDesign:HintAssist.Hint="Đường dẫn tới file mô tả"
                                      Margin="20,10"
-                                     Text="{Binding ElementName=myDataGrid, Path=SelectedItem.DetailPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     Text="{Binding SelectedProduct.DetailPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      FontFamily="Champagne &amp; Limousines"
                                      FontSize="18"
                                      Width="300" />
                             <Button HorizontalAlignment="Right"
                                     Command="{Binding SelectDetail}"
-                                    CommandParameter="{Binding ElementName=myDataGrid, Path=SelectedItem}"
                                     Style="{StaticResource MaterialDesignFloatingActionMiniButton}">
                                 <materialDesign:PackIcon Kind="File" />
                             </Button>
@@ -123,7 +103,7 @@
                                                      Kind="Identifier" />
                             <TextBox Margin="20,10"
                                      materialDesign:HintAssist.Hint="ID"
-                                     Text="{Binding ElementName=myDataGrid, Path=SelectedItem.Id}"
+                                     Text="{Binding SelectedProduct.Id}"
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      IsReadOnly="True"
                                      FontFamily="Champagne &amp; Limousines"
@@ -134,6 +114,7 @@
                 <!--#region Content Region-->
                 <Grid>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
                         <ColumnDefinition Width="1*" />
                         <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
@@ -165,13 +146,7 @@
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
                     </DockPanel>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
-                    <DockPanel Grid.Column="0">
+                    <DockPanel Grid.Column="2">
                         <iconPacks:PackIconFontAwesome Margin="0,0,0,10"
                                                        Height="30"
                                                        Width="30"
@@ -185,23 +160,10 @@
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
                     </DockPanel>
-                    <DockPanel Grid.Column="1">
-                        <materialDesign:PackIcon Kind="Storage"
-                                                 VerticalAlignment="Bottom"
-                                                 Margin="0,0,0,10"
-                                                 Height="30"
-                                                 Width="30" />
-                        <TextBox materialDesign:HintAssist.Hint="Bộ nhớ"
-                                 materialDesign:TextFieldAssist.HasClearButton="True"
-                                 Margin="20,10"
-                                 Text="{Binding ElementName=myDataGrid, Path=SelectedItem.Storage, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
-                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 FontFamily="Champagne &amp; Limousines"
-                                 FontSize="18" />
-                    </DockPanel>
                 </Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
                         <ColumnDefinition Width="1*" />
                         <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
@@ -236,13 +198,7 @@
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
                     </DockPanel>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
-                    <DockPanel Grid.Column="0">
+                    <DockPanel Grid.Column="2">
                         <materialDesign:PackIcon Kind="PackageVariantClosed"
                                                  VerticalAlignment="Bottom"
                                                  Margin="0,0,0,10"
@@ -252,6 +208,26 @@
                                  IsEnabled="False"
                                  Margin="20,10"
                                  Text="{Binding ElementName=myDataGrid, Path=SelectedItem.Remain, Mode=OneWay}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 FontFamily="Champagne &amp; Limousines"
+                                 FontSize="18" />
+                    </DockPanel>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <DockPanel Grid.Column="0">
+                        <materialDesign:PackIcon Kind="Storage"
+                                                 VerticalAlignment="Bottom"
+                                                 Margin="0,0,0,10"
+                                                 Height="30"
+                                                 Width="30" />
+                        <TextBox materialDesign:HintAssist.Hint="Bộ nhớ"
+                                 materialDesign:TextFieldAssist.HasClearButton="True"
+                                 Margin="20,10"
+                                 Text="{Binding ElementName=myDataGrid, Path=SelectedItem.Storage, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
@@ -304,37 +280,68 @@
                     </DockPanel>
                 </Grid>
                 <!--#endregion-->
-                <Grid Margin="0,20,0,20">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
-                    <Button Width="150"
-                            BorderThickness="0"
-                            materialDesign:ButtonAssist.CornerRadius="10"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Background="DarkSeaGreen"
-                            IsDefault="True"
-                            Content="LƯU"
-                            Command="{Binding SaveCommand}"
-                            CommandParameter="{Binding ElementName=myDataGrid, Path=SelectedItem}" />
-                    <Button Width="150"
-                            Grid.Column="1"
-                            BorderThickness="0"
-                            materialDesign:ButtonAssist.CornerRadius="10"
-                            Style="{StaticResource MaterialDesignRaisedButton}"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Background="Gray"
-                            IsDefault="True"
-                            Content="HỦY"
-                            Command="{Binding ClearCommand}"
-                            CommandParameter="{Binding ElementName=myDataGrid, Path=SelectedItem}" />
-                </Grid>
             </StackPanel>
+            <Grid Margin="0,20,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility"
+                                Value="Visible" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsEditMode}"
+                                         Value="True">
+                                <Setter Property="Visibility"
+                                        Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <Button Content="THÊM"
+                        Width="100"
+                        Background="Green"
+                        Command="{Binding AddCommand}" />
+                <Button Content="SỬA"
+                        Grid.Column="1"
+                        Width="100"
+                        Background="BlueViolet"
+                        Command="{Binding EditCommand}" />
+                <Button Content="XÓA"
+                        Grid.Column="2"
+                        Width="100"
+                        Background="Red"
+                        Command="{Binding DeleteCommand}" />
+            </Grid>
+            <Grid Margin="0,20,0,20"
+                  Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Button  Width="100"
+                         Grid.Column="1"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         Background="DarkSeaGreen"
+                         IsDefault="True"
+                         Content="LƯU"
+                         Command="{Binding SaveCommand}" />
+                <Button  Width="100"
+                         Grid.Column="2"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         Background="Gray"
+                         IsDefault="True"
+                         Content="HỦY"
+                         Command="{Binding ClearCommand}" />
+            </Grid>
             <DataGrid ItemsSource="{Binding ProductList}"
                       IsReadOnly="True"
+                      SelectedItem="{Binding SelectedProduct}"
                       Grid.Row="1"
                       HorizontalAlignment="Stretch"
                       AutoGenerateColumns="False"
@@ -355,20 +362,19 @@
                                      Handler="DataGridCell_PreviewKeyDown" />
                     </Style>
                 </DataGrid.CellStyle>
-                <DataGrid.RowStyle>
-                    <Style TargetType="DataGridRow"
-                           BasedOn="{StaticResource MaterialDesignDataGridRow}">
-                        <Setter Property="Background"
-                                Value="White" />
+                <DataGrid.Style>
+                    <Style TargetType="DataGrid">
+                        <Setter Property="IsHitTestVisible"
+                                Value="True" />
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding InMemory}"
-                                         Value="False">
-                                <Setter Property="Background"
-                                        Value="LightGreen" />
+                            <DataTrigger Binding="{Binding IsEditMode}"
+                                         Value="True">
+                                <Setter Property="IsHitTestVisible"
+                                        Value="False" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
-                </DataGrid.RowStyle>
+                </DataGrid.Style>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Mã"
                                         Binding="{Binding Id, Mode=OneWay}" />
