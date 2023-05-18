@@ -45,10 +45,10 @@
                         Grid.Column="0"
                         Margin="10"
                         Width="250">
-                <TextBlock Text="Filter by:"
+                <TextBlock Text="Lọc theo:"
                            FontWeight="Bold"
                            Margin="0 0 0 10" />
-                <TextBlock Text="Start Time:"
+                <TextBlock Text="Thời gian bắt đầu:"
                            FontWeight="Bold"
                            VerticalAlignment="Center"
                            Margin="5" />
@@ -56,7 +56,7 @@
                             SelectedDate="{Binding StartTime}"
                             Grid.Column="1"
                             Margin="5" />
-                <TextBlock Text="End Time:"
+                <TextBlock Text="Thời gian kết thúc:"
                            Grid.Row="1"
                            FontWeight="Bold"
                            VerticalAlignment="Center"
@@ -66,22 +66,22 @@
                             Grid.Row="1"
                             Grid.Column="1"
                             Margin="5" />
-                <TextBlock Text="Filter by time period:"
+                <TextBlock Text="Lọc theo khoảng thời gian:"
                            FontWeight="Bold"
                            VerticalAlignment="Center"
                            Margin="5,5,5,0" />
                 <StackPanel Orientation="Horizontal"
                             Margin="5">
-                    <RadioButton Content="Week"
+                    <RadioButton Content="Tuần"
                                  IsChecked="{Binding IsWeekCheck, UpdateSourceTrigger=PropertyChanged}"
                                  Margin="0,0,5,0" />
-                    <RadioButton Content="Month"
+                    <RadioButton Content="Tháng"
                                  IsChecked="{Binding IsMonthCheck, UpdateSourceTrigger=PropertyChanged}"
                                  Margin="0,0,5,0" />
-                    <RadioButton Content="Quarter"
+                    <RadioButton Content="Quý"
                                  IsChecked="{Binding IsQuarterCheck, UpdateSourceTrigger=PropertyChanged}"
                                  Margin="0,0,5,0" />
-                    <RadioButton Content="Year"
+                    <RadioButton Content="Năm"
                                  IsChecked="{Binding IsYearCheck, UpdateSourceTrigger=PropertyChanged}"
                                  Margin="0,0,5,0" />
                 </StackPanel>
@@ -92,7 +92,7 @@
                         HorizontalAlignment="Center"
                         Background="DodgerBlue"
                         IsDefault="True"
-                        Content="ADD"
+                        Content="XEM"
                         Command="{Binding AddCommand}" />
                 <CheckBox Name="laptopCheckBox"
                           Content="LAPTOP"

@@ -83,6 +83,7 @@
             </Grid.RowDefinitions>
             <TextBlock Text="Danh Sách Sản Phẩm"
                        IsEnabled="False"
+                       TextAlignment="Center"
                        HorizontalAlignment="Center"
                        FontSize="24"
                        Foreground="#FF68BD2C"
@@ -123,7 +124,7 @@
             <DataGrid ItemsSource="{Binding ProductBillList}"
                       Grid.Row="2"
                       Background="Transparent"
-                      MinWidth="1000"
+                      MaxWidth="1000"
                       FontSize="20"
                       AutoGenerateColumns="False"
                       CanUserAddRows="False"

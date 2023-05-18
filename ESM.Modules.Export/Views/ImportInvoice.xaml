@@ -59,7 +59,7 @@
                                 FontSize="20"
                                 helper:DatePickerDateFormat.DateFormat="dd/MM/yyyy"
                                 SelectedDate="{Binding StartTime}"
-                                Margin="0,0,10,0" />
+                                Margin="10,0,10,0" />
                 </StackPanel>
                 <StackPanel>
                     <TextBox Margin="5"
@@ -74,9 +74,10 @@
                                 FontSize="20"
                                 helper:DatePickerDateFormat.DateFormat="dd/MM/yyyy"
                                 SelectedDate="{Binding EndTime}"
-                                Margin="0,0,10,0" />
+                                Margin="10,0,10,0" />
                 </StackPanel>
                 <Button Content="XEM"
+                        Margin="20"
                         Command="{Binding GetCommand}"
                         HorizontalAlignment="Center" />
             </StackPanel>
@@ -139,7 +140,7 @@
                        Foreground="#FF68BD2C"
                        FontFamily="Arial" />
             <DataGrid MinWidth="800"
-                      Height="400"
+                      MaxHeight="400"
                       ItemsSource="{Binding Bills}"
                       Grid.Row="4"
                       Background="Transparent"
@@ -152,7 +153,7 @@
                       HorizontalGridLinesBrush="DeepSkyBlue"
                       ScrollViewer.CanContentScroll="True"
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
-                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                      ScrollViewer.HorizontalScrollBarVisibility="Auto"               
                       x:Name="InvoiceListGrid">
                 <DataGrid.Style>
                     <Style TargetType="DataGrid">
