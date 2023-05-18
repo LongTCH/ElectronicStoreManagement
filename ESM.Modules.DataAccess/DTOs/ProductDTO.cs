@@ -21,9 +21,28 @@ public abstract class ProductDTO : BindableBase, IEquatable<ProductDTO>
     [NotMapped]
     public double? Discount { get; set; }
     public int Remain { get; set; }
-    public string? DetailPath { get; set; }
-    public string? ImagePath { get; set; }
-    public string? AvatarPath { get; set; }
+    private string? detailPath;
+    public string? DetailPath
+    {
+        get => detailPath;
+        set => SetProperty(ref detailPath, value);
+    }
+    private string? imagePath;
+    public string? ImagePath
+    {
+        get => imagePath;
+        set => SetProperty(ref imagePath, value);
+    }
+    private string? avatarPath;
+    public string? AvatarPath
+    {
+        get => avatarPath;
+        set
+        {
+            SetProperty(ref avatarPath, value);
+            RaisePropertyChanged(nameof(IsDefault));
+        }
+    }
     private string? company;
     public string? Company
     {
