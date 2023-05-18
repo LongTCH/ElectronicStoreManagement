@@ -45,10 +45,10 @@
                         Grid.Column="0"
                         Margin="10"
                         Width="200">
-                <TextBlock Text="Filter by:"
+                <TextBlock Text="Lọc theo:"
                            FontWeight="Bold"
                            Margin="0 0 0 10" />
-                <TextBlock Text="Start Time:"
+                <TextBlock Text="Thời gian bắt đầu:"
                            FontWeight="Bold"
                            VerticalAlignment="Center"
                            Margin="5" />
@@ -56,7 +56,7 @@
                             SelectedDate="{Binding StartTime}"
                             Grid.Column="1"
                             Margin="5" />
-                <TextBlock Text="End Time:"
+                <TextBlock Text="Thời gian kết thúc:"
                            Grid.Row="1"
                            FontWeight="Bold"
                            VerticalAlignment="Center"
@@ -73,7 +73,7 @@
                         HorizontalAlignment="Center"
                         Background="DodgerBlue"
                         IsDefault="True"
-                        Content="ADD"
+                        Content="XEM"
                         Command="{Binding AddCommand}" />
                 <RadioButton Name="laptopRadioButton"
                              Content="LAPTOP"

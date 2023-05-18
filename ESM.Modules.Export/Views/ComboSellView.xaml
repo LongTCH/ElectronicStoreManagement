@@ -118,7 +118,7 @@
             </StackPanel>
             <DataGrid ItemsSource="{Binding ProductBillList}"
                       Background="Transparent"
-                      MinWidth="1000"
+                      MaxWidth="1000"
                       Grid.Row="2"
                       AutoGenerateColumns="False"
                       CanUserAddRows="False"
