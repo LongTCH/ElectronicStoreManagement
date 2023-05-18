@@ -17,7 +17,7 @@ namespace ESM.Modules.DataAccess.Repositories
             if (p != null)
             {
                 p.Discount = await GetDiscount(id);
-                p.InMemory = true;
+                
             }
             return p;
         }
@@ -29,7 +29,7 @@ namespace ESM.Modules.DataAccess.Repositories
                     .ToListAsync();
             foreach (var item in list)
             {
-                item.InMemory = true;
+                
                 item.Discount = await GetDiscount(item.Id);
             }
             return list;

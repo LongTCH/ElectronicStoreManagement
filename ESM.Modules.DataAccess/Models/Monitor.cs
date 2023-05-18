@@ -9,7 +9,6 @@ public partial class Monitor : ProductDTO
         set
         {
             size = value;
-            InMemory = false;
         }
     }
     private string? panel;
@@ -19,7 +18,6 @@ public partial class Monitor : ProductDTO
         set
         {
             panel = value;
-            InMemory = false;
         }
     }
     private string? refreshRate;
@@ -29,7 +27,6 @@ public partial class Monitor : ProductDTO
         set
         {
             refreshRate = value;
-            InMemory = false;
         }
     }
     private string? serires;
@@ -39,7 +36,6 @@ public partial class Monitor : ProductDTO
         set
         {
             serires = value;
-            InMemory = false;
         }
     }
     private string? need;
@@ -49,22 +45,7 @@ public partial class Monitor : ProductDTO
         set
         {
             need = value;
-            InMemory = false;
         }
     }
-    public override void Copy(ProductDTO other)
-    {
-        var o = (Monitor)other;
-        Size = o.Size;
-        Panel = o.Panel;
-        RefreshRate = o.RefreshRate;
-        Need = o.Need;
-        Series = o.Series;
-        RaisePropertyChanged(nameof(Size));
-        RaisePropertyChanged(nameof(Panel));
-        RaisePropertyChanged(nameof(RefreshRate));
-        RaisePropertyChanged(nameof(Need));
-        RaisePropertyChanged(nameof(Series));
-        base.Copy(other);
-    }
+
 }

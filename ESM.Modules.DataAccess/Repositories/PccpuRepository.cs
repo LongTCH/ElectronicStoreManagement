@@ -14,7 +14,7 @@ public class PccpuRepository : ProductRepository<Pccpu>, IPccpuRepository
         if (p != null)
         {
             p.Discount = await GetDiscount(id);
-            p.InMemory = true;
+            
         }
         return p;
     }
@@ -26,7 +26,7 @@ public class PccpuRepository : ProductRepository<Pccpu>, IPccpuRepository
                 .ToListAsync();
         foreach (var item in list)
         {
-            item.InMemory = true;
+            
             item.Discount = await GetDiscount(item.Id);
         }
         return list;

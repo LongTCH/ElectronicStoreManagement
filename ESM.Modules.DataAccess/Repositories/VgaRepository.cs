@@ -15,7 +15,7 @@ public class VgaRepository : ProductRepository<Vga>, IVgaRepository
         if (p != null)
         {
             p.Discount = await GetDiscount(id);
-            p.InMemory = true;
+            
         }
         return p;
     }
@@ -27,7 +27,7 @@ public class VgaRepository : ProductRepository<Vga>, IVgaRepository
                .ToListAsync();
         foreach (var item in list)
         {
-            item.InMemory = true;
+            
             item.Discount = await GetDiscount(item.Id);
         }
         return list;

@@ -21,7 +21,7 @@ public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRe
         if (p != null)
         {
             p.Discount = await GetDiscount(id);
-            p.InMemory = true;
+            
         }
         return p;
     }
@@ -50,7 +50,7 @@ public class PcharddiskRepository : ProductRepository<Pcharddisk>, IPcharddiskRe
                 .ToListAsync();
         foreach (var item in list)
         {
-            item.InMemory = true;
+            
             item.Discount = await GetDiscount(item.Id);
         }
         return list;

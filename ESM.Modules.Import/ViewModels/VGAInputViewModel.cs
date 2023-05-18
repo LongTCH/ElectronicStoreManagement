@@ -17,10 +17,10 @@ namespace ESM.Modules.Import.ViewModels
         }
         public string Header => "VGA";
        
-        protected override async Task saveCommand(Vga product)
+        protected override async Task saveCommand()
         {
-            if (product.Company == null || product.Unit == null || product.Name == null ||
-                   product.Chip == null || product.Chipset == null || product.Vram == null || product.Gen == null)
+            if (SelectedProduct.Company == null || SelectedProduct.Unit == null || SelectedProduct.Name == null ||
+                   SelectedProduct.Chip == null || SelectedProduct.Chipset == null || SelectedProduct.Vram == null || SelectedProduct.Gen == null)
             {
                 _modalService.ShowModal(ModalType.Error, "Nhập tất cả thông tin cần thiết", "Cảnh báo");
                 return;
@@ -29,37 +29,36 @@ namespace ESM.Modules.Import.ViewModels
             if (metroWindow.ShowModalMessageExternal("Thông báo", "Bạn có chắc chắn lưu?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
             {
                 bool res;
-                if (product.IdExist)
+                if (await _unitOfWork.Vgas.IsIdExist(SelectedProduct.Id))
                 {
-                    res = (bool)await _unitOfWork.Vgas.Update(product);
+                    res = (bool)await _unitOfWork.Vgas.Update(SelectedProduct);
                     if (res)
                     {
                         _modalService.ShowModal(ModalType.Information, "Cập nhật thành công", "Thông báo");
-                        product.InMemory = true;
+                        
                     }
                     else _modalService.ShowModal(ModalType.Error, "Có lỗi xảy ra", "Thông báo");
                 }
                 else
                 {
-                    res = (bool)await _unitOfWork.Vgas.Add(product);
+                    res = (bool)await _unitOfWork.Vgas.Add(SelectedProduct);
                     if (res)
                     {
                         _modalService.ShowModal(ModalType.Information, "Đã lưu", "Thông báo");
-                        product.IdExist = true;
-                        product.InMemory = true;
+                        SelectedProduct.IdExist = true;
+                        
                     }
                     else _modalService.ShowModal(ModalType.Error, "Lưu không thành công", "Lỗi");
                 }
                 if (res)
                 {
-                    var index = ProductList.IndexOf(product);
-                    ProductList.RemoveAt(index);
-                    ProductList.Insert(index, product);
+                    GetProductList();
+                    IsEditMode = false;
                 }
             }
         }
       
-        public override async void OnNavigatedTo(NavigationContext navigationContext)
+        protected override async void GetProductList()
         {
             ProductList = new(await _unitOfWork.Vgas.GetAll());
         }

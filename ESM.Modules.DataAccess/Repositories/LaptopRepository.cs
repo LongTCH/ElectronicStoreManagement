@@ -15,7 +15,6 @@ public class LaptopRepository : ProductRepository<Laptop>, ILaptopRepository
         if (p != null)
         {
             p.Discount = await GetDiscount(id);
-            p.InMemory = true;
         }
         return p;
     }
@@ -27,7 +26,7 @@ public class LaptopRepository : ProductRepository<Laptop>, ILaptopRepository
                 .ToListAsync();
         foreach (var item in list)
         {
-            item.InMemory = true;
+            
             item.Discount = await GetDiscount(item.Id);
         }
         return list;

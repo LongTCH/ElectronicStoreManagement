@@ -10,7 +10,6 @@ public partial class Smartphone : ProductDTO
         set
         {
             cpu = value;
-            InMemory = false;
         }
     }
     private string? ram;
@@ -20,7 +19,6 @@ public partial class Smartphone : ProductDTO
         set
         {
             ram = value;
-            InMemory = false;
         }
     }
     private string? storage;
@@ -30,7 +28,6 @@ public partial class Smartphone : ProductDTO
         set
         {
             storage = value;
-            InMemory = false;
         }
     }
     private string? serires;
@@ -40,20 +37,6 @@ public partial class Smartphone : ProductDTO
         set
         {
             serires = value;
-            InMemory = false;
         }
-    }
-    public override void Copy(ProductDTO other)
-    {
-        var o = (Smartphone)other;
-        Cpu = o.Cpu;
-        Ram = o.Ram;
-        Storage = o.Storage;
-        Series = o.Series;
-        RaisePropertyChanged(nameof(Cpu));
-        RaisePropertyChanged(nameof(Ram));
-        RaisePropertyChanged(nameof(Storage));
-        RaisePropertyChanged(nameof(Series));
-        base.Copy(other);
     }
 }
