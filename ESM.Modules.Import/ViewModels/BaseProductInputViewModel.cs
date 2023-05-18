@@ -127,7 +127,7 @@ namespace ESM.Modules.Import.ViewModels
 
             }
         }
-        protected string GetNewID()
+        protected async Task<string> GetNewID()
         {
             ProductType type = ProductType.LAPTOP;
             if (typeof(T).Equals(typeof(Laptop))) type = ProductType.LAPTOP;
@@ -140,23 +140,23 @@ namespace ESM.Modules.Import.ViewModels
             var previousID = ProductList.OrderBy(x => x.Id).LastOrDefault()?.Id;
             if (previousID == null) return DAStaticData.IdPrefix[type] + "0000000";
             int counter = Convert.ToInt32(previousID[2..]);
-            //string cs = "0";
-            //if (type == ProductType.LAPTOP) cs = await _unitOfWork.Laptops.GetSuggestID();
-            //else if (type == ProductType.MONITOR) cs = await _unitOfWork.Monitors.GetSuggestID();
-            //else if (type == ProductType.HARDDISK) cs = await _unitOfWork.Pcharddisks.GetSuggestID();
-            //else if (type == ProductType.CPU) cs = await _unitOfWork.Pccpus.GetSuggestID();
-            //else if (type == ProductType.PC) cs = await _unitOfWork.Pcs.GetSuggestID();
-            //else if (type == ProductType.SMARTPHONE) cs = await _unitOfWork.Smartphones.GetSuggestID();
-            //else if (type == ProductType.VGA) cs = await _unitOfWork.Vgas.GetSuggestID();
-            //counter = Math.Max(counter, int.Parse(cs[2..]));
+            string cs = "0";
+            if (type == ProductType.LAPTOP) cs = await _unitOfWork.Laptops.GetSuggestID();
+            else if (type == ProductType.MONITOR) cs = await _unitOfWork.Monitors.GetSuggestID();
+            else if (type == ProductType.HARDDISK) cs = await _unitOfWork.Pcharddisks.GetSuggestID();
+            else if (type == ProductType.CPU) cs = await _unitOfWork.Pccpus.GetSuggestID();
+            else if (type == ProductType.PC) cs = await _unitOfWork.Pcs.GetSuggestID();
+            else if (type == ProductType.SMARTPHONE) cs = await _unitOfWork.Smartphones.GetSuggestID();
+            else if (type == ProductType.VGA) cs = await _unitOfWork.Vgas.GetSuggestID();
+            counter = Math.Max(counter, int.Parse(cs[2..]));
             ++counter;
             return DAStaticData.IdPrefix[type] + counter.ToString().PadLeft(7, '0');
         }
-        private void addCommand()
+        private async void addCommand()
         {
             IsEditMode = true;
             var p = new T();
-            p.Id = GetNewID();
+            p.Id = await GetNewID();
             SelectedProduct = p;
         }
         public void OnNavigatedTo(NavigationContext navigationContext)
