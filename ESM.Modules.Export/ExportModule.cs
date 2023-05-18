@@ -40,10 +40,10 @@ namespace ESM.Modules.Export
             containerRegistry.RegisterForNavigation<TabChartView, TabChartViewModel>(ViewNames.TabChartView);
             containerRegistry.RegisterForNavigation<ImportBillView, ImportBillViewModel>(ViewNames.ImportBillView);
             containerRegistry.RegisterForNavigation<SellView, SellViewModel>(ViewNames.SellView);
-            containerRegistry.RegisterForNavigation<ComboSellView, ComboSellViewModel>(ViewNames.ImportBillView);
+            containerRegistry.RegisterForNavigation<ComboSellView, ComboSellViewModel>(ViewNames.ComboSellView);
 
             containerRegistry.RegisterForNavigation<Invoicemanagement, InvoiceManagementViewModel>(ViewNames.Invoicemanagement);
-            containerRegistry.RegisterForNavigation<ImportInvoice, ImportInvoiceViewModel>(ViewNames.ImportBillView);
+            containerRegistry.RegisterForNavigation<ImportInvoice, ImportInvoiceViewModel>(ViewNames.ImportInvoice);
             containerRegistry.RegisterForNavigation<InvoiceComboMangament, InvoiceComboMangamentViewModel>(ViewNames.InvoiceComboMangament);
         }
     }

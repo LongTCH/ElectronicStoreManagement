@@ -32,13 +32,6 @@ public partial class Combo: BindableBase, IEquatable<Combo>
     public int Remain { get; set; }
     [NotMapped]
     public IEnumerable<ProductDTO>? ListProducts { get; set; }
-    private bool inMemory = true;
-    [NotMapped]
-    public bool InMemory
-    {
-        get => inMemory;
-        set => SetProperty(ref inMemory, value);
-    }
 
     public bool Equals(Combo? other)
     {

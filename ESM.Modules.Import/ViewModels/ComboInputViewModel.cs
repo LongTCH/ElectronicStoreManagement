@@ -34,11 +34,24 @@ namespace ESM.Modules.Import.ViewModels
             RemoveFromComboDetailCommand = new(executeRemove);
             AddToComboListCommand = new(addToComboListCommand);
             CancelCommand = new(clearCommand);
-            DeleteCommand = new(async (p) => await deleteCommand(p));
+            EditCommand = new(editCommand);
+            DeleteCommand = new(async () => await deleteCommand());
             FindCommand = new(findCommand);
-            SaveCommand = new(async (p) => await saveCommand(p));
+            SaveCommand = new(async () => await saveCommand());
         }
         public string Header => "COMBO";
+        private Combo selectedCombo;
+        public Combo SelectedCombo
+        {
+            get => selectedCombo;
+            set => SetProperty(ref selectedCombo, value);
+        }
+        private bool isEditMode;
+        public bool IsEditMode
+        {
+            get => isEditMode;
+            set => SetProperty(ref isEditMode, value);
+        }
         public IEnumerable<string> ProductType { get; }
         public ICollection<SelectableViewModel> productList;
         public ICollection<SelectableViewModel> ProductList
@@ -65,29 +78,40 @@ namespace ESM.Modules.Import.ViewModels
             get => selectedProductType;
             set
             {
-                selectedProductType = value;
+                SetProperty(ref selectedProductType, value);
                 SetProductList();
             }
         }
         public DelegateCommand AddCommand { get; }
         public DelegateCommand AddToComboCommand { get; }
         public DelegateCommand AddToComboListCommand { get; }
-        public DelegateCommand<Combo> CancelCommand { get; }
-        public DelegateCommand<Combo> SaveCommand { get; }
-        public DelegateCommand<Combo> DeleteCommand { get; }
-        public DelegateCommand<Combo> FindCommand { get; }
+        public DelegateCommand CancelCommand { get; }
+        public DelegateCommand SaveCommand { get; }
+        public DelegateCommand DeleteCommand { get; }
+        public DelegateCommand FindCommand { get; }
+        public DelegateCommand EditCommand { get; }
         public DelegateCommand<SelectableViewModel> RemoveFromComboDetailCommand { get; }
-        private async Task deleteCommand(Combo combo)
+        private void editCommand()
         {
-            if (combo == null) return;
+            if (SelectedCombo != null)
+                IsEditMode = true;
+            else modalService.ShowModal(ModalType.Error, "Bạn chưa chọn Combo", "Thông báo");
+        }
+        private async Task deleteCommand()
+        {
+            if (SelectedCombo == null) return;
+            bool res = false;
             MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
             if (metroWindow.ShowModalMessageExternal("Cảnh báo", "Bạn có chắc chắn xóa?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
             {
-                if (combo.InMemory) await unitOfWork.Combos.Delete(combo.Id);
-                ComboList.Remove(combo);
-                ComboDetail.Clear();
-                ComboList.Refresh();
+                res = (bool)await unitOfWork.Combos.Delete(SelectedCombo.Id);
             }
+            if (res)
+            {
+                modalService.ShowModal(ModalType.Information, "Đã xóa", "Thông báo");
+                reset();
+            }
+            else modalService.ShowModal(ModalType.Information, "Xóa không thành công", "Thông báo");
         }
         private void addToComboCommand()
         {
@@ -97,10 +121,10 @@ namespace ESM.Modules.Import.ViewModels
                 if (item.IsSelected && !ComboDetail.Any(x => x.Id == item.Id)) ComboDetail.Add(item);
             }
         }
-        private async Task saveCommand(Combo combo)
+        private async Task saveCommand()
         {
-            if (combo == null) return;
-            if (combo.Name == null || combo.Unit == null)
+            if (SelectedCombo == null) return;
+            if (SelectedCombo.Name == null || SelectedCombo.Unit == null)
             {
                 modalService.ShowModal(ModalType.Error, "Nhập tất cả thông tin cần thiết", "Cảnh báo");
                 return;
@@ -108,11 +132,11 @@ namespace ESM.Modules.Import.ViewModels
             MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
             if (metroWindow.ShowModalMessageExternal("Thông báo", "Bạn có chắc chắn lưu?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
             {
-                FillCombo(combo);
+                FillCombo();
                 bool res;
-                if (combo.InMemory)
+                if (await unitOfWork.Combos.IsIdExist(SelectedCombo.Id))
                 {
-                    res = (bool)await unitOfWork.Combos.Update(combo);
+                    res = (bool)await unitOfWork.Combos.Update(SelectedCombo);
                     if (res)
                     {
                         modalService.ShowModal(ModalType.Information, "Cập nhật thành công", "Thông báo");
@@ -121,7 +145,7 @@ namespace ESM.Modules.Import.ViewModels
                 }
                 else
                 {
-                    res = (bool)await unitOfWork.Combos.Add(combo);
+                    res = (bool)await unitOfWork.Combos.Add(SelectedCombo);
                     if (res)
                     {
                         modalService.ShowModal(ModalType.Information, "Đã lưu", "Thông báo");
@@ -130,41 +154,43 @@ namespace ESM.Modules.Import.ViewModels
                 }
                 if (res)
                 {
-                    combo.InMemory = true;
-                    ComboList.Refresh();
+                    reset();
                 }
             }
         }
         private async void addToComboListCommand()
         {
-            Combo combo = new()
-            {
-                Id = await GetNewID(),
-                InMemory = false
-            };
-            ComboList.Add(combo);
+            ComboDetail.Clear();
+            IsEditMode = true;
+            var p = new Combo();
+            p.Id = await GetNewID();
+            SelectedCombo = p;
         }
-        private async void clearCommand(Combo combo)
+        private void clearCommand()
         {
-            MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
-            if (metroWindow.ShowModalMessageExternal("Cảnh báo", "Bạn có chắc chắn hủy bỏ thông tin?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
+            if (SelectedCombo != null)
             {
-                if (combo.InMemory) combo = await unitOfWork.Combos.GetById(combo.Id);
-                else combo = new()
+                MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
+                if (metroWindow.ShowModalMessageExternal("Cảnh báo", "Bạn có chắc chắn hủy bỏ thông tin?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
                 {
-                    Id = combo.Id,
-                    InMemory = false
-                };
-                ComboList[ComboList.IndexOf(combo)] = combo;
-                ComboDetail?.Clear();
-                ComboList.Refresh(); ;
+                    reset();
+                }
             }
         }
-        private async void findCommand(Combo combo)
+        private async void reset()
         {
-            if (combo == null) return;
+            SelectedCombo = null;
+            SelectedProductType = null;
             ComboDetail.Clear();
-            var list = await unitOfWork.Combos.GetListProduct(combo);
+            ProductList = null;
+            IsEditMode = false;
+            ComboList = new(await unitOfWork.Combos.GetAll());
+        }
+        private async void findCommand()
+        {
+            if (SelectedCombo == null) return;
+            ComboDetail.Clear();
+            var list = await unitOfWork.Combos.GetListProduct(SelectedCombo);
             foreach (var item in list)
             {
                 ComboDetail.Add(new()
@@ -179,15 +205,15 @@ namespace ESM.Modules.Import.ViewModels
                 });
             }
         }
-        private async void FillCombo(Combo combo)
+        private async void FillCombo()
         {
             List<string> ids = new();
             foreach (var item in ComboDetail)
             {
                 ids.Add(item.Id);
             }
-            combo.ProductIdlist =  string.Join(' ', ids);
-            combo.Price = await unitOfWork.Combos.GetComboPrice(combo);
+            SelectedCombo.ProductIdlist = string.Join(' ', ids);
+            SelectedCombo.Price = await unitOfWork.Combos.GetComboPrice(SelectedCombo);
         }
         protected async Task<string> GetNewID()
         {
@@ -269,7 +295,7 @@ namespace ESM.Modules.Import.ViewModels
                         Remain = x.Remain,
                         IsSelected = ComboDetail.Any(p => p.Id == x.Id),
                     }).ToList(); break;
-                default:
+                case "VGA":
                     ProductList = (await unitOfWork.Vgas.GetAll()).Select(x => new SelectableViewModel()
                     {
                         Id = x.Id,
@@ -296,9 +322,9 @@ namespace ESM.Modules.Import.ViewModels
 
         }
 
-        public async void OnNavigatedTo(NavigationContext navigationContext)
+        public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            ComboList = new(await unitOfWork.Combos.GetAll());
+            reset();
         }
     }
 }

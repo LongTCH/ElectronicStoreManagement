@@ -10,7 +10,7 @@ public partial class Discount : BindableBase, IEquatable<Discount>
 
     public string? ProductIdlist { get; set; }
     private double? discount;
-    [Range(0, 100, ErrorMessage ="Nhập giá trị từ 0 đến 100")]
+    [Range(0, 100, ErrorMessage = "Nhập giá trị từ 0 đến 100")]
     public double? Discount1
     {
         get => discount;
@@ -35,13 +35,6 @@ public partial class Discount : BindableBase, IEquatable<Discount>
     public string? Name { get; set; }
     [NotMapped]
     public IEnumerable<ProductDTO>? ListProducts { get; set; }
-    private bool inMemory = true;
-    [NotMapped]
-    public bool InMemory
-    {
-        get => inMemory;
-        set => SetProperty(ref inMemory, value);
-    }
 
     public bool Equals(Discount? other)
     {

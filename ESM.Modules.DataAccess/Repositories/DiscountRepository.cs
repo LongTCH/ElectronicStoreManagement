@@ -10,6 +10,11 @@ namespace ESM.Modules.DataAccess.Repositories
     }
     public class DiscountRepository : BaseRepository<Discount>, IDiscountRepository
     {
+        public override async Task<bool> IsIdExist(string id)
+        {
+            using var _context = new ESMDbContext();
+            return await _context.Discounts.AnyAsync(x => x.Id + "" == id);
+        }
         public override async Task<object?> Add(Discount entity)
         {
             using var _context = new ESMDbContext();

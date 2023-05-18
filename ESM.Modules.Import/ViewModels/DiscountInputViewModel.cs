@@ -10,7 +10,6 @@ using System.Linq;
 using Prism.Commands;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
-using ESM.Core;
 using System.Windows;
 using Prism.Regions;
 
@@ -30,20 +29,34 @@ namespace ESM.Modules.Import.ViewModels
             AddCommand = new(addToDiscountListCommand);
             AddToDiscountCommand = new(addToDiscountCommand);
             RemoveFromDiscountDetailCommand = new(executeRemove);
-            AddToDiscountListCommand = new(addToDiscountListCommand);
+            AddToDiscountListCommand = new(addToDiscountListCommand); 
+            EditCommand = new(editCommand);
             CancelCommand = new(clearCommand);
-            DeleteCommand = new(async (p) => await deleteCommand(p));
+            DeleteCommand = new(async () => await deleteCommand());
             FindCommand = new(findCommand);
-            SaveCommand = new(async (p) => await saveCommand(p));
+            SaveCommand = new(async () => await saveCommand());
         }
         public DelegateCommand AddCommand { get; }
+        public DelegateCommand EditCommand { get; }
         public DelegateCommand AddToDiscountCommand { get; }
         public DelegateCommand AddToDiscountListCommand { get; }
-        public DelegateCommand<Discount> CancelCommand { get; }
-        public DelegateCommand<Discount> SaveCommand { get; }
-        public DelegateCommand<Discount> DeleteCommand { get; }
-        public DelegateCommand<Discount> FindCommand { get; }
+        public DelegateCommand CancelCommand { get; }
+        public DelegateCommand SaveCommand { get; }
+        public DelegateCommand DeleteCommand { get; }
+        public DelegateCommand FindCommand { get; }
         public DelegateCommand<SelectableViewModel> RemoveFromDiscountDetailCommand { get; }
+        private Discount selectedDiscount;
+        public Discount SelectedDiscount
+        {
+            get => selectedDiscount;
+            set => SetProperty(ref selectedDiscount, value);
+        }
+        private bool isEditMode;
+        public bool IsEditMode
+        {
+            get => isEditMode;
+            set => SetProperty(ref isEditMode, value);
+        }
         public IEnumerable<string> ProductType { get; }
         public ICollection<SelectableViewModel> productList;
         public ICollection<SelectableViewModel> ProductList
@@ -69,7 +82,7 @@ namespace ESM.Modules.Import.ViewModels
             get => selectedProductType;
             set
             {
-                selectedProductType = value;
+                SetProperty(ref selectedProductType, value);
                 SetProductList();
             }
         }
@@ -143,7 +156,7 @@ namespace ESM.Modules.Import.ViewModels
                         Remain = x.Remain,
                         IsSelected = DiscountDetail.Any(p => p.Id == x.Id),
                     }).ToList(); break;
-                default:
+                case "VGA":
                     ProductList = (await _unitOfWork.Vgas.GetAll()).Select(x => new SelectableViewModel()
                     {
                         Id = x.Id,
@@ -156,17 +169,27 @@ namespace ESM.Modules.Import.ViewModels
                     }).ToList(); break;
             }
         }
-        private async Task deleteCommand(Discount discount)
+        private void editCommand()
         {
-            if (discount == null) return;
+            if (SelectedDiscount != null)
+                IsEditMode = true;
+            else _modalService.ShowModal(ModalType.Error, "Bạn chưa chọn Khuyến mãi", "Thông báo");
+        }
+        private async Task deleteCommand()
+        {
+            if (SelectedDiscount == null) return;
+            bool res = false;
             MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
             if (metroWindow.ShowModalMessageExternal("Cảnh báo", "Bạn có chắc chắn xóa?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
             {
-                if (discount.InMemory) await _unitOfWork.Discounts.Delete(discount.Id.ToString());
-                DiscountList.Remove(discount);
-                DiscountDetail.Clear();
-                DiscountList.Refresh();
+                res = (bool)await _unitOfWork.Discounts.Delete(SelectedDiscount.Id + "");
             }
+            if (res)
+            {
+                _modalService.ShowModal(ModalType.Information, "Đã xóa", "Thông báo");
+                reset();
+            }
+            else _modalService.ShowModal(ModalType.Information, "Xóa không thành công", "Thông báo");
         }
         private void addToDiscountCommand()
         {
@@ -176,20 +199,20 @@ namespace ESM.Modules.Import.ViewModels
                 if (item.IsSelected && !DiscountDetail.Any(x => x.Id == item.Id)) DiscountDetail.Add(item);
             }
         }
-        private async Task saveCommand(Discount discount)
+        private async Task saveCommand()
         {
-            if (discount == null) return;
-            if (discount.Name == null)
+            if (SelectedDiscount == null) return;
+            if (SelectedDiscount.Name == null)
             {
                 _modalService.ShowModal(ModalType.Error, "Nhập tên khuyến mãi", "Cảnh báo");
                 return;
             }
-            if (discount.StartDate == null || discount.EndDate == null || discount.StartDate >= discount.EndDate)
+            if (SelectedDiscount.StartDate == null || SelectedDiscount.EndDate == null || SelectedDiscount.StartDate >= SelectedDiscount.EndDate)
             {
                 _modalService.ShowModal(ModalType.Error, "Nhập thời gian khuyến mãi hợp lệ", "Cảnh báo");
                 return;
             }
-            if (discount.Discount1 < 0 || discount.Discount1 > 100)
+            if (SelectedDiscount.Discount1 < 0 || SelectedDiscount.Discount1 > 100)
             {
                 _modalService.ShowModal(ModalType.Error, "Nhập giá trị khuyến mãi từ 0 đến 100", "Cảnh báo");
                 return;
@@ -197,11 +220,11 @@ namespace ESM.Modules.Import.ViewModels
             MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
             if (metroWindow.ShowModalMessageExternal("Thông báo", "Bạn có chắc chắn lưu?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
             {
-                discount.ProductIdlist = GetDiscountDetail();
+                SelectedDiscount.ProductIdlist = GetDiscountDetail();
                 bool res;
-                if (discount.InMemory)
+                if (await _unitOfWork.Discounts.IsIdExist(SelectedDiscount.Id + ""))
                 {
-                    res = (bool)await _unitOfWork.Discounts.Update(discount);
+                    res = (bool)await _unitOfWork.Discounts.Update(SelectedDiscount);
                     if (res)
                     {
                         _modalService.ShowModal(ModalType.Information, "Cập nhật thành công", "Thông báo");
@@ -210,7 +233,7 @@ namespace ESM.Modules.Import.ViewModels
                 }
                 else
                 {
-                    res = (bool)await _unitOfWork.Discounts.Add(discount);
+                    res = (bool)await _unitOfWork.Discounts.Add(SelectedDiscount);
                     if (res)
                     {
                         _modalService.ShowModal(ModalType.Information, "Đã lưu", "Thông báo");
@@ -220,41 +243,31 @@ namespace ESM.Modules.Import.ViewModels
                 }
                 if (res)
                 {
-                    discount.InMemory = true;
-                    DiscountList.Refresh();
+                    reset();
                 }
             }
         }
         private void addToDiscountListCommand()
         {
-            Discount discount = new()
-            {
-                Id = GetNewID(),
-                InMemory = false
-            };
-            DiscountList.Add(discount);
+            DiscountDetail.Clear();
+            IsEditMode = true;
+            var p = new Discount();
+            p.Id = GetNewID();
+            SelectedDiscount = p;
         }
-        private async void clearCommand(Discount discount)
+        private void clearCommand()
         {
             MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
             if (metroWindow.ShowModalMessageExternal("Cảnh báo", "Bạn có chắc chắn hủy bỏ thông tin?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
             {
-                if (discount.InMemory) discount = await _unitOfWork.Discounts.GetById(discount.Id.ToString());
-                else discount = new()
-                {
-                    Id = discount.Id,
-                    InMemory = false
-                };
-                DiscountList[DiscountList.IndexOf(discount)] = discount;
-                DiscountDetail?.Clear();
-                DiscountList.Refresh();
+                reset();
             }
         }
-        private async void findCommand(Discount discount)
+        private async void findCommand()
         {
-            if (discount == null) return;
+            if (SelectedDiscount == null) return;
             DiscountDetail?.Clear();
-            var list = await _unitOfWork.Discounts.GetListProduct(discount);
+            var list = await _unitOfWork.Discounts.GetListProduct(SelectedDiscount);
             foreach (var item in list)
             {
                 DiscountDetail.Add(new()
@@ -288,6 +301,15 @@ namespace ESM.Modules.Import.ViewModels
         {
             DiscountDetail.Remove(obj);
         }
+        private async void reset()
+        {
+            SelectedDiscount = null;
+            SelectedProductType = null;
+            DiscountDetail.Clear();
+            ProductList = null;
+            IsEditMode = false;
+            DiscountList = new(await _unitOfWork.Discounts.GetAll());
+        }
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
             return true;
@@ -298,9 +320,9 @@ namespace ESM.Modules.Import.ViewModels
 
         }
 
-        public async void OnNavigatedTo(NavigationContext navigationContext)
+        public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            DiscountList = new(await _unitOfWork.Discounts.GetAll());
+            reset();
         }
     }
 }
