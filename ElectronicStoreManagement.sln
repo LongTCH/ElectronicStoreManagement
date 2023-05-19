@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ESMDatabase", "ESMDatabase\ESMDatabase.sqlproj", "{F4A3F9B0-FD4B-4798-9F50-DC317FEC3CA2}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESM", "ESM\ESM.csproj", "{69BAE68C-9E25-4DD8-AD2F-1021AE23F3B3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{CD6B3BB0-1566-414B-9456-80C675DD0E74}"
@@ -27,12 +25,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F4A3F9B0-FD4B-4798-9F50-DC317FEC3CA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F4A3F9B0-FD4B-4798-9F50-DC317FEC3CA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F4A3F9B0-FD4B-4798-9F50-DC317FEC3CA2}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{F4A3F9B0-FD4B-4798-9F50-DC317FEC3CA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F4A3F9B0-FD4B-4798-9F50-DC317FEC3CA2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F4A3F9B0-FD4B-4798-9F50-DC317FEC3CA2}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{69BAE68C-9E25-4DD8-AD2F-1021AE23F3B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{69BAE68C-9E25-4DD8-AD2F-1021AE23F3B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69BAE68C-9E25-4DD8-AD2F-1021AE23F3B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
