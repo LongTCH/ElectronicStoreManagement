@@ -7,223 +7,223 @@
              Background="White"
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:esmcore="clr-namespace:ESM.Core;assembly=ESM.Core">
-    <StackPanel>
-        <TextBlock Text="TRANG QUẢN TRỊ"
-                   HorizontalAlignment="Center"
-                   Style="{StaticResource MahApps.Styles.TextBlock}"
-                   FontSize="50"
-                   FontWeight="Bold"
-                   Foreground="Blue" />
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*" />
-            </Grid.RowDefinitions>
-            <materialDesign:Card Margin="20,0,20,0"
-                                 Background="#FFFAE0FC">
-                <StackPanel>
-                    <TextBlock Text="1. Quản lí sản phẩm"
-                               Style="{StaticResource MahApps.Styles.TextBlock}"
-                               FontSize="30"
-                               FontWeight="Bold"
-                               Margin='50,0,0,0' />
-                    <Grid Margin="0,0,0,10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*" />
-                            <ColumnDefinition Width="1*" />
-                            <ColumnDefinition Width="1*" />
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Margin="20,0,0,0"
-                                    Orientation="Horizontal"
-                                    HorizontalAlignment="Center">
-                            <iconPacks:PackIconCodicons Kind="Preview"
-                                                        Height="60"
-                                                        Width="60" />
-                            <Button Content="Quản lí thông tin sản phẩm"
-                                    Cursor="Hand"
-                                    Width="300"
-                                    Style="{StaticResource MahApps.Styles.Button.Circle}"
-                                    Command="{Binding NavigateCommand}"
-                                    CommandParameter="{x:Static esmcore:ViewNames.ProductInputView}"
-                                    Background="Aquamarine"
-                                    FontSize="22" />
-                        </StackPanel>
-                        <StackPanel Margin="20,0,20,0"
-                                    Grid.Column="1"
-                                    Orientation="Horizontal"
-                                    HorizontalAlignment="Center">
-                            <iconPacks:PackIconBoxIcons Kind="SolidTruck"
-                                                        Height="60"
-                                                        Width="60" />
-                            <Button Content="Quản lí nhập kho"
-                                    Grid.Column="1"
-                                    Width="200"
-                                    Cursor="Hand"
-                                    Style="{StaticResource MahApps.Styles.Button.Circle}"
-                                    Command="{Binding NavigateCommand}"
-                                    CommandParameter="{x:Static esmcore:ViewNames.ImportBillView}"
-                                    Background="Aqua"
-                                    FontSize="22" />
-                        </StackPanel>
-                        <StackPanel Margin="20,0,20,0"
-                                    Grid.Column="2"
-                                    Orientation="Horizontal"
-                                    HorizontalAlignment="Center">
-                            <iconPacks:PackIconForkAwesome Kind="Percent"
-                                                           Height="60"
-                                                           Width="60" />
-                            <Button Content="Quản lí khuyến mãi"
-                                    Grid.Column="2"
-                                    Width="200"
-                                    Cursor="Hand"
-                                    Style="{StaticResource MahApps.Styles.Button.Circle}"
-                                    Command="{Binding NavigateCommand}"
-                                    CommandParameter="{x:Static esmcore:ViewNames.DiscountInputView}"
-                                    Background="Bisque"
-                                    FontSize="22" />
-                        </StackPanel>
-                    </Grid>
-                </StackPanel>
-            </materialDesign:Card>
-            <materialDesign:Card Grid.Row="1"
-                                 Margin="20,10,20,0"
-                                 Background="#FFFAE0FC">
-                <StackPanel>
-                    <TextBlock Text="2. Quản lí bán hàng"
-                               Style="{StaticResource MahApps.Styles.TextBlock}"
-                               FontSize="30"
-                               FontWeight="Bold"
-                               Margin='50,0,0,0' />
-                    <Grid Margin="0,0,0,10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*" />
-                            <ColumnDefinition Width="1*" />
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Orientation="Horizontal"
-                                    HorizontalAlignment="Center">
-                            <iconPacks:PackIconMaterial Kind="Cash"
-                                                        Width="60"
-                                                        Height="60" />
-                            <Button Content="Bán lẻ"
-                                    Width="250"
-                                    Cursor="Hand"
-                                    Style="{StaticResource MahApps.Styles.Button.Circle}"
-                                    Command="{Binding NavigateCommand}"
-                                    CommandParameter="{x:Static esmcore:ViewNames.SellView}"
-                                    Background="Aquamarine"
-                                    FontSize="22" />
-                        </StackPanel>
-                        <StackPanel Grid.Column="1"
-                                    Orientation="Horizontal"
-                                    HorizontalAlignment="Center">
-                            <iconPacks:PackIconMaterial Kind="CashMultiple"
-                                                        Width="60"
-                                                        Height="60" />
-                            <Button Content="Bán combo"
-                                    Width="250"
-                                    Cursor="Hand"
-                                    Style="{StaticResource MahApps.Styles.Button.Circle}"
-                                    Command="{Binding NavigateCommand}"
-                                    CommandParameter="{x:Static esmcore:ViewNames.ComboSellView}"
-                                    Background="Aqua"
-                                    FontSize="22" />
-                        </StackPanel>
-                    </Grid>
-                </StackPanel>
-            </materialDesign:Card>
-            <materialDesign:Card Grid.Row="2"
-                                 Margin="20,10,20,0"
-                                 Background="#FFFAE0FC">
-                <StackPanel>
-                    <TextBlock Text="3. Quản lí nhà cung cấp"
-                               Style="{StaticResource MahApps.Styles.TextBlock}"
-                               FontSize="30"
-                               FontWeight="Bold"
-                               Margin='50,0,0,0' />
-                    <Grid Margin="0,0,0,10">
-                        <StackPanel Orientation="Horizontal"
-                                    HorizontalAlignment="Center">
-                            <iconPacks:PackIconMaterial Kind="Import"
-                                                        Height="60"
-                                                        Width="60" />
-                            <Button Content="Quản lí thông tin nhà cung cấp"
-                                    Width="350"
-                                    Cursor="Hand"
-                                    Style="{StaticResource MahApps.Styles.Button.Circle}"
-                                    Command="{Binding NavigateCommand}"
-                                    CommandParameter="{x:Static esmcore:ViewNames.DistributorView}"
-                                    Background="Gold"
-                                    FontSize="22" />
-                        </StackPanel>
-                    </Grid>
-                </StackPanel>
-            </materialDesign:Card>
-            <materialDesign:Card Grid.Row="3"
-                                 Margin="20,10,20,0"
-                                 Background="#FFFAE0FC">
-                <StackPanel>
-                    <TextBlock Text="4. Quản lí hóa đơn"
-                               Style="{StaticResource MahApps.Styles.TextBlock}"
-                               FontSize="30"
-                               FontWeight="Bold"
-                               Margin='50,0,0,0' />
-                    <Grid Margin="0,0,0,10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*" />
-                            <ColumnDefinition Width="1*" />
-                            <ColumnDefinition Width="1*" />
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Margin="20,0,10,0"
-                                    Orientation="Horizontal"
-                                    HorizontalAlignment="Center">
-                            <iconPacks:PackIconVaadinIcons Kind="Invoice"
-                                                           Height="60"
-                                                           Width="60" />
-                            <Button Content="Quản lí hóa đơn bán lẻ"
-                                    Width="250"
-                                    Cursor="Hand"
-                                    Style="{StaticResource MahApps.Styles.Button.Circle}"
-                                    Command="{Binding NavigateCommand}"
-                                    CommandParameter="{x:Static esmcore:ViewNames.Invoicemanagement}"
-                                    Background="Aquamarine"
-                                    FontSize="22" />
-                        </StackPanel>
-                        <StackPanel Grid.Column="1"
-                                    Margin="0,0,10,0"
-                                    Orientation="Horizontal"
-                                    HorizontalAlignment="Center">
-                            <iconPacks:PackIconVaadinIcons Kind="DateInput"
-                                                           Height="60"
-                                                           Width="60" />
-                            <Button Content="Quản lí hóa đơn nhập hàng"
-                                    Width="300"
-                                    Cursor="Hand"
-                                    Style="{StaticResource MahApps.Styles.Button.Circle}"
-                                    Command="{Binding NavigateCommand}"
-                                    CommandParameter="{x:Static esmcore:ViewNames.ImportInvoice}"
-                                    Background="Aqua"
-                                    FontSize="22" />
-                        </StackPanel>
-                        <StackPanel Grid.Column="2"
-                                    Orientation="Horizontal"
-                                    HorizontalAlignment="Center">
-                            <iconPacks:PackIconVaadinIcons Kind="Stock"
-                                                           Height="60"
-                                                           Width="60" />
-                            <Button Content="Quản lí hóa đơn bán Combo"
-                                    Width="300"
-                                    Cursor="Hand"
-                                    Style="{StaticResource MahApps.Styles.Button.Circle}"
-                                    Command="{Binding NavigateCommand}"
-                                    CommandParameter="{x:Static esmcore:ViewNames.InvoiceComboMangament}"
-                                    Background="Bisque"
-                                    FontSize="22" />
-                        </StackPanel>
-                    </Grid>
-                </StackPanel>
-            </materialDesign:Card>
-        </Grid>
-    </StackPanel>
+    <ScrollViewer>
+        <StackPanel>
+            <TextBlock Text="TRANG QUẢN TRỊ"
+                       HorizontalAlignment="Center"
+                       Style="{StaticResource MahApps.Styles.TextBlock}"
+                       FontSize="50"
+                       FontWeight="Bold"
+                       Foreground="Blue" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+                <materialDesign:Card Margin="20,0,20,0"
+                                     Background="#FFFAE0FC">
+                    <StackPanel>
+                        <TextBlock Text="1. Quản lí sản phẩm"
+                                   Style="{StaticResource MahApps.Styles.TextBlock}"
+                                   FontSize="30"
+                                   FontWeight="Bold"
+                                   Margin='50,0,0,0' />
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Margin="20,0,0,0"
+                                        HorizontalAlignment="Center">
+                                <iconPacks:PackIconCodicons Kind="Preview"
+                                                            HorizontalAlignment="Center"
+                                                            Height="90"
+                                                            Width="90" />
+                                <Button Content="Quản lí thông tin sản phẩm"
+                                        Cursor="Hand"
+                                        Width="300"
+                                        Style="{StaticResource MahApps.Styles.Button.Hamburger}"
+                                        Command="{Binding NavigateCommand}"
+                                        CommandParameter="{x:Static esmcore:ViewNames.ProductInputView}"
+                                        FontSize="22" />
+                            </StackPanel>
+                            <StackPanel Margin="20,0,20,0"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Center">
+                                <iconPacks:PackIconBoxIcons Kind="SolidTruck"
+                                                            HorizontalAlignment="Center"
+                                                            Height="90"
+                                                            Width="90" />
+                                <Button Content="Quản lí nhập kho"
+                                        Grid.Column="1"
+                                        Width="200"
+                                        Cursor="Hand"
+                                        Style="{StaticResource MahApps.Styles.Button.Hamburger}"
+                                        Command="{Binding NavigateCommand}"
+                                        CommandParameter="{x:Static esmcore:ViewNames.ImportBillView}"
+                                        FontSize="22" />
+                            </StackPanel>
+                            <StackPanel Margin="20,0,20,0"
+                                        Grid.Column="2"
+                                        HorizontalAlignment="Center">
+                                <iconPacks:PackIconForkAwesome Kind="Percent"
+                                                               HorizontalAlignment="Center"
+                                                               Height="90"
+                                                               Width="90" />
+                                <Button Content="Quản lí khuyến mãi"
+                                        Grid.Column="2"
+                                        Width="200"
+                                        Cursor="Hand"
+                                        Style="{StaticResource MahApps.Styles.Button.Hamburger}"
+                                        Command="{Binding NavigateCommand}"
+                                        CommandParameter="{x:Static esmcore:ViewNames.DiscountInputView}"
+                                        FontSize="22" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </materialDesign:Card>
+                <materialDesign:Card Grid.Row="1"
+                                     Margin="20,10,20,0"
+                                     Background="#FFFAE0FC">
+                    <StackPanel>
+                        <TextBlock Text="2. Quản lí bán hàng"
+                                   Style="{StaticResource MahApps.Styles.TextBlock}"
+                                   FontSize="30"
+                                   FontWeight="Bold"
+                                   Margin='50,0,0,0' />
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel HorizontalAlignment="Center">
+                                <iconPacks:PackIconMaterial Kind="Cash"
+                                                            HorizontalAlignment="Center"
+                                                            Width="90"
+                                                            Height="90" />
+                                <Button Content="Bán lẻ"
+                                        Width="250"
+                                        Cursor="Hand"
+                                        Style="{StaticResource MahApps.Styles.Button.Hamburger}"
+                                        Command="{Binding NavigateCommand}"
+                                        CommandParameter="{x:Static esmcore:ViewNames.SellView}"
+                                        FontSize="22" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1"
+                                        HorizontalAlignment="Center">
+                                <iconPacks:PackIconMaterial Kind="CashMultiple"
+                                                            HorizontalAlignment="Center"
+                                                            Width="90"
+                                                            Height="90" />
+                                <Button Content="Bán combo"
+                                        Width="250"
+                                        Cursor="Hand"
+                                        Style="{StaticResource MahApps.Styles.Button.Hamburger}"
+                                        Command="{Binding NavigateCommand}"
+                                        CommandParameter="{x:Static esmcore:ViewNames.ComboSellView}"
+                                        FontSize="22" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </materialDesign:Card>
+                <materialDesign:Card Grid.Row="2"
+                                     Margin="20,10,20,0"
+                                     Background="#FFFAE0FC">
+                    <StackPanel>
+                        <TextBlock Text="3. Quản lí nhà cung cấp"
+                                   Style="{StaticResource MahApps.Styles.TextBlock}"
+                                   FontSize="30"
+                                   FontWeight="Bold"
+                                   Margin='50,0,0,0' />
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel HorizontalAlignment="Center">
+                                <iconPacks:PackIconMaterial Kind="Import"
+                                                            HorizontalAlignment="Center"
+                                                            Height="90"
+                                                            Width="90" />
+                                <Button Content="Quản lí thông tin nhà cung cấp"
+                                        Width="350"
+                                        Cursor="Hand"
+                                        Style="{StaticResource MahApps.Styles.Button.Hamburger}"
+                                        Command="{Binding NavigateCommand}"
+                                        CommandParameter="{x:Static esmcore:ViewNames.DistributorView}"
+                                        FontSize="22" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </materialDesign:Card>
+                <materialDesign:Card Grid.Row="3"
+                                     Margin="20,10,20,0"
+                                     Background="#FFFAE0FC">
+                    <StackPanel>
+                        <TextBlock Text="4. Quản lí hóa đơn"
+                                   Style="{StaticResource MahApps.Styles.TextBlock}"
+                                   FontSize="30"
+                                   FontWeight="Bold"
+                                   Margin='50,0,0,0' />
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Margin="20,0,10,0"
+                                        HorizontalAlignment="Center">
+                                <iconPacks:PackIconVaadinIcons Kind="Invoice"
+                                                               HorizontalAlignment="Center"
+                                                               Height="90"
+                                                               Width="90" />
+                                <Button Content="Quản lí hóa đơn bán lẻ"
+                                        Width="250"
+                                        Cursor="Hand"
+                                        Style="{StaticResource MahApps.Styles.Button.Hamburger}"
+                                        Command="{Binding NavigateCommand}"
+                                        CommandParameter="{x:Static esmcore:ViewNames.Invoicemanagement}"
+                                        FontSize="22" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1"
+                                        Margin="0,0,10,0"
+                                        HorizontalAlignment="Center">
+                                <iconPacks:PackIconVaadinIcons Kind="DateInput"
+                                                               HorizontalAlignment="Center"
+                                                               Height="90"
+                                                               Width="90" />
+                                <Button Content="Quản lí hóa đơn nhập hàng"
+                                        Width="300"
+                                        Cursor="Hand"
+                                        Style="{StaticResource MahApps.Styles.Button.Hamburger}"
+                                        Command="{Binding NavigateCommand}"
+                                        CommandParameter="{x:Static esmcore:ViewNames.ImportInvoice}"
+                                        FontSize="22" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="2"
+                                        HorizontalAlignment="Center">
+                                <iconPacks:PackIconVaadinIcons Kind="Stock"
+                                                               HorizontalAlignment="Center"
+                                                               Height="90"
+                                                               Width="90" />
+                                <Button Content="Quản lí hóa đơn bán Combo"
+                                        Width="300"
+                                        Cursor="Hand"
+                                        Style="{StaticResource MahApps.Styles.Button.Hamburger}"
+                                        Command="{Binding NavigateCommand}"
+                                        CommandParameter="{x:Static esmcore:ViewNames.InvoiceComboMangament}"
+                                        FontSize="22" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </materialDesign:Card>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+    
 </UserControl>
