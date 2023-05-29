@@ -79,7 +79,7 @@
                     <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
                 <Button Content="THÊM"
-                        Grid.Row="0"
+                        Grid.Row="1"
                         Width="100"
                         FontSize="20"
                         Background="Green"

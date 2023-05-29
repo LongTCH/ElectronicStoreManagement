@@ -41,7 +41,7 @@
                 <TextBlock Text="Thông Tin Khách Hàng"
                            IsEnabled="False"
                            HorizontalAlignment="Center"
-                           FontSize="24"
+                           FontSize="25"
                            Foreground="#FF68BD2C"
                            FontFamily="Arial" />
                 <StackPanel>
@@ -84,7 +84,7 @@
             <TextBlock Text="Danh Sách Sản Phẩm"
                        IsEnabled="False"
                        HorizontalAlignment="Center"
-                       FontSize="24"
+                       FontSize="25"
                        Foreground="#FF68BD2C"
                        FontFamily="Arial" />
             <StackPanel Grid.Row="1"
@@ -125,7 +125,7 @@
                       CanUserDeleteRows="False"
                       CanUserReorderColumns="False"
                       HorizontalAlignment="Center"
-                      FontSize="20"
+                      FontSize="18"
                       VerticalGridLinesBrush="DeepSkyBlue"
                       HorizontalGridLinesBrush="DeepSkyBlue"
                       ScrollViewer.CanContentScroll="True"

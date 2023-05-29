@@ -27,13 +27,13 @@
                 <TextBlock Text="QUẢN LÍ"
                            IsEnabled="False"
                            HorizontalAlignment="Center"
-                           FontSize="25"
+                           FontSize="24"
                            Foreground="Black"
                            FontFamily="Arial Black" />
                 <TextBlock Text="BÁN LẺ"
                            IsEnabled="False"
                            HorizontalAlignment="Center"
-                           FontSize="25"
+                           FontSize="24"
                            Foreground="Black"
                            FontFamily="Arial Black" />
             </StackPanel>
@@ -41,6 +41,7 @@
                 <TextBlock Text="Thông Tin Khách Hàng"
                            IsEnabled="False"
                            HorizontalAlignment="Center"
+                           Margin="5"
                            FontSize="24"
                            Foreground="#FF68BD2C"
                            FontFamily="Arial" />
@@ -89,6 +90,7 @@
                        Foreground="#FF68BD2C"
                        FontFamily="Arial" />
             <StackPanel Grid.Row="1"
+                        Margin="5"
                         x:Name="TopPanel"
                         HorizontalAlignment="Center"
                         Orientation="Horizontal">
@@ -125,7 +127,7 @@
                       Grid.Row="2"
                       Background="Transparent"
                       MaxWidth="1000"
-                      FontSize="20"
+                      FontSize="16"
                       AutoGenerateColumns="False"
                       CanUserAddRows="False"
                       CanUserDeleteRows="False"

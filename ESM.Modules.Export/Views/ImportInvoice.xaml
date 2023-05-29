@@ -52,7 +52,7 @@
                              BorderBrush="White"
                              Background="White"
                              Width="150"
-                             FontSize="20">Start Date:</TextBox>
+                             FontSize="20">Ngày bắt đầu:</TextBox>
                     <DatePicker x:Name="StartTime"
                                 Width="180"
                                 Language="vi-VN"
@@ -67,7 +67,7 @@
                              IsEnabled="False"
                              FontSize="20"
                              BorderBrush="White"
-                             Width="150">End Date:</TextBox>
+                             Width="150">Ngày kết thúc:</TextBox>
                     <DatePicker x:Name="EndTime"
                                 Width="180"
                                 Language="vi-VN"

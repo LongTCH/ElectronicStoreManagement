@@ -7,12 +7,13 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              Background="White">
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <Grid>
+<ScrollViewer VerticalScrollBarVisibility="Auto">
+    <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
             <Grid Margin="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -33,7 +34,7 @@
                                HorizontalAlignment="Center" />
                     <StackPanel Orientation="Horizontal"
                                 Margin="0,10">
-                        <TextBlock Text="Start Date: "
+                        <TextBlock Text="Ngày bắt đầu: "
                                    FontSize="20"
                                    VerticalAlignment="Center" />
                         <DatePicker x:Name="StartTime"
@@ -46,7 +47,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal"
                                 Margin="0,10">
-                        <TextBlock Text="End Date: "
+                        <TextBlock Text="Ngày kết thúc: "
                                    FontSize="20"
                                    VerticalAlignment="Center" />
                         <DatePicker x:Name="EndTime"
@@ -132,12 +133,16 @@
                     </StackPanel>
                 </Grid>
             </Grid>
-            <TextBlock Text="Danh sách hoá đơn"
+        </ScrollViewer>
+        <TextBlock Text="Danh sách hoá đơn"
                        Grid.Row="1"
                        FontSize="24"
                        Foreground="#FF68BD2C"
                        FontFamily="Arial"
                        Margin="20,0,0,0" />
+        <ScrollViewer Grid.Row="1"
+                      HorizontalScrollBarVisibility="Auto"
+                      VerticalScrollBarVisibility="Auto">
             <DataGrid MinWidth="800"
                       Height="400"
                       ItemsSource="{Binding Bills}"
@@ -180,6 +185,7 @@
                                         Binding="{Binding TotalAmount, Mode=OneWay,StringFormat={StaticResource CurrencyFormat}}" />
                 </DataGrid.Columns>
             </DataGrid>
-        </Grid>
-    </ScrollViewer>
+        </ScrollViewer>
+    </Grid>
+</ScrollViewer>
 </UserControl>
