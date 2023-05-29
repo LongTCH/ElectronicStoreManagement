@@ -23,7 +23,7 @@
         </Grid.RowDefinitions>
         <StackPanel>
             <TextBox Text="HÓA ĐƠN NHẬP HÀNG"
-                     FontSize="20"
+                     FontSize="25"
                      FontWeight="Bold"
                      Foreground="Blue"
                      BorderBrush="White"
@@ -31,6 +31,7 @@
                      HorizontalAlignment="Center" />
             <StackPanel Orientation="Vertical">
                 <TextBlock Text="Thông tin đơn vị nhập"
+                           FontSize="20"
                            FontWeight="Black"
                            HorizontalAlignment="Center"
                            Margin="10,0,0,0" />
@@ -88,6 +89,7 @@
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0"
+                           FontSize="20"
                            FontWeight="Black"
                            Width="200"
                            Margin="10,0,0,0">Thông tin sản phẩm nhập kho</TextBlock>

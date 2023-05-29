@@ -12,77 +12,129 @@
              d:DataContext="{d:DesignInstance viewmodels:InvoiceComboMangamentViewModel}"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Grid Margin="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0"
-                            Height="250"
-                            VerticalAlignment="Top">
-                    <TextBlock Text="QUÁN LÍ"                          
-                               FontSize="25"
-                               Foreground="Black"
-                               FontFamily="Arial Black"
-                               HorizontalAlignment="Center" />
-                    <TextBlock Text="HOÁ ĐƠN BÁN COMBO"
-                               FontSize="25"
-                               Foreground="Black"
-                               FontFamily="Arial Black"
-                               HorizontalAlignment="Center" />
-                    <StackPanel Orientation="Horizontal"
-                                Margin="0,10">
-                        <TextBlock Text="Start Date: "
-                                   FontSize="20"
-                                   VerticalAlignment="Center" />
-                        <DatePicker x:Name="StartTime"
-                                    Width="180"
-                                    FontSize="20"
-                                    Language="vi-VN"
-                                    helper:DatePickerDateFormat.DateFormat="dd/MM/yyyy"
-                                    SelectedDate="{Binding StartTime}"
-                                    Margin="10,0" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0"
+                                Height="250"
+                                VerticalAlignment="Top">
+                        <TextBlock Text="QUÁN LÍ"
+                                   FontSize="25"
+                                   Foreground="Black"
+                                   FontFamily="Arial Black"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="HOÁ ĐƠN BÁN COMBO"
+                                   FontSize="25"
+                                   Foreground="Black"
+                                   FontFamily="Arial Black"
+                                   HorizontalAlignment="Center" />
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="0,10">
+                            <TextBlock Text="Ngày bắt đầu: "
+                                       FontSize="20"
+                                       VerticalAlignment="Center" />
+                            <DatePicker x:Name="StartTime"
+                                        Width="180"
+                                        FontSize="20"
+                                        Language="vi-VN"
+                                        helper:DatePickerDateFormat.DateFormat="dd/MM/yyyy"
+                                        SelectedDate="{Binding StartTime}"
+                                        Margin="10,0" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="0,10">
+                            <TextBlock Text="Ngày kết thúc: "
+                                       FontSize="20"
+                                       VerticalAlignment="Center" />
+                            <DatePicker x:Name="EndTime"
+                                        Width="180"
+                                        FontSize="20"
+                                        Language="vi-VN"
+                                        helper:DatePickerDateFormat.DateFormat="dd/MM/yyyy"
+                                        SelectedDate="{Binding EndTime}"
+                                        Margin="10,0" />
+                        </StackPanel>
+                        <Button Content="XEM"
+                                Command="{Binding GetCommand}"
+                                HorizontalAlignment="Center"
+                                Margin="0,20"
+                                FontSize="20" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal"
-                                Margin="0,10">
-                        <TextBlock Text="End Date: "
-                                   FontSize="20"
-                                   VerticalAlignment="Center" />
-                        <DatePicker x:Name="EndTime"
-                                    Width="180"
-                                    FontSize="20"
-                                    Language="vi-VN"
-                                    helper:DatePickerDateFormat.DateFormat="dd/MM/yyyy"
-                                    SelectedDate="{Binding EndTime}"
-                                    Margin="10,0" />
-                    </StackPanel>
-                    <Button Content="XEM"
-                            Command="{Binding GetCommand}"
-                            HorizontalAlignment="Center"
-                            Margin="0,20"
-                            FontSize="20" />
-                </StackPanel>
-                <Grid Grid.Column="1"
-                      Margin="20,0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Text="Chi tiết hoá đơn"
-                               FontSize="24"
-                               Foreground="#FF68BD2C"
-                               FontFamily="Arial"
-                               Margin="5,0" />
-                    <!-- Invoice details -->
-                <DataGrid x:Name="InvoiceDataGrid"
-                          Height="230"
-                          ItemsSource="{Binding ProductIdList}"
+                    <Grid Grid.Column="1"
+                          Margin="20,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Chi tiết hoá đơn"
+                                   FontSize="25"
+                                   Foreground="#FF68BD2C"
+                                   FontFamily="Arial"
+                                   Margin="5,0" />
+                        <!-- Invoice details -->
+                        <DataGrid x:Name="InvoiceDataGrid"
+                                  Height="230"
+                                  ItemsSource="{Binding ProductIdList}"
+                                  Grid.Row="1"
+                                  Background="Transparent"
+                                  AutoGenerateColumns="False"
+                                  CanUserAddRows="False"
+                                  CanUserDeleteRows="False"
+                                  CanUserReorderColumns="False"
+                                  VerticalGridLinesBrush="DeepSkyBlue"
+                                  HorizontalGridLinesBrush="DeepSkyBlue"
+                                  Margin="5"
+                                  RowHeaderWidth="0"
+                                  HeadersVisibility="Column">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Mã sản phẩm"
+                                                    Binding="{Binding}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <StackPanel Grid.Row="2"
+                                    Orientation="Horizontal"
+                                    Margin="5,10,5,0">
+                            <Button FontSize="20"
+                                    Height="40"
+                                    Content="Tìm kiếm"
+                                    Background="Blue"
+                                    HorizontalAlignment="Center"
+                                    Command="{Binding FindCommand}" />
+                            <TextBox Width="300"
+                                     Text="{Binding Value}"
+                                     Margin="20,0"
+                                     FontSize="20"
+                                     VerticalAlignment="Center" />
+                            <RadioButton Content="Mã hoá đơn"
+                                         FontSize="20"
+                                         IsChecked="{Binding IsId, UpdateSourceTrigger=PropertyChanged}"
+                                         FontWeight="Bold"
+                                         Margin="5" />
+                            <RadioButton Content="Tên khách hàng"
+                                         FontSize="20"
+                                         IsChecked="{Binding IsName, UpdateSourceTrigger=PropertyChanged}"
+                                         FontWeight="Bold"
+                                         Margin="5" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+                <TextBlock Text="Danh sách hoá đơn"
+                           Grid.Row="1"
+                           FontSize="25"
+                           Foreground="#FF68BD2C"
+                           FontFamily="Arial"
+                           Margin="20,0,0,0" />
+                <DataGrid MinWidth="800"
+                          Height="400"
+                          ItemsSource="{Binding Bills}"
                           Grid.Row="1"
                           Background="Transparent"
                           AutoGenerateColumns="False"
@@ -91,95 +143,43 @@
                           CanUserReorderColumns="False"
                           VerticalGridLinesBrush="DeepSkyBlue"
                           HorizontalGridLinesBrush="DeepSkyBlue"
-                          Margin="5"
+                          Margin="20"
                           RowHeaderWidth="0"
-                          HeadersVisibility="Column">
+                          HeadersVisibility="Column"
+                          ScrollViewer.CanContentScroll="True"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                          x:Name="InvoiceListGrid">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding ShowCommand}"
+                                                   CommandParameter="{Binding ElementName=InvoiceListGrid, Path=SelectedItem}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Mã sản phẩm"
-                                            Binding="{Binding}" />
+                        <DataGridTextColumn Header="Mã Hoá Đơn"
+                                            IsReadOnly="True"
+                                            Binding="{Binding Id, Mode=OneWay}" />
+                        <DataGridTextColumn Header="Tên khách hàng"
+                                            IsReadOnly="True"
+                                            Binding="{Binding CustomerName, Mode=OneWay}" />
+                        <DataGridTextColumn Header="Mã nhân viên bán hàng"
+                                            IsReadOnly="True"
+                                            Binding="{Binding StaffId, Mode=OneWay}" />
+                        <DataGridTextColumn Header="Ngày bán"
+                                            IsReadOnly="True"
+                                            Binding="{Binding PurchasedTime, Mode=OneWay, StringFormat='{}{0:dd.MM.yyyy HH&quot;H&quot;mm&quot;M&quot;}'}" />
+                        <DataGridTextColumn Header="Combo ID"
+                                            IsReadOnly="True"
+                                            Binding="{Binding ComboId, Mode=OneWay}" />
+                        <DataGridTextColumn Header="Số lượng"
+                                            IsReadOnly="True"
+                                            Binding="{Binding Number, Mode=OneWay}" />
+                        <DataGridTextColumn Header="Tổng tiền"
+                                            IsReadOnly="True"
+                                            Binding="{Binding TotalAmount, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
                     </DataGrid.Columns>
                 </DataGrid>
-                <StackPanel Grid.Row="2"
-                            Orientation="Horizontal"
-                            Margin="5,10,5,0">
-                    <Button FontSize="20"
-                            Height="40"
-                            Content="Tìm kiếm"
-                            Background="Blue"
-                            HorizontalAlignment="Center"
-                            Command="{Binding FindCommand}" />
-                    <TextBox Width="300"
-                             Text="{Binding Value}"
-                             Margin="20,0"
-                             FontSize="20"
-                             VerticalAlignment="Center" />
-                    <RadioButton Content="Mã hoá đơn"
-                                 FontSize="20"
-                                 IsChecked="{Binding IsId, UpdateSourceTrigger=PropertyChanged}"
-                                 FontWeight="Bold"
-                                 Margin="5" />
-                    <RadioButton Content="Tên khách hàng"
-                                 FontSize="20"
-                                 IsChecked="{Binding IsName, UpdateSourceTrigger=PropertyChanged}"
-                                 FontWeight="Bold"
-                                 Margin="5" />
-                </StackPanel>
             </Grid>
-        </Grid>
-        <TextBlock Text="Danh sách hoá đơn"
-                   Grid.Row="1"
-                   FontSize="24"
-                   Foreground="#FF68BD2C"
-                   FontFamily="Arial"
-                   Margin="20,0,0,0" />
-        <DataGrid MinWidth="800"
-                  Height="400"
-                  ItemsSource="{Binding Bills}"
-                  Grid.Row="1"
-                  Background="Transparent"
-                  AutoGenerateColumns="False"
-                  CanUserAddRows="False"
-                  CanUserDeleteRows="False"
-                  CanUserReorderColumns="False"
-                  VerticalGridLinesBrush="DeepSkyBlue"
-                  HorizontalGridLinesBrush="DeepSkyBlue"
-                  Margin="20"
-                  RowHeaderWidth="0"
-                  HeadersVisibility="Column"
-                  ScrollViewer.CanContentScroll="True"
-                  ScrollViewer.VerticalScrollBarVisibility="Auto"
-                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                  x:Name="InvoiceListGrid">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="SelectionChanged">
-                    <i:InvokeCommandAction Command="{Binding ShowCommand}"
-                                           CommandParameter="{Binding ElementName=InvoiceListGrid, Path=SelectedItem}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Mã Hoá Đơn"
-                                    IsReadOnly="True"
-                                    Binding="{Binding Id, Mode=OneWay}" />
-                <DataGridTextColumn Header="Tên khách hàng"
-                                    IsReadOnly="True"
-                                    Binding="{Binding CustomerName, Mode=OneWay}" />
-                <DataGridTextColumn Header="Mã nhân viên bán hàng"
-                                    IsReadOnly="True"
-                                    Binding="{Binding StaffId, Mode=OneWay}" />
-                <DataGridTextColumn Header="Ngày bán"
-                                    IsReadOnly="True"
-                                    Binding="{Binding PurchasedTime, Mode=OneWay, StringFormat='{}{0:dd.MM.yyyy HH&quot;H&quot;mm&quot;M&quot;}'}" />
-                <DataGridTextColumn Header="Combo ID"
-                                    IsReadOnly="True"
-                                    Binding="{Binding ComboId, Mode=OneWay}" />
-                <DataGridTextColumn Header="Số lượng"
-                                    IsReadOnly="True"
-                                    Binding="{Binding Number, Mode=OneWay}" />
-                <DataGridTextColumn Header="Tổng tiền"
-                                    IsReadOnly="True"
-                                    Binding="{Binding TotalAmount, Mode=OneWay, StringFormat={StaticResource CurrencyFormat}}" />
-            </DataGrid.Columns>
-        </DataGrid>
-        </Grid>
     </ScrollViewer>
 </UserControl>
