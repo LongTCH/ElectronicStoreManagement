@@ -13,7 +13,8 @@
              xmlns:localvm="clr-namespace:ESM.Modules.Import.ViewModels"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              Tag="{Binding Header}"
-             Background="White">
+             Background="White"
+             xmlns:util="clr-namespace:ESM.Modules.Import.Utilities">
     <ScrollViewer VerticalScrollBarVisibility="Auto"
                   HorizontalAlignment="Stretch">
         <StackPanel>
@@ -360,6 +361,7 @@
                          Content="HỦY"
                          Command="{Binding ClearCommand}" />
             </Grid>
+            <util:SearchBar />
             <DataGrid ItemsSource="{Binding ProductList}"
                       IsReadOnly="True"
                       SelectedItem="{Binding SelectedProduct}"

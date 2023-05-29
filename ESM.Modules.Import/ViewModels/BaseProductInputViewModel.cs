@@ -13,6 +13,7 @@ using System.Windows;
 using System.Linq;
 using ESM.Modules.DataAccess.Models;
 using ESM.Core;
+using System.Collections.Generic;
 
 namespace ESM.Modules.Import.ViewModels
 {
@@ -36,6 +37,8 @@ namespace ESM.Modules.Import.ViewModels
             ClearCommand = new(clearCommand);
             AddCommand = new(addCommand);
             DeleteCommand = new(deleteCommand);
+            SearchCommand = new(async (s) => await searchCommand(s));
+            GetAllCommand = new(GetProductList);
         }
         private bool isEditMode;
         public bool IsEditMode
@@ -63,7 +66,19 @@ namespace ESM.Modules.Import.ViewModels
         public DelegateCommand AddCommand { get; }
         public DelegateCommand EditCommand { get; }
         public DelegateCommand DeleteCommand { get; }
+        public DelegateCommand GetAllCommand { get; }
+        public DelegateCommand<string> SearchCommand { get; }
         protected abstract Task saveCommand();
+        private async Task searchCommand(string keyword)
+        {
+            if (typeof(T).Equals(typeof(Laptop))) ProductList = new((IEnumerable<T>)await _unitOfWork.Laptops.SearchProduct(keyword));
+            else if (typeof(T).Equals(typeof(Monitor))) ProductList = new((IEnumerable<T>)await _unitOfWork.Monitors.SearchProduct(keyword));
+            else if (typeof(T).Equals(typeof(Pc))) ProductList = new((IEnumerable<T>)await _unitOfWork.Pcs.SearchProduct(keyword));
+            else if (typeof(T).Equals(typeof(Pccpu))) ProductList = new((IEnumerable<T>)await _unitOfWork.Pccpus.SearchProduct(keyword));
+            else if (typeof(T).Equals(typeof(Pcharddisk))) ProductList = new((IEnumerable<T>)await _unitOfWork.Pcharddisks.SearchProduct(keyword));
+            else if (typeof(T).Equals(typeof(Smartphone))) ProductList = new((IEnumerable<T>)await _unitOfWork.Smartphones.SearchProduct(keyword));
+            else if (typeof(T).Equals(typeof(Vga))) ProductList = new((IEnumerable<T>)await _unitOfWork.Vgas.SearchProduct(keyword));
+        }
         private void editCommand()
         {
             if (SelectedProduct != null)

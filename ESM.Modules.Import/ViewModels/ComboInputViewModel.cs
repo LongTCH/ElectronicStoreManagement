@@ -38,6 +38,8 @@ namespace ESM.Modules.Import.ViewModels
             DeleteCommand = new(async () => await deleteCommand());
             FindCommand = new(findCommand);
             SaveCommand = new(async () => await saveCommand());
+            SearchCommand = new(async (s) => await searchCommand(s));
+            GetAllCommand = new(async () => await getAll());
         }
         public string Header => "COMBO";
         private Combo selectedCombo;
@@ -90,7 +92,13 @@ namespace ESM.Modules.Import.ViewModels
         public DelegateCommand DeleteCommand { get; }
         public DelegateCommand FindCommand { get; }
         public DelegateCommand EditCommand { get; }
+        public DelegateCommand<string> SearchCommand { get; }
+        public DelegateCommand GetAllCommand { get; }
         public DelegateCommand<SelectableViewModel> RemoveFromComboDetailCommand { get; }
+        private async Task searchCommand(string keyword)
+        {
+            ComboList = new(await unitOfWork.Combos.SearchProduct(keyword));
+        }
         private void editCommand()
         {
             if (SelectedCombo != null)
@@ -184,6 +192,10 @@ namespace ESM.Modules.Import.ViewModels
             ComboDetail.Clear();
             ProductList = null;
             IsEditMode = false;
+            await getAll();
+        }
+        private async Task getAll()
+        {
             ComboList = new(await unitOfWork.Combos.GetAll());
         }
         private async void findCommand()

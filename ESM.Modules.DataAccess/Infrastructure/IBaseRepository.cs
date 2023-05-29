@@ -1,7 +1,4 @@
-﻿using ESM.Modules.DataAccess.DTOs;
-using ESM.Modules.DataAccess.Models;
-
-namespace ESM.Modules.DataAccess.Infrastructure
+﻿namespace ESM.Modules.DataAccess.Infrastructure
 {
     public interface IBaseRepository<T> where T : class
     {
@@ -17,5 +14,6 @@ namespace ESM.Modules.DataAccess.Infrastructure
     public interface IProductRepository<T> : IBaseRepository<T> where T: class
     {
         Task<string> GetSuggestID();
+        Task<IEnumerable<T>?> SearchProduct(string keyword);
     }
 }

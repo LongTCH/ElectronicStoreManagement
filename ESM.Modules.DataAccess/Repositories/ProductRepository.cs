@@ -31,8 +31,62 @@ namespace ESM.Modules.DataAccess.Repositories
             var list = await _context.Discounts
                 .Where(x => ((DateTime)x.StartDate!).Date <= DateTime.Now.Date && ((DateTime)x.EndDate!) >= DateTime.Now)
                 .Where(x => EF.Functions.Like(x.ProductIdlist!, $"%{id}%")).ToListAsync();
-            foreach (var item in list) res += item.Discount1 ?? 0 ;
+            foreach (var item in list) res += item.Discount1 ?? 0;
             return res;
+        }
+        public async Task<IEnumerable<T>?> SearchProduct(string keyword)
+        {
+            using var _context = new ESMDbContext();
+            IEnumerable<T>? list = null;
+            if (typeof(T).Equals(typeof(Laptop)))
+            {
+                list = (IEnumerable<T>)(object)await _context.Laptops
+                    .Where(x => EF.Functions.Like(x.Name.ToUpper(), $"%{keyword.ToUpper()}%"))
+                    .AsNoTracking().ToListAsync();
+            }
+            else if (typeof(T).Equals(typeof(Models.Monitor)))
+            {
+                list = (IEnumerable<T>)(object)await _context.Monitors
+                    .Where(x => EF.Functions.Like(x.Name.ToUpper(), $"%{keyword.ToUpper()}%"))
+                    .AsNoTracking().ToListAsync();
+            }
+            else if (typeof(T).Equals(typeof(Pccpu)))
+            {
+                list = (IEnumerable<T>)(object)await _context.Pccpus
+                    .Where(x => EF.Functions.Like(x.Name.ToUpper(), $"%{keyword.ToUpper()}%"))
+                    .AsNoTracking().ToListAsync();
+            }
+            else if (typeof(T).Equals(typeof(Pcharddisk)))
+            {
+                list = (IEnumerable<T>)(object)await _context.Pcharddisks
+                    .Where(x => EF.Functions.Like(x.Name.ToUpper(), $"%{keyword.ToUpper()}%"))
+                    .AsNoTracking().ToListAsync();
+            }
+            else if (typeof(T).Equals(typeof(Smartphone)))
+            {
+                list = (IEnumerable<T>)(object)await _context.Smartphones
+                    .Where(x => EF.Functions.Like(x.Name.ToUpper(), $"%{keyword.ToUpper()}%"))
+                    .AsNoTracking().ToListAsync();
+            }
+            else if (typeof(T).Equals(typeof(Vga)))
+            {
+                list = (IEnumerable<T>)(object)await _context.Vgas
+                    .Where(x => EF.Functions.Like(x.Name.ToUpper(), $"%{keyword.ToUpper()}%"))
+                    .AsNoTracking().ToListAsync();
+            }
+            else if (typeof(T).Equals(typeof(Pc)))
+            {
+                list = (IEnumerable<T>)(object)await _context.Pcs
+                    .Where(x => EF.Functions.Like(x.Name.ToUpper(), $"%{keyword.ToUpper()}%"))
+                    .AsNoTracking().ToListAsync();
+            }
+            else if (typeof(T).Equals(typeof(Combo)))
+            {
+                list = (IEnumerable<T>)(object)await _context.Combos
+                    .Where(x => EF.Functions.Like(x.Name.ToUpper(), $"%{keyword.ToUpper()}%"))
+                    .AsNoTracking().ToListAsync();
+            }
+            return list;
         }
     }
 }
