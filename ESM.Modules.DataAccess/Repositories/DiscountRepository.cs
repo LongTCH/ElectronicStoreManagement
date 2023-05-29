@@ -7,6 +7,7 @@ namespace ESM.Modules.DataAccess.Repositories
     public interface IDiscountRepository : IBaseRepository<Discount>
     {
         Task<IEnumerable<ProductDTO>> GetListProduct(Discount discount);
+        Task<IEnumerable<Discount>?> SearchDiscount(string keyword);
     }
     public class DiscountRepository : BaseRepository<Discount>, IDiscountRepository
     {
@@ -94,6 +95,12 @@ namespace ESM.Modules.DataAccess.Repositories
             await task;
             return products;
         }
-
+        public async Task<IEnumerable<Discount>?> SearchDiscount(string keyword)
+        {
+            using var _context = new ESMDbContext();
+            return await _context.Discounts
+                    .Where(x => EF.Functions.Like(x.Name.ToUpper(), $"%{keyword.ToUpper()}%"))
+                    .AsNoTracking().ToListAsync();
+        }
     }
 }

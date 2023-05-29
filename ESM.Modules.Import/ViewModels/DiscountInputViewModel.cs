@@ -29,12 +29,14 @@ namespace ESM.Modules.Import.ViewModels
             AddCommand = new(addToDiscountListCommand);
             AddToDiscountCommand = new(addToDiscountCommand);
             RemoveFromDiscountDetailCommand = new(executeRemove);
-            AddToDiscountListCommand = new(addToDiscountListCommand); 
+            AddToDiscountListCommand = new(addToDiscountListCommand);
             EditCommand = new(editCommand);
             CancelCommand = new(clearCommand);
             DeleteCommand = new(async () => await deleteCommand());
             FindCommand = new(findCommand);
             SaveCommand = new(async () => await saveCommand());
+            SearchCommand = new(async (s) => await searchCommand(s));
+            GetAllCommand = new(async () => await getAll());
         }
         public DelegateCommand AddCommand { get; }
         public DelegateCommand EditCommand { get; }
@@ -44,6 +46,8 @@ namespace ESM.Modules.Import.ViewModels
         public DelegateCommand SaveCommand { get; }
         public DelegateCommand DeleteCommand { get; }
         public DelegateCommand FindCommand { get; }
+        public DelegateCommand GetAllCommand { get; }
+        public DelegateCommand<string> SearchCommand { get; }
         public DelegateCommand<SelectableViewModel> RemoveFromDiscountDetailCommand { get; }
         private Discount selectedDiscount;
         public Discount SelectedDiscount
@@ -85,6 +89,10 @@ namespace ESM.Modules.Import.ViewModels
                 SetProperty(ref selectedProductType, value);
                 SetProductList();
             }
+        }
+        private async Task searchCommand(string keyword)
+        {
+            DiscountList = new(await _unitOfWork.Discounts.SearchDiscount(keyword));
         }
         private async void SetProductList()
         {
@@ -308,6 +316,10 @@ namespace ESM.Modules.Import.ViewModels
             DiscountDetail.Clear();
             ProductList = null;
             IsEditMode = false;
+            await getAll();
+        }
+        private async Task getAll()
+        {
             DiscountList = new(await _unitOfWork.Discounts.GetAll());
         }
         public bool IsNavigationTarget(NavigationContext navigationContext)

@@ -14,6 +14,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              Background="White"
              Tag="{Binding Header}"
+             xmlns:util="clr-namespace:ESM.Modules.Import.Utilities"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <ScrollViewer VerticalScrollBarVisibility="Auto"
                   PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
@@ -257,9 +258,12 @@
                         Background="CornflowerBlue"
                         Command="{Binding SaveCommand}" />
             </Grid>
+            <util:SearchBar />
             <StackPanel Grid.Column="1"
                         Margin="5">
                 <TextBlock Text="DANH SÁCH COMBO"
+                           FontSize="20"
+                           FontWeight="Bold"
                            HorizontalAlignment="Center" />
                 <DataGrid ItemsSource="{Binding ComboList}"
                           IsReadOnly="True"

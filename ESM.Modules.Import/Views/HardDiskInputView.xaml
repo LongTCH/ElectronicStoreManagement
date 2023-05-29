@@ -14,7 +14,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             d:DataContext="{d:DesignInstance localvm:HardDiskInputViewModel}">
+             d:DataContext="{d:DesignInstance localvm:HardDiskInputViewModel}"
+             xmlns:util="clr-namespace:ESM.Modules.Import.Utilities">
     <ScrollViewer VerticalScrollBarVisibility="Auto"
                   HorizontalAlignment="Stretch">
         <StackPanel>
@@ -335,6 +336,7 @@
                          Content="HỦY"
                          Command="{Binding ClearCommand}" />
             </Grid>
+            <util:SearchBar />
             <DataGrid ItemsSource="{Binding ProductList}"
                       IsReadOnly="True"
                       SelectedItem="{Binding SelectedProduct}"

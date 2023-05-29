@@ -12,7 +12,8 @@
              d:DataContext="{d:DesignInstance localvm:DiscountInputViewModel}"
              xmlns:localvm="clr-namespace:ESM.Modules.Import.ViewModels"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             Background="White">
+             Background="White"
+             xmlns:util="clr-namespace:ESM.Modules.Import.Utilities">
     <ScrollViewer VerticalScrollBarVisibility="Auto"
                   PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
                   HorizontalAlignment="Stretch">
@@ -257,9 +258,12 @@
                         Background="Red"
                         Command="{Binding DeleteCommand}" />
             </Grid >
+            <util:SearchBar />
             <StackPanel Grid.Column="1"
                         Margin="5">
                 <TextBlock Text="DANH SÁCH KHUYẾN MÃI"
+                           FontSize="20"
+                           FontWeight="Bold"
                            HorizontalAlignment="Center" />
                 <DataGrid ItemsSource="{Binding DiscountList}"
                           IsReadOnly="True"

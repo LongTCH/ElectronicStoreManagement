@@ -13,6 +13,7 @@
              xmlns:localvm="clr-namespace:ESM.Modules.Import.ViewModels"
              Tag="{Binding Header}"
              Background="White"
+             xmlns:util="clr-namespace:ESM.Modules.Import.Utilities"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <ScrollViewer VerticalScrollBarVisibility="Auto"
                   HorizontalAlignment="Stretch">
@@ -333,6 +334,7 @@
                          Content="HỦY"
                          Command="{Binding ClearCommand}" />
             </Grid>
+            <util:SearchBar />
             <DataGrid ItemsSource="{Binding ProductList}"
                       IsReadOnly="True"
                       SelectedItem="{Binding SelectedProduct}"

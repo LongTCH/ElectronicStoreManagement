@@ -75,7 +75,7 @@ namespace ESM.Modules.DataAccess.Repositories
         {
             using var _context = new ESMDbContext();
             return await _context.Bills.Include(x => x.BillProducts)
-                .Where(x => x.CustomerName != null && x.CustomerName == cusName)
+                .Where(x => x.CustomerName != null && EF.Functions.Like(x.CustomerName.ToUpper(), $"%{cusName.ToUpper()}%"))
                 .AsNoTracking().ToListAsync();
         }
 
