@@ -80,6 +80,7 @@
                                         IndicatorType="Swirl">
                     <ScrollViewer HorizontalScrollBarVisibility="Auto">
                         <DataGrid Background="Transparent"
+                                  IsReadOnly="True"
                                   Foreground="Black"
                                   HorizontalAlignment="Left"
                                   AutoGenerateColumns="False"

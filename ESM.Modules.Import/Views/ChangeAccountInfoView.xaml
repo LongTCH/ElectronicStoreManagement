@@ -9,18 +9,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance localvm:ChangeAccountInfoViewModel}"
-             prism:ViewModelLocator.AutoWireViewModel="True">
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             Background="White">
     <ScrollViewer VerticalScrollBarVisibility="auto"
                   HorizontalAlignment="Stretch">
         <StackPanel Margin="20"
                     MinWidth="800"
                     MaxWidth="1000"
                     VerticalAlignment="Center">
-            <TextBlock Text="TÀI KHOẢN CÁ NHÂN"
-                       HorizontalAlignment="Center"
-                       FontSize="30"
-                       FontWeight="Bold"
-                       Foreground="CornflowerBlue" />
             <DockPanel>
                 <Button Height="220"
                         Width="220"
@@ -69,13 +65,15 @@
                                                  Width="30"
                                                  Kind="Identifier" />
                         <TextBox Margin="20,10"
+                                 IsReadOnly="True"
                                  materialDesign:HintAssist.Hint="ID"
-                                 Text="{Binding Id, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding Id}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
                     </DockPanel>
                     <Button Margin="0,0,50,0"
+                            Visibility="Collapsed"
                             Grid.Row="1"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center"
@@ -94,6 +92,7 @@
             </DockPanel>
             <Grid>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
                     <ColumnDefinition Width="1*" />
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
@@ -123,26 +122,7 @@
                              FontFamily="Champagne &amp; Limousines"
                              FontSize="18" />
                 </DockPanel>
-            </Grid>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="1*" />
-                </Grid.ColumnDefinitions>
-                <DockPanel Grid.Column="0">
-                    <materialDesign:PackIcon VerticalAlignment="Bottom"
-                                             Margin="0,0,0,10"
-                                             Height="30"
-                                             Width="30"
-                                             Kind="Email" />
-                    <TextBox Margin="20,10"
-                             materialDesign:HintAssist.Hint="Email"
-                             Text="{Binding Email, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
-                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             FontFamily="Champagne &amp; Limousines"
-                             FontSize="18" />
-                </DockPanel>
-                <DockPanel Grid.Column="1">
+                <DockPanel Grid.Column="2">
                     <materialDesign:PackIcon Kind="Phone"
                                              VerticalAlignment="Bottom"
                                              Margin="0,0,0,20"
@@ -160,8 +140,22 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
                     <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
                 <DockPanel Grid.Column="0">
+                    <materialDesign:PackIcon VerticalAlignment="Bottom"
+                                             Margin="0,0,0,10"
+                                             Height="30"
+                                             Width="30"
+                                             Kind="Email" />
+                    <TextBox Margin="20,10"
+                             materialDesign:HintAssist.Hint="Email"
+                             Text="{Binding Email, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             FontFamily="Champagne &amp; Limousines"
+                             FontSize="18" />
+                </DockPanel>
+                <DockPanel Grid.Column="1">
                     <materialDesign:PackIcon VerticalAlignment="Bottom"
                                              Margin="0,0,0,10"
                                              Height="30"
@@ -177,7 +171,7 @@
                               SelectedItem="{Binding SelectedGender, UpdateSourceTrigger=PropertyChanged}"
                               ItemsSource="{Binding Gender}" />
                 </DockPanel>
-                <DockPanel Grid.Column="1">
+                <DockPanel Grid.Column="2">
                     <materialDesign:PackIcon Kind="BirthdayCake"
                                              VerticalAlignment="Bottom"
                                              Margin="0,0,0,20"
@@ -191,7 +185,7 @@
                                 SelectedDate="{Binding BirthDay, UpdateSourceTrigger=PropertyChanged}" />
                 </DockPanel>
             </Grid>
-            <TextBlock Text="ADDRESS"
+            <TextBlock Text="ĐỊA CHỈ"
                        FontSize="20"
                        HorizontalAlignment="Center"
                        Margin="10"
@@ -275,6 +269,7 @@
                 </DockPanel>
             </Grid>
             <Button Width="150"
+                    Visibility="Collapsed"
                     BorderThickness="0"
                     materialDesign:ButtonAssist.CornerRadius="10"
                     Style="{StaticResource MaterialDesignRaisedButton}"

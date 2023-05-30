@@ -21,6 +21,7 @@
                     <RowDefinition Height="1*" />
                     <RowDefinition Height="1*" />
                     <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
                 <materialDesign:Card Margin="20,0,20,0"
                                      Background="#FFFAE0FC">
@@ -134,7 +135,7 @@
                                      Margin="20,10,20,0"
                                      Background="#FFFAE0FC">
                     <StackPanel>
-                        <TextBlock Text="3. Quản lí nhà cung cấp"
+                        <TextBlock Text="3. Quản lí đối tác"
                                    Style="{StaticResource MahApps.Styles.TextBlock}"
                                    FontSize="25"
                                    FontWeight="Bold"
@@ -150,7 +151,7 @@
                                                             HorizontalAlignment="Center"
                                                             Height="90"
                                                             Width="90" />
-                                <Button Content="Quản lí thông tin nhà cung cấp"
+                                <Button Content="Quản lí nhà cung cấp"
                                         Width="350"
                                         Cursor="Hand"
                                         Style="{StaticResource MahApps.Styles.Button.Hamburger}"
@@ -222,8 +223,39 @@
                         </Grid>
                     </StackPanel>
                 </materialDesign:Card>
+                <materialDesign:Card Grid.Row="4"
+                                     Margin="20,10,20,0"
+                                     Background="#FFFAE0FC">
+                    <StackPanel>
+                        <TextBlock Text="5. Quản lí nhân viên"
+                                   Style="{StaticResource MahApps.Styles.TextBlock}"
+                                   FontSize="25"
+                                   FontWeight="Bold"
+                                   Margin='50,0,0,0' />
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel HorizontalAlignment="Center">
+                                <iconPacks:PackIconMaterial Kind="Account"
+                                                            HorizontalAlignment="Center"
+                                                            Height="90"
+                                                            Width="90" />
+                                <Button Width="350"
+                                        Cursor="Hand"
+                                        Style="{StaticResource MahApps.Styles.Button.Hamburger}"
+                                        Command="{Binding NavigateCommand}"
+                                        CommandParameter="{x:Static esmcore:ViewNames.AccountManage}"
+                                        FontSize="20">
+                                    <TextBlock>Quản lí tài khoản<LineBreak />nhân viên</TextBlock>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </materialDesign:Card>
             </Grid>
         </StackPanel>
     </ScrollViewer>
-    
 </UserControl>

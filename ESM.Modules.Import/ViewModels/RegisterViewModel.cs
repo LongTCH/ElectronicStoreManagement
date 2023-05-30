@@ -1,7 +1,7 @@
 ﻿using ESM.Core;
 using ESM.Core.ShareServices;
+using ESM.Core.ShareStores;
 using ESM.Core.ShareStores.Address;
-using ESM.Modules.DataAccess.DTOs;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using Prism.Commands;
@@ -17,25 +17,27 @@ using static ESM.Modules.Import.Utilities.StaticData;
 
 namespace ESM.Modules.Import.ViewModels
 {
-    public class RegisterViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
+    public class RegisterViewModel : BindableBase, INavigationAware, IRegionMemberLifetime, IAccountViewModelStore
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRegionManager _regionManager;
         private readonly IModalService _modalService;
         private readonly IOpenDialogService _openDialogService;
-
+        private readonly AccountViewModelStore _accountViewModelStore;
         public RegisterViewModel(IUnitOfWork unitOfWork,
             IRegionManager regionManager,
             IModalService modalService,
             ICityListService cityListService,
-            IOpenDialogService openDialogService)
+            IOpenDialogService openDialogService,
+            AccountViewModelStore accountViewModelStore)
         {
             _unitOfWork = unitOfWork;
             _regionManager = regionManager;
             _modalService = modalService;
             _openDialogService = openDialogService;
+            _accountViewModelStore = accountViewModelStore;
             GetCityList(cityListService).Await();
-            SignUpCommand = new DelegateCommand(async () => await signUp());
+            SignUpCommand = new DelegateCommand(async () => await save());
             AddAvatarCommand = new DelegateCommand(addAvatarCommand);
             getSuggestID();
         }
@@ -152,7 +154,7 @@ namespace ESM.Modules.Import.ViewModels
             await task;
             Cities = task.Result;
         }
-        private async Task signUp()
+        public async Task save()
         {
             if (SelectedCity == null || SelectedDistrict == null || SelectedSub_district == null || Street == null)
             {
@@ -190,7 +192,8 @@ namespace ESM.Modules.Import.ViewModels
                 await _unitOfWork.Accounts.Add(accountDTO);
                 
                 _modalService.ShowModal(ModalType.Information, "Tạo tài khoản mới thành công", "Thông báo");
-                _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.RegisterView);
+                //_regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.RegisterView);
+                _accountViewModelStore.Back();
             }
             catch (Exception ex) { _modalService.ShowModal(ModalType.Error, ex.Message, "Error"); }
         }
@@ -212,7 +215,7 @@ namespace ESM.Modules.Import.ViewModels
         }
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-
+            _accountViewModelStore.CurrentAccountViewModel = this;
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

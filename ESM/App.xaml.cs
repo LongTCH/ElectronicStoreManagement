@@ -51,6 +51,7 @@ namespace ESM
             containerRegistry.RegisterSingleton<MainWindowViewModel>();
             containerRegistry.RegisterSingleton<MainWindow>();
             containerRegistry.RegisterSingleton<AccountStore>();
+            containerRegistry.RegisterSingleton<AccountViewModelStore>();
             containerRegistry.RegisterSingleton<IModalService, ModalService>();
             containerRegistry.RegisterSingleton<IOpenDialogService, OpenDialogService>();
             containerRegistry.RegisterSingleton<IDialogCoordinator, DialogCoordinator>();

@@ -4,9 +4,6 @@ using ESM.Modules.Import.Views;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Windows;
 
 namespace ESM.Modules.Import
 {
@@ -31,20 +28,24 @@ namespace ESM.Modules.Import
 
             _regionManager.RegisterViewWithRegion("TabRegion", typeof(ComboInputView));
 
+            _regionManager.RegisterViewWithRegion(RegionNames.AccountRegion, typeof(RegisterView));
+            _regionManager.RegisterViewWithRegion(RegionNames.AccountRegion, typeof(ChangeAccountInfoView));
+
             _regionManager.RegisterViewWithContentRegion<ProductInputView>();
-            _regionManager.RegisterViewWithContentRegion<RegisterView>();
-            _regionManager.RegisterViewWithContentRegion<ChangeAccountInfoView>();
+            _regionManager.RegisterViewWithContentRegion<AccountManage>();
             _regionManager.RegisterViewWithContentRegion<DiscountInputView>();
             _regionManager.RegisterViewWithContentRegion<DistributorView>();
+            
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<ProductInputView, ProductInputViewModel>(ViewNames.ProductInputView);
-            containerRegistry.RegisterForNavigation<RegisterView, RegisterViewModel>(ViewNames.RegisterView);
+            containerRegistry.RegisterForNavigation<AccountManage, AccountManageViewModel>(ViewNames.AccountManage);
             containerRegistry.RegisterForNavigation<ChangeAccountInfoView, ChangeAccountInfoViewModel>(ViewNames.ChangeAccountInfoView);
             containerRegistry.RegisterForNavigation<DiscountInputView, DiscountInputViewModel>(ViewNames.ProductManagement);
-            containerRegistry.RegisterForNavigation<DistributorView, DistributorViewModel>(ViewNames.DistributorView);
+            containerRegistry.RegisterForNavigation<DistributorView, DistributorViewModel>(ViewNames.DistributorView); 
+            containerRegistry.RegisterForNavigation<RegisterView, RegisterViewModel>(ViewNames.RegisterView);
         }
     }
 }
