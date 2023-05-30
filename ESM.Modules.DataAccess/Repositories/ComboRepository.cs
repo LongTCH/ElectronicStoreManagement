@@ -1,6 +1,7 @@
 ﻿using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace ESM.Modules.DataAccess.Repositories
 {
@@ -157,6 +158,25 @@ namespace ESM.Modules.DataAccess.Repositories
         {
             return await GetSuggestID(ProductType.COMBO);
         }
-
+        public override async Task<IEnumerable<Combo>?> SearchProduct(string keyword)
+        {
+            using var _context = new ESMDbContext();
+            var list = await _context.Combos
+                    .Where(x => EF.Functions.Like(x.Name.ToUpper(), $"%{keyword.ToUpper()}%"))
+                    .AsNoTracking().ToListAsync();
+            List<Combo>? result = new();
+            foreach (var item in list)
+            {
+                var validItem = await GetRemain(item);
+                if (validItem > -1)
+                {
+                    item.Remain = validItem;
+                    item.ListProducts = await GetListProduct(item);
+                    item.Price = await GetComboPrice(item);
+                    result.Add(item);
+                }
+            }
+            return result;
+        }
     }
 }

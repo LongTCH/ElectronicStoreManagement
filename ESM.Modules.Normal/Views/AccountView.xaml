@@ -10,7 +10,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance localvm:AccountViewModel}"
-             prism:ViewModelLocator.AutoWireViewModel="True">
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             Background="White">
     <ScrollViewer VerticalScrollBarVisibility="auto"
                   HorizontalAlignment="Stretch">
         <StackPanel Margin="20"
@@ -55,7 +56,8 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0" HorizontalAlignment="Right">
+                    <StackPanel Grid.Row="0"
+                                HorizontalAlignment="Right">
                         <StackPanel.Resources>
                             <Style TargetType="Button"
                                    BasedOn="{StaticResource MahApps.Styles.Button.Chromeless}">
@@ -70,10 +72,10 @@
                         <Button Content="Đổi mật khẩu"
                                 Command="{Binding ResetPasswordCommand}" />
                         <Button Content="Tạo tài khoản mới"
-                                Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                Visibility="Collapsed"
                                 Command="{Binding AddUserCommand}" />
                         <Button Content="Chỉnh sửa thông tin tài khoản"
-                                Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                Visibility="Collapsed"
                                 Command="{Binding ChangeUserInfoCommand}" />
                     </StackPanel>
                     <DockPanel Grid.Row="1"

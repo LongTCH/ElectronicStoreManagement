@@ -1,5 +1,4 @@
-﻿using ESM.Modules.DataAccess.DTOs;
-using ESM.Modules.DataAccess.Infrastructure;
+﻿using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Modules.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +7,7 @@ namespace ESM.Modules.DataAccess.Repositories;
 public interface IAccountRepository : IBaseRepository<Account>
 {
     string GetSuggestAccountId(string prefix);
+    Task<IEnumerable<Account>> SearchAccounts(string keyword);
     Task<bool> ResetPassword(string ID, string newPasswordHash);
 }
 public class AccountRepository : BaseRepository<Account>, IAccountRepository
@@ -59,7 +59,33 @@ public class AccountRepository : BaseRepository<Account>, IAccountRepository
             account.PasswordHash = newPasswordHash;
             await _context.SaveChangesAsync();
         }
-        catch (Exception ex) { res = false; }
+        catch (Exception) { res = false; }
         return res;
+    }
+    public override async Task<IEnumerable<Account>?> GetAll()
+    {
+        using var _context = new ESMDbContext();
+        return await _context.Accounts.AsNoTracking().Where(x => x.Phone != "0").ToListAsync();
+    }
+    public override async Task<object?> Delete(string id)
+    {
+        using var _context = new ESMDbContext();
+        var p = await _context.Accounts.AsQueryable().SingleAsync(p => p.Id == id);
+        p.Phone = "0";
+        await _context.SaveChangesAsync();
+        return null;
+    }
+    public override async Task<bool> IsIdExist(string id)
+    {
+        using var _context = new ESMDbContext();
+        return await _context.Accounts.AnyAsync(x => x.Id == id);
+    }
+    public async Task<IEnumerable<Account>> SearchAccounts(string keyword)
+    {
+        using var _context = new ESMDbContext();
+        var list = await _context.Accounts
+                    .AsNoTracking()
+                    .ToListAsync();
+        return list.Where(x => x.ToString().ToUpper().Contains($"{keyword.ToUpper()}"));
     }
 }

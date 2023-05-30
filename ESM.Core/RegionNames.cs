@@ -5,5 +5,6 @@
         public static readonly string ContentRegion = "ContentRegion";
         public static readonly string AppTitle = "Modern Store";
         public static readonly string HostRegion = "HostRegion";
+        public static readonly string AccountRegion = "AccountRegion";
     }
 }

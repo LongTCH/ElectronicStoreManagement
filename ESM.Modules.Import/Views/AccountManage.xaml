@@ -1,0 +1,412 @@
+﻿<UserControl x:Class="ESM.Modules.Import.Views.AccountManage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:util="clr-namespace:ESM.Modules.Import.Utilities"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:esmcore="clr-namespace:ESM.Core;assembly=ESM.Core"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance localvm:AccountManageViewModel}"
+             xmlns:localvm="clr-namespace:ESM.Modules.Import.ViewModels"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             Background="White">
+    <ScrollViewer VerticalScrollBarVisibility="auto"
+                  HorizontalAlignment="Stretch">
+        <StackPanel Margin="20"
+                    MinWidth="800"
+                    MaxWidth="1000"
+                    VerticalAlignment="Center">
+            <TextBlock Text="QUẢN LÍ TÀI KHOẢN"
+                       FontSize="30"
+                       FontWeight="Bold"
+                       Style="{StaticResource MaterialDesignButtonTextBlock}"
+                       FontFamily="Times New Roman"
+                       Foreground="Green"
+                       HorizontalAlignment="Center" />
+            <StackPanel>
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Setter Property="Visibility"
+                                Value="Visible" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsEditMode}"
+                                         Value="True">
+                                <Setter Property="Visibility"
+                                        Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+                <DockPanel>
+                    <Button Height="220"
+                            Width="220"
+                            IsHitTestVisible="False"
+                            Margin="50,0,0,0"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Center"
+                            Style="{StaticResource MaterialDesignFlatLightButton}"
+                            Command="{Binding AddAvatarCommand}">
+                        <Button.Content>
+                            <Grid>
+                                <Image Source="pack://application:,,,/ESM.Core;component/ShareImages/adduser.png"
+                                       Height="200"
+                                       Visibility="{Binding IsDefault, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                       HorizontalAlignment="Left" />
+                                <Image Source="{Binding Avatar_Path}"
+                                       Height="200"
+                                       HorizontalAlignment="Left">
+                                    <Image.Style>
+                                        <Style TargetType="Image">
+                                            <Setter Property="Visibility"
+                                                    Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsDefault}"
+                                                             Value="False">
+                                                    <Setter Property="Visibility"
+                                                            Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
+                            </Grid>
+                        </Button.Content>
+                    </Button>
+                    <Grid Margin="100,0,100,0"
+                          DockPanel.Dock="Right"
+                          VerticalAlignment="Top">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
+                        </Grid.RowDefinitions>
+                        <TextBox Margin="20,10"
+                                 IsReadOnly="True"
+                                 materialDesign:HintAssist.Hint="Loại tài khoản"
+                                 Text="{Binding Role, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 FontFamily="Champagne &amp; Limousines"
+                                 FontSize="18" />
+                        <DockPanel Grid.Row="1">
+                            <materialDesign:PackIcon VerticalAlignment="Bottom"
+                                                     Margin="0,0,0,10"
+                                                     Height="30"
+                                                     Width="30"
+                                                     Kind="MarkerTick" />
+                            <TextBox Margin="20,10"
+                                     Width="150"
+                                     HorizontalAlignment="Left"
+                                     materialDesign:HintAssist.Hint="ID tự động"
+                                     Text="{Binding SelectedAccount.Id,Mode=OneWay}"
+                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                     FontFamily="Champagne &amp; Limousines"
+                                     IsEnabled="False"
+                                     FontSize="18" />
+                        </DockPanel>
+                    </Grid>
+                </DockPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <DockPanel Grid.Column="1">
+                        <materialDesign:PackIcon VerticalAlignment="Bottom"
+                                                 Margin="0,0,0,10"
+                                                 Height="30"
+                                                 Width="30"
+                                                 Kind="Rename" />
+                        <TextBox Margin="20,10"
+                                 IsReadOnly="True"
+                                 materialDesign:HintAssist.Hint="Tên"
+                                 Text="{Binding SelectedAccount.FirstName, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 FontFamily="Champagne &amp; Limousines"
+                                 FontSize="18" />
+                    </DockPanel>
+                    <DockPanel Grid.Column="0">
+                        <materialDesign:PackIcon VerticalAlignment="Bottom"
+                                                 Margin="0,0,0,10"
+                                                 Height="30"
+                                                 Width="30"
+                                                 Kind="RenameBox" />
+                        <TextBox Margin="20,10"
+                                 IsReadOnly="True"
+                                 materialDesign:HintAssist.Hint="Họ"
+                                 Text="{Binding SelectedAccount.LastName, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 FontFamily="Champagne &amp; Limousines"
+                                 FontSize="18" />
+                    </DockPanel>
+                    <DockPanel Grid.Column="2">
+                        <materialDesign:PackIcon Kind="Phone"
+                                                 VerticalAlignment="Bottom"
+                                                 Margin="0,0,0,20"
+                                                 Height="30"
+                                                 Width="30" />
+                        <TextBox Margin="20,10"
+                                 IsReadOnly="True"
+                                 materialDesign:HintAssist.Hint="Số điện thoại"
+                                 Text="{Binding SelectedAccount.Phone, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 FontFamily="Champagne &amp; Limousines"
+                                 FontSize="18" />
+                    </DockPanel>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <DockPanel Grid.Column="0">
+                        <materialDesign:PackIcon VerticalAlignment="Bottom"
+                                                 Margin="0,0,0,10"
+                                                 Height="30"
+                                                 Width="30"
+                                                 Kind="Email" />
+                        <TextBox Margin="20,10"
+                                 IsReadOnly="True"
+                                 materialDesign:HintAssist.Hint="Email"
+                                 Text="{Binding SelectedAccount.EmailAddress, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 FontFamily="Champagne &amp; Limousines"
+                                 FontSize="18" />
+                    </DockPanel>
+                    <DockPanel Grid.Column="1">
+                        <materialDesign:PackIcon VerticalAlignment="Bottom"
+                                                 Margin="0,0,0,10"
+                                                 Height="30"
+                                                 Width="30"
+                                                 Kind="GenderMaleFemale" />
+                        <TextBox Margin="20,10"
+                                 IsReadOnly="True"
+                                 materialDesign:HintAssist.Hint="Giới tính"
+                                 Text="{Binding SelectedAccount.Gender, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 FontFamily="Champagne &amp; Limousines"
+                                 FontSize="18" />
+                    </DockPanel>
+                    <DockPanel Grid.Column="2">
+                        <materialDesign:PackIcon Kind="BirthdayCake"
+                                                 VerticalAlignment="Bottom"
+                                                 Margin="0,0,0,20"
+                                                 Height="30"
+                                                 Width="30" />
+                        <DatePicker FontSize="18"
+                                    IsHitTestVisible="False"
+                                    Margin="20,10"
+                                    SelectedDateFormat="Short"
+                                    materialDesign:HintAssist.Hint="Sinh nhật"
+                                    xml:lang="vi-VN"
+                                    SelectedDate="{Binding SelectedAccount.Birthday, UpdateSourceTrigger=PropertyChanged}" />
+                    </DockPanel>
+                </Grid>
+                <TextBlock Text="ĐỊA CHỈ"
+                           FontSize="20"
+                           HorizontalAlignment="Center"
+                           Margin="10"
+                           FontWeight="Bold"
+                           FontStretch="Expanded" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <DockPanel Grid.Column="0"
+                               LastChildFill="True">
+                        <materialDesign:PackIcon VerticalAlignment="Bottom"
+                                                 Margin="0,0,0,10"
+                                                 Height="30"
+                                                 Width="30"
+                                                 Kind="City" />
+                        <TextBox Margin="20,10"
+                                 IsReadOnly="True"
+                                 materialDesign:HintAssist.Hint="Tỉnh/Thành phố"
+                                 Text="{Binding SelectedAccount.City, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 FontFamily="Champagne &amp; Limousines"
+                                 FontSize="18" />
+                    </DockPanel>
+                    <DockPanel Grid.Column="1"
+                               LastChildFill="True">
+                        <materialDesign:PackIcon VerticalAlignment="Bottom"
+                                                 Margin="0,0,0,10"
+                                                 Height="30"
+                                                 Width="30"
+                                                 Kind="TownHall" />
+                        <TextBox Margin="20,10"
+                                 IsReadOnly="True"
+                                 materialDesign:HintAssist.Hint="Quận/Huyện"
+                                 Text="{Binding SelectedAccount.District, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 FontFamily="Champagne &amp; Limousines"
+                                 FontSize="18" />
+                    </DockPanel>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="79*" />
+                        <ColumnDefinition Width="301*" />
+                        <ColumnDefinition Width="380*" />
+                    </Grid.ColumnDefinitions>
+                    <DockPanel Grid.Column="0"
+                               LastChildFill="True"
+                               Grid.ColumnSpan="2">
+                        <materialDesign:PackIcon VerticalAlignment="Bottom"
+                                                 Margin="0,0,0,10"
+                                                 Height="30"
+                                                 Width="30"
+                                                 Kind="LandFields" />
+                        <TextBox Margin="20,10"
+                                 IsReadOnly="True"
+                                 materialDesign:HintAssist.Hint="Phường/Xã"
+                                 Text="{Binding SelectedAccount.SubDistrict, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 FontFamily="Champagne &amp; Limousines"
+                                 FontSize="18" />
+                    </DockPanel>
+                    <DockPanel Grid.Column="2"
+                               LastChildFill="True">
+                        <materialDesign:PackIcon VerticalAlignment="Bottom"
+                                                 Margin="0,0,0,10"
+                                                 Height="30"
+                                                 Width="30"
+                                                 Kind="Road" />
+                        <TextBox Margin="20,10"
+                                 IsReadOnly="True"
+                                 materialDesign:HintAssist.Hint="Tên đường"
+                                 Text="{Binding SelectedAccount.Street, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 FontFamily="Champagne &amp; Limousines"
+                                 FontSize="18" />
+                    </DockPanel>
+                </Grid>
+            </StackPanel>
+            <ContentControl Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            prism:RegionManager.RegionName="{x:Static esmcore:RegionNames.AccountRegion}" />
+            <Grid Margin="0,20,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility"
+                                Value="Visible" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsEditMode}"
+                                         Value="True">
+                                <Setter Property="Visibility"
+                                        Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <Button Content="THÊM"
+                        Width="100"
+                        Background="Green"
+                        Command="{Binding AddCommand}" />
+                <Button Content="SỬA"
+                        Grid.Column="1"
+                        Width="100"
+                        Background="BlueViolet"
+                        Command="{Binding EditCommand}" />
+                <Button Content="XÓA"
+                        Grid.Column="2"
+                        Width="100"
+                        Background="Red"
+                        Command="{Binding DeleteCommand}" />
+            </Grid>
+            <Grid Margin="0,20,0,20"
+                  Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Button  Width="100"
+                         Grid.Column="1"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         Background="DarkSeaGreen"
+                         IsDefault="True"
+                         Content="LƯU"
+                         Command="{Binding SaveCommand}" />
+                <Button  Width="100"
+                         Grid.Column="2"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         Background="Gray"
+                         IsDefault="True"
+                         Content="HỦY"
+                         Command="{Binding ClearCommand}" />
+            </Grid>
+            <util:SearchBar />
+            <DataGrid ItemsSource="{Binding AccountList}"
+                      IsReadOnly="True"
+                      SelectedItem="{Binding SelectedAccount}"
+                      Grid.Row="1"
+                      HorizontalAlignment="Stretch"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False"
+                      CanUserReorderColumns="False"
+                      VerticalGridLinesBrush="DeepSkyBlue"
+                      HorizontalGridLinesBrush="DeepSkyBlue"
+                      ScrollViewer.CanContentScroll="True"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                      MaxHeight="300"
+                      x:Name="myDataGrid">
+                <DataGrid.Style>
+                    <Style TargetType="DataGrid">
+                        <Setter Property="IsHitTestVisible"
+                                Value="True" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsEditMode}"
+                                         Value="True">
+                                <Setter Property="IsHitTestVisible"
+                                        Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.Style>
+                <DataGrid.CellStyle>
+                    <Style TargetType="{x:Type DataGridCell}"
+                           BasedOn="{StaticResource MaterialDesignDataGridCell}">
+                        <EventSetter Event="PreviewKeyDown"
+                                     Handler="DataGridCell_PreviewKeyDown" />
+                    </Style>
+                </DataGrid.CellStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID"
+                                        Binding="{Binding Id, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Họ"
+                                        Binding="{Binding LastName, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Tên"
+                                        Binding="{Binding FirstName, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Số điện thoại"
+                                        Binding="{Binding Phone, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Email"
+                                        Binding="{Binding EmailAddress, UpdateSourceTrigger=PropertyChanged}" />
+                    <DataGridTextColumn Header="Giới tính"
+                                        Binding="{Binding Gender}" />
+                    <DataGridTextColumn Header="Ngày sinh"
+                                        Binding="{Binding Birthday}" />
+                    <DataGridTextColumn Header="Địa chỉ"
+                                        Binding="{Binding Address}" />
+                </DataGrid.Columns>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding MapRoleCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </DataGrid>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

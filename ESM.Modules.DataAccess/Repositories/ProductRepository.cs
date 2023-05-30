@@ -34,7 +34,7 @@ namespace ESM.Modules.DataAccess.Repositories
             foreach (var item in list) res += item.Discount1 ?? 0;
             return res;
         }
-        public async Task<IEnumerable<T>?> SearchProduct(string keyword)
+        public virtual async Task<IEnumerable<T>?> SearchProduct(string keyword)
         {
             using var _context = new ESMDbContext();
             IEnumerable<T>? list = null;
@@ -80,12 +80,7 @@ namespace ESM.Modules.DataAccess.Repositories
                     .Where(x => EF.Functions.Like(x.Name.ToUpper(), $"%{keyword.ToUpper()}%"))
                     .AsNoTracking().ToListAsync();
             }
-            else if (typeof(T).Equals(typeof(Combo)))
-            {
-                list = (IEnumerable<T>)(object)await _context.Combos
-                    .Where(x => EF.Functions.Like(x.Name.ToUpper(), $"%{keyword.ToUpper()}%"))
-                    .AsNoTracking().ToListAsync();
-            }
+            
             return list;
         }
     }

@@ -18,7 +18,7 @@
         public static readonly string SmartPhoneView = "SmartPhoneView";
         public static readonly string VGAView = "VGAView";
         public static readonly string ProductInputView = "ProductInputView";
-        public static readonly string RegisterView = "RegisterView"; 
+        public static readonly string AccountManage = "AccountManage"; 
         public static readonly string ChangeAccountInfoView = "ChangeAccountInfoView"; 
         public static readonly string ProductDetailView = "ProductDetailView";
         public static readonly string ReportView = "ReportView";
@@ -38,5 +38,6 @@
         public static readonly string ManagementView = "ManagementView"; 
         public static readonly string SellView = "SellView";
         public static readonly string ComboSellView = "ComboSellView";
+        public static readonly string RegisterView = "RegisterView";
     }
 }

@@ -70,7 +70,7 @@ namespace ESM.Modules.Normal.ViewModels
         }
         private void ExecuteAddUserCommand()
         {
-            _regionManager.RequestNavigateContentRegionWithTrace(ViewNames.RegisterView);
+            //_regionManager.RequestNavigateContentRegionWithTrace(ViewNames.RegisterView);
         }
         private void ExecuteChangeUserInfoCommand()
         {

@@ -10,7 +10,6 @@ using System;
 using ESM.Modules.DataAccess.Infrastructure;
 using ESM.Core.ShareStores.Address;
 using System.Linq;
-using ESM.Modules.DataAccess.DTOs;
 using System.IO;
 using static ESM.Modules.Import.Utilities.StaticData;
 using ESM.Core.ShareStores;
@@ -18,28 +17,30 @@ using ESM.Modules.DataAccess.Models;
 
 namespace ESM.Modules.Import.ViewModels
 {
-    public class ChangeAccountInfoViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
+    public class ChangeAccountInfoViewModel : BindableBase, INavigationAware, IRegionMemberLifetime, IAccountViewModelStore
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRegionManager _regionManager;
         private readonly IModalService _modalService;
         private readonly IOpenDialogService _openDialogService;
         private readonly AccountStore _accountStore;
-
+        private readonly AccountViewModelStore _accountViewModelStore;
         public ChangeAccountInfoViewModel(IUnitOfWork unitOfWork,
             IRegionManager regionManager,
             IModalService modalService,
             ICityListService cityListService,
             IOpenDialogService openDialogService,
-            AccountStore accountStore)
+            AccountStore accountStore,
+            AccountViewModelStore accountViewModelStore)
         {
             _unitOfWork = unitOfWork;
             _regionManager = regionManager;
             _modalService = modalService;
             _openDialogService = openDialogService;
             _accountStore = accountStore;
+            _accountViewModelStore = accountViewModelStore;
             GetCityList(cityListService).Await();
-            SaveChangeCommand = new DelegateCommand(async () => await saveChange());
+            SaveChangeCommand = new DelegateCommand(async () => await save());
             AddAvatarCommand = new DelegateCommand(addAvatarCommand);
             FindAccountCommand = new DelegateCommand(async () => await findAccountCommand());
         }
@@ -159,7 +160,7 @@ namespace ESM.Modules.Import.ViewModels
             await task;
             Cities = task.Result;
         }
-        private async Task saveChange()
+        public async Task save()
         {
             if (Id != CurrentAccoutId)
             {
@@ -204,7 +205,7 @@ namespace ESM.Modules.Import.ViewModels
                 var id = _accountStore.CurrentAccount.Id;
                 _accountStore.CurrentAccount = await _unitOfWork.Accounts.GetById(id);
                 _modalService.ShowModal(ModalType.Information, "Đã lưu thay đổi", "Thành công");
-                _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.ChangeAccountInfoView);
+                _accountViewModelStore.Back();
             }
             catch (Exception) { _modalService.ShowModal(ModalType.Error, "Không thể lưu thay đổi", "Lỗi"); }
         }
@@ -260,9 +261,11 @@ namespace ESM.Modules.Import.ViewModels
                 MemberName = name
             });
         }
-        public void OnNavigatedTo(NavigationContext navigationContext)
+        public async void OnNavigatedTo(NavigationContext navigationContext)
         {
-
+            _accountViewModelStore.CurrentAccountViewModel = this;
+            Id = navigationContext.Parameters["accountId"].ToString();
+            await findAccountCommand();
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
