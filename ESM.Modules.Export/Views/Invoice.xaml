@@ -185,8 +185,8 @@
                                    FontWeight="DemiBold" />
                     </StackPanel>
                 </StackPanel>
-                <StackPanel Grid.Column="1" />
-                <StackPanel Grid.Column="2">
+                <StackPanel Grid.Column="1"
+                            Grid.ColumnSpan="2">
                     <TextBlock Text="{Binding TotalAmount, StringFormat={StaticResource CurrencyFormat}}"
                                FontSize="25"
                                Margin="5"

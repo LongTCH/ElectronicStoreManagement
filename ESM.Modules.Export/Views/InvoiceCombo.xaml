@@ -118,8 +118,8 @@
                                 <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
                             <TextBlock Text="{Binding Name}"
-                                       FontSize="20" 
-                                       TextWrapping="NoWrap"/>
+                                       FontSize="20"
+                                       TextWrapping="NoWrap" />
                             <Grid Grid.Row="1"
                                   HorizontalAlignment="Left"
                                   Width="400">
@@ -194,8 +194,8 @@
                                    FontWeight="DemiBold" />
                     </StackPanel>
                 </StackPanel>
-                <StackPanel Grid.Column="1" />
-                <StackPanel Grid.Column="2">
+                <StackPanel Grid.Column="1"
+                            Grid.ColumnSpan="2">
                     <TextBlock Text="{Binding TotalAmount, StringFormat={StaticResource CurrencyFormat}}"
                                FontSize="25"
                                Margin="5"
