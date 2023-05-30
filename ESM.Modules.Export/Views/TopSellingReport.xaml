@@ -46,28 +46,34 @@
                         Margin="10"
                         Width="200">
                 <TextBlock Text="Lọc theo:"
+                           FontSize="15"
                            FontWeight="Bold"
                            Margin="0 0 0 10" />
                 <TextBlock Text="Thời gian bắt đầu:"
+                           FontSize="15"
                            FontWeight="Bold"
                            VerticalAlignment="Center"
                            Margin="5" />
                 <DatePicker Name="startTimePicker"
+                            FontSize="15"
                             SelectedDate="{Binding StartTime}"
                             Grid.Column="1"
                             Margin="5" />
                 <TextBlock Text="Thời gian kết thúc:"
+                           FontSize="15"
                            Grid.Row="1"
                            FontWeight="Bold"
                            VerticalAlignment="Center"
                            Margin="5" />
                 <DatePicker Name="endTimePicker"
+                            FontSize="15"
                             SelectedDate="{Binding EndTime}"
                             Grid.Row="1"
                             Grid.Column="1"
                             Margin="5" />
                 <Button Width="65"
                         BorderThickness="0"
+                        FontSize="15"
                         Margin="120,20,10,10"
                         materialDesign:ButtonAssist.CornerRadius="10"
                         HorizontalAlignment="Center"
@@ -76,36 +82,43 @@
                         Content="XEM"
                         Command="{Binding AddCommand}" />
                 <RadioButton Name="laptopRadioButton"
+                             FontSize="15"
                              Content="LAPTOP"
                              IsChecked="{Binding IsLaptopCheck, UpdateSourceTrigger=PropertyChanged}"
                              FontWeight="Bold"
                              Margin="5" />
                 <RadioButton Name="smartphoneRadioButton"
+                             FontSize="15"
                              Content="SMARTPHONE"
                              IsChecked="{Binding IsSmartphoneCheck, UpdateSourceTrigger=PropertyChanged}"
                              FontWeight="Bold"
                              Margin="5" />
                 <RadioButton Name="pcRadioButton"
+                             FontSize="15"
                              IsChecked="{Binding IsPCCheck, UpdateSourceTrigger=PropertyChanged}"
                              Content="PC"
                              FontWeight="Bold"
                              Margin="5" />
                 <RadioButton Name="cpuRadioButton"
+                             FontSize="15"
                              IsChecked="{Binding IsCPUCheck, UpdateSourceTrigger=PropertyChanged}"
                              Content="CPU"
                              FontWeight="Bold"
                              Margin="5" />
                 <RadioButton Name="vgaRadioButton"
+                             FontSize="15"
                              IsChecked="{Binding IsVGACheck, UpdateSourceTrigger=PropertyChanged}"
                              Content="VGA"
                              FontWeight="Bold"
                              Margin="5" />
                 <RadioButton Name="monitorRadioButton"
+                             FontSize="15"
                              IsChecked="{Binding IsMonitorCheck,UpdateSourceTrigger=PropertyChanged}"
                              Content="MONITOR"
                              FontWeight="Bold"
                              Margin="5" />
                 <RadioButton Name="harddiskRadioButton"
+                             FontSize="15"
                              IsChecked="{Binding IsHarddiskCheck, UpdateSourceTrigger=PropertyChanged}"
                              Content="HARDDISK"
                              FontWeight="Bold"
@@ -115,9 +128,6 @@
                   Grid.Column="1"
                   Grid.ColumnSpan="2"
                   Margin="10">
-                <TextBlock Text="Sales by catory"
-                           FontWeight="Bold"
-                           Margin="0 0 0 10" />
                 <lvc:CartesianChart x:Name="myChart"
                                     ChartLegend="{Binding Legend}">
                     <lvc:CartesianChart.Series>

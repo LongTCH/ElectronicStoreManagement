@@ -37,7 +37,7 @@
                 <TextBlock Text="Thống kê"
                            FontWeight="Bold"
                            FontSize="20"
-                           Margin="10"
+                           Margin="5"
                            Foreground="Black" />
             </StackPanel>
             <StackPanel Grid.Row="1"
@@ -45,48 +45,59 @@
                         Margin="10"
                         Width="250">
                 <TextBlock Text="Lọc theo:"
+                           FontSize="15"
                            FontWeight="Bold"
-                           Margin="0 0 0 10" />
+                           Margin="0 0 0 5" />
                 <TextBlock Text="Thời gian bắt đầu:"
+                           FontSize="15"
                            FontWeight="Bold"
                            VerticalAlignment="Center"
                            Margin="5" />
                 <DatePicker Name="startTimePicker"
+                            FontSize="15"
                             SelectedDate="{Binding StartTime}"
                             Grid.Column="1"
                             Margin="5" />
                 <TextBlock Text="Thời gian kết thúc:"
+                           FontSize="15"
                            Grid.Row="1"
                            FontWeight="Bold"
                            VerticalAlignment="Center"
                            Margin="5" />
                 <DatePicker Name="endTimePicker"
+                            FontSize="15"
                             SelectedDate="{Binding EndTime}"
                             Grid.Row="1"
                             Grid.Column="1"
                             Margin="5" />
                 <TextBlock Text="Lọc theo khoảng thời gian:"
+                           FontSize="15"
                            FontWeight="Bold"
                            VerticalAlignment="Center"
                            Margin="5,5,5,0" />
                 <StackPanel Orientation="Horizontal"
                             Margin="5">
                     <RadioButton Content="Tuần"
+                                 FontSize="15"
                                  IsChecked="{Binding IsWeekCheck, UpdateSourceTrigger=PropertyChanged}"
                                  Margin="0,0,5,0" />
                     <RadioButton Content="Tháng"
+                                 FontSize="15"
                                  IsChecked="{Binding IsMonthCheck, UpdateSourceTrigger=PropertyChanged}"
                                  Margin="0,0,5,0" />
                     <RadioButton Content="Quý"
+                                 FontSize="15"
                                  IsChecked="{Binding IsQuarterCheck, UpdateSourceTrigger=PropertyChanged}"
                                  Margin="0,0,5,0" />
                     <RadioButton Content="Năm"
+                                 FontSize="15"
                                  IsChecked="{Binding IsYearCheck, UpdateSourceTrigger=PropertyChanged}"
                                  Margin="0,0,5,0" />
                 </StackPanel>
                 <Button Width="65"
+                        FontSize="15"
                         BorderThickness="0"
-                        Margin="120,20,10,10"
+                        Margin="120,10,10,10"
                         materialDesign:ButtonAssist.CornerRadius="10"
                         HorizontalAlignment="Center"
                         Background="DodgerBlue"
@@ -94,46 +105,55 @@
                         Content="XEM"
                         Command="{Binding AddCommand}" />
                 <CheckBox Name="laptopCheckBox"
+                          FontSize="15"
                           Content="LAPTOP"
                           IsChecked="{Binding IsLaptopCheck, UpdateSourceTrigger=PropertyChanged}"
                           FontWeight="Bold"
                           Margin="5" />
                 <CheckBox Name="smartphoneCheckBox"
+                          FontSize="15"
                           Content="SMARTPHONE"
                           IsChecked="{Binding IsSmartphoneCheck, UpdateSourceTrigger=PropertyChanged}"
                           FontWeight="Bold"
                           Margin="5" />
                 <CheckBox Name="pcCheckBox"
+                          FontSize="15"
                           IsChecked="{Binding IsPCCheck, UpdateSourceTrigger=PropertyChanged}"
                           Content="PC"
                           FontWeight="Bold"
                           Margin="5" />
                 <CheckBox Name="cpuCheckBox"
+                          FontSize="15"
                           IsChecked="{Binding IsCPUCheck, UpdateSourceTrigger=PropertyChanged}"
                           Content="CPU"
                           FontWeight="Bold"
                           Margin="5" />
                 <CheckBox Name="vgaCheckBox"
+                          FontSize="15"
                           IsChecked="{Binding IsVGACheck, UpdateSourceTrigger=PropertyChanged}"
                           Content="VGA"
                           FontWeight="Bold"
                           Margin="5" />
                 <CheckBox Name="monitorCheckBox"
+                          FontSize="15"
                           IsChecked="{Binding IsMonitorCheck,UpdateSourceTrigger=PropertyChanged}"
                           Content="MONITOR"
                           FontWeight="Bold"
                           Margin="5" />
                 <CheckBox Name="harddiskCheckBox"
+                          FontSize="15"
                           IsChecked="{Binding IsHarddiskCheck, UpdateSourceTrigger=PropertyChanged}"
                           Content="HARDDISK"
                           FontWeight="Bold"
                           Margin="5" />
                 <CheckBox  x:Name="comboCheckBox"
+                           FontSize="15"
                            IsChecked="{Binding IsComboCheck, UpdateSourceTrigger=PropertyChanged}"
                            Content="COMBO"
                            FontWeight="Bold"
                            Margin="5" />
                 <CheckBox  x:Name="totalCheckBox"
+                           FontSize="15"
                            IsChecked="{Binding IsTotalCheck, UpdateSourceTrigger=PropertyChanged}"
                            Content="DOANH THU TỔNG"
                            FontWeight="Bold"
@@ -143,10 +163,7 @@
                   Grid.Column="1"
                   Grid.ColumnSpan="2"
                   Margin="10">
-                <TextBlock Text="Sales by catory"
-                           FontWeight="Bold"
-                           Margin="0 0 0 10" />
-                <lvc:CartesianChart Margin="0,20,0,0"
+                <lvc:CartesianChart 
                                     Series="{Binding Series}"
                                     LegendLocation="Right"
                                     x:Name="myChart">

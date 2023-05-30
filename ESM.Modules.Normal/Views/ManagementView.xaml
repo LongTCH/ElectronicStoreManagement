@@ -12,7 +12,7 @@
             <TextBlock Text="TRANG QUẢN TRỊ"
                        HorizontalAlignment="Center"
                        Style="{StaticResource MahApps.Styles.TextBlock}"
-                       FontSize="50"
+                       FontSize="30"
                        FontWeight="Bold"
                        Foreground="Blue" />
             <Grid>
@@ -27,7 +27,7 @@
                     <StackPanel>
                         <TextBlock Text="1. Quản lí sản phẩm"
                                    Style="{StaticResource MahApps.Styles.TextBlock}"
-                                   FontSize="30"
+                                   FontSize="25"
                                    FontWeight="Bold"
                                    Margin='50,0,0,0' />
                         <Grid Margin="0,0,0,10">
@@ -48,7 +48,7 @@
                                         Style="{StaticResource MahApps.Styles.Button.Hamburger}"
                                         Command="{Binding NavigateCommand}"
                                         CommandParameter="{x:Static esmcore:ViewNames.ProductInputView}"
-                                        FontSize="22" />
+                                        FontSize="20" />
                             </StackPanel>
                             <StackPanel Margin="20,0,20,0"
                                         Grid.Column="1"
@@ -64,7 +64,7 @@
                                         Style="{StaticResource MahApps.Styles.Button.Hamburger}"
                                         Command="{Binding NavigateCommand}"
                                         CommandParameter="{x:Static esmcore:ViewNames.ImportBillView}"
-                                        FontSize="22" />
+                                        FontSize="20" />
                             </StackPanel>
                             <StackPanel Margin="20,0,20,0"
                                         Grid.Column="2"
@@ -80,7 +80,7 @@
                                         Style="{StaticResource MahApps.Styles.Button.Hamburger}"
                                         Command="{Binding NavigateCommand}"
                                         CommandParameter="{x:Static esmcore:ViewNames.DiscountInputView}"
-                                        FontSize="22" />
+                                        FontSize="20" />
                             </StackPanel>
                         </Grid>
                     </StackPanel>
@@ -91,7 +91,7 @@
                     <StackPanel>
                         <TextBlock Text="2. Quản lí bán hàng"
                                    Style="{StaticResource MahApps.Styles.TextBlock}"
-                                   FontSize="30"
+                                   FontSize="25"
                                    FontWeight="Bold"
                                    Margin='50,0,0,0' />
                         <Grid Margin="0,0,0,10">
@@ -111,7 +111,7 @@
                                         Style="{StaticResource MahApps.Styles.Button.Hamburger}"
                                         Command="{Binding NavigateCommand}"
                                         CommandParameter="{x:Static esmcore:ViewNames.SellView}"
-                                        FontSize="22" />
+                                        FontSize="20" />
                             </StackPanel>
                             <StackPanel Grid.Column="1"
                                         HorizontalAlignment="Center">
@@ -125,7 +125,7 @@
                                         Style="{StaticResource MahApps.Styles.Button.Hamburger}"
                                         Command="{Binding NavigateCommand}"
                                         CommandParameter="{x:Static esmcore:ViewNames.ComboSellView}"
-                                        FontSize="22" />
+                                        FontSize="20" />
                             </StackPanel>
                         </Grid>
                     </StackPanel>
@@ -136,7 +136,7 @@
                     <StackPanel>
                         <TextBlock Text="3. Quản lí nhà cung cấp"
                                    Style="{StaticResource MahApps.Styles.TextBlock}"
-                                   FontSize="30"
+                                   FontSize="25"
                                    FontWeight="Bold"
                                    Margin='50,0,0,0' />
                         <Grid Margin="0,0,0,10">
@@ -156,7 +156,7 @@
                                         Style="{StaticResource MahApps.Styles.Button.Hamburger}"
                                         Command="{Binding NavigateCommand}"
                                         CommandParameter="{x:Static esmcore:ViewNames.DistributorView}"
-                                        FontSize="22" />
+                                        FontSize="20" />
                             </StackPanel>
                         </Grid>
                     </StackPanel>
@@ -167,7 +167,7 @@
                     <StackPanel>
                         <TextBlock Text="4. Quản lí hóa đơn"
                                    Style="{StaticResource MahApps.Styles.TextBlock}"
-                                   FontSize="30"
+                                   FontSize="25"
                                    FontWeight="Bold"
                                    Margin='50,0,0,0' />
                         <Grid Margin="0,0,0,10">
@@ -188,9 +188,9 @@
                                         Style="{StaticResource MahApps.Styles.Button.Hamburger}"
                                         Command="{Binding NavigateCommand}"
                                         CommandParameter="{x:Static esmcore:ViewNames.Invoicemanagement}"
-                                        FontSize="22" />
+                                        FontSize="20" />
                             </StackPanel>
-                            <StackPanel Grid.Column="1"
+                            <StackPanel Grid.Column="2"
                                         Margin="0,0,10,0"
                                         HorizontalAlignment="Center">
                                 <iconPacks:PackIconVaadinIcons Kind="DateInput"
@@ -203,9 +203,9 @@
                                         Style="{StaticResource MahApps.Styles.Button.Hamburger}"
                                         Command="{Binding NavigateCommand}"
                                         CommandParameter="{x:Static esmcore:ViewNames.ImportInvoice}"
-                                        FontSize="22" />
+                                        FontSize="20" />
                             </StackPanel>
-                            <StackPanel Grid.Column="2"
+                            <StackPanel Grid.Column="1"
                                         HorizontalAlignment="Center">
                                 <iconPacks:PackIconVaadinIcons Kind="Stock"
                                                                HorizontalAlignment="Center"
@@ -217,7 +217,7 @@
                                         Style="{StaticResource MahApps.Styles.Button.Hamburger}"
                                         Command="{Binding NavigateCommand}"
                                         CommandParameter="{x:Static esmcore:ViewNames.InvoiceComboMangament}"
-                                        FontSize="22" />
+                                        FontSize="20" />
                             </StackPanel>
                         </Grid>
                     </StackPanel>
