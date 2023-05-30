@@ -39,6 +39,7 @@ public partial class Account : BindableBase
         get => avatarPath;
         set => SetProperty(ref avatarPath, value);
     }
+    public bool IsDefault => !File.Exists(AvatarPath);
     public override string ToString() => $"{Id} {LastName} {FirstName} {Gender} {EmailAddress} {Phone} {Birthday.ToShortDateString()} {Address}";
     public string Address => $"{City}, {District}, {SubDistrict}, {Street}";
 

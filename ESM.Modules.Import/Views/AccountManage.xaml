@@ -53,9 +53,9 @@
                             <Grid>
                                 <Image Source="pack://application:,,,/ESM.Core;component/ShareImages/adduser.png"
                                        Height="200"
-                                       Visibility="{Binding IsDefault, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                       Visibility="{Binding SelectedAccount.IsDefault, Converter={StaticResource BooleanToVisibilityConverter}}"
                                        HorizontalAlignment="Left" />
-                                <Image Source="{Binding Avatar_Path}"
+                                <Image Source="{Binding SelectedAccount.AvatarPath}"
                                        Height="200"
                                        HorizontalAlignment="Left">
                                     <Image.Style>
@@ -63,7 +63,7 @@
                                             <Setter Property="Visibility"
                                                     Value="Collapsed" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsDefault}"
+                                                <DataTrigger Binding="{Binding SelectedAccount.IsDefault}"
                                                              Value="False">
                                                     <Setter Property="Visibility"
                                                             Value="Visible" />
