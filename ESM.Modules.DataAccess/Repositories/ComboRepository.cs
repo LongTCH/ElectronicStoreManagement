@@ -154,7 +154,7 @@ namespace ESM.Modules.DataAccess.Repositories
 
             return res;
         }
-        public async Task<string> GetSuggestID()
+        public override async Task<string> GetSuggestID()
         {
             return await GetSuggestID(ProductType.COMBO);
         }

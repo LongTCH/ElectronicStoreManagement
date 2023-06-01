@@ -7,37 +7,32 @@ using MahApps.Metro.Controls;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
-using ESM.Core.ShareStores.Address;
 using ESM.Core.ShareStores;
 using System.Linq;
+using ESM.Modules.Import.Utilities;
 
 namespace ESM.Modules.Import.ViewModels
 {
-    [RegionMemberLifetime(KeepAlive = false)]
-    public class AccountManageViewModel : BindableBase, INavigationAware
+    public class AccountManageViewModel : BindableBase, INavigationAware, IParentViewModel, ISearchBar
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IOpenDialogService _openDialogService;
         private readonly IModalService _modalService;
         private readonly IRegionManager _regionManager;
-        private readonly AccountViewModelStore _accountViewModelStore;
+        private readonly ViewModelStore _accountViewModelStore;
         public AccountManageViewModel(IUnitOfWork unitOfWork,
-            IOpenDialogService openDialogService,
             IModalService modalService,
             IRegionManager regionManager,
-            AccountViewModelStore accountViewModelStore)
+            ViewModelStore accountViewModelStore)
         {
             _unitOfWork = unitOfWork;
-            _openDialogService = openDialogService;
             _modalService = modalService;
             _regionManager = regionManager;
             _accountViewModelStore = accountViewModelStore;
-            SaveCommand = new(async () => await _accountViewModelStore.CurrentAccountViewModel?.save());
+            SaveCommand = new(async () => await _accountViewModelStore.CurrentViewModel?.save());
             EditCommand = new(editCommand);
             ClearCommand = new(clearCommand);
             AddCommand = new(addCommand);
@@ -88,7 +83,7 @@ namespace ESM.Modules.Import.ViewModels
                 {
                     { "accountId" , SelectedAccount.Id },
                 };
-                _regionManager.RequestNavigate(RegionNames.AccountRegion, ViewNames.ChangeAccountInfoView, keyValuePairs);
+                _regionManager.RequestNavigate(RegionNames.InnerAccountManageRegion, ViewNames.AccountEdit, keyValuePairs);
             }
             else _modalService.ShowModal(ModalType.Error, "Bạn chưa chọn tài khoản", "Thông báo");
         }
@@ -106,7 +101,7 @@ namespace ESM.Modules.Import.ViewModels
         private void addCommand()
         {
             IsEditMode = true;
-            _regionManager.RequestNavigate(RegionNames.AccountRegion, ViewNames.RegisterView);
+            _regionManager.RequestNavigate(RegionNames.InnerAccountManageRegion, ViewNames.AccountAdd);
         }
         private async void deleteCommand()
         {
@@ -132,21 +127,23 @@ namespace ESM.Modules.Import.ViewModels
             IsEditMode = false;
             SelectedAccount = null;
             getAccountList();
-            _accountViewModelStore.Back = () =>
-            {
-                IsEditMode = false;
-                getAccountList();
-            };
+            _accountViewModelStore.ParentViewModal = this;
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
-            return false;
+            return true;
         }
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
 
+        }
+
+        public void OnChildViewNotify()
+        {
+            IsEditMode = false;
+            getAccountList();
         }
 
         public DelegateCommand AddAvatarCommand { get; }
@@ -158,7 +155,7 @@ namespace ESM.Modules.Import.ViewModels
         public DelegateCommand DeleteCommand { get; }
         public DelegateCommand GetAllCommand { get; }
         public DelegateCommand<string> SearchCommand { get; }
-        public IEnumerable<string> Gender { get; } = StaticData.GenderList;
+        public IEnumerable<string> Gender { get; } = Core.StaticData.GenderList;
         public IEnumerable<string> ListRole { get; } = Utilities.StaticData.RoleList;
     }
 }

@@ -1,25 +1,13 @@
-﻿using Prism.Mvvm;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ESM.Modules.DataAccess.Models;
 
-public partial class Combo: BindableBase, IEquatable<Combo>
+public partial class Combo
 {
     public string Id { get; set; } = null!;
-    private double discount;
-    [Range(0, 100, ErrorMessage = "Nhập giá trị từ 0 đến 100")]
-    public double Discount
-    {
-        get => discount;
-        set
-        {
-            discount = value;
-            ValidateProperty(value, nameof(Discount));
-        }
-    }
+    public double Discount { get; set; }
 
-    public string ProductIdlist { get; set; } = null!; 
+    public string ProductIdlist { get; set; } = null!;
     public string Name { get; set; } = null!;
     public string Unit { get; set; } = null!;
     public bool? Status { get; set; } = true;
@@ -32,17 +20,4 @@ public partial class Combo: BindableBase, IEquatable<Combo>
     public int Remain { get; set; }
     [NotMapped]
     public IEnumerable<ProductDTO>? ListProducts { get; set; }
-
-    public bool Equals(Combo? other)
-    {
-        if (other is null) return false;
-        return Id == other.Id;
-    }
-    void ValidateProperty<TProp>(TProp value, string name)
-    {
-        Validator.ValidateProperty(value, new ValidationContext(this, null, null)
-        {
-            MemberName = name
-        });
-    }
 }

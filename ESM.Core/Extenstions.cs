@@ -58,8 +58,8 @@ namespace ESM.Core
         public static void RegisterViewWithContentRegion<T>(this IRegionManager regionManager)
         {
             regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(T));
-            var view = regionManager.Regions[RegionNames.ContentRegion].Views.First(v => v.GetType().Equals(typeof(T)));
-            regionManager.Regions[RegionNames.ContentRegion].Deactivate(view);
+            //var view = regionManager.Regions[RegionNames.ContentRegion].Views.First(v => v.GetType().Equals(typeof(T)));
+            //regionManager.Regions[RegionNames.ContentRegion].Deactivate(view);
         }
         public static void ValidateProperty<TProp>(this BindableBase BASE ,TProp value, string name)
         {

@@ -1,13 +1,13 @@
 ﻿using System.Windows.Controls;
 
-namespace ESM.Modules.Import.Views
+namespace ESM.Modules.Import.Views.Edit
 {
     /// <summary>
     /// Interaction logic for ChangeAccountInfoView
     /// </summary>
-    public partial class ChangeAccountInfoView : UserControl
+    public partial class AccountEdit : UserControl
     {
-        public ChangeAccountInfoView()
+        public AccountEdit()
         {
             InitializeComponent();
         }

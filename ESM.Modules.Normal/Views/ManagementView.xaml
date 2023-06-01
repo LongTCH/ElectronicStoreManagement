@@ -156,7 +156,7 @@
                                         Cursor="Hand"
                                         Style="{StaticResource MahApps.Styles.Button.Hamburger}"
                                         Command="{Binding NavigateCommand}"
-                                        CommandParameter="{x:Static esmcore:ViewNames.DistributorView}"
+                                        CommandParameter="{x:Static esmcore:ViewNames.ProviderView}"
                                         FontSize="20" />
                             </StackPanel>
                         </Grid>

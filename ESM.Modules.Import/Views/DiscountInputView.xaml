@@ -13,7 +13,8 @@
              xmlns:localvm="clr-namespace:ESM.Modules.Import.ViewModels"
              prism:ViewModelLocator.AutoWireViewModel="True"
              Background="White"
-             xmlns:util="clr-namespace:ESM.Modules.Import.Utilities">
+             xmlns:util="clr-namespace:ESM.Modules.Import.Utilities"
+             xmlns:esmcore="clr-namespace:ESM.Core;assembly=ESM.Core">
     <ScrollViewer VerticalScrollBarVisibility="Auto"
                   PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
                   HorizontalAlignment="Stretch">
@@ -25,6 +26,19 @@
                        Foreground="CornflowerBlue" />
             <Grid Margin="10"
                   x:Name="GridAddCombo">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility"
+                                Value="Visible" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsEditMode}"
+                                         Value="True">
+                                <Setter Property="Visibility"
+                                        Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
                     <ColumnDefinition Width="1*" />
@@ -38,8 +52,7 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="DANH SÁCH SẢN PHẨM"
                                    HorizontalAlignment="Center" />
-                        <ComboBox ItemsSource="{Binding ProductType}"
-                                  Cursor="Hand"
+                        <ComboBox Cursor="Hand"
                                   Grid.Column="1"
                                   HorizontalAlignment="Right"
                                   mah:TextBoxHelper.Watermark="Chọn loại sản phẩm"
@@ -62,7 +75,7 @@
                               ScrollViewer.VerticalScrollBarVisibility="Auto"
                               ScrollViewer.HorizontalScrollBarVisibility="Auto"
                               x:Name="myDataGrid"
-                              Height="400"
+                              Height="350"
                               Style="{StaticResource MaterialDesignDataGrid}">
                         <DataGrid.CellStyle>
                             <Style TargetType="DataGridCell">
@@ -95,9 +108,13 @@
                 <StackPanel Grid.Column="2"
                             Margin="5">
                     <Grid>
-                        <TextBlock FontSize="20"
-                                   HorizontalAlignment="Left"
-                                   Text="{Binding SelectedDiscount.Id, StringFormat='Mã khuyến mãi: {0}'}" />
+                        <Border BorderThickness="2"
+                                HorizontalAlignment="Left"
+                                BorderBrush="Black">
+                            <TextBlock Margin="5"
+                                       FontWeight="Bold"
+                                       Text="{Binding SelectedDiscount.Id, StringFormat='Mã khuyến mãi: {0}'}" />
+                        </Border>
                         <TextBlock Text="CHI TIẾT KHUYẾN MÃI"
                                    Grid.Column="0"
                                    HorizontalAlignment="Center" />
@@ -147,7 +164,7 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <StackPanel IsHitTestVisible="{Binding IsEditMode}">
+                    <StackPanel>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
@@ -158,8 +175,8 @@
                                 <TextBlock Text="Ngày bắt đầu"
                                            Margin="0,0,5,0"
                                            VerticalAlignment="Center" />
-                                <DatePicker IsTodayHighlighted="True"
-                                            SelectedDate="{Binding SelectedDiscount.StartDate}" />
+                                <TextBox IsReadOnly="True"
+                                         Text="{Binding SelectedDiscount.StartDate,StringFormat={StaticResource ShortDateFormat}}" />
                             </DockPanel>
                             <DockPanel  Grid.Column="1"
                                         Margin="5">
@@ -167,8 +184,9 @@
                                                             Height="22"
                                                             Width="22"
                                                             VerticalAlignment="Center" />
-                                <TextBox Text="{Binding SelectedDiscount.Name, UpdateSourceTrigger=LostFocus}"
+                                <TextBox Text="{Binding SelectedDiscount.Name}"
                                          Style="{StaticResource MahApps.Styles.TextBox}"
+                                         IsReadOnly="True"
                                          mah:TextBoxHelper.Watermark="Tên khuyến mãi" />
                             </DockPanel>
                         </Grid>
@@ -182,8 +200,8 @@
                                 <TextBlock Text="Ngày kết thúc"
                                            Margin="0,0,5,0"
                                            VerticalAlignment="Center" />
-                                <DatePicker IsTodayHighlighted="True"
-                                            SelectedDate="{Binding SelectedDiscount.EndDate}" />
+                                <TextBox IsReadOnly="True"
+                                         Text="{Binding SelectedDiscount.EndDate,StringFormat={StaticResource ShortDateFormat}}" />
                             </DockPanel>
                             <DockPanel  Grid.Column="1"
                                         Margin="5">
@@ -192,6 +210,7 @@
                                                                Height="22"
                                                                Width="22" />
                                 <TextBox Text="{Binding SelectedDiscount.Discount1, UpdateSourceTrigger=LostFocus,ValidatesOnExceptions=True}"
+                                         IsReadOnly="True"
                                          Style="{StaticResource MahApps.Styles.TextBox}"
                                          mah:TextBoxHelper.Watermark="Phần trăm khuyến mãi" />
                             </DockPanel>
@@ -199,33 +218,8 @@
                     </StackPanel>
                 </StackPanel>
             </Grid>
-            <Grid Margin="5"
-                  Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Button Content="THÊM VÀO KHUYẾN MÃI"
-                        FontWeight="Bold"
-                        HorizontalAlignment="Center"
-                        Background="Silver"
-                        Command="{Binding AddToDiscountCommand}" />
-                <Button Content="HỦY"
-                        Grid.Column="2"
-                        FontWeight="Bold"
-                        HorizontalAlignment="Center"
-                        Background="DimGray"
-                        Command="{Binding CancelCommand}"
-                        CommandParameter="{Binding SelectedDiscount}" />
-                <Button Content="LƯU"
-                        Grid.Column="1"
-                        FontWeight="Bold"
-                        HorizontalAlignment="Center"
-                        Background="CornflowerBlue"
-                        Command="{Binding SaveCommand}"
-                        CommandParameter="{Binding SelectedDiscount}" />
-            </Grid>
+            <ContentControl Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            prism:RegionManager.RegionName="{x:Static esmcore:RegionNames.InnerDiscountManageRegion}" />
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
@@ -258,6 +252,28 @@
                         Background="Red"
                         Command="{Binding DeleteCommand}" />
             </Grid >
+            <Grid Margin="5"
+                  Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Button Content="HỦY"
+                        Grid.Column="2"
+                        FontWeight="Bold"
+                        HorizontalAlignment="Center"
+                        Background="DimGray"
+                        Command="{Binding CancelCommand}"
+                        CommandParameter="{Binding SelectedDiscount}" />
+                <Button Content="LƯU"
+                        Grid.Column="1"
+                        FontWeight="Bold"
+                        HorizontalAlignment="Center"
+                        Background="CornflowerBlue"
+                        Command="{Binding SaveCommand}"
+                        CommandParameter="{Binding SelectedDiscount}" />
+            </Grid>
             <util:SearchBar />
             <StackPanel Grid.Column="1"
                         Margin="5">

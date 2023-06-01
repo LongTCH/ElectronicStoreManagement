@@ -2,50 +2,25 @@
 
 public partial class Monitor : ProductDTO
 {
-    private string? size;
     public string? Size
     {
-        get => size?.Trim();
-        set
-        {
-            size = value;
-        }
+        get; set;
     }
-    private string? panel;
     public string? Panel
     {
-        get => panel?.Trim();
-        set
-        {
-            panel = value;
-        }
+        get; set;
     }
-    private string? refreshRate;
     public string? RefreshRate
     {
-        get => refreshRate?.Trim();
-        set
-        {
-            refreshRate = value;
-        }
+        get; set;
     }
-    private string? serires;
     public string? Series
     {
-        get => serires?.Trim();
-        set
-        {
-            serires = value;
-        }
+        get; set;
     }
-    private string? need;
     public string? Need
     {
-        get => need?.Trim();
-        set
-        {
-            need = value;
-        }
+        get; set;
     }
 
 }

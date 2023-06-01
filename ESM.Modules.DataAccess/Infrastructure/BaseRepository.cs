@@ -69,5 +69,10 @@ namespace ESM.Modules.DataAccess.Infrastructure
             }
             return _context.Pcs.First(x => x.Id == id);
         }
+
+        public virtual Task<string> GetSuggestID()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

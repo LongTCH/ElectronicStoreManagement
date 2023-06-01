@@ -2,58 +2,28 @@
 
 public partial class Laptop : ProductDTO
 {
-    private string? cpu;
     public string? Cpu
     {
-        get => cpu?.Trim();
-        set
-        {
-            cpu = value;
-        }
+        get; set;
     }
-    private string? ram;
     public string? Ram
     {
-        get => ram?.Trim();
-        set
-        {
-            ram = value;
-        }
+        get; set;
     }
-    private string? storage;
     public string? Storage
     {
-        get => storage?.Trim();
-        set
-        {
-            storage = value;
-        }
+        get; set;
     }
-    private string? graphic;
     public string? Graphic
     {
-        get => graphic?.Trim();
-        set
-        {
-            graphic = value;
-        }
+        get; set;
     }
-    private string? serires;
     public string? Series
     {
-        get => serires?.Trim();
-        set
-        {
-            serires = value;
-        }
+        get; set;
     }
-    private string? need;
     public string? Need
     {
-        get => need?.Trim();
-        set
-        {
-            need = value;
-        }
+        get; set;
     }
 }

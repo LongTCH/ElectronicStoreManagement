@@ -102,5 +102,12 @@ namespace ESM.Modules.DataAccess.Repositories
                     .Where(x => EF.Functions.Like(x.Name.ToUpper(), $"%{keyword.ToUpper()}%"))
                     .AsNoTracking().ToListAsync();
         }
+        public override async Task<string> GetSuggestID()
+        {
+            using var _context = new ESMDbContext();
+            var id = (await _context.Discounts.OrderBy(x => x.Id).LastOrDefaultAsync())?.Id;
+            if (id == null) return "1";
+            return id + 1 + "";
+        }
     }
 }

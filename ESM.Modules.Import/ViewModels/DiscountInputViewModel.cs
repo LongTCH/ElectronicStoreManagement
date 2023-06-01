@@ -12,43 +12,47 @@ using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
 using System.Windows;
 using Prism.Regions;
+using ESM.Core.ShareStores;
+using ESM.Core;
 
 namespace ESM.Modules.Import.ViewModels
 {
-    public class DiscountInputViewModel : BindableBase, INavigationAware
+    public class DiscountInputViewModel : BindableBase, INavigationAware, IParentViewModel, ISearchBar
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IModalService _modalService;
-
-        public DiscountInputViewModel(IUnitOfWork unitOfWork, IModalService modalService)
+        private readonly IRegionManager _regionManager;
+        private readonly ViewModelStore _viewModelStore;
+        public DiscountInputViewModel(IUnitOfWork unitOfWork, IModalService modalService, IRegionManager regionManager, ViewModelStore viewModelStore)
         {
             _unitOfWork = unitOfWork;
             _modalService = modalService;
+            _regionManager = regionManager;
+            _viewModelStore = viewModelStore;
             DiscountDetail = new();
-            ProductType = new[] { "LAPTOP", "PC", "HARD DISK", "CPU", "MONITOR", "SMARTPHONE", "VGA" };
+
             AddCommand = new(addToDiscountListCommand);
-            AddToDiscountCommand = new(addToDiscountCommand);
-            RemoveFromDiscountDetailCommand = new(executeRemove);
-            AddToDiscountListCommand = new(addToDiscountListCommand);
             EditCommand = new(editCommand);
             CancelCommand = new(clearCommand);
             DeleteCommand = new(async () => await deleteCommand());
             FindCommand = new(findCommand);
-            SaveCommand = new(async () => await saveCommand());
+            SaveCommand = new(async () => await _viewModelStore.CurrentViewModel.save());
             SearchCommand = new(async (s) => await searchCommand(s));
             GetAllCommand = new(async () => await getAll());
         }
+        public void OnChildViewNotify()
+        {
+            IsEditMode = false;
+            reset();
+        }
         public DelegateCommand AddCommand { get; }
         public DelegateCommand EditCommand { get; }
-        public DelegateCommand AddToDiscountCommand { get; }
-        public DelegateCommand AddToDiscountListCommand { get; }
         public DelegateCommand CancelCommand { get; }
         public DelegateCommand SaveCommand { get; }
         public DelegateCommand DeleteCommand { get; }
         public DelegateCommand FindCommand { get; }
         public DelegateCommand GetAllCommand { get; }
         public DelegateCommand<string> SearchCommand { get; }
-        public DelegateCommand<SelectableViewModel> RemoveFromDiscountDetailCommand { get; }
         private Discount selectedDiscount;
         public Discount SelectedDiscount
         {
@@ -61,7 +65,7 @@ namespace ESM.Modules.Import.ViewModels
             get => isEditMode;
             set => SetProperty(ref isEditMode, value);
         }
-        public IEnumerable<string> ProductType { get; }
+
         public ICollection<SelectableViewModel> productList;
         public ICollection<SelectableViewModel> ProductList
         {
@@ -80,107 +84,21 @@ namespace ESM.Modules.Import.ViewModels
             get => discountList;
             set => SetProperty(ref discountList, value);
         }
-        private string selectedProductType;
-        public string SelectedProductType
-        {
-            get => selectedProductType;
-            set
-            {
-                SetProperty(ref selectedProductType, value);
-                SetProductList();
-            }
-        }
         private async Task searchCommand(string keyword)
         {
             DiscountList = new(await _unitOfWork.Discounts.SearchDiscount(keyword));
         }
-        private async void SetProductList()
-        {
-            switch (SelectedProductType)
-            {
-                case "LAPTOP":
-                    ProductList = (await _unitOfWork.Laptops.GetAll()).Select(x => new SelectableViewModel()
-                    {
-                        Id = x.Id,
-                        Name = x.Name,
-                        Discount = x.Discount,
-                        Price = x.Price,
-                        Unit = x.Unit,
-                        Remain = x.Remain,
-                        IsSelected = DiscountDetail.Any(p => p.Id == x.Id),
-                    }).ToList(); break;
-                case "PC":
-                    ProductList = (await _unitOfWork.Pcs.GetAll()).Select(x => new SelectableViewModel()
-                    {
-                        Id = x.Id,
-                        Name = x.Name,
-                        Discount = x.Discount,
-                        Price = x.Price,
-                        Unit = x.Unit,
-                        Remain = x.Remain,
-                        IsSelected = DiscountDetail.Any(p => p.Id == x.Id),
-                    }).ToList(); break;
-                case "HARD DISK":
-                    ProductList = (await _unitOfWork.Pcharddisks.GetAll()).Select(x => new SelectableViewModel()
-                    {
-                        Id = x.Id,
-                        Name = x.Name,
-                        Discount = x.Discount,
-                        Price = x.Price,
-                        Unit = x.Unit,
-                        Remain = x.Remain,
-                        IsSelected = DiscountDetail.Any(p => p.Id == x.Id),
-                    }).ToList(); break;
-                case "CPU":
-                    ProductList = (await _unitOfWork.Pccpus.GetAll()).Select(x => new SelectableViewModel()
-                    {
-                        Id = x.Id,
-                        Name = x.Name,
-                        Discount = x.Discount,
-                        Price = x.Price,
-                        Remain = x.Remain,
-                        Unit = x.Unit,
-                        IsSelected = DiscountDetail.Any(p => p.Id == x.Id),
-                    }).ToList(); break;
-                case "MONITOR":
-                    ProductList = (await _unitOfWork.Monitors.GetAll()).Select(x => new SelectableViewModel()
-                    {
-                        Id = x.Id,
-                        Name = x.Name,
-                        Discount = x.Discount,
-                        Price = x.Price,
-                        Unit = x.Unit,
-                        Remain = x.Remain,
-                        IsSelected = DiscountDetail.Any(p => p.Id == x.Id),
-                    }).ToList(); break;
-                case "SMARTPHONE":
-                    ProductList = (await _unitOfWork.Smartphones.GetAll()).Select(x => new SelectableViewModel()
-                    {
-                        Id = x.Id,
-                        Name = x.Name,
-                        Discount = x.Discount,
-                        Price = x.Price,
-                        Unit = x.Unit,
-                        Remain = x.Remain,
-                        IsSelected = DiscountDetail.Any(p => p.Id == x.Id),
-                    }).ToList(); break;
-                case "VGA":
-                    ProductList = (await _unitOfWork.Vgas.GetAll()).Select(x => new SelectableViewModel()
-                    {
-                        Id = x.Id,
-                        Name = x.Name,
-                        Discount = x.Discount,
-                        Price = x.Price,
-                        Unit = x.Unit,
-                        Remain = x.Remain,
-                        IsSelected = DiscountDetail.Any(p => p.Id == x.Id),
-                    }).ToList(); break;
-            }
-        }
+
         private void editCommand()
         {
             if (SelectedDiscount != null)
+            {
                 IsEditMode = true;
+                _regionManager.RequestNavigate(RegionNames.InnerDiscountManageRegion, ViewNames.DiscountEdit, new NavigationParameters()
+                {
+                    {"discountId", SelectedDiscount.Id }
+                });
+            }
             else _modalService.ShowModal(ModalType.Error, "Bạn chưa chọn Khuyến mãi", "Thông báo");
         }
         private async Task deleteCommand()
@@ -199,75 +117,19 @@ namespace ESM.Modules.Import.ViewModels
             }
             else _modalService.ShowModal(ModalType.Information, "Xóa không thành công", "Thông báo");
         }
-        private void addToDiscountCommand()
-        {
-            if (ProductList == null) return;
-            foreach (var item in ProductList)
-            {
-                if (item.IsSelected && !DiscountDetail.Any(x => x.Id == item.Id)) DiscountDetail.Add(item);
-            }
-        }
-        private async Task saveCommand()
-        {
-            if (SelectedDiscount == null) return;
-            if (SelectedDiscount.Name == null)
-            {
-                _modalService.ShowModal(ModalType.Error, "Nhập tên khuyến mãi", "Cảnh báo");
-                return;
-            }
-            if (SelectedDiscount.StartDate == null || SelectedDiscount.EndDate == null || SelectedDiscount.StartDate >= SelectedDiscount.EndDate)
-            {
-                _modalService.ShowModal(ModalType.Error, "Nhập thời gian khuyến mãi hợp lệ", "Cảnh báo");
-                return;
-            }
-            if (SelectedDiscount.Discount1 < 0 || SelectedDiscount.Discount1 > 100)
-            {
-                _modalService.ShowModal(ModalType.Error, "Nhập giá trị khuyến mãi từ 0 đến 100", "Cảnh báo");
-                return;
-            }
-            MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
-            if (metroWindow.ShowModalMessageExternal("Thông báo", "Bạn có chắc chắn lưu?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
-            {
-                SelectedDiscount.ProductIdlist = GetDiscountDetail();
-                bool res;
-                if (await _unitOfWork.Discounts.IsIdExist(SelectedDiscount.Id + ""))
-                {
-                    res = (bool)await _unitOfWork.Discounts.Update(SelectedDiscount);
-                    if (res)
-                    {
-                        _modalService.ShowModal(ModalType.Information, "Cập nhật thành công", "Thông báo");
-                    }
-                    else _modalService.ShowModal(ModalType.Error, "Có lỗi xảy ra", "Thông báo");
-                }
-                else
-                {
-                    res = (bool)await _unitOfWork.Discounts.Add(SelectedDiscount);
-                    if (res)
-                    {
-                        _modalService.ShowModal(ModalType.Information, "Đã lưu", "Thông báo");
-                    }
-                    else _modalService.ShowModal(ModalType.Error, "Lưu không thành công", "Lỗi");
-                    await Task.CompletedTask;
-                }
-                if (res)
-                {
-                    reset();
-                }
-            }
-        }
+
+
         private void addToDiscountListCommand()
         {
-            DiscountDetail.Clear();
             IsEditMode = true;
-            var p = new Discount();
-            p.Id = GetNewID();
-            SelectedDiscount = p;
+            _regionManager.RequestNavigate(RegionNames.InnerDiscountManageRegion, ViewNames.DiscountAdd);
         }
         private void clearCommand()
         {
             MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
             if (metroWindow.ShowModalMessageExternal("Cảnh báo", "Bạn có chắc chắn hủy bỏ thông tin?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
             {
+                IsEditMode = false;
                 reset();
             }
         }
@@ -290,31 +152,11 @@ namespace ESM.Modules.Import.ViewModels
                 });
             }
         }
-        private string GetDiscountDetail()
-        {
-            List<string> ids = new();
-            foreach (var item in DiscountDetail)
-            {
-                ids.Add(item.Id);
-            }
-            return string.Join(' ', ids);
-        }
-        private int GetNewID()
-        {
-            var p = DiscountList.OrderBy(x => x.Id).LastOrDefault();
-            if (p == null) return 1;
-            return p.Id + 1;
-        }
-        private void executeRemove(SelectableViewModel obj)
-        {
-            DiscountDetail.Remove(obj);
-        }
+
         private async void reset()
         {
             SelectedDiscount = null;
-            SelectedProductType = null;
             DiscountDetail.Clear();
-            ProductList = null;
             IsEditMode = false;
             await getAll();
         }
@@ -334,6 +176,7 @@ namespace ESM.Modules.Import.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
+            _viewModelStore.ParentViewModal = this;
             reset();
         }
     }

@@ -18,8 +18,6 @@ namespace ESM.Modules.Export
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            _regionManager.RegisterViewWithContentRegion<SellView>();
-
             _regionManager.RegisterViewWithRegion("ReportTabRegion", typeof(ReportView)); 
             _regionManager.RegisterViewWithRegion("ReportTabRegion", typeof(TopSellingReport));
             _regionManager.RegisterViewWithRegion("ReportTabRegion", typeof(Revenue));

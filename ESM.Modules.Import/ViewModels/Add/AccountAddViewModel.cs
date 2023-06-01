@@ -15,21 +15,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using static ESM.Modules.Import.Utilities.StaticData;
 
-namespace ESM.Modules.Import.ViewModels
+namespace ESM.Modules.Import.ViewModels.Add
 {
-    public class RegisterViewModel : BindableBase, INavigationAware, IRegionMemberLifetime, IAccountViewModelStore
+    public class AccountAddViewModel : BindableBase, INavigationAware, IRegionMemberLifetime, IViewModel
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRegionManager _regionManager;
         private readonly IModalService _modalService;
         private readonly IOpenDialogService _openDialogService;
-        private readonly AccountViewModelStore _accountViewModelStore;
-        public RegisterViewModel(IUnitOfWork unitOfWork,
+        private readonly ViewModelStore _accountViewModelStore;
+        public AccountAddViewModel(IUnitOfWork unitOfWork,
             IRegionManager regionManager,
             IModalService modalService,
             ICityListService cityListService,
             IOpenDialogService openDialogService,
-            AccountViewModelStore accountViewModelStore)
+            ViewModelStore accountViewModelStore)
         {
             _unitOfWork = unitOfWork;
             _regionManager = regionManager;
@@ -193,7 +193,7 @@ namespace ESM.Modules.Import.ViewModels
                 
                 _modalService.ShowModal(ModalType.Information, "Tạo tài khoản mới thành công", "Thông báo");
                 //_regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.RegisterView);
-                _accountViewModelStore.Back();
+                _accountViewModelStore.ParentViewModal.OnChildViewNotify();
             }
             catch (Exception ex) { _modalService.ShowModal(ModalType.Error, ex.Message, "Error"); }
         }
@@ -215,7 +215,7 @@ namespace ESM.Modules.Import.ViewModels
         }
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            _accountViewModelStore.CurrentAccountViewModel = this;
+            _accountViewModelStore.CurrentViewModel = this;
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

@@ -432,8 +432,14 @@ public partial class ESMDbContext : DbContext
             entity.ToTable("PROVIDER");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Note)
+                .HasMaxLength(200)
+                .HasColumnName("note");
             entity.Property(e => e.Phone).HasMaxLength(50);
             entity.Property(e => e.ProviderName).HasMaxLength(50);
+            entity.Property(e => e.Website)
+                .HasMaxLength(200)
+                .HasColumnName("website");
         });
 
         modelBuilder.Entity<Smartphone>(entity =>

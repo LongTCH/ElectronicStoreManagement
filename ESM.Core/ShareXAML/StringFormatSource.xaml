@@ -3,4 +3,5 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <sys:String x:Key="CurrencyFormat">{0:#,##0} đ</sys:String>
     <sys:String x:Key="DiscountFormat">{0: -#.####}%</sys:String>
+    <sys:String x:Key="ShortDateFormat">{0:dd/MM/yyyy}</sys:String>
 </ResourceDictionary>
