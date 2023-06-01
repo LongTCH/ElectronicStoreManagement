@@ -4,6 +4,7 @@
              xmlns:helper="clr-namespace:ESM.Core.Helper;assembly=ESM.Core"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:esmcore="clr-namespace:ESM.Core;assembly=ESM.Core"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
@@ -27,12 +28,24 @@
                        Foreground="CornflowerBlue" />
             <Grid Margin="10"
                   x:Name="GridAddCombo">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility"
+                                Value="Visible" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsEditMode}"
+                                         Value="True">
+                                <Setter Property="Visibility"
+                                        Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
-                <StackPanel Margin="5"
-                            IsHitTestVisible="{Binding IsEditMode}">
+                <StackPanel Margin="5">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
@@ -40,14 +53,12 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="DANH SÁCH SẢN PHẨM"
                                    HorizontalAlignment="Center" />
-                        <ComboBox ItemsSource="{Binding ProductType}"
-                                  Cursor="Hand"
+                        <ComboBox Cursor="Hand"
                                   Grid.Column="1"
                                   HorizontalAlignment="Right"
                                   mah:TextBoxHelper.Watermark="Chọn loại sản phẩm"
                                   MinWidth="100"
                                   MaxWidth="150"
-                                  SelectedItem="{Binding SelectedProductType, UpdateSourceTrigger=PropertyChanged}"
                                   Style="{StaticResource MahApps.Styles.ComboBox}" />
                     </Grid>
                     <DataGrid ItemsSource="{Binding ProductList}"
@@ -64,7 +75,7 @@
                               ScrollViewer.VerticalScrollBarVisibility="Auto"
                               ScrollViewer.HorizontalScrollBarVisibility="Auto"
                               x:Name="myDataGrid"
-                              Height="400"
+                              Height="350"
                               Style="{StaticResource MaterialDesignDataGrid}">
                         <DataGrid.CellStyle>
                             <Style TargetType="DataGridCell">
@@ -167,6 +178,7 @@
                                                                VerticalAlignment="Center" />
                                 <TextBox Text="{Binding SelectedCombo.Discount, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
                                          Style="{StaticResource MahApps.Styles.TextBox}"
+                                         IsReadOnly="True"
                                          mah:TextBoxHelper.Watermark="Phần trăm khuyến mãi" />
                             </DockPanel>
                         </Grid>
@@ -183,6 +195,7 @@
                                                          VerticalAlignment="Center" />
                                 <TextBox Text="{Binding SelectedCombo.Name, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
                                          Style="{StaticResource MahApps.Styles.TextBox}"
+                                         IsReadOnly="True"
                                          mah:TextBoxHelper.Watermark="Tên combo" />
                             </DockPanel>
                             <DockPanel  Grid.Column="1"
@@ -193,11 +206,34 @@
                                                          Width="22" />
                                 <TextBox Text="{Binding SelectedCombo.Unit, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
                                          Style="{StaticResource MahApps.Styles.TextBox}"
+                                         IsReadOnly="True"
                                          mah:TextBoxHelper.Watermark="Đơn vị tính" />
                             </DockPanel>
                         </Grid>
                     </StackPanel>
                 </StackPanel>
+            </Grid>
+            <ContentControl Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            prism:RegionManager.RegionName="{x:Static esmcore:RegionNames.InnerComboManageRegion}" />
+            <Grid Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="39*" />
+                    <ColumnDefinition Width="64*" />
+                    <ColumnDefinition Width="103*" />
+                    <ColumnDefinition Width="103*" />
+                </Grid.ColumnDefinitions>
+                <Button Content="HỦY"
+                        Grid.Column="3"
+                        FontWeight="Bold"
+                        HorizontalAlignment="Center"
+                        Background="DimGray"
+                        Command="{Binding CancelCommand}" />
+                <Button Content="LƯU"
+                        Grid.Column="2"
+                        FontWeight="Bold"
+                        HorizontalAlignment="Center"
+                        Background="CornflowerBlue"
+                        Command="{Binding SaveCommand}" />
             </Grid>
             <Grid>
                 <Grid.Style>
@@ -230,33 +266,6 @@
                         Width="100"
                         Background="Red"
                         Command="{Binding DeleteCommand}" />
-            </Grid>
-            <Grid Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="39*" />
-                    <ColumnDefinition Width="64*" />
-                    <ColumnDefinition Width="103*" />
-                    <ColumnDefinition Width="103*" />
-                </Grid.ColumnDefinitions>
-                <Button Content="THÊM VÀO COMBO"
-                        FontWeight="Bold"
-                        HorizontalAlignment="Left"
-                        Background="Silver"
-                        Command="{Binding AddToComboCommand}"
-                        Grid.ColumnSpan="2"
-                        Margin="74,0,0,0" />
-                <Button Content="HỦY"
-                        Grid.Column="3"
-                        FontWeight="Bold"
-                        HorizontalAlignment="Center"
-                        Background="DimGray"
-                        Command="{Binding CancelCommand}" />
-                <Button Content="LƯU"
-                        Grid.Column="2"
-                        FontWeight="Bold"
-                        HorizontalAlignment="Center"
-                        Background="CornflowerBlue"
-                        Command="{Binding SaveCommand}" />
             </Grid>
             <util:SearchBar />
             <StackPanel Grid.Column="1"

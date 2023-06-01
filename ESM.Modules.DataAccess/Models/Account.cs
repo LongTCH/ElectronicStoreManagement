@@ -1,21 +1,11 @@
-﻿using Prism.Mvvm;
-using System.ComponentModel.DataAnnotations;
+﻿namespace ESM.Modules.DataAccess.Models;
 
-namespace ESM.Modules.DataAccess.Models;
-
-public partial class Account : BindableBase
+public partial class Account
 {
-    private string id;
-    public string Id
-    {
-        get => id;
-        set => SetProperty(ref id, value);
-    }
+    public string Id { get; set; }
 
     public string PasswordHash { get; set; } = null!;
-    [Required]
     public string FirstName { get; set; } = null!;
-    [Required]
     public string LastName { get; set; } = null!;
 
     public bool Gender { get; set; }
@@ -33,15 +23,10 @@ public partial class Account : BindableBase
     public string Street { get; set; } = null!;
 
     public string Phone { get; set; } = null!;
-    private string? avatarPath;
-    public string? AvatarPath
-    {
-        get => avatarPath;
-        set => SetProperty(ref avatarPath, value);
-    }
+    public string? AvatarPath { get; set; }
     public bool IsDefault => !File.Exists(AvatarPath);
     public override string ToString() => $"{Id} {LastName} {FirstName} {Gender} {EmailAddress} {Phone} {Birthday.ToShortDateString()} {Address}";
-    public string Address => $"{City}, {District}, {SubDistrict}, {Street}";
+    public string Address => $"{Street}, {SubDistrict}, {District}, {City}";
 
     public virtual ICollection<BillCombo> BillCombos { get; } = new List<BillCombo>();
 

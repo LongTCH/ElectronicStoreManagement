@@ -2,26 +2,19 @@
 using ESM.Core.ShareServices;
 using ESM.Core.ShareStores;
 using ESM.Modules.Authentication;
-using ESM.Modules.Authentication.Views;
 using ESM.Modules.DataAccess.Infrastructure;
-using ESM.Modules.DataAccess.Models;
 using ESM.Modules.Export;
 using ESM.Modules.Import;
 using ESM.Modules.Normal;
 using ESM.ViewModels;
 using ESM.Views;
 using MahApps.Metro.Controls.Dialogs;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Unity;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Forms;
-using System.Windows.Input;
 using TabControl = System.Windows.Controls.TabControl;
 
 namespace ESM
@@ -31,9 +24,9 @@ namespace ESM
     /// </summary>
     public partial class App : PrismApplication
     {
-        protected override void OnStartup(StartupEventArgs e)
+        protected override void Initialize()
         {
-            base.OnStartup(e);
+            base.Initialize();
             var _regionManager = Container.Resolve<IRegionManager>();
             _regionManager.RequestNavigateContentRegionWithTrace(ViewNames.HomeView);
         }
@@ -51,7 +44,7 @@ namespace ESM
             containerRegistry.RegisterSingleton<MainWindowViewModel>();
             containerRegistry.RegisterSingleton<MainWindow>();
             containerRegistry.RegisterSingleton<AccountStore>();
-            containerRegistry.RegisterSingleton<AccountViewModelStore>();
+            containerRegistry.RegisterSingleton<ViewModelStore>();
             containerRegistry.RegisterSingleton<IModalService, ModalService>();
             containerRegistry.RegisterSingleton<IOpenDialogService, OpenDialogService>();
             containerRegistry.RegisterSingleton<IDialogCoordinator, DialogCoordinator>();

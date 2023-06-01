@@ -1,52 +1,22 @@
-﻿using System.Numerics;
-
-namespace ESM.Modules.DataAccess.Models;
+﻿namespace ESM.Modules.DataAccess.Models;
 
 public partial class Vga : ProductDTO
 {
-    private string? chip;
-    public string? Chip
-    {
-        get => chip?.Trim();
-        set
-        {
-            chip = value;
-        }
-    }
-    private string? chipset;
+    public string? Chip { get; set; }
     public string? Chipset
     {
-        get => chipset?.Trim();
-        set
-        {
-            chipset = value;
-        }
+        get; set;
     }
-    private string? vram;
     public string? Vram
     {
-        get => vram?.Trim();
-        set
-        {
-            vram = value;
-        }
+        get; set;
     }
-    private string? gen;
     public string? Gen
     {
-        get => gen?.Trim();
-        set
-        {
-            gen = value;
-        }
+        get; set;
     }
-    private string? serires;
     public string? Series
     {
-        get => serires?.Trim();
-        set
-        {
-            serires = value;
-        }
+        get; set;
     }
 }

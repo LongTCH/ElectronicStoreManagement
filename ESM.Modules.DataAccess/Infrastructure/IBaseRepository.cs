@@ -9,11 +9,11 @@
         Task<object?> Delete(string id);
         Task<object?> Update(T entity);
         Task<bool> IsIdExist(string id);
+        Task<string> GetSuggestID();
         
     }
     public interface IProductRepository<T> : IBaseRepository<T> where T: class
     {
-        Task<string> GetSuggestID();
         Task<IEnumerable<T>?> SearchProduct(string keyword);
     }
 }

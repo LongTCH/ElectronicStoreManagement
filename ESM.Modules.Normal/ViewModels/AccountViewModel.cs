@@ -7,10 +7,8 @@ using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Windows.Markup;
 
 namespace ESM.Modules.Normal.ViewModels
 {
@@ -74,7 +72,7 @@ namespace ESM.Modules.Normal.ViewModels
         }
         private void ExecuteChangeUserInfoCommand()
         {
-            _regionManager.RequestNavigateContentRegionWithTrace(ViewNames.ChangeAccountInfoView);
+            _regionManager.RequestNavigateContentRegionWithTrace(ViewNames.AccountEdit);
         }
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {

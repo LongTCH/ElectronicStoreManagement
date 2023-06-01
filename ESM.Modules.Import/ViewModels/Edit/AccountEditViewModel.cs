@@ -15,23 +15,24 @@ using static ESM.Modules.Import.Utilities.StaticData;
 using ESM.Core.ShareStores;
 using ESM.Modules.DataAccess.Models;
 
-namespace ESM.Modules.Import.ViewModels
+namespace ESM.Modules.Import.ViewModels.Edit
 {
-    public class ChangeAccountInfoViewModel : BindableBase, INavigationAware, IRegionMemberLifetime, IAccountViewModelStore
+    [RegionMemberLifetime(KeepAlive = false)]
+    public class AccountEditViewModel : BindableBase, INavigationAware, IViewModel
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRegionManager _regionManager;
         private readonly IModalService _modalService;
         private readonly IOpenDialogService _openDialogService;
         private readonly AccountStore _accountStore;
-        private readonly AccountViewModelStore _accountViewModelStore;
-        public ChangeAccountInfoViewModel(IUnitOfWork unitOfWork,
+        private readonly ViewModelStore _accountViewModelStore;
+        public AccountEditViewModel(IUnitOfWork unitOfWork,
             IRegionManager regionManager,
             IModalService modalService,
             ICityListService cityListService,
             IOpenDialogService openDialogService,
             AccountStore accountStore,
-            AccountViewModelStore accountViewModelStore)
+            ViewModelStore accountViewModelStore)
         {
             _unitOfWork = unitOfWork;
             _regionManager = regionManager;
@@ -46,27 +47,27 @@ namespace ESM.Modules.Import.ViewModels
         }
         private string CurrentAccoutId;
         private string CurrentAccountPasswordHash;
-        private IEnumerable<City>? cities;
-        public IEnumerable<City>? Cities
+        private IEnumerable<City> cities;
+        public IEnumerable<City> Cities
         {
             get => cities;
             set => SetProperty(ref cities, value);
         }
-        private IEnumerable<District>? districts;
-        public IEnumerable<District>? Districts
+        private IEnumerable<District> districts;
+        public IEnumerable<District> Districts
         {
             get => districts;
             set => SetProperty(ref districts, value);
         }
-        private IEnumerable<Sub_district>? sub_districts;
-        public IEnumerable<Sub_district>? Sub_districts
+        private IEnumerable<Sub_district> sub_districts;
+        public IEnumerable<Sub_district> Sub_districts
         {
             get => sub_districts;
             set => SetProperty(ref sub_districts, value);
         }
         public IEnumerable<string> Gender { get; } = StaticData.GenderList;
         public IEnumerable<string> ListRole { get; } = RoleList;
-        public string? Avatar_Path { get; set; } = null;
+        public string Avatar_Path { get; set; } = null;
         private int role = 0;
         public int Role
         {
@@ -79,58 +80,58 @@ namespace ESM.Modules.Import.ViewModels
             get => id;
             set => SetProperty(ref id, value);
         }
-        private string? _firstName;
+        private string _firstName;
         [Required]
-        public string? FirstName
+        public string FirstName
         {
             get => _firstName;
             set => SetProperty(ref _firstName, value);
         }
-        private string? _lastName;
+        private string _lastName;
         [Required]
-        public string? LastName
+        public string LastName
         {
             get => _lastName;
             set => SetProperty(ref _lastName, value);
         }
 
-        private string? _email;
+        private string _email;
         [RegularExpression(@"^[a-z0-9_\+-]+(\.[a-z0-9_\+-]+)*@[a-z0-9-]+(\.[a-z0-9]+)*\.([a-z]{2,4})$", ErrorMessage = "Sai định dạng email")]
         [EmailAddress]
-        public string? Email
+        public string Email
         {
             get => _email;
-            set => SetProperty(ref _email, value, () => this.ValidateProperty(value, nameof(Email)));
+            set => SetProperty(ref _email, value, () => ValidateProperty(value, nameof(Email)));
         }
-        private string? _phone;
+        private string _phone;
         [Phone]
-        public string? Phone
+        public string Phone
         {
             get => _phone;
             set
-            => SetProperty(ref _phone, value, () => this.ValidateProperty(value, nameof(Phone)));
+            => SetProperty(ref _phone, value, () => ValidateProperty(value, nameof(Phone)));
         }
         public string SelectedGender { get; set; }
-        private City? selectedCity;
-        public City? SelectedCity
+        private City selectedCity;
+        public City SelectedCity
         {
             get => selectedCity;
             set => SetProperty(ref selectedCity, value, getDistricts);
         }
-        private District? selectedDistrict;
+        private District selectedDistrict;
 
-        public District? SelectedDistrict
+        public District SelectedDistrict
         {
             get => selectedDistrict;
             set => SetProperty(ref selectedDistrict, value, getSubDistricts);
         }
-        private Sub_district? selectedSubDistrict;
-        public Sub_district? SelectedSub_district
+        private Sub_district selectedSubDistrict;
+        public Sub_district SelectedSub_district
         {
             get => selectedSubDistrict;
             set => SetProperty(ref selectedSubDistrict, value);
         }
-        public string? Street { get; set; }
+        public string Street { get; set; }
         public DateTime BirthDay { get; set; }
         public bool IsDefault => !File.Exists(Avatar_Path);
         public DelegateCommand AddAvatarCommand { get; }
@@ -155,7 +156,7 @@ namespace ESM.Modules.Import.ViewModels
         }
         private async Task GetCityList(ICityListService cityListService)
         {
-            Task<IEnumerable<City>?> task = new(() => cityListService.GetList());
+            Task<IEnumerable<City>> task = new(() => cityListService.GetList());
             task.Start();
             await task;
             Cities = task.Result;
@@ -205,7 +206,7 @@ namespace ESM.Modules.Import.ViewModels
                 var id = _accountStore.CurrentAccount.Id;
                 _accountStore.CurrentAccount = await _unitOfWork.Accounts.GetById(id);
                 _modalService.ShowModal(ModalType.Information, "Đã lưu thay đổi", "Thành công");
-                _accountViewModelStore.Back();
+                _accountViewModelStore.ParentViewModal.OnChildViewNotify();
             }
             catch (Exception) { _modalService.ShowModal(ModalType.Error, "Không thể lưu thay đổi", "Lỗi"); }
         }
@@ -232,7 +233,7 @@ namespace ESM.Modules.Import.ViewModels
             LastName = CurrentAccout.LastName;
             Email = CurrentAccout.EmailAddress;
             Phone = CurrentAccout.Phone;
-            SelectedGender = (CurrentAccout.Gender) ? Gender.ElementAt(0) : Gender.ElementAt(1);
+            SelectedGender = CurrentAccout.Gender ? Gender.ElementAt(0) : Gender.ElementAt(1);
             BirthDay = DateTime.SpecifyKind(CurrentAccout.Birthday, DateTimeKind.Local);
             try
             {
@@ -263,7 +264,7 @@ namespace ESM.Modules.Import.ViewModels
         }
         public async void OnNavigatedTo(NavigationContext navigationContext)
         {
-            _accountViewModelStore.CurrentAccountViewModel = this;
+            _accountViewModelStore.CurrentViewModel = this;
             Id = navigationContext.Parameters["accountId"].ToString();
             await findAccountCommand();
         }

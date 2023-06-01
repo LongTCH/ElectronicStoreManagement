@@ -14,7 +14,8 @@
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              Tag="{Binding Header}"
              Background="White"
-             xmlns:util="clr-namespace:ESM.Modules.Import.Utilities">
+             xmlns:util="clr-namespace:ESM.Modules.Import.Utilities"
+             xmlns:esmcore="clr-namespace:ESM.Core;assembly=ESM.Core">
     <ScrollViewer VerticalScrollBarVisibility="Auto"
                   HorizontalAlignment="Stretch">
         <StackPanel>
@@ -23,77 +24,72 @@
                        FontSize="30"
                        FontWeight="Bold"
                        Foreground="CornflowerBlue" />
-            <StackPanel IsHitTestVisible="{Binding IsEditMode}">
+            <StackPanel>
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Setter Property="Visibility"
+                                Value="Visible" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsEditMode}"
+                                         Value="True">
+                                <Setter Property="Visibility"
+                                        Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
                         <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
-                    <Button Height="220"
-                            Margin="50,0,0,0"
-                            VerticalAlignment="Top"
-                            HorizontalAlignment="Center"
-                            Style="{StaticResource MaterialDesignFlatLightButton}"
-                            Command="{Binding AddAvatarCommand}">
-                        <Button.Content>
-                            <Grid>
-                                <Image Source="pack://application:,,,/ESM.Core;component/ShareImages/addproduct.png"
-                                       Height="200"
-                                       MinWidth="200"
-                                       Visibility="{Binding SelectedProduct.IsDefault, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                       HorizontalAlignment="Left" />
-                                <Image Source="{Binding SelectedProduct.AvatarPath}"
-                                       Height="200"
-                                       MinWidth="200"
-                                       HorizontalAlignment="Left">
-                                    <Image.Style>
-                                        <Style TargetType="Image">
+                    <Grid Height="220"
+                          Margin="50,0,0,0"
+                          VerticalAlignment="Top"
+                          HorizontalAlignment="Center">
+                        <Image Source="pack://application:,,,/ESM.Core;component/ShareImages/addproduct.png"
+                               Height="200"
+                               MinWidth="200"
+                               Visibility="{Binding SelectedProduct.IsDefault, Converter={StaticResource BooleanToVisibilityConverter}}"
+                               HorizontalAlignment="Left" />
+                        <Image Source="{Binding SelectedProduct.AvatarPath}"
+                               Height="200"
+                               MinWidth="200"
+                               HorizontalAlignment="Left">
+                            <Image.Style>
+                                <Style TargetType="Image">
+                                    <Setter Property="Visibility"
+                                            Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding SelectedProduct.IsDefault}"
+                                                     Value="False">
                                             <Setter Property="Visibility"
-                                                    Value="Collapsed" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding SelectedProduct.IsDefault}"
-                                                             Value="False">
-                                                    <Setter Property="Visibility"
-                                                            Value="Visible" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Image.Style>
-                                </Image>
-                            </Grid>
-                        </Button.Content>
-                    </Button>
+                                                    Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                    </Grid>
                     <StackPanel Grid.Column="1"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBox materialDesign:HintAssist.Hint="Đường dẫn tới thư mục ảnh"
-                                     Margin="20,10"
-                                     Text="{Binding SelectedProduct.ImagePath, UpdateSourceTrigger=PropertyChanged}"
-                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                     FontFamily="Champagne &amp; Limousines"
-                                     FontSize="18"
-                                     Width="300" />
-                            <Button HorizontalAlignment="Right"
-                                    Command="{Binding SelectFolder}"
-                                    Style="{StaticResource MaterialDesignFloatingActionMiniButton}">
-                                <materialDesign:PackIcon Kind="Folder" />
-                            </Button>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBox materialDesign:HintAssist.Hint="Đường dẫn tới file mô tả"
-                                     Margin="20,10"
-                                     Text="{Binding SelectedProduct.DetailPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                     FontFamily="Champagne &amp; Limousines"
-                                     FontSize="18"
-                                     Width="300" />
-                            <Button HorizontalAlignment="Right"
-                                    Command="{Binding SelectDetail}"
-                                    Style="{StaticResource MaterialDesignFloatingActionMiniButton}">
-                                <materialDesign:PackIcon Kind="File" />
-                            </Button>
-                        </StackPanel>
+                        <TextBox materialDesign:HintAssist.Hint="Đường dẫn tới thư mục ảnh"
+                                 Margin="20,10"
+                                 IsReadOnly="True"
+                                 Text="{Binding SelectedProduct.ImagePath}"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 FontFamily="Champagne &amp; Limousines"
+                                 FontSize="18"
+                                 Width="300" />
+                        <TextBox materialDesign:HintAssist.Hint="Đường dẫn tới file mô tả"
+                                 Margin="20,10"
+                                 Text="{Binding SelectedProduct.DetailPath}"
+                                 IsReadOnly="True"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 FontFamily="Champagne &amp; Limousines"
+                                 FontSize="18"
+                                 Width="300" />
                         <DockPanel Grid.Column="0"
                                    VerticalAlignment="Center"
                                    Margin="100,0,100,0">
@@ -122,7 +118,7 @@
                     <TextBox materialDesign:HintAssist.Hint="Tên sản phẩm"
                              materialDesign:TextFieldAssist.HasClearButton="True"
                              Margin="20,10"
-                             Text="{Binding SelectedProduct.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                             Text="{Binding SelectedProduct.Name}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              FontFamily="Champagne &amp; Limousines"
                              FontSize="18" />
@@ -140,10 +136,11 @@
                                                  Height="30"
                                                  Width="30" />
                         <TextBox materialDesign:HintAssist.Hint="Tần số quét"
+                                 IsReadOnly="True"
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  materialDesign:TextFieldAssist.SuffixText="Hz"
                                  Margin="20,10"
-                                 Text="{Binding SelectedProduct.RefreshRate, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding SelectedProduct.RefreshRate}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
@@ -155,9 +152,10 @@
                                                  Height="30"
                                                  Width="30" />
                         <TextBox materialDesign:HintAssist.Hint="Tấm nền"
+                                 IsReadOnly="True"
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  Margin="20,10"
-                                 Text="{Binding SelectedProduct.Panel, UpdateSourceTrigger=PropertyChanged}"
+                                 Text="{Binding SelectedProduct.Panel}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
@@ -169,10 +167,11 @@
                                                  Height="30"
                                                  Width="30" />
                         <TextBox materialDesign:HintAssist.Hint="Kích thước màn hình"
+                                 IsReadOnly="True"
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  materialDesign:TextFieldAssist.SuffixText="Inch"
                                  Margin="20,10"
-                                 Text="{Binding SelectedProduct.Size, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding SelectedProduct.Size}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
@@ -192,8 +191,9 @@
                                                        Width="30" />
                         <TextBox materialDesign:TextFieldAssist.HasClearButton="True"
                                  materialDesign:HintAssist.Hint="Nhu cầu"
+                                 IsReadOnly="True"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding SelectedProduct.Need, UpdateSourceTrigger=PropertyChanged}"
+                                 Text="{Binding SelectedProduct.Need}"
                                  Margin="20,10"
                                  FontSize="18" />
                     </DockPanel>
@@ -204,9 +204,10 @@
                                                  Height="30"
                                                  Width="30" />
                         <TextBox materialDesign:HintAssist.Hint="Series sản phẩm"
+                                 IsReadOnly="True"
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  Margin="20,10"
-                                 Text="{Binding SelectedProduct.Series, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding SelectedProduct.Series}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18"></TextBox>
@@ -218,9 +219,10 @@
                                                        Height="30"
                                                        Width="30" />
                         <TextBox materialDesign:TextFieldAssist.HasClearButton="True"
+                                 IsReadOnly="True"
                                  materialDesign:HintAssist.Hint="Thương hiệu"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding SelectedProduct.Company, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding SelectedProduct.Company}"
                                  Margin="20,10"
                                  FontSize="18" />
                     </DockPanel>
@@ -237,10 +239,11 @@
                                                  Height="30"
                                                  Width="30" />
                         <TextBox materialDesign:HintAssist.Hint="Giá niêm yết"
+                                 IsReadOnly="True"
                                  materialDesign:TextFieldAssist.HasClearButton="True"
                                  materialDesign:TextFieldAssist.SuffixText="VND"
                                  Margin="20,10"
-                                 Text="{Binding SelectedProduct.Price, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
+                                 Text="{Binding SelectedProduct.Price, UpdateSourceTrigger=LostFocus}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
@@ -256,7 +259,7 @@
                                  materialDesign:TextFieldAssist.SuffixText="%"
                                  Margin="20,10"
                                  IsEnabled="False"
-                                 Text="{Binding SelectedProduct.Discount, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"
+                                 Text="{Binding SelectedProduct.Discount, UpdateSourceTrigger=LostFocus}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  FontFamily="Champagne &amp; Limousines"
                                  FontSize="18" />
@@ -288,9 +291,10 @@
                                                  Height="30"
                                                  Width="30" />
                         <TextBox materialDesign:TextFieldAssist.HasClearButton="True"
+                                 IsReadOnly="True"
                                  materialDesign:HintAssist.Hint="Đơn vị tính"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding SelectedProduct.Unit, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                                 Text="{Binding SelectedProduct.Unit}"
                                  Margin="20,10"
                                  FontSize="18" />
                     </DockPanel>
@@ -303,6 +307,8 @@
                 </Grid>
                 <!--#endregion-->
             </StackPanel>
+            <ContentControl Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            prism:RegionManager.RegionName="{x:Static esmcore:RegionNames.InnerMonitorManageRegion}" />
             <Grid Margin="0,20,0,20">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
@@ -408,7 +414,7 @@
                     <DataGridTextColumn Header="Đơn vị"
                                         Binding="{Binding Unit, Mode=OneWay}" />
                     <DataGridTextColumn Header="Giảm giá"
-                                        Binding="{Binding Discount, UpdateSourceTrigger=PropertyChanged}" />
+                                        Binding="{Binding Discount}" />
                     <DataGridTextColumn Header="Kích thước màn hình"
                                         Binding="{Binding Size}" />
                     <DataGridTextColumn Header="Tấm nền"

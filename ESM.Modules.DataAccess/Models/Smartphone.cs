@@ -3,40 +3,20 @@
 public partial class Smartphone : ProductDTO
 {
 
-    private string? cpu;
     public string? Cpu
     {
-        get => cpu?.Trim();
-        set
-        {
-            cpu = value;
-        }
+        get; set;
     }
-    private string? ram;
     public string? Ram
     {
-        get => ram?.Trim();
-        set
-        {
-            ram = value;
-        }
+        get; set;
     }
-    private string? storage;
     public string? Storage
     {
-        get => storage?.Trim();
-        set
-        {
-            storage = value;
-        }
+        get; set;
     }
-    private string? serires;
     public string? Series
     {
-        get => serires?.Trim();
-        set
-        {
-            serires = value;
-        }
+        get; set;
     }
 }

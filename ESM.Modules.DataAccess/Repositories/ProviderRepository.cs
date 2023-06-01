@@ -6,7 +6,7 @@ namespace ESM.Modules.DataAccess.Repositories
 {
     public interface IProviderRepository : IBaseRepository<Provider>
     {
-        Task<int> GetSuggestId();
+        Task<IEnumerable<Provider>> SearchProviders(string keyword);
     }
     public class ProviderRepository : BaseRepository<Provider>, IProviderRepository
     {
@@ -57,17 +57,25 @@ namespace ESM.Modules.DataAccess.Repositories
             await _context.SaveChangesAsync();
             return null;
         }
-        public async Task<int> GetSuggestId()
+        public override async Task<string> GetSuggestID()
         {
             using var _context = new ESMDbContext();
             var id = (await _context.Providers.OrderBy(x=>x.Id).LastOrDefaultAsync())?.Id;
-            if (id == null) return 1;
-            return id.Value + 1;
+            if (id == null) return "1";
+            return id.Value + 1 +"";
         }
         public override async Task<bool> IsIdExist(string id)
         {
             using var _context = new ESMDbContext();
             return await _context.Providers.AnyAsync(x => x.Id == int.Parse(id));
+        }
+        public async Task<IEnumerable<Provider>> SearchProviders(string keyword)
+        {
+            using var _context = new ESMDbContext();
+            var list = await _context.Providers
+                        .AsNoTracking()
+                        .ToListAsync();
+            return list.Where(x => x.ToString().ToUpper().Contains($"{keyword.ToUpper()}"));
         }
     }
 }
