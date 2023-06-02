@@ -81,14 +81,14 @@ namespace ESM.Modules.Import.ViewModels.Edit
             set => SetProperty(ref id, value);
         }
         private string _firstName;
-        [Required]
+        [Required(ErrorMessage = "Không được để trống")]
         public string FirstName
         {
             get => _firstName;
             set => SetProperty(ref _firstName, value);
         }
         private string _lastName;
-        [Required]
+        [Required(ErrorMessage = "Không được để trống")]
         public string LastName
         {
             get => _lastName;
@@ -104,7 +104,7 @@ namespace ESM.Modules.Import.ViewModels.Edit
             set => SetProperty(ref _email, value, () => ValidateProperty(value, nameof(Email)));
         }
         private string _phone;
-        [Phone]
+        [Phone(ErrorMessage = "Số điện thoại sai định dạng")]
         public string Phone
         {
             get => _phone;

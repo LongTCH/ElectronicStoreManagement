@@ -206,14 +206,14 @@ namespace ESM.Modules.Import.ViewModels.Edit
             set => SetProperty(ref id, value);
         }
         private string name;
-        [Required]
+        [Required(ErrorMessage = "Không được để trống")]
         public string Name
         {
             get => name;
             set => SetProperty(ref name, value);
         }
         private string unit;
-        [Required]
+        [Required(ErrorMessage = "Không được để trống")]
         public string Unit
         {
             get => unit;

@@ -11,214 +11,222 @@
              xmlns:esmcore="clr-namespace:ESM.Core;assembly=ESM.Core"
              xmlns:util="clr-namespace:ESM.Modules.Import.Utilities"
              Background="White">
-    <StackPanel>
-        <Grid>
-            <TextBlock Text="THÔNG TIN NHÀ CUNG CẤP"
-                       IsEnabled="False"
-                       HorizontalAlignment="Center"
-                       FontSize="25"
-                       Foreground="Black"
-                       FontFamily="Arial Black"
-                       Margin="30" />
-        </Grid>
-        <Grid>
-            <Grid.Style>
-                <Style TargetType="Grid">
-                    <Setter Property="Visibility"
-                            Value="Visible" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsEditMode}"
-                                     Value="True">
-                            <Setter Property="Visibility"
-                                    Value="Collapsed" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Grid.Style>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <StackPanel Margin="10"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-                <DockPanel HorizontalAlignment="Right">
-                    <TextBlock Margin="30,0,5,0"
-                               FontWeight="Bold"
-                               FontSize="18"
-                               VerticalAlignment="Center"
-                               Width="180">Mã Nhà Cung Cấp:</TextBlock>
-                    <TextBox Margin="5"
-                             FontSize="20"
-                             Text="{Binding SelectedProvider.Id}"
-                             Width="200"
-                             IsReadOnly="True"
-                             VerticalAlignment="Center" />
-                </DockPanel>
-                <DockPanel HorizontalAlignment="Right">
-                    <TextBlock Margin="30,0,5,0"
-                               FontWeight="Bold"
-                               FontSize="18"
-                               VerticalAlignment="Center"
-                               Width="180">Tên Nhà Cung Cấp:</TextBlock>
-                    <TextBox Margin="5"
-                             FontSize="20"
-                             Width="200"
-                             Text="{Binding SelectedProvider.ProviderName}"
-                             VerticalAlignment="Center" />
-                </DockPanel>
-                <DockPanel HorizontalAlignment="Right">
-                    <TextBlock Margin="30,0,5,0"
-                               FontWeight="Bold"
-                               FontSize="18"
-                               VerticalAlignment="Center"
-                               Width="180">Hotline:</TextBlock>
-                    <TextBox Margin="5"
-                             FontSize="20"
-                             Text="{Binding SelectedProvider.Phone}"
-                             Width="200"
-                             VerticalAlignment="Center" />
-                </DockPanel>
-            </StackPanel>
-            <StackPanel Grid.Column="1"
-                        Margin="10"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Bottom">
-                <DockPanel HorizontalAlignment="Right">
-                    <TextBlock Margin="10,5"
-                               FontWeight="Bold"
-                               FontSize="18"
-                               VerticalAlignment="Center"
-                               Width="180">Website:</TextBlock>
-                    <TextBox Margin="5"
-                             FontSize="20"
-                             Width="200"
-                             Text="{Binding SelectedProvider.Website}"
-                             VerticalAlignment="Center" />
-                </DockPanel>
-                <DockPanel HorizontalAlignment="Right">
-                    <TextBlock Margin="10,5"
-                               FontWeight="Bold"
-                               FontSize="18"
-                               VerticalAlignment="Center"
-                               Width="180">Chú thích:</TextBlock>
-                    <TextBox Margin="5"
-                             FontSize="20"
-                             Text="{Binding SelectedProvider.Note}"
-                             Width="200"
-                             VerticalAlignment="Center" />
-                </DockPanel>
-            </StackPanel>
-        </Grid>
-        <ContentControl Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"
-                        prism:RegionManager.RegionName="{x:Static esmcore:RegionNames.InnerProviderManageRegion}" />
-        <Grid Margin="0,20,0,20">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
-            </Grid.ColumnDefinitions>
-            <Grid.Style>
-                <Style TargetType="Grid">
-                    <Setter Property="Visibility"
-                            Value="Visible" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsEditMode}"
-                                     Value="True">
-                            <Setter Property="Visibility"
-                                    Value="Collapsed" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Grid.Style>
-            <Button Content="THÊM"
-                    Width="100"
-                    Background="Green"
-                    Command="{Binding AddCommand}" />
-            <Button Content="SỬA"
-                    Grid.Column="1"
-                    Width="100"
-                    Background="BlueViolet"
-                    Command="{Binding EditCommand}" />
-            <Button Content="XÓA"
-                    Grid.Column="2"
-                    Width="100"
-                    Background="Red"
-                    Command="{Binding DeleteCommand}" />
-        </Grid>
-        <Grid Margin="0,20,0,20"
-              Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
-            </Grid.ColumnDefinitions>
-            <Button  Width="100"
-                     Grid.Column="1"
-                     HorizontalAlignment="Center"
-                     VerticalAlignment="Center"
-                     Background="DarkSeaGreen"
-                     IsDefault="True"
-                     Content="LƯU"
-                     Command="{Binding SaveCommand}" />
-            <Button  Width="100"
-                     Grid.Column="2"
-                     HorizontalAlignment="Center"
-                     VerticalAlignment="Center"
-                     Background="Gray"
-                     IsDefault="True"
-                     Content="HỦY"
-                     Command="{Binding CancelCommand}" />
-        </Grid>
-        <util:SearchBar />
-        <DataGrid ItemsSource="{Binding Providers}"
-                  IsReadOnly="True"
-                  SelectedItem="{Binding SelectedProvider}"
-                  Grid.Row="1"
-                  HorizontalAlignment="Stretch"
-                  AutoGenerateColumns="False"
-                  CanUserAddRows="False"
-                  CanUserDeleteRows="False"
-                  CanUserReorderColumns="False"
-                  VerticalGridLinesBrush="DeepSkyBlue"
-                  HorizontalGridLinesBrush="DeepSkyBlue"
-                  ScrollViewer.CanContentScroll="True"
-                  ScrollViewer.VerticalScrollBarVisibility="Auto"
-                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                  MaxHeight="300"
-                  x:Name="myDataGrid">
-            <DataGrid.Style>
-                <Style TargetType="DataGrid">
-                    <Setter Property="IsHitTestVisible"
-                            Value="True" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsEditMode}"
-                                     Value="True">
-                            <Setter Property="IsHitTestVisible"
-                                    Value="False" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.Style>
-            <DataGrid.CellStyle>
-                <Style TargetType="{x:Type DataGridCell}"
-                       BasedOn="{StaticResource MaterialDesignDataGridCell}">
-                    <EventSetter Event="PreviewKeyDown"
-                                 Handler="DataGridCell_PreviewKeyDown" />
-                </Style>
-            </DataGrid.CellStyle>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ID"
-                                    Binding="{Binding Id, Mode=OneWay}" />
-                <DataGridTextColumn Header="Họ"
-                                    Binding="{Binding ProviderName, Mode=OneWay}" />
-                <DataGridTextColumn Header="Số điện thoại"
-                                    Binding="{Binding Phone, Mode=OneWay}" />
-                <DataGridTextColumn Header="Website"
-                                    Binding="{Binding Website}" />
-                <DataGridTextColumn Header="Ghi chú"
-                                    Binding="{Binding Note}" />
-            </DataGrid.Columns>
-        </DataGrid>
-    </StackPanel>
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Auto"
+                  HorizontalAlignment="Stretch">
+        <StackPanel>
+            <Grid>
+                <TextBlock Text="THÔNG TIN NHÀ CUNG CẤP"
+                           IsEnabled="False"
+                           HorizontalAlignment="Center"
+                           FontSize="25"
+                           Foreground="Black"
+                           FontFamily="Arial Black"
+                           Margin="30" />
+            </Grid>
+            <Grid>
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility"
+                                Value="Visible" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsEditMode}"
+                                         Value="True">
+                                <Setter Property="Visibility"
+                                        Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="10"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    <DockPanel HorizontalAlignment="Right">
+                        <TextBlock Margin="30,0,5,0"
+                                   FontWeight="Bold"
+                                   FontSize="18"
+                                   VerticalAlignment="Center"
+                                   Width="180">Mã Nhà Cung Cấp:</TextBlock>
+                        <TextBox Margin="5"
+                                 FontSize="20"
+                                 Text="{Binding SelectedProvider.Id}"
+                                 Width="200"
+                                 IsReadOnly="True"
+                                 VerticalAlignment="Center" />
+                    </DockPanel>
+                    <DockPanel HorizontalAlignment="Right">
+                        <TextBlock Margin="30,0,5,0"
+                                   FontWeight="Bold"
+                                   FontSize="18"
+                                   VerticalAlignment="Center"
+                                   Width="180">Tên Nhà Cung Cấp:</TextBlock>
+                        <TextBox Margin="5"
+                                 FontSize="20"
+                                 IsReadOnly="True"
+                                 Width="200"
+                                 Text="{Binding SelectedProvider.ProviderName}"
+                                 VerticalAlignment="Center" />
+                    </DockPanel>
+                    <DockPanel HorizontalAlignment="Right">
+                        <TextBlock Margin="30,0,5,0"
+                                   FontWeight="Bold"
+                                   FontSize="18"
+                                   VerticalAlignment="Center"
+                                   Width="180">Hotline:</TextBlock>
+                        <TextBox Margin="5"
+                                 IsReadOnly="True"
+                                 FontSize="20"
+                                 Text="{Binding SelectedProvider.Phone}"
+                                 Width="200"
+                                 VerticalAlignment="Center" />
+                    </DockPanel>
+                </StackPanel>
+                <StackPanel Grid.Column="1"
+                            Margin="10"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom">
+                    <DockPanel HorizontalAlignment="Right">
+                        <TextBlock Margin="10,5"
+                                   FontWeight="Bold"
+                                   FontSize="18"
+                                   VerticalAlignment="Center"
+                                   Width="180">Website:</TextBlock>
+                        <TextBox Margin="5"
+                                 FontSize="20"
+                                 IsReadOnly="True"
+                                 Width="200"
+                                 Text="{Binding SelectedProvider.Website}"
+                                 VerticalAlignment="Center" />
+                    </DockPanel>
+                    <DockPanel HorizontalAlignment="Right">
+                        <TextBlock Margin="10,5"
+                                   FontWeight="Bold"
+                                   FontSize="18"
+                                   VerticalAlignment="Center"
+                                   Width="180">Chú thích:</TextBlock>
+                        <TextBox Margin="5"
+                                 IsReadOnly="True"
+                                 FontSize="20"
+                                 Text="{Binding SelectedProvider.Note}"
+                                 Width="200"
+                                 VerticalAlignment="Center" />
+                    </DockPanel>
+                </StackPanel>
+            </Grid>
+            <ContentControl Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            prism:RegionManager.RegionName="{x:Static esmcore:RegionNames.InnerProviderManageRegion}" />
+            <Grid Margin="0,20,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility"
+                                Value="Visible" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsEditMode}"
+                                         Value="True">
+                                <Setter Property="Visibility"
+                                        Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <Button Content="THÊM"
+                        Width="100"
+                        Background="Green"
+                        Command="{Binding AddCommand}" />
+                <Button Content="SỬA"
+                        Grid.Column="1"
+                        Width="100"
+                        Background="BlueViolet"
+                        Command="{Binding EditCommand}" />
+                <Button Content="XÓA"
+                        Grid.Column="2"
+                        Width="100"
+                        Background="Red"
+                        Command="{Binding DeleteCommand}" />
+            </Grid>
+            <Grid Margin="0,20,0,20"
+                  Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Button  Width="100"
+                         Grid.Column="1"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         Background="DarkSeaGreen"
+                         IsDefault="True"
+                         Content="LƯU"
+                         Command="{Binding SaveCommand}" />
+                <Button  Width="100"
+                         Grid.Column="2"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         Background="Gray"
+                         IsDefault="True"
+                         Content="HỦY"
+                         Command="{Binding CancelCommand}" />
+            </Grid>
+            <util:SearchBar />
+            <DataGrid ItemsSource="{Binding Providers}"
+                      IsReadOnly="True"
+                      SelectedItem="{Binding SelectedProvider}"
+                      Grid.Row="1"
+                      HorizontalAlignment="Stretch"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False"
+                      CanUserReorderColumns="False"
+                      VerticalGridLinesBrush="DeepSkyBlue"
+                      HorizontalGridLinesBrush="DeepSkyBlue"
+                      ScrollViewer.CanContentScroll="True"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                      MaxHeight="300"
+                      x:Name="myDataGrid">
+                <DataGrid.Style>
+                    <Style TargetType="DataGrid">
+                        <Setter Property="IsHitTestVisible"
+                                Value="True" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsEditMode}"
+                                         Value="True">
+                                <Setter Property="IsHitTestVisible"
+                                        Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.Style>
+                <DataGrid.CellStyle>
+                    <Style TargetType="{x:Type DataGridCell}"
+                           BasedOn="{StaticResource MaterialDesignDataGridCell}">
+                        <EventSetter Event="PreviewKeyDown"
+                                     Handler="DataGridCell_PreviewKeyDown" />
+                    </Style>
+                </DataGrid.CellStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Mã nhà cung cấp"
+                                        Binding="{Binding Id, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Tên nhà cung cấp"
+                                        Binding="{Binding ProviderName, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Số điện thoại"
+                                        Binding="{Binding Phone, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Website"
+                                        Binding="{Binding Website}" />
+                    <DataGridTextColumn Header="Ghi chú"
+                                        Binding="{Binding Note}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

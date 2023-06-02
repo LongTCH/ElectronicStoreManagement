@@ -37,7 +37,7 @@ namespace ESM.Modules.Import.ViewModels.Add
             set => SetProperty(ref phone, value, () => this.ValidateProperty(value, nameof(Phone)));
         }
         private string name;
-        [Required]
+        [Required(ErrorMessage = "Không được để trống")]
         public string Name
         {
             get => name;
@@ -52,10 +52,9 @@ namespace ESM.Modules.Import.ViewModels.Add
         private string note;
         public string Note
         {
-            get => website;
-            set => SetProperty(ref website, value);
+            get => note;
+            set => SetProperty(ref note, value);
         }
-        private Provider provider;
 
         public ProviderAddViewModel(IUnitOfWork unitOfWork, IModalService modalService, ViewModelStore viewModelStore)
         {
@@ -66,7 +65,7 @@ namespace ESM.Modules.Import.ViewModels.Add
 
         public async Task save()
         {
-            if (string.IsNullOrWhiteSpace(provider.ProviderName))
+            if (string.IsNullOrWhiteSpace(Name))
             {
                 _modalService.ShowModal(ModalType.Error, "Nhập tên nhà cung cấp", "Thông báo");
                 return;
@@ -75,7 +74,15 @@ namespace ESM.Modules.Import.ViewModels.Add
             MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
             if (metroWindow.ShowModalMessageExternal("Cảnh báo", "Bạn có chắc chắn lưu?", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
             {
-                var res = (bool)await _unitOfWork.Providers.Add(provider);
+                Provider p = new()
+                {
+                    Id = Convert.ToInt32(Id),
+                    ProviderName = Name,
+                    Phone = Phone,
+                    Note = Note,
+                    Website = Website,
+                };
+                var res = (bool)await _unitOfWork.Providers.Add(p);
                 if (res)
                 {
                     _modalService.ShowModal(ModalType.Information, "Thêm thành công", "Thông báo");
@@ -99,8 +106,6 @@ namespace ESM.Modules.Import.ViewModels.Add
         {
             _viewModelStore.CurrentViewModel = this;
             Id = await _unitOfWork.Providers.GetSuggestID();
-            provider = await _unitOfWork.Providers.GetById(Id);
-            _viewModelStore.CurrentViewModel = this;
         }
 
 

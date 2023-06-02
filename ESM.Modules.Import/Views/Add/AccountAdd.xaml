@@ -62,7 +62,7 @@
                               Width="200"
                               Margin="50,0,0,0"
                               HorizontalAlignment="Left"
-                              SelectedIndex="{Binding Role, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedIndex="{Binding Role}"
                               materialDesign:HintAssist.Hint="Chọn loại tài khoản"
                               Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
                     <DockPanel Grid.Row="1">
@@ -97,7 +97,7 @@
                                              Kind="Rename" />
                     <TextBox Margin="20,10"
                              materialDesign:HintAssist.Hint="Tên"
-                             Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                             Text="{Binding FirstName, ValidatesOnExceptions=True}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              FontFamily="Champagne &amp; Limousines"
                              FontSize="18" />
@@ -110,7 +110,7 @@
                                              Kind="RenameBox" />
                     <TextBox Margin="20,10"
                              materialDesign:HintAssist.Hint="Họ"
-                             Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                             Text="{Binding LastName, ValidatesOnExceptions=True}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              FontFamily="Champagne &amp; Limousines"
                              FontSize="18" />
@@ -123,7 +123,7 @@
                                              Width="30" />
                     <TextBox Margin="20,10"
                              materialDesign:HintAssist.Hint="Số điện thoại"
-                             Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                             Text="{Binding Phone, ValidatesOnExceptions=True}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              FontFamily="Champagne &amp; Limousines"
                              FontSize="18" />
@@ -143,7 +143,7 @@
                                              Kind="Email" />
                     <TextBox Margin="20,10"
                              materialDesign:HintAssist.Hint="Email"
-                             Text="{Binding Email, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                             Text="{Binding Email, ValidatesOnExceptions=True}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              FontFamily="Champagne &amp; Limousines"
                              FontSize="18" />
@@ -161,7 +161,7 @@
                               Margin="20,10"
                               FontSize="18"
                               x:Name="cmbGen"
-                              SelectedItem="{Binding SelectedGender, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedItem="{Binding SelectedGender}"
                               ItemsSource="{Binding Gender}" />
                 </DockPanel>
                 <DockPanel Grid.Column="2">
@@ -175,7 +175,7 @@
                                 SelectedDateFormat="Short"
                                 materialDesign:HintAssist.Hint="Sinh nhật"
                                 xml:lang="vi-VN"
-                                SelectedDate="{Binding BirthDay, UpdateSourceTrigger=PropertyChanged}" />
+                                SelectedDate="{Binding BirthDay}" />
                 </DockPanel>
             </Grid>
             <TextBlock Text="ĐỊA CHỈ"
@@ -202,7 +202,7 @@
                               BorderThickness="0"
                               Margin="20,10"
                               IsEditable="True"
-                              SelectedItem="{Binding SelectedCity, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedItem="{Binding SelectedCity}"
                               ItemsSource="{Binding Cities}"
                               FontSize="18" />
                 </DockPanel>
@@ -255,7 +255,7 @@
                                              Kind="Road" />
                     <TextBox Margin="20,10"
                              materialDesign:HintAssist.Hint="Tên đường"
-                             Text="{Binding Street, UpdateSourceTrigger=PropertyChanged}"
+                             Text="{Binding Street}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              FontFamily="Champagne &amp; Limousines"
                              FontSize="18" />
