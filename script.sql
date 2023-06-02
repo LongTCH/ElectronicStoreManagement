@@ -1,8 +1,7 @@
 USE [master]
 GO
-/****** Object:  Database [ESMDatabase]    Script Date: 19/05/2023 3:51:27 CH ******/
+/****** Object:  Database [ESMDatabase]    Script Date: 02/06/2023 9:16:59 SA ******/
 CREATE DATABASE [ESMDatabase]
- 
 GO
 ALTER DATABASE [ESMDatabase] SET COMPATIBILITY_LEVEL = 150
 GO
@@ -75,7 +74,7 @@ ALTER DATABASE [ESMDatabase] SET QUERY_STORE = OFF
 GO
 USE [ESMDatabase]
 GO
-/****** Object:  Table [dbo].[ACCOUNT]    Script Date: 19/05/2023 3:51:27 CH ******/
+/****** Object:  Table [dbo].[ACCOUNT]    Script Date: 02/06/2023 9:17:00 SA ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -100,7 +99,7 @@ CREATE TABLE [dbo].[ACCOUNT](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[BILL]    Script Date: 19/05/2023 3:51:27 CH ******/
+/****** Object:  Table [dbo].[BILL]    Script Date: 02/06/2023 9:17:00 SA ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -122,7 +121,7 @@ CREATE TABLE [dbo].[BILL](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[BILL_COMBO]    Script Date: 19/05/2023 3:51:27 CH ******/
+/****** Object:  Table [dbo].[BILL_COMBO]    Script Date: 02/06/2023 9:17:00 SA ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -146,7 +145,7 @@ CREATE TABLE [dbo].[BILL_COMBO](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[BILL_PRODUCT]    Script Date: 19/05/2023 3:51:27 CH ******/
+/****** Object:  Table [dbo].[BILL_PRODUCT]    Script Date: 02/06/2023 9:17:00 SA ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -166,7 +165,7 @@ CREATE TABLE [dbo].[BILL_PRODUCT](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[COMBO]    Script Date: 19/05/2023 3:51:27 CH ******/
+/****** Object:  Table [dbo].[COMBO]    Script Date: 02/06/2023 9:17:00 SA ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -184,7 +183,7 @@ CREATE TABLE [dbo].[COMBO](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[DISCOUNT]    Script Date: 19/05/2023 3:51:27 CH ******/
+/****** Object:  Table [dbo].[DISCOUNT]    Script Date: 02/06/2023 9:17:00 SA ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -202,7 +201,7 @@ CREATE TABLE [dbo].[DISCOUNT](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[IMPORT]    Script Date: 19/05/2023 3:51:27 CH ******/
+/****** Object:  Table [dbo].[IMPORT]    Script Date: 02/06/2023 9:17:00 SA ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -224,7 +223,7 @@ CREATE TABLE [dbo].[IMPORT](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[IMPORT_PRODUCT]    Script Date: 19/05/2023 3:51:27 CH ******/
+/****** Object:  Table [dbo].[IMPORT_PRODUCT]    Script Date: 02/06/2023 9:17:00 SA ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -244,7 +243,7 @@ CREATE TABLE [dbo].[IMPORT_PRODUCT](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[LAPTOP]    Script Date: 19/05/2023 3:51:27 CH ******/
+/****** Object:  Table [dbo].[LAPTOP]    Script Date: 02/06/2023 9:17:00 SA ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -271,7 +270,7 @@ CREATE TABLE [dbo].[LAPTOP](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[MONITOR]    Script Date: 19/05/2023 3:51:27 CH ******/
+/****** Object:  Table [dbo].[MONITOR]    Script Date: 02/06/2023 9:17:00 SA ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -297,7 +296,7 @@ CREATE TABLE [dbo].[MONITOR](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[PC]    Script Date: 19/05/2023 3:51:27 CH ******/
+/****** Object:  Table [dbo].[PC]    Script Date: 02/06/2023 9:17:00 SA ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -322,7 +321,7 @@ CREATE TABLE [dbo].[PC](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[PCCPU]    Script Date: 19/05/2023 3:51:27 CH ******/
+/****** Object:  Table [dbo].[PCCPU]    Script Date: 02/06/2023 9:17:00 SA ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -346,7 +345,7 @@ CREATE TABLE [dbo].[PCCPU](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[PCHARDDISK]    Script Date: 19/05/2023 3:51:27 CH ******/
+/****** Object:  Table [dbo].[PCHARDDISK]    Script Date: 02/06/2023 9:17:00 SA ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -371,7 +370,7 @@ CREATE TABLE [dbo].[PCHARDDISK](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[PROVIDER]    Script Date: 19/05/2023 3:51:27 CH ******/
+/****** Object:  Table [dbo].[PROVIDER]    Script Date: 02/06/2023 9:17:00 SA ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -380,13 +379,15 @@ CREATE TABLE [dbo].[PROVIDER](
 	[Id] [int] NOT NULL,
 	[ProviderName] [nvarchar](50) NULL,
 	[Phone] [nvarchar](50) NULL,
+	[website] [nvarchar](200) NULL,
+	[note] [nvarchar](200) NULL,
  CONSTRAINT [PK_PROVIDER] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[SMARTPHONE]    Script Date: 19/05/2023 3:51:27 CH ******/
+/****** Object:  Table [dbo].[SMARTPHONE]    Script Date: 02/06/2023 9:17:00 SA ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -411,7 +412,7 @@ CREATE TABLE [dbo].[SMARTPHONE](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[VGA]    Script Date: 19/05/2023 3:51:27 CH ******/
+/****** Object:  Table [dbo].[VGA]    Script Date: 02/06/2023 9:17:00 SA ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -437,9 +438,12 @@ CREATE TABLE [dbo].[VGA](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-INSERT [dbo].[ACCOUNT] ([Id], [PasswordHash], [FirstName], [LastName], [Gender], [EmailAddress], [Birthday], [City], [District], [Sub-district], [Street], [Phone], [Avatar_Path]) VALUES (N'020230000', N'$s2$16384$8$1$lbXgVLgLdiqX+t2ZmPrMclAguAaiDE/SeRui+VakvMw=$lJHuBTMuYWJj1raV/dvS+70HLwJgO6tmii/NwnpQhPU=', N'Long', N'Trương', 1, N'inbaicualong@gmail.com', CAST(N'2003-01-01' AS Date), N'Thành phố Đà Nẵng', N'Huyện Hòa Vang', N'Xã Hòa Phong', N'Thôn An Tân', N'0762668222', NULL)
-INSERT [dbo].[ACCOUNT] ([Id], [PasswordHash], [FirstName], [LastName], [Gender], [EmailAddress], [Birthday], [City], [District], [Sub-district], [Street], [Phone], [Avatar_Path]) VALUES (N'120200000', N'$s2$16384$8$1$o1aDonfulp5Gh3nu4DYHQs2pQy1IEerfdIfFKcs6vu0=$iTN2L6u+GNyiaJCJDY06+R0Puvk/GSFFuedEpEz9sCI=', N'123', N'123', 1, N'fg@gmail.com', CAST(N'2005-04-08' AS Date), N'Thành phố Đà Nẵng', N'Quận Sơn Trà', N'Phường Nại Hiên Đông', N'123', N'123123123', NULL)
-INSERT [dbo].[ACCOUNT] ([Id], [PasswordHash], [FirstName], [LastName], [Gender], [EmailAddress], [Birthday], [City], [District], [Sub-district], [Street], [Phone], [Avatar_Path]) VALUES (N'220200000', N'$s2$16384$8$1$lbXgVLgLdiqX+t2ZmPrMclAguAaiDE/SeRui+VakvMw=$lJHuBTMuYWJj1raV/dvS+70HLwJgO6tmii/NwnpQhPU=', N'123', N'123', 1, N'fg@gmail.com', CAST(N'2005-04-08' AS Date), N'Thành phố Đà Nẵng', N'Quận Sơn Trà', N'Phường Nại Hiên Đông', N'123', N'123123123', NULL)
+INSERT [dbo].[ACCOUNT] ([Id], [PasswordHash], [FirstName], [LastName], [Gender], [EmailAddress], [Birthday], [City], [District], [Sub-district], [Street], [Phone], [Avatar_Path]) VALUES (N'020230000', N'$s2$16384$8$1$lbXgVLgLdiqX+t2ZmPrMclAguAaiDE/SeRui+VakvMw=$lJHuBTMuYWJj1raV/dvS+70HLwJgO6tmii/NwnpQhPU=', N'Long', N'Trương', 1, N'inbaicualong@gmail.com', CAST(N'2003-01-01' AS Date), N'Thành phố Đà Nẵng', N'Huyện Hòa Vang', N'Xã Hòa Phong', N'Thôn An Tân 3', N'0762668222', N'C:\Users\DELL\Downloads\NIKE.png')
+INSERT [dbo].[ACCOUNT] ([Id], [PasswordHash], [FirstName], [LastName], [Gender], [EmailAddress], [Birthday], [City], [District], [Sub-district], [Street], [Phone], [Avatar_Path]) VALUES (N'020230001', N'$s2$16384$8$1$Y0ElGUh6GjCLc++4F292MU+WHHXC6pbEyoprnK51mr4=$UK4Jgrevlh5le55LF52PTsxUIhH/hT7iOZnpO1/WILY=', N'Long1', N'Truong', 1, N'inbaicualong@gmail.com', CAST(N'2005-05-29' AS Date), N'Thành phố Đà Nẵng', N'Huyện Hòa Vang', N'Xã Hòa Phong', N'An Tan', N'0', N'C:\Users\DELL\Downloads\pngegg.png')
+INSERT [dbo].[ACCOUNT] ([Id], [PasswordHash], [FirstName], [LastName], [Gender], [EmailAddress], [Birthday], [City], [District], [Sub-district], [Street], [Phone], [Avatar_Path]) VALUES (N'120200000', N'$s2$16384$8$1$o1aDonfulp5Gh3nu4DYHQs2pQy1IEerfdIfFKcs6vu0=$iTN2L6u+GNyiaJCJDY06+R0Puvk/GSFFuedEpEz9sCI=', N'Long', N'Truong', 1, N'fg@gmail.com', CAST(N'2005-04-08' AS Date), N'Thành phố Đà Nẵng', N'Quận Sơn Trà', N'Phường Nại Hiên Đông', N'123', N'123123123', NULL)
+INSERT [dbo].[ACCOUNT] ([Id], [PasswordHash], [FirstName], [LastName], [Gender], [EmailAddress], [Birthday], [City], [District], [Sub-district], [Street], [Phone], [Avatar_Path]) VALUES (N'120230000', N'00000000000000000', N'asdfasd', N'fwef', 1, N'2345@gmai.com', CAST(N'2005-05-30' AS Date), N'Thành phố Đà Nẵng', N'Quận Liên Chiểu', N'Phường Hòa Hiệp Nam', N'asdfds', N'0', NULL)
+INSERT [dbo].[ACCOUNT] ([Id], [PasswordHash], [FirstName], [LastName], [Gender], [EmailAddress], [Birthday], [City], [District], [Sub-district], [Street], [Phone], [Avatar_Path]) VALUES (N'220200000', N'$s2$16384$8$1$lbXgVLgLdiqX+t2ZmPrMclAguAaiDE/SeRui+VakvMw=$lJHuBTMuYWJj1raV/dvS+70HLwJgO6tmii/NwnpQhPU=', N'Long', N'123', 1, N'fg@gmail.com', CAST(N'2005-04-08' AS Date), N'Thành phố Đà Nẵng', N'Quận Sơn Trà', N'Phường Nại Hiên Đông', N'123', N'123123123', NULL)
+INSERT [dbo].[ACCOUNT] ([Id], [PasswordHash], [FirstName], [LastName], [Gender], [EmailAddress], [Birthday], [City], [District], [Sub-district], [Street], [Phone], [Avatar_Path]) VALUES (N'220230000', N'00000000000000000', N'Thanh', N'123', 1, N'1234@gmail.com', CAST(N'2005-05-30' AS Date), N'Thành phố Đà Nẵng', N'Quận Liên Chiểu', N'Phường Hòa Hiệp Bắc', N'fsda', N'4234234', NULL)
 GO
 INSERT [dbo].[BILL] ([Id], [StaffID], [CustomerName], [Phone], [City], [District], [Sub_district], [Street], [PurchasedTime], [TotalAmount]) VALUES (0, N'020230000', N'Thu Ha', N'0328261609', NULL, NULL, NULL, NULL, CAST(N'2021-01-19T11:38:53.3310000' AS DateTime2), 14810692.7000)
 INSERT [dbo].[BILL] ([Id], [StaffID], [CustomerName], [Phone], [City], [District], [Sub_district], [Street], [PurchasedTime], [TotalAmount]) VALUES (1, N'020230000', N'Khac Duoc', N'0412824204', NULL, NULL, NULL, NULL, CAST(N'2021-01-20T13:32:26.8530000' AS DateTime2), 40979763.2000)
@@ -560,6 +564,8 @@ INSERT [dbo].[BILL] ([Id], [StaffID], [CustomerName], [Phone], [City], [District
 INSERT [dbo].[BILL] ([Id], [StaffID], [CustomerName], [Phone], [City], [District], [Sub_district], [Street], [PurchasedTime], [TotalAmount]) VALUES (115, N'020230000', N'2354', N'24352', NULL, NULL, NULL, NULL, CAST(N'2023-05-03T19:24:40.3070000' AS DateTime2), 41630400.0000)
 INSERT [dbo].[BILL] ([Id], [StaffID], [CustomerName], [Phone], [City], [District], [Sub_district], [Street], [PurchasedTime], [TotalAmount]) VALUES (116, N'020230000', NULL, NULL, NULL, NULL, NULL, NULL, CAST(N'2023-05-03T19:25:21.7700000' AS DateTime2), 33300400.0000)
 INSERT [dbo].[BILL] ([Id], [StaffID], [CustomerName], [Phone], [City], [District], [Sub_district], [Street], [PurchasedTime], [TotalAmount]) VALUES (117, N'020230000', NULL, NULL, NULL, NULL, NULL, NULL, CAST(N'2023-05-04T13:33:25.8090000' AS DateTime2), 60000000.0000)
+INSERT [dbo].[BILL] ([Id], [StaffID], [CustomerName], [Phone], [City], [District], [Sub_district], [Street], [PurchasedTime], [TotalAmount]) VALUES (118, N'020230001', N'sdf', N'234', NULL, NULL, NULL, NULL, CAST(N'2023-05-30T15:03:14.2670000' AS DateTime2), 3090000.0000)
+INSERT [dbo].[BILL] ([Id], [StaffID], [CustomerName], [Phone], [City], [District], [Sub_district], [Street], [PurchasedTime], [TotalAmount]) VALUES (119, N'020230000', N'haha', N'123123', NULL, NULL, NULL, NULL, CAST(N'2023-05-30T18:27:38.4960000' AS DateTime2), 30990000.0000)
 GO
 INSERT [dbo].[BILL_COMBO] ([Id], [StaffID], [CustomerName], [Phone], [City], [District], [Sub_district], [Street], [PurchasedTime], [TotalAmount], [ComboID], [Number]) VALUES (0, N'020230000', N'Thu Ha', N'0328261609', NULL, NULL, NULL, NULL, CAST(N'2021-04-20T13:46:11.9230000' AS DateTime2), 28812602.2595, N'990000002', 1)
 INSERT [dbo].[BILL_COMBO] ([Id], [StaffID], [CustomerName], [Phone], [City], [District], [Sub_district], [Street], [PurchasedTime], [TotalAmount], [ComboID], [Number]) VALUES (1, N'020230000', N'Thu Thao', N'0325293523', NULL, NULL, NULL, NULL, CAST(N'2023-04-20T13:46:39.4330000' AS DateTime2), 22522037.5050, N'990000004', 1)
@@ -703,6 +709,8 @@ INSERT [dbo].[BILL_PRODUCT] ([BillID], [ProductID], [Number], [Warranty], [Unit]
 INSERT [dbo].[BILL_PRODUCT] ([BillID], [ProductID], [Number], [Warranty], [Unit], [SellPrice], [Amount]) VALUES (115, N'010000001', 1, NULL, N'Cái       ', 24980200.0000, 24980200.0000)
 INSERT [dbo].[BILL_PRODUCT] ([BillID], [ProductID], [Number], [Warranty], [Unit], [SellPrice], [Amount]) VALUES (116, N'010000000', 2, NULL, N'Cái       ', 16650200.0000, 33300400.0000)
 INSERT [dbo].[BILL_PRODUCT] ([BillID], [ProductID], [Number], [Warranty], [Unit], [SellPrice], [Amount]) VALUES (117, N'010000005', 1, NULL, N'Cái       ', 60000000.0000, 60000000.0000)
+INSERT [dbo].[BILL_PRODUCT] ([BillID], [ProductID], [Number], [Warranty], [Unit], [SellPrice], [Amount]) VALUES (118, N'030000001', 1, NULL, N'Cái', 3090000.0000, 3090000.0000)
+INSERT [dbo].[BILL_PRODUCT] ([BillID], [ProductID], [Number], [Warranty], [Unit], [SellPrice], [Amount]) VALUES (119, N'070000002', 1, NULL, N'Cái', 30990000.0000, 30990000.0000)
 GO
 INSERT [dbo].[COMBO] ([Id], [Discount], [ProductIDList], [Name], [Unit], [Status]) VALUES (N'990000000', 2, N'020000000 050000000 040000000 060000001', N'Combo Tết Nguyên Đán 2021', N'combo', 1)
 INSERT [dbo].[COMBO] ([Id], [Discount], [ProductIDList], [Name], [Unit], [Status]) VALUES (N'990000001', 3, N'060000009 030000005 020000006', N'Combo Hè 2022', N'combo', 1)
@@ -710,15 +718,18 @@ INSERT [dbo].[COMBO] ([Id], [Discount], [ProductIDList], [Name], [Unit], [Status
 INSERT [dbo].[COMBO] ([Id], [Discount], [ProductIDList], [Name], [Unit], [Status]) VALUES (N'990000003', 4, N'020000004 040000007 030000004 010000004', N'Combo Tết Nguyên Đán 2022', N'combo', 1)
 INSERT [dbo].[COMBO] ([Id], [Discount], [ProductIDList], [Name], [Unit], [Status]) VALUES (N'990000004', 5, N'020000010 060000000', N'Combo Tri Ân Khách Hàng', N'combo', 1)
 INSERT [dbo].[COMBO] ([Id], [Discount], [ProductIDList], [Name], [Unit], [Status]) VALUES (N'990000006', 2, N'010000000 030000002', N'Combo Khuyến mãi 8/3', N'Combo', 1)
-INSERT [dbo].[COMBO] ([Id], [Discount], [ProductIDList], [Name], [Unit], [Status]) VALUES (N'990000008', 36, N'010000000 010000001', N'53gtr', N'combo', 1)
+INSERT [dbo].[COMBO] ([Id], [Discount], [ProductIDList], [Name], [Unit], [Status]) VALUES (N'990000008', 3, N'010000000 010000001', N'test', N'combo', 0)
 INSERT [dbo].[COMBO] ([Id], [Discount], [ProductIDList], [Name], [Unit], [Status]) VALUES (N'990000010', 10, N'040000007 040000008', N'test', N'combo', 0)
 INSERT [dbo].[COMBO] ([Id], [Discount], [ProductIDList], [Name], [Unit], [Status]) VALUES (N'990000012', 0, N'010000000 010000001', N'fffff', N'fffff', 0)
+INSERT [dbo].[COMBO] ([Id], [Discount], [ProductIDList], [Name], [Unit], [Status]) VALUES (N'990000013', 2, N'040000000 040000001 060000003 060000004', N'ga', N'combo', 1)
 GO
-INSERT [dbo].[DISCOUNT] ([Id], [ProductIDList], [Discount], [StartDate], [EndDate], [Name]) VALUES (1, N'010000000 010000001 010000003', 20, CAST(N'2023-05-01T00:00:00.0000000' AS DateTime2), CAST(N'2023-05-02T00:00:00.0000000' AS DateTime2), N'ga')
-INSERT [dbo].[DISCOUNT] ([Id], [ProductIDList], [Discount], [StartDate], [EndDate], [Name]) VALUES (2, N'010000003 010000004', 23, CAST(N'2023-05-02T15:25:37.4690000' AS DateTime2), CAST(N'2023-07-02T00:00:00.0000000' AS DateTime2), N'haha')
+INSERT [dbo].[DISCOUNT] ([Id], [ProductIDList], [Discount], [StartDate], [EndDate], [Name]) VALUES (1, N'010000001 010000003', 20, CAST(N'2023-05-01T00:00:00.0000000' AS DateTime2), CAST(N'2023-05-02T00:00:00.0000000' AS DateTime2), N'ga')
+INSERT [dbo].[DISCOUNT] ([Id], [ProductIDList], [Discount], [StartDate], [EndDate], [Name]) VALUES (2, N'010000003 010000004 020000000', 23, CAST(N'2023-05-02T15:25:37.4690000' AS DateTime2), CAST(N'2023-07-02T00:00:00.0000000' AS DateTime2), N'haha')
 INSERT [dbo].[DISCOUNT] ([Id], [ProductIDList], [Discount], [StartDate], [EndDate], [Name]) VALUES (3, N'040000000 040000001', 2, CAST(N'2023-05-01T00:00:00.0000000' AS DateTime2), CAST(N'2023-06-17T00:00:00.0000000' AS DateTime2), N'hehe')
 INSERT [dbo].[DISCOUNT] ([Id], [ProductIDList], [Discount], [StartDate], [EndDate], [Name]) VALUES (4, N'050000000 050000001', 2, CAST(N'2023-05-03T00:00:00.0000000' AS DateTime2), CAST(N'2023-06-16T00:00:00.0000000' AS DateTime2), N'1234')
 INSERT [dbo].[DISCOUNT] ([Id], [ProductIDList], [Discount], [StartDate], [EndDate], [Name]) VALUES (5, N'020000000 020000001 020000002', 5, CAST(N'2023-05-03T00:00:00.0000000' AS DateTime2), CAST(N'2023-06-08T00:00:00.0000000' AS DateTime2), N'fads')
+INSERT [dbo].[DISCOUNT] ([Id], [ProductIDList], [Discount], [StartDate], [EndDate], [Name]) VALUES (6, N'010000000 010000001 010000003', 3, CAST(N'2023-06-01T00:00:00.0000000' AS DateTime2), CAST(N'2023-06-02T00:00:00.0000000' AS DateTime2), N'haha')
+INSERT [dbo].[DISCOUNT] ([Id], [ProductIDList], [Discount], [StartDate], [EndDate], [Name]) VALUES (7, N'050000000 050000001 050000002', 43, CAST(N'2023-06-06T00:00:00.0000000' AS DateTime2), CAST(N'2023-06-09T00:00:00.0000000' AS DateTime2), N'234')
 GO
 INSERT [dbo].[IMPORT] ([Id], [StaffID], [Provider_Bill_ID], [City], [District], [Sub_district], [Street], [ImportDate], [TotalAmount], [ProviderId]) VALUES (0, N'020230000', N'001', N'', N'', N'', N'', CAST(N'2023-04-19' AS Date), 1504410120.8000, 1)
 INSERT [dbo].[IMPORT] ([Id], [StaffID], [Provider_Bill_ID], [City], [District], [Sub_district], [Street], [ImportDate], [TotalAmount], [ProviderId]) VALUES (1, N'020230000', N'1', N'', N'', N'', N'', CAST(N'2023-04-19' AS Date), 44432078.1000, 1)
@@ -750,6 +761,7 @@ INSERT [dbo].[IMPORT] ([Id], [StaffID], [Provider_Bill_ID], [City], [District], 
 INSERT [dbo].[IMPORT] ([Id], [StaffID], [Provider_Bill_ID], [City], [District], [Sub_district], [Street], [ImportDate], [TotalAmount], [ProviderId]) VALUES (27, N'220200000', N'abc', N'', N'', N'', N'', CAST(N'2020-01-06' AS Date), 40000000.0000, 1)
 INSERT [dbo].[IMPORT] ([Id], [StaffID], [Provider_Bill_ID], [City], [District], [Sub_district], [Street], [ImportDate], [TotalAmount], [ProviderId]) VALUES (28, N'220200000', N'a', N'', N'', N'', N'', CAST(N'2020-04-03' AS Date), 400000000.0000, 1)
 INSERT [dbo].[IMPORT] ([Id], [StaffID], [Provider_Bill_ID], [City], [District], [Sub_district], [Street], [ImportDate], [TotalAmount], [ProviderId]) VALUES (29, N'020230000', N'12312312', N'', N'', N'', N'', CAST(N'2023-05-02' AS Date), 10000000.0000, 1)
+INSERT [dbo].[IMPORT] ([Id], [StaffID], [Provider_Bill_ID], [City], [District], [Sub_district], [Street], [ImportDate], [TotalAmount], [ProviderId]) VALUES (30, N'220200000', N'Gs234534', N'', N'', N'', N'', CAST(N'2023-05-18' AS Date), 5000000.0000, 3)
 GO
 INSERT [dbo].[IMPORT_PRODUCT] ([ImportID], [ProductID], [Number], [Warranty], [Unit], [SellPrice], [Amount]) VALUES (0, N'010000000', 10, NULL, N'Cái       ', 14810692.7000, 148106927.0000)
 INSERT [dbo].[IMPORT_PRODUCT] ([ImportID], [ProductID], [Number], [Warranty], [Unit], [SellPrice], [Amount]) VALUES (0, N'010000001', 6, NULL, N'Cái       ', 20489881.6000, 122939289.6000)
@@ -844,6 +856,7 @@ INSERT [dbo].[IMPORT_PRODUCT] ([ImportID], [ProductID], [Number], [Warranty], [U
 INSERT [dbo].[IMPORT_PRODUCT] ([ImportID], [ProductID], [Number], [Warranty], [Unit], [SellPrice], [Amount]) VALUES (27, N'010000001', 2, NULL, N'Cái       ', 20000000.0000, 40000000.0000)
 INSERT [dbo].[IMPORT_PRODUCT] ([ImportID], [ProductID], [Number], [Warranty], [Unit], [SellPrice], [Amount]) VALUES (28, N'010000000', 20, NULL, N'Cái       ', 20000000.0000, 400000000.0000)
 INSERT [dbo].[IMPORT_PRODUCT] ([ImportID], [ProductID], [Number], [Warranty], [Unit], [SellPrice], [Amount]) VALUES (29, N'010000000', 1, NULL, N'Cái       ', 10000000.0000, 10000000.0000)
+INSERT [dbo].[IMPORT_PRODUCT] ([ImportID], [ProductID], [Number], [Warranty], [Unit], [SellPrice], [Amount]) VALUES (30, N'030000003', 1, NULL, N'Cái', 5000000.0000, 5000000.0000)
 GO
 INSERT [dbo].[LAPTOP] ([Id], [Name], [CPU], [RAM], [Storage], [Graphic], [Price], [Remain], [Detail_Path], [Image_Path], [Series], [Company], [Need], [Avatar_Path], [Unit]) VALUES (N'010000000', N'Laptop MSI Gaming GF63 Thin 11SC', N'Core i5', N'8GB', N'512GB', N'GTX 1650', 16990000.0000, 55, N'D:\ESMData\Laptop\010000000\Detail.xlsx', N'D:\ESMData\Laptop\010000000\Images', N'GF63 Thin', N'MSI', N'Gaming', N'D:\ESMData\Laptop\010000000\Images\unnamed (1).webp', N'Cái       ')
 INSERT [dbo].[LAPTOP] ([Id], [Name], [CPU], [RAM], [Storage], [Graphic], [Price], [Remain], [Detail_Path], [Image_Path], [Series], [Company], [Need], [Avatar_Path], [Unit]) VALUES (N'010000001', N'Laptop HP Victus 16-e1107AX (Ryzen 5 6600H/RAM 8GB/512GB SSD/ Windows 11)', N'Ryzen 5', N'8GB', N'512GB', N'RTX 3050', 25490000.0000, 10, N'D:\ESMData\Laptop\010000001\Detail.xlsx', N'D:\ESMData\Laptop\010000001\Images', N'VICTUS', N'HP', N'Văn phòng, Doanh nghiệp, Học sinh - Sinh viên, Gaming', N'D:\ESMData\Laptop\010000001\Images\unnamed (2).webp', N'Cái       ')
@@ -860,9 +873,9 @@ INSERT [dbo].[LAPTOP] ([Id], [Name], [CPU], [RAM], [Storage], [Graphic], [Price]
 INSERT [dbo].[LAPTOP] ([Id], [Name], [CPU], [RAM], [Storage], [Graphic], [Price], [Remain], [Detail_Path], [Image_Path], [Series], [Company], [Need], [Avatar_Path], [Unit]) VALUES (N'010000012', N'Laptop Dell Vostro 3510 (i5-1135G7/RAM 8GB/512GB SSD/ Windows 11 + Office)', N'Core i5', N'8GB', N'512GB ', N'Onboard', 22990000.0000, 12, N'D:\ESMData\Laptop\010000009\Detail.xlsx', N'D:\ESMData\Laptop\010000009\Images', N'Vostro ', N'DELL', N'Văn phòng', N'D:\ESMData\Laptop\010000009\Images\unnamed (7).webp', N'Cái       ')
 GO
 INSERT [dbo].[MONITOR] ([Id], [Name], [Size], [Panel], [RefreshRate], [Price], [Remain], [Detail_Path], [Image_Path], [Series], [Company], [Need], [Avatar_Path], [Unit]) VALUES (N'030000000', N'Màn hình LCD MSI Modern MD272QPW (2560 x 1440/IPS/75Hz/4 ms)', N'27"', N'IPS', N'75Hz', 4699000.0000, 12, N'D:\ESMData\Monitor\030000000\Detail.xlsx', N'D:\ESMData\Monitor\030000000\Images', N'', N'ACER', N'Gaming, Văn phòng', N'D:\ESMData\Monitor\030000000\Images\unnamed (1).webp', N'Cái')
-INSERT [dbo].[MONITOR] ([Id], [Name], [Size], [Panel], [RefreshRate], [Price], [Remain], [Detail_Path], [Image_Path], [Series], [Company], [Need], [Avatar_Path], [Unit]) VALUES (N'030000001', N'Màn hình LCD MSI PRO MP242C (1920 x 1080/VA/75Hz/1 ms)', N'24"', N'VA', N'75Hz', 3090000.0000, 20, N'D:\ESMData\Monitor\030000001\Detail.xlsx', N'D:\ESMData\Monitor\030000001\Images', NULL, N'MSI', N'Văn phòng, Học sinh - Sinh viên', N'D:\ESMData\Monitor\030000001\Images\unnamed.webp', N'Cái')
+INSERT [dbo].[MONITOR] ([Id], [Name], [Size], [Panel], [RefreshRate], [Price], [Remain], [Detail_Path], [Image_Path], [Series], [Company], [Need], [Avatar_Path], [Unit]) VALUES (N'030000001', N'Màn hình LCD MSI PRO MP242C (1920 x 1080/VA/75Hz/1 ms)', N'24"', N'VA', N'75Hz', 3090000.0000, 19, N'D:\ESMData\Monitor\030000001\Detail.xlsx', N'D:\ESMData\Monitor\030000001\Images', NULL, N'MSI', N'Văn phòng, Học sinh - Sinh viên', N'D:\ESMData\Monitor\030000001\Images\unnamed.webp', N'Cái')
 INSERT [dbo].[MONITOR] ([Id], [Name], [Size], [Panel], [RefreshRate], [Price], [Remain], [Detail_Path], [Image_Path], [Series], [Company], [Need], [Avatar_Path], [Unit]) VALUES (N'030000002', N'Màn hình LCD LG 27EP950 ; 32EP950 (3840 x 2160/IPS/60Hz/1 ms)', N'31.5"', N'OLED', N'60Hz', 76590000.0000, 10, N'D:\ESMData\Monitor\030000002\Detail.xlsx', N'D:\ESMData\Monitor\030000002', NULL, N'LG', N'Đồ họa - Kỹ thuật', N'D:\ESMData\Monitor\030000002\Images\unnamed (3).webp', N'Cái')
-INSERT [dbo].[MONITOR] ([Id], [Name], [Size], [Panel], [RefreshRate], [Price], [Remain], [Detail_Path], [Image_Path], [Series], [Company], [Need], [Avatar_Path], [Unit]) VALUES (N'030000003', N'Màn hình LCD MSI Modern MD272QPW (2560 x 1440/IPS/75Hz/4 ms)', N'27"', N'IPS', N'75Hz', 9690000.0000, 12, N'D:\ESMData\Monitor\030000003\Detail.xlsx', N'D:\ESMData\Monitor\030000003\Images', N'Modern ', N'MSI', N'Văn phòng, Đồ họa - Kỹ thuật', N'D:\ESMData\Monitor\030000003\Images\unnamed (6).webp', N'Cái')
+INSERT [dbo].[MONITOR] ([Id], [Name], [Size], [Panel], [RefreshRate], [Price], [Remain], [Detail_Path], [Image_Path], [Series], [Company], [Need], [Avatar_Path], [Unit]) VALUES (N'030000003', N'Màn hình LCD MSI Modern MD272QPW (2560 x 1440/IPS/75Hz/4 ms)', N'27"', N'IPS', N'75Hz', 9690000.0000, 13, N'D:\ESMData\Monitor\030000003\Detail.xlsx', N'D:\ESMData\Monitor\030000003\Images', N'Modern ', N'MSI', N'Văn phòng, Đồ họa - Kỹ thuật', N'D:\ESMData\Monitor\030000003\Images\unnamed (6).webp', N'Cái')
 INSERT [dbo].[MONITOR] ([Id], [Name], [Size], [Panel], [RefreshRate], [Price], [Remain], [Detail_Path], [Image_Path], [Series], [Company], [Need], [Avatar_Path], [Unit]) VALUES (N'030000004', N'Màn hình LCD LG Ergonomic 32UN880 (3840 x 2160/IPS/60Hz/5 ms/FreeSync)', N'31.5"', N'IPS', N'60Hz', 20900000.0000, 7, N'D:\ESMData\Monitor\030000004\Detail.xlsx', N'D:\ESMData\Monitor\030000004\Images', NULL, N'LG', N'Đồ họa - Kỹ thuật', N'D:\ESMData\Monitor\030000004\Images\unnamed (7).webp', N'Cái')
 INSERT [dbo].[MONITOR] ([Id], [Name], [Size], [Panel], [RefreshRate], [Price], [Remain], [Detail_Path], [Image_Path], [Series], [Company], [Need], [Avatar_Path], [Unit]) VALUES (N'030000005', N'Màn hình LCD Dell 27 inch S2722DGM (2560 x 1440/ VA/ 165Hz/ 6ms)', N'27"', N'VA', N'165Hz', 11490000.0000, 18, N'D:\ESMData\Monitor\030000005\Detail.xlsx', N'D:\ESMData\Monitor\030000005\Images', NULL, N'DELL', NULL, N'D:\ESMData\Monitor\030000005\Images\unnamed (11).webp', N'Cái')
 GO
@@ -903,14 +916,14 @@ INSERT [dbo].[PCHARDDISK] ([Id], [Name], [Storage], [Connect], [Price], [Remain]
 INSERT [dbo].[PCHARDDISK] ([Id], [Name], [Storage], [Connect], [Price], [Remain], [Detail_Path], [Image_Path], [Series], [Company], [Type], [Avatar_Path], [Unit]) VALUES (N'040000009', N'Ổ cứng di động HDD WD My Passport 1TB 2.5" USB 3.2', N'1TB', N'USB 3.2', 1690000.0000, 20, N'D:\ESMData\HardDisk\040000009\Detail.xlsx', N'D:\ESMData\HardDisk\040000009\Images', N'My Passport', N'WD', N'HDD', N'D:\ESMData\HardDisk\040000009\Images\unnamed.webp', N'cái')
 INSERT [dbo].[PCHARDDISK] ([Id], [Name], [Storage], [Connect], [Price], [Remain], [Detail_Path], [Image_Path], [Series], [Company], [Type], [Avatar_Path], [Unit]) VALUES (N'040000010', N'1344134', N'12', N'13', 54352435.0000, -1, NULL, NULL, N'244526425', N'245', N'14', NULL, N'4')
 GO
-INSERT [dbo].[PROVIDER] ([Id], [ProviderName], [Phone]) VALUES (1, N'FPT', N'13423452345')
-INSERT [dbo].[PROVIDER] ([Id], [ProviderName], [Phone]) VALUES (2, N'563', N'0')
-INSERT [dbo].[PROVIDER] ([Id], [ProviderName], [Phone]) VALUES (3, N'Thế giới di động', N'1234567')
-INSERT [dbo].[PROVIDER] ([Id], [ProviderName], [Phone]) VALUES (4, N'Điện máy xanh', N'1234345234')
+INSERT [dbo].[PROVIDER] ([Id], [ProviderName], [Phone], [website], [note]) VALUES (1, N'FPT', N'13423452345', NULL, NULL)
+INSERT [dbo].[PROVIDER] ([Id], [ProviderName], [Phone], [website], [note]) VALUES (2, N'563', N'0', NULL, NULL)
+INSERT [dbo].[PROVIDER] ([Id], [ProviderName], [Phone], [website], [note]) VALUES (3, N'Thế giới di động', N'1234567', NULL, NULL)
+INSERT [dbo].[PROVIDER] ([Id], [ProviderName], [Phone], [website], [note]) VALUES (4, N'Điện máy xanh', N'1234345234', NULL, NULL)
 GO
 INSERT [dbo].[SMARTPHONE] ([Id], [Name], [CPU], [RAM], [Storage], [Price], [Remain], [Detail_Path], [Image_Path], [Series], [Company], [Avatar_Path], [Unit]) VALUES (N'070000000', N'Điện thoại Samsung Galaxy A73 5G', N'Snapdragon 778G 5G', N'8GB', N'128GB', 11990000.0000, 43, N'D:\ESMData\Smart Phone\070000000\Detail.xlsx', N'D:\ESMData\Smart Phone\070000000\Images', N'Galaxy A', N'Samsung', N'D:\ESMData\Smart Phone\070000000\Images\unnamed (8).webp', N'Cái')
 INSERT [dbo].[SMARTPHONE] ([Id], [Name], [CPU], [RAM], [Storage], [Price], [Remain], [Detail_Path], [Image_Path], [Series], [Company], [Avatar_Path], [Unit]) VALUES (N'070000001', N'Xiaomi Redmi Note 11 Pro 5G', N'MediaTek Helio G96', N'8GB', N'128GB', 8990000.0000, 42, N'D:\ESMData\Smart Phone\070000001\Detail.xlsx', N'D:\ESMData\Smart Phone\070000001\Images', N'Redmi', N'Xiaomi', N'D:\ESMData\Smart Phone\070000001\Images\unnamed (5).webp', N'Cái')
-INSERT [dbo].[SMARTPHONE] ([Id], [Name], [CPU], [RAM], [Storage], [Price], [Remain], [Detail_Path], [Image_Path], [Series], [Company], [Avatar_Path], [Unit]) VALUES (N'070000002', N'Điện thoại di động Samsung Galaxy S21 Ultra 5G (12+128GB) SM-G998BZSDXXV (Silver)', N'Mediatek', N'12GB', N'128GB', 30990000.0000, 37, N'D:\ESMData\Smart Phone\070000002\Detail.xlsx', N'D:\ESMData\Smart Phone\070000002\Images', N'Galaxy S', N'Samsung', N'D:\ESMData\Smart Phone\070000002\Images\unnamed (8).webp', N'Cái')
+INSERT [dbo].[SMARTPHONE] ([Id], [Name], [CPU], [RAM], [Storage], [Price], [Remain], [Detail_Path], [Image_Path], [Series], [Company], [Avatar_Path], [Unit]) VALUES (N'070000002', N'Điện thoại di động Samsung Galaxy S21 Ultra 5G (12+128GB) SM-G998BZSDXXV (Silver)', N'Mediatek', N'12GB', N'128GB', 30990000.0000, 36, N'D:\ESMData\Smart Phone\070000002\Detail.xlsx', N'D:\ESMData\Smart Phone\070000002\Images', N'Galaxy S', N'Samsung', N'D:\ESMData\Smart Phone\070000002\Images\unnamed (8).webp', N'Cái')
 GO
 INSERT [dbo].[VGA] ([Id], [Name], [Chip], [Chipset], [VRAM], [Gen], [Price], [Remain], [Detail_Path], [Image_Path], [Series], [Company], [Avatar_Path], [Unit]) VALUES (N'060000000', N'Card màn hình ASUS TUF Gaming GeForce GTX 1660 SUPER OC Edition 6GB GDDR6 TUF-GTX1660S-O6G-GAMING', N'GeForce GTX 1660 Super', N'NVIDIA', N'6GB', N'GDDR6', 5190000.0000, 18, N'D:\ESMData\VGA\060000000\Detail.xlsx', N'D:\ESMData\VGA\060000000\Images', N'TUF', N'ASUS', N'D:\ESMData\VGA\060000000\Images\unnamed.webp', N'Cái')
 INSERT [dbo].[VGA] ([Id], [Name], [Chip], [Chipset], [VRAM], [Gen], [Price], [Remain], [Detail_Path], [Image_Path], [Series], [Company], [Avatar_Path], [Unit]) VALUES (N'060000001', N'Card màn hình GIGABYTE GeForce GT 1030 2GB GDDR5 OC (GV-N1030OC-2GI)', N'GT 1030 OC 2G', N'NVIDIA', N'2GB', N'GDDR5', 2499000.0000, 13, N'D:\ESMData\VGA\060000001\Detail.xlsx', N'D:\ESMData\VGA\060000001\Images', NULL, N'GIGABYTE', N'D:\ESMData\VGA\060000001\Images\unnamed (6).webp', N'Cái')
@@ -926,7 +939,7 @@ INSERT [dbo].[VGA] ([Id], [Name], [Chip], [Chipset], [VRAM], [Gen], [Price], [Re
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_ACCOUNT_Id]    Script Date: 19/05/2023 3:51:27 CH ******/
+/****** Object:  Index [IX_ACCOUNT_Id]    Script Date: 02/06/2023 9:17:00 SA ******/
 CREATE NONCLUSTERED INDEX [IX_ACCOUNT_Id] ON [dbo].[ACCOUNT]
 (
 	[Id] ASC
