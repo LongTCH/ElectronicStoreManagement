@@ -50,7 +50,7 @@
                            Width="180">Hotline:</TextBlock>
                 <TextBox Margin="5"
                          FontSize="20"
-                         Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                         Text="{Binding Phone, ValidatesOnExceptions=True}"
                          Width="200"
                          VerticalAlignment="Center" />
             </DockPanel>
@@ -79,7 +79,7 @@
                            Width="180">Chú thích:</TextBlock>
                 <TextBox Margin="5"
                          FontSize="20"
-                         Text="{Binding Note, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                         Text="{Binding Note, ValidatesOnExceptions=True}"
                          Width="200"
                          VerticalAlignment="Center" />
             </DockPanel>
