@@ -35,7 +35,7 @@ namespace ESM.Modules.Import.Utilities
             set => SetProperty(ref id, value);
         }
         private string name;
-        [Required]
+        [Required(ErrorMessage = "Không được để trống")]
         public string Name
         {
             get => name;
@@ -82,7 +82,7 @@ namespace ESM.Modules.Import.Utilities
             }
         }
         private string company;
-        [Required]
+        [Required(ErrorMessage = "Không được để trống")]
         public string Company
         {
             get => company?.Trim();

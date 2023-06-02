@@ -197,21 +197,21 @@ namespace ESM.Modules.Import.ViewModels.Edit
             set => SetProperty(ref id, value);
         }
         private string name;
-        [Required]
+        [Required(ErrorMessage = "Không được để trống")]
         public string Name
         {
             get => name;
             set => SetProperty(ref name, value);
         }
         private DateTime? startDate;
-        [Required]
+        [Required(ErrorMessage = "Không được để trống")]
         public DateTime? StartDate
         {
             get => startDate;
             set => SetProperty(ref startDate, value);
         }
         private DateTime? endDate;
-        [Required]
+        [Required(ErrorMessage = "Không được để trống")]
         public DateTime? EndDate
         {
             get => endDate;

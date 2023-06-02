@@ -1,8 +1,13 @@
 ﻿<UserControl x:Class="ESM.Modules.Import.Views.Add.ProviderAdd"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:prism="http://prismlibrary.com/"             
+             xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance localvm:ProviderAddViewModel}"
+             xmlns:localvm="clr-namespace:ESM.Modules.Import.ViewModels.Add"
              Background="White">
     <Grid>
         <Grid.ColumnDefinitions>

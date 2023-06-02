@@ -3,6 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance localvm:ProviderEditViewModel}"
+             xmlns:localvm="clr-namespace:ESM.Modules.Import.ViewModels.Edit"
              Background="White">
     <Grid>
         <Grid.ColumnDefinitions>
