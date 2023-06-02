@@ -3,11 +3,8 @@ using ESM.Core.ShareStores;
 using ESM.Modules.DataAccess.Models;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
-using Prism.Commands;
 using Prism.Mvvm;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Prism.Regions;
 using ESM.Core;
@@ -30,6 +27,7 @@ namespace ESM.Modules.Import.ViewModels.Add
             set => SetProperty(ref id, value);
         }
         private string phone;
+        [Required(ErrorMessage = "Không được để trống")]
         [Phone(ErrorMessage = "Số điện thoại không hợp lệ")]
         public string Phone
         {
