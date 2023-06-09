@@ -48,6 +48,7 @@
                                  Width="120">Nhà phân phối:</TextBox>
                         <ComboBox SelectedItem="{Binding Provider}"
                                   ItemsSource="{Binding Providers}"
+                                  DisplayMemberPath="ProviderName"
                                   Width="200"
                                   IsEditable="False" />
                     </DockPanel>
