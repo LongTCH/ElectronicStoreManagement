@@ -1,5 +1,5 @@
 # ElectronicStoreManagement
-# On Progress
+# Finish 
 <h2> Any question? Contact me via Facebook link on Profile Page. I'm willing to share any time </h2>
 How to test from your computer: <br />
  First, clone project and run script.sql on SQL Server at your machine, also change the connection string in ESM.Modules.DataAccess.Models.ESMDbContext.cs if neccessary <br />
