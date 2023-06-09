@@ -56,6 +56,7 @@
                            Margin="5" />
                 <DatePicker Name="startTimePicker"
                             FontSize="15"
+                            Language="vi-VN"
                             SelectedDate="{Binding StartTime}"
                             Grid.Column="1"
                             Margin="5" />
@@ -67,6 +68,7 @@
                            Margin="5" />
                 <DatePicker Name="endTimePicker"
                             FontSize="15"
+                            Language="vi-VN"
                             SelectedDate="{Binding EndTime}"
                             Grid.Row="1"
                             Grid.Column="1"

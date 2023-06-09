@@ -12,6 +12,7 @@
              d:DataContext="{d:DesignInstance localvm:AccountManageViewModel}"
              xmlns:localvm="clr-namespace:ESM.Modules.Import.ViewModels"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local="clr-namespace:ESM.Modules.Import.Views"
              Background="White">
     <ScrollViewer VerticalScrollBarVisibility="auto"
                   HorizontalAlignment="Stretch">
@@ -19,6 +20,9 @@
                     MinWidth="800"
                     MaxWidth="1000"
                     VerticalAlignment="Center">
+            <StackPanel.Resources>
+                <local:GenderConverter x:Key="GenderConverter"></local:GenderConverter>
+            </StackPanel.Resources>
             <TextBlock Text="QUẢN LÍ TÀI KHOẢN"
                        FontSize="30"
                        FontWeight="Bold"
@@ -393,9 +397,9 @@
                     <DataGridTextColumn Header="Số điện thoại"
                                         Binding="{Binding Phone, Mode=OneWay}" />
                     <DataGridTextColumn Header="Email"
-                                        Binding="{Binding EmailAddress, UpdateSourceTrigger=PropertyChanged}" />
+                                        Binding="{Binding EmailAddress}" />
                     <DataGridTextColumn Header="Giới tính"
-                                        Binding="{Binding Gender}" />
+                                        Binding="{Binding Gender, Converter={StaticResource GenderConverter}}" />
                     <DataGridTextColumn Header="Ngày sinh"
                                         Binding="{Binding Birthday}" />
                     <DataGridTextColumn Header="Địa chỉ"
